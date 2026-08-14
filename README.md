@@ -147,3 +147,18 @@ Your Admin menu will then show team members and allow changing member/admin role
 - Duplicate Category name guard
 - Keeps Super Admin, Team Code, Personal PIN, Team Overview, Backup and GGG branding
 - Requires migration-v7-0.sql
+
+## V7.1 Stable Interaction Build
+- Rebuilt modal/drawer interaction handling
+- Click outside or press Escape to close layers
+- Added visible X close buttons to modal dialogs
+- Fixed duplicate DOM IDs
+- Added the missing Month/Week calendar selector
+- Fixed Week View navigation
+- Fixed Morning Brief focus list collision
+- Fixed undefined Add Task command
+- Fixed missing today helper that could stop rendering
+- Edit Task now loads Estimated Time and Recurring values correctly
+- Added robust view navigation and mobile bottom navigation
+- Improved dark mode task/modal surfaces
+- No new SQL migration is required if migration-v7-0.sql was already run
