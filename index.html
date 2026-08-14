@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V7.0</title>
+<title>GUY WORK OS V7.0.2</title>
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -76,7 +76,7 @@ body.dark .empty,body.dark .help,body.dark .sync,body.dark .role,body.dark .memb
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.0.1 · Planning + Team + Review</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.0.2 · Planning + Team + Review</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -369,30 +369,50 @@ function toast(msg,type="good"){const d=document.createElement("div");d.classNam
 function startOfWeekISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return d}
 function nextMondayISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()+(7-day));return iso(d)}
 function tomorrowISO(){const d=new Date();d.setDate(d.getDate()+1);return iso(d)}
+
+async function ensureSupabaseClient(){
+ if(sb) return sb;
+ if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.startsWith("PASTE_")) throw new Error("Supabase config missing.");
+ for(let i=0;i<30;i++){
+   if(window.supabase?.createClient){
+     sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);
+     return sb;
+   }
+   await new Promise(r=>setTimeout(r,100));
+ }
+ throw new Error("Supabase library failed to load. Refresh the page and try again.");
+}
+
 async function boot(){
- if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.startsWith("PASTE_")){$("authError").textContent="Supabase config missing.";return}
- sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);
- const {data,error}=await sb.auth.getSession();
- if(error){$("authError").textContent=error.message;return}
- if(data.session){user=data.session.user;await enterApp()}
- sb.auth.onAuthStateChange((event,session)=>{
-   setTimeout(async()=>{
-     try{
-       if(session){
-         const changed=!user||user.id!==session.user.id;
-         user=session.user;
-         if(changed||$("authScreen")&&!$("authScreen").classList.contains("hidden"))await enterApp();
-       }else if(user){
-         sessionStorage.removeItem("guy_pin_unlocked_"+user.id);
-         user=null;profile=null;team=null;showAuth();
+ try{
+   await ensureSupabaseClient();
+   const {data,error}=await sb.auth.getSession();
+   if(error) throw error;
+   if(data.session){user=data.session.user;await enterApp()}
+   sb.auth.onAuthStateChange((event,session)=>{
+     setTimeout(async()=>{
+       try{
+         if(session){
+           const changed=!user||user.id!==session.user.id;
+           user=session.user;
+           if(changed||($("authScreen")&&!$("authScreen").classList.contains("hidden"))) await enterApp();
+         }else if(user){
+           sessionStorage.removeItem("guy_pin_unlocked_"+user.id);
+           user=null;profile=null;team=null;showAuth();
+         }
+       }catch(err){
+         console.error("Auth state handling failed:",err);
+         $("authError").textContent=err?.message||"Unable to open dashboard.";
+         showAuth();
        }
-     }catch(err){
-       console.error("Auth state handling failed:",err);
-       $("authError").textContent=err?.message||"Unable to open dashboard.";
-       showAuth();
-     }
-   },0);
- })
+     },0);
+   });
+   $("authSubmit").disabled=false;
+ }catch(err){
+   console.error("Boot failed:",err);
+   $("authError").textContent=err?.message||"Unable to initialize login.";
+   $("authSubmit").disabled=false;
+ }
 }
 async function enterApp(){await loadIdentityAndGate()}
 function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>$(id).classList.add("hidden"))}
@@ -423,6 +443,7 @@ $("authSubmit").onclick=async()=>{
  if(password.length<10)return $("authError").textContent="Password อย่างน้อย 10 ตัว";
  $("authError").textContent="Working…";$("authSubmit").disabled=true;
  try{
+   await ensureSupabaseClient();
    const result=authMode==="signin"
      ?await sb.auth.signInWithPassword({email,password})
      :await sb.auth.signUp({email,password,options:{data:{full_name:name||email.split("@")[0]}}});
@@ -685,7 +706,7 @@ function backupPayload(){
  const scope=isAdmin()?"team":"personal";
  return {
   format:"GUY_WORK_OS_BACKUP",
-  version:"7.0.1",
+  version:"7.0.2",
   schema:"V6_ADMIN_CALENDAR",
   exportedAt:new Date().toISOString(),
   scope,
