@@ -131,3 +131,19 @@ Your Admin menu will then show team members and allow changing member/admin role
 - New accounts remain Member and cannot use Tasks until they join the team
 - Team code is used once for membership; it is not displayed back to Members
 - Requires migration-v6-8-team-pin.sql after V6.7
+
+## V7.0 Major Upgrade
+- No Category ID rewrite; keeps the simpler V6 architecture
+- Morning Brief
+- Focus Mode
+- Weekly Review
+- Month / Week calendar modes
+- Estimated Time per task
+- Daily workload visibility
+- Simple recurring tasks: Daily / Weekly / Monthly
+- Command Palette with Ctrl/Cmd + K
+- Dark Mode
+- Better mobile bottom navigation
+- Duplicate Category name guard
+- Keeps Super Admin, Team Code, Personal PIN, Team Overview, Backup and GGG branding
+- Requires migration-v7-0.sql

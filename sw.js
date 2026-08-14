@@ -1,4 +1,4 @@
-const CACHE="guy-work-os-v6-8";
+const CACHE="guy-work-os-v7-0";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener("activate",e=>e.waitUntil(

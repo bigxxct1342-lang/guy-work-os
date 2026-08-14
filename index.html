@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V6.8</title>
+<title>GUY WORK OS V7.0</title>
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -46,11 +46,37 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 .archive-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.archive-toolbar input,.archive-toolbar select{min-width:180px}
 @media(max-width:820px){.attention-grid{grid-template-columns:1fr}.toast-wrap{left:12px;right:12px;bottom:12px}.toast{max-width:none}}
 
+
+body.dark{--bg:#17191c;--panel:#20242a;--card:#252a30;--text:#f1f2f4;--muted:#9ba3ad;--line:#353c45;--soft:#2e343c;background:var(--bg);color:var(--text)}
+body.dark .card,body.dark .task-card,body.dark .category-block,body.dark .day,body.dark .modal,body.dark .drawer{background:var(--card);color:var(--text)}
+body.dark input,body.dark select,body.dark textarea{background:#1e2227;color:var(--text);border-color:#414852}
+body.dark .btn.secondary{background:#2d333b;color:#f2f3f4;border-color:#444b55}
+body.dark .empty,body.dark .help,body.dark .sync,body.dark .role,body.dark .member-email{color:var(--muted)}
+.week-board{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow:auto;padding-bottom:4px}
+.week-col{min-height:240px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:10px}
+.week-col.today-col{outline:2px solid #20262d;outline-offset:-2px}
+.week-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}.week-head b{font-size:12px}.week-head span{font-size:10px;color:var(--muted)}
+.week-task{border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:7px;background:var(--soft);cursor:pointer}.week-task b{font-size:11px;display:block}.week-task span{font-size:9px;color:var(--muted)}
+.brief-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.brief-box{border:1px solid var(--line);border-radius:12px;padding:12px}.brief-box b{display:block;font-size:20px}.brief-box span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.focus-banner{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.focus-list{display:grid;gap:8px;margin-top:12px}
+.cmd-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:4000;display:flex;justify-content:center;align-items:flex-start;padding-top:12vh}
+.cmd{width:min(640px,92vw);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.cmd input{width:100%;font-size:16px}.cmd-list{display:grid;gap:6px;margin-top:10px;max-height:360px;overflow:auto}.cmd-item{padding:10px;border-radius:10px;border:1px solid transparent;cursor:pointer}.cmd-item:hover{border-color:var(--line);background:var(--soft)}
+.task-est{font-size:9px;color:var(--muted);margin-top:3px}
+.bottom-nav{display:none}
+@media(max-width:820px){
+ .week-board{grid-template-columns:repeat(7,78vw)}
+ .brief-grid{grid-template-columns:repeat(2,1fr)}
+ .bottom-nav{display:flex;position:fixed;left:8px;right:8px;bottom:8px;z-index:1800;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px;justify-content:space-around;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+ .bottom-nav button{border:0;background:transparent;color:var(--text);font-size:10px;padding:8px}
+ main{padding-bottom:78px}
+}
+
 </style>
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V6.8 · Work + Team + Calendar</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.0 · Planning + Team + Review</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -95,6 +121,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  <div class="nav">
   <button class="active" data-view="dashboard">Dashboard</button>
   <button data-view="calendar">Calendar</button>
+  <button data-view="weekly">Weekly Review</button>
   <button data-view="tasks">Tasks</button>
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
@@ -110,6 +137,16 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  </div>
 
  <section id="dashboardView">
+
+  <div class="card section" style="margin-bottom:18px">
+   <div class="focus-banner">
+    <div><h2 id="morningTitle" style="margin-bottom:4px">Morning Brief</h2><div id="morningDate" class="help"></div></div>
+    <div><button id="toggleFocusBtn" class="btn secondary">Focus Mode</button></div>
+   </div>
+   <div id="morningBrief" class="brief-grid" style="margin-top:14px"></div>
+   <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusList" class="focus-list"></div></div>
+  </div>
+
   <div class="metrics"><div class="card metric"><div class="label">Active</div><div id="mActive" class="value">0</div></div><div class="card metric"><div class="label">Completed</div><div id="mDone" class="value">0</div></div><div class="card metric"><div class="label">In Progress</div><div id="mProgress" class="value">0</div></div><div class="card metric"><div class="label">Waiting</div><div id="mWaiting" class="value">0</div></div><div class="card metric"><div class="label">Overdue</div><div id="mOverdue" class="value">0</div></div></div>
   <div class="card section" style="margin-bottom:18px"><div class="progress-line"><strong>Overall Completion</strong><strong id="overallPct">0%</strong></div><div class="progress-wrap"><div id="overallBar" class="progress-bar" style="width:0%"></div></div></div>
   <div class="card section" style="margin-bottom:18px"><h2>Needs Attention</h2><div id="personalAttention" class="attention-grid"></div></div>
@@ -123,7 +160,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
     <div class="calendar-controls"><button id="prevMonth" class="btn secondary small">‹</button><button id="todayMonth" class="btn secondary small">Today</button><button id="nextMonth" class="btn secondary small">›</button><select id="calendarMember" class="member-filter hidden"></select></div>
    </div>
    <div class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
-   <div id="calendarGrid" class="calendar-grid"></div>
+   <div id="calendarGrid" class="calendar-grid"></div><div id="weekGrid" class="week-board hidden"></div>
   </div>
  </section>
 
@@ -131,6 +168,18 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
  <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList" class="task-list"></div></div></section>
 
+
+ 
+ <section id="weeklyView" class="hidden">
+  <div class="card section" style="margin-bottom:18px">
+   <h2>Weekly Review</h2>
+   <div id="weeklyStats" class="brief-grid"></div>
+  </div>
+  <div class="grid">
+   <div class="card section"><h2>Completed This Week</h2><div id="weeklyCompleted" class="task-list"></div></div>
+   <div class="card section"><h2>Carry Forward / Needs Attention</h2><div id="weeklyCarry" class="task-list"></div></div>
+  </div>
+ </section>
 
  <section id="settingsView" class="hidden">
   <div class="grid">
@@ -144,7 +193,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
      </div>
      <div class="row">
       <strong>Restore Backup</strong>
-      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V6.8 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
+      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.0 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
       <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
       <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
      </div>
@@ -159,10 +208,10 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>GUY WORK OS V6.8</span></div>
+     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.0</span></div>
      <div class="row"><strong>Database Schema</strong><span>V6 Admin + Calendar</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
@@ -208,6 +257,9 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  <div class="field"><label>Subcategory</label><select id="fSub"></select></div>
  <div class="field"><label>Status</label><select id="fStatus"><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select></div>
  <div class="field"><label>Priority</label><select id="fPriority"><option>High</option><option selected>Medium</option><option>Low</option></select></div>
+<div class="field"><label>Estimated Time</label><select id="fEstimate"><option value="">Not set</option><option value="15">15 min</option><option value="30">30 min</option><option value="60">1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option><option value="180">3 hours</option><option value="240">4 hours</option></select></div>
+<div class="field"><label>Recurring</label><select id="fRecurring"><option value="">None</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
+
  <div class="field"><label>Due Date</label><input id="fDue" type="date"></div>
  <div class="field"><label>Waiting Since</label><input id="fWaitingSince" type="date"></div>
  <div class="full field"><label>Note / Next Action</label><textarea id="fNote" rows="3"></textarea></div>
@@ -269,9 +321,25 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  </div>
 </div>
 
+
+<div id="commandPalette" class="cmd-bg hidden">
+ <div class="cmd">
+  <input id="commandInput" placeholder="Type a command…">
+  <div id="commandList" class="cmd-list"></div>
+ </div>
+</div>
+
 <div id="toastWrap" class="toast-wrap"></div>
+
+<div id="bottomNav" class="bottom-nav">
+ <button data-go="dashboard">Home</button>
+ <button data-go="tasks">Tasks</button>
+ <button data-go="calendar">Calendar</button>
+ <button data-go="weekly">Review</button>
+</div>
+
 <script>
-const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date();
+const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
 const $=id=>document.getElementById(id);$("todayText").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 const esc=s=>(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));const isAdmin=()=>profile?.role==="super_admin";
 function syncState(t,ok=true){$("syncText").textContent=t;$("syncText").style.color=ok?"#8fc59f":"#e69c9c"}function iso(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`}function todayISO(){return iso(new Date())}
@@ -290,6 +358,12 @@ function doneThisWeek(t){
  const d=new Date(t.completed_at),s=startOfWeekISO(),e=new Date(s);e.setDate(e.getDate()+7);
  return d>=s&&d<e;
 }
+
+
+function fmtMinutes(v){const n=Number(v||0);if(!n)return "";if(n<60)return `${n}m`;const h=Math.floor(n/60),m=n%60;return m?`${h}h ${m}m`:`${h}h`}
+function taskMinutes(list){return list.reduce((s,t)=>s+Number(t.estimate_minutes||0),0)}
+function addRecurringDate(due,rule){if(!due||!rule)return null;const d=new Date(due+"T00:00:00");if(rule==="daily")d.setDate(d.getDate()+1);if(rule==="weekly")d.setDate(d.getDate()+7);if(rule==="monthly")d.setMonth(d.getMonth()+1);return iso(d)}
+function todayGreeting(){const h=new Date().getHours();return h<12?"Good morning":h<18?"Good afternoon":"Good evening"}
 
 function toast(msg,type="good"){const d=document.createElement("div");d.className="toast "+type;d.textContent=msg;$("toastWrap").appendChild(d);setTimeout(()=>d.remove(),2600)}
 function startOfWeekISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return d}
@@ -380,7 +454,7 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
  const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];syncState("Cloud synced");render()}
 async function saveTask(payload,id=null){syncState("Saving…");const q=id?sb.from("tasks").update({...payload,updated_at:new Date().toISOString()}).eq("id",id):sb.from("tasks").insert(payload);const {error}=await q;if(error){alert(error.message);syncState("Save failed",false);return false}await loadAll();return true}
-window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id)}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
+window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id);if(t.recurring_rule&&t.due){const nd=addRecurringDate(t.due,t.recurring_rule);if(nd){await sb.from("tasks").insert({user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,status:"To Do",priority:t.priority,due:nd,waiting_since:null,note:t.note||"",pinned:false,estimate_minutes:t.estimate_minutes||null,recurring_rule:t.recurring_rule,completed_at:null})}}await loadAll()}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
 window.quickMove=async(id,where)=>{const due=where==="today"?todayISO():where==="tomorrow"?tomorrowISO():nextMondayISO();await saveTask({due},id);toast(`Moved to ${where==="today"?"Today":where==="tomorrow"?"Tomorrow":"Next Monday"}`)};
 window.deleteTask=async id=>{if(confirm("Delete task?")){const {error}=await sb.from("tasks").delete().eq("id",id);if(error)toast(error.message,"bad");else toast("Task deleted");await loadAll()}}
 function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"No date",wd=waitDays(t);return `<div class="task"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${t.id},this.checked)"><button class="pin ${t.pinned?"on":""}" onclick="togglePin(${t.id})">${t.pinned?"★":"☆"}</button><div><div class="task-title">${esc(t.task)}</div>${t.note?`<div class="task-note">${esc(t.note)}</div>`:""}<div class="task-meta"><span>${esc(t.category)} / ${esc(t.sub)}</span>${isAdmin()?`<span class="pill owner">${esc(profileName(t.user_id))}</span>`:""}<span class="pill ${pclass(t.priority)}">${t.priority}</span>${t.status==="Waiting"?'<span class="pill waiting">Waiting</span>':""}${t.status==="Done"?'<span class="pill done">Done</span>':""}${isOverdue(t)?'<span class="pill overdue">Overdue</span>':""}${isToday(t)?'<span class="pill today">Today</span>':""}<span>${due}</span>${wd!==null?`<span>Waiting ${wd} days</span>`:""}</div><div class="quick-actions">
@@ -421,7 +495,27 @@ window.removeCategory=id=>{
 window.editTask=id=>{const t=tasks.find(x=>x.id===id);editingTaskId=id;$("taskModalTitle").textContent="Edit Task";$("fTask").value=t.task;populateTaskForm(t.user_id,t.category,t.sub);$("fStatus").value=t.status;$("fPriority").value=t.priority;$("fDue").value=t.due||"";$("fWaitingSince").value=t.waiting_since||"";$("fNote").value=t.note||"";$("taskModal").classList.remove("hidden")}
 
 function focusTasks(active){if(focusMode==="today")return active.filter(isToday);if(focusMode==="week")return active.filter(isThisWeek);if(focusMode==="pinned")return active.filter(t=>t.pinned);return active.filter(t=>t.priority==="High"||isOverdue(t))}
-function renderCalendar(){const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();$("monthTitle").textContent=calendarCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});const selected=isAdmin()?$("calendarMember").value:"";const first=new Date(y,m,1);const offset=(first.getDay()+6)%7;const start=new Date(y,m,1-offset);let html="";for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);const dayTasks=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected));const outside=d.getMonth()!==m;const td=ds===todayISO();html+=`<div class="day ${outside?"outside":""} ${td?"today-day":""}" onclick="openDay('${ds}',event)"><div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${dayTasks.length?dayTasks.length+" task"+(dayTasks.length>1?"s":""):""}</span></div>${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}</div>`}$("calendarGrid").innerHTML=html}
+function renderCalendar(){calendarMode=$("calendarMode")?.value||calendarMode;
+ if(calendarMode==="week"){renderWeekCalendar();return}
+ $("calendarGrid").classList.remove("hidden");$("weekGrid").classList.add("hidden");const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();$("monthTitle").textContent=calendarCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});const selected=isAdmin()?$("calendarMember").value:"";const first=new Date(y,m,1);const offset=(first.getDay()+6)%7;const start=new Date(y,m,1-offset);let html="";for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);const dayTasks=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected));const outside=d.getMonth()!==m;const td=ds===todayISO();html+=`<div class="day ${outside?"outside":""} ${td?"today-day":""}" onclick="openDay('${ds}',event)"><div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${dayTasks.length?dayTasks.length+" task"+(dayTasks.length>1?"s":""):""}</span></div>${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}</div>`}$("calendarGrid").innerHTML=html}
+function renderWeekCalendar(){
+ $("calendarGrid").classList.add("hidden");$("weekGrid").classList.remove("hidden");
+ const selected=isAdmin()?$("calendarMember").value:"";
+ const start=startOfWeekISO();
+ let out="";
+ for(let i=0;i<7;i++){
+   const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
+   const list=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected)).sort((a,b)=>(a.priority||"").localeCompare(b.priority||""));
+   const mins=taskMinutes(list.filter(t=>t.status!=="Done"));
+   out+=`<div class="week-col ${ds===todayISO()?"today-col":""}" onclick="openDay('${ds}',event)">
+     <div class="week-head"><b>${d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric"})}</b><span>${list.length} tasks · ${fmtMinutes(mins)||"0m"}</span></div>
+     ${list.map(t=>`<div class="week-task" onclick="calendarEdit(${t.id},event)"><b>${esc(t.task)}</b><span>${esc(t.status)}${t.estimate_minutes?` · ${fmtMinutes(t.estimate_minutes)}`:""}</span></div>`).join("")||'<div class="empty">No tasks</div>'}
+   </div>`;
+ }
+ $("weekGrid").innerHTML=out;
+}
+
+
 let drawerDate=null;
 window.openDay=(ds,e)=>{if(e.target.closest(".cal-task"))return;drawerDate=ds;const selected=isAdmin()?$("calendarMember").value:"";const list=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected)).sort((a,b)=>a.status.localeCompare(b.status));$("dayDrawerTitle").textContent=new Date(ds+"T00:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});$("dayDrawerDate").textContent=`${list.length} task${list.length===1?"":"s"}`;$("dayDrawerList").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty">No tasks this day.</div>';$("dayDrawer").classList.remove("hidden")};
 
@@ -431,7 +525,27 @@ $("openMemberTasksBtn").onclick=()=>{if(!summaryMemberId)return;$("memberSummary
 $("closeDayDrawer").onclick=()=>{$("dayDrawer").classList.add("hidden");drawerDate=null};
 $("dayDrawer").onclick=e=>{if(e.target===$("dayDrawer"))$("closeDayDrawer").click()};
 $("dayDrawerAdd").onclick=()=>{if(!drawerDate)return;calendarAdd(drawerDate,{target:document.createElement("div")});$("dayDrawer").classList.add("hidden")};
-window.calendarAdd=(ds,e)=>{if(e.target.closest(".cal-task"))return;editingTaskId=null;$("taskModalTitle").textContent="Add Task";$("fTask").value="";populateTaskForm(isAdmin()&&$("calendarMember").value?$("calendarMember").value:user.id);$("fStatus").value="To Do";$("fPriority").value="Medium";$("fDue").value=ds;$("fWaitingSince").value="";$("fNote").value="";$("taskModal").classList.remove("hidden")};window.calendarEdit=(id,e)=>{e.stopPropagation();editTask(id)}
+window.calendarAdd=(ds,e)=>{if(e.target.closest(".cal-task"))return;editingTaskId=null;$("taskModalTitle").textContent="Add Task";$("fTask").value="";populateTaskForm(isAdmin()&&$("calendarMember").value?$("calendarMember").value:user.id);$("fStatus").value="To Do";$("fPriority").value="Medium";$("fEstimate").value="";$("fRecurring").value="";$("fDue").value=ds;$("fWaitingSince").value="";$("fNote").value="";$("taskModal").classList.remove("hidden")};window.calendarEdit=(id,e)=>{e.stopPropagation();editTask(id)}
+
+$("toggleFocusBtn").onclick=()=>{focusEnabled=!focusEnabled;render();$("toggleFocusBtn").textContent=focusEnabled?"Exit Focus Mode":"Focus Mode"};
+$("calendarMode").onchange=()=>{calendarMode=$("calendarMode").value;renderCalendar()};
+$("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("guy_theme",document.body.classList.contains("dark")?"dark":"light")};
+if(localStorage.getItem("guy_theme")==="dark")document.body.classList.add("dark");
+
+const commands=[
+ {label:"Add Task",run:()=>openTask()},
+ {label:"Go to Dashboard",run:()=>document.querySelector('[data-view="dashboard"]').click()},
+ {label:"Go to Tasks",run:()=>document.querySelector('[data-view="tasks"]').click()},
+ {label:"Go to Calendar",run:()=>document.querySelector('[data-view="calendar"]').click()},
+ {label:"Go to Weekly Review",run:()=>document.querySelector('[data-view="weekly"]').click()},
+ {label:"Export Backup",run:()=>exportBackup()}
+];
+function renderCommands(q=""){const x=q.toLowerCase();$("commandList").innerHTML=commands.filter(c=>c.label.toLowerCase().includes(x)).map((c,i)=>`<div class="cmd-item" data-ci="${i}">${esc(c.label)}</div>`).join("");[...$("commandList").querySelectorAll(".cmd-item")].forEach((el)=>el.onclick=()=>{const label=el.textContent;const c=commands.find(x=>x.label===label);$("commandPalette").classList.add("hidden");if(c)c.run()})}
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("commandPalette").classList.remove("hidden");$("commandInput").value="";renderCommands();setTimeout(()=>$("commandInput").focus(),10)}if(e.key==="Escape")$("commandPalette").classList.add("hidden")});
+$("commandInput").oninput=()=>renderCommands($("commandInput").value);
+$("commandPalette").onclick=e=>{if(e.target===$("commandPalette"))$("commandPalette").classList.add("hidden")};
+[...document.querySelectorAll("#bottomNav [data-go]")].forEach(b=>b.onclick=()=>{const v=b.dataset.go;document.querySelector(`[data-view="${v}"]`)?.click()});
+
 $("archiveSearch").oninput=render;$("archiveCategory").onchange=render;
 $("prevMonth").onclick=()=>{calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);renderCalendar()};$("nextMonth").onclick=()=>{calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1);renderCalendar()};$("todayMonth").onclick=()=>{calendarCursor=new Date();renderCalendar()};$("calendarMember").onchange=renderCalendar;
 
@@ -525,7 +639,7 @@ function backupPayload(){
  const scope=isAdmin()?"team":"personal";
  return {
   format:"GUY_WORK_OS_BACKUP",
-  version:"6.8",
+  version:"7.0",
   schema:"V6_ADMIN_CALENDAR",
   exportedAt:new Date().toISOString(),
   scope,
@@ -730,12 +844,31 @@ if(highNoDue.length)attention.push([`${highNoDue.length} high priority without d
 $("personalAttention").innerHTML=attention.length?attention.map(a=>`<div class="attention-item"><b>${esc(a[0])}</b><span>${esc(a[1])}</span></div>`).join(""):'<div class="empty">Nothing urgent right now.</div>';const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
-$("archiveList").innerHTML=archived.length?archived.map(taskHTML).join(""):'<div class="empty">No completed tasks.</div>';renderCalendar();renderAdmin()}
-["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
-document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{if(btn.id==="adminNav"&&!isAdmin())return;document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");["dashboard","calendar","tasks","categories","archive","settings","admin"].forEach(v=>$(v+"View").classList.add("hidden"));$(btn.dataset.view+"View").classList.remove("hidden");$("pageTitle").textContent=btn.textContent;if(btn.dataset.view==="calendar")renderCalendar();if(btn.dataset.view==="admin")renderAdmin()});
+$("archiveList").innerHTML=archived.length?archived.map(taskHTML).join(""):'<div class="empty">No completed tasks.</div>';
+$("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").split(" ")[0]||"Guy"}`;
+$("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+const todayList=active.filter(isDueToday),todayMins=taskMinutes(todayList),highToday=todayList.filter(t=>t.priority==="High").length,overN=active.filter(isOverdue).length,waitN=active.filter(t=>t.status==="Waiting").length;
+$("morningBrief").innerHTML=[
+ ["Today",todayList.length],["Estimated",fmtMinutes(todayMins)||"0m"],["High Priority",highToday],["Overdue",overN]
+].map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
+const focusTop=[...active].sort((a,b)=>(isOverdue(b)-isOverdue(a))||((b.priority==="High")-(a.priority==="High"))||((a.due||"9999").localeCompare(b.due||"9999"))).slice(0,3);
+$("focusList").innerHTML=focusTop.length?focusTop.map(taskHTML).join(""):'<div class="empty">No focus tasks.</div>';
+$("focusPanel").classList.toggle("hidden",!focusEnabled);
 
-$("addTaskBtn").onclick=()=>{if(!categories.length)return alert("Create a category first.");editingTaskId=null;$("taskModalTitle").textContent="Add Task";$("fTask").value="";populateTaskForm(user.id);$("fStatus").value="To Do";$("fPriority").value="Medium";$("fDue").value="";$("fWaitingSince").value="";$("fNote").value="";$("taskModal").classList.remove("hidden")};$("cancelTask").onclick=()=>$("taskModal").classList.add("hidden");
-$("saveTask").onclick=async()=>{const name=$("fTask").value.trim();if(!name)return toast("Task name is required.","bad");const owner=isAdmin()?$("fOwner").value:user.id,status=$("fStatus").value;let waiting=$("fWaitingSince").value||null;if(status==="Waiting"&&!waiting)waiting=todayISO();const existing=editingTaskId?tasks.find(t=>t.id===editingTaskId):null;const payload={user_id:owner,task:name,category:$("fCategory").value,sub:$("fSub").value,status,priority:$("fPriority").value,due:$("fDue").value||null,waiting_since:status==="Waiting"?waiting:null,note:$("fNote").value.trim(),completed_at:status==="Done"?(existing?.completed_at||new Date().toISOString()):null};if(editingTaskId)await saveTask(payload,editingTaskId);else await saveTask({...payload,pinned:false});$("taskModal").classList.add("hidden");toast(editingTaskId?"Task updated":"Task created")}
+const weekDone=done.filter(doneThisWeek),weekCarry=active.filter(t=>isOverdue(t)||isThisWeek(t));
+const weekTotal=weekDone.length+weekCarry.length,weekPct=weekTotal?Math.round(weekDone.length/weekTotal*100):0;
+$("weeklyStats").innerHTML=[
+ ["Completed",weekDone.length],["Carry Forward",weekCarry.length],["Completion",weekPct+"%"],["Estimated Active",fmtMinutes(taskMinutes(weekCarry))||"0m"]
+].map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
+$("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty">Nothing completed this week.</div>';
+$("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
+
+renderCalendar();renderAdmin()}
+["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
+document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{if(btn.id==="adminNav"&&!isAdmin())return;document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");["dashboard","calendar","weekly","tasks","categories","archive","settings","admin"].forEach(v=>$(v+"View").classList.add("hidden"));$(btn.dataset.view+"View").classList.remove("hidden");$("pageTitle").textContent=btn.textContent;if(btn.dataset.view==="calendar")renderCalendar();if(btn.dataset.view==="admin")renderAdmin()});
+
+$("addTaskBtn").onclick=()=>{if(!categories.length)return alert("Create a category first.");editingTaskId=null;$("taskModalTitle").textContent="Add Task";$("fTask").value="";populateTaskForm(user.id);$("fStatus").value="To Do";$("fPriority").value="Medium";$("fEstimate").value="";$("fRecurring").value="";$("fDue").value="";$("fWaitingSince").value="";$("fNote").value="";$("taskModal").classList.remove("hidden")};$("cancelTask").onclick=()=>$("taskModal").classList.add("hidden");
+$("saveTask").onclick=async()=>{const name=$("fTask").value.trim();if(!name)return toast("Task name is required.","bad");const owner=isAdmin()?$("fOwner").value:user.id,status=$("fStatus").value;let waiting=$("fWaitingSince").value||null;if(status==="Waiting"&&!waiting)waiting=todayISO();const existing=editingTaskId?tasks.find(t=>t.id===editingTaskId):null;const payload={user_id:owner,task:name,category:$("fCategory").value,sub:$("fSub").value,status,priority:$("fPriority").value,due:$("fDue").value||null,waiting_since:status==="Waiting"?waiting:null,note:$("fNote").value.trim(),estimate_minutes:$("fEstimate").value?Number($("fEstimate").value):null,recurring_rule:$("fRecurring").value||null,completed_at:status==="Done"?(existing?.completed_at||new Date().toISOString()):null};if(editingTaskId)await saveTask(payload,editingTaskId);else await saveTask({...payload,pinned:false});$("taskModal").classList.add("hidden");toast(editingTaskId?"Task updated":"Task created")}
 
 $("deleteCategoryCancel").onclick=()=>{$("deleteCategoryModal").classList.add("hidden");deletingCategoryId=null};
 
@@ -777,7 +910,7 @@ $("deleteCategoryAll").onclick=async()=>{
  if(ce){alert(ce.message);syncState("Cloud synced");return}
  $("deleteCategoryModal").classList.add("hidden");deletingCategoryId=null;await loadAll();
 };
-$("addCategoryBtn").onclick=()=>{editingCategoryId=null;$("cName").value="";$("cSubs").value="";$("categoryModalTitle").textContent="Add Category";$("categoryModal").classList.remove("hidden")};$("cancelCategory").onclick=()=>$("categoryModal").classList.add("hidden");$("saveCategory").onclick=async()=>{const name=$("cName").value.trim(),subs=$("cSubs").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name)return toast("Category name required.","bad");if(!subs.length)subs.push("General");if(editingCategoryId){const old=categories.find(c=>c.id===editingCategoryId);if(old&&old.name!==name){const {error:te}=await sb.from("tasks").update({category:name,updated_at:new Date().toISOString()}).eq("user_id",old.user_id).eq("category",old.name);if(te)return toast(te.message,"bad")}const {error}=await sb.from("categories").update({name,subs,updated_at:new Date().toISOString()}).eq("id",editingCategoryId);if(error)return toast(error.message,"bad");toast("Category updated")}else{const {error}=await sb.from("categories").insert({user_id:user.id,name,subs});if(error)return toast(error.message,"bad");toast("Category created")}$("categoryModal").classList.add("hidden");await loadAll()}
+$("addCategoryBtn").onclick=()=>{editingCategoryId=null;$("cName").value="";$("cSubs").value="";$("categoryModalTitle").textContent="Add Category";$("categoryModal").classList.remove("hidden")};$("cancelCategory").onclick=()=>$("categoryModal").classList.add("hidden");$("saveCategory").onclick=async()=>{const name=$("cName").value.trim(),subs=$("cSubs").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name)return toast("Category name required.","bad");const dup=categories.find(c=>c.user_id===user.id&&c.id!==editingCategoryId&&String(c.name).trim().toLowerCase()===name.toLowerCase());if(dup)return toast("Duplicate category name. Use the existing category instead.","bad");if(!subs.length)subs.push("General");if(editingCategoryId){const old=categories.find(c=>c.id===editingCategoryId);if(old&&old.name!==name){const {error:te}=await sb.from("tasks").update({category:name,updated_at:new Date().toISOString()}).eq("user_id",old.user_id).eq("category",old.name);if(te)return toast(te.message,"bad")}const {error}=await sb.from("categories").update({name,subs,updated_at:new Date().toISOString()}).eq("id",editingCategoryId);if(error)return toast(error.message,"bad");toast("Category updated")}else{const {error}=await sb.from("categories").insert({user_id:user.id,name,subs});if(error)return toast(error.message,"bad");toast("Category created")}$("categoryModal").classList.add("hidden");await loadAll()}
 
 $("cleanupDuplicatesBtn").onclick=cleanDuplicateImports;
 $("exportBtn").onclick=()=>exportBackup();
