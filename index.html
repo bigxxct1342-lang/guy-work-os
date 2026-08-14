@@ -76,7 +76,7 @@ body.dark .empty,body.dark .help,body.dark .sync,body.dark .role,body.dark .memb
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.0 · Planning + Team + Review</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.0.1 · Planning + Team + Review</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -369,7 +369,31 @@ function toast(msg,type="good"){const d=document.createElement("div");d.classNam
 function startOfWeekISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return d}
 function nextMondayISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()+(7-day));return iso(d)}
 function tomorrowISO(){const d=new Date();d.setDate(d.getDate()+1);return iso(d)}
-async function boot(){if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.startsWith("PASTE_")){$("authError").textContent="Supabase config missing.";return}sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);const {data}=await sb.auth.getSession();if(data.session){user=data.session.user;await enterApp()}sb.auth.onAuthStateChange(async(e,s)=>{if(s&&!user){user=s.user;await enterApp()}if(!s&&user){sessionStorage.removeItem("guy_pin_unlocked_"+user.id);user=null;profile=null;team=null;showAuth()}})}
+async function boot(){
+ if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.startsWith("PASTE_")){$("authError").textContent="Supabase config missing.";return}
+ sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);
+ const {data,error}=await sb.auth.getSession();
+ if(error){$("authError").textContent=error.message;return}
+ if(data.session){user=data.session.user;await enterApp()}
+ sb.auth.onAuthStateChange((event,session)=>{
+   setTimeout(async()=>{
+     try{
+       if(session){
+         const changed=!user||user.id!==session.user.id;
+         user=session.user;
+         if(changed||$("authScreen")&&!$("authScreen").classList.contains("hidden"))await enterApp();
+       }else if(user){
+         sessionStorage.removeItem("guy_pin_unlocked_"+user.id);
+         user=null;profile=null;team=null;showAuth();
+       }
+     }catch(err){
+       console.error("Auth state handling failed:",err);
+       $("authError").textContent=err?.message||"Unable to open dashboard.";
+       showAuth();
+     }
+   },0);
+ })
+}
 async function enterApp(){await loadIdentityAndGate()}
 function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>$(id).classList.add("hidden"))}
 function showApp(){hideAllScreens();$("app").classList.remove("hidden")}
@@ -393,7 +417,29 @@ async function loadIdentityAndGate(){
  showApp();await loadAll();
 }
 $("authSwitch").onclick=()=>{authMode=authMode==="signin"?"signup":"signin";$("authTitle").textContent=authMode==="signin"?"Sign in":"Create account";$("authSubmit").textContent=authMode==="signin"?"Sign in":"Create account";$("authSwitch").textContent=authMode==="signin"?"Create account":"Back to sign in";$("nameField").classList.toggle("hidden",authMode==="signin");$("authError").textContent=""}
-$("authSubmit").onclick=async()=>{const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim();if(!email)return $("authError").textContent="ใส่ Email ก่อน";if(password.length<10)return $("authError").textContent="Password อย่างน้อย 10 ตัว";$("authError").textContent="Working…";const result=authMode==="signin"?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password,options:{data:{full_name:name||email.split("@")[0]}}});if(result.error)return $("authError").textContent=result.error.message;if(authMode==="signup"&&!result.data.session)$("authError").textContent="Account created. Check email if confirmation is enabled."}
+$("authSubmit").onclick=async()=>{
+ const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim();
+ if(!email)return $("authError").textContent="ใส่ Email ก่อน";
+ if(password.length<10)return $("authError").textContent="Password อย่างน้อย 10 ตัว";
+ $("authError").textContent="Working…";$("authSubmit").disabled=true;
+ try{
+   const result=authMode==="signin"
+     ?await sb.auth.signInWithPassword({email,password})
+     :await sb.auth.signUp({email,password,options:{data:{full_name:name||email.split("@")[0]}}});
+   if(result.error){$("authError").textContent=result.error.message;return}
+   if(authMode==="signup"&&!result.data.session){$("authError").textContent="Account created. Check email if confirmation is enabled.";return}
+   if(result.data?.session){
+     user=result.data.session.user;
+     $("authError").textContent="Opening dashboard…";
+     await enterApp();
+   }
+ }catch(err){
+   console.error("Sign in failed:",err);
+   $("authError").textContent=err?.message||"Sign in failed. Please try again.";
+ }finally{
+   $("authSubmit").disabled=false;
+ }
+}
 $("signOutBtn").onclick=async()=>await sb.auth.signOut();
 
 $("teamGateSignOut").onclick=$("pinGateSignOut").onclick=async()=>await sb.auth.signOut();
@@ -639,7 +685,7 @@ function backupPayload(){
  const scope=isAdmin()?"team":"personal";
  return {
   format:"GUY_WORK_OS_BACKUP",
-  version:"7.0",
+  version:"7.0.1",
   schema:"V6_ADMIN_CALENDAR",
   exportedAt:new Date().toISOString(),
   scope,
