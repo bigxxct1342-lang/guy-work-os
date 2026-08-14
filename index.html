@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V6</title>
+<title>GUY WORK OS V6.1</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./config.js"></script>
 <style>
@@ -58,6 +58,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
   <button data-view="tasks">Tasks</button>
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
+  <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Admin</button>
  </div>
  <div class="sidefoot"><button id="signOutBtn" class="btn secondary" style="width:100%">Sign out</button></div>
@@ -88,6 +89,43 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
  <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div id="archiveList" class="task-list"></div></div></section>
+
+
+ <section id="settingsView" class="hidden">
+  <div class="grid">
+   <div>
+    <div class="card section" style="margin-bottom:18px">
+     <h2>Backup & Restore</h2>
+     <div class="row">
+      <strong>Export Cloud Backup</strong>
+      <span id="backupScopeText">สำรอง Tasks และ Categories ที่บัญชีนี้มีสิทธิ์เข้าถึงเป็น JSON</span>
+      <button id="exportBtn" class="btn secondary" style="margin-top:9px">Export Backup</button>
+     </div>
+     <div class="row">
+      <strong>Restore V6 Backup</strong>
+      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V6.1 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
+      <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
+      <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
+     </div>
+     <div class="row">
+      <strong>Import Old Dashboard JSON</strong>
+      <span>ใช้ไฟล์ GUY_OLD_DASHBOARD_DATA.json จาก Dashboard รุ่นเก่า ข้อมูลจะถูกเพิ่มเข้า Account ปัจจุบันโดยไม่ลบของเดิม</span>
+      <button id="importBtn" class="btn secondary" style="margin-top:9px">Import Old JSON</button>
+      <input id="importFile" type="file" accept=".json,application/json" class="hidden">
+     </div>
+    </div>
+   </div>
+   <div>
+    <div class="card section">
+     <h2>System</h2>
+     <div class="row"><strong>App Version</strong><span>GUY WORK OS V6.1</span></div>
+     <div class="row"><strong>Database Schema</strong><span>V6 Admin + Calendar</span></div>
+     <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
+     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div>
+    </div>
+   </div>
+  </div>
+ </section>
 
  <section id="adminView" class="hidden">
   <div class="card section" style="margin-bottom:18px"><h2>Team Overview</h2><div class="help" style="margin-bottom:14px">Admin เห็นงานทุกคนผ่าน RLS ที่ฐานข้อมูล ไม่ใช่แค่หน้า UI</div><div id="adminMembers" class="admin-grid"></div></div>
@@ -144,13 +182,176 @@ $("prevMonth").onclick=()=>{calendarCursor=new Date(calendarCursor.getFullYear()
 function renderAdmin(){if(!isAdmin())return;const activeProfiles=profiles.filter(p=>p.status==="active");$("adminMembers").innerHTML=activeProfiles.map(p=>{const pt=tasks.filter(t=>t.user_id===p.user_id),active=pt.filter(t=>t.status!=="Done").length,over=pt.filter(isOverdue).length,wait=pt.filter(t=>t.status==="Waiting").length;return `<div class="card member-card"><div class="member-head"><div><div class="member-name">${esc(p.full_name||p.email)}</div><div class="member-email">${esc(p.email||"")}</div></div><select class="role-select" onchange="changeRole('${p.user_id}',this.value)" ${p.user_id===user.id?"disabled":""}><option value="member" ${p.role==="member"?"selected":""}>Member</option><option value="admin" ${p.role==="admin"?"selected":""}>Admin</option></select></div><div class="member-stats"><div class="member-stat"><b>${active}</b><span>Active</span></div><div class="member-stat"><b>${over}</b><span>Overdue</span></div><div class="member-stat"><b>${wait}</b><span>Waiting</span></div></div><button class="btn secondary small" style="margin-top:12px" onclick="viewMember('${p.user_id}')">View tasks</button></div>`}).join("");const attention=[];activeProfiles.forEach(p=>{const pt=tasks.filter(t=>t.user_id===p.user_id),ov=pt.filter(isOverdue).length,longWait=pt.filter(t=>t.status==="Waiting"&&waitDays(t)>=4).length;if(ov)attention.push(`${p.full_name||p.email}: ${ov} overdue task${ov>1?"s":""}`);if(longWait)attention.push(`${p.full_name||p.email}: ${longWait} waiting ≥ 4 days`)});$("attentionList").innerHTML=attention.length?attention.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty">No urgent team signals.</div>'}
 window.changeRole=async(uid,role)=>{if(!confirm(`Change role to ${role}?`)){renderAdmin();return}const {error}=await sb.from("profiles").update({role}).eq("user_id",uid);if(error)alert(error.message);await loadAll()};window.viewMember=uid=>{document.querySelector('[data-view="tasks"]').click();$("filterMember").value=uid;render()}
 
-function render(){populateFilters();renderCategories();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");$("mActive").textContent=active.length;$("mDone").textContent=done.length;$("mProgress").textContent=active.filter(t=>t.status==="In Progress").length;$("mWaiting").textContent=active.filter(t=>t.status==="Waiting").length;$("mOverdue").textContent=active.filter(isOverdue).length;const pct=scope.length?Math.round(done.length/scope.length*100):0;$("overallPct").textContent=pct+"%";$("overallBar").style.width=pct+"%";const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';$("archiveList").innerHTML=done.length?done.map(taskHTML).join(""):'<div class="empty">No completed tasks.</div>';renderCalendar();renderAdmin()}
+
+function backupPayload(){
+ const scope=isAdmin()?"team":"personal";
+ return {
+  format:"GUY_WORK_OS_BACKUP",
+  version:"6.1",
+  schema:"V6_ADMIN_CALENDAR",
+  exportedAt:new Date().toISOString(),
+  scope,
+  exportedBy:user.id,
+  categories:categories.map(c=>({
+   user_id:c.user_id,name:c.name,subs:Array.isArray(c.subs)?c.subs:[],
+   created_at:c.created_at||null,updated_at:c.updated_at||null
+  })),
+  tasks:tasks.map(t=>({
+   user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,
+   status:t.status||"To Do",priority:t.priority||"Medium",
+   due:t.due||null,waiting_since:t.waiting_since||null,note:t.note||"",
+   pinned:!!t.pinned,completed_at:t.completed_at||null,
+   created_at:t.created_at||null,updated_at:t.updated_at||null
+  }))
+ };
+}
+function downloadJSON(data,filename){
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const u=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=u;a.download=filename;a.click();URL.revokeObjectURL(u);
+}
+function updateLastBackup(){
+ const v=localStorage.getItem("guy_work_os_last_backup");
+ $("lastBackupText").textContent=v?new Date(v).toLocaleString("en-GB"):"Never";
+ $("backupScopeText").textContent=isAdmin()
+  ?"Admin backup includes all Tasks and Categories currently visible to this Admin account."
+  :"Backup includes your Tasks and Categories.";
+}
+function exportBackup(prefix="GUY_WORK_OS_BACKUP"){
+ const stamp=new Date().toISOString().slice(0,10);
+ downloadJSON(backupPayload(),`${prefix}_${stamp}.json`);
+ const now=new Date().toISOString();
+ localStorage.setItem("guy_work_os_last_backup",now);
+ updateLastBackup();
+}
+function cleanCategory(c,ownerOverride=null){
+ return {
+  user_id:ownerOverride||c.user_id||user.id,
+  name:String(c.name||"Untitled Category"),
+  subs:Array.isArray(c.subs)?c.subs:["General"],
+  ...(c.created_at?{created_at:c.created_at}:{}),
+  updated_at:c.updated_at||new Date().toISOString()
+ };
+}
+function cleanTask(t,ownerOverride=null){
+ const status=t.status||"To Do";
+ return {
+  user_id:ownerOverride||t.user_id||user.id,
+  task:String(t.task||"Untitled Task"),
+  category:String(t.category||"General"),
+  sub:String(t.sub||"General"),
+  status,
+  priority:t.priority||"Medium",
+  due:t.due||null,
+  waiting_since:t.waitingSince||t.waiting_since||null,
+  note:t.note||"",
+  pinned:!!t.pinned,
+  completed_at:t.completed_at||(status==="Done"?new Date().toISOString():null),
+  ...(t.created_at?{created_at:t.created_at}:{}),
+  updated_at:t.updated_at||new Date().toISOString()
+ };
+}
+async function insertInChunks(table,rows,size=200){
+ for(let i=0;i<rows.length;i+=size){
+  const {error}=await sb.from(table).insert(rows.slice(i,i+size));
+  if(error)throw error;
+ }
+}
+async function importLegacyData(d){
+ if(!Array.isArray(d.categories)||!Array.isArray(d.tasks))throw new Error("Invalid legacy JSON");
+ if(!confirm(`Import ${d.categories.length} categories and ${d.tasks.length} tasks into your account?\n\nExisting cloud data will NOT be deleted.`))return;
+ syncState("Importing old data…");
+ await insertInChunks("categories",d.categories.map(c=>cleanCategory(c,user.id)));
+ await insertInChunks("tasks",d.tasks.map(t=>cleanTask(t,user.id)));
+ await loadAll();
+ alert("Old dashboard data imported.");
+}
+async function restoreV6Backup(d){
+ if(d?.format!=="GUY_WORK_OS_BACKUP"||!Array.isArray(d.categories)||!Array.isArray(d.tasks))throw new Error("Not a V6 backup");
+ const backupOwners=[...new Set([...d.categories.map(x=>x.user_id),...d.tasks.map(x=>x.user_id)].filter(Boolean))];
+ const allowedOwners=new Set(profiles.map(p=>p.user_id));
+ let ownerIds;
+ if(isAdmin()&&d.scope==="team"){
+  const unknown=backupOwners.filter(id=>!allowedOwners.has(id));
+  if(unknown.length)throw new Error("This team backup contains users that do not exist in this Supabase workspace.");
+  ownerIds=backupOwners.length?backupOwners:[user.id];
+ }else{
+  ownerIds=[user.id];
+ }
+ const label=isAdmin()&&d.scope==="team"?"ALL TEAM data included in this backup":"YOUR current data";
+ const ok=confirm(
+  `RESTORE BACKUP?\n\nThis will replace ${label}.\n`+
+  `${d.categories.length} categories · ${d.tasks.length} tasks\n\n`+
+  `A pre-restore backup will download automatically first.`
+ );
+ if(!ok)return;
+
+ // Safety copy before destructive restore
+ exportBackup("GUY_WORK_OS_PRE_RESTORE");
+ syncState("Restoring backup…");
+
+ const {error:te}=await sb.from("tasks").delete().in("user_id",ownerIds);
+ if(te)throw te;
+ const {error:ce}=await sb.from("categories").delete().in("user_id",ownerIds);
+ if(ce)throw ce;
+
+ const cats=d.categories
+  .filter(c=>isAdmin()&&d.scope==="team"?ownerIds.includes(c.user_id):true)
+  .map(c=>cleanCategory(c,isAdmin()&&d.scope==="team"?null:user.id));
+ const ts=d.tasks
+  .filter(t=>isAdmin()&&d.scope==="team"?ownerIds.includes(t.user_id):true)
+  .map(t=>cleanTask(t,isAdmin()&&d.scope==="team"?null:user.id));
+
+ await insertInChunks("categories",cats);
+ await insertInChunks("tasks",ts);
+ await loadAll();
+ alert("Backup restored successfully.");
+}
+
+function render(){populateFilters();renderCategories();updateLastBackup();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");$("mActive").textContent=active.length;$("mDone").textContent=done.length;$("mProgress").textContent=active.filter(t=>t.status==="In Progress").length;$("mWaiting").textContent=active.filter(t=>t.status==="Waiting").length;$("mOverdue").textContent=active.filter(isOverdue).length;const pct=scope.length?Math.round(done.length/scope.length*100):0;$("overallPct").textContent=pct+"%";$("overallBar").style.width=pct+"%";const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';$("archiveList").innerHTML=done.length?done.map(taskHTML).join(""):'<div class="empty">No completed tasks.</div>';renderCalendar();renderAdmin()}
 ["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
-document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{if(btn.id==="adminNav"&&!isAdmin())return;document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");["dashboard","calendar","tasks","categories","archive","admin"].forEach(v=>$(v+"View").classList.add("hidden"));$(btn.dataset.view+"View").classList.remove("hidden");$("pageTitle").textContent=btn.textContent;if(btn.dataset.view==="calendar")renderCalendar();if(btn.dataset.view==="admin")renderAdmin()});
+document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{if(btn.id==="adminNav"&&!isAdmin())return;document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active");["dashboard","calendar","tasks","categories","archive","settings","admin"].forEach(v=>$(v+"View").classList.add("hidden"));$(btn.dataset.view+"View").classList.remove("hidden");$("pageTitle").textContent=btn.textContent;if(btn.dataset.view==="calendar")renderCalendar();if(btn.dataset.view==="admin")renderAdmin()});
 
 $("addTaskBtn").onclick=()=>{if(!categories.length)return alert("Create a category first.");editingTaskId=null;$("taskModalTitle").textContent="Add Task";$("fTask").value="";populateTaskForm(user.id);$("fStatus").value="To Do";$("fPriority").value="Medium";$("fDue").value="";$("fWaitingSince").value="";$("fNote").value="";$("taskModal").classList.remove("hidden")};$("cancelTask").onclick=()=>$("taskModal").classList.add("hidden");
 $("saveTask").onclick=async()=>{const name=$("fTask").value.trim();if(!name)return alert("Task name is required.");const owner=isAdmin()?$("fOwner").value:user.id,status=$("fStatus").value,payload={user_id:owner,task:name,category:$("fCategory").value,sub:$("fSub").value,status,priority:$("fPriority").value,due:$("fDue").value||null,waiting_since:$("fWaitingSince").value||null,note:$("fNote").value.trim(),completed_at:status==="Done"?new Date().toISOString():null};if(editingTaskId)await saveTask(payload,editingTaskId);else await saveTask({...payload,pinned:false});$("taskModal").classList.add("hidden")}
 $("addCategoryBtn").onclick=()=>{editingCategoryId=null;$("cName").value="";$("cSubs").value="";$("categoryModalTitle").textContent="Add Category";$("categoryModal").classList.remove("hidden")};$("cancelCategory").onclick=()=>$("categoryModal").classList.add("hidden");$("saveCategory").onclick=async()=>{const name=$("cName").value.trim(),subs=$("cSubs").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name)return alert("Category name required.");if(!subs.length)subs.push("General");if(editingCategoryId)await sb.from("categories").update({name,subs,updated_at:new Date().toISOString()}).eq("id",editingCategoryId);else await sb.from("categories").insert({user_id:user.id,name,subs});$("categoryModal").classList.add("hidden");await loadAll()}
+
+$("exportBtn").onclick=()=>exportBackup();
+$("importBtn").onclick=()=>$("importFile").click();
+$("restoreBtn").onclick=()=>$("restoreFile").click();
+
+$("importFile").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=async()=>{
+  try{
+   const d=JSON.parse(r.result);
+   await importLegacyData(d);
+  }catch(err){
+   console.error(err);
+   alert("Import failed: invalid or unsupported old dashboard JSON.");
+   syncState("Cloud synced");
+  }
+ };
+ r.readAsText(f);e.target.value="";
+};
+
+$("restoreFile").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=async()=>{
+  try{
+   const d=JSON.parse(r.result);
+   await restoreV6Backup(d);
+  }catch(err){
+   console.error(err);
+   alert("Restore failed: "+(err?.message||"invalid backup file."));
+   syncState("Cloud synced");
+  }
+ };
+ r.readAsText(f);e.target.value="";
+};
+
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));boot();
 </script>
 </body>

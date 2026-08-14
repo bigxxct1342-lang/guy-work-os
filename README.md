@@ -71,3 +71,12 @@ Admin access is enforced by Supabase RLS policies through `public.is_admin()`. I
 5. Sign out and back in.
 
 Your Admin menu will then show team members and allow changing member/admin roles.
+
+
+## V6.1
+- Restored Settings page
+- Export Cloud Backup (JSON)
+- Restore V6 backup with automatic pre-restore backup
+- Import legacy GUY_OLD_DASHBOARD_DATA.json
+- App/schema version and last-backup status
+- Updated service-worker cache version
