@@ -100,3 +100,34 @@ Your Admin menu will then show team members and allow changing member/admin role
 - Category completion progress
 - Personal Needs Attention on Dashboard
 - Toast feedback for common actions
+
+## V6.6
+- Duplicate-safe category deletion
+- When another category with the same name exists, deleting one duplicate keeps all Tasks
+- Destructive "Delete Category + Tasks" is hidden while duplicate category names exist
+- Added Settings > Scan & Clean Duplicates
+- Duplicate cleanup keeps one exact copy and removes only exact imported duplicates
+- Cleanup automatically exports a pre-dedupe backup first
+- Exact duplicate detection includes created_at and task fields to reduce accidental deletion of legitimate repeated tasks
+
+## V6.7
+- One Super Admin only: bigxxct1342@gmail.com
+- All new registrations default to Member
+- Removed role promotion controls from the web UI
+- Added dedicated Team Overview for Super Admin
+- Team Pulse: members, active, overdue, waiting, done this week
+- Member cards: workload, completion %, active/in-progress/waiting/overdue
+- Member Summary drawer with Needs Attention and upcoming tasks
+- Personal Dashboard remains separate from Team Overview
+- Requires `migration-v6-7-super-admin.sql`
+
+## V6.8
+- Team Code gate for accounts that have not joined a team
+- Super Admin owns Team Marketing and can set/replace Team Code
+- Personal 4-digit PIN after Email/Password login
+- Each member creates and changes their own PIN
+- PIN hashes and Team Code hashes stay server-side behind Supabase RPC functions
+- Sidebar displays Team name
+- New accounts remain Member and cannot use Tasks until they join the team
+- Team code is used once for membership; it is not displayed back to Members
+- Requires migration-v6-8-team-pin.sql after V6.7

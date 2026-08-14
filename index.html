@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V6.5</title>
+<title>GUY WORK OS V6.8</title>
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -50,7 +50,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V6.5 · Work + Team + Calendar</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V6.8 · Work + Team + Calendar</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -62,9 +62,36 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
  </div>
 </section>
 
+
+<section id="teamGate" class="auth hidden">
+ <div class="authbox"><div class="authname">JOIN YOUR TEAM</div><div class="authsub">One-time workspace access</div>
+  <div class="authcard"><h2>Enter Team Code</h2>
+   <div class="help" style="margin-bottom:14px">บัญชีสร้างแล้ว แต่ยังเข้า Dashboard ไม่ได้จนกว่าจะกรอกรหัสทีมที่ Super Admin ตั้งไว้</div>
+   <div class="field"><label>Team Code</label><input id="teamCodeInput" autocomplete="off" maxlength="64"></div>
+   <div id="teamGateError" class="error"></div>
+   <button id="joinTeamBtn" class="btn primary" style="width:100%">Join Team</button>
+   <button id="teamGateSignOut" class="btn secondary" style="width:100%;margin-top:8px">Sign out</button>
+  </div>
+ </div>
+</section>
+
+<section id="pinGate" class="auth hidden">
+ <div class="authbox"><div class="authname">GGG WORK OS</div><div id="pinGateTeam" class="authsub">Private dashboard lock</div>
+  <div class="authcard">
+   <h2 id="pinGateTitle">Enter PIN</h2>
+   <div id="pinGateHelp" class="help" style="margin-bottom:14px">ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard</div>
+   <div class="field"><label>4-digit PIN</label><input id="pinInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="font-size:24px;letter-spacing:10px;text-align:center"></div>
+   <div id="pinConfirmField" class="field hidden"><label>Confirm PIN</label><input id="pinConfirmInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="font-size:24px;letter-spacing:10px;text-align:center"></div>
+   <div id="pinGateError" class="error"></div>
+   <button id="pinSubmitBtn" class="btn primary" style="width:100%">Unlock</button>
+   <button id="pinGateSignOut" class="btn secondary" style="width:100%;margin-top:8px">Sign out</button>
+  </div>
+ </div>
+</section>
+
 <div id="app" class="app hidden">
 <aside>
- <div class="identity"><div class="brand" style="display:flex;align-items:center;gap:9px"><img src="./favicon-32.png" alt="GGG" style="width:28px;height:28px;border-radius:7px"><span>GUY WORK OS</span></div><div id="whoText" class="who"></div><div id="roleText" class="role"></div><div id="syncText" class="sync">Connecting…</div></div>
+ <div class="identity"><div class="brand" style="display:flex;align-items:center;gap:9px"><img src="./favicon-32.png" alt="GGG" style="width:28px;height:28px;border-radius:7px"><span>GUY WORK OS</span></div><div id="whoText" class="who"></div><div id="roleText" class="role"></div><div id="teamText" class="role"></div><div id="syncText" class="sync">Connecting…</div></div>
  <div class="nav">
   <button class="active" data-view="dashboard">Dashboard</button>
   <button data-view="calendar">Calendar</button>
@@ -72,7 +99,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
   <button data-view="settings">Settings</button>
-  <button id="adminNav" class="admin-only hidden" data-view="admin">Admin</button>
+  <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
  </div>
  <div class="sidefoot"><button id="signOutBtn" class="btn secondary" style="width:100%">Sign out</button></div>
 </aside>
@@ -117,7 +144,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
      </div>
      <div class="row">
       <strong>Restore Backup</strong>
-      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V6.5 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
+      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V6.8 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
       <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
       <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
      </div>
@@ -132,19 +159,45 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>GUY WORK OS V6.5</span></div>
+     <div class="row"><strong>App Version</strong><span>GUY WORK OS V6.8</span></div>
      <div class="row"><strong>Database Schema</strong><span>V6 Admin + Calendar</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div>
+     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
  </section>
 
+ 
  <section id="adminView" class="hidden">
-  <div class="card section" style="margin-bottom:18px"><h2>Team Overview</h2><div class="help" style="margin-bottom:14px">Admin เห็นงานทุกคนผ่าน RLS ที่ฐานข้อมูล ไม่ใช่แค่หน้า UI</div><div id="adminMembers" class="admin-grid"></div></div>
-  <div class="card section"><h2>Needs Attention</h2><div id="attentionList"></div></div>
+  <div class="metrics" style="margin-bottom:18px">
+   <div class="metric"><div class="label">TEAM MEMBERS</div><div id="teamMemberCount" class="value">0</div></div>
+   <div class="metric"><div class="label">ACTIVE TASKS</div><div id="teamActiveCount" class="value">0</div></div>
+   <div class="metric"><div class="label">OVERDUE</div><div id="teamOverdueCount" class="value">0</div></div>
+   <div class="metric"><div class="label">WAITING</div><div id="teamWaitingCount" class="value">0</div></div>
+   <div class="metric"><div class="label">DONE THIS WEEK</div><div id="teamDoneWeekCount" class="value">0</div></div>
+  </div>
+  <div class="card section" style="margin-bottom:18px">
+   <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
+    <div><h2 style="margin-bottom:4px">Team Overview</h2><div class="help">ภาพรวมทีมแบบเร็ว ๆ โดย Dashboard ส่วนตัวของคุณยังแยกออกจากงานคนอื่น</div></div>
+    <div class="help">Super Admin only</div>
+   </div>
+   <div id="adminMembers" class="admin-grid" style="margin-top:16px"></div>
+   <div class="card section" style="margin-top:18px">
+    <h2>Team Settings</h2>
+    <div class="field"><label>Team Name</label><input id="adminTeamName" value="Marketing"></div>
+    <div class="field"><label>New Team Code</label><input id="adminTeamCode" autocomplete="off" placeholder="Set / replace team code"></div>
+    <div class="help">Team Code จะไม่แสดงย้อนกลับหลังบันทึก หากต้องการเปลี่ยน ให้ตั้งรหัสใหม่</div>
+    <button id="saveTeamSettingsBtn" class="btn secondary" style="margin-top:10px">Save Team Settings</button>
+   </div>
+
+  </div>
+  <div class="card section">
+   <h2>Team Needs Attention</h2>
+   <div id="attentionList"></div>
+  </div>
  </section>
+
 </main>
 </div>
 
@@ -165,7 +218,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 <div id="deleteCategoryModal" class="modalbg hidden">
   <div class="modal">
     <h3>Delete Category</h3>
-    <div id="deleteCategorySummary" class="row" style="margin-bottom:14px"></div>
+    <div id="deleteCategorySummary" class="row" style="margin-bottom:14px"></div><div id="deleteCategoryDuplicateWarning" class="row hidden" style="margin-bottom:14px;border-color:#d9b7b7;background:#fff7f7"></div>
     <div id="deleteCategoryMoveWrap" class="field">
       <label>Move existing tasks to</label>
       <select id="deleteCategoryTarget"></select>
@@ -173,7 +226,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
     <div class="actions" style="justify-content:space-between;align-items:center;flex-wrap:wrap">
       <button id="deleteCategoryCancel" class="btn secondary">Cancel</button>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button id="deleteCategoryMove" class="btn secondary">Move Tasks & Delete Category</button>
+        <button id="deleteDuplicateCategoryOnly" class="btn secondary hidden">Delete Duplicate Category Only</button><button id="deleteCategoryMove" class="btn secondary">Move Tasks & Delete Category</button>
         <button id="deleteCategoryAll" class="btn danger">Delete Category + Tasks</button>
       </div>
     </div>
@@ -191,25 +244,140 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
     <button id="dayDrawerAdd" class="btn primary" style="margin-top:16px">+ Add Task This Day</button>
   </div>
 </div>
+
+<div id="memberSummaryDrawer" class="drawerbg hidden">
+  <div class="drawer">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div><h3 id="memberSummaryName">Member</h3><div id="memberSummaryEmail" class="drawer-date"></div></div>
+      <button id="closeMemberSummary" class="btn secondary small">Close</button>
+    </div>
+    <div id="memberSummaryStats" class="metrics" style="grid-template-columns:repeat(2,1fr);margin:14px 0"></div>
+    <div class="card section" style="margin-bottom:12px"><h2>Needs Attention</h2><div id="memberSummaryAttention"></div></div>
+    <div class="card section"><h2>Upcoming / Active Tasks</h2><div id="memberSummaryTasks" class="task-list"></div></div>
+    <button id="openMemberTasksBtn" class="btn primary" style="margin-top:14px">Open Full Task List</button>
+  </div>
+</div>
+
+
+<div id="changePinModal" class="modalbg hidden">
+ <div class="modal">
+  <h3>Change Personal PIN</h3>
+  <div class="field"><label>New 4-digit PIN</label><input id="newPin" inputmode="numeric" maxlength="4" autocomplete="off"></div>
+  <div class="field"><label>Confirm PIN</label><input id="newPinConfirm" inputmode="numeric" maxlength="4" autocomplete="off"></div>
+  <div id="changePinError" class="error"></div>
+  <div class="actions"><button id="cancelChangePin" class="btn secondary">Cancel</button><button id="saveNewPin" class="btn primary">Save PIN</button></div>
+ </div>
+</div>
+
 <div id="toastWrap" class="toast-wrap"></div>
 <script>
-const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,tasks=[],categories=[],profiles=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date();
+const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date();
 const $=id=>document.getElementById(id);$("todayText").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
-const esc=s=>(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));const isAdmin=()=>profile?.role==="admin";
+const esc=s=>(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));const isAdmin=()=>profile?.role==="super_admin";
 function syncState(t,ok=true){$("syncText").textContent=t;$("syncText").style.color=ok?"#8fc59f":"#e69c9c"}function iso(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`}function todayISO(){return iso(new Date())}
 function profileName(uid){const p=profiles.find(x=>x.user_id===uid);return p?.full_name||p?.email||uid?.slice(0,8)||"Unknown"}function isOverdue(t){return t.status!=="Done"&&t.due&&new Date(t.due+"T23:59:59")<new Date()}function isToday(t){return t.status!=="Done"&&t.due===todayISO()}function isThisWeek(t){if(t.status==="Done"||!t.due)return false;const d=new Date(t.due+"T00:00:00"),s=startOfWeekISO(),e=new Date(s);e.setDate(s.getDate()+6);return d>=s&&d<=e}function pclass(p){return p==="High"?"high":p==="Medium"?"medium":"low"}function waitDays(t){if(!t.waiting_since)return null;const a=new Date(t.waiting_since+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.floor((b-a)/86400000))}
+
+function workloadLabel(list){
+ const active=list.filter(t=>t.status!=="Done");
+ const score=active.reduce((s,t)=>s+(t.priority==="High"?2:t.priority==="Medium"?1.2:0.8)+(isOverdue(t)?1.5:0)+(t.status==="In Progress"?.4:0),0);
+ if(score<=5)return "Light";
+ if(score<=11)return "Balanced";
+ if(score<=18)return "Heavy";
+ return "Overloaded";
+}
+function doneThisWeek(t){
+ if(t.status!=="Done"||!t.completed_at)return false;
+ const d=new Date(t.completed_at),s=startOfWeekISO(),e=new Date(s);e.setDate(e.getDate()+7);
+ return d>=s&&d<e;
+}
 
 function toast(msg,type="good"){const d=document.createElement("div");d.className="toast "+type;d.textContent=msg;$("toastWrap").appendChild(d);setTimeout(()=>d.remove(),2600)}
 function startOfWeekISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return d}
 function nextMondayISO(){const d=new Date();d.setHours(0,0,0,0);const day=(d.getDay()+6)%7;d.setDate(d.getDate()+(7-day));return iso(d)}
 function tomorrowISO(){const d=new Date();d.setDate(d.getDate()+1);return iso(d)}
-async function boot(){if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.startsWith("PASTE_")){$("authError").textContent="Supabase config missing.";return}sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);const {data}=await sb.auth.getSession();if(data.session){user=data.session.user;await enterApp()}sb.auth.onAuthStateChange(async(e,s)=>{if(s&&!user){user=s.user;await enterApp()}if(!s&&user){user=null;profile=null;showAuth()}})}
-async function enterApp(){showApp();await loadAll()}function showApp(){$("authScreen").classList.add("hidden");$("app").classList.remove("hidden")}function showAuth(){$("app").classList.add("hidden");$("authScreen").classList.remove("hidden")}
+async function boot(){if(!CFG.SUPABASE_URL||CFG.SUPABASE_URL.startsWith("PASTE_")){$("authError").textContent="Supabase config missing.";return}sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);const {data}=await sb.auth.getSession();if(data.session){user=data.session.user;await enterApp()}sb.auth.onAuthStateChange(async(e,s)=>{if(s&&!user){user=s.user;await enterApp()}if(!s&&user){sessionStorage.removeItem("guy_pin_unlocked_"+user.id);user=null;profile=null;team=null;showAuth()}})}
+async function enterApp(){await loadIdentityAndGate()}
+function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>$(id).classList.add("hidden"))}
+function showApp(){hideAllScreens();$("app").classList.remove("hidden")}
+function showAuth(){hideAllScreens();$("authScreen").classList.remove("hidden")}
+function showTeamGate(){hideAllScreens();$("teamGate").classList.remove("hidden");$("teamGateError").textContent="";$("teamCodeInput").value=""}
+function showPinGate(setup=false){hideAllScreens();pinNeedsSetup=setup;$("pinGate").classList.remove("hidden");$("pinGateTitle").textContent=setup?"Create your PIN":"Enter PIN";$("pinGateHelp").textContent=setup?"ตั้ง PIN 4 หลักของคุณ ใช้หลัง Email/Password ทุกครั้งที่ Login ใหม่":"ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard";$("pinConfirmField").classList.toggle("hidden",!setup);$("pinSubmitBtn").textContent=setup?"Save PIN & Continue":"Unlock";$("pinInput").value="";$("pinConfirmInput").value="";$("pinGateError").textContent="";$("pinGateTeam").textContent=team?.name?`Team: ${team.name}`:"Private dashboard lock"}
+async function loadIdentityAndGate(){
+ syncState("Checking access…");
+ const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();
+ if(pr.error){showApp();syncState("Run V6 migration SQL",false);alert("Profile migration has not been applied yet.");return}
+ profile=pr.data;if(!profile){showAuth();return}
+ if(!profile.team_id){showTeamGate();return}
+ const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();
+ if(tr.error||!tr.data){showTeamGate();return}
+ team=tr.data;
+ const {data:hasPin,error:pinErr}=await sb.rpc("has_my_pin");
+ if(pinErr){showApp();syncState("Run V6.8 migration SQL",false);alert("V6.8 Team/PIN migration has not been applied yet.");return}
+ const unlocked=sessionStorage.getItem("guy_pin_unlocked_"+user.id)==="1";
+ if(!hasPin){showPinGate(true);return}
+ if(!unlocked){showPinGate(false);return}
+ showApp();await loadAll();
+}
 $("authSwitch").onclick=()=>{authMode=authMode==="signin"?"signup":"signin";$("authTitle").textContent=authMode==="signin"?"Sign in":"Create account";$("authSubmit").textContent=authMode==="signin"?"Sign in":"Create account";$("authSwitch").textContent=authMode==="signin"?"Create account":"Back to sign in";$("nameField").classList.toggle("hidden",authMode==="signin");$("authError").textContent=""}
 $("authSubmit").onclick=async()=>{const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim();if(!email)return $("authError").textContent="ใส่ Email ก่อน";if(password.length<10)return $("authError").textContent="Password อย่างน้อย 10 ตัว";$("authError").textContent="Working…";const result=authMode==="signin"?await sb.auth.signInWithPassword({email,password}):await sb.auth.signUp({email,password,options:{data:{full_name:name||email.split("@")[0]}}});if(result.error)return $("authError").textContent=result.error.message;if(authMode==="signup"&&!result.data.session)$("authError").textContent="Account created. Check email if confirmation is enabled."}
 $("signOutBtn").onclick=async()=>await sb.auth.signOut();
 
-async function loadAll(){syncState("Syncing…");const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role;$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
+$("teamGateSignOut").onclick=$("pinGateSignOut").onclick=async()=>await sb.auth.signOut();
+
+$("joinTeamBtn").onclick=async()=>{
+ const code=$("teamCodeInput").value.trim();
+ if(!code)return $("teamGateError").textContent="ใส่ Team Code ก่อน";
+ $("teamGateError").textContent="Checking…";
+ const {data,error}=await sb.rpc("join_team_with_code",{p_code:code});
+ if(error){$("teamGateError").textContent=error.message;return}
+ if(!data){$("teamGateError").textContent="Team Code ไม่ถูกต้อง";return}
+ toast("Joined team successfully.");
+ await loadIdentityAndGate();
+};
+
+$("pinSubmitBtn").onclick=async()=>{
+ const pin=$("pinInput").value.trim();
+ if(!/^\d{4}$/.test(pin))return $("pinGateError").textContent="PIN ต้องเป็นตัวเลข 4 หลัก";
+ if(pinNeedsSetup){
+   const confirmPin=$("pinConfirmInput").value.trim();
+   if(pin!==confirmPin)return $("pinGateError").textContent="PIN ทั้งสองช่องไม่ตรงกัน";
+   $("pinGateError").textContent="Saving…";
+   const {data,error}=await sb.rpc("set_my_pin",{p_pin:pin});
+   if(error||!data){$("pinGateError").textContent=error?.message||"ตั้ง PIN ไม่สำเร็จ";return}
+ }else{
+   $("pinGateError").textContent="Checking…";
+   const {data,error}=await sb.rpc("verify_my_pin",{p_pin:pin});
+   if(error){$("pinGateError").textContent=error.message;return}
+   if(!data){$("pinGateError").textContent="PIN ไม่ถูกต้อง";return}
+ }
+ sessionStorage.setItem("guy_pin_unlocked_"+user.id,"1");
+ showApp();await loadAll();
+};
+
+$("changePinBtn").onclick=()=>{$("newPin").value="";$("newPinConfirm").value="";$("changePinError").textContent="";$("changePinModal").classList.remove("hidden")};
+$("cancelChangePin").onclick=()=>$("changePinModal").classList.add("hidden");
+$("saveNewPin").onclick=async()=>{
+ const a=$("newPin").value.trim(),b=$("newPinConfirm").value.trim();
+ if(!/^\d{4}$/.test(a))return $("changePinError").textContent="PIN ต้องเป็นตัวเลข 4 หลัก";
+ if(a!==b)return $("changePinError").textContent="PIN ทั้งสองช่องไม่ตรงกัน";
+ const {data,error}=await sb.rpc("set_my_pin",{p_pin:a});
+ if(error||!data)return $("changePinError").textContent=error?.message||"เปลี่ยน PIN ไม่สำเร็จ";
+ $("changePinModal").classList.add("hidden");toast("PIN updated.");
+};
+
+$("saveTeamSettingsBtn").onclick=async()=>{
+ if(!isAdmin())return;
+ const name=$("adminTeamName").value.trim(),code=$("adminTeamCode").value.trim();
+ if(!name)return toast("Team name required.","bad");
+ if(code && code.length<4)return toast("Team Code อย่างน้อย 4 ตัว","bad");
+ const {data,error}=await sb.rpc("admin_update_team",{p_name:name,p_code:code||null});
+ if(error||!data)return toast(error?.message||"Could not update team.","bad");
+ $("adminTeamCode").value="";toast("Team settings updated.");
+ await loadAll();
+};
+
+
+async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
  const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];syncState("Cloud synced");render()}
 async function saveTask(payload,id=null){syncState("Saving…");const q=id?sb.from("tasks").update({...payload,updated_at:new Date().toISOString()}).eq("id",id):sb.from("tasks").insert(payload);const {error}=await q;if(error){alert(error.message);syncState("Save failed",false);return false}await loadAll();return true}
 window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id)}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
@@ -230,11 +398,23 @@ window.removeCategory=id=>{
  const c=categories.find(x=>x.id===id);if(!c)return;
  deletingCategoryId=id;
  const linked=tasks.filter(t=>t.user_id===c.user_id&&t.category===c.name);
- $("deleteCategorySummary").innerHTML=`<div><strong>${esc(c.name)}</strong><br><span>${linked.length} task${linked.length===1?"":"s"} currently use this category.</span></div>`;
- const targets=categories.filter(x=>x.user_id===c.user_id&&x.id!==c.id);
+ const sameName=categories.filter(x=>x.user_id===c.user_id&&x.id!==c.id&&String(x.name).trim().toLowerCase()===String(c.name).trim().toLowerCase());
+ $("deleteCategorySummary").innerHTML=`<div><strong>${esc(c.name)}</strong><br><span>${linked.length} task${linked.length===1?"":"s"} currently use this category name.</span></div>`;
+ const targets=categories.filter(x=>x.user_id===c.user_id&&x.id!==c.id&&String(x.name).trim().toLowerCase()!==String(c.name).trim().toLowerCase());
  $("deleteCategoryTarget").innerHTML=targets.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
- $("deleteCategoryMoveWrap").classList.toggle("hidden",linked.length===0||targets.length===0);
- $("deleteCategoryMove").classList.toggle("hidden",linked.length===0||targets.length===0);
+
+ const isDuplicate=sameName.length>0;
+ $("deleteCategoryDuplicateWarning").classList.toggle("hidden",!isDuplicate);
+ $("deleteDuplicateCategoryOnly").classList.toggle("hidden",!isDuplicate);
+ if(isDuplicate){
+   $("deleteCategoryDuplicateWarning").innerHTML=`<div><strong>Duplicate category detected</strong><br><span>There ${sameName.length===1?"is":"are"} ${sameName.length} other "${esc(c.name)}" categor${sameName.length===1?"y":"ies"}. Tasks cannot be tied to one duplicate row because older versions stored only the category name. Safest action: delete this duplicate category row only and keep every task.</span></div>`;
+ }
+
+ $("deleteCategoryMoveWrap").classList.toggle("hidden",isDuplicate||linked.length===0||targets.length===0);
+ $("deleteCategoryMove").classList.toggle("hidden",isDuplicate||linked.length===0||targets.length===0);
+
+ // Never offer destructive task deletion while duplicate category names exist.
+ $("deleteCategoryAll").classList.toggle("hidden",isDuplicate);
  $("deleteCategoryAll").textContent=linked.length?`Delete Category + ${linked.length} Task${linked.length===1?"":"s"}`:"Delete Category";
  $("deleteCategoryModal").classList.remove("hidden");
 };
@@ -244,6 +424,10 @@ function focusTasks(active){if(focusMode==="today")return active.filter(isToday)
 function renderCalendar(){const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();$("monthTitle").textContent=calendarCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});const selected=isAdmin()?$("calendarMember").value:"";const first=new Date(y,m,1);const offset=(first.getDay()+6)%7;const start=new Date(y,m,1-offset);let html="";for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);const dayTasks=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected));const outside=d.getMonth()!==m;const td=ds===todayISO();html+=`<div class="day ${outside?"outside":""} ${td?"today-day":""}" onclick="openDay('${ds}',event)"><div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${dayTasks.length?dayTasks.length+" task"+(dayTasks.length>1?"s":""):""}</span></div>${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}</div>`}$("calendarGrid").innerHTML=html}
 let drawerDate=null;
 window.openDay=(ds,e)=>{if(e.target.closest(".cal-task"))return;drawerDate=ds;const selected=isAdmin()?$("calendarMember").value:"";const list=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected)).sort((a,b)=>a.status.localeCompare(b.status));$("dayDrawerTitle").textContent=new Date(ds+"T00:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});$("dayDrawerDate").textContent=`${list.length} task${list.length===1?"":"s"}`;$("dayDrawerList").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty">No tasks this day.</div>';$("dayDrawer").classList.remove("hidden")};
+
+$("closeMemberSummary").onclick=()=>{$("memberSummaryDrawer").classList.add("hidden");summaryMemberId=null};
+$("memberSummaryDrawer").onclick=e=>{if(e.target===$("memberSummaryDrawer"))$("closeMemberSummary").click()};
+$("openMemberTasksBtn").onclick=()=>{if(!summaryMemberId)return;$("memberSummaryDrawer").classList.add("hidden");document.querySelector('[data-view="tasks"]').click();$("filterMember").value=summaryMemberId;render()};
 $("closeDayDrawer").onclick=()=>{$("dayDrawer").classList.add("hidden");drawerDate=null};
 $("dayDrawer").onclick=e=>{if(e.target===$("dayDrawer"))$("closeDayDrawer").click()};
 $("dayDrawerAdd").onclick=()=>{if(!drawerDate)return;calendarAdd(drawerDate,{target:document.createElement("div")});$("dayDrawer").classList.add("hidden")};
@@ -251,15 +435,97 @@ window.calendarAdd=(ds,e)=>{if(e.target.closest(".cal-task"))return;editingTaskI
 $("archiveSearch").oninput=render;$("archiveCategory").onchange=render;
 $("prevMonth").onclick=()=>{calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);renderCalendar()};$("nextMonth").onclick=()=>{calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1);renderCalendar()};$("todayMonth").onclick=()=>{calendarCursor=new Date();renderCalendar()};$("calendarMember").onchange=renderCalendar;
 
-function renderAdmin(){if(!isAdmin())return;const activeProfiles=profiles.filter(p=>p.status==="active");$("adminMembers").innerHTML=activeProfiles.map(p=>{const pt=tasks.filter(t=>t.user_id===p.user_id),active=pt.filter(t=>t.status!=="Done").length,over=pt.filter(isOverdue).length,wait=pt.filter(t=>t.status==="Waiting").length;return `<div class="card member-card"><div class="member-head"><div><div class="member-name">${esc(p.full_name||p.email)}</div><div class="member-email">${esc(p.email||"")}</div></div><select class="role-select" onchange="changeRole('${p.user_id}',this.value)" ${p.user_id===user.id?"disabled":""}><option value="member" ${p.role==="member"?"selected":""}>Member</option><option value="admin" ${p.role==="admin"?"selected":""}>Admin</option></select></div><div class="member-stats"><div class="member-stat"><b>${active}</b><span>Active</span></div><div class="member-stat"><b>${over}</b><span>Overdue</span></div><div class="member-stat"><b>${wait}</b><span>Waiting</span></div></div><button class="btn secondary small" style="margin-top:12px" onclick="viewMember('${p.user_id}')">View tasks</button></div>`}).join("");const attention=[];activeProfiles.forEach(p=>{const pt=tasks.filter(t=>t.user_id===p.user_id),ov=pt.filter(isOverdue).length,longWait=pt.filter(t=>t.status==="Waiting"&&waitDays(t)>=4).length;if(ov)attention.push(`${p.full_name||p.email}: ${ov} overdue task${ov>1?"s":""}`);if(longWait)attention.push(`${p.full_name||p.email}: ${longWait} waiting ≥ 4 days`)});$("attentionList").innerHTML=attention.length?attention.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty">No urgent team signals.</div>'}
-window.changeRole=async(uid,role)=>{if(!confirm(`Change role to ${role}?`)){renderAdmin();return}const {error}=await sb.from("profiles").update({role}).eq("user_id",uid);if(error)alert(error.message);await loadAll()};window.viewMember=uid=>{document.querySelector('[data-view="tasks"]').click();$("filterMember").value=uid;render()}
+function renderAdmin(){
+ if(!isAdmin())return;
+ const members=profiles.filter(p=>p.status==="active"&&p.user_id!==user.id);
+ const allTeamTasks=tasks.filter(t=>t.user_id!==user.id);
+ const activeTasks=allTeamTasks.filter(t=>t.status!=="Done");
+ $("teamMemberCount").textContent=members.length;
+ $("teamActiveCount").textContent=activeTasks.length;
+ $("teamOverdueCount").textContent=activeTasks.filter(isOverdue).length;
+ $("teamWaitingCount").textContent=activeTasks.filter(t=>t.status==="Waiting").length;
+ $("teamDoneWeekCount").textContent=allTeamTasks.filter(doneThisWeek).length;
+
+ $("adminMembers").innerHTML=members.length?members.map(p=>{
+   const pt=tasks.filter(t=>t.user_id===p.user_id);
+   const active=pt.filter(t=>t.status!=="Done");
+   const done=pt.filter(t=>t.status==="Done").length;
+   const inprog=active.filter(t=>t.status==="In Progress").length;
+   const wait=active.filter(t=>t.status==="Waiting").length;
+   const over=active.filter(isOverdue).length;
+   const weekDone=pt.filter(doneThisWeek).length;
+   const pct=pt.length?Math.round(done/pt.length*100):0;
+   const workload=workloadLabel(pt);
+   const longWait=active.filter(t=>t.status==="Waiting"&&waitDays(t)>=4).length;
+   const highNoDue=active.filter(t=>t.priority==="High"&&!t.due).length;
+   return `<div class="card member-card">
+     <div class="member-head">
+       <div><div class="member-name">${esc(p.full_name||p.email)}</div><div class="member-email">${esc(p.email||"")}</div></div>
+       <span class="pill">${esc(workload)}</span>
+     </div>
+     <div class="member-stats">
+       <div class="member-stat"><b>${active.length}</b><span>Active</span></div>
+       <div class="member-stat"><b>${inprog}</b><span>In Progress</span></div>
+       <div class="member-stat"><b>${wait}</b><span>Waiting</span></div>
+       <div class="member-stat"><b>${over}</b><span>Overdue</span></div>
+       <div class="member-stat"><b>${weekDone}</b><span>Done Week</span></div>
+       <div class="member-stat"><b>${pct}%</b><span>Complete</span></div>
+     </div>
+     <div class="category-progress"><i style="width:${pct}%"></i></div>
+     <div class="help" style="margin-top:9px">${longWait?`${longWait} waiting ≥ 4d · `:""}${highNoDue?`${highNoDue} high priority no due`:""}${!longWait&&!highNoDue&&!over?"No urgent signal":""}</div>
+     <button class="btn secondary small" style="margin-top:12px" onclick="viewMemberSummary('${p.user_id}')">View Summary</button>
+   </div>`;
+ }).join(""):'<div class="empty">No members yet.</div>';
+
+ const attention=[];
+ members.forEach(p=>{
+   const pt=tasks.filter(t=>t.user_id===p.user_id&&t.status!=="Done");
+   const ov=pt.filter(isOverdue).length;
+   const lw=pt.filter(t=>t.status==="Waiting"&&waitDays(t)>=4).length;
+   const nd=pt.filter(t=>t.priority==="High"&&!t.due).length;
+   if(ov)attention.push(`${p.full_name||p.email}: ${ov} overdue`);
+   if(lw)attention.push(`${p.full_name||p.email}: ${lw} waiting ≥ 4 days`);
+   if(nd)attention.push(`${p.full_name||p.email}: ${nd} high priority without due date`);
+ });
+ $("attentionList").innerHTML=attention.length?attention.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty">No urgent team signals.</div>';
+}
+
+let summaryMemberId=null;
+window.viewMemberSummary=uid=>{
+ const p=profiles.find(x=>x.user_id===uid);if(!p)return;
+ summaryMemberId=uid;
+ const pt=tasks.filter(t=>t.user_id===uid);
+ const active=pt.filter(t=>t.status!=="Done");
+ const over=active.filter(isOverdue);
+ const wait=active.filter(t=>t.status==="Waiting");
+ const done=pt.filter(t=>t.status==="Done");
+ const week=pt.filter(doneThisWeek);
+ $("memberSummaryName").textContent=p.full_name||p.email||"Member";
+ $("memberSummaryEmail").textContent=p.email||"";
+ $("memberSummaryStats").innerHTML=[
+  ["Active",active.length],["In Progress",active.filter(t=>t.status==="In Progress").length],
+  ["Waiting",wait.length],["Overdue",over.length],
+  ["Done This Week",week.length],["Workload",workloadLabel(pt)]
+ ].map(x=>`<div class="metric"><div class="label">${esc(String(x[0]).toUpperCase())}</div><div class="value" style="font-size:22px">${esc(String(x[1]))}</div></div>`).join("");
+ const att=[];
+ const longWait=wait.filter(t=>waitDays(t)>=4);
+ const highNoDue=active.filter(t=>t.priority==="High"&&!t.due);
+ if(over.length)att.push(`${over.length} overdue task${over.length>1?"s":""}`);
+ if(longWait.length)att.push(`${longWait.length} waiting ≥ 4 days`);
+ if(highNoDue.length)att.push(`${highNoDue.length} high priority without due date`);
+ $("memberSummaryAttention").innerHTML=att.length?att.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty">Nothing urgent.</div>';
+ const upcoming=[...active].sort((a,b)=>(a.due||"9999").localeCompare(b.due||"9999")).slice(0,8);
+ $("memberSummaryTasks").innerHTML=upcoming.length?upcoming.map(taskHTML).join(""):'<div class="empty">No active tasks.</div>';
+ $("memberSummaryDrawer").classList.remove("hidden");
+};
+window.viewMember=uid=>viewMemberSummary(uid);
 
 
 function backupPayload(){
  const scope=isAdmin()?"team":"personal";
  return {
   format:"GUY_WORK_OS_BACKUP",
-  version:"6.5",
+  version:"6.8",
   schema:"V6_ADMIN_CALENDAR",
   exportedAt:new Date().toISOString(),
   scope,
@@ -385,6 +651,76 @@ async function restoreV6Backup(d){
  alert("Backup restored successfully.");
 }
 
+
+function normalizedSubs(subs){return JSON.stringify((Array.isArray(subs)?subs:[]).map(x=>String(x).trim()).sort())}
+function categoryDupKey(c){
+ return [
+  c.user_id||"",
+  String(c.name||"").trim().toLowerCase(),
+  normalizedSubs(c.subs),
+  c.created_at||""
+ ].join("||");
+}
+function taskDupKey(t){
+ return [
+  t.user_id||"",
+  String(t.task||"").trim(),
+  String(t.category||"").trim(),
+  String(t.sub||"").trim(),
+  t.status||"",
+  t.priority||"",
+  t.due||"",
+  t.waiting_since||"",
+  String(t.note||"").trim(),
+  t.pinned?"1":"0",
+  t.completed_at||"",
+  t.created_at||""
+ ].join("||");
+}
+function duplicateIds(rows,keyFn){
+ const seen=new Map(),dups=[];
+ // keep the smallest/earliest id, delete later exact copies
+ [...rows].sort((a,b)=>Number(a.id)-Number(b.id)).forEach(r=>{
+  const k=keyFn(r);
+  if(seen.has(k))dups.push(r.id); else seen.set(k,r.id);
+ });
+ return dups;
+}
+async function cleanDuplicateImports(){
+ const cats=isAdmin()?categories:categories.filter(c=>c.user_id===user.id);
+ const ts=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const catDupIds=duplicateIds(cats,categoryDupKey);
+ const taskDupIds=duplicateIds(ts,taskDupKey);
+ if(!catDupIds.length&&!taskDupIds.length){
+   toast("No exact duplicate imports found.");
+   return;
+ }
+ const ok=confirm(
+   `Duplicate import scan found:\n\n`+
+   `${catDupIds.length} duplicate categor${catDupIds.length===1?"y":"ies"}\n`+
+   `${taskDupIds.length} duplicate task${taskDupIds.length===1?"":"s"}\n\n`+
+   `One exact copy of each item will be kept.\n`+
+   `Completed tasks are only removed when an identical completed copy exists.\n\n`+
+   `A backup will download automatically before cleanup. Continue?`
+ );
+ if(!ok)return;
+ exportBackup("GUY_WORK_OS_PRE_DEDUPE");
+ syncState("Cleaning duplicates…");
+ try{
+  for(let i=0;i<taskDupIds.length;i+=100){
+   const {error}=await sb.from("tasks").delete().in("id",taskDupIds.slice(i,i+100));
+   if(error)throw error;
+  }
+  for(let i=0;i<catDupIds.length;i+=100){
+   const {error}=await sb.from("categories").delete().in("id",catDupIds.slice(i,i+100));
+   if(error)throw error;
+  }
+  await loadAll();
+  toast(`Cleaned ${catDupIds.length} duplicate categories and ${taskDupIds.length} duplicate tasks.`);
+ }catch(err){
+  console.error(err);toast("Cleanup failed: "+(err?.message||"unknown error"),"bad");syncState("Cloud synced");
+ }
+}
 function render(){populateFilters();renderCategories();updateLastBackup();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");$("mActive").textContent=active.length;$("mDone").textContent=done.length;$("mProgress").textContent=active.filter(t=>t.status==="In Progress").length;$("mWaiting").textContent=active.filter(t=>t.status==="Waiting").length;$("mOverdue").textContent=active.filter(isOverdue).length;const pct=scope.length?Math.round(done.length/scope.length*100):0;$("overallPct").textContent=pct+"%";$("overallBar").style.width=pct+"%";
 const attention=[];
 const overdue=active.filter(isOverdue),longWaiting=active.filter(t=>t.status==="Waiting"&&waitDays(t)>=4),highNoDue=active.filter(t=>t.priority==="High"&&!t.due);
@@ -402,6 +738,18 @@ $("addTaskBtn").onclick=()=>{if(!categories.length)return alert("Create a catego
 $("saveTask").onclick=async()=>{const name=$("fTask").value.trim();if(!name)return toast("Task name is required.","bad");const owner=isAdmin()?$("fOwner").value:user.id,status=$("fStatus").value;let waiting=$("fWaitingSince").value||null;if(status==="Waiting"&&!waiting)waiting=todayISO();const existing=editingTaskId?tasks.find(t=>t.id===editingTaskId):null;const payload={user_id:owner,task:name,category:$("fCategory").value,sub:$("fSub").value,status,priority:$("fPriority").value,due:$("fDue").value||null,waiting_since:status==="Waiting"?waiting:null,note:$("fNote").value.trim(),completed_at:status==="Done"?(existing?.completed_at||new Date().toISOString()):null};if(editingTaskId)await saveTask(payload,editingTaskId);else await saveTask({...payload,pinned:false});$("taskModal").classList.add("hidden");toast(editingTaskId?"Task updated":"Task created")}
 
 $("deleteCategoryCancel").onclick=()=>{$("deleteCategoryModal").classList.add("hidden");deletingCategoryId=null};
+
+$("deleteDuplicateCategoryOnly").onclick=async()=>{
+ const c=categories.find(x=>x.id===deletingCategoryId);if(!c)return;
+ const sameName=categories.filter(x=>x.user_id===c.user_id&&x.id!==c.id&&String(x.name).trim().toLowerCase()===String(c.name).trim().toLowerCase());
+ if(!sameName.length)return toast("No duplicate category found.","bad");
+ if(!confirm(`Delete this duplicate "${c.name}" category row only?\n\nAll Tasks, including Done tasks, will be kept.`))return;
+ syncState("Removing duplicate category…");
+ const {error}=await sb.from("categories").delete().eq("id",c.id);
+ if(error){toast(error.message,"bad");syncState("Cloud synced");return}
+ $("deleteCategoryModal").classList.add("hidden");deletingCategoryId=null;
+ await loadAll();toast("Duplicate category removed. Tasks were kept.");
+};
 $("deleteCategoryMove").onclick=async()=>{
  const c=categories.find(x=>x.id===deletingCategoryId),target=categories.find(x=>String(x.id)===$("deleteCategoryTarget").value);
  if(!c||!target)return;
@@ -431,6 +779,7 @@ $("deleteCategoryAll").onclick=async()=>{
 };
 $("addCategoryBtn").onclick=()=>{editingCategoryId=null;$("cName").value="";$("cSubs").value="";$("categoryModalTitle").textContent="Add Category";$("categoryModal").classList.remove("hidden")};$("cancelCategory").onclick=()=>$("categoryModal").classList.add("hidden");$("saveCategory").onclick=async()=>{const name=$("cName").value.trim(),subs=$("cSubs").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name)return toast("Category name required.","bad");if(!subs.length)subs.push("General");if(editingCategoryId){const old=categories.find(c=>c.id===editingCategoryId);if(old&&old.name!==name){const {error:te}=await sb.from("tasks").update({category:name,updated_at:new Date().toISOString()}).eq("user_id",old.user_id).eq("category",old.name);if(te)return toast(te.message,"bad")}const {error}=await sb.from("categories").update({name,subs,updated_at:new Date().toISOString()}).eq("id",editingCategoryId);if(error)return toast(error.message,"bad");toast("Category updated")}else{const {error}=await sb.from("categories").insert({user_id:user.id,name,subs});if(error)return toast(error.message,"bad");toast("Category created")}$("categoryModal").classList.add("hidden");await loadAll()}
 
+$("cleanupDuplicatesBtn").onclick=cleanDuplicateImports;
 $("exportBtn").onclick=()=>exportBackup();
 $("importBtn").onclick=()=>$("importFile").click();
 $("restoreBtn").onclick=()=>$("restoreFile").click();
