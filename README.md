@@ -80,3 +80,23 @@ Your Admin menu will then show team members and allow changing member/admin role
 - Import legacy GUY_OLD_DASHBOARD_DATA.json
 - App/schema version and last-backup status
 - Updated service-worker cache version
+
+## V6.2
+- Fixed category deletion UX
+- Delete a category with no tasks directly
+- Move linked tasks to another category before deleting
+- Or delete the category together with its linked tasks after confirmation
+
+## V6.5
+- Added GGG favicon / PWA app icons
+- Category rename now updates linked tasks
+- Monthly calendar day drawer shows all tasks for a date
+- This Week now means Monday–Sunday
+- Waiting status auto-fills Waiting Since
+- Reopening a completed task restores its previous status when available
+- Archive search + category filter
+- Import skips obvious duplicate categories/tasks
+- Quick Move buttons: Today / Tomorrow / Next Monday
+- Category completion progress
+- Personal Needs Attention on Dashboard
+- Toast feedback for common actions
