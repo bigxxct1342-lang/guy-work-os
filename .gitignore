@@ -1,0 +1,9 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local backups
+*.backup.json
+GUY_*_BACKUP_*.json

@@ -1,0 +1,9 @@
+{
+  "name": "GUY Work OS",
+  "short_name": "GUY Work OS",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f1ec",
+  "theme_color": "#1e2329",
+  "description": "Work dashboard with daily checklist, team admin view, and monthly calendar."
+}
