@@ -1,0 +1,23 @@
+GUY WORK OS V7.1 STABLE
+
+Stability-first rebuild of the V7 interaction layer.
+
+Fixed:
+- Task modal open/close, Cancel, X, Escape, backdrop
+- Category modal open/close
+- Change PIN modal open/close
+- Calendar day drawer open/close
+- Team member summary drawer open/close
+- Command Palette open/close
+- Missing Month/Week calendar selector
+- Week navigation
+- Duplicate focus list ID
+- Missing Today helper
+- Undefined Add Task command
+- Edit Task Estimated Time + Recurring loading
+- Centralized desktop/mobile navigation
+- Layer z-index and scroll locking
+- Dark mode surfaces
+
+No new SQL is required if migration-v7-0.sql was already run.
+Deploy to v7-development first, then merge to main after Preview verification.
