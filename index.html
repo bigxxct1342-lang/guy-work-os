@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V7.1</title>
+<title>GUY WORK OS V7.2</title>
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -97,7 +97,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.1 · Stable Planning + Team</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.2 · Daily Reminders</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -214,7 +214,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
      </div>
      <div class="row">
       <strong>Restore Backup</strong>
-      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.1 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
+      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.2 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
       <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
       <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
      </div>
@@ -229,10 +229,10 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.1</span></div>
+     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.2</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
@@ -697,6 +697,75 @@ $("toggleFocusBtn").onclick=()=>{focusEnabled=!focusEnabled;render();$("toggleFo
 $("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("guy_theme",document.body.classList.contains("dark")?"dark":"light")};
 if(localStorage.getItem("guy_theme")==="dark")document.body.classList.add("dark");
 
+function urlBase64ToUint8Array(base64String){
+ const padding="=".repeat((4-base64String.length%4)%4);
+ const base64=(base64String+padding).replace(/-/g,"+").replace(/_/g,"/");
+ const raw=atob(base64);
+ return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+async function getPushSubscription(){
+ if(!("serviceWorker" in navigator)||!("PushManager" in window))return null;
+ const reg=await navigator.serviceWorker.ready;
+ return reg.pushManager.getSubscription();
+}
+async function refreshPushUI(){
+ const btn=$("pushToggleBtn"),status=$("pushStatusText");
+ if(!btn)return;
+ if(!("serviceWorker" in navigator)||!("PushManager" in window)){
+  btn.disabled=true;btn.textContent="Not supported on this browser";return;
+ }
+ if(!CFG.VAPID_PUBLIC_KEY||CFG.VAPID_PUBLIC_KEY.startsWith("PASTE_")){
+  btn.disabled=true;btn.textContent="Not configured yet";return;
+ }
+ btn.disabled=false;
+ const sub=await getPushSubscription().catch(()=>null);
+ if(sub){
+  btn.textContent="Disable Reminders";
+  status.textContent="แจ้งเตือนเปิดอยู่ ระบบจะส่งสรุปงานวันนี้ให้ทุกเช้า";
+ }else{
+  btn.textContent="Enable Reminders";
+  status.textContent="แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)";
+ }
+}
+async function enablePush(){
+ const btn=$("pushToggleBtn");
+ btn.disabled=true;
+ try{
+  const perm=await Notification.requestPermission();
+  if(perm!=="granted"){toast("อนุญาตการแจ้งเตือนก่อนถึงจะเปิดได้","bad");return}
+  const reg=await navigator.serviceWorker.ready;
+  const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(CFG.VAPID_PUBLIC_KEY)});
+  const key=sub.toJSON();
+  const {error}=await sb.from("push_subscriptions").upsert({user_id:user.id,endpoint:key.endpoint,p256dh:key.keys.p256dh,auth:key.keys.auth},{onConflict:"endpoint"});
+  if(error){toast(error.message,"bad");await sub.unsubscribe();return}
+  toast("เปิดการแจ้งเตือนรายวันแล้ว");
+ }catch(err){
+  console.error(err);toast("เปิดการแจ้งเตือนไม่สำเร็จ: "+(err?.message||"unknown error"),"bad");
+ }finally{
+  btn.disabled=false;await refreshPushUI();
+ }
+}
+async function disablePush(){
+ const btn=$("pushToggleBtn");
+ btn.disabled=true;
+ try{
+  const sub=await getPushSubscription();
+  if(sub){
+   await sb.from("push_subscriptions").delete().eq("endpoint",sub.endpoint);
+   await sub.unsubscribe();
+  }
+  toast("ปิดการแจ้งเตือนรายวันแล้ว");
+ }catch(err){
+  console.error(err);toast("ปิดการแจ้งเตือนไม่สำเร็จ: "+(err?.message||"unknown error"),"bad");
+ }finally{
+  btn.disabled=false;await refreshPushUI();
+ }
+}
+$("pushToggleBtn").onclick=async()=>{
+ const sub=await getPushSubscription().catch(()=>null);
+ if(sub)await disablePush();else await enablePush();
+};
+
 const commands=[
  {label:"Add Task",run:()=>openTaskModal()},
  {label:"Go to Dashboard",run:()=>goView("dashboard")},
@@ -1047,6 +1116,7 @@ function goView(view){
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
  if(view==="calendar")renderCalendar();
  if(view==="admin")renderAdmin();
+ if(view==="settings")refreshPushUI();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>goView(btn.dataset.view));
