@@ -54,8 +54,10 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `index.html` main dashboard application
 - `config.js` Supabase client configuration
 - `migration-v6-admin.sql` database/admin upgrade
+- `migration-v7-2-push-notifications.sql` push subscription storage for Daily Task Reminder
+- `supabase/functions/daily-brief` Edge Function that sends the daily reminder push
 - `manifest.json` PWA metadata
-- `sw.js` basic offline app-shell cache
+- `sw.js` basic offline app-shell cache + push notification display
 - `vercel.json` Vercel config
 - `.gitignore` ignores local backups/noise
 
@@ -147,6 +149,26 @@ Your Admin menu will then show team members and allow changing member/admin role
 - Duplicate Category name guard
 - Keeps Super Admin, Team Code, Personal PIN, Team Overview, Backup and GGG branding
 - Requires migration-v7-0.sql
+
+## V7.2 Daily Task Reminder (Push Notifications)
+- New: "Daily Task Reminder" toggle in Settings sends a push notification each morning summarizing today's tasks (and an overdue count) straight to your phone/desktop, even when the app isn't open
+- Works as a home-screen PWA notification on Android/desktop Chrome, and on iOS 16.4+ after "Add to Home Screen"
+- Requires `migration-v7-2-push-notifications.sql`
+- Requires deploying the `supabase/functions/daily-brief` Edge Function and scheduling it (see below)
+- No changes to existing V7.1 features
+
+### Set up Daily Task Reminders
+The VAPID **public** key is already committed in `config.js`. You still need to: run the migration, deploy the Edge Function, set its secrets (including the matching **private** key — see the pinned setup message / ask the developer for it, it is not stored in this repo), and schedule it.
+
+1. Run `migration-v7-2-push-notifications.sql` in Supabase SQL Editor.
+2. Deploy the Edge Function: `supabase functions deploy daily-brief`.
+3. Set the function's secrets:
+   ```
+   supabase secrets set VAPID_PUBLIC_KEY=BLXQ2aCpZb4qFyjXIL5iqZhjasfm3GA8RuFL9udIRrOI-n59dJGPy6fJHGQd4juFP9pp7is5g0Hd4kwUd9eoWv0 VAPID_PRIVATE_KEY=your-private-key VAPID_SUBJECT=mailto:you@example.com
+   ```
+   Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
+4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
+5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
 ## V7.1 Stable Interaction Build
 - Rebuilt modal/drawer interaction handling
