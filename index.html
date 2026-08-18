@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V7.3</title>
+<title>GUY WORK OS V7.5</title>
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -93,11 +93,91 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
  .task-actions{display:flex;flex-wrap:wrap}
 }
 
+/* Product Launch */
+#npdProductSelect{max-width:280px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:800;padding:3px 7px;border-radius:999px;white-space:nowrap}
+.badge-sync{background:var(--purple);color:var(--purpleT)}
+.badge-flex{background:#edf0f2;color:#5d6670}
+.phase-block{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:18px;background:#fff}
+.phase-head{background:var(--soft);padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.phase-name{font-weight:850;font-size:15px;display:flex;align-items:center;gap:8px}
+.phase-meta{font-size:11px;color:var(--muted);margin-top:4px}
+.phase-progress{height:6px;background:#e9e7e2;border-radius:999px;overflow:hidden;margin-top:9px;width:220px}
+.phase-progress>i{display:block;height:100%;background:#20262d}
+.pl-milestone{padding:14px 18px}
+.pl-milestone+.pl-milestone{border-top:1px solid var(--line)}
+.pl-milestone-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer}
+.pl-milestone.collapsed .pl-milestone-head{margin-bottom:0}
+.pl-milestone.collapsed .pl-steps{display:none}
+.collapse-chevron{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex:none;color:var(--muted);transition:transform .15s}
+.pl-milestone.collapsed .collapse-chevron{transform:rotate(-90deg)}
+.milestone-num{width:22px;height:22px;border-radius:999px;background:var(--dark);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.milestone-title{font-weight:800;font-size:13px}
+.milestone-meta{display:flex;align-items:center;gap:12px;margin-left:auto}
+.milestone-frac{font-size:11px;color:var(--muted)}
+.dur-field{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:700}
+.dur-input{width:40px;border:1px solid var(--line);border-radius:7px;padding:3px 4px;font-size:11px;font-weight:800;color:var(--text);text-align:center;font-family:inherit}
+.pl-steps{display:flex;flex-direction:column;gap:7px;padding-left:32px}
+.pl-step{display:grid;grid-template-columns:110px 1fr auto;gap:12px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.pl-step.is-skipped .step-name{text-decoration:line-through;color:var(--muted)}
+.status-select{padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:1px solid transparent;text-align-last:center;cursor:pointer}
+.status-select.st-done{background:var(--green);color:var(--greenT)}
+.status-select.st-working{background:var(--blue);color:var(--blueT)}
+.status-select.st-wait{background:var(--yellow);color:var(--yellowT)}
+.status-select.st-next{background:var(--purple);color:var(--purpleT)}
+.status-select.st-skipped{background:#edf0f2;color:#5d6670}
+.step-name{font-size:12.5px;font-weight:600}
+.step-deadline{display:inline-block;margin-left:8px;padding:3px 8px;border-radius:999px;font-size:9px;font-weight:800;background:var(--red);color:var(--redT);vertical-align:middle}
+.step-right{display:flex;align-items:center;gap:8px}
+.owners-tag{font-size:9.5px;font-weight:800;background:#eef0f2;color:#58606a;padding:4px 8px;border-radius:999px;white-space:nowrap}
+.ghost-row{display:flex;align-items:center;gap:6px;padding:9px 11px;border:1px dashed var(--line);border-radius:10px;background:transparent;color:var(--muted);font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;width:100%;text-align:left}
+.ghost-row:hover{background:var(--soft);color:var(--text)}
+.ghost-milestone{margin:0 18px 16px;width:calc(100% - 36px)}
+.gantt-grid{display:grid;grid-template-columns:150px 1fr;gap:12px}
+.gantt-ruler{display:grid;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:16px}
+.gantt-ruler span{font-size:9.5px;color:var(--muted);font-weight:700}
+.gantt-labels{display:flex;flex-direction:column;gap:8px}
+.gantt-labels div{height:26px;display:flex;align-items:center;font-size:11px;font-weight:800}
+.gantt-plot{position:relative;display:flex;flex-direction:column;gap:8px}
+.gantt-track{position:relative;height:26px}
+.gantt-bar{position:absolute;top:0;height:100%;border-radius:7px;display:flex;align-items:center;padding:0 8px;font-size:9.5px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden}
+.gantt-marker{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed #963e3e;z-index:3}
+.gantt-marker .gm-label{position:absolute;top:-19px;left:-3px;font-size:9px;font-weight:800;color:#963e3e;white-space:nowrap}
+.gantt-marker.today-marker{border-left:2px dashed #315f8f}
+.gantt-marker.today-marker .gm-label{color:#315f8f}
+.gantt-flag{position:absolute;top:0;bottom:0;width:0;border-left:2px dotted #a3811f}
+.gantt-flag .gf-label{position:absolute;top:-19px;left:-3px;font-size:9px;font-weight:800;color:#745a00;white-space:nowrap}
+.finish-callout{padding:14px 16px;border-radius:12px;background:var(--soft);margin-top:20px;font-size:12.5px}
+.mini-cal-wrap{display:flex;gap:16px;margin-top:18px;flex-wrap:wrap}
+.mini-cal{flex:1;min-width:220px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mini-cal-head{background:var(--soft);padding:10px 14px;font-weight:850;font-size:13px;text-align:center}
+.mini-cal-week{display:grid;grid-template-columns:repeat(7,1fr)}
+.mini-cal-week.hd div{padding:6px 0;text-align:center;font-size:9px;font-weight:800;color:var(--muted)}
+.mini-day{padding:6px 0 5px;text-align:center;font-size:11px;border-top:1px solid var(--line);color:var(--text)}
+.mini-day.outside{color:#c7c2b8}
+.mini-day.weekend{background:#faf6ee;color:#8a6f2f}
+.mini-day.holiday{background:var(--red);color:var(--redT);font-weight:800}
+.check-list{display:flex;flex-direction:column;gap:2px}
+.check-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px}
+.check-row:hover{background:var(--soft)}
+.check-box{width:19px;height:19px;border-radius:6px;border:1.6px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;color:#fff;background:#fff}
+.check-box.st-have{background:var(--green);border-color:var(--greenT);color:var(--greenT)}
+.check-box.st-na{background:#edf0f2;border-color:#dcdfe2;color:#9aa1a8}
+.check-label{font-size:12.5px;flex:1;line-height:1.4}
+.check-row.lvl1{font-weight:850;font-size:14px}
+.check-row.lvl2{padding-left:26px}
+.check-row.lvl2 .check-label{font-weight:700;font-size:12.5px}
+.check-row.lvl3{padding-left:52px}
+.check-row.lvl3 .check-label{color:var(--muted);font-size:11.5px}
+.group-indicator{width:19px;height:19px;display:flex;align-items:center;justify-content:center;flex:none;color:var(--muted)}
+.group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
+body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
+
 </style>
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.3 · Personal Life + LINE</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.5 · Product Launch</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -147,6 +227,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
   <button data-view="personal">Personal Life</button>
+  <button data-view="productlaunch">Product Launch</button>
   <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
  </div>
@@ -224,8 +305,55 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
   <div class="card section"><h2>History</h2><div id="personalHistory" class="task-list"></div></div>
  </section>
 
+ <section id="productlaunchView" class="hidden">
+  <div class="help" style="margin-bottom:14px">พื้นที่ของทีม MKT เท่านั้น ใช้แทน Excel เดิมสำหรับติดตามขั้นตอนออกสินค้าใหม่</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+   <select id="npdProductSelect"></select>
+   <button id="npdNewProductBtn" class="btn primary">+ New Product</button>
+  </div>
+  <div id="npdEmpty" class="card section hidden"><div class="empty">ยังไม่มีสินค้า — กด "+ New Product" เพื่อเริ่มสินค้าแรก (จะก็อปโครงสร้างขั้นตอนมาตรฐานให้อัตโนมัติ)</div></div>
 
- 
+  <div id="npdBody" class="hidden">
+   <div class="tabs" id="npdSubtabs">
+    <button class="tab active" data-plview="timeline">Process &amp; Timeline</button>
+    <button class="tab" data-plview="checklist">Document Checklist</button>
+   </div>
+
+   <div id="npdTimelinePane">
+    <div class="card section" style="margin-bottom:18px">
+     <div class="progress-line"><strong>Overall Completion</strong><strong id="npdOverallPct">0%</strong></div>
+     <div class="progress-wrap"><div id="npdOverallBar" class="progress-bar" style="width:0%"></div></div>
+     <div id="npdFinishText" class="help" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card section" style="margin-bottom:18px">
+     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+      <h2>Timeline</h2>
+      <button id="npdToggleCalendarBtn" class="btn secondary small">ดูปฏิทิน</button>
+     </div>
+     <div class="help" style="margin:4px 0 16px">คำนวณจากระยะเวลา (วันทำการ) ต่อ Milestone ด้านล่าง — ข้ามเสาร์-อาทิตย์และวันหยุดราชการไทยให้อัตโนมัติ</div>
+     <div id="npdGantt"></div>
+     <div id="npdFinishCallout" class="finish-callout"></div>
+     <div id="npdCalendarWrap" class="mini-cal-wrap hidden"></div>
+    </div>
+
+    <div id="npdPhases"></div>
+   </div>
+
+   <div id="npdChecklistPane" class="hidden">
+    <div class="card section" style="margin-bottom:18px">
+     <div class="progress-line"><strong>NPD Document Status</strong><strong id="npdDocPct">0 / 0</strong></div>
+     <div class="progress-wrap"><div id="npdDocBar" class="progress-bar" style="width:0%"></div></div>
+     <div class="help" style="margin-top:10px">เช็คว่าเอกสาร/ใบรับรองที่ต้องใช้ก่อนขึ้นห้าง มีของจริงในมือหรือยัง — คนละคำถามกับ Timeline ด้านบน</div>
+    </div>
+    <div class="card section">
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2>NPD Status</h2><button id="npdAddDocBtn" class="btn secondary small">+ Add Item</button></div>
+     <div id="npdDocList" class="check-list"></div>
+    </div>
+   </div>
+  </div>
+ </section>
+
  <section id="weeklyView" class="hidden">
   <div class="card section" style="margin-bottom:18px">
    <h2>Weekly Review</h2>
@@ -249,7 +377,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
      </div>
      <div class="row">
       <strong>Restore Backup</strong>
-      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.3 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
+      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.5 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
       <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
       <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
      </div>
@@ -264,7 +392,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.3</span></div>
+     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.5</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -923,6 +1051,278 @@ $("savePersonalLog").onclick=async()=>{
  await loadPersonal();renderPersonal();
 };
 
+const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process"},{key:"label",name:"ฉลาก (Label)"},{key:"carton",name:"ลัง (Carton)"}];
+const NPD_STATUS_LABEL={done:"Done",working:"Working",wait:"Wait",next:"Next Step",skipped:"Skipped"};
+const NPD_TEMPLATE=[
+ {phase:"formula_fda",title:"Final Formulation",duration_days:12,steps:[["Test_Step 1","done","MKT & RD"],["Feedback Step 1","done","MKT & RD"],["Test_Step 2","done","MKT & RD"],["Feedback Step 2","done","MKT & RD"],["Test_Step 3","done","MKT & RD"],["CF : สูตร","done","MKT & RD"]]},
+ {phase:"formula_fda",title:"Final Product Name",duration_days:2,steps:[["Product Name","next","MKT & BI"]]},
+ {phase:"formula_fda",title:"Nutrition Test",duration_days:20,steps:[["Prepare Sample for Lab Analysis #1","next","RD"],["Feedback _ Pilot 1","next","MKT"],["Prepare Sample for Lab Analysis #2","next","RD"],["Feedback _ Pilot 2","next","MKT"],["Nutrition Test (20 วัน)","next","RD"]]},
+ {phase:"formula_fda",title:"FDA Registration",duration_days:45,steps:[["FDA","next","RD"]]},
+ {phase:"formula_fda",title:"Halal Document (If Any)",duration_days:3,steps:[["HALAL","next","RD"]]},
+ {phase:"label",title:"AW Label Design",duration_days:10,steps:[["Brief _ Label","next","MKT & Creative"],["1st Draft Design","next","Creative"],["2nd Draft Design","next","Creative"],["3rd Draft Design","next","Creative"],["AW with Real Nutrition Info.","next","MKT & Creative"]]},
+ {phase:"label",title:"Label Production",duration_days:33,steps:[["Internal Approval by mail (5 วัน)","next","เลขา/RD/QC/Inter/Creative/MKT"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Black & White Film Shrink (8 วัน)","next","Supplier"],["Master Print (Digital Proof) (3 วัน)","next","เลขา/RD/QC/Inter/MKT"],["Proof Print 1-4 (3 วัน)","next","Supplier"],["Mold Production (5 วัน)","next","Supplier"],["On-Site Proof 3-4 (7 วัน)","next","Supplier"]]},
+ {phase:"carton",title:"Carton Production",duration_days:19,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]}
+];
+const NPD_DOC_TEMPLATE=[
+ {key:"1",parent:null,label:"ฉลากสินค้า",state:"not_yet"},
+ {key:"2",parent:null,label:"สังเคราะห์ (KI)",state:"not_yet"},
+ {key:"3",parent:null,label:"เอกสาร QA 7-11",state:"not_yet"},
+ {key:"3.1",parent:"3",label:"ข้อมูลแบบฟอร์มข้อมูลมาตรฐานสินค้า",state:"not_yet"},
+ {key:"3.2",parent:"3",label:"ฉลากสินค้า",state:"not_yet"},
+ {key:"3.2a",parent:"3.2",label:"AW ฉลากสินค้า",state:"not_yet"},
+ {key:"3.2b",parent:"3.2",label:"รูป Pack Shot",state:"not_yet"},
+ {key:"3.2c",parent:"3.2",label:"ภาพตัวอย่าง LOT/วันผลิต/วันหมดอายุ พร้อมตัวอย่างวิธีอ่าน",state:"not_yet"},
+ {key:"3.3",parent:"3",label:"เอกสารเลขที่จดทะเบียนกับหน่วยงานภาครัฐที่ได้รับอนุญาต (สบ.5)",state:"not_yet"},
+ {key:"3.4",parent:"3",label:"เอกสารการตรวจสอบเลขที่จดทะเบียนกับหน่วยงานภาครัฐ ผ่านทางเว็บไซต์ ยืนยันสถานะและวันที่คงเหลือ",state:"not_yet"},
+ {key:"3.5",parent:"3",label:"ใบรับรองมาตรฐานการผลิตต่างๆ เช่น GMP / HACCP / BRC / ISO / HALAL",state:"not_yet"},
+ {key:"3.5a",parent:"3.5",label:"Halal Certificate",state:"not_yet"},
+ {key:"3.5b",parent:"3.5",label:"Nutrition Test",state:"not_yet"},
+ {key:"3.5c",parent:"3.5",label:"GMP",state:"not_yet"},
+ {key:"3.5d",parent:"3.5",label:"HACCP",state:"not_yet"},
+ {key:"3.5e",parent:"3.5",label:"ISO",state:"not_yet"},
+ {key:"3.6",parent:"3",label:"Flow กระบวนการผลิต",state:"not_yet"},
+ {key:"3.7",parent:"3",label:"ผลวิเคราะห์ เช่น ด้านกายภาพ / เคมี / จุลินทรีย์",state:"not_yet"},
+ {key:"3.8",parent:"3",label:"ผลการศึกษาอายุสินค้า ทางด้านกายภาพ เคมี จุลินทรีย์ ผลวิเคราะห์ข้อมูลโภชนาการ ฉลาก GDA (ถ้ามีการกล่าวอ้าง)",state:"na"},
+ {key:"4",parent:null,label:"Mock up สินค้า",state:"not_yet"}
+];
+
+let npdProducts=[],npdCurrentProductId=null,npdMilestones=[],npdSteps=[],npdDocs=[],npdHolidays=[],npdView="timeline",npdCalendarOpen=false,npdToggledMilestones=new Set();
+
+async function seedNpdTemplate(productId){
+ for(let i=0;i<NPD_TEMPLATE.length;i++){
+  const m=NPD_TEMPLATE[i];
+  const {data:ms,error}=await sb.from("product_milestones").insert({product_id:productId,phase:m.phase,seq:i,title:m.title,duration_days:m.duration_days}).select().single();
+  if(error){toast(error.message,"bad");continue}
+  await sb.from("product_steps").insert(m.steps.map((s,si)=>({milestone_id:ms.id,seq:si,name:s[0],status:s[1],owners:s[2]})));
+ }
+ const depthOf=k=>(k.match(/\./g)||[]).length;
+ const sorted=[...NPD_DOC_TEMPLATE].sort((a,b)=>depthOf(a.key)-depthOf(b.key));
+ const idMap={};
+ for(const d of sorted){
+  const {data,error}=await sb.from("product_docs").insert({product_id:productId,parent_id:d.parent?idMap[d.parent]:null,seq:0,label:d.label,state:d.state}).select().single();
+  if(!error)idMap[d.key]=data.id;
+ }
+}
+
+async function loadNpdHolidays(){
+ if(npdHolidays.length)return;
+ const {data,error}=await sb.from("thai_holidays").select("*");
+ if(!error)npdHolidays=data||[];
+}
+async function loadNpdProducts(){
+ const {data,error}=await sb.from("products").select("*").order("created_at");
+ if(error){toast("Load products failed: "+error.message,"bad");return}
+ npdProducts=data||[];
+ if(!npdProducts.find(p=>p.id===npdCurrentProductId))npdCurrentProductId=npdProducts[0]?.id||null;
+ $("npdProductSelect").innerHTML=npdProducts.map(p=>`<option value="${p.id}" ${p.id===npdCurrentProductId?"selected":""}>${esc(p.name)}${p.status!=="active"?` (${p.status})`:""}</option>`).join("");
+ $("npdEmpty").classList.toggle("hidden",npdProducts.length>0);
+ $("npdBody").classList.toggle("hidden",npdProducts.length===0);
+}
+async function loadNpdProductData(){
+ if(!npdCurrentProductId){npdMilestones=[];npdSteps=[];npdDocs=[];return}
+ const [{data:ms,error:e1},{data:docs,error:e2}]=await Promise.all([
+  sb.from("product_milestones").select("*").eq("product_id",npdCurrentProductId).order("seq"),
+  sb.from("product_docs").select("*").eq("product_id",npdCurrentProductId).order("seq")
+ ]);
+ if(e1||e2){toast("Load product data failed","bad");return}
+ npdMilestones=ms||[];npdDocs=docs||[];
+ const milestoneIds=npdMilestones.map(m=>m.id);
+ if(milestoneIds.length){
+  const {data:steps,error:e3}=await sb.from("product_steps").select("*").in("milestone_id",milestoneIds).order("seq");
+  if(!e3)npdSteps=steps||[];
+ }else npdSteps=[];
+}
+async function renderProductLaunch(){
+ await loadNpdHolidays();
+ await loadNpdProducts();
+ await loadNpdProductData();
+ renderNpdTimelinePane();
+ renderNpdChecklist();
+}
+
+function npdIsHoliday(dateStr){return npdHolidays.some(h=>h.holiday_date===dateStr)}
+function npdIsBizDay(d){const day=d.getDay();return day!==0&&day!==6&&!npdIsHoliday(iso(d))}
+function npdAddBizDays(startDate,days){let d=new Date(startDate),count=0,target=Math.max(days||1,1);while(count<target){if(npdIsBizDay(d))count++;if(count<target)d.setDate(d.getDate()+1)}return d}
+function npdNextBizDay(d){let n=new Date(d);n.setDate(n.getDate()+1);while(!npdIsBizDay(n))n.setDate(n.getDate()+1);return n}
+function npdMilestoneDone(steps){return steps.length>0&&steps.every(s=>s.status==="done"||s.status==="skipped")}
+function npdComputeChain(phaseKey){
+ const today=new Date();today.setHours(0,0,0,0);
+ const ms=npdMilestones.filter(m=>m.phase===phaseKey).sort((a,b)=>a.seq-b.seq);
+ let cursor=today;const out=[];
+ for(const m of ms){
+  const steps=npdSteps.filter(s=>s.milestone_id===m.id);
+  if(npdMilestoneDone(steps))continue;
+  const start=new Date(cursor),end=npdAddBizDays(start,m.duration_days||1);
+  out.push({milestone:m,start,end});
+  cursor=npdNextBizDay(end);
+ }
+ return out;
+}
+function npdIsCollapsed(m,isDone){const overridden=npdToggledMilestones.has(m.id);return overridden?!isDone:isDone}
+window.npdToggleMilestone=id=>{npdToggledMilestones.has(id)?npdToggledMilestones.delete(id):npdToggledMilestones.add(id);renderNpdPhases()};
+
+function renderNpdOverall(){
+ const done=npdSteps.filter(s=>s.status==="done").length;
+ const total=npdSteps.filter(s=>s.status!=="skipped").length;
+ const pct=total?Math.round(done/total*100):0;
+ $("npdOverallPct").textContent=pct+"%";$("npdOverallBar").style.width=pct+"%";
+}
+function renderNpdGantt(){
+ const chains={formula_fda:npdComputeChain("formula_fda"),label:npdComputeChain("label"),carton:npdComputeChain("carton")};
+ const all=[...chains.formula_fda,...chains.label,...chains.carton];
+ const today=new Date();today.setHours(0,0,0,0);
+ if(!all.length){$("npdGantt").innerHTML='<div class="empty">ไม่มีขั้นตอนที่เหลือ (เสร็จหมดแล้ว หรือยังไม่มี Milestone)</div>';$("npdFinishCallout").innerHTML="";return}
+ const maxEnd=new Date(Math.max(...all.map(x=>x.end.getTime())));
+ const spanDays=Math.max(14,Math.ceil((maxEnd-today)/86400000)+7);
+ const pct=d=>Math.max(0,Math.min(100,((d-today)/86400000)/spanDays*100));
+ const labels=[];for(let i=0;i<8;i++){const d=new Date(today);d.setDate(d.getDate()+Math.round(i*spanDays/7));labels.push(d)}
+ const colorOf=k=>k==="formula_fda"?"#20262d":k==="label"?"#654792":"#9aa3ad";
+ $("npdGantt").innerHTML=`
+  <div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(8,1fr)">${labels.map(d=>`<span>${d.toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</span>`).join("")}</div></div>
+  <div class="gantt-grid">
+   <div class="gantt-labels">${["formula_fda","label","carton"].flatMap(k=>chains[k].map(x=>`<div>${esc(x.milestone.title)}</div>`)).join("")}</div>
+   <div class="gantt-plot">
+    <div class="gantt-marker today-marker" style="left:0%"><span class="gm-label">วันนี้</span></div>
+    ${npdHolidays.filter(h=>{const d=new Date(h.holiday_date+"T00:00:00");return d>=today&&d<=maxEnd}).map(h=>{const d=new Date(h.holiday_date+"T00:00:00");return `<div class="gantt-flag" style="left:${pct(d)}%"><span class="gf-label">${d.toLocaleDateString("en-GB",{day:"numeric",month:"short"})} ${esc(h.name)}</span></div>`}).join("")}
+    ${["formula_fda","label","carton"].flatMap(k=>chains[k].map(x=>`<div class="gantt-track"><div class="gantt-bar" style="left:${pct(x.start)}%;width:${Math.max(2,pct(x.end)-pct(x.start))}%;background:${colorOf(k)}">${esc(x.milestone.title)}</div></div>`)).join("")}
+   </div>
+  </div>`;
+ const fdaEnd=chains.formula_fda.length?chains.formula_fda[chains.formula_fda.length-1].end:null;
+ const labelEnd=chains.label.length?chains.label[chains.label.length-1].end:null;
+ const cartonEnd=chains.carton.length?chains.carton[chains.carton.length-1].end:null;
+ const productFinish=[fdaEnd,labelEnd].filter(Boolean).sort((a,b)=>b-a)[0];
+ $("npdFinishCallout").innerHTML=`${productFinish?`<div><strong>${productFinish.toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}</strong> — คาดว่าสูตร + ฉลากพร้อมกัน (Product พร้อมขึ้นห้าง)</div>`:'<div class="empty">สูตร/ฉลากเสร็จหมดแล้ว</div>'}${cartonEnd?`<div style="margin-top:6px"><strong>${cartonEnd.toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}</strong> — ลังเสร็จ (แยกจากวันขึ้นห้างหลัก)</div>`:""}`;
+}
+function npdMonthCalendarHTML(year,month){
+ const first=new Date(year,month,1),offset=(first.getDay()+6)%7,start=new Date(year,month,1-offset);
+ let weeks="";
+ for(let w=0;w<6;w++){
+  let stop=true,days="";
+  for(let i=0;i<7;i++){
+   const d=new Date(start);d.setDate(start.getDate()+w*7+i);
+   if(d.getMonth()===month)stop=false;
+   const outside=d.getMonth()!==month,wknd=d.getDay()===0||d.getDay()===6,hol=npdHolidays.find(h=>h.holiday_date===iso(d));
+   days+=`<div class="mini-day ${outside?"outside":""} ${wknd?"weekend":""} ${hol?"holiday":""}">${d.getDate()}</div>`;
+  }
+  weeks+=`<div class="mini-cal-week">${days}</div>`;
+  if(w>=4&&stop)break;
+ }
+ return `<div class="mini-cal"><div class="mini-cal-head">${first.toLocaleDateString("th-TH",{month:"long",year:"numeric"})}</div><div class="mini-cal-week hd"><div>จ</div><div>อ</div><div>พ</div><div>พฤ</div><div>ศ</div><div>ส</div><div>อา</div></div>${weeks}</div>`;
+}
+function renderNpdCalendar(){
+ $("npdCalendarWrap").classList.toggle("hidden",!npdCalendarOpen);
+ $("npdToggleCalendarBtn").textContent=npdCalendarOpen?"ซ่อนปฏิทิน":"ดูปฏิทิน";
+ if(!npdCalendarOpen)return;
+ const today=new Date(),months=[];
+ for(let i=0;i<3;i++){const d=new Date(today.getFullYear(),today.getMonth()+i,1);months.push(npdMonthCalendarHTML(d.getFullYear(),d.getMonth()))}
+ $("npdCalendarWrap").innerHTML=months.join("");
+}
+function renderNpdMilestone(m){
+ const steps=npdSteps.filter(s=>s.milestone_id===m.id).sort((a,b)=>a.seq-b.seq);
+ const doneN=steps.filter(s=>s.status==="done").length,totalN=steps.filter(s=>s.status!=="skipped").length,skippedN=steps.filter(s=>s.status==="skipped").length;
+ const isDone=totalN>0&&doneN===totalN;
+ const collapsed=npdIsCollapsed(m,isDone);
+ return `<div class="pl-milestone ${collapsed?"collapsed":""}">
+  <div class="pl-milestone-head" onclick="npdToggleMilestone(${m.id})">
+   <div class="collapse-chevron"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></div>
+   <div class="milestone-num">${m.seq+1}</div>
+   <div class="milestone-title">${esc(m.title)}</div>
+   <div class="milestone-meta" onclick="event.stopPropagation()">
+    <span class="dur-field"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l3 1.8"/></svg><input class="dur-input" value="${m.duration_days||""}" onchange="npdSetDuration(${m.id},this.value)">วัน</span>
+    <button class="icon-btn" onclick="npdRenameMilestone(${m.id})" aria-label="Rename"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l3 3-8 8H3v-3z"/></svg></button>
+    <button class="icon-btn" onclick="npdDeleteMilestone(${m.id})" aria-label="Delete"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4 4l.6 9a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9L12 4"/></svg></button>
+    <div class="milestone-frac">${doneN}/${totalN} done${skippedN?` · ${skippedN} ข้าม`:""}</div>
+   </div>
+  </div>
+  <div class="pl-steps">
+   ${steps.map(s=>`<div class="pl-step ${s.status==="skipped"?"is-skipped":""}">
+    <select class="status-select st-${s.status}" onchange="npdSetStepStatus(${s.id},this.value)">${Object.entries(NPD_STATUS_LABEL).map(([k,label])=>`<option value="${k}" ${s.status===k?"selected":""}>${label}</option>`).join("")}</select>
+    <span class="step-name">${esc(s.name)}${s.deadline_note?`<span class="step-deadline">${esc(s.deadline_note)}</span>`:""}</span>
+    <div class="step-right">
+     ${s.owners?`<span class="owners-tag">${esc(s.owners)}</span>`:""}
+     <button class="icon-btn" onclick="npdEditStep(${s.id})" aria-label="Edit"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l3 3-8 8H3v-3z"/></svg></button>
+     <button class="icon-btn" onclick="npdDeleteStep(${s.id})" aria-label="Delete"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4 4l.6 9a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9L12 4"/></svg></button>
+    </div>
+   </div>`).join("")}
+   <button class="ghost-row" onclick="npdAddStep(${m.id})">+ Add Step</button>
+  </div>
+ </div>`;
+}
+function renderNpdPhases(){
+ $("npdPhases").innerHTML=NPD_PHASES.map(ph=>{
+  const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);
+  const allSteps=ms.flatMap(m=>npdSteps.filter(s=>s.milestone_id===m.id));
+  const doneN=allSteps.filter(s=>s.status==="done").length,totalN=allSteps.filter(s=>s.status!=="skipped").length;
+  const pct=totalN?Math.round(doneN/totalN*100):0;
+  const badge=ph.key==="label"?'<span class="badge badge-sync">ต้องเสร็จพร้อมสูตร</span>':ph.key==="carton"?'<span class="badge badge-flex">เสร็จทีหลังได้</span>':"";
+  return `<div class="phase-block">
+   <div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">${doneN} / ${totalN} ขั้นตอนเสร็จแล้ว</div><div class="phase-progress"><i style="width:${pct}%"></i></div></div></div>
+   ${ms.map(m=>renderNpdMilestone(m)).join("")}
+   <button class="ghost-row ghost-milestone" onclick="npdAddMilestone('${ph.key}')">+ Add Milestone</button>
+  </div>`;
+ }).join("");
+}
+function renderNpdTimelinePane(){renderNpdOverall();renderNpdGantt();renderNpdCalendar();renderNpdPhases()}
+
+function npdDocChildren(parentId){return npdDocs.filter(d=>d.parent_id===parentId).sort((a,b)=>a.seq-b.seq)}
+function npdDocLeafStats(doc){
+ const kids=npdDocChildren(doc.id);
+ if(!kids.length)return doc.state==="na"?{have:0,total:0}:{have:doc.state==="have"?1:0,total:1};
+ return kids.reduce((acc,k)=>{const s=npdDocLeafStats(k);return {have:acc.have+s.have,total:acc.total+s.total}},{have:0,total:0});
+}
+function renderNpdDocNode(doc,level){
+ const kids=npdDocChildren(doc.id),isParent=kids.length>0,stats=isParent?npdDocLeafStats(doc):null;
+ const box=isParent
+  ?`<div class="group-indicator"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></div>`
+  :`<div class="check-box ${doc.state==="have"?"st-have":doc.state==="na"?"st-na":""}" onclick="npdCycleDoc(${doc.id},'${doc.state}')">${doc.state==="have"?'<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg>':doc.state==="na"?"–":""}</div>`;
+ const right=isParent?`<div class="group-frac">${stats.have}/${stats.total} พร้อม</div>`:`<button class="icon-btn" onclick="npdDeleteDoc(${doc.id})" aria-label="Delete"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4 4l.6 9a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9L12 4"/></svg></button>`;
+ let html=`<div class="check-row lvl${level}">${box}<div class="check-label" onclick="npdEditDoc(${doc.id})" style="cursor:pointer">${esc(doc.label)}</div>${right}</div>`;
+ html+=kids.map(k=>renderNpdDocNode(k,level+1)).join("");
+ if(level<3)html+=`<div class="check-row lvl${level+1}"><button class="ghost-row" style="padding:5px 10px;font-size:10.5px" onclick="npdAddDoc(${doc.id})">+ Add Sub-item</button></div>`;
+ return html;
+}
+function renderNpdChecklist(){
+ const roots=npdDocChildren(null);
+ $("npdDocList").innerHTML=roots.map(d=>renderNpdDocNode(d,1)).join("")||'<div class="empty">ยังไม่มีรายการ</div>';
+ const allStats=roots.reduce((acc,d)=>{const s=npdDocLeafStats(d);return {have:acc.have+s.have,total:acc.total+s.total}},{have:0,total:0});
+ $("npdDocPct").textContent=`${allStats.have} / ${allStats.total} พร้อมแล้ว`;
+ $("npdDocBar").style.width=(allStats.total?Math.round(allStats.have/allStats.total*100):0)+"%";
+}
+
+window.npdSetDuration=async(id,val)=>{const n=val?Number(val):null;const {error}=await sb.from("product_milestones").update({duration_days:n}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdRenameMilestone=async id=>{const m=npdMilestones.find(x=>x.id===id);if(!m)return;const name=prompt("ชื่อ Milestone:",m.title);if(!name)return;const {error}=await sb.from("product_milestones").update({title:name.trim()}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdDeleteMilestone=async id=>{if(!confirm("ลบ Milestone นี้ทั้งหมด (รวมขั้นตอนย่อยทุกอัน)?"))return;const {error}=await sb.from("product_milestones").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdAddMilestone=async phase=>{const title=prompt("ชื่อ Milestone ใหม่:");if(!title)return;const dur=prompt("ระยะเวลา (วันทำการ):","3");const seq=npdMilestones.filter(m=>m.phase===phase).length;const {error}=await sb.from("product_milestones").insert({product_id:npdCurrentProductId,phase,seq,title:title.trim(),duration_days:dur?Number(dur):null});if(error)return toast(error.message,"bad");toast("เพิ่ม Milestone แล้ว");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdAddStep=async milestoneId=>{const name=prompt("ชื่อขั้นตอนใหม่:");if(!name)return;const owners=prompt("ผู้รับผิดชอบ (เช่น MKT & RD):","")||null;const seq=npdSteps.filter(s=>s.milestone_id===milestoneId).length;const {error}=await sb.from("product_steps").insert({milestone_id:milestoneId,seq,name:name.trim(),owners,status:"next"});if(error)return toast(error.message,"bad");toast("เพิ่มขั้นตอนแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdSetStepStatus=async(id,status)=>{const {error}=await sb.from("product_steps").update({status}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdEditStep=async id=>{const s=npdSteps.find(x=>x.id===id);if(!s)return;const name=prompt("ชื่อขั้นตอน:",s.name);if(name===null||!name.trim())return;const owners=prompt("ผู้รับผิดชอบ:",s.owners||"");const deadline=prompt("Deadline note (เว้นว่างได้):",s.deadline_note||"");const {error}=await sb.from("product_steps").update({name:name.trim(),owners:owners||null,deadline_note:deadline||null}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdDeleteStep=async id=>{if(!confirm("ลบขั้นตอนนี้?"))return;const {error}=await sb.from("product_steps").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
+window.npdCycleDoc=async(id,current)=>{const next=current==="not_yet"?"have":current==="have"?"na":"not_yet";const {error}=await sb.from("product_docs").update({state:next}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdChecklist()};
+window.npdAddDoc=async parentId=>{const label=prompt("ชื่อรายการเอกสาร:");if(!label)return;const seq=npdDocs.filter(d=>d.parent_id===parentId).length;const {error}=await sb.from("product_docs").insert({product_id:npdCurrentProductId,parent_id:parentId,seq,label:label.trim(),state:"not_yet"});if(error)return toast(error.message,"bad");toast("เพิ่มแล้ว");await loadNpdProductData();renderNpdChecklist()};
+window.npdEditDoc=async id=>{const d=npdDocs.find(x=>x.id===id);if(!d)return;const label=prompt("แก้ชื่อรายการ:",d.label);if(!label)return;const {error}=await sb.from("product_docs").update({label:label.trim()}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdChecklist()};
+window.npdDeleteDoc=async id=>{if(!confirm("ลบรายการนี้?"))return;const {error}=await sb.from("product_docs").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdChecklist()};
+
+$("npdProductSelect").onchange=async()=>{npdCurrentProductId=Number($("npdProductSelect").value);await loadNpdProductData();renderNpdTimelinePane();renderNpdChecklist()};
+$("npdNewProductBtn").onclick=async()=>{
+ const name=prompt("ชื่อสินค้าใหม่:");if(!name)return;
+ const {data,error}=await sb.from("products").insert({team_id:profile.team_id,name:name.trim(),status:"active",created_by:user.id}).select().single();
+ if(error)return toast(error.message,"bad");
+ toast("สร้างสินค้าใหม่แล้ว กำลังก็อปโครงสร้างขั้นตอนมาตรฐาน…");
+ await seedNpdTemplate(data.id);
+ npdCurrentProductId=data.id;
+ await loadNpdProducts();await loadNpdProductData();renderNpdTimelinePane();renderNpdChecklist();
+ toast("พร้อมใช้งานแล้ว");
+};
+document.querySelectorAll("#npdSubtabs .tab").forEach(b=>b.onclick=()=>{
+ npdView=b.dataset.plview;
+ document.querySelectorAll("#npdSubtabs .tab").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");
+ $("npdTimelinePane").classList.toggle("hidden",npdView!=="timeline");
+ $("npdChecklistPane").classList.toggle("hidden",npdView!=="checklist");
+});
+$("npdToggleCalendarBtn").onclick=()=>{npdCalendarOpen=!npdCalendarOpen;renderNpdCalendar()};
+$("npdAddDocBtn").onclick=()=>window.npdAddDoc(null);
+
 const commands=[
  {label:"Add Task",run:()=>openTaskModal()},
  {label:"Go to Dashboard",run:()=>goView("dashboard")},
@@ -1263,11 +1663,11 @@ $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
 renderCalendar();renderAdmin()}
-["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#personalTabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#personalTabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
+["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","personal","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","personal","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
@@ -1275,6 +1675,7 @@ function goView(view){
  if(view==="admin")renderAdmin();
  if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
  if(view==="personal")loadPersonal().then(renderPersonal);
+ if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>goView(btn.dataset.view));

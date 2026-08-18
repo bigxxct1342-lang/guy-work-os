@@ -56,6 +56,8 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v6-admin.sql` database/admin upgrade
 - `migration-v7-2-push-notifications.sql` push subscription storage for Daily Task Reminder
 - `migration-v7-3-personal-line.sql` Personal Life Tracker tables + LINE linking tables
+- `migration-v7-4-pin-lockout.sql` PIN brute-force lockout
+- `migration-v7-5-product-launch.sql` Product Launch (NPD tracker) tables + Thai holiday calendar
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -171,6 +173,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.5 Product Launch (NPD Tracker)
+- New "Product Launch" section — team-wide (visible to your Marketing team only, same boundary as Tasks/Categories), separate from Personal Life which stays private per-user
+- Process & Timeline tab: Formular & FDA Process / ฉลาก (Label) / ลัง (Carton) phases, each with editable Milestones (title + duration in working days) and Steps (status: Done/Working/Wait/Next Step/Skipped, owners tag, deadline note). Milestones that are fully done collapse automatically. Add/rename/delete Milestones and Steps freely — the process isn't fixed
+- Timeline auto-computes real dates from each Milestone's duration, skipping weekends and Thai public holidays (`thai_holidays` table — extend it yourself every year), and shows when the product will realistically be ready (Label is expected to land the same day as the formula/FDA track; Carton is shown separately since it's allowed to trail without delaying launch)
+- "+ New Product" clones a standard template (the same phases/milestones/steps you get today) so you don't retype the process for every new SKU
+- Document Checklist tab: a separate NPD document/certificate checklist (have it / don't have it yet / N/A), nested up to 3 levels, matching your existing QA 7-11 document list. This answers a different question than the Timeline ("do we have the paperwork" vs "how far along is the work") and is intentionally not linked to certificate expiry tracking — that stays RD's responsibility
+- Requires `migration-v7-5-product-launch.sql`
+- No file-attachment storage yet (would need a Supabase Storage bucket + its own RLS) — noted as a follow-up, not built in this version
 
 ## V7.4 Security Hardening
 - PIN brute-force protection: 5 wrong PIN attempts locks that account's PIN entry for 15 minutes (server-side only, tracked in `user_pins`)
