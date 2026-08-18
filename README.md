@@ -55,7 +55,11 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `config.js` Supabase client configuration
 - `migration-v6-admin.sql` database/admin upgrade
 - `migration-v7-2-push-notifications.sql` push subscription storage for Daily Task Reminder
-- `supabase/functions/daily-brief` Edge Function that sends the daily reminder push
+- `migration-v7-3-personal-line.sql` Personal Life Tracker tables + LINE linking tables
+- `migration-v7-4-pin-lockout.sql` PIN brute-force lockout
+- `migration-v7-5-product-launch.sql` Product Launch (NPD tracker) tables + Thai holiday calendar
+- `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
+- `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
 - `sw.js` basic offline app-shell cache + push notification display
 - `vercel.json` Vercel config
@@ -169,6 +173,49 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.5 Product Launch (NPD Tracker)
+- New "Product Launch" section — team-wide (visible to your Marketing team only, same boundary as Tasks/Categories), separate from Personal Life which stays private per-user
+- Process & Timeline tab: Formular & FDA Process / ฉลาก (Label) / ลัง (Carton) phases, each with editable Milestones (title + duration in working days) and Steps (status: Done/Working/Wait/Next Step/Skipped, owners tag, deadline note). Milestones that are fully done collapse automatically. Add/rename/delete Milestones and Steps freely — the process isn't fixed
+- Timeline auto-computes real dates from each Milestone's duration, skipping weekends and Thai public holidays (`thai_holidays` table — extend it yourself every year), and shows when the product will realistically be ready (Label is expected to land the same day as the formula/FDA track; Carton is shown separately since it's allowed to trail without delaying launch)
+- "+ New Product" clones a standard template (the same phases/milestones/steps you get today) so you don't retype the process for every new SKU
+- Document Checklist tab: a separate NPD document/certificate checklist (have it / don't have it yet / N/A), nested up to 3 levels, matching your existing QA 7-11 document list. This answers a different question than the Timeline ("do we have the paperwork" vs "how far along is the work") and is intentionally not linked to certificate expiry tracking — that stays RD's responsibility
+- Requires `migration-v7-5-product-launch.sql`
+- No file-attachment storage yet (would need a Supabase Storage bucket + its own RLS) — noted as a follow-up, not built in this version
+
+## V7.4 Security Hardening
+- PIN brute-force protection: 5 wrong PIN attempts locks that account's PIN entry for 15 minutes (server-side only, tracked in `user_pins`)
+- Rotated the Web Push VAPID key pair — the previous key pair was shared in plain text during setup and should be treated as compromised
+- Requires `migration-v7-4-pin-lockout.sql`
+- **Action needed**: set the Supabase Edge Function secret `VAPID_PRIVATE_KEY` to the new private key (ask whoever ran the setup for it — it is intentionally not stored in this repo), matching the new `VAPID_PUBLIC_KEY` already committed in `config.js`
+- **Action needed**: this GitHub repository is currently **Public**. Go to repo Settings → General → Danger Zone → Change repository visibility → Private. A public repo doesn't expose your data (Supabase RLS still protects that), but it does expose the app's full source, database schema, and internal logic to anyone on the internet — unnecessary exposure for internal company software
+
+## V7.3 Personal Life Tracker + LINE Notifications
+- New "Personal Life" section, completely separate from Tasks/Categories/Team Overview: Reading progress, Exercise log, Sleep (bed/wake time), and general Health notes/weight
+- Personal Life data is private to each account only — there is no admin/Super Admin visibility into it at all, by database policy, not just by hiding it in the UI
+- New: LINE Notifications. LINE Notify (the old simple integration) was discontinued by LINE, so this uses a LINE Official Account + the Messaging API instead. In Settings, generate a one-time linking code, send it to the Official Account once, and daily task reminders switch to LINE instead of Web Push (no double notifications)
+- Requires `migration-v7-3-personal-line.sql`
+- Requires deploying `supabase/functions/line-webhook` and setting its secrets if you want LINE notifications (Personal Life Tracker works with just the migration, no extra setup)
+- `daily-brief` was updated to prefer LINE over Web Push when a user has linked LINE
+
+### Set up Personal Life Tracker
+Just run `migration-v7-3-personal-line.sql` in Supabase SQL Editor. No other setup needed — it works immediately from the "Personal Life" nav item.
+
+### Set up LINE Notifications
+1. Create a LINE Official Account (free): https://www.linebiz.com/th/service/line-official-account/ → LINE Official Account Manager → create an account.
+2. In the LINE Official Account Manager, go to Settings → Messaging API → Enable the Messaging API, which links it to a channel in the LINE Developers Console.
+3. In the LINE Developers Console, open that channel → Messaging API tab:
+   - Copy the **Channel secret** (Basic settings tab) and the **Channel access token** (issue a long-lived one on the Messaging API tab).
+   - Set the **Webhook URL** to your deployed function URL: `https://<project-ref>.supabase.co/functions/v1/line-webhook`, and turn "Use webhook" on.
+   - Turn off "Auto-reply messages" so it doesn't interfere with the linking flow.
+4. Run `migration-v7-3-personal-line.sql` in Supabase SQL Editor (if not already run).
+5. Deploy the webhook function: `supabase functions deploy line-webhook --no-verify-jwt` (must be `--no-verify-jwt` since LINE calls this directly, not through Supabase auth).
+6. Set the secrets (these are project-wide, so `daily-brief` picks up `LINE_CHANNEL_ACCESS_TOKEN` automatically too — no separate step needed for it):
+   ```
+   supabase secrets set LINE_CHANNEL_SECRET=your-channel-secret LINE_CHANNEL_ACCESS_TOKEN=your-channel-access-token
+   ```
+7. Optional: put the Official Account's LINE ID (the `@...` handle, without the `@`) into `config.js` as `LINE_OA_ID` so the app can show a direct "add friend" link.
+8. In the app, go to Settings → LINE Notifications → Generate Linking Code, add the Official Account as a friend in LINE, send the code as a chat message, then tap "ตรวจสอบสถานะ" to confirm.
 
 ## V7.1 Stable Interaction Build
 - Rebuilt modal/drawer interaction handling
