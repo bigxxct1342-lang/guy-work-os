@@ -55,7 +55,9 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `config.js` Supabase client configuration
 - `migration-v6-admin.sql` database/admin upgrade
 - `migration-v7-2-push-notifications.sql` push subscription storage for Daily Task Reminder
-- `supabase/functions/daily-brief` Edge Function that sends the daily reminder push
+- `migration-v7-3-personal-line.sql` Personal Life Tracker tables + LINE linking tables
+- `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
+- `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
 - `sw.js` basic offline app-shell cache + push notification display
 - `vercel.json` Vercel config
@@ -169,6 +171,33 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.3 Personal Life Tracker + LINE Notifications
+- New "Personal Life" section, completely separate from Tasks/Categories/Team Overview: Reading progress, Exercise log, Sleep (bed/wake time), and general Health notes/weight
+- Personal Life data is private to each account only — there is no admin/Super Admin visibility into it at all, by database policy, not just by hiding it in the UI
+- New: LINE Notifications. LINE Notify (the old simple integration) was discontinued by LINE, so this uses a LINE Official Account + the Messaging API instead. In Settings, generate a one-time linking code, send it to the Official Account once, and daily task reminders switch to LINE instead of Web Push (no double notifications)
+- Requires `migration-v7-3-personal-line.sql`
+- Requires deploying `supabase/functions/line-webhook` and setting its secrets if you want LINE notifications (Personal Life Tracker works with just the migration, no extra setup)
+- `daily-brief` was updated to prefer LINE over Web Push when a user has linked LINE
+
+### Set up Personal Life Tracker
+Just run `migration-v7-3-personal-line.sql` in Supabase SQL Editor. No other setup needed — it works immediately from the "Personal Life" nav item.
+
+### Set up LINE Notifications
+1. Create a LINE Official Account (free): https://www.linebiz.com/th/service/line-official-account/ → LINE Official Account Manager → create an account.
+2. In the LINE Official Account Manager, go to Settings → Messaging API → Enable the Messaging API, which links it to a channel in the LINE Developers Console.
+3. In the LINE Developers Console, open that channel → Messaging API tab:
+   - Copy the **Channel secret** (Basic settings tab) and the **Channel access token** (issue a long-lived one on the Messaging API tab).
+   - Set the **Webhook URL** to your deployed function URL: `https://<project-ref>.supabase.co/functions/v1/line-webhook`, and turn "Use webhook" on.
+   - Turn off "Auto-reply messages" so it doesn't interfere with the linking flow.
+4. Run `migration-v7-3-personal-line.sql` in Supabase SQL Editor (if not already run).
+5. Deploy the webhook function: `supabase functions deploy line-webhook --no-verify-jwt` (must be `--no-verify-jwt` since LINE calls this directly, not through Supabase auth).
+6. Set the secrets (these are project-wide, so `daily-brief` picks up `LINE_CHANNEL_ACCESS_TOKEN` automatically too — no separate step needed for it):
+   ```
+   supabase secrets set LINE_CHANNEL_SECRET=your-channel-secret LINE_CHANNEL_ACCESS_TOKEN=your-channel-access-token
+   ```
+7. Optional: put the Official Account's LINE ID (the `@...` handle, without the `@`) into `config.js` as `LINE_OA_ID` so the app can show a direct "add friend" link.
+8. In the app, go to Settings → LINE Notifications → Generate Linking Code, add the Official Account as a friend in LINE, send the code as a chat message, then tap "ตรวจสอบสถานะ" to confirm.
 
 ## V7.1 Stable Interaction Build
 - Rebuilt modal/drawer interaction handling

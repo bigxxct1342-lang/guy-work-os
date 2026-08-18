@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e2329">
 <link rel="manifest" href="./manifest.json">
-<title>GUY WORK OS V7.2</title>
+<title>GUY WORK OS V7.3</title>
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -97,7 +97,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 </head>
 <body>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.2 · Daily Reminders</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.3 · Personal Life + LINE</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -146,6 +146,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
   <button data-view="tasks">Tasks</button>
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
+  <button data-view="personal">Personal Life</button>
   <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
  </div>
@@ -189,6 +190,40 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
  <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList" class="task-list"></div></div></section>
 
+ <section id="personalView" class="hidden">
+  <div class="help" style="margin-bottom:14px">พื้นที่ส่วนตัวของคุณ แยกจากงานทีมโดยสิ้นเชิง — ไม่มีใครเห็นข้อมูลนี้ได้ แม้แต่ Super Admin</div>
+  <div class="tabs" id="personalTabs">
+   <button class="tab active" data-ptab="reading">Reading</button>
+   <button class="tab" data-ptab="exercise">Exercise</button>
+   <button class="tab" data-ptab="sleep">Sleep</button>
+   <button class="tab" data-ptab="health">Health</button>
+  </div>
+  <div class="grid">
+   <div>
+    <div class="card section" style="margin-bottom:18px">
+     <h2 id="personalFormTitle">Add Reading Log</h2>
+     <div id="personalFormGrid" class="formgrid">
+      <div class="field"><label>Date</label><input id="plDate" type="date"></div>
+      <div class="field" data-kinds="reading"><label>Book Title</label><input id="plBook"></div>
+      <div class="field" data-kinds="reading"><label>Page (current)</label><input id="plPageCur" type="number" min="0"></div>
+      <div class="field" data-kinds="reading"><label>Page (total)</label><input id="plPageTotal" type="number" min="0"></div>
+      <div class="field hidden" data-kinds="exercise"><label>Activity</label><input id="plActivity" placeholder="e.g. Running 5km"></div>
+      <div class="field hidden" data-kinds="exercise"><label>Duration (minutes)</label><input id="plDuration" type="number" min="0"></div>
+      <div class="field hidden" data-kinds="sleep"><label>Bed Time</label><input id="plBed" type="time"></div>
+      <div class="field hidden" data-kinds="sleep"><label>Wake Time</label><input id="plWake" type="time"></div>
+      <div class="field hidden" data-kinds="health"><label>Weight (kg)</label><input id="plWeight" type="number" step="0.1" min="0"></div>
+      <div class="full field"><label>Note</label><textarea id="plNote" rows="2"></textarea></div>
+     </div>
+     <div class="actions"><button id="savePersonalLog" class="btn primary">Add Log</button></div>
+    </div>
+   </div>
+   <div>
+    <div class="card section"><h2>Summary</h2><div id="personalSummary" class="brief-grid"></div></div>
+   </div>
+  </div>
+  <div class="card section"><h2>History</h2><div id="personalHistory" class="task-list"></div></div>
+ </section>
+
 
  
  <section id="weeklyView" class="hidden">
@@ -214,7 +249,7 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
      </div>
      <div class="row">
       <strong>Restore Backup</strong>
-      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.2 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
+      <span>ใช้ไฟล์ Backup จาก GUY WORK OS V7.3 เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
       <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
       <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
      </div>
@@ -229,10 +264,10 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.2</span></div>
+     <div class="row"><strong>App Version</strong><span>GUY WORK OS V7.3</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
@@ -766,6 +801,128 @@ $("pushToggleBtn").onclick=async()=>{
  if(sub)await disablePush();else await enablePush();
 };
 
+let lineSub=null;
+async function loadLineStatus(){
+ const {data}=await sb.from("line_subscriptions").select("line_user_id").eq("user_id",user.id).maybeSingle();
+ lineSub=data||null;
+}
+function refreshLineUI(){
+ const btn=$("lineActionBtn"),status=$("lineStatusText");
+ if(!btn)return;
+ if(lineSub){
+  status.textContent="เชื่อมต่อ LINE แล้ว ✓ คุณจะได้รับแจ้งเตือนงานประจำวันทาง LINE";
+  btn.textContent="Unlink LINE";
+  $("lineCodeBox").classList.add("hidden");
+ }else{
+  status.textContent="เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)";
+  btn.textContent="Generate Linking Code";
+ }
+}
+async function generateLineCode(){
+ const code=Math.random().toString(36).slice(2,8).toUpperCase();
+ const expires=new Date(Date.now()+15*60000).toISOString();
+ const {error}=await sb.from("line_links").insert({user_id:user.id,code,expires_at:expires});
+ if(error)return toast(error.message,"bad");
+ const oaLink=CFG.LINE_OA_ID?` <a href="https://line.me/R/ti/p/@${encodeURIComponent(CFG.LINE_OA_ID)}" target="_blank" rel="noopener">แอดเพื่อน LINE ที่นี่</a>`:" (ถามแอดมินหา LINE ID ของทีม)";
+ $("lineCodeBox").innerHTML=`<strong>โค้ดของคุณ: ${esc(code)}</strong> (หมดอายุใน 15 นาที)<br>${oaLink}<br>ส่งโค้ดนี้เป็นข้อความแชทไปที่ LINE Official Account แล้วกดปุ่มด้านล่างเพื่อตรวจสอบ<br><button id="lineCheckBtn" class="btn secondary small" style="margin-top:8px">ตรวจสอบสถานะ</button>`;
+ $("lineCodeBox").classList.remove("hidden");
+ $("lineCheckBtn").onclick=async()=>{
+  await loadLineStatus();refreshLineUI();
+  toast(lineSub?"เชื่อมต่อสำเร็จ!":"ยังไม่เชื่อมต่อ ลองส่งโค้ดอีกครั้ง",lineSub?"good":"bad");
+ };
+}
+async function unlinkLine(){
+ if(!confirm("Unlink LINE notifications?"))return;
+ const {error}=await sb.from("line_subscriptions").delete().eq("user_id",user.id);
+ if(error)return toast(error.message,"bad");
+ toast("Unlinked.");await loadLineStatus();refreshLineUI();
+}
+$("lineActionBtn").onclick=async()=>{
+ if(lineSub)await unlinkLine();else await generateLineCode();
+};
+
+let personalLogs=[],personalKind="reading";
+async function loadPersonal(){
+ const {data,error}=await sb.from("personal_logs").select("*").order("log_date",{ascending:false}).order("id",{ascending:false});
+ if(error){console.error(error);toast("Load personal logs failed: "+error.message,"bad");return}
+ personalLogs=data||[];
+}
+function sleepMinutes(bed,wake){
+ if(!bed||!wake)return null;
+ const [bh,bm]=bed.split(":").map(Number),[wh,wm]=wake.split(":").map(Number);
+ let mins=(wh*60+wm)-(bh*60+bm);
+ if(mins<=0)mins+=24*60;
+ return mins;
+}
+function personalLogHTML(l){
+ let title="",meta="";
+ if(l.kind==="reading"){title=esc(l.book_title||"");meta=l.page_total?`หน้า ${l.page_current||0}/${l.page_total} (${Math.round((l.page_current||0)/l.page_total*100)}%)`:`หน้า ${l.page_current||0}`}
+ else if(l.kind==="exercise"){title=esc(l.activity||"");meta=l.duration_minutes?fmtMinutes(l.duration_minutes):""}
+ else if(l.kind==="sleep"){const m=sleepMinutes(l.bed_time,l.wake_time);title=`${l.bed_time||"?"} → ${l.wake_time||"?"}`;meta=m?`นอน ${fmtMinutes(m)}`:""}
+ else{title=l.weight_kg?`${l.weight_kg} kg`:"Health note";meta=""}
+ return `<div class="row"><strong>${new Date(l.log_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${title}</strong><span>${meta}${l.note?" · "+esc(l.note):""}</span><div style="margin-top:6px"><button class="btn danger small" onclick="deletePersonalLog(${l.id})">Delete</button></div></div>`;
+}
+window.deletePersonalLog=async id=>{
+ if(!confirm("Delete this log?"))return;
+ const {error}=await sb.from("personal_logs").delete().eq("id",id);
+ if(error)return toast(error.message,"bad");
+ await loadPersonal();renderPersonal();
+};
+function renderPersonal(){
+ if(!$("personalTabs"))return;
+ document.querySelectorAll("#personalTabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.ptab===personalKind));
+ document.querySelectorAll("#personalFormGrid [data-kinds]").forEach(el=>el.classList.toggle("hidden",el.dataset.kinds!==personalKind));
+ $("personalFormTitle").textContent="Add "+({reading:"Reading",exercise:"Exercise",sleep:"Sleep",health:"Health"}[personalKind])+" Log";
+ const list=personalLogs.filter(l=>l.kind===personalKind);
+ $("personalHistory").innerHTML=list.length?list.map(personalLogHTML).join(""):'<div class="empty">No logs yet.</div>';
+ let summary=[];
+ if(personalKind==="reading"){
+  const latest=list[0];
+  summary=[["Current Book",latest?.book_title||"—"],["Page",latest?(latest.page_total?`${latest.page_current||0}/${latest.page_total}`:String(latest.page_current||0)):"—"],["Logs",list.length]];
+ }else if(personalKind==="exercise"){
+  const weekStart=startOfWeekISO();
+  const weekList=list.filter(l=>new Date(l.log_date+"T00:00:00")>=weekStart);
+  const weekMins=weekList.reduce((s,l)=>s+Number(l.duration_minutes||0),0);
+  summary=[["This Week",weekList.length+" sessions"],["Minutes",fmtMinutes(weekMins)||"0m"],["Total Logs",list.length]];
+ }else if(personalKind==="sleep"){
+  const last=list[0],lastMin=last?sleepMinutes(last.bed_time,last.wake_time):null;
+  const last7=list.slice(0,7).map(l=>sleepMinutes(l.bed_time,l.wake_time)).filter(Boolean);
+  const avg=last7.length?Math.round(last7.reduce((a,b)=>a+b,0)/last7.length):null;
+  summary=[["Last Night",lastMin?fmtMinutes(lastMin):"—"],["7-Day Avg",avg?fmtMinutes(avg):"—"],["Total Logs",list.length]];
+ }else{
+  const latest=list.find(l=>l.weight_kg);
+  summary=[["Latest Weight",latest?latest.weight_kg+" kg":"—"],["Total Logs",list.length]];
+ }
+ $("personalSummary").innerHTML=summary.map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
+}
+document.querySelectorAll("#personalTabs .tab").forEach(b=>b.onclick=()=>{personalKind=b.dataset.ptab;renderPersonal()});
+if($("plDate"))$("plDate").value=todayISO();
+$("savePersonalLog").onclick=async()=>{
+ const kind=personalKind,date=$("plDate").value||todayISO();
+ const payload={user_id:user.id,kind,log_date:date,note:$("plNote").value.trim()||null};
+ if(kind==="reading"){
+  if(!$("plBook").value.trim())return toast("ใส่ชื่อหนังสือก่อน","bad");
+  payload.book_title=$("plBook").value.trim();
+  payload.page_current=$("plPageCur").value?Number($("plPageCur").value):null;
+  payload.page_total=$("plPageTotal").value?Number($("plPageTotal").value):null;
+ }else if(kind==="exercise"){
+  if(!$("plActivity").value.trim())return toast("ใส่กิจกรรมก่อน","bad");
+  payload.activity=$("plActivity").value.trim();
+  payload.duration_minutes=$("plDuration").value?Number($("plDuration").value):null;
+ }else if(kind==="sleep"){
+  if(!$("plBed").value||!$("plWake").value)return toast("ใส่เวลานอนและตื่นก่อน","bad");
+  payload.bed_time=$("plBed").value;payload.wake_time=$("plWake").value;
+ }else{
+  payload.weight_kg=$("plWeight").value?Number($("plWeight").value):null;
+  if(!payload.weight_kg&&!payload.note)return toast("ใส่น้ำหนักหรือโน้ตก่อน","bad");
+ }
+ const {error}=await sb.from("personal_logs").insert(payload);
+ if(error)return toast(error.message,"bad");
+ ["plBook","plPageCur","plPageTotal","plActivity","plDuration","plBed","plWake","plWeight","plNote"].forEach(id=>{if($(id))$(id).value=""});
+ toast("บันทึกแล้ว");
+ await loadPersonal();renderPersonal();
+};
+
 const commands=[
  {label:"Add Task",run:()=>openTaskModal()},
  {label:"Go to Dashboard",run:()=>goView("dashboard")},
@@ -1106,17 +1263,18 @@ $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
 renderCalendar();renderAdmin()}
-["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
+["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#personalTabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#personalTabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","personal","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
  if(view==="calendar")renderCalendar();
  if(view==="admin")renderAdmin();
- if(view==="settings")refreshPushUI();
+ if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
+ if(view==="personal")loadPersonal().then(renderPersonal);
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>goView(btn.dataset.view));
