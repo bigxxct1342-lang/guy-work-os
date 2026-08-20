@@ -1,5 +1,5 @@
-const CACHE="guy-work-os-v7-5-3-porkchop-splash";
-const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./porkchop-splash.jpg"];
+const CACHE="guy-work-os-v7-5-4-porkchop-splash-mobile";
+const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./porkchop-splash.jpg","./porkchop-splash-mobile.jpg"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener("activate",e=>e.waitUntil(
   caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("guy-work-os-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
