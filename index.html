@@ -174,13 +174,13 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
 .splash{position:fixed;inset:0;z-index:9000;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding-bottom:64px}
-.splash-bg{position:absolute;inset:-6%;background-image:url('./porkchop-splash.jpg');background-size:cover;background-position:68% center;animation:splashPan 20s ease-in-out infinite alternate;will-change:transform}
+.splash-bg{position:absolute;inset:-6%;background-image:url('./porkchop-splash.webp');background-size:cover;background-position:68% center;animation:splashPan 20s ease-in-out infinite alternate;will-change:transform}
 .splash-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(18,12,8,.6) 0%,rgba(18,12,8,0) 38%)}
 .splash-btn{position:relative;z-index:2;border:0;border-radius:999px;padding:15px 40px;font-weight:800;font-size:15px;font-family:inherit;background:#ff6b1a;color:#fff;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.28);display:inline-flex;align-items:center;gap:9px}
 .splash-btn svg{width:14px;height:14px;flex:none}
 @keyframes splashPan{0%{transform:scale(1.06) translate(0,0)}100%{transform:scale(1.15) translate(-2%,-1.5%)}}
 @media(max-width:820px){.splash-bg{background-position:74% center}}
-@media(max-width:590px){.splash{padding-bottom:110px}.splash-bg{background-image:url('./porkchop-splash-mobile.jpg');background-position:center 22%}.splash-btn{padding:14px 34px;font-size:14px}}
+@media(max-width:590px){.splash{padding-bottom:105px}.splash-bg{background-image:url('./porkchop-splash-mobile.webp');background-position:center center}.splash-btn{padding:14px 34px;font-size:14px}}
 @media(prefers-reduced-motion:reduce){.splash-bg{animation:none}}
 </style>
 </head>
