@@ -174,6 +174,14 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.9 Dashboard rebuild
+- The dashboard used to print **nine counters and a progress bar before a single task**, and it showed the same thing several times over: "overdue" appeared in the morning brief, again as a metric card, and a third time in Needs Attention. Waiting, high-priority and today's count were each duplicated too.
+- Every flagged task now resolves to **exactly one reason** — the most severe of overdue / due today / waiting too long / high priority with no date / due within two days. The chips at the top count those reasons and **filter the list directly beneath them**, so the chips and the list are the same set counted once instead of three restatements of it.
+- The dashboard now opens on the actual ranked work rather than on statistics: the most urgent items are visible without scrolling, each tagged with why it surfaced ("เลยกำหนด 5 วัน", "รอมา 7 วัน"). Clicking a row opens the task.
+- Removed the "Overall Completion" bar — a lifetime percentage that only ever creeps up and never prompts an action. The four counts still worth knowing (active / in progress / waiting / done this week) are now a single muted line at the bottom of the card.
+- Dropped the "Estimated 0m" tile, which read 0 whenever no task carried an estimate.
+- Four separate cards (morning brief, metric row, completion bar, Needs Attention) collapse into one.
+
 ## V7.8 Archive redesign
 - Completed tasks are now **grouped under their category**, as collapsible sections showing a count and the most recent completion date, with the most recently active category first.
 - Archive rows no longer reuse the full task card. A finished task does not need a checkbox that is always ticked, a star, a priority pill, or a "Done" pill in a list where everything is done — each row is now a single compact line: a green check, the title, an optional note, the sub-category (only when it is not "General"), and the completion date. Roughly three times as many tasks fit on screen.
