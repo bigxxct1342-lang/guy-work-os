@@ -38,7 +38,6 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 @media(max-width:590px){.metrics{grid-template-columns:1fr 1fr}.topbar{flex-direction:column}.formgrid{grid-template-columns:1fr}.task{grid-template-columns:auto auto 1fr}.task-actions{grid-column:3}.search{min-width:100%}.admin-grid{grid-template-columns:1fr}h1{font-size:25px}}
 
 .toast-wrap{position:fixed;right:20px;bottom:20px;z-index:5000;display:grid;gap:8px}.toast{background:#20262d;color:#fff;padding:11px 14px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:12px;max-width:360px}.toast.bad{background:#7d2b2b}.toast.good{background:#214f3d}
-.attention-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.attention-item{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px}.attention-item b{display:block;font-size:12px;margin-bottom:4px}.attention-item span{font-size:10px;color:var(--muted)}
 .category-progress{height:6px;background:#e9e7e2;border-radius:999px;overflow:hidden;margin-top:8px}.category-progress>i{display:block;height:100%;background:#20262d}
 .quick-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.quick-actions .btn{padding:5px 7px;font-size:9px}
 .day.selected-day{outline:2px solid #20262d;outline-offset:-2px}
@@ -69,7 +68,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 body.dark .ar-count{background:var(--line);color:var(--text)}
 body.dark .ar-row{background:var(--card)}
 @media(max-width:820px){.ar-row{flex-wrap:wrap;gap:9px;padding:10px 12px;cursor:pointer}.ar-act{display:none;opacity:1;pointer-events:auto}.ar-row.ar-expanded .ar-act{display:flex;flex:1 1 100%;justify-content:flex-end}.ar-latest{display:none}}
-@media(max-width:820px){.attention-grid{grid-template-columns:1fr}.toast-wrap{left:12px;right:12px;bottom:12px}.toast{max-width:none}}
+@media(max-width:820px){.toast-wrap{left:12px;right:12px;bottom:12px}.toast{max-width:none}}
 
 
 body.dark{--bg:#17191c;--panel:#20242a;--card:#252a30;--text:#f1f2f4;--muted:#9ba3ad;--line:#353c45;--soft:#2e343c;background:var(--bg);color:var(--text)}
@@ -105,7 +104,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .modal-close:hover{background:var(--soft)}
 .task{transition:border-color .15s ease,box-shadow .15s ease}
 .task:hover{border-color:#cfc9bf;box-shadow:0 4px 14px rgba(30,34,39,.05)}
-body.dark .task,body.dark .attention-item,body.dark .tab{background:var(--card);color:var(--text)}
+body.dark .task,body.dark .tab{background:var(--card);color:var(--text)}
 body.dark .day.outside{background:#1b1f24}
 body.dark .calendar-weekdays div{background:var(--soft)}
 body.dark .modal-close{background:var(--card);color:var(--text)}
@@ -198,6 +197,32 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
+.dash-chips{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 0}
+.dash-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+.dash-chip .n{font-size:13px;font-weight:900}
+.dash-chip .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.dash-chip.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.dash-chip.empty{opacity:.4}
+.dot-bad{background:#d64545}.dot-warn{background:#e08a2e}.dot-info{background:#3f7fbf}.dot-calm{background:#3ca05a}
+.tone-bad{background:var(--red);color:var(--redT)}
+.tone-warn{background:var(--yellow);color:var(--yellowT)}
+.tone-info{background:var(--blue);color:var(--blueT)}
+.tone-calm{background:var(--green);color:var(--greenT)}
+.dash-list{border:1px solid var(--line);border-radius:13px;overflow:hidden;margin-top:13px}
+.dash-row{display:flex;align-items:center;gap:11px;padding:11px 14px;background:var(--panel);cursor:pointer}
+.dash-row+.dash-row{border-top:1px solid var(--line)}
+.dash-row:hover{background:var(--soft)}
+.dash-dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dash-main{flex:1;min-width:0}
+.dash-t{font-size:13px;font-weight:750;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dash-c{font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dash-why{font-size:10px;font-weight:850;padding:4px 10px;border-radius:999px;flex:none;white-space:nowrap}
+.dash-more{padding:10px 14px;text-align:center;font-size:11px;font-weight:800;color:var(--muted);background:var(--soft);cursor:pointer;border-top:1px solid var(--line)}
+.dash-more:hover{color:var(--text)}
+.dash-clear{margin-top:13px;padding:26px 14px;text-align:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:13px}
+.dash-sum{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:11px;color:var(--muted)}
+.dash-sum b{color:var(--text);font-weight:850;font-size:13px}
+@media(max-width:820px){.dash-row{padding:10px 12px;gap:9px}.dash-why{font-size:9px;padding:3px 8px}.dash-sum{gap:12px}}
 .pm-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
 .pm-time{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .pm-time>span{font-size:10px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:.7px}
@@ -256,7 +281,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.7 · Priority Matrix</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.9 · Dashboard</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -320,18 +345,16 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
  <section id="dashboardView">
 
-  <div class="card section" style="margin-bottom:18px">
-   <div class="focus-banner">
-    <div><h2 id="morningTitle" style="margin-bottom:4px">Morning Brief</h2><div id="morningDate" class="help"></div></div>
-    <div><button id="toggleFocusBtn" class="btn secondary">Focus Mode</button></div>
+   <div class="card section" style="margin-bottom:18px">
+    <div class="focus-banner">
+     <div><h2 id="morningTitle" style="margin-bottom:4px">Morning Brief</h2><div id="morningDate" class="help"></div></div>
+     <div><button id="toggleFocusBtn" class="btn secondary">Focus Mode</button></div>
+    </div>
+    <div id="dashChips" class="dash-chips"></div>
+    <div id="dashList"></div>
+    <div id="dashSummary" class="dash-sum"></div>
+    <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
    </div>
-   <div id="morningBrief" class="brief-grid" style="margin-top:14px"></div>
-   <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
-  </div>
-
-  <div class="metrics"><div class="card metric"><div class="label">Active</div><div id="mActive" class="value">0</div></div><div class="card metric"><div class="label">Completed</div><div id="mDone" class="value">0</div></div><div class="card metric"><div class="label">In Progress</div><div id="mProgress" class="value">0</div></div><div class="card metric"><div class="label">Waiting</div><div id="mWaiting" class="value">0</div></div><div class="card metric"><div class="label">Overdue</div><div id="mOverdue" class="value">0</div></div></div>
-  <div class="card section" style="margin-bottom:18px"><div class="progress-line"><strong>Overall Completion</strong><strong id="overallPct">0%</strong></div><div class="progress-wrap"><div id="overallBar" class="progress-bar" style="width:0%"></div></div></div>
-  <div class="card section" style="margin-bottom:18px"><h2>Needs Attention</h2><div id="personalAttention" class="attention-grid"></div></div>
   <div class="tabs"><button class="tab active" data-focus="today">Today</button><button class="tab" data-focus="week">This Week</button><button class="tab" data-focus="pinned">Pinned</button><button class="tab" data-focus="priority">Priority</button></div>
   <div class="grid"><div><div class="card section" style="margin-bottom:18px"><h2 id="focusTitle">Today</h2><div id="focusList" class="task-list"></div></div><div class="card section"><h2>Work by Category</h2><div id="categoryWork"></div></div></div><div><div class="card section" style="margin-bottom:18px"><h2>Waiting</h2><div id="waitingList"></div></div><div class="card section"><h2>Upcoming Deadlines</h2><div id="deadlineList"></div></div></div></div>
  </section>
@@ -1488,6 +1511,9 @@ $("archiveList").onclick=e=>{
  $("archiveList").querySelectorAll(".ar-row.ar-expanded").forEach(r=>r.classList.remove("ar-expanded"));
  if(!open)row.classList.add("ar-expanded");
 };
+// Chips filter the same list they count, instead of restating it.
+$("dashChips").onclick=e=>{const b=e.target.closest("[data-dash]");if(!b)return;dashFilter=dashFilter===b.dataset.dash?"":b.dataset.dash;dashExpanded=false;render()};
+$("dashList").onclick=e=>{if(e.target.closest("[data-dash-all]")){dashExpanded=true;render();return}const r=e.target.closest("[data-edit]");if(r)editTask(Number(r.dataset.edit))};
 $("prevMonth").onclick=()=>{if(calendarMode==="week")calendarCursor.setDate(calendarCursor.getDate()-7);else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);renderCalendar()};
 $("nextMonth").onclick=()=>{if(calendarMode==="week")calendarCursor.setDate(calendarCursor.getDate()+7);else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1);renderCalendar()};
 $("todayMonth").onclick=()=>{calendarCursor=new Date();renderCalendar()};
@@ -1780,22 +1806,49 @@ async function cleanDuplicateImports(){
   console.error(err);toast("Cleanup failed: "+(err?.message||"unknown error"),"bad");syncState("Cloud synced");
  }
 }
-function render(){populateFilters();renderCategories();updateLastBackup();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");$("mActive").textContent=active.length;$("mDone").textContent=done.length;$("mProgress").textContent=active.filter(t=>t.status==="In Progress").length;$("mWaiting").textContent=active.filter(t=>t.status==="Waiting").length;$("mOverdue").textContent=active.filter(isOverdue).length;const pct=scope.length?Math.round(done.length/scope.length*100):0;$("overallPct").textContent=pct+"%";$("overallBar").style.width=pct+"%";
-const attention=[];
-const overdue=active.filter(isOverdue),longWaiting=active.filter(t=>t.status==="Waiting"&&waitDays(t)>=4),highNoDue=active.filter(t=>t.priority==="High"&&!t.due);
-if(overdue.length)attention.push([`${overdue.length} overdue`,overdue.slice(0,3).map(t=>t.task).join(" · ")]);
-if(longWaiting.length)attention.push([`${longWaiting.length} waiting ≥ 4 days`,longWaiting.slice(0,3).map(t=>t.task).join(" · ")]);
-if(highNoDue.length)attention.push([`${highNoDue.length} high priority without due date`,highNoDue.slice(0,3).map(t=>t.task).join(" · ")]);
-$("personalAttention").innerHTML=attention.length?attention.map(a=>`<div class="attention-item"><b>${esc(a[0])}</b><span>${esc(a[1])}</span></div>`).join(""):'<div class="empty">Nothing urgent right now.</div>';const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
+/* ---- Dashboard focus ---------------------------------------------------
+   The old dashboard printed nine counters before a single task, and showed
+   "overdue" three separate times (morning brief, metric card, Needs
+   Attention). Each task now resolves to at most ONE reason -- the most
+   severe -- so the chips and the list below them are the same set counted
+   once, and the chips filter that list rather than duplicating it. */
+const DASH_REASONS=[{k:"overdue",label:"เลยกำหนด",tone:"bad"},{k:"today",label:"วันนี้",tone:"warn"},{k:"waiting",label:"รอนาน",tone:"info"},{k:"nodate",label:"ไม่มีกำหนด",tone:"info"},{k:"soon",label:"ใกล้ถึง",tone:"calm"}];
+const DASH_ORDER={overdue:0,today:1,waiting:2,nodate:3,soon:4};
+let dashFilter="",dashExpanded=false;
+function overdueDays(t){if(!t.due)return 0;const a=new Date(t.due+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
+function dashReason(t){
+ if(isOverdue(t))return{k:"overdue",why:`เลยกำหนด ${overdueDays(t)} วัน`,tone:"bad"};
+ if(isDueToday(t))return{k:"today",why:"ครบกำหนดวันนี้",tone:"warn"};
+ const wd=waitDays(t);
+ if(t.status==="Waiting"&&wd!==null&&wd>=4)return{k:"waiting",why:`รอมา ${wd} วัน`,tone:"info"};
+ if(t.priority==="High"&&!t.due)return{k:"nodate",why:"High แต่ไม่มีกำหนด",tone:"info"};
+ if(t.priority==="High"&&t.due){const d=pmDaysUntil(t,todayISO());if(d>0&&d<=PM_URGENT_DAYS)return{k:"soon",why:d===1?"พรุ่งนี้":`อีก ${d} วัน`,tone:"calm"}}
+ return null;
+}
+function dashRowHTML(t,r){
+ return `<div class="dash-row" data-edit="${t.id}"><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(t.task)}</div><div class="dash-c">${esc(t.category||"")}${isAdmin()?" · "+esc(profileName(t.user_id)):""}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
+}
+function renderDashboardFocus(active,done){
+ if(!$("dashChips"))return;
+ const flagged=active.map(t=>({t,r:dashReason(t)})).filter(x=>x.r);
+ flagged.sort((a,b)=>DASH_ORDER[a.r.k]-DASH_ORDER[b.r.k]||(a.t.due||"9999").localeCompare(b.t.due||"9999"));
+ const counts={};DASH_REASONS.forEach(r=>counts[r.k]=0);flagged.forEach(x=>counts[x.r.k]++);
+ if(dashFilter&&!counts[dashFilter]){dashFilter="";dashExpanded=false}
+ $("dashChips").innerHTML=DASH_REASONS.map(r=>`<button class="dash-chip${dashFilter===r.k?" active":""}${counts[r.k]?"":" empty"}" data-dash="${r.k}"><span class="dot dot-${r.tone}"></span>${r.label}<span class="n">${counts[r.k]}</span></button>`).join("");
+ const shown=dashFilter?flagged.filter(x=>x.r.k===dashFilter):flagged;
+ const cap=(dashFilter||dashExpanded)?shown.length:6;
+ $("dashList").innerHTML=shown.length
+  ?`<div class="dash-list">${shown.slice(0,cap).map(x=>dashRowHTML(x.t,x.r)).join("")}${shown.length>cap?`<div class="dash-more" data-dash-all="1">ดูอีก ${shown.length-cap} รายการ</div>`:""}</div>`
+  :`<div class="dash-clear">${active.length?"ไม่มีอะไรค้างตอนนี้ — เคลียร์หมดแล้ว":"ยังไม่มีงานในระบบ"}</div>`;
+ $("dashSummary").innerHTML=[["ทำงานอยู่",active.length],["กำลังทำ",active.filter(t=>t.status==="In Progress").length],["รอคนอื่น",active.filter(t=>t.status==="Waiting").length],["เสร็จสัปดาห์นี้",done.filter(doneThisWeek).length]].map(x=>`<span><b>${x[1]}</b> ${x[0]}</span>`).join("");
+}
+function render(){populateFilters();renderCategories();updateLastBackup();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
+const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
 $("archiveList").innerHTML=archiveHTML(archived);
 $("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").split(" ")[0]||"Guy"}`;
 $("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
-const todayList=active.filter(isDueToday),todayMins=taskMinutes(todayList),highToday=todayList.filter(t=>t.priority==="High").length,overN=active.filter(isOverdue).length,waitN=active.filter(t=>t.status==="Waiting").length;
-$("morningBrief").innerHTML=[
- ["Today",todayList.length],["Estimated",fmtMinutes(todayMins)||"0m"],["High Priority",highToday],["Overdue",overN]
-].map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
 const focusTop=[...active].sort((a,b)=>(isOverdue(b)-isOverdue(a))||((b.priority==="High")-(a.priority==="High"))||((a.due||"9999").localeCompare(b.due||"9999"))).slice(0,3);
 $("focusTopList").innerHTML=focusTop.length?focusTop.map(taskHTML).join(""):'<div class="empty">No focus tasks.</div>';
 $("focusPanel").classList.toggle("hidden",!focusEnabled);
