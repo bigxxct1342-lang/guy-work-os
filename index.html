@@ -239,7 +239,6 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
   <button data-view="tasks">Tasks</button>
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
-  <button data-view="personal">Personal Life</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
@@ -284,39 +283,6 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
  <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList" class="task-list"></div></div></section>
 
- <section id="personalView" class="hidden">
-  <div class="help" style="margin-bottom:14px">พื้นที่ส่วนตัวของคุณ แยกจากงานทีมโดยสิ้นเชิง — ไม่มีใครเห็นข้อมูลนี้ได้ แม้แต่ Super Admin</div>
-  <div class="tabs" id="personalTabs">
-   <button class="tab active" data-ptab="reading">Reading</button>
-   <button class="tab" data-ptab="exercise">Exercise</button>
-   <button class="tab" data-ptab="sleep">Sleep</button>
-   <button class="tab" data-ptab="health">Health</button>
-  </div>
-  <div class="grid">
-   <div>
-    <div class="card section" style="margin-bottom:18px">
-     <h2 id="personalFormTitle">Add Reading Log</h2>
-     <div id="personalFormGrid" class="formgrid">
-      <div class="field"><label>Date</label><input id="plDate" type="date"></div>
-      <div class="field" data-kinds="reading"><label>Book Title</label><input id="plBook"></div>
-      <div class="field" data-kinds="reading"><label>Page (current)</label><input id="plPageCur" type="number" min="0"></div>
-      <div class="field" data-kinds="reading"><label>Page (total)</label><input id="plPageTotal" type="number" min="0"></div>
-      <div class="field hidden" data-kinds="exercise"><label>Activity</label><input id="plActivity" placeholder="e.g. Running 5km"></div>
-      <div class="field hidden" data-kinds="exercise"><label>Duration (minutes)</label><input id="plDuration" type="number" min="0"></div>
-      <div class="field hidden" data-kinds="sleep"><label>Bed Time</label><input id="plBed" type="time"></div>
-      <div class="field hidden" data-kinds="sleep"><label>Wake Time</label><input id="plWake" type="time"></div>
-      <div class="field hidden" data-kinds="health"><label>Weight (kg)</label><input id="plWeight" type="number" step="0.1" min="0"></div>
-      <div class="full field"><label>Note</label><textarea id="plNote" rows="2"></textarea></div>
-     </div>
-     <div class="actions"><button id="savePersonalLog" class="btn primary">Add Log</button></div>
-    </div>
-   </div>
-   <div>
-    <div class="card section"><h2>Summary</h2><div id="personalSummary" class="brief-grid"></div></div>
-   </div>
-  </div>
-  <div class="card section"><h2>History</h2><div id="personalHistory" class="task-list"></div></div>
- </section>
 
  <section id="productlaunchView" class="hidden">
   <div class="help" style="margin-bottom:14px">พื้นที่ของทีม MKT เท่านั้น ใช้แทน Excel เดิมสำหรับติดตามขั้นตอนออกสินค้าใหม่</div>
@@ -728,10 +694,24 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
  const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];syncState("Cloud synced");render()}
-async function saveTask(payload,id=null){syncState("Saving…");const q=id?sb.from("tasks").update({...payload,updated_at:new Date().toISOString()}).eq("id",id):sb.from("tasks").insert(payload);const {error}=await q;if(error){alert(error.message);syncState("Save failed",false);return false}await loadAll();return true}
-window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id);if(t.recurring_rule&&t.due){const nd=addRecurringDate(t.due,t.recurring_rule);if(nd){await sb.from("tasks").insert({user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,status:"To Do",priority:t.priority,due:nd,waiting_since:null,note:t.note||"",pinned:false,estimate_minutes:t.estimate_minutes||null,recurring_rule:t.recurring_rule,completed_at:null})}}await loadAll()}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
+// Task writes apply to local state and repaint first, then persist. A failed
+// write puts the old row back, so the screen never drifts from the server.
+async function saveTask(payload,id=null){
+ if(!id)return await createTask(payload);
+ const i=tasks.findIndex(x=>x.id===id);if(i<0)return false;
+ const before=tasks[i],patch={...payload,updated_at:new Date().toISOString()};
+ tasks[i]={...before,...patch};render();syncState("Saving…");
+ const {error}=await sb.from("tasks").update(patch).eq("id",id);
+ if(error){const j=tasks.findIndex(x=>x.id===id);if(j>=0)tasks[j]=before;render();toast(error.message,"bad");syncState("Save failed",false);return false}
+ syncState("Cloud synced");return true}
+async function createTask(payload){
+ syncState("Saving…");
+ const {data,error}=await sb.from("tasks").insert(payload).select().single();
+ if(error){toast(error.message,"bad");syncState("Save failed",false);return false}
+ tasks.unshift(data);render();syncState("Cloud synced");return true}
+window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id);if(t.recurring_rule&&t.due){const nd=addRecurringDate(t.due,t.recurring_rule);if(nd){await createTask({user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,status:"To Do",priority:t.priority,due:nd,waiting_since:null,note:t.note||"",pinned:false,estimate_minutes:t.estimate_minutes||null,recurring_rule:t.recurring_rule,completed_at:null})}}}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
 window.quickMove=async(id,where)=>{const due=where==="today"?todayISO():where==="tomorrow"?tomorrowISO():nextMondayISO();await saveTask({due},id);toast(`Moved to ${where==="today"?"Today":where==="tomorrow"?"Tomorrow":"Next Monday"}`)};
-window.deleteTask=async id=>{if(confirm("Delete task?")){const {error}=await sb.from("tasks").delete().eq("id",id);if(error)toast(error.message,"bad");else toast("Task deleted");await loadAll()}}
+window.deleteTask=async id=>{if(!confirm("Delete task?"))return;const i=tasks.findIndex(x=>x.id===id);if(i<0)return;const before=tasks[i];tasks.splice(i,1);render();syncState("Saving…");const {error}=await sb.from("tasks").delete().eq("id",id);if(error){tasks.splice(i,0,before);render();toast(error.message,"bad");syncState("Save failed",false);return}toast("Task deleted");syncState("Cloud synced")}
 function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"No date",wd=waitDays(t);return `<div class="task"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${t.id},this.checked)"><button class="pin ${t.pinned?"on":""}" onclick="togglePin(${t.id})">${t.pinned?"★":"☆"}</button><div><div class="task-title">${esc(t.task)}</div>${t.note?`<div class="task-note">${esc(t.note)}</div>`:""}<div class="task-meta"><span>${esc(t.category)} / ${esc(t.sub)}</span>${isAdmin()?`<span class="pill owner">${esc(profileName(t.user_id))}</span>`:""}<span class="pill ${pclass(t.priority)}">${t.priority}</span>${t.status==="Waiting"?'<span class="pill waiting">Waiting</span>':""}${t.status==="Done"?'<span class="pill done">Done</span>':""}${isOverdue(t)?'<span class="pill overdue">Overdue</span>':""}${isToday(t)?'<span class="pill today">Today</span>':""}<span>${due}</span>${wd!==null?`<span>Waiting ${wd} days</span>`:""}${t.estimate_minutes?`<span>${fmtMinutes(t.estimate_minutes)} est.</span>`:""}${t.recurring_rule?`<span>↻ ${esc(t.recurring_rule)}</span>`:""}</div><div class="quick-actions">
       ${t.status!=="Done"?`<button class="btn secondary small" onclick="quickMove(${t.id},'today')">Today</button><button class="btn secondary small" onclick="quickMove(${t.id},'tomorrow')">Tomorrow</button><button class="btn secondary small" onclick="quickMove(${t.id},'monday')">Next Mon</button>`:""}
     </div></div><div class="task-actions"><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`}
@@ -980,88 +960,6 @@ async function unlinkLine(){
 }
 $("lineActionBtn").onclick=async()=>{
  if(lineSub)await unlinkLine();else await generateLineCode();
-};
-
-let personalLogs=[],personalKind="reading";
-async function loadPersonal(){
- const {data,error}=await sb.from("personal_logs").select("*").order("log_date",{ascending:false}).order("id",{ascending:false});
- if(error){console.error(error);toast("Load personal logs failed: "+error.message,"bad");return}
- personalLogs=data||[];
-}
-function sleepMinutes(bed,wake){
- if(!bed||!wake)return null;
- const [bh,bm]=bed.split(":").map(Number),[wh,wm]=wake.split(":").map(Number);
- let mins=(wh*60+wm)-(bh*60+bm);
- if(mins<=0)mins+=24*60;
- return mins;
-}
-function personalLogHTML(l){
- let title="",meta="";
- if(l.kind==="reading"){title=esc(l.book_title||"");meta=l.page_total?`หน้า ${l.page_current||0}/${l.page_total} (${Math.round((l.page_current||0)/l.page_total*100)}%)`:`หน้า ${l.page_current||0}`}
- else if(l.kind==="exercise"){title=esc(l.activity||"");meta=l.duration_minutes?fmtMinutes(l.duration_minutes):""}
- else if(l.kind==="sleep"){const m=sleepMinutes(l.bed_time,l.wake_time);title=`${l.bed_time||"?"} → ${l.wake_time||"?"}`;meta=m?`นอน ${fmtMinutes(m)}`:""}
- else{title=l.weight_kg?`${l.weight_kg} kg`:"Health note";meta=""}
- return `<div class="row"><strong>${new Date(l.log_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${title}</strong><span>${meta}${l.note?" · "+esc(l.note):""}</span><div style="margin-top:6px"><button class="btn danger small" onclick="deletePersonalLog(${l.id})">Delete</button></div></div>`;
-}
-window.deletePersonalLog=async id=>{
- if(!confirm("Delete this log?"))return;
- const {error}=await sb.from("personal_logs").delete().eq("id",id);
- if(error)return toast(error.message,"bad");
- await loadPersonal();renderPersonal();
-};
-function renderPersonal(){
- if(!$("personalTabs"))return;
- document.querySelectorAll("#personalTabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.ptab===personalKind));
- document.querySelectorAll("#personalFormGrid [data-kinds]").forEach(el=>el.classList.toggle("hidden",el.dataset.kinds!==personalKind));
- $("personalFormTitle").textContent="Add "+({reading:"Reading",exercise:"Exercise",sleep:"Sleep",health:"Health"}[personalKind])+" Log";
- const list=personalLogs.filter(l=>l.kind===personalKind);
- $("personalHistory").innerHTML=list.length?list.map(personalLogHTML).join(""):'<div class="empty">No logs yet.</div>';
- let summary=[];
- if(personalKind==="reading"){
-  const latest=list[0];
-  summary=[["Current Book",latest?.book_title||"—"],["Page",latest?(latest.page_total?`${latest.page_current||0}/${latest.page_total}`:String(latest.page_current||0)):"—"],["Logs",list.length]];
- }else if(personalKind==="exercise"){
-  const weekStart=startOfWeekISO();
-  const weekList=list.filter(l=>new Date(l.log_date+"T00:00:00")>=weekStart);
-  const weekMins=weekList.reduce((s,l)=>s+Number(l.duration_minutes||0),0);
-  summary=[["This Week",weekList.length+" sessions"],["Minutes",fmtMinutes(weekMins)||"0m"],["Total Logs",list.length]];
- }else if(personalKind==="sleep"){
-  const last=list[0],lastMin=last?sleepMinutes(last.bed_time,last.wake_time):null;
-  const last7=list.slice(0,7).map(l=>sleepMinutes(l.bed_time,l.wake_time)).filter(Boolean);
-  const avg=last7.length?Math.round(last7.reduce((a,b)=>a+b,0)/last7.length):null;
-  summary=[["Last Night",lastMin?fmtMinutes(lastMin):"—"],["7-Day Avg",avg?fmtMinutes(avg):"—"],["Total Logs",list.length]];
- }else{
-  const latest=list.find(l=>l.weight_kg);
-  summary=[["Latest Weight",latest?latest.weight_kg+" kg":"—"],["Total Logs",list.length]];
- }
- $("personalSummary").innerHTML=summary.map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
-}
-document.querySelectorAll("#personalTabs .tab").forEach(b=>b.onclick=()=>{personalKind=b.dataset.ptab;renderPersonal()});
-if($("plDate"))$("plDate").value=todayISO();
-$("savePersonalLog").onclick=async()=>{
- const kind=personalKind,date=$("plDate").value||todayISO();
- const payload={user_id:user.id,kind,log_date:date,note:$("plNote").value.trim()||null};
- if(kind==="reading"){
-  if(!$("plBook").value.trim())return toast("ใส่ชื่อหนังสือก่อน","bad");
-  payload.book_title=$("plBook").value.trim();
-  payload.page_current=$("plPageCur").value?Number($("plPageCur").value):null;
-  payload.page_total=$("plPageTotal").value?Number($("plPageTotal").value):null;
- }else if(kind==="exercise"){
-  if(!$("plActivity").value.trim())return toast("ใส่กิจกรรมก่อน","bad");
-  payload.activity=$("plActivity").value.trim();
-  payload.duration_minutes=$("plDuration").value?Number($("plDuration").value):null;
- }else if(kind==="sleep"){
-  if(!$("plBed").value||!$("plWake").value)return toast("ใส่เวลานอนและตื่นก่อน","bad");
-  payload.bed_time=$("plBed").value;payload.wake_time=$("plWake").value;
- }else{
-  payload.weight_kg=$("plWeight").value?Number($("plWeight").value):null;
-  if(!payload.weight_kg&&!payload.note)return toast("ใส่น้ำหนักหรือโน้ตก่อน","bad");
- }
- const {error}=await sb.from("personal_logs").insert(payload);
- if(error)return toast(error.message,"bad");
- ["plBook","plPageCur","plPageTotal","plActivity","plDuration","plBed","plWake","plWeight","plNote"].forEach(id=>{if($(id))$(id).value=""});
- toast("บันทึกแล้ว");
- await loadPersonal();renderPersonal();
 };
 
 const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process"},{key:"label",name:"ฉลาก (Label)"},{key:"carton",name:"ลัง (Carton)"}];
@@ -1676,18 +1574,17 @@ $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
 renderCalendar();renderAdmin()}
-["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
+["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","personal","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
  if(view==="calendar")renderCalendar();
  if(view==="admin")renderAdmin();
  if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
- if(view==="personal")loadPersonal().then(renderPersonal);
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
