@@ -43,7 +43,32 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 .quick-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.quick-actions .btn{padding:5px 7px;font-size:9px}
 .day.selected-day{outline:2px solid #20262d;outline-offset:-2px}
 .drawerbg{position:fixed;inset:0;background:rgba(16,20,24,.34);z-index:2800}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,92vw);background:#f7f5f0;padding:22px;box-shadow:-12px 0 34px rgba(0,0,0,.16);overflow:auto}.drawer h3{margin:0 0 6px}.drawer-date{color:var(--muted);font-size:12px;margin-bottom:16px}.drawer-list{display:grid;gap:10px}
-.archive-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.archive-toolbar input,.archive-toolbar select{min-width:180px}
+.archive-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.archive-toolbar input{flex:1;min-width:200px}
+.archive-toolbar select{width:auto;min-width:170px;flex:none}
+.ar-group{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;overflow:hidden}
+.ar-head{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;list-style:none;background:var(--soft);user-select:none}
+.ar-head::-webkit-details-marker{display:none}
+.ar-caret{font-size:9px;color:var(--muted);flex:none;transition:transform .15s;display:inline-block}
+.ar-group[open] .ar-caret{transform:rotate(90deg)}
+.ar-head b{font-size:13px;line-height:1.6;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ar-count{background:var(--dark);color:#fff;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:850;flex:none}
+.ar-latest{font-size:10px;color:var(--muted);flex:none}
+.ar-row{display:flex;align-items:center;gap:11px;padding:9px 14px;border-top:1px solid var(--line);background:var(--panel)}
+.ar-row:hover{background:var(--soft)}
+.ar-check{width:16px;height:16px;border-radius:50%;background:var(--green);color:var(--greenT);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;flex:none}
+.ar-main{flex:1;min-width:0}
+.ar-title{font-size:13px;font-weight:700;line-height:1.5}
+.ar-note{font-size:11px;line-height:1.5;color:var(--muted);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ar-side{display:flex;align-items:center;gap:8px;flex:none}
+.ar-sub,.ar-owner{font-size:10px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.ar-date{font-size:11px;color:var(--muted);font-weight:750;white-space:nowrap;min-width:52px;text-align:right}
+.ar-act{display:flex;gap:6px;flex:none;opacity:0;pointer-events:none;transition:opacity .12s}
+.ar-row:hover .ar-act,.ar-row:focus-within .ar-act,.ar-row.ar-expanded .ar-act{opacity:1;pointer-events:auto}
+.ar-row.ar-expanded{background:var(--soft)}
+body.dark .ar-count{background:var(--line);color:var(--text)}
+body.dark .ar-row{background:var(--card)}
+@media(max-width:820px){.ar-row{flex-wrap:wrap;gap:9px;padding:10px 12px;cursor:pointer}.ar-act{display:none;opacity:1;pointer-events:auto}.ar-row.ar-expanded .ar-act{display:flex;flex:1 1 100%;justify-content:flex-end}.ar-latest{display:none}}
 @media(max-width:820px){.attention-grid{grid-template-columns:1fr}.toast-wrap{left:12px;right:12px;bottom:12px}.toast{max-width:none}}
 
 
@@ -343,7 +368,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   </div>
  </section>
 
- <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList" class="task-list"></div></div></section>
+ <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList"></div></div></section>
 
 
  <section id="productlaunchView" class="hidden">
@@ -777,6 +802,27 @@ window.deleteTask=async id=>{if(!confirm("Delete task?"))return;const i=tasks.fi
 function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"No date",wd=waitDays(t);return `<div class="task"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${t.id},this.checked)"><button class="pin ${t.pinned?"on":""}" onclick="togglePin(${t.id})">${t.pinned?"★":"☆"}</button><div><div class="task-title">${esc(t.task)}</div>${t.note?`<div class="task-note">${esc(t.note)}</div>`:""}<div class="task-meta"><span>${esc(t.category)} / ${esc(t.sub)}</span>${isAdmin()?`<span class="pill owner">${esc(profileName(t.user_id))}</span>`:""}<span class="pill ${pclass(t.priority)}">${t.priority}</span>${t.status==="Waiting"?'<span class="pill waiting">Waiting</span>':""}${t.status==="Done"?'<span class="pill done">Done</span>':""}${isOverdue(t)?'<span class="pill overdue">Overdue</span>':""}${isToday(t)?'<span class="pill today">Today</span>':""}<span>${due}</span>${wd!==null?`<span>Waiting ${wd} days</span>`:""}${t.estimate_minutes?`<span>${fmtMinutes(t.estimate_minutes)} est.</span>`:""}${t.recurring_rule?`<span>↻ ${esc(t.recurring_rule)}</span>`:""}</div><div class="quick-actions">
       ${t.status!=="Done"?`<button class="btn secondary small" onclick="quickMove(${t.id},'today')">Today</button><button class="btn secondary small" onclick="quickMove(${t.id},'tomorrow')">Tomorrow</button><button class="btn secondary small" onclick="quickMove(${t.id},'monday')">Next Mon</button>`:""}
     </div></div><div class="task-actions"><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`}
+/* Archive rows are history, not a to-do list: the checkbox, star, priority and
+   "Done" pill that taskHTML draws are all redundant once everything is done,
+   so completed tasks get their own compact row grouped under their category. */
+function archiveWhen(t){const s=t.completed_at||(t.due?t.due+"T00:00:00":null);return s?new Date(s):null}
+function archiveRowHTML(t,showOwner){
+ const d=archiveWhen(t);
+ return `<div class="ar-row"><span class="ar-check">✓</span><div class="ar-main"><div class="ar-title">${esc(t.task)}</div>${t.note?`<div class="ar-note">${esc(t.note)}</div>`:""}</div><div class="ar-side">${t.sub&&t.sub!=="General"?`<span class="ar-sub">${esc(t.sub)}</span>`:""}${showOwner?`<span class="ar-owner">${esc(profileName(t.user_id))}</span>`:""}<span class="ar-date">${d?d.toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"—"}</span></div><div class="ar-act"><button class="btn secondary small" onclick="toggleTask(${t.id},false)">Restore</button><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`;
+}
+function archiveHTML(list){
+ if(!list.length)return '<div class="empty">No completed tasks.</div>';
+ const showOwner=isAdmin()&&new Set(list.map(t=>t.user_id)).size>1;
+ const groups=new Map();
+ list.forEach(t=>{const k=t.category||"Uncategorized";(groups.get(k)||groups.set(k,[]).get(k)).push(t)});
+ return [...groups.entries()].map(([cat,rows])=>{
+  rows.sort((a,b)=>(archiveWhen(b)?.getTime()||0)-(archiveWhen(a)?.getTime()||0));
+  const latest=archiveWhen(rows[0]);
+  return {cat,rows,ts:latest?.getTime()||0,latest};
+ }).sort((a,b)=>b.ts-a.ts).map(g=>
+  `<details class="ar-group" open><summary class="ar-head"><span class="ar-caret">▶</span><b>${esc(g.cat)}</b><span class="ar-count">${g.rows.length}</span><span class="ar-latest">ล่าสุด ${g.latest?g.latest.toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"—"}</span></summary><div>${g.rows.map(t=>archiveRowHTML(t,showOwner)).join("")}</div></details>`
+ ).join("");
+}
 function groupedHTML(list){const g={};list.forEach(t=>{g[t.category]??={};g[t.category][t.sub]??=[];g[t.category][t.sub].push(t)});return Object.keys(g).map(cat=>`<div class="category-block"><div class="category-head"><div class="category-name">${esc(cat)}</div></div>${Object.keys(g[cat]).map(sub=>`<div class="subcategory"><div class="sub-title">${esc(sub)}</div><div class="task-list">${g[cat][sub].map(taskHTML).join("")}</div></div>`).join("")}</div>`).join("")||'<div class="empty">No tasks.</div>'}
 function populateFilters(){const opts=profiles.map(p=>`<option value="${p.user_id}">${esc(p.full_name||p.email)}</option>`).join("");$("filterMember").innerHTML='<option value="">All Members</option>'+opts;$("calendarMember").innerHTML='<option value="">All Members</option>'+opts;const fc=$("filterCategory").value,fs=$("filterSub").value;$("filterCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(categories.map(c=>c.name))].map(n=>`<option>${esc(n)}</option>`).join("");$("filterCategory").value=fc;const subs=[...new Set(categories.flatMap(c=>Array.isArray(c.subs)?c.subs:[]))];$("filterSub").innerHTML='<option value="">All Subcategories</option>'+subs.map(s=>`<option>${esc(s)}</option>`).join("");$("filterSub").value=fs}
 function populateTaskForm(owner,cat,sub){if(isAdmin()){$("fOwner").innerHTML=profiles.filter(p=>p.status==="active").map(p=>`<option value="${p.user_id}">${esc(p.full_name||p.email)}</option>`).join("");$("fOwner").value=owner||user.id}const ownerId=isAdmin()?$("fOwner").value:user.id;const cats=categories.filter(c=>c.user_id===ownerId);$("fCategory").innerHTML=(cats.length?cats:categories.filter(c=>c.user_id===user.id)).map(c=>`<option>${esc(c.name)}</option>`).join("");if(cat)$("fCategory").value=cat;updateSubs(sub)}
@@ -1434,6 +1480,14 @@ $("commandPalette").onclick=e=>{if(e.target===$("commandPalette"))closeLayer("co
 [...document.querySelectorAll("#bottomNav [data-go]")].forEach(b=>b.onclick=()=>goView(b.dataset.go));
 
 $("archiveSearch").oninput=render;$("archiveCategory").onchange=render;
+// Rows reveal their actions on hover; touch devices tap a row instead.
+$("archiveList").onclick=e=>{
+ if(e.target.closest("button, summary"))return;
+ const row=e.target.closest(".ar-row");if(!row)return;
+ const open=row.classList.contains("ar-expanded");
+ $("archiveList").querySelectorAll(".ar-row.ar-expanded").forEach(r=>r.classList.remove("ar-expanded"));
+ if(!open)row.classList.add("ar-expanded");
+};
 $("prevMonth").onclick=()=>{if(calendarMode==="week")calendarCursor.setDate(calendarCursor.getDate()-7);else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);renderCalendar()};
 $("nextMonth").onclick=()=>{if(calendarMode==="week")calendarCursor.setDate(calendarCursor.getDate()+7);else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1);renderCalendar()};
 $("todayMonth").onclick=()=>{calendarCursor=new Date();renderCalendar()};
@@ -1735,7 +1789,7 @@ if(highNoDue.length)attention.push([`${highNoDue.length} high priority without d
 $("personalAttention").innerHTML=attention.length?attention.map(a=>`<div class="attention-item"><b>${esc(a[0])}</b><span>${esc(a[1])}</span></div>`).join(""):'<div class="empty">Nothing urgent right now.</div>';const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
-$("archiveList").innerHTML=archived.length?archived.map(taskHTML).join(""):'<div class="empty">No completed tasks.</div>';
+$("archiveList").innerHTML=archiveHTML(archived);
 $("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").split(" ")[0]||"Guy"}`;
 $("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
 const todayList=active.filter(isDueToday),todayMins=taskMinutes(todayList),highToday=todayList.filter(t=>t.priority==="High").length,overN=active.filter(isOverdue).length,waitN=active.filter(t=>t.status==="Waiting").length;

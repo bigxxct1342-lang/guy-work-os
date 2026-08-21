@@ -174,6 +174,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.8 Archive redesign
+- Completed tasks are now **grouped under their category**, as collapsible sections showing a count and the most recent completion date, with the most recently active category first.
+- Archive rows no longer reuse the full task card. A finished task does not need a checkbox that is always ticked, a star, a priority pill, or a "Done" pill in a list where everything is done — each row is now a single compact line: a green check, the title, an optional note, the sub-category (only when it is not "General"), and the completion date. Roughly three times as many tasks fit on screen.
+- The owner pill only appears for admins when the archive actually contains more than one person's tasks.
+- Edit / Delete are revealed on row hover; on touch devices, tapping a row reveals them (one row at a time) instead of permanently occupying three lines per task.
+- Added an explicit **Restore** action, since removing the always-checked checkbox removed the old way to un-complete a task.
+
 ## V7.7 Priority Matrix
 - New "Priority Matrix" section: a 2x2 Eisenhower grid, red (Q1) through green (Q4). Vertical axis is importance, taken from the task's own Priority field; horizontal axis is urgency, **derived from how many days are left until the task is due** — so a task drifts toward the urgent column on its own as its deadline approaches, without anyone re-filing it.
 - **Drag between quadrants edits the real task.** Dropping a task changes only the field(s) that disagree with where it landed: an already-High task dragged from Q1 to Q2 moves its due date and leaves the priority alone; dropping a task back in the quadrant it already occupies writes nothing at all. Every move shows what changed plus an Undo.
