@@ -174,6 +174,14 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.7 Priority Matrix
+- New "Priority Matrix" section: a 2x2 Eisenhower grid, red (Q1) through green (Q4). Vertical axis is importance, taken from the task's own Priority field; horizontal axis is urgency, **derived from how many days are left until the task is due** — so a task drifts toward the urgent column on its own as its deadline approaches, without anyone re-filing it.
+- **Drag between quadrants edits the real task.** Dropping a task changes only the field(s) that disagree with where it landed: an already-High task dragged from Q1 to Q2 moves its due date and leaves the priority alone; dropping a task back in the quadrant it already occupies writes nothing at all. Every move shows what changed plus an Undo.
+- **Time Machine** — jump the whole board forward +1 / +3 / +7 days and watch which tasks slide into Q1. Answers "what is on fire next Monday?" at a glance. Dragging is disabled while looking at the future so due dates are never edited against a shifted date.
+- Tasks that will cross into urgent within a day pulse gently; tasks that newly entered Q1 in a future view get a red ring.
+- Quadrant warnings: Q1 over 5 tasks flags that the problem is planning, not effort; an empty Q2 flags that no strategic work is queued.
+- Uses the existing `priority` and `due` columns, so **no migration is needed** and every change is instantly reflected in Tasks, Calendar, and the daily brief.
+
 ## V7.6 Instant task updates + Personal Life retired
 - Ticking, pinning, moving, editing, and deleting a task now updates the screen immediately and saves in the background, instead of re-downloading every task and repainting the whole app after each change. A failed save puts the old row back and shows the error, so the screen never drifts from the server.
 - Removed the "Personal Life" section (reading/exercise/sleep/health logs) — this app is for work only.
