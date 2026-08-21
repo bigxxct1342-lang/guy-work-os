@@ -55,7 +55,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `config.js` Supabase client configuration
 - `migration-v6-admin.sql` database/admin upgrade
 - `migration-v7-2-push-notifications.sql` push subscription storage for Daily Task Reminder
-- `migration-v7-3-personal-line.sql` Personal Life Tracker tables + LINE linking tables
+- `migration-v7-3-personal-line.sql` LINE linking tables (also created the `personal_logs` table, retired in V7.6)
 - `migration-v7-4-pin-lockout.sql` PIN brute-force lockout
 - `migration-v7-5-product-launch.sql` Product Launch (NPD tracker) tables + Thai holiday calendar
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
@@ -174,8 +174,21 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.7 Priority Matrix
+- New "Priority Matrix" section: a 2x2 Eisenhower grid, red (Q1) through green (Q4). Vertical axis is importance, taken from the task's own Priority field; horizontal axis is urgency, **derived from how many days are left until the task is due** — so a task drifts toward the urgent column on its own as its deadline approaches, without anyone re-filing it.
+- **Drag between quadrants edits the real task.** Dropping a task changes only the field(s) that disagree with where it landed: an already-High task dragged from Q1 to Q2 moves its due date and leaves the priority alone; dropping a task back in the quadrant it already occupies writes nothing at all. Every move shows what changed plus an Undo.
+- **Time Machine** — jump the whole board forward +1 / +3 / +7 days and watch which tasks slide into Q1. Answers "what is on fire next Monday?" at a glance. Dragging is disabled while looking at the future so due dates are never edited against a shifted date.
+- Tasks that will cross into urgent within a day pulse gently; tasks that newly entered Q1 in a future view get a red ring.
+- Quadrant warnings: Q1 over 5 tasks flags that the problem is planning, not effort; an empty Q2 flags that no strategic work is queued.
+- Uses the existing `priority` and `due` columns, so **no migration is needed** and every change is instantly reflected in Tasks, Calendar, and the daily brief.
+
+## V7.6 Instant task updates + Personal Life retired
+- Ticking, pinning, moving, editing, and deleting a task now updates the screen immediately and saves in the background, instead of re-downloading every task and repainting the whole app after each change. A failed save puts the old row back and shows the error, so the screen never drifts from the server.
+- Removed the "Personal Life" section (reading/exercise/sleep/health logs) — this app is for work only.
+- The `personal_logs` table and its policies are left untouched in Supabase, so any data already logged is still there. To delete it permanently, run `drop table public.personal_logs;` in the SQL Editor. Nothing in the app reads it any more.
+
 ## V7.5 Product Launch (NPD Tracker)
-- New "Product Launch" section — team-wide (visible to your Marketing team only, same boundary as Tasks/Categories), separate from Personal Life which stays private per-user
+- New "Product Launch" section — team-wide (visible to your Marketing team only, same boundary as Tasks/Categories)
 - Process & Timeline tab: Formular & FDA Process / ฉลาก (Label) / ลัง (Carton) phases, each with editable Milestones (title + duration in working days) and Steps (status: Done/Working/Wait/Next Step/Skipped, owners tag, deadline note). Milestones that are fully done collapse automatically. Add/rename/delete Milestones and Steps freely — the process isn't fixed
 - Timeline auto-computes real dates from each Milestone's duration, skipping weekends and Thai public holidays (`thai_holidays` table — extend it yourself every year), and shows when the product will realistically be ready (Label is expected to land the same day as the formula/FDA track; Carton is shown separately since it's allowed to trail without delaying launch)
 - "+ New Product" clones a standard template (the same phases/milestones/steps you get today) so you don't retype the process for every new SKU
@@ -199,7 +212,7 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 - `daily-brief` was updated to prefer LINE over Web Push when a user has linked LINE
 
 ### Set up Personal Life Tracker
-Just run `migration-v7-3-personal-line.sql` in Supabase SQL Editor. No other setup needed — it works immediately from the "Personal Life" nav item.
+**Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
 ### Set up LINE Notifications
 1. Create a LINE Official Account (free): https://www.linebiz.com/th/service/line-official-account/ → LINE Official Account Manager → create an account.

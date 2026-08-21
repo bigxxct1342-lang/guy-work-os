@@ -1,4 +1,4 @@
-const CACHE="guy-work-os-v7-5-5-porkchop-splash-webp";
+const CACHE="guy-work-os-v7-7-priority-matrix";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener("activate",e=>e.waitUntil(

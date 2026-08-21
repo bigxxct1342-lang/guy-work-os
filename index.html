@@ -173,6 +173,47 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
+.pm-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.pm-time{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.pm-time>span{font-size:10px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:.7px}
+.pm-tab{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;cursor:pointer}
+.pm-tab.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.pm-banner{border:1px solid #e0c9a8;background:#fdf5e8;color:#7a5a22;border-radius:12px;padding:10px 13px;font-size:12px;margin-bottom:12px;font-weight:700;line-height:1.55}
+.pm-wrap{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.pm-ylab{display:grid;grid-template-rows:1fr 1fr;gap:12px;padding-top:24px}
+.pm-ylab span{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:10px;font-weight:850;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase}
+.pm-xlab{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+.pm-xlab span{text-align:center;font-size:10px;font-weight:850;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px}
+.pm-q{border:1px solid var(--line);border-top:3px solid var(--pm-accent);border-radius:16px;padding:13px;min-height:215px;display:flex;flex-direction:column;background:linear-gradient(var(--pm-tint),var(--pm-tint)),var(--panel);transition:box-shadow .15s}
+.pm-q.q1{--pm-accent:#d64545;--pm-tint:rgba(214,69,69,.06)}
+.pm-q.q2{--pm-accent:#e08a2e;--pm-tint:rgba(224,138,46,.06)}
+.pm-q.q3{--pm-accent:#d9b528;--pm-tint:rgba(217,181,40,.07)}
+.pm-q.q4{--pm-accent:#3ca05a;--pm-tint:rgba(60,160,90,.06)}
+.pm-q.pm-over{box-shadow:0 0 0 2px var(--pm-accent) inset}
+.pm-qhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:9px}
+.pm-qhead b{font-size:13px;display:block}
+.pm-qsub{font-size:10px;color:var(--muted);display:block;margin-top:2px}
+.pm-count{background:var(--pm-accent);color:#fff;border-radius:999px;min-width:22px;height:22px;padding:0 7px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:850;flex:none}
+.pm-warn{font-size:10px;line-height:1.5;color:var(--pm-accent);font-weight:800;margin-bottom:8px}
+.pm-list{display:flex;flex-direction:column;gap:7px;flex:1}
+.pm-empty{font-size:11px;color:var(--muted);text-align:center;padding:16px 6px}
+.pm-card{border:1px solid var(--line);border-left:3px solid var(--pm-accent);border-radius:10px;background:var(--card);padding:9px 10px;cursor:grab;user-select:none;-webkit-user-select:none}
+.pm-title{font-size:12px;font-weight:780;line-height:1.35}
+.pm-meta{display:flex;justify-content:space-between;gap:8px;margin-top:5px;font-size:10px;color:var(--muted)}
+.pm-due{font-weight:800;flex:none}
+.pm-card.pm-late .pm-due{color:#c33}
+.pm-card.pm-heating{animation:pmHeat 1.9s ease-in-out infinite}
+@keyframes pmHeat{0%,100%{box-shadow:0 0 0 0 rgba(214,69,69,0)}50%{box-shadow:0 0 0 3px rgba(214,69,69,.2)}}
+.pm-card.pm-newhot{box-shadow:0 0 0 2px rgba(214,69,69,.4)}
+.pm-card.pm-dragging{opacity:.32}
+.pm-ghost{position:fixed;z-index:6000;pointer-events:none;box-shadow:0 14px 34px rgba(0,0,0,.3);cursor:grabbing;margin:0}
+body.pm-dragging-on{user-select:none;-webkit-user-select:none}
+.pm-toast{display:flex;align-items:center;gap:12px}
+.pm-undo{border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;cursor:pointer;flex:none}
+body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
+@media(max-width:820px){.pm-wrap{grid-template-columns:1fr}.pm-ylab{display:none}.pm-grid{gap:8px}.pm-q{padding:10px;min-height:168px;border-radius:13px}.pm-qhead b{font-size:11px}.pm-qsub{display:none}.pm-title{font-size:11px}.pm-xlab{gap:8px;margin-bottom:6px}}
+@media(prefers-reduced-motion:reduce){.pm-card.pm-heating{animation:none}}
 .splash{position:fixed;inset:0;z-index:9000;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding-bottom:64px}
 .splash-bg{position:absolute;inset:0;background-image:url('./porkchop-splash.webp');background-size:cover;background-position:32% center;animation:splashPan 20s ease-in-out infinite alternate;will-change:transform;transform-origin:center}
 .splash-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(18,12,8,.6) 0%,rgba(18,12,8,0) 38%)}
@@ -190,7 +231,7 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.5 · Product Launch</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.7 · Priority Matrix</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -239,7 +280,7 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
   <button data-view="tasks">Tasks</button>
   <button data-view="categories">Categories</button>
   <button data-view="archive">Archive</button>
-  <button data-view="personal">Personal Life</button>
+  <button data-view="matrix">Priority Matrix</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
@@ -282,41 +323,28 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 
  <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
- <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList" class="task-list"></div></div></section>
-
- <section id="personalView" class="hidden">
-  <div class="help" style="margin-bottom:14px">พื้นที่ส่วนตัวของคุณ แยกจากงานทีมโดยสิ้นเชิง — ไม่มีใครเห็นข้อมูลนี้ได้ แม้แต่ Super Admin</div>
-  <div class="tabs" id="personalTabs">
-   <button class="tab active" data-ptab="reading">Reading</button>
-   <button class="tab" data-ptab="exercise">Exercise</button>
-   <button class="tab" data-ptab="sleep">Sleep</button>
-   <button class="tab" data-ptab="health">Health</button>
+ <section id="matrixView" class="hidden">
+  <div class="pm-top">
+   <div class="help">แกนตั้ง = สำคัญแค่ไหน (จาก Priority) · แกนนอน = ด่วนแค่ไหน (คำนวณจากวันครบกำหนดเอง) — ลากงานข้ามช่องเพื่อแก้ค่าจริง</div>
+   <div class="pm-time"><span>ดูอนาคต</span><button class="pm-tab active" data-off="0">วันนี้</button><button class="pm-tab" data-off="1">+1 วัน</button><button class="pm-tab" data-off="3">+3 วัน</button><button class="pm-tab" data-off="7">+7 วัน</button></div>
   </div>
-  <div class="grid">
+  <div id="pmBanner" class="pm-banner hidden"></div>
+  <div class="pm-wrap">
+   <div class="pm-ylab"><span>สำคัญ</span><span>ไม่สำคัญ</span></div>
    <div>
-    <div class="card section" style="margin-bottom:18px">
-     <h2 id="personalFormTitle">Add Reading Log</h2>
-     <div id="personalFormGrid" class="formgrid">
-      <div class="field"><label>Date</label><input id="plDate" type="date"></div>
-      <div class="field" data-kinds="reading"><label>Book Title</label><input id="plBook"></div>
-      <div class="field" data-kinds="reading"><label>Page (current)</label><input id="plPageCur" type="number" min="0"></div>
-      <div class="field" data-kinds="reading"><label>Page (total)</label><input id="plPageTotal" type="number" min="0"></div>
-      <div class="field hidden" data-kinds="exercise"><label>Activity</label><input id="plActivity" placeholder="e.g. Running 5km"></div>
-      <div class="field hidden" data-kinds="exercise"><label>Duration (minutes)</label><input id="plDuration" type="number" min="0"></div>
-      <div class="field hidden" data-kinds="sleep"><label>Bed Time</label><input id="plBed" type="time"></div>
-      <div class="field hidden" data-kinds="sleep"><label>Wake Time</label><input id="plWake" type="time"></div>
-      <div class="field hidden" data-kinds="health"><label>Weight (kg)</label><input id="plWeight" type="number" step="0.1" min="0"></div>
-      <div class="full field"><label>Note</label><textarea id="plNote" rows="2"></textarea></div>
-     </div>
-     <div class="actions"><button id="savePersonalLog" class="btn primary">Add Log</button></div>
+    <div class="pm-xlab"><span>ด่วน</span><span>ไม่ด่วน</span></div>
+    <div id="pmGrid" class="pm-grid">
+     <div class="pm-q q1" data-q="1"><div class="pm-qhead"><div><b>Q1 · ทำวันนี้</b><span class="pm-qsub">ด่วน + สำคัญ</span></div><span class="pm-count" id="pmCount1">0</span></div><div id="pmWarn1" class="pm-warn hidden"></div><div id="pmList1" class="pm-list"></div></div>
+     <div class="pm-q q2" data-q="2"><div class="pm-qhead"><div><b>Q2 · ต้องวางแผน</b><span class="pm-qsub">สำคัญ ไม่ด่วน</span></div><span class="pm-count" id="pmCount2">0</span></div><div id="pmWarn2" class="pm-warn hidden"></div><div id="pmList2" class="pm-list"></div></div>
+     <div class="pm-q q3" data-q="3"><div class="pm-qhead"><div><b>Q3 · รีบแต่ไม่สำคัญ</b><span class="pm-qsub">ด่วน ไม่สำคัญ</span></div><span class="pm-count" id="pmCount3">0</span></div><div id="pmWarn3" class="pm-warn hidden"></div><div id="pmList3" class="pm-list"></div></div>
+     <div class="pm-q q4" data-q="4"><div class="pm-qhead"><div><b>Q4 · ไว้ก่อน</b><span class="pm-qsub">ไม่ด่วน ไม่สำคัญ</span></div><span class="pm-count" id="pmCount4">0</span></div><div id="pmWarn4" class="pm-warn hidden"></div><div id="pmList4" class="pm-list"></div></div>
     </div>
    </div>
-   <div>
-    <div class="card section"><h2>Summary</h2><div id="personalSummary" class="brief-grid"></div></div>
-   </div>
   </div>
-  <div class="card section"><h2>History</h2><div id="personalHistory" class="task-list"></div></div>
  </section>
+
+ <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList" class="task-list"></div></div></section>
+
 
  <section id="productlaunchView" class="hidden">
   <div class="help" style="margin-bottom:14px">พื้นที่ของทีม MKT เท่านั้น ใช้แทน Excel เดิมสำหรับติดตามขั้นตอนออกสินค้าใหม่</div>
@@ -728,10 +756,24 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
  const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];syncState("Cloud synced");render()}
-async function saveTask(payload,id=null){syncState("Saving…");const q=id?sb.from("tasks").update({...payload,updated_at:new Date().toISOString()}).eq("id",id):sb.from("tasks").insert(payload);const {error}=await q;if(error){alert(error.message);syncState("Save failed",false);return false}await loadAll();return true}
-window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id);if(t.recurring_rule&&t.due){const nd=addRecurringDate(t.due,t.recurring_rule);if(nd){await sb.from("tasks").insert({user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,status:"To Do",priority:t.priority,due:nd,waiting_since:null,note:t.note||"",pinned:false,estimate_minutes:t.estimate_minutes||null,recurring_rule:t.recurring_rule,completed_at:null})}}await loadAll()}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
+// Task writes apply to local state and repaint first, then persist. A failed
+// write puts the old row back, so the screen never drifts from the server.
+async function saveTask(payload,id=null){
+ if(!id)return await createTask(payload);
+ const i=tasks.findIndex(x=>x.id===id);if(i<0)return false;
+ const before=tasks[i],patch={...payload,updated_at:new Date().toISOString()};
+ tasks[i]={...before,...patch};render();syncState("Saving…");
+ const {error}=await sb.from("tasks").update(patch).eq("id",id);
+ if(error){const j=tasks.findIndex(x=>x.id===id);if(j>=0)tasks[j]=before;render();toast(error.message,"bad");syncState("Save failed",false);return false}
+ syncState("Cloud synced");return true}
+async function createTask(payload){
+ syncState("Saving…");
+ const {data,error}=await sb.from("tasks").insert(payload).select().single();
+ if(error){toast(error.message,"bad");syncState("Save failed",false);return false}
+ tasks.unshift(data);render();syncState("Cloud synced");return true}
+window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id);if(t.recurring_rule&&t.due){const nd=addRecurringDate(t.due,t.recurring_rule);if(nd){await createTask({user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,status:"To Do",priority:t.priority,due:nd,waiting_since:null,note:t.note||"",pinned:false,estimate_minutes:t.estimate_minutes||null,recurring_rule:t.recurring_rule,completed_at:null})}}}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
 window.quickMove=async(id,where)=>{const due=where==="today"?todayISO():where==="tomorrow"?tomorrowISO():nextMondayISO();await saveTask({due},id);toast(`Moved to ${where==="today"?"Today":where==="tomorrow"?"Tomorrow":"Next Monday"}`)};
-window.deleteTask=async id=>{if(confirm("Delete task?")){const {error}=await sb.from("tasks").delete().eq("id",id);if(error)toast(error.message,"bad");else toast("Task deleted");await loadAll()}}
+window.deleteTask=async id=>{if(!confirm("Delete task?"))return;const i=tasks.findIndex(x=>x.id===id);if(i<0)return;const before=tasks[i];tasks.splice(i,1);render();syncState("Saving…");const {error}=await sb.from("tasks").delete().eq("id",id);if(error){tasks.splice(i,0,before);render();toast(error.message,"bad");syncState("Save failed",false);return}toast("Task deleted");syncState("Cloud synced")}
 function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"No date",wd=waitDays(t);return `<div class="task"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${t.id},this.checked)"><button class="pin ${t.pinned?"on":""}" onclick="togglePin(${t.id})">${t.pinned?"★":"☆"}</button><div><div class="task-title">${esc(t.task)}</div>${t.note?`<div class="task-note">${esc(t.note)}</div>`:""}<div class="task-meta"><span>${esc(t.category)} / ${esc(t.sub)}</span>${isAdmin()?`<span class="pill owner">${esc(profileName(t.user_id))}</span>`:""}<span class="pill ${pclass(t.priority)}">${t.priority}</span>${t.status==="Waiting"?'<span class="pill waiting">Waiting</span>':""}${t.status==="Done"?'<span class="pill done">Done</span>':""}${isOverdue(t)?'<span class="pill overdue">Overdue</span>':""}${isToday(t)?'<span class="pill today">Today</span>':""}<span>${due}</span>${wd!==null?`<span>Waiting ${wd} days</span>`:""}${t.estimate_minutes?`<span>${fmtMinutes(t.estimate_minutes)} est.</span>`:""}${t.recurring_rule?`<span>↻ ${esc(t.recurring_rule)}</span>`:""}</div><div class="quick-actions">
       ${t.status!=="Done"?`<button class="btn secondary small" onclick="quickMove(${t.id},'today')">Today</button><button class="btn secondary small" onclick="quickMove(${t.id},'tomorrow')">Tomorrow</button><button class="btn secondary small" onclick="quickMove(${t.id},'monday')">Next Mon</button>`:""}
     </div></div><div class="task-actions"><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`}
@@ -982,87 +1024,124 @@ $("lineActionBtn").onclick=async()=>{
  if(lineSub)await unlinkLine();else await generateLineCode();
 };
 
-let personalLogs=[],personalKind="reading";
-async function loadPersonal(){
- const {data,error}=await sb.from("personal_logs").select("*").order("log_date",{ascending:false}).order("id",{ascending:false});
- if(error){console.error(error);toast("Load personal logs failed: "+error.message,"bad");return}
- personalLogs=data||[];
+/* ---- Priority Matrix (Eisenhower) --------------------------------------
+   Importance comes from the task's own priority field; urgency is derived
+   from how many days are left until it is due, so a task slides toward the
+   urgent column on its own as the deadline approaches. Dropping a task in a
+   quadrant edits only the field(s) that disagree with where it landed. */
+const PM_URGENT_DAYS=2,PM_Q1_LIMIT=5;
+const PM_Q={1:"Q1 · ทำวันนี้",2:"Q2 · ต้องวางแผน",3:"Q3 · รีบแต่ไม่สำคัญ",4:"Q4 · ไว้ก่อน"};
+let pmOffset=0,pmDrag=null;
+function pmRefISO(off=pmOffset){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+off);return iso(d)}
+function pmDaysUntil(t,ref){if(!t.due)return 9999;return Math.round((new Date(t.due+"T00:00:00")-new Date(ref+"T00:00:00"))/86400000)}
+function pmUrgent(t,ref){return pmDaysUntil(t,ref)<=PM_URGENT_DAYS}
+function pmQuad(t,ref){const u=pmUrgent(t,ref),i=t.priority==="High";return i?(u?1:2):(u?3:4)}
+function pmScope(){const s=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);return s.filter(t=>t.status!=="Done")}
+function pmDueLabel(d,due){if(!due)return"ไม่มีกำหนด";if(d<0)return`เลยมา ${Math.abs(d)} วัน`;if(d===0)return"วันนี้";if(d===1)return"พรุ่งนี้";return`อีก ${d} วัน`}
+function pmCardHTML(t,ref,today){
+ const d=pmDaysUntil(t,ref),dt=pmDaysUntil(t,today);
+ const newHot=pmOffset>0&&pmQuad(t,ref)===1&&pmQuad(t,today)!==1;
+ const heating=pmOffset===0&&dt>PM_URGENT_DAYS&&dt<=PM_URGENT_DAYS+1;
+ const cls=["pm-card",d<0?"pm-late":"",newHot?"pm-newhot":"",heating?"pm-heating":""].filter(Boolean).join(" ");
+ return `<div class="${cls}" data-id="${t.id}" title="${esc(t.task)}"><div class="pm-title">${esc(t.task)}</div><div class="pm-meta"><span>${esc(t.category||"")}</span><span class="pm-due">${pmDueLabel(d,t.due)}</span></div></div>`;
 }
-function sleepMinutes(bed,wake){
- if(!bed||!wake)return null;
- const [bh,bm]=bed.split(":").map(Number),[wh,wm]=wake.split(":").map(Number);
- let mins=(wh*60+wm)-(bh*60+bm);
- if(mins<=0)mins+=24*60;
- return mins;
+function pmSetWarn(q,msg){const el=$("pmWarn"+q);if(!el)return;el.textContent=msg||"";el.classList.toggle("hidden",!msg)}
+function renderMatrix(){
+ if(!$("pmGrid"))return;
+ const ref=pmRefISO(),today=pmRefISO(0),active=pmScope(),b={1:[],2:[],3:[],4:[]};
+ active.forEach(t=>b[pmQuad(t,ref)].push(t));
+ [1,2,3,4].forEach(q=>{
+  b[q].sort((x,y)=>pmDaysUntil(x,ref)-pmDaysUntil(y,ref));
+  $("pmCount"+q).textContent=b[q].length;
+  $("pmList"+q).innerHTML=b[q].length?b[q].map(t=>pmCardHTML(t,ref,today)).join(""):'<div class="pm-empty">ว่าง</div>';
+ });
+ pmSetWarn(1,b[1].length>PM_Q1_LIMIT?`แน่นไป ${b[1].length} งาน — แปลว่าวางแผนไม่ทัน ไม่ใช่ขยันไม่พอ`:"");
+ pmSetWarn(2,!b[2].length&&active.length?"ไม่มีงานเชิงกลยุทธ์เลย — งานที่สำคัญแต่ยังไม่ด่วนควรอยู่ตรงนี้":"");
+ pmSetWarn(4,b[4].length>PM_Q1_LIMIT*2?`${b[4].length} งานค้างอยู่ — ลองตัดทิ้งบ้าง`:"");
+ const bn=$("pmBanner");
+ if(pmOffset>0){
+  const willHeat=active.filter(t=>pmQuad(t,ref)===1&&pmQuad(t,today)!==1).length;
+  bn.textContent=willHeat?`อีก ${pmOffset} วัน จะมีงานกลายเป็นด่วน ${willHeat} ชิ้น (ขอบแดง) — โหมดดูอนาคต ลากงานไม่ได้`:`อีก ${pmOffset} วัน ยังไม่มีงานไหนกลายเป็นด่วนเพิ่ม — โหมดดูอนาคต ลากงานไม่ได้`;
+  bn.classList.remove("hidden");
+ }else bn.classList.add("hidden");
+ document.querySelectorAll("#pmGrid .pm-card").forEach(c=>{c.onpointerdown=e=>pmDown(e,c)});
 }
-function personalLogHTML(l){
- let title="",meta="";
- if(l.kind==="reading"){title=esc(l.book_title||"");meta=l.page_total?`หน้า ${l.page_current||0}/${l.page_total} (${Math.round((l.page_current||0)/l.page_total*100)}%)`:`หน้า ${l.page_current||0}`}
- else if(l.kind==="exercise"){title=esc(l.activity||"");meta=l.duration_minutes?fmtMinutes(l.duration_minutes):""}
- else if(l.kind==="sleep"){const m=sleepMinutes(l.bed_time,l.wake_time);title=`${l.bed_time||"?"} → ${l.wake_time||"?"}`;meta=m?`นอน ${fmtMinutes(m)}`:""}
- else{title=l.weight_kg?`${l.weight_kg} kg`:"Health note";meta=""}
- return `<div class="row"><strong>${new Date(l.log_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${title}</strong><span>${meta}${l.note?" · "+esc(l.note):""}</span><div style="margin-top:6px"><button class="btn danger small" onclick="deletePersonalLog(${l.id})">Delete</button></div></div>`;
+function pmEnd(){
+ if(!pmDrag)return;
+ clearTimeout(pmDrag.timer);
+ pmDrag.ghost?.remove();
+ pmDrag.card.classList.remove("pm-dragging");
+ try{pmDrag.card.releasePointerCapture(pmDrag.pid)}catch(_){}
+ pmDrag.card.onpointermove=pmDrag.card.onpointerup=pmDrag.card.onpointercancel=null;
+ document.body.classList.remove("pm-dragging-on");
+ document.querySelectorAll("#pmGrid .pm-q").forEach(n=>n.classList.remove("pm-over"));
+ pmDrag=null;
 }
-window.deletePersonalLog=async id=>{
- if(!confirm("Delete this log?"))return;
- const {error}=await sb.from("personal_logs").delete().eq("id",id);
- if(error)return toast(error.message,"bad");
- await loadPersonal();renderPersonal();
-};
-function renderPersonal(){
- if(!$("personalTabs"))return;
- document.querySelectorAll("#personalTabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.ptab===personalKind));
- document.querySelectorAll("#personalFormGrid [data-kinds]").forEach(el=>el.classList.toggle("hidden",el.dataset.kinds!==personalKind));
- $("personalFormTitle").textContent="Add "+({reading:"Reading",exercise:"Exercise",sleep:"Sleep",health:"Health"}[personalKind])+" Log";
- const list=personalLogs.filter(l=>l.kind===personalKind);
- $("personalHistory").innerHTML=list.length?list.map(personalLogHTML).join(""):'<div class="empty">No logs yet.</div>';
- let summary=[];
- if(personalKind==="reading"){
-  const latest=list[0];
-  summary=[["Current Book",latest?.book_title||"—"],["Page",latest?(latest.page_total?`${latest.page_current||0}/${latest.page_total}`:String(latest.page_current||0)):"—"],["Logs",list.length]];
- }else if(personalKind==="exercise"){
-  const weekStart=startOfWeekISO();
-  const weekList=list.filter(l=>new Date(l.log_date+"T00:00:00")>=weekStart);
-  const weekMins=weekList.reduce((s,l)=>s+Number(l.duration_minutes||0),0);
-  summary=[["This Week",weekList.length+" sessions"],["Minutes",fmtMinutes(weekMins)||"0m"],["Total Logs",list.length]];
- }else if(personalKind==="sleep"){
-  const last=list[0],lastMin=last?sleepMinutes(last.bed_time,last.wake_time):null;
-  const last7=list.slice(0,7).map(l=>sleepMinutes(l.bed_time,l.wake_time)).filter(Boolean);
-  const avg=last7.length?Math.round(last7.reduce((a,b)=>a+b,0)/last7.length):null;
-  summary=[["Last Night",lastMin?fmtMinutes(lastMin):"—"],["7-Day Avg",avg?fmtMinutes(avg):"—"],["Total Logs",list.length]];
- }else{
-  const latest=list.find(l=>l.weight_kg);
-  summary=[["Latest Weight",latest?latest.weight_kg+" kg":"—"],["Total Logs",list.length]];
+function pmActivate(x,y){
+ const c=pmDrag.card,r=c.getBoundingClientRect(),g=c.cloneNode(true);
+ g.className="pm-card pm-ghost";
+ g.style.width=r.width+"px";g.style.left=r.left+"px";g.style.top=r.top+"px";
+ document.body.appendChild(g);
+ Object.assign(pmDrag,{ghost:g,gx:x,gy:y,active:true});
+ c.classList.add("pm-dragging");
+ document.body.classList.add("pm-dragging-on");
+}
+function pmHover(x,y){
+ const q=document.elementFromPoint(x,y)?.closest?.(".pm-q");
+ document.querySelectorAll("#pmGrid .pm-q").forEach(n=>n.classList.toggle("pm-over",n===q));
+ pmDrag.target=q?Number(q.dataset.q):null;
+}
+function pmDown(e,card){
+ if(pmOffset>0||(e.button!==undefined&&e.button!==0))return;
+ pmDrag={id:Number(card.dataset.id),card,x0:e.clientX,y0:e.clientY,active:false,pid:e.pointerId,target:null,timer:null};
+ // Touch waits for a long press so a normal swipe still scrolls the page.
+ if(e.pointerType==="touch")pmDrag.timer=setTimeout(()=>{if(pmDrag&&!pmDrag.active)pmActivate(pmDrag.lx??e.clientX,pmDrag.ly??e.clientY)},400);
+ try{card.setPointerCapture(e.pointerId)}catch(_){}
+ card.onpointermove=pmMove;card.onpointerup=pmUp;card.onpointercancel=pmEnd;
+}
+function pmMove(e){
+ if(!pmDrag)return;
+ pmDrag.lx=e.clientX;pmDrag.ly=e.clientY;
+ if(!pmDrag.active){
+  const far=Math.hypot(e.clientX-pmDrag.x0,e.clientY-pmDrag.y0);
+  if(e.pointerType==="touch"){if(far>10)pmEnd();return}
+  if(far>6)pmActivate(e.clientX,e.clientY);else return;
  }
- $("personalSummary").innerHTML=summary.map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
+ e.preventDefault();
+ pmDrag.ghost.style.transform=`translate(${e.clientX-pmDrag.gx}px,${e.clientY-pmDrag.gy}px)`;
+ pmHover(e.clientX,e.clientY);
 }
-document.querySelectorAll("#personalTabs .tab").forEach(b=>b.onclick=()=>{personalKind=b.dataset.ptab;renderPersonal()});
-if($("plDate"))$("plDate").value=todayISO();
-$("savePersonalLog").onclick=async()=>{
- const kind=personalKind,date=$("plDate").value||todayISO();
- const payload={user_id:user.id,kind,log_date:date,note:$("plNote").value.trim()||null};
- if(kind==="reading"){
-  if(!$("plBook").value.trim())return toast("ใส่ชื่อหนังสือก่อน","bad");
-  payload.book_title=$("plBook").value.trim();
-  payload.page_current=$("plPageCur").value?Number($("plPageCur").value):null;
-  payload.page_total=$("plPageTotal").value?Number($("plPageTotal").value):null;
- }else if(kind==="exercise"){
-  if(!$("plActivity").value.trim())return toast("ใส่กิจกรรมก่อน","bad");
-  payload.activity=$("plActivity").value.trim();
-  payload.duration_minutes=$("plDuration").value?Number($("plDuration").value):null;
- }else if(kind==="sleep"){
-  if(!$("plBed").value||!$("plWake").value)return toast("ใส่เวลานอนและตื่นก่อน","bad");
-  payload.bed_time=$("plBed").value;payload.wake_time=$("plWake").value;
- }else{
-  payload.weight_kg=$("plWeight").value?Number($("plWeight").value):null;
-  if(!payload.weight_kg&&!payload.note)return toast("ใส่น้ำหนักหรือโน้ตก่อน","bad");
- }
- const {error}=await sb.from("personal_logs").insert(payload);
- if(error)return toast(error.message,"bad");
- ["plBook","plPageCur","plPageTotal","plActivity","plDuration","plBed","plWake","plWeight","plNote"].forEach(id=>{if($(id))$(id).value=""});
- toast("บันทึกแล้ว");
- await loadPersonal();renderPersonal();
-};
+async function pmUp(e){
+ if(!pmDrag)return;
+ const {active,target,id}=pmDrag;
+ pmEnd();
+ if(active&&target)await pmDrop(id,target);
+}
+async function pmDrop(id,q){
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const ref=pmRefISO(0);
+ if(pmQuad(t,ref)===q)return;
+ const before={priority:t.priority,due:t.due},patch={},notes=[];
+ const wantImportant=q===1||q===2,wantUrgent=q===1||q===3;
+ if(wantImportant&&t.priority!=="High"){patch.priority="High";notes.push("ตั้งเป็น High")}
+ if(!wantImportant&&t.priority==="High"){patch.priority="Medium";notes.push("ลดเป็น Medium")}
+ if(wantUrgent&&!pmUrgent(t,ref)){patch.due=todayISO();notes.push("กำหนดส่งวันนี้")}
+ if(!wantUrgent&&pmUrgent(t,ref)){const d=new Date();d.setDate(d.getDate()+7);patch.due=iso(d);notes.push("เลื่อนไปอีก 7 วัน")}
+ if(!Object.keys(patch).length)return;
+ if(await saveTask(patch,id))pmUndoToast(`${PM_Q[q]} — ${notes.join(" · ")}`,before,id);
+}
+function pmUndoToast(msg,before,id){
+ const d=document.createElement("div");d.className="toast good pm-toast";
+ const s=document.createElement("span");s.textContent=msg;d.appendChild(s);
+ const b=document.createElement("button");b.className="pm-undo";b.textContent="เลิกทำ";
+ b.onclick=async()=>{d.remove();if(await saveTask({priority:before.priority,due:before.due},id))toast("คืนค่าเดิมแล้ว")};
+ d.appendChild(b);$("toastWrap").appendChild(d);setTimeout(()=>d.remove(),6500);
+}
+document.querySelectorAll(".pm-tab").forEach(b=>b.onclick=()=>{
+ pmOffset=Number(b.dataset.off);
+ document.querySelectorAll(".pm-tab").forEach(x=>x.classList.toggle("active",x===b));
+ renderMatrix();
+});
 
 const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process"},{key:"label",name:"ฉลาก (Label)"},{key:"carton",name:"ลัง (Carton)"}];
 const NPD_STATUS_LABEL={done:"Done",working:"Working",wait:"Wait",next:"Next Step",skipped:"Skipped"};
@@ -1675,19 +1754,19 @@ $("weeklyStats").innerHTML=[
 $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty">Nothing completed this week.</div>';
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
-renderCalendar();renderAdmin()}
-["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#personalTabs):not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
+renderCalendar();renderAdmin();renderMatrix()}
+["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","personal","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
  if(view==="calendar")renderCalendar();
  if(view==="admin")renderAdmin();
  if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
- if(view==="personal")loadPersonal().then(renderPersonal);
+ if(view==="matrix")renderMatrix();
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
