@@ -176,6 +176,11 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.12 Grouped navigation
+- The sidebar had grown to ten flat entries, which made unrelated things look interchangeable and closely related things look like separate features. It is now split into three labelled groups: **งานของฉัน** (Dashboard, Tasks, Calendar, Priority Matrix, Weekly Review, Archive — six views of the same task data), **ระบบติดตามงาน** (Product Launch, PR / GRPO — the two genuine pipelines), and **ตั้งค่า** (Categories, Settings, Team Overview).
+- Reordered within each group by how often it is opened, so Dashboard and Tasks come first.
+- Group labels are hidden in the compact horizontal bar on phones, where the bottom navigation is the primary control anyway.
+
 ## V7.11 PR status on the task itself
 - A task can now carry its own **PR / GRPO status** (set in the task form), so a job that needs a PR is one record rather than two. The standalone records from V7.10 remain for PRs with no job behind them, and the PR / GRPO screen shows both in the same stage lanes, each row badged "งาน" or "PR เดี่ยว".
 - **The stages deliberately outlive the task.** GRPO and sending documents to Accounting happen after the work is finished, so ticking a task Done used to make the outstanding paperwork vanish from every list — the same forgetting problem, just moved. A Done task whose PR stage is not yet finished now keeps appearing on the dashboard as "งานเสร็จแล้ว · ต้องทำ GRPO", which is exactly the moment it used to be lost.
