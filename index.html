@@ -221,6 +221,9 @@ body.dark .pr-src{background:var(--line);color:var(--text)}
 .pr-stage.is-empty{opacity:.5}
 .pr-stage.is-empty .pr-shead{padding:8px 14px}
 @media(max-width:820px){.pr-row{flex-wrap:wrap;gap:9px;padding:11px 12px}.pr-main{flex:1 1 100%}.pr-next{margin-left:auto}}
+.nav-group{font-size:9px;font-weight:850;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.4);padding:0 10px;margin:17px 0 6px}
+.nav-group:first-child{margin-top:0}
+@media(max-width:820px){.nav-group{display:none}}
 .dash-chips{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 0}
 .dash-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
 .dash-chip .n{font-size:13px;font-weight:900}
@@ -348,15 +351,18 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 <aside>
  <div class="identity"><div class="brand" style="display:flex;align-items:center;gap:9px"><img src="./favicon-32.png" alt="GGG" style="width:28px;height:28px;border-radius:7px"><span>GUY WORK OS</span></div><div id="whoText" class="who"></div><div id="roleText" class="role"></div><div id="teamText" class="role"></div><div id="syncText" class="sync">Connecting…</div></div>
  <div class="nav">
+  <div class="nav-group">งานของฉัน</div>
   <button class="active" data-view="dashboard">Dashboard</button>
-  <button data-view="calendar">Calendar</button>
-  <button data-view="weekly">Weekly Review</button>
   <button data-view="tasks">Tasks</button>
-  <button data-view="categories">Categories</button>
-  <button data-view="archive">Archive</button>
+  <button data-view="calendar">Calendar</button>
   <button data-view="matrix">Priority Matrix</button>
+  <button data-view="weekly">Weekly Review</button>
+  <button data-view="archive">Archive</button>
+  <div class="nav-group">ระบบติดตามงาน</div>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
+  <div class="nav-group">ตั้งค่า</div>
+  <button data-view="categories">Categories</button>
   <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
  </div>
