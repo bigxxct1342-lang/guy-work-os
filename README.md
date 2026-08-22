@@ -58,6 +58,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-3-personal-line.sql` LINE linking tables (also created the `personal_logs` table, retired in V7.6)
 - `migration-v7-4-pin-lockout.sql` PIN brute-force lockout
 - `migration-v7-5-product-launch.sql` Product Launch (NPD tracker) tables + Thai holiday calendar
+- `migration-v7-10-pr-grpo.sql` PR / GRPO purchasing tracker table
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -173,6 +174,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.10 PR / GRPO tracker
+- New "PR / GRPO" section for the SAP purchasing trail that runs alongside a job: open a PR in SAP -> wait for Purchasing to return a PO -> do the work -> receive the GRPO -> hand the paperwork to Accounting.
+- Kept separate from Tasks deliberately. These items spend most of their life idle -- waiting on somebody else for days or weeks -- which is exactly how they get forgotten inside a normal task list.
+- Every stage is named for **the action still owed** and counts the days it has been owed for. Each stage carries its own patience: 3 days to actually open a PR, 7 days before chasing Purchasing for a PO, 30 for the work itself, 3 to receive the GRPO, 3 to send the documents. Anything past its threshold turns red.
+- **Anything overdue also surfaces on the Dashboard**, in the same ranked attention list as late tasks, under a "PR ค้าง" chip. Fixing the forgetting means the reminder has to appear where you already look, not only in a section you have to remember to open.
+- One tap advances a PR to the next stage and stamps the date. If that step needs a number not recorded yet (the PR number when opening, the PO number when Purchasing replies), the form opens on that field instead, so the number is captured exactly when it arrives.
+- Milestone dates are kept per leg, so a finished PR still shows how long each stage actually took.
+- Requires `migration-v7-10-pr-grpo.sql`. Until it is run, the section shows a setup notice and the rest of the app is unaffected.
 
 ## V7.9 Dashboard rebuild
 - The dashboard used to print **nine counters and a progress bar before a single task**, and it showed the same thing several times over: "overdue" appeared in the morning brief, again as a metric card, and a third time in Needs Attention. Waiting, high-priority and today's count were each duplicated too.
