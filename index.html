@@ -213,6 +213,8 @@ body.dark .pr-hint{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 .pr-title{font-size:13px;font-weight:780;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pr-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;font-size:10px;color:var(--muted)}
 .pr-num{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-weight:800}
+.pr-src{background:var(--dark);color:#fff;border-radius:999px;padding:2px 8px;font-weight:800}
+body.dark .pr-src{background:var(--line);color:var(--text)}
 .pr-age{font-size:10px;font-weight:850;padding:4px 10px;border-radius:999px;flex:none;white-space:nowrap;background:var(--soft);color:var(--muted)}
 .pr-age.late{background:var(--red);color:var(--redT)}
 .pr-next{flex:none}
@@ -303,7 +305,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.10 · PR / GRPO</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.11 · PR / GRPO</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -396,10 +398,10 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
  <section id="prView" class="hidden">
   <div class="pr-top">
-   <div class="help">งานจัดซื้อที่วิ่งคู่กับงานหลัก — เปิด PR ใน SAP → รอ PO จากจัดซื้อ → ทำงาน → รับ GRPO → ส่งเอกสารให้บัญชี แต่ละใบนับวันที่ค้างอยู่ในขั้นนั้นให้เอง</div>
+   <div class="help">งานจัดซื้อที่วิ่งคู่กับงานหลัก — เปิด PR ใน SAP → รอ PO จากจัดซื้อ → ทำงาน → รับ GRPO → ส่งเอกสารให้บัญชี<br>ตั้งสถานะ PR ได้ที่ตัวงานเลย (ในฟอร์มแก้ไขงาน) แล้วจะมาโผล่ที่นี่เอง — ปุ่ม "+ เปิด PR ใหม่" ไว้ใช้กับ PR ที่ไม่มีงานรองรับ</div>
    <button id="addPrBtn" class="btn primary">+ เปิด PR ใหม่</button>
   </div>
-  <div id="prSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-10-pr-grpo.sql</code> ใน Supabase SQL Editor ก่อน แล้วรีเฟรชหน้านี้</div>
+  <div id="prSetupHint" class="pr-hint hidden">สถานะ PR ในงานใช้ได้แล้ว แต่ถ้าอยากเปิด PR เดี่ยวๆ ที่ไม่ผูกกับงาน ต้องรัน <code>migration-v7-10-pr-grpo.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="prChips" class="dash-chips"></div>
   <div id="prBoard"></div>
  </section>
@@ -582,6 +584,9 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <div class="field"><label>Due Date</label><input id="fDue" type="date"></div>
  <div class="field"><label>Waiting Since</label><input id="fWaitingSince" type="date"></div>
  <div class="full field"><label>Note / Next Action</label><textarea id="fNote" rows="3"></textarea></div>
+ <div class="full field"><label>สถานะ PR / GRPO</label><select id="fPrStage"></select><div class="help" style="margin-top:6px">งานที่ต้องเปิด PR ก่อน — เลือกขั้นตอนแล้วงานนี้จะไปโผล่ในหน้า PR / GRPO และเตือนบน Dashboard ให้เอง</div></div>
+ <div class="field pr-only hidden"><label>เลขที่ PR (SAP)</label><input id="fPrNumber"></div>
+ <div class="field pr-only hidden"><label>เลขที่ PO</label><input id="fPoNumber"></div>
  </div><div class="actions"><button id="cancelTask" class="btn secondary">Cancel</button><button id="saveTask" class="btn primary">Save</button></div></div></div>
 
 <div id="categoryModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="categoryModal" aria-label="Close">×</button><h3 id="categoryModalTitle">Add Category</h3><div class="field"><label>Category Name</label><input id="cName"></div><div class="field"><label>Subcategories</label><input id="cSubs" placeholder="Separate with commas"></div><div class="actions"><button id="cancelCategory" class="btn secondary">Cancel</button><button id="saveCategory" class="btn primary">Save</button></div></div></div>
@@ -925,6 +930,13 @@ window.removeCategory=id=>{
  openLayer("deleteCategoryModal");
 };
 
+function prStageOptions(){return '<option value="">ไม่เกี่ยวกับ PR</option>'+PR_STAGES.map(s=>`<option value="${s.k}">${esc(s.name)}</option>`).join("")}
+function setTaskPrFields(stage,pr,po){
+ $("fPrStage").innerHTML=prStageOptions();
+ $("fPrStage").value=stage||"";
+ $("fPrNumber").value=pr||"";$("fPoNumber").value=po||"";
+ document.querySelectorAll("#taskModal .pr-only").forEach(el=>el.classList.toggle("hidden",!$("fPrStage").value));
+}
 function openTaskModal(prefill={}){
  if(!categories.length){toast("Create a category first.","bad");return}
  editingTaskId=null;
@@ -938,6 +950,7 @@ function openTaskModal(prefill={}){
  $("fDue").value=prefill.due||"";
  $("fWaitingSince").value=prefill.waiting_since||"";
  $("fNote").value=prefill.note||"";
+ setTaskPrFields(prefill.pr_stage,prefill.pr_number,prefill.po_number);
  openLayer("taskModal");
  setTimeout(()=>$("fTask")?.focus(),30);
 }
@@ -955,6 +968,7 @@ window.editTask=id=>{
  $("fDue").value=t.due||"";
  $("fWaitingSince").value=t.waiting_since||"";
  $("fNote").value=t.note||"";
+ setTaskPrFields(t.pr_stage,t.pr_number,t.po_number);
  openLayer("taskModal");
  setTimeout(()=>$("fTask")?.focus(),30);
 };
@@ -1561,9 +1575,10 @@ $("archiveList").onclick=e=>{
 $("dashChips").onclick=e=>{const b=e.target.closest("[data-dash]");if(!b)return;dashFilter=dashFilter===b.dataset.dash?"":b.dataset.dash;dashExpanded=false;render()};
 $("dashList").onclick=e=>{if(e.target.closest("[data-dash-all]")){dashExpanded=true;render();return}const j=e.target.closest("[data-pr-jump]");if(j)return goView("pr");const r=e.target.closest("[data-edit]");if(r)editTask(Number(r.dataset.edit))};
 $("prBoard").onclick=e=>{
- const n=e.target.closest("[data-pr-next]");if(n)return prNext(Number(n.dataset.prNext));
- const ed=e.target.closest("[data-pr-edit]");if(ed)prEdit(Number(ed.dataset.prEdit));
+ const n=e.target.closest("[data-pr-next]");if(n)return prNextRef(n.dataset.prNext);
+ const ed=e.target.closest("[data-pr-edit]");if(ed)prEditRef(ed.dataset.prEdit);
 };
+$("fPrStage").onchange=()=>document.querySelectorAll("#taskModal .pr-only").forEach(el=>el.classList.toggle("hidden",!$("fPrStage").value));
 $("addPrBtn").onclick=()=>prFillModal(null);
 $("savePrBtn").onclick=async()=>{
  const title=$("prTitle").value.trim();
@@ -1882,13 +1897,18 @@ async function cleanDuplicateImports(){
  }
 }
 /* ---- PR / GRPO ---------------------------------------------------------
-   The purchasing trail that runs alongside a job: open a PR in SAP, wait for
-   Purchasing to return a PO, do the work, receive the GRPO, hand the paperwork
-   to Accounting. It lives apart from Tasks because most of its life is spent
-   idle -- waiting on someone else for days or weeks -- which is precisely how
-   it slips the mind. Every stage names the action still owed and counts the
-   days it has been owed for, and anything past its stage's patience shows up
-   on the dashboard. */
+   The SAP purchasing trail: open a PR, wait for Purchasing to return a PO, do
+   the work, receive the GRPO, hand the paperwork to Accounting.
+
+   Most PRs exist because of a job, so a task carries its own PR status and
+   there is nothing to enter twice. The standalone purchase_requests table
+   covers PRs with no job behind them. Both are normalised into one item shape
+   here so the board and the dashboard treat them identically.
+
+   The stages outlive the task on purpose: GRPO and the documents happen after
+   the work is finished, so a Done task whose paperwork is still open keeps
+   showing up rather than disappearing the moment it is ticked off -- which is
+   exactly when it used to be forgotten. */
 const PR_STAGES=[
  {k:"draft",    name:"ยังไม่เปิด PR",        next:"เปิด PR แล้ว", warn:3,  needs:"pr_number", stamp:"pr_opened_on",  tone:"info"},
  {k:"wait_po",  name:"รอ PO จากจัดซื้อ",     next:"ได้ PO แล้ว",  warn:7,  needs:"po_number", stamp:"po_received_on",tone:"warn"},
@@ -1900,10 +1920,6 @@ const PR_STAGES=[
 const prStage=k=>PR_STAGES.find(s=>s.k===k)||PR_STAGES[0];
 let prItems=[],prTableMissing=false,editingPrId=null;
 
-function prDays(p){const a=new Date((p.stage_since||todayISO())+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
-function prStale(p){const s=prStage(p.stage);return s.warn!=null&&prDays(p)>s.warn}
-function prOpen(){return prItems.filter(p=>p.stage!=="done")}
-
 async function loadPr(){
  const {data,error}=await sb.from("purchase_requests").select("*").order("stage_since");
  // A missing table must not take the rest of the app down with it: the
@@ -1912,31 +1928,54 @@ async function loadPr(){
  prItems=error?[]:(data||[]);
  return !error;
 }
-function prRowHTML(p){
- const s=prStage(p.stage),d=prDays(p),late=prStale(p);
- const bits=[];
+// One shape for both sources, so lanes and dashboard rows need no special cases.
+function prAllItems(){
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ return scope.filter(t=>t.pr_stage).map(t=>({
+   kind:"task",id:t.id,title:t.task,pr_number:t.pr_number,po_number:t.po_number,
+   vendor:null,amount:null,stage:t.pr_stage,since:t.pr_stage_since||todayISO(),
+   sub:t.category||"",taskDone:t.status==="Done"
+ })).concat(prItems.map(p=>({
+   kind:"pr",id:p.id,title:p.title,pr_number:p.pr_number,po_number:p.po_number,
+   vendor:p.vendor,amount:p.amount,stage:p.stage,since:p.stage_since||todayISO(),
+   sub:"ไม่ผูกกับงาน",taskDone:false
+ })));
+}
+function prDays(it){const a=new Date(it.since+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
+function prStale(it){const s=prStage(it.stage);return s.warn!=null&&prDays(it)>s.warn}
+// Why this item wants attention today, or null if it can wait.
+function prNeedsYou(it){
+ if(it.stage==="done")return null;
+ if(it.kind==="task"&&it.taskDone)return{why:`งานเสร็จแล้ว · ${prStage(it.stage).name}`,tone:"bad"};
+ if(prStale(it))return{why:`${prStage(it.stage).name} ${prDays(it)} วัน`,tone:"bad"};
+ return null;
+}
+function prRowHTML(it){
+ const s=prStage(it.stage),need=prNeedsYou(it);
  // numbers often already read "PR-2569-0142"; don't print the prefix twice
  const tag=(k,v)=>`<span class="pr-num">${v.trim().toUpperCase().startsWith(k)?"":k+" "}${esc(v)}</span>`;
- if(p.pr_number)bits.push(tag("PR",p.pr_number));
- if(p.po_number)bits.push(tag("PO",p.po_number));
- if(p.vendor)bits.push(`<span>${esc(p.vendor)}</span>`);
- if(p.amount!=null&&p.amount!=="")bits.push(`<span>${Number(p.amount).toLocaleString("en-US",{minimumFractionDigits:0,maximumFractionDigits:2})} บาท</span>`);
- return `<div class="pr-row"><div class="pr-main" data-pr-edit="${p.id}"><div class="pr-title">${esc(p.title)}</div><div class="pr-meta">${bits.join("")||'<span>ยังไม่มีเลขที่</span>'}</div></div><span class="pr-age${late?" late":""}">${p.stage==="done"?"จบแล้ว":`${d} วัน`}</span>${s.next?`<button class="btn secondary small pr-next" data-pr-next="${p.id}">${s.next}</button>`:""}</div>`;
+ const bits=[`<span class="pr-src">${it.kind==="task"?"งาน":"PR เดี่ยว"}</span>`];
+ if(it.pr_number)bits.push(tag("PR",it.pr_number));
+ if(it.po_number)bits.push(tag("PO",it.po_number));
+ if(it.vendor)bits.push(`<span>${esc(it.vendor)}</span>`);
+ if(it.amount!=null&&it.amount!=="")bits.push(`<span>${Number(it.amount).toLocaleString("en-US",{maximumFractionDigits:2})} บาท</span>`);
+ if(it.sub)bits.push(`<span>${esc(it.sub)}</span>`);
+ return `<div class="pr-row"><div class="pr-main" data-pr-edit="${it.kind}:${it.id}"><div class="pr-title">${esc(it.title)}</div><div class="pr-meta">${bits.join("")}</div></div><span class="pr-age${need?" late":""}">${it.stage==="done"?"จบแล้ว":(need&&it.taskDone?"งานเสร็จแล้ว":`${prDays(it)} วัน`)}</span>${s.next?`<button class="btn secondary small pr-next" data-pr-next="${it.kind}:${it.id}">${s.next}</button>`:""}</div>`;
 }
 function renderPr(){
  if(!$("prBoard"))return;
  $("prSetupHint").classList.toggle("hidden",!prTableMissing);
- const open=prOpen(),stale=open.filter(prStale).length;
+ const all=prAllItems(),flagged=all.filter(prNeedsYou).length;
  $("prChips").innerHTML=PR_STAGES.filter(s=>s.k!=="done").map(s=>{
-  const n=prItems.filter(p=>p.stage===s.k).length;
+  const n=all.filter(i=>i.stage===s.k).length;
   return `<span class="dash-chip${n?"":" empty"}" style="cursor:default"><span class="dot dot-${s.tone}"></span>${esc(s.name)}<span class="n">${n}</span></span>`;
- }).join("")+`<span class="dash-chip${stale?"":" empty"}" style="cursor:default"><span class="dot dot-bad"></span>ค้างเกินกำหนด<span class="n">${stale}</span></span>`;
+ }).join("")+`<span class="dash-chip${flagged?"":" empty"}" style="cursor:default"><span class="dot dot-bad"></span>ต้องจัดการ<span class="n">${flagged}</span></span>`;
  $("prBoard").innerHTML=PR_STAGES.map(s=>{
-  const rows=prItems.filter(p=>p.stage===s.k).sort((a,b)=>prDays(b)-prDays(a));
+  const rows=all.filter(i=>i.stage===s.k).sort((a,b)=>prDays(b)-prDays(a));
   if(s.k==="done"&&!rows.length)return"";
   // an empty stage still belongs in the pipeline, but collapses to its header
   return `<div class="pr-stage s-${s.tone}${rows.length?"":" is-empty"}"><div class="pr-shead"><b>${esc(s.name)}</b><span class="pr-scount">${rows.length}</span></div>${rows.map(prRowHTML).join("")}</div>`;
- }).join("")||'<div class="empty">ยังไม่มี PR — กด "+ เปิด PR ใหม่" เพื่อเริ่ม</div>';
+ }).join("")||'<div class="empty">ยังไม่มี PR — ติ๊กสถานะ PR ในงาน หรือกด "+ เปิด PR ใหม่"</div>';
 }
 function prFillModal(p){
  editingPrId=p?.id??null;
@@ -1949,21 +1988,35 @@ function prFillModal(p){
  $("deletePrBtn").classList.toggle("hidden",!p);
  openLayer("prModal");
 }
-window.prEdit=id=>{const p=prItems.find(x=>x.id===id);if(p)prFillModal(p)};
+// A job-linked PR is edited on its own task; a standalone one gets the PR form.
+window.prEditRef=ref=>{
+ const [kind,id]=ref.split(":");
+ if(kind==="task")return editTask(Number(id));
+ const p=prItems.find(x=>x.id===Number(id));if(p)prFillModal(p);
+};
 // One tap when the paperwork already carries its number; otherwise open the
 // form on the field that is missing so the number is captured as it arrives.
-window.prNext=async id=>{
- const p=prItems.find(x=>x.id===id);if(!p)return;
- const cur=prStage(p.stage),i=PR_STAGES.indexOf(cur),to=PR_STAGES[i+1];
+window.prNextRef=async ref=>{
+ const [kind,rawId]=ref.split(":"),id=Number(rawId);
+ const it=prAllItems().find(x=>x.kind===kind&&x.id===id);if(!it)return;
+ const cur=prStage(it.stage),to=PR_STAGES[PR_STAGES.indexOf(cur)+1];
  if(!to)return;
- if(cur.needs&&!p[cur.needs]){prFillModal({...p,stage:to.k,stage_since:todayISO()});$(cur.needs==="pr_number"?"prNumber":"prPoNumber").focus();return}
+ if(cur.needs&&!it[cur.needs]){
+  if(kind==="task"){editTask(id);setTimeout(()=>{$("fPrStage").value=to.k;$(cur.needs==="pr_number"?"fPrNumber":"fPoNumber").focus()},40);return}
+  prFillModal({...prItems.find(x=>x.id===id),stage:to.k,stage_since:todayISO()});
+  $(cur.needs==="pr_number"?"prNumber":"prPoNumber").focus();return;
+ }
+ if(kind==="task"){
+  if(await saveTask({pr_stage:to.k,pr_stage_since:todayISO()},id))toast(`${it.title} → ${to.name}`);
+  return;
+ }
+ const p=prItems.find(x=>x.id===id),before={...p};
  const patch={stage:to.k,stage_since:todayISO(),updated_at:new Date().toISOString()};
  if(cur.stamp)patch[cur.stamp]=todayISO();
- const before={...p};
  Object.assign(p,patch);render();
  const {error}=await sb.from("purchase_requests").update(patch).eq("id",id);
  if(error){Object.assign(p,before);render();return toast(error.message,"bad")}
- toast(`${p.title} → ${to.name}`);
+ toast(`${it.title} → ${to.name}`);
 };
 /* ---- Dashboard focus ---------------------------------------------------
    The old dashboard printed nine counters before a single task, and showed
@@ -1986,15 +2039,15 @@ function dashReason(t){
 }
 function dashRowHTML(x){
  const r=x.r;
- const attr=x.p?`data-pr-jump="${x.p.id}"`:`data-edit="${x.t.id}"`;
+ const attr=x.p?(x.p.kind==="task"?`data-edit="${x.p.id}"`:`data-pr-jump="${x.p.id}"`):`data-edit="${x.t.id}"`;
  const title=x.p?x.p.title:x.t.task;
- const sub=x.p?("PR / GRPO"+(x.p.pr_number?` · PR ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
+ const sub=x.p?("PR / GRPO"+(x.p.pr_number?` · ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
  return `<div class="dash-row" ${attr}><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(title)}</div><div class="dash-c">${x.p?esc(sub):sub}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
 }
 function renderDashboardFocus(active,done){
  if(!$("dashChips"))return;
  const flagged=active.map(t=>({t,r:dashReason(t),due:t.due||"9999"})).filter(x=>x.r);
- prOpen().filter(prStale).forEach(p=>flagged.push({p,r:{k:"pr",why:`${prStage(p.stage).name} ${prDays(p)} วัน`,tone:"bad"},due:p.stage_since||"9999"}));
+ prAllItems().forEach(it=>{const n=prNeedsYou(it);if(n)flagged.push({p:it,r:{k:"pr",why:n.why,tone:n.tone},due:it.since||"9999"})});
  flagged.sort((a,b)=>DASH_ORDER[a.r.k]-DASH_ORDER[b.r.k]||a.due.localeCompare(b.due));
  const counts={};DASH_REASONS.forEach(r=>counts[r.k]=0);flagged.forEach(x=>counts[x.r.k]++);
  if(dashFilter&&!counts[dashFilter]){dashFilter="";dashExpanded=false}
@@ -2059,6 +2112,12 @@ $("saveTask").onclick=async()=>{
    recurring_rule:$("fRecurring").value||null,
    completed_at:status==="Done"?(existing?.completed_at||new Date().toISOString()):null
  };
+ const prStageVal=$("fPrStage").value||null;
+ payload.pr_stage=prStageVal;
+ payload.pr_number=prStageVal?($("fPrNumber").value.trim()||null):null;
+ payload.po_number=prStageVal?($("fPoNumber").value.trim()||null):null;
+ payload.pr_stage_since=!prStageVal?null
+   :(existing&&existing.pr_stage===prStageVal&&existing.pr_stage_since)?existing.pr_stage_since:todayISO();
  const wasEdit=Boolean(editingTaskId);
  $("saveTask").disabled=true;
  try{

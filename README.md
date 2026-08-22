@@ -58,7 +58,8 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-3-personal-line.sql` LINE linking tables (also created the `personal_logs` table, retired in V7.6)
 - `migration-v7-4-pin-lockout.sql` PIN brute-force lockout
 - `migration-v7-5-product-launch.sql` Product Launch (NPD tracker) tables + Thai holiday calendar
-- `migration-v7-10-pr-grpo.sql` PR / GRPO purchasing tracker table
+- `migration-v7-10-pr-grpo.sql` standalone PR / GRPO records (PRs with no job behind them)
+- `migration-v7-11-task-pr-status.sql` PR / GRPO status columns on `tasks`
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -174,6 +175,12 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.11 PR status on the task itself
+- A task can now carry its own **PR / GRPO status** (set in the task form), so a job that needs a PR is one record rather than two. The standalone records from V7.10 remain for PRs with no job behind them, and the PR / GRPO screen shows both in the same stage lanes, each row badged "งาน" or "PR เดี่ยว".
+- **The stages deliberately outlive the task.** GRPO and sending documents to Accounting happen after the work is finished, so ticking a task Done used to make the outstanding paperwork vanish from every list — the same forgetting problem, just moved. A Done task whose PR stage is not yet finished now keeps appearing on the dashboard as "งานเสร็จแล้ว · ต้องทำ GRPO", which is exactly the moment it used to be lost.
+- Advancing a stage works the same from either source; for a job-linked PR it writes back to the task, so Tasks, Calendar and the dashboard all stay in step.
+- Requires `migration-v7-11-task-pr-status.sql`. Running it alone is enough for job-linked PRs; `migration-v7-10-pr-grpo.sql` is only needed for standalone ones.
 
 ## V7.10 PR / GRPO tracker
 - New "PR / GRPO" section for the SAP purchasing trail that runs alongside a job: open a PR in SAP -> wait for Purchasing to return a PO -> do the work -> receive the GRPO -> hand the paperwork to Accounting.
