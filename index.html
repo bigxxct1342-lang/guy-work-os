@@ -197,6 +197,30 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
+.pr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.pr-top .help{flex:1;min-width:240px;line-height:1.6}
+.pr-hint{border:1px solid #e0c9a8;background:#fdf5e8;color:#7a5a22;border-radius:12px;padding:11px 14px;font-size:12px;font-weight:700;margin-bottom:14px;line-height:1.6}
+.pr-hint code{background:rgba(0,0,0,.07);padding:1px 6px;border-radius:5px}
+body.dark .pr-hint{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
+.pr-stage{border:1px solid var(--line);border-top:3px solid var(--pm-accent);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.pr-stage.s-info{--pm-accent:#3f7fbf}.pr-stage.s-warn{--pm-accent:#e08a2e}.pr-stage.s-calm{--pm-accent:#3ca05a}.pr-stage.s-bad{--pm-accent:#d64545}
+.pr-shead{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--soft)}
+.pr-shead b{font-size:13px;flex:1;min-width:0}
+.pr-scount{background:var(--pm-accent);color:#fff;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:850;flex:none}
+.pr-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--panel);border-top:1px solid var(--line)}
+.pr-row:hover{background:var(--soft)}
+.pr-main{flex:1;min-width:0;cursor:pointer}
+.pr-title{font-size:13px;font-weight:780;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;font-size:10px;color:var(--muted)}
+.pr-num{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-weight:800}
+.pr-src{background:var(--dark);color:#fff;border-radius:999px;padding:2px 8px;font-weight:800}
+body.dark .pr-src{background:var(--line);color:var(--text)}
+.pr-age{font-size:10px;font-weight:850;padding:4px 10px;border-radius:999px;flex:none;white-space:nowrap;background:var(--soft);color:var(--muted)}
+.pr-age.late{background:var(--red);color:var(--redT)}
+.pr-next{flex:none}
+.pr-stage.is-empty{opacity:.5}
+.pr-stage.is-empty .pr-shead{padding:8px 14px}
+@media(max-width:820px){.pr-row{flex-wrap:wrap;gap:9px;padding:11px 12px}.pr-main{flex:1 1 100%}.pr-next{margin-left:auto}}
 .dash-chips{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 0}
 .dash-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
 .dash-chip .n{font-size:13px;font-weight:900}
@@ -281,7 +305,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.9 · Dashboard</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.11 · PR / GRPO</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -332,6 +356,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <button data-view="archive">Archive</button>
   <button data-view="matrix">Priority Matrix</button>
   <button data-view="productlaunch">Product Launch</button>
+  <button data-view="pr">PR / GRPO</button>
   <button data-view="settings">Settings</button>
   <button id="adminNav" class="admin-only hidden" data-view="admin">Team Overview</button>
  </div>
@@ -371,6 +396,16 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
  <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
+ <section id="prView" class="hidden">
+  <div class="pr-top">
+   <div class="help">งานจัดซื้อที่วิ่งคู่กับงานหลัก — เปิด PR ใน SAP → รอ PO จากจัดซื้อ → ทำงาน → รับ GRPO → ส่งเอกสารให้บัญชี<br>ตั้งสถานะ PR ได้ที่ตัวงานเลย (ในฟอร์มแก้ไขงาน) แล้วจะมาโผล่ที่นี่เอง — ปุ่ม "+ เปิด PR ใหม่" ไว้ใช้กับ PR ที่ไม่มีงานรองรับ</div>
+   <button id="addPrBtn" class="btn primary">+ เปิด PR ใหม่</button>
+  </div>
+  <div id="prSetupHint" class="pr-hint hidden">สถานะ PR ในงานใช้ได้แล้ว แต่ถ้าอยากเปิด PR เดี่ยวๆ ที่ไม่ผูกกับงาน ต้องรัน <code>migration-v7-10-pr-grpo.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <div id="prChips" class="dash-chips"></div>
+  <div id="prBoard"></div>
+ </section>
+
  <section id="matrixView" class="hidden">
   <div class="pm-top">
    <div class="help">แกนตั้ง = สำคัญแค่ไหน (จาก Priority) · แกนนอน = ด่วนแค่ไหน (คำนวณจากวันครบกำหนดเอง) — ลากงานข้ามช่องเพื่อแก้ค่าจริง</div>
@@ -523,6 +558,19 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </main>
 </div>
 
+<div id="prModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="prModal" aria-label="Close">×</button><h3 id="prModalTitle">เปิด PR ใหม่</h3><div class="formgrid">
+ <div class="full field"><label>เรื่อง / งานที่ขอซื้อ</label><input id="prTitle" placeholder="เช่น ผลิตกล่องหอยเชลล์ 50 กรัม"></div>
+ <div class="field"><label>เลขที่ PR (SAP)</label><input id="prNumber" placeholder="ใส่ทีหลังได้"></div>
+ <div class="field"><label>เลขที่ PO</label><input id="prPoNumber" placeholder="ได้จากฝ่ายจัดซื้อ"></div>
+ <div class="field"><label>ผู้ขาย / Vendor</label><input id="prVendor"></div>
+ <div class="field"><label>มูลค่า (บาท)</label><input id="prAmount" type="number" step="0.01" min="0"></div>
+ <div class="field"><label>ขั้นตอนตอนนี้</label><select id="prStage"></select></div>
+ <div class="field"><label>อยู่ขั้นนี้ตั้งแต่</label><input id="prStageSince" type="date"></div>
+ <div class="full field"><label>โน้ต</label><textarea id="prNote" rows="2"></textarea></div>
+</div>
+<div id="prModalError" class="error"></div>
+<div class="actions"><button id="deletePrBtn" class="btn danger hidden">ลบ</button><button class="btn secondary" data-close-layer="prModal">ยกเลิก</button><button id="savePrBtn" class="btn primary">บันทึก</button></div>
+</div></div>
 <div id="taskModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="taskModal" aria-label="Close">×</button><h3 id="taskModalTitle">Add Task</h3><div class="formgrid">
  <div class="full field"><label>Task Name</label><input id="fTask"></div>
  <div id="ownerField" class="field hidden"><label>Owner</label><select id="fOwner"></select></div>
@@ -536,6 +584,9 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <div class="field"><label>Due Date</label><input id="fDue" type="date"></div>
  <div class="field"><label>Waiting Since</label><input id="fWaitingSince" type="date"></div>
  <div class="full field"><label>Note / Next Action</label><textarea id="fNote" rows="3"></textarea></div>
+ <div class="full field"><label>สถานะ PR / GRPO</label><select id="fPrStage"></select><div class="help" style="margin-top:6px">งานที่ต้องเปิด PR ก่อน — เลือกขั้นตอนแล้วงานนี้จะไปโผล่ในหน้า PR / GRPO และเตือนบน Dashboard ให้เอง</div></div>
+ <div class="field pr-only hidden"><label>เลขที่ PR (SAP)</label><input id="fPrNumber"></div>
+ <div class="field pr-only hidden"><label>เลขที่ PO</label><input id="fPoNumber"></div>
  </div><div class="actions"><button id="cancelTask" class="btn secondary">Cancel</button><button id="saveTask" class="btn primary">Save</button></div></div></div>
 
 <div id="categoryModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="categoryModal" aria-label="Close">×</button><h3 id="categoryModalTitle">Add Category</h3><div class="field"><label>Category Name</label><input id="cName"></div><div class="field"><label>Subcategories</label><input id="cSubs" placeholder="Separate with commas"></div><div class="actions"><button id="cancelCategory" class="btn secondary">Cancel</button><button id="saveCategory" class="btn primary">Save</button></div></div></div>
@@ -803,7 +854,7 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
- const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];syncState("Cloud synced");render()}
+ const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();syncState("Cloud synced");render()}
 // Task writes apply to local state and repaint first, then persist. A failed
 // write puts the old row back, so the screen never drifts from the server.
 async function saveTask(payload,id=null){
@@ -879,6 +930,13 @@ window.removeCategory=id=>{
  openLayer("deleteCategoryModal");
 };
 
+function prStageOptions(){return '<option value="">ไม่เกี่ยวกับ PR</option>'+PR_STAGES.map(s=>`<option value="${s.k}">${esc(s.name)}</option>`).join("")}
+function setTaskPrFields(stage,pr,po){
+ $("fPrStage").innerHTML=prStageOptions();
+ $("fPrStage").value=stage||"";
+ $("fPrNumber").value=pr||"";$("fPoNumber").value=po||"";
+ document.querySelectorAll("#taskModal .pr-only").forEach(el=>el.classList.toggle("hidden",!$("fPrStage").value));
+}
 function openTaskModal(prefill={}){
  if(!categories.length){toast("Create a category first.","bad");return}
  editingTaskId=null;
@@ -892,6 +950,7 @@ function openTaskModal(prefill={}){
  $("fDue").value=prefill.due||"";
  $("fWaitingSince").value=prefill.waiting_since||"";
  $("fNote").value=prefill.note||"";
+ setTaskPrFields(prefill.pr_stage,prefill.pr_number,prefill.po_number);
  openLayer("taskModal");
  setTimeout(()=>$("fTask")?.focus(),30);
 }
@@ -909,6 +968,7 @@ window.editTask=id=>{
  $("fDue").value=t.due||"";
  $("fWaitingSince").value=t.waiting_since||"";
  $("fNote").value=t.note||"";
+ setTaskPrFields(t.pr_stage,t.pr_number,t.po_number);
  openLayer("taskModal");
  setTimeout(()=>$("fTask")?.focus(),30);
 };
@@ -1513,7 +1573,37 @@ $("archiveList").onclick=e=>{
 };
 // Chips filter the same list they count, instead of restating it.
 $("dashChips").onclick=e=>{const b=e.target.closest("[data-dash]");if(!b)return;dashFilter=dashFilter===b.dataset.dash?"":b.dataset.dash;dashExpanded=false;render()};
-$("dashList").onclick=e=>{if(e.target.closest("[data-dash-all]")){dashExpanded=true;render();return}const r=e.target.closest("[data-edit]");if(r)editTask(Number(r.dataset.edit))};
+$("dashList").onclick=e=>{if(e.target.closest("[data-dash-all]")){dashExpanded=true;render();return}const j=e.target.closest("[data-pr-jump]");if(j)return goView("pr");const r=e.target.closest("[data-edit]");if(r)editTask(Number(r.dataset.edit))};
+$("prBoard").onclick=e=>{
+ const n=e.target.closest("[data-pr-next]");if(n)return prNextRef(n.dataset.prNext);
+ const ed=e.target.closest("[data-pr-edit]");if(ed)prEditRef(ed.dataset.prEdit);
+};
+$("fPrStage").onchange=()=>document.querySelectorAll("#taskModal .pr-only").forEach(el=>el.classList.toggle("hidden",!$("fPrStage").value));
+$("addPrBtn").onclick=()=>prFillModal(null);
+$("savePrBtn").onclick=async()=>{
+ const title=$("prTitle").value.trim();
+ if(!title)return $("prModalError").textContent="ใส่เรื่องที่ขอซื้อก่อน";
+ if(!profile?.team_id)return $("prModalError").textContent="ต้องเข้าร่วมทีมก่อนถึงจะเปิด PR ได้";
+ const amt=$("prAmount").value.trim();
+ const payload={title,pr_number:$("prNumber").value.trim()||null,po_number:$("prPoNumber").value.trim()||null,
+  vendor:$("prVendor").value.trim()||null,amount:amt===""?null:Number(amt),note:$("prNote").value.trim()||null,
+  stage:$("prStage").value,stage_since:$("prStageSince").value||todayISO()};
+ const q=editingPrId
+  ?sb.from("purchase_requests").update({...payload,updated_at:new Date().toISOString()}).eq("id",editingPrId).select().single()
+  :sb.from("purchase_requests").insert({...payload,team_id:profile.team_id,created_by:user.id}).select().single();
+ const {data,error}=await q;
+ if(error)return $("prModalError").textContent=error.message;
+ if(editingPrId){const i=prItems.findIndex(x=>x.id===editingPrId);if(i>=0)prItems[i]=data}else prItems.push(data);
+ closeLayer("prModal");render();toast(editingPrId?"อัปเดตแล้ว":"เปิด PR แล้ว");
+};
+$("deletePrBtn").onclick=async()=>{
+ if(!editingPrId||!confirm("ลบ PR ใบนี้?"))return;
+ const id=editingPrId,i=prItems.findIndex(x=>x.id===id),before=prItems[i];
+ prItems.splice(i,1);closeLayer("prModal");render();
+ const {error}=await sb.from("purchase_requests").delete().eq("id",id);
+ if(error){prItems.splice(i,0,before);render();return toast(error.message,"bad")}
+ toast("ลบแล้ว");
+};
 $("prevMonth").onclick=()=>{if(calendarMode==="week")calendarCursor.setDate(calendarCursor.getDate()-7);else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1);renderCalendar()};
 $("nextMonth").onclick=()=>{if(calendarMode==="week")calendarCursor.setDate(calendarCursor.getDate()+7);else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1);renderCalendar()};
 $("todayMonth").onclick=()=>{calendarCursor=new Date();renderCalendar()};
@@ -1806,14 +1896,136 @@ async function cleanDuplicateImports(){
   console.error(err);toast("Cleanup failed: "+(err?.message||"unknown error"),"bad");syncState("Cloud synced");
  }
 }
+/* ---- PR / GRPO ---------------------------------------------------------
+   The SAP purchasing trail: open a PR, wait for Purchasing to return a PO, do
+   the work, receive the GRPO, hand the paperwork to Accounting.
+
+   Most PRs exist because of a job, so a task carries its own PR status and
+   there is nothing to enter twice. The standalone purchase_requests table
+   covers PRs with no job behind them. Both are normalised into one item shape
+   here so the board and the dashboard treat them identically.
+
+   The stages outlive the task on purpose: GRPO and the documents happen after
+   the work is finished, so a Done task whose paperwork is still open keeps
+   showing up rather than disappearing the moment it is ticked off -- which is
+   exactly when it used to be forgotten. */
+const PR_STAGES=[
+ {k:"draft",    name:"ยังไม่เปิด PR",        next:"เปิด PR แล้ว", warn:3,  needs:"pr_number", stamp:"pr_opened_on",  tone:"info"},
+ {k:"wait_po",  name:"รอ PO จากจัดซื้อ",     next:"ได้ PO แล้ว",  warn:7,  needs:"po_number", stamp:"po_received_on",tone:"warn"},
+ {k:"working",  name:"งานกำลังดำเนินการ",     next:"งานเสร็จแล้ว", warn:30, needs:null,        stamp:"work_done_on",  tone:"calm"},
+ {k:"wait_grpo",name:"ต้องทำ GRPO",          next:"ทำ GRPO แล้ว", warn:3,  needs:null,        stamp:"grpo_on",       tone:"bad"},
+ {k:"wait_docs",name:"ต้องส่งเอกสารให้บัญชี", next:"ส่งบัญชีแล้ว", warn:3,  needs:null,        stamp:"docs_sent_on",  tone:"bad"},
+ {k:"done",     name:"เสร็จสมบูรณ์",          next:null,          warn:null,needs:null,       stamp:null,            tone:"calm"}
+];
+const prStage=k=>PR_STAGES.find(s=>s.k===k)||PR_STAGES[0];
+let prItems=[],prTableMissing=false,editingPrId=null;
+
+async function loadPr(){
+ const {data,error}=await sb.from("purchase_requests").select("*").order("stage_since");
+ // A missing table must not take the rest of the app down with it: the
+ // migration is run by hand, so treat it as "nothing here yet" and say so.
+ prTableMissing=!!error;
+ prItems=error?[]:(data||[]);
+ return !error;
+}
+// One shape for both sources, so lanes and dashboard rows need no special cases.
+function prAllItems(){
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ return scope.filter(t=>t.pr_stage).map(t=>({
+   kind:"task",id:t.id,title:t.task,pr_number:t.pr_number,po_number:t.po_number,
+   vendor:null,amount:null,stage:t.pr_stage,since:t.pr_stage_since||todayISO(),
+   sub:t.category||"",taskDone:t.status==="Done"
+ })).concat(prItems.map(p=>({
+   kind:"pr",id:p.id,title:p.title,pr_number:p.pr_number,po_number:p.po_number,
+   vendor:p.vendor,amount:p.amount,stage:p.stage,since:p.stage_since||todayISO(),
+   sub:"ไม่ผูกกับงาน",taskDone:false
+ })));
+}
+function prDays(it){const a=new Date(it.since+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
+function prStale(it){const s=prStage(it.stage);return s.warn!=null&&prDays(it)>s.warn}
+// Why this item wants attention today, or null if it can wait.
+function prNeedsYou(it){
+ if(it.stage==="done")return null;
+ if(it.kind==="task"&&it.taskDone)return{why:`งานเสร็จแล้ว · ${prStage(it.stage).name}`,tone:"bad"};
+ if(prStale(it))return{why:`${prStage(it.stage).name} ${prDays(it)} วัน`,tone:"bad"};
+ return null;
+}
+function prRowHTML(it){
+ const s=prStage(it.stage),need=prNeedsYou(it);
+ // numbers often already read "PR-2569-0142"; don't print the prefix twice
+ const tag=(k,v)=>`<span class="pr-num">${v.trim().toUpperCase().startsWith(k)?"":k+" "}${esc(v)}</span>`;
+ const bits=[`<span class="pr-src">${it.kind==="task"?"งาน":"PR เดี่ยว"}</span>`];
+ if(it.pr_number)bits.push(tag("PR",it.pr_number));
+ if(it.po_number)bits.push(tag("PO",it.po_number));
+ if(it.vendor)bits.push(`<span>${esc(it.vendor)}</span>`);
+ if(it.amount!=null&&it.amount!=="")bits.push(`<span>${Number(it.amount).toLocaleString("en-US",{maximumFractionDigits:2})} บาท</span>`);
+ if(it.sub)bits.push(`<span>${esc(it.sub)}</span>`);
+ return `<div class="pr-row"><div class="pr-main" data-pr-edit="${it.kind}:${it.id}"><div class="pr-title">${esc(it.title)}</div><div class="pr-meta">${bits.join("")}</div></div><span class="pr-age${need?" late":""}">${it.stage==="done"?"จบแล้ว":(need&&it.taskDone?"งานเสร็จแล้ว":`${prDays(it)} วัน`)}</span>${s.next?`<button class="btn secondary small pr-next" data-pr-next="${it.kind}:${it.id}">${s.next}</button>`:""}</div>`;
+}
+function renderPr(){
+ if(!$("prBoard"))return;
+ $("prSetupHint").classList.toggle("hidden",!prTableMissing);
+ const all=prAllItems(),flagged=all.filter(prNeedsYou).length;
+ $("prChips").innerHTML=PR_STAGES.filter(s=>s.k!=="done").map(s=>{
+  const n=all.filter(i=>i.stage===s.k).length;
+  return `<span class="dash-chip${n?"":" empty"}" style="cursor:default"><span class="dot dot-${s.tone}"></span>${esc(s.name)}<span class="n">${n}</span></span>`;
+ }).join("")+`<span class="dash-chip${flagged?"":" empty"}" style="cursor:default"><span class="dot dot-bad"></span>ต้องจัดการ<span class="n">${flagged}</span></span>`;
+ $("prBoard").innerHTML=PR_STAGES.map(s=>{
+  const rows=all.filter(i=>i.stage===s.k).sort((a,b)=>prDays(b)-prDays(a));
+  if(s.k==="done"&&!rows.length)return"";
+  // an empty stage still belongs in the pipeline, but collapses to its header
+  return `<div class="pr-stage s-${s.tone}${rows.length?"":" is-empty"}"><div class="pr-shead"><b>${esc(s.name)}</b><span class="pr-scount">${rows.length}</span></div>${rows.map(prRowHTML).join("")}</div>`;
+ }).join("")||'<div class="empty">ยังไม่มี PR — ติ๊กสถานะ PR ในงาน หรือกด "+ เปิด PR ใหม่"</div>';
+}
+function prFillModal(p){
+ editingPrId=p?.id??null;
+ $("prModalTitle").textContent=p?"แก้ไข PR":"เปิด PR ใหม่";
+ $("prStage").innerHTML=PR_STAGES.map(s=>`<option value="${s.k}">${esc(s.name)}</option>`).join("");
+ $("prTitle").value=p?.title||"";$("prNumber").value=p?.pr_number||"";$("prPoNumber").value=p?.po_number||"";
+ $("prVendor").value=p?.vendor||"";$("prAmount").value=p?.amount??"";$("prNote").value=p?.note||"";
+ $("prStage").value=p?.stage||"draft";$("prStageSince").value=p?.stage_since||todayISO();
+ $("prModalError").textContent="";
+ $("deletePrBtn").classList.toggle("hidden",!p);
+ openLayer("prModal");
+}
+// A job-linked PR is edited on its own task; a standalone one gets the PR form.
+window.prEditRef=ref=>{
+ const [kind,id]=ref.split(":");
+ if(kind==="task")return editTask(Number(id));
+ const p=prItems.find(x=>x.id===Number(id));if(p)prFillModal(p);
+};
+// One tap when the paperwork already carries its number; otherwise open the
+// form on the field that is missing so the number is captured as it arrives.
+window.prNextRef=async ref=>{
+ const [kind,rawId]=ref.split(":"),id=Number(rawId);
+ const it=prAllItems().find(x=>x.kind===kind&&x.id===id);if(!it)return;
+ const cur=prStage(it.stage),to=PR_STAGES[PR_STAGES.indexOf(cur)+1];
+ if(!to)return;
+ if(cur.needs&&!it[cur.needs]){
+  if(kind==="task"){editTask(id);setTimeout(()=>{$("fPrStage").value=to.k;$(cur.needs==="pr_number"?"fPrNumber":"fPoNumber").focus()},40);return}
+  prFillModal({...prItems.find(x=>x.id===id),stage:to.k,stage_since:todayISO()});
+  $(cur.needs==="pr_number"?"prNumber":"prPoNumber").focus();return;
+ }
+ if(kind==="task"){
+  if(await saveTask({pr_stage:to.k,pr_stage_since:todayISO()},id))toast(`${it.title} → ${to.name}`);
+  return;
+ }
+ const p=prItems.find(x=>x.id===id),before={...p};
+ const patch={stage:to.k,stage_since:todayISO(),updated_at:new Date().toISOString()};
+ if(cur.stamp)patch[cur.stamp]=todayISO();
+ Object.assign(p,patch);render();
+ const {error}=await sb.from("purchase_requests").update(patch).eq("id",id);
+ if(error){Object.assign(p,before);render();return toast(error.message,"bad")}
+ toast(`${it.title} → ${to.name}`);
+};
 /* ---- Dashboard focus ---------------------------------------------------
    The old dashboard printed nine counters before a single task, and showed
    "overdue" three separate times (morning brief, metric card, Needs
    Attention). Each task now resolves to at most ONE reason -- the most
    severe -- so the chips and the list below them are the same set counted
    once, and the chips filter that list rather than duplicating it. */
-const DASH_REASONS=[{k:"overdue",label:"เลยกำหนด",tone:"bad"},{k:"today",label:"วันนี้",tone:"warn"},{k:"waiting",label:"รอนาน",tone:"info"},{k:"nodate",label:"ไม่มีกำหนด",tone:"info"},{k:"soon",label:"ใกล้ถึง",tone:"calm"}];
-const DASH_ORDER={overdue:0,today:1,waiting:2,nodate:3,soon:4};
+const DASH_REASONS=[{k:"overdue",label:"เลยกำหนด",tone:"bad"},{k:"today",label:"วันนี้",tone:"warn"},{k:"pr",label:"PR ค้าง",tone:"bad"},{k:"waiting",label:"รอนาน",tone:"info"},{k:"nodate",label:"ไม่มีกำหนด",tone:"info"},{k:"soon",label:"ใกล้ถึง",tone:"calm"}];
+const DASH_ORDER={overdue:0,today:1,pr:2,waiting:3,nodate:4,soon:5};
 let dashFilter="",dashExpanded=false;
 function overdueDays(t){if(!t.due)return 0;const a=new Date(t.due+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
 function dashReason(t){
@@ -1825,20 +2037,25 @@ function dashReason(t){
  if(t.priority==="High"&&t.due){const d=pmDaysUntil(t,todayISO());if(d>0&&d<=PM_URGENT_DAYS)return{k:"soon",why:d===1?"พรุ่งนี้":`อีก ${d} วัน`,tone:"calm"}}
  return null;
 }
-function dashRowHTML(t,r){
- return `<div class="dash-row" data-edit="${t.id}"><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(t.task)}</div><div class="dash-c">${esc(t.category||"")}${isAdmin()?" · "+esc(profileName(t.user_id)):""}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
+function dashRowHTML(x){
+ const r=x.r;
+ const attr=x.p?(x.p.kind==="task"?`data-edit="${x.p.id}"`:`data-pr-jump="${x.p.id}"`):`data-edit="${x.t.id}"`;
+ const title=x.p?x.p.title:x.t.task;
+ const sub=x.p?("PR / GRPO"+(x.p.pr_number?` · ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
+ return `<div class="dash-row" ${attr}><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(title)}</div><div class="dash-c">${x.p?esc(sub):sub}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
 }
 function renderDashboardFocus(active,done){
  if(!$("dashChips"))return;
- const flagged=active.map(t=>({t,r:dashReason(t)})).filter(x=>x.r);
- flagged.sort((a,b)=>DASH_ORDER[a.r.k]-DASH_ORDER[b.r.k]||(a.t.due||"9999").localeCompare(b.t.due||"9999"));
+ const flagged=active.map(t=>({t,r:dashReason(t),due:t.due||"9999"})).filter(x=>x.r);
+ prAllItems().forEach(it=>{const n=prNeedsYou(it);if(n)flagged.push({p:it,r:{k:"pr",why:n.why,tone:n.tone},due:it.since||"9999"})});
+ flagged.sort((a,b)=>DASH_ORDER[a.r.k]-DASH_ORDER[b.r.k]||a.due.localeCompare(b.due));
  const counts={};DASH_REASONS.forEach(r=>counts[r.k]=0);flagged.forEach(x=>counts[x.r.k]++);
  if(dashFilter&&!counts[dashFilter]){dashFilter="";dashExpanded=false}
  $("dashChips").innerHTML=DASH_REASONS.map(r=>`<button class="dash-chip${dashFilter===r.k?" active":""}${counts[r.k]?"":" empty"}" data-dash="${r.k}"><span class="dot dot-${r.tone}"></span>${r.label}<span class="n">${counts[r.k]}</span></button>`).join("");
  const shown=dashFilter?flagged.filter(x=>x.r.k===dashFilter):flagged;
  const cap=(dashFilter||dashExpanded)?shown.length:6;
  $("dashList").innerHTML=shown.length
-  ?`<div class="dash-list">${shown.slice(0,cap).map(x=>dashRowHTML(x.t,x.r)).join("")}${shown.length>cap?`<div class="dash-more" data-dash-all="1">ดูอีก ${shown.length-cap} รายการ</div>`:""}</div>`
+  ?`<div class="dash-list">${shown.slice(0,cap).map(dashRowHTML).join("")}${shown.length>cap?`<div class="dash-more" data-dash-all="1">ดูอีก ${shown.length-cap} รายการ</div>`:""}</div>`
   :`<div class="dash-clear">${active.length?"ไม่มีอะไรค้างตอนนี้ — เคลียร์หมดแล้ว":"ยังไม่มีงานในระบบ"}</div>`;
  $("dashSummary").innerHTML=[["ทำงานอยู่",active.length],["กำลังทำ",active.filter(t=>t.status==="In Progress").length],["รอคนอื่น",active.filter(t=>t.status==="Waiting").length],["เสร็จสัปดาห์นี้",done.filter(doneThisWeek).length]].map(x=>`<span><b>${x[1]}</b> ${x[0]}</span>`).join("");
 }
@@ -1861,12 +2078,12 @@ $("weeklyStats").innerHTML=[
 $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty">Nothing completed this week.</div>';
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
-renderCalendar();renderAdmin();renderMatrix()}
+renderCalendar();renderAdmin();renderMatrix();renderPr()}
 ["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
@@ -1874,6 +2091,7 @@ function goView(view){
  if(view==="admin")renderAdmin();
  if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
  if(view==="matrix")renderMatrix();
+ if(view==="pr")renderPr();
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1894,6 +2112,12 @@ $("saveTask").onclick=async()=>{
    recurring_rule:$("fRecurring").value||null,
    completed_at:status==="Done"?(existing?.completed_at||new Date().toISOString()):null
  };
+ const prStageVal=$("fPrStage").value||null;
+ payload.pr_stage=prStageVal;
+ payload.pr_number=prStageVal?($("fPrNumber").value.trim()||null):null;
+ payload.po_number=prStageVal?($("fPoNumber").value.trim()||null):null;
+ payload.pr_stage_since=!prStageVal?null
+   :(existing&&existing.pr_stage===prStageVal&&existing.pr_stage_since)?existing.pr_stage_since:todayISO();
  const wasEdit=Boolean(editingTaskId);
  $("saveTask").disabled=true;
  try{
