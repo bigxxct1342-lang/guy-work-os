@@ -61,6 +61,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-10-pr-grpo.sql` standalone PR / GRPO records (PRs with no job behind them)
 - `migration-v7-11-task-pr-status.sql` PR / GRPO status columns on `tasks`
 - `migration-v7-13-kol-campaign.sql` KOL campaign tracker table
+- `migration-v7-14-kol-timeline.sql` agency working-timeline dates, remarks, ball-in-court, PR link
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -176,6 +177,14 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.14 Agency working timeline + one row per thing
+- **Fixed a real duplication on the Dashboard.** A single task that was both overdue *and* stuck in a PR stage was listed twice, once by each check. The two reasons now merge into one row ("เลยกำหนด 6 วัน · รอ PO จากจัดซื้อ 20 วัน"), so the attention list stays one row per real-world thing.
+- **The agency's committed dates beat any estimate.** Partway through a campaign the agency delivers a dated working timeline; each stage now takes that date, and lateness is measured against it ("ช้ากว่าแผน 4 วัน") instead of a guessed day count. The day count remains the fallback for stages with no agreed date yet.
+- **Ball-in-court toggle.** The agency's own sheet alternates "Agency proposes" / "Client feedback" row by row, so within one stage the party holding it flips back and forth. A button flips it, the card badges "รอเรา" or "รอ Agency", and the Dashboard names who is holding it up. Advancing a stage resets it to that stage's default owner.
+- **Remark per stage**, mirroring the Remark column on the agency's sheet.
+- **Campaigns can link to the PR they spend through.** When linked, the campaign's "เปิด PR" and "รอ PO → GRPO" stages stop raising their own alert and let the PR record raise it, so the same purchase never appears twice.
+- Requires `migration-v7-14-kol-timeline.sql`.
 
 ## V7.13 KOL campaign tracker
 - New "KOL Campaign" section for hiring influencers through an agency, following the real relay: brief the agency -> they propose KOLs -> review -> quotation -> PR and signing -> KOL brief and timeline -> storyline -> content -> ads set -> live and boosting -> report -> PO, invoice and GRPO.
