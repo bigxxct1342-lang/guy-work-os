@@ -179,6 +179,12 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.16 Explicit stage buttons + Gantt on top
+- **Every stage row now carries a labelled button.** V7.15 replaced the "ไปขั้นถัดไป" button with a small status dot you had to know to click, which left no visible way to finish a stage and move on. Rows now read: ยังไม่เริ่ม → **[เริ่มขั้นนี้] [ข้าม]**, กำลังทำ → **[เสร็จ] [สลับ]**, เสร็จ → **[ย้อนกลับ]**, ข้าม → **[เอากลับมาใช้]**. The dot is now only an indicator.
+- **Finishing a stage with nothing else running starts the next one**, so the ordinary single-file path is still one tap even though stages may overlap. If another stage is already in flight it does not auto-advance, since that would be guessing.
+- The last row is a terminal marker rather than a stage, so it offers **[ปิดจบงาน]** alone instead of start/skip.
+- **The Gantt moved above the stepper** and opens with the campaign. Buried under thirteen rows it was doing no work; the point of a timeline is to be the first thing seen.
+
 ## V7.15 Parallel stages + campaign Gantt
 - **Stages no longer run single file.** The first model gave a campaign one current stage and derived the rest from its position, which forced 1 -> 2 -> 3. In practice stages 2 and 3, or 4 and 5, are worked at the same time. Each stage now carries its own status — ยังไม่เริ่ม / กำลังทำ / เสร็จ / ข้าม — so any number can be in flight at once and any can be skipped outright. Click a stage's dot to cycle it.
 - Campaigns saved under the old model are read back through their single stage until first touched, so nothing needed a data migration.

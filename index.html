@@ -210,13 +210,13 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .kol-dot{width:22px;height:22px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:850;background:var(--soft);color:var(--muted);border:1px solid var(--line)}
 .kol-sname{flex:1;min-width:0;font-size:12px;font-weight:700}
 .kol-who{font-size:10px;color:var(--muted);margin-top:2px}
-.kol-dot{cursor:pointer;font-family:inherit;padding:0}
+.kol-btns{display:flex;gap:6px;flex:none}
+.kol-gantt{margin:2px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--line);overflow-x:auto}
 .kol-step.st-done .kol-dot{background:var(--green);color:var(--greenT);border-color:transparent}
 .kol-step.st-doing .kol-dot{background:var(--dark);color:#fff;border-color:transparent}
 .kol-step.st-skip{opacity:.45}
 .kol-step.st-todo .kol-sname{color:var(--muted);font-weight:600}
 .kol-flipbtn{flex:none}
-.kol-gantt{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);overflow-x:auto}
 .gantt-today{position:absolute;top:0;bottom:0;width:2px;background:#d64545;opacity:.5;z-index:1}
 .kol-plan{width:132px;flex:none;padding:5px 7px;font-size:11px}
 .kol-remark{width:100%;margin-top:5px;padding:4px 8px;font-size:11px}
@@ -228,7 +228,7 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .kol-rev{font-size:9px;font-weight:850;background:var(--yellow);color:var(--yellowT);border-radius:999px;padding:2px 7px;flex:none}
 .kol-acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
 .kol-cancelled{font-size:11px;color:#c33;font-weight:750;margin-top:10px}
-@media(max-width:820px){.kol-plan{width:120px;order:2}.kol-step{flex-wrap:wrap;gap:6px 8px}.kol-dot{order:0}.kol-sname{order:1;flex:1 1 auto}.kol-rev{order:2}.kol-days{order:3}.kol-dlab{order:4}.kol-actual{order:5;min-width:0;margin-left:auto}.kol-head{flex-wrap:wrap;gap:8px}.kol-headmain{flex:1 1 100%}}
+@media(max-width:820px){.kol-btns{order:2;flex:1 1 100%}.kol-plan{width:120px;order:3}.kol-step{flex-wrap:wrap;gap:6px 8px}.kol-dot{order:0}.kol-sname{order:1;flex:1 1 auto}.kol-rev{order:2}.kol-days{order:3}.kol-dlab{order:4}.kol-actual{order:5;min-width:0;margin-left:auto}.kol-head{flex-wrap:wrap;gap:8px}.kol-headmain{flex:1 1 100%}}
 .pr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .pr-top .help{flex:1;min-width:240px;line-height:1.6}
 .pr-hint{border:1px solid #e0c9a8;background:#fdf5e8;color:#7a5a22;border-radius:12px;padding:11px 14px;font-size:12px;font-weight:700;margin-bottom:14px;line-height:1.6}
@@ -1637,7 +1637,7 @@ $("kolList").onclick=e=>{
  const g=k=>e.target.closest(`[data-kol-${k}]`);
  const pair=v=>{const[a,b]=v.split(":");return[Number(a),b]};
  let n;
- if((n=g("cycle")))return kolCycle(...pair(n.dataset.kolCycle));
+ if((n=g("set"))){const[a2,b2,c2]=n.dataset.kolSet.split(":");return kolSetStatus(Number(a2),b2,c2)}
  if((n=g("flip")))return kolFlip(...pair(n.dataset.kolFlip));
  if((n=g("draft")))return kolDraft(...pair(n.dataset.kolDraft));
  if((n=g("back")))return kolBack(Number(n.dataset.kolBack));
@@ -1645,7 +1645,7 @@ $("kolList").onclick=e=>{
  if((n=g("edit")))return kolFillModal(kolItems.find(x=>x.id===Number(n.dataset.kolEdit)));
  if((n=g("gantt"))){const id=Number(n.dataset.kolGantt);kolGanttOpen=kolGanttOpen===id?null:id;return renderKol()}
  if(e.target.closest("[data-kol-days],[data-kol-plan],[data-kol-remark]"))return;
- if((n=g("toggle"))){const id=Number(n.dataset.kolToggle);kolOpenId=kolOpenId===id?null:id;renderKol()}
+ if((n=g("toggle"))){const id=Number(n.dataset.kolToggle);const opening=kolOpenId!==id;kolOpenId=opening?id:null;if(opening)kolGanttOpen=id;renderKol()}
 };
 $("kolList").onchange=e=>{
  let el;
@@ -2201,9 +2201,15 @@ function kolNeedsYou(c){
 function kolStepHTML(c,s){
  const st=kolStatus(c,s.k),plan=kolPlan(c,s.k),exp=kolExpect(c,s.k),rev=kolRev(c,s.k),rm=kolRemark(c,s.k);
  const doing=st==="doing",late=doing?kolLate(c,s.k):0;
- const txt=st==="skip"?"ข้าม":doing?(late>0?`ช้า ${late} วัน`:`ทำมา ${kolAge(c,s.k)} วัน`):"";
+ const txt=st==="skip"?"ข้าม":doing?(late>0?`ช้า ${late} วัน`:`ทำมา ${kolAge(c,s.k)} วัน`):st==="done"?"เสร็จแล้ว":"";
+ const B=(to,cls,lab)=>`<button class="btn ${cls} small" data-kol-set="${c.id}:${s.k}:${to}">${lab}</button>`;
+ const acts=s.k==="done"?(st==="done"?B("todo","secondary","เปิดงานอีกครั้ง"):B("done","primary","ปิดจบงาน"))
+  :st==="todo"?B("doing","primary","เริ่มขั้นนี้")+B("skip","secondary","ข้าม")
+  :doing?B("done","primary","เสร็จ")+`<button class="btn secondary small" data-kol-flip="${c.id}:${s.k}">สลับ</button>`
+  :st==="done"?B("doing","secondary","ย้อนกลับ")
+  :B("todo","secondary","เอากลับมาใช้");
  const show=doing||rm;
- return `<div class="kol-step st-${st}"><button class="kol-dot" data-kol-cycle="${c.id}:${s.k}" title="กดเพื่อเปลี่ยนสถานะ">${KOL_ST[st]}</button><div class="kol-sname">${esc(s.n)}${s.who?`<div class="kol-who">${doing?esc(kolStageWhoLabel(c,s.k)):"รอ "+esc(s.who)}</div>`:""}${show?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}${doing?`<button class="btn secondary small kol-flipbtn" data-kol-flip="${c.id}:${s.k}">สลับ</button>`:""}${s.d!=null?`<input class="kol-plan" type="date" value="${esc(plan)}" title="วันเริ่มตาม Working Timeline" data-kol-plan="${c.id}:${s.k}"><input class="kol-days" type="number" min="0" value="${exp}" title="ใช้เวลากี่วัน" data-kol-days="${c.id}:${s.k}"><span class="kol-dlab">วัน</span>`:""}<span class="kol-actual${late>0?" late":""}">${txt}</span></div>`;
+ return `<div class="kol-step st-${st}"><span class="kol-dot">${KOL_ST[st]}</span><div class="kol-sname">${esc(s.n)}${s.who?`<div class="kol-who">${doing?esc(kolStageWhoLabel(c,s.k)):"รอ "+esc(s.who)}</div>`:""}${show?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}<span class="kol-btns">${acts}</span>${s.d!=null?`<input class="kol-plan" type="date" value="${esc(plan)}" title="วันเริ่มตาม Working Timeline" data-kol-plan="${c.id}:${s.k}"><input class="kol-days" type="number" min="0" value="${exp}" title="ใช้เวลากี่วัน" data-kol-days="${c.id}:${s.k}"><span class="kol-dlab">วัน</span>`:""}<span class="kol-actual${late>0?" late":""}">${txt}</span></div>`;
 }
 // Bars come from the agreed start plus its duration, falling back to the day
 // the stage actually began, so the chart fills in as the timeline is entered.
@@ -2239,7 +2245,7 @@ function kolCardHTML(c){
   acts.push(`<button class="btn danger small" data-kol-cancel="${c.id}">เปลี่ยน Agency / ปิดงานนี้</button>`);
  }
  acts.push(`<button class="btn secondary small" data-kol-edit="${c.id}">แก้ไขข้อมูล</button>`);
- return `<div class="kol-card"><div class="kol-head" data-kol-toggle="${c.id}"><div class="kol-headmain"><div class="kol-name">${esc(c.name)}</div><div class="kol-sub">${bits.join(" · ")}</div></div><span class="kol-stage tone-${cancelled?"bad":need?"bad":"calm"}">${esc(label)}</span></div>${open?`<div class="kol-body">${KOL_STAGES.map(st=>kolStepHTML(c,st)).join("")}${cancelled&&c.cancel_reason?`<div class="kol-cancelled">ปิดเพราะ: ${esc(c.cancel_reason)}</div>`:""}${kolGanttOpen===c.id?`<div class="kol-gantt">${kolGanttHTML(c)}</div>`:""}<div class="kol-acts">${acts.join("")}</div></div>`:""}</div>`;
+ return `<div class="kol-card"><div class="kol-head" data-kol-toggle="${c.id}"><div class="kol-headmain"><div class="kol-name">${esc(c.name)}</div><div class="kol-sub">${bits.join(" · ")}</div></div><span class="kol-stage tone-${cancelled?"bad":need?"bad":"calm"}">${esc(label)}</span></div>${open?`<div class="kol-body">${kolGanttOpen===c.id?`<div class="kol-gantt">${kolGanttHTML(c)}</div>`:""}${KOL_STAGES.map(st=>kolStepHTML(c,st)).join("")}${cancelled&&c.cancel_reason?`<div class="kol-cancelled">ปิดเพราะ: ${esc(c.cancel_reason)}</div>`:""}<div class="kol-acts">${acts.join("")}</div></div>`:""}</div>`;
 }
 function renderKol(){
  if(!$("kolList"))return;
@@ -2271,13 +2277,20 @@ async function kolPatch(id,patch,revert){
 }
 // Cycling a stage stamps the day it started, which the Gantt falls back to
 // when no date has been agreed with the agency yet.
-window.kolCycle=async(id,k)=>{
+window.kolSetStatus=async(id,k,to)=>{
  const c=kolItems.find(x=>x.id===id);if(!c)return;
- const to=KOL_CYCLE[kolStatus(c,k)];
- const map={...(c.stage_status||{})};KOL_STAGES.forEach(s=>{if(map[s.k]==null)map[s.k]=kolStatus(c,s.k)});map[k]=to;
+ const map={...(c.stage_status||{})};KOL_STAGES.forEach(x=>{if(map[x.k]==null)map[x.k]=kolStatus(c,x.k)});
+ map[k]=to;
  const started={...(c.stage_started||{})};
  if(to==="doing"&&!started[k])started[k]=todayISO();
- await kolPatch(id,{stage_status:map,stage_started:started});
+ // Finishing a stage with nothing else running starts the next one, so the
+ // common single-file path still takes one tap even though stages may overlap.
+ let msg=`${kolStage(k).n} — ${to==="doing"?"เริ่มแล้ว":to==="done"?"เสร็จแล้ว":to==="skip"?"ข้าม":"กลับไปยังไม่เริ่ม"}`;
+ if(to==="done"&&!KOL_STAGES.some(x=>x.k!==k&&map[x.k]==="doing")){
+  const nx=KOL_STAGES.find(x=>kolIdx(x.k)>kolIdx(k)&&x.k!=="done"&&map[x.k]==="todo");
+  if(nx){map[nx.k]="doing";if(!started[nx.k])started[nx.k]=todayISO();msg+=` → เริ่ม ${nx.n}`}
+ }
+ if(await kolPatch(id,{stage_status:map,stage_started:started}))toast(msg);
 };
 window.kolFlip=async(id,k)=>{
  const c=kolItems.find(x=>x.id===id);if(!c)return;
