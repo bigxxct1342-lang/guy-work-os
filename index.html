@@ -197,6 +197,33 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
+.kol-card{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+.kol-head{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;background:var(--soft)}
+.kol-head:hover{filter:brightness(.98)}
+.kol-name{font-size:14px;font-weight:850;line-height:1.45}
+.kol-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.kol-headmain{flex:1;min-width:0}
+.kol-stage{font-size:10px;font-weight:850;padding:4px 10px;border-radius:999px;flex:none;white-space:nowrap}
+.kol-body{padding:6px 15px 15px}
+.kol-step{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--line)}
+.kol-step:last-child{border-bottom:0}
+.kol-dot{width:22px;height:22px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:850;background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+.kol-step.is-done .kol-dot{background:var(--green);color:var(--greenT);border-color:transparent}
+.kol-step.is-now .kol-dot{background:var(--dark);color:#fff;border-color:transparent}
+.kol-sname{flex:1;min-width:0;font-size:12px;font-weight:700}
+.kol-step.is-todo .kol-sname{color:var(--muted);font-weight:600}
+.kol-who{font-size:10px;color:var(--muted);margin-top:2px}
+.kol-plan{width:132px;flex:none;padding:5px 7px;font-size:11px}
+.kol-remark{width:100%;margin-top:5px;padding:4px 8px;font-size:11px}
+.kol-who-tag{font-size:9px;font-weight:850;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 9px;flex:none;white-space:nowrap}
+.kol-days{width:64px;flex:none;padding:5px 7px;font-size:11px;text-align:center}
+.kol-dlab{font-size:9px;color:var(--muted);flex:none}
+.kol-actual{font-size:10px;font-weight:850;flex:none;min-width:74px;text-align:right;color:var(--muted)}
+.kol-actual.late{color:#c33}
+.kol-rev{font-size:9px;font-weight:850;background:var(--yellow);color:var(--yellowT);border-radius:999px;padding:2px 7px;flex:none}
+.kol-acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.kol-cancelled{font-size:11px;color:#c33;font-weight:750;margin-top:10px}
+@media(max-width:820px){.kol-plan{width:120px;order:2}.kol-step{flex-wrap:wrap;gap:6px 8px}.kol-dot{order:0}.kol-sname{order:1;flex:1 1 auto}.kol-rev{order:2}.kol-days{order:3}.kol-dlab{order:4}.kol-actual{order:5;min-width:0;margin-left:auto}.kol-head{flex-wrap:wrap;gap:8px}.kol-headmain{flex:1 1 100%}}
 .pr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .pr-top .help{flex:1;min-width:240px;line-height:1.6}
 .pr-hint{border:1px solid #e0c9a8;background:#fdf5e8;color:#7a5a22;border-radius:12px;padding:11px 14px;font-size:12px;font-weight:700;margin-bottom:14px;line-height:1.6}
@@ -308,7 +335,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.11 · PR / GRPO</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.14 · KOL Campaign</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -361,6 +388,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <div class="nav-group">ระบบติดตามงาน</div>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
+  <button data-view="kol">KOL Campaign</button>
   <div class="nav-group">ตั้งค่า</div>
   <button data-view="categories">Categories</button>
   <button data-view="settings">Settings</button>
@@ -402,6 +430,15 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
  <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
+ <section id="kolView" class="hidden">
+  <div class="pr-top">
+   <div class="help">งานจ้าง KOL รีวิวสินค้า — บรีฟ Agency → เลือก KOL → เปิด PR → ตรวจ Storyline / Content → ยิง Ads → Report → ปิดจบ<br>เวลาที่คาดของแต่ละขั้นพิมพ์แก้ได้เองในแต่ละแคมเปญ ค้างเกินที่ตั้งไว้จะขึ้นแดงและเตือนบน Dashboard</div>
+   <button id="addKolBtn" class="btn primary">+ แคมเปญใหม่</button>
+  </div>
+  <div id="kolSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-13-kol-campaign.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <div id="kolList"></div>
+ </section>
+
  <section id="prView" class="hidden">
   <div class="pr-top">
    <div class="help">งานจัดซื้อที่วิ่งคู่กับงานหลัก — เปิด PR ใน SAP → รอ PO จากจัดซื้อ → ทำงาน → รับ GRPO → ส่งเอกสารให้บัญชี<br>ตั้งสถานะ PR ได้ที่ตัวงานเลย (ในฟอร์มแก้ไขงาน) แล้วจะมาโผล่ที่นี่เอง — ปุ่ม "+ เปิด PR ใหม่" ไว้ใช้กับ PR ที่ไม่มีงานรองรับ</div>
@@ -564,6 +601,16 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </main>
 </div>
 
+<div id="kolModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="kolModal" aria-label="Close">×</button><h3 id="kolModalTitle">แคมเปญใหม่</h3><div class="formgrid">
+ <div class="full field"><label>ชื่อแคมเปญ</label><input id="kName" placeholder="เช่น รีวิวหอยเชลล์ผัดฉ่า Q4"></div>
+ <div class="field"><label>Agency</label><input id="kAgency" placeholder="แก้ชื่อได้ตลอด"></div>
+ <div class="field"><label>งบประมาณ (บาท)</label><input id="kBudget" type="number" step="0.01" min="0"></div>
+ <div class="full field"><label>ผูกกับ PR ใบไหน</label><select id="kPrRef"></select><div class="help" style="margin-top:6px">ผูกแล้วขั้น "เปิด PR" กับ "รอ PO → GRPO" จะให้ใบ PR เตือนแทน ไม่เตือนซ้ำสองที่</div></div>
+ <div class="full field"><label>โน้ต</label><textarea id="kNote" rows="2"></textarea></div>
+</div>
+<div id="kolModalError" class="error"></div>
+<div class="actions"><button id="deleteKolBtn" class="btn danger hidden">ลบ</button><button class="btn secondary" data-close-layer="kolModal">ยกเลิก</button><button id="saveKolBtn" class="btn primary">บันทึก</button></div>
+</div></div>
 <div id="prModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="prModal" aria-label="Close">×</button><h3 id="prModalTitle">เปิด PR ใหม่</h3><div class="formgrid">
  <div class="full field"><label>เรื่อง / งานที่ขอซื้อ</label><input id="prTitle" placeholder="เช่น ผลิตกล่องหอยเชลล์ 50 กรัม"></div>
  <div class="field"><label>เลขที่ PR (SAP)</label><input id="prNumber" placeholder="ใส่ทีหลังได้"></div>
@@ -860,7 +907,7 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
- const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();syncState("Cloud synced");render()}
+ const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();syncState("Cloud synced");render()}
 // Task writes apply to local state and repaint first, then persist. A failed
 // write puts the old row back, so the screen never drifts from the server.
 async function saveTask(payload,id=null){
@@ -1579,7 +1626,52 @@ $("archiveList").onclick=e=>{
 };
 // Chips filter the same list they count, instead of restating it.
 $("dashChips").onclick=e=>{const b=e.target.closest("[data-dash]");if(!b)return;dashFilter=dashFilter===b.dataset.dash?"":b.dataset.dash;dashExpanded=false;render()};
-$("dashList").onclick=e=>{if(e.target.closest("[data-dash-all]")){dashExpanded=true;render();return}const j=e.target.closest("[data-pr-jump]");if(j)return goView("pr");const r=e.target.closest("[data-edit]");if(r)editTask(Number(r.dataset.edit))};
+$("dashList").onclick=e=>{if(e.target.closest("[data-dash-all]")){dashExpanded=true;render();return}const k=e.target.closest("[data-kol-jump]");if(k){kolOpenId=Number(k.dataset.kolJump);goView("kol");renderKol();return}
+ const j=e.target.closest("[data-pr-jump]");if(j)return goView("pr");const r=e.target.closest("[data-edit]");if(r)editTask(Number(r.dataset.edit))};
+$("kolList").onclick=e=>{
+ const g=(k)=>e.target.closest(`[data-kol-${k}]`);
+ let n;
+ if((n=g("next")))return kolNext(Number(n.dataset.kolNext));
+ if((n=g("back")))return kolBack(Number(n.dataset.kolBack));
+ if((n=g("draft")))return kolDraft(Number(n.dataset.kolDraft));
+ if((n=g("cancel")))return kolCancel(Number(n.dataset.kolCancel));
+ if((n=g("flip")))return kolFlip(Number(n.dataset.kolFlip));
+ if((n=g("edit")))return kolFillModal(kolItems.find(x=>x.id===Number(n.dataset.kolEdit)));
+ if(e.target.closest("[data-kol-days],[data-kol-plan],[data-kol-remark]"))return;
+ if((n=g("toggle"))){const id=Number(n.dataset.kolToggle);kolOpenId=kolOpenId===id?null:id;renderKol()}
+};
+$("kolList").onchange=e=>{
+ let el;
+ if((el=e.target.closest("[data-kol-days]"))){const[id,st]=el.dataset.kolDays.split(":");return kolSetDays(Number(id),st,el.value)}
+ if((el=e.target.closest("[data-kol-plan]"))){const[id,st]=el.dataset.kolPlan.split(":");return kolSetPlan(Number(id),st,el.value)}
+ if((el=e.target.closest("[data-kol-remark]"))){const[id,st]=el.dataset.kolRemark.split(":");return kolSetRemark(Number(id),st,el.value)}
+};
+$("addKolBtn").onclick=()=>kolFillModal(null);
+$("saveKolBtn").onclick=async()=>{
+ const name=$("kName").value.trim();
+ if(!name)return $("kolModalError").textContent="ใส่ชื่อแคมเปญก่อน";
+ if(!profile?.team_id)return $("kolModalError").textContent="ต้องเข้าร่วมทีมก่อน";
+ const bud=$("kBudget").value.trim();
+ const payload={name,agency:$("kAgency").value.trim()||null,
+  budget:bud===""?null:Number(bud),note:$("kNote").value.trim()||null,
+  pr_ref:$("kPrRef").value||null};
+ const q=editingKolId
+  ?sb.from("kol_campaigns").update({...payload,updated_at:new Date().toISOString()}).eq("id",editingKolId).select().single()
+  :sb.from("kol_campaigns").insert({...payload,team_id:profile.team_id,created_by:user.id}).select().single();
+ const {data,error}=await q;
+ if(error)return $("kolModalError").textContent=error.message;
+ if(editingKolId){const i=kolItems.findIndex(x=>x.id===editingKolId);if(i>=0)kolItems[i]=data}
+ else{kolItems.push(data);kolOpenId=data.id}
+ closeLayer("kolModal");render();toast(editingKolId?"อัปเดตแล้ว":"สร้างแคมเปญแล้ว");
+};
+$("deleteKolBtn").onclick=async()=>{
+ if(!editingKolId||!confirm("ลบแคมเปญนี้?"))return;
+ const id=editingKolId,i=kolItems.findIndex(x=>x.id===id),before=kolItems[i];
+ kolItems.splice(i,1);closeLayer("kolModal");render();
+ const {error}=await sb.from("kol_campaigns").delete().eq("id",id);
+ if(error){kolItems.splice(i,0,before);render();return toast(error.message,"bad")}
+ toast("ลบแล้ว");
+};
 $("prBoard").onclick=e=>{
  const n=e.target.closest("[data-pr-next]");if(n)return prNextRef(n.dataset.prNext);
  const ed=e.target.closest("[data-pr-edit]");if(ed)prEditRef(ed.dataset.prEdit);
@@ -2024,6 +2116,172 @@ window.prNextRef=async ref=>{
  if(error){Object.assign(p,before);render();return toast(error.message,"bad")}
  toast(`${it.title} → ${to.name}`);
 };
+/* ---- KOL campaign ------------------------------------------------------
+   A KOL hire is a long relay between us, the agency and the KOLs, and nearly
+   every stage is spent waiting on somebody else. Unlike the NPD tracker the
+   expected duration is not fixed by process -- each campaign negotiates its
+   own timings -- so the days per stage are typed straight into the campaign
+   instead of living in a settings screen.
+
+   There is deliberately no per-KOL roster: naming every influencer is more
+   data entry than it is worth. What actually hurts is how many rounds of
+   revisions a stage drags through, and that is one counter per stage. */
+const KOL_STAGES=[
+ {k:"brief",     n:"เตรียมไฟล์บรีฟให้ Agency", who:"เรา",     d:3,  tone:"info"},
+ {k:"proposal",  n:"รอ Agency เสนอ KOL + พรีเซ้น", who:"Agency", d:7,  tone:"warn"},
+ {k:"review",    n:"ตรวจข้อเสนอ",              who:"เรา",     d:3,  tone:"info", decide:true},
+ {k:"quotation", n:"เลือก KOL แล้ว รอ QT",     who:"Agency",  d:5,  tone:"warn"},
+ {k:"pr_sign",   n:"เปิด PR + ส่งเซ็น",        who:"เรา / จัดซื้อ",d:7,tone:"info"},
+ {k:"kol_brief", n:"ตรวจบรีฟ KOL + Timeline",  who:"เรา",     d:3,  tone:"info"},
+ {k:"storyline", n:"ตรวจ Storyline",           who:"KOL",     d:7,  tone:"warn", draft:true},
+ {k:"content",   n:"ตรวจ Content / ถ่ายจริง",   who:"KOL",     d:10, tone:"warn", draft:true},
+ {k:"ads_set",   n:"ตรวจ Ads Set (พี่วาว)",    who:"พี่วาว",   d:3,  tone:"info"},
+ {k:"live",      n:"ลงครบ + Boost + Monitor",  who:"Agency",  d:14, tone:"calm"},
+ {k:"report",    n:"รอ Report จาก Agency",     who:"Agency",  d:7,  tone:"warn"},
+ {k:"closing",   n:"รอ PO + Invoice → GRPO",   who:"จัดซื้อ",  d:14, tone:"bad"},
+ {k:"done",      n:"ปิดจบแล้ว",                who:"",        d:null,tone:"calm"}
+];
+const kolStage=k=>KOL_STAGES.find(s=>s.k===k)||KOL_STAGES[0];
+const kolIdx=k=>KOL_STAGES.findIndex(s=>s.k===k);
+let kolItems=[],kolTableMissing=false,editingKolId=null,kolOpenId=null;
+
+async function loadKol(){
+ const {data,error}=await sb.from("kol_campaigns").select("*").order("stage_since");
+ kolTableMissing=!!error;
+ kolItems=error?[]:(data||[]);
+ return !error;
+}
+const kolExpect=(c,k)=>{const v=(c.stage_days||{})[k];return v==null||v===""?kolStage(k).d:Number(v)};
+const kolPlan=(c,k)=>(c.stage_dates||{})[k]||"";
+const kolRemark=(c,k)=>(c.remarks||{})[k]||"";
+// Who is holding the current stage: an explicit flip wins, else the stage's owner.
+const kolWho=c=>c.waiting_on||(kolStage(c.stage).who==="Agency"||kolStage(c.stage).who==="KOL"?"agency":"us");
+const kolWhoLabel=c=>kolWho(c)==="agency"?"รอ Agency":"รอเรา";
+const kolRev=(c,k)=>Number((c.revisions||{})[k]||0);
+function kolDays(c){const a=new Date((c.stage_since||todayISO())+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
+function kolNeedsYou(c){
+ if(c.stage==="done"||c.stage==="cancelled")return null;
+ // The campaign's PR stages are tracked by the linked PR itself; letting both
+ // raise an alert would put the same thing on the dashboard twice.
+ if(c.pr_ref&&(c.stage==="pr_sign"||c.stage==="closing"))return null;
+ const who=kolWhoLabel(c),plan=kolPlan(c,c.stage);
+ if(plan){
+  const late=Math.round((new Date(todayISO()+"T00:00:00")-new Date(plan+"T00:00:00"))/86400000);
+  if(late>0)return{why:`${kolStage(c.stage).n} ช้ากว่าแผน ${late} วัน · ${who}`,tone:"bad"};
+  return null;
+ }
+ const exp=kolExpect(c,c.stage),d=kolDays(c);
+ if(exp!=null&&d>exp)return{why:`${kolStage(c.stage).n} ${d}/${exp} วัน · ${who}`,tone:"bad"};
+ return null;
+}
+function kolStepHTML(c,s,i,cur){
+ const state=c.stage==="cancelled"?(i<cur?"is-done":"is-todo"):i<cur?"is-done":i===cur?"is-now":"is-todo";
+ const exp=kolExpect(c,s.k),rev=kolRev(c,s.k),plan=kolPlan(c,s.k),rm=kolRemark(c,s.k);
+ const now=i===cur&&c.stage!=="cancelled";
+ const actual=now?kolDays(c):null;
+ // Once the agency commits to a date, measure against that instead of the guess.
+ let late=false,txt="";
+ if(now&&plan){const d=Math.round((new Date(todayISO()+"T00:00:00")-new Date(plan+"T00:00:00"))/86400000);
+  late=d>0;txt=d>0?`ช้ากว่าแผน ${d} วัน`:d===0?"ครบกำหนดวันนี้":`เหลือ ${-d} วัน`}
+ else if(actual!=null){late=exp!=null&&actual>exp;txt=`ใช้ไป ${actual} วัน`}
+ const showRemark=now||rm;
+ return `<div class="kol-step ${state}"><span class="kol-dot">${i<cur?"✓":i+1}</span><div class="kol-sname">${esc(s.n)}${s.who?`<div class="kol-who">${now?esc(kolWhoLabel(c)):"รอ "+esc(s.who)}</div>`:""}${showRemark?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}${s.d!=null?`<input class="kol-plan" type="date" value="${esc(plan)}" title="วันที่ตาม Working Timeline" data-kol-plan="${c.id}:${s.k}"><input class="kol-days" type="number" min="0" value="${exp}" title="ถ้าไม่มีวันที่ ใช้จำนวนวันนี้แทน" data-kol-days="${c.id}:${s.k}"><span class="kol-dlab">วัน</span>`:""}<span class="kol-actual${late?" late":""}">${txt}</span></div>`;
+}
+function kolCardHTML(c){
+ const cur=kolIdx(c.stage),s=kolStage(c.stage),need=kolNeedsYou(c),open=kolOpenId===c.id;
+ const cancelled=c.stage==="cancelled";
+ const bits=[c.agency?`Agency: ${esc(c.agency)}`:"ยังไม่ระบุ Agency"];
+ if(c.budget!=null&&c.budget!=="")bits.push(`${Number(c.budget).toLocaleString("en-US",{maximumFractionDigits:2})} บาท`);
+ const acts=[];
+ if(!cancelled&&c.stage!=="done"){
+  if(s.decide){
+   acts.push(`<button class="btn primary small" data-kol-next="${c.id}">ผ่าน ไปต่อ</button>`);
+   acts.push(`<button class="btn secondary small" data-kol-back="${c.id}">ขอแก้ (กลับไป Agency)</button>`);
+  }else if(s.draft){
+   acts.push(`<button class="btn primary small" data-kol-next="${c.id}">ผ่าน ไปต่อ</button>`);
+   acts.push(`<button class="btn secondary small" data-kol-draft="${c.id}">+1 รอบดราฟ</button>`);
+  }else acts.push(`<button class="btn primary small" data-kol-next="${c.id}">ไปขั้นถัดไป</button>`);
+  acts.push(`<button class="btn secondary small" data-kol-flip="${c.id}">ตอนนี้ ${kolWhoLabel(c)} → สลับ</button>`);
+  acts.push(`<button class="btn danger small" data-kol-cancel="${c.id}">เปลี่ยน Agency / ปิดงานนี้</button>`);
+ }
+ acts.push(`<button class="btn secondary small" data-kol-edit="${c.id}">แก้ไขข้อมูล</button>`);
+ return `<div class="kol-card"><div class="kol-head" data-kol-toggle="${c.id}"><div class="kol-headmain"><div class="kol-name">${esc(c.name)}</div><div class="kol-sub">${bits.join(" · ")}</div></div><span class="kol-stage tone-${cancelled?"bad":s.tone}">${cancelled?"ปิดแล้ว":`${cur+1}. ${esc(s.n)}`}</span>${cancelled||c.stage==="done"?"":`<span class="kol-who-tag">${esc(kolWhoLabel(c))}</span>`}<span class="pr-age${need?" late":""}">${cancelled||c.stage==="done"?"—":`${kolDays(c)} วัน`}</span></div>${open?`<div class="kol-body">${KOL_STAGES.map((st,i)=>kolStepHTML(c,st,i,cur)).join("")}${cancelled&&c.cancel_reason?`<div class="kol-cancelled">ปิดเพราะ: ${esc(c.cancel_reason)}</div>`:""}<div class="kol-acts">${acts.join("")}</div></div>`:""}</div>`;
+}
+function renderKol(){
+ if(!$("kolList"))return;
+ $("kolSetupHint").classList.toggle("hidden",!kolTableMissing);
+ const open=kolItems.filter(c=>c.stage!=="done"&&c.stage!=="cancelled");
+ const rest=kolItems.filter(c=>c.stage==="done"||c.stage==="cancelled");
+ const all=open.sort((a,b)=>kolDays(b)-kolDays(a)).concat(rest);
+ $("kolList").innerHTML=all.length?all.map(kolCardHTML).join(""):'<div class="empty">ยังไม่มีแคมเปญ — กด "+ แคมเปญใหม่" เพื่อเริ่ม</div>';
+}
+function kolFillModal(c){
+ editingKolId=c?.id??null;
+ $("kolModalTitle").textContent=c?"แก้ไขแคมเปญ":"แคมเปญใหม่";
+ const opts=['<option value="">— ไม่ผูก —</option>'].concat(prAllItems().filter(i=>i.stage!=="done").map(i=>`<option value="${i.kind}:${i.id}">${esc(i.title)}${i.pr_number?` (${esc(i.pr_number)})`:""}</option>`));
+ $("kPrRef").innerHTML=opts.join("");
+ $("kPrRef").value=c?.pr_ref||"";
+ $("kName").value=c?.name||"";$("kAgency").value=c?.agency||"";
+ $("kBudget").value=c?.budget??"";$("kNote").value=c?.note||"";
+ $("kolModalError").textContent="";
+ $("deleteKolBtn").classList.toggle("hidden",!c);
+ openLayer("kolModal");
+}
+async function kolPatch(id,patch,revert){
+ const c=kolItems.find(x=>x.id===id);if(!c)return false;
+ const before={...c};
+ Object.assign(c,patch);render();
+ const {error}=await sb.from("kol_campaigns").update({...patch,updated_at:new Date().toISOString()}).eq("id",id);
+ if(error){Object.assign(c,before);render();toast(error.message,"bad");return false}
+ return true;
+}
+window.kolNext=async id=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const to=KOL_STAGES[kolIdx(c.stage)+1];if(!to)return;
+ if(await kolPatch(id,{stage:to.k,stage_since:todayISO(),waiting_on:null}))toast(`${c.name} → ${to.n}`);
+};
+// "ขอแก้" sends the proposal back to the agency and counts the round, so a
+// campaign that has bounced three times is visible rather than merely felt.
+window.kolBack=async id=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const back=KOL_STAGES[Math.max(0,kolIdx(c.stage)-1)];
+ const rev={...(c.revisions||{})};rev[c.stage]=kolRev(c,c.stage)+1;
+ if(await kolPatch(id,{stage:back.k,stage_since:todayISO(),revisions:rev}))toast(`ส่งกลับ ${back.n} (รอบที่ ${rev[kolStage(c.stage).k]||rev[back.k]||1})`);
+};
+window.kolDraft=async id=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const rev={...(c.revisions||{})};rev[c.stage]=kolRev(c,c.stage)+1;
+ if(await kolPatch(id,{revisions:rev,stage_since:todayISO()}))toast(`${kolStage(c.stage).n} — ดราฟรอบที่ ${rev[c.stage]}`);
+};
+window.kolCancel=async id=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const why=prompt("ปิดงานนี้เพราะอะไร (เช่น เปลี่ยน Agency)","ไม่พอใจข้อเสนอ เปลี่ยน Agency");
+ if(why===null)return;
+ if(await kolPatch(id,{stage:"cancelled",cancel_reason:why.trim()||null,stage_since:todayISO()}))toast("ปิดแคมเปญแล้ว");
+};
+window.kolFlip=async id=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const to=kolWho(c)==="agency"?"us":"agency";
+ if(await kolPatch(id,{waiting_on:to}))toast(to==="us"?"ตอนนี้รอเราตรวจ":"ตอนนี้รอ Agency");
+};
+window.kolSetPlan=async(id,stage,val)=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const m={...(c.stage_dates||{})};
+ if(!val)delete m[stage];else m[stage]=val;
+ await kolPatch(id,{stage_dates:m});
+};
+window.kolSetRemark=async(id,stage,val)=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const m={...(c.remarks||{})};
+ if(!val.trim())delete m[stage];else m[stage]=val.trim();
+ await kolPatch(id,{remarks:m});
+};
+window.kolSetDays=async(id,stage,val)=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const days={...(c.stage_days||{})};
+ if(val===""||val==null)delete days[stage];else days[stage]=Number(val);
+ await kolPatch(id,{stage_days:days});
+};
 /* ---- Dashboard focus ---------------------------------------------------
    The old dashboard printed nine counters before a single task, and showed
    "overdue" three separate times (morning brief, metric card, Needs
@@ -2045,15 +2303,25 @@ function dashReason(t){
 }
 function dashRowHTML(x){
  const r=x.r;
- const attr=x.p?(x.p.kind==="task"?`data-edit="${x.p.id}"`:`data-pr-jump="${x.p.id}"`):`data-edit="${x.t.id}"`;
+ const attr=x.p?(x.p.kind==="task"?`data-edit="${x.p.id}"`:x.p.kind==="kol"?`data-kol-jump="${x.p.id}"`:`data-pr-jump="${x.p.id}"`):`data-edit="${x.t.id}"`;
  const title=x.p?x.p.title:x.t.task;
- const sub=x.p?("PR / GRPO"+(x.p.pr_number?` · ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
+ const sub=x.p?((x.p.kind==="kol"?"KOL Campaign":"PR / GRPO")+(x.p.pr_number?` · ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
  return `<div class="dash-row" ${attr}><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(title)}</div><div class="dash-c">${x.p?esc(sub):sub}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
 }
 function renderDashboardFocus(active,done){
  if(!$("dashChips"))return;
- const flagged=active.map(t=>({t,r:dashReason(t),due:t.due||"9999"})).filter(x=>x.r);
- prAllItems().forEach(it=>{const n=prNeedsYou(it);if(n)flagged.push({p:it,r:{k:"pr",why:n.why,tone:n.tone},due:it.since||"9999"})});
+ // One row per real-world thing. A task that is both late AND stuck in a PR
+ // stage is still one task, so the second reason is appended rather than
+ // given a row of its own.
+ const flagged=[],byTask=new Map();
+ active.forEach(t=>{const r=dashReason(t);if(!r)return;const e={t,r,due:t.due||"9999"};flagged.push(e);byTask.set(t.id,e)});
+ prAllItems().forEach(it=>{
+  const n=prNeedsYou(it);if(!n)return;
+  const seen=it.kind==="task"&&byTask.get(it.id);
+  if(seen){seen.r={...seen.r,why:`${seen.r.why} · ${n.why}`};return}
+  flagged.push({p:it,r:{k:"pr",why:n.why,tone:n.tone},due:it.since||"9999"});
+ });
+ kolItems.forEach(c=>{const n=kolNeedsYou(c);if(n)flagged.push({p:{kind:"kol",id:c.id,title:c.name,pr_number:c.agency},r:{k:"pr",why:n.why,tone:n.tone},due:c.stage_since||"9999"})});
  flagged.sort((a,b)=>DASH_ORDER[a.r.k]-DASH_ORDER[b.r.k]||a.due.localeCompare(b.due));
  const counts={};DASH_REASONS.forEach(r=>counts[r.k]=0);flagged.forEach(x=>counts[x.r.k]++);
  if(dashFilter&&!counts[dashFilter]){dashFilter="";dashExpanded=false}
@@ -2084,12 +2352,12 @@ $("weeklyStats").innerHTML=[
 $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty">Nothing completed this week.</div>';
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
-renderCalendar();renderAdmin();renderMatrix();renderPr()}
+renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol()}
 ["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
@@ -2098,6 +2366,7 @@ function goView(view){
  if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
  if(view==="matrix")renderMatrix();
  if(view==="pr")renderPr();
+ if(view==="kol")renderKol();
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
