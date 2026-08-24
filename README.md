@@ -60,6 +60,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-5-product-launch.sql` Product Launch (NPD tracker) tables + Thai holiday calendar
 - `migration-v7-10-pr-grpo.sql` standalone PR / GRPO records (PRs with no job behind them)
 - `migration-v7-11-task-pr-status.sql` PR / GRPO status columns on `tasks`
+- `migration-v7-13-kol-campaign.sql` KOL campaign tracker table
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -175,6 +176,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.13 KOL campaign tracker
+- New "KOL Campaign" section for hiring influencers through an agency, following the real relay: brief the agency -> they propose KOLs -> review -> quotation -> PR and signing -> KOL brief and timeline -> storyline -> content -> ads set -> live and boosting -> report -> PO, invoice and GRPO.
+- **Expected days are typed per campaign, not configured globally.** Every campaign negotiates its own timings, so each stage carries an editable number of days right in the stepper, pre-filled with a sensible default. A stage past its own number turns red and surfaces on the Dashboard.
+- **The review stage is a fork, not a step**: ผ่าน advances, ขอแก้ sends it back to the agency and counts the round, and เปลี่ยน Agency / ปิดงานนี้ closes the campaign with a reason. The agency name is editable at any time, independently.
+- **Revision counters instead of a KOL roster.** Naming every influencer is more data entry than it is worth; what actually hurts is how many rounds a stage drags through, so the storyline and content stages carry a one-tap "+1 รอบดราฟ" counter and show "แก้ N รอบ".
+- Requires `migration-v7-13-kol-campaign.sql`. Until it is run the section shows a setup notice and the rest of the app is unaffected.
 
 ## V7.12 Grouped navigation
 - The sidebar had grown to ten flat entries, which made unrelated things look interchangeable and closely related things look like separate features. It is now split into three labelled groups: **งานของฉัน** (Dashboard, Tasks, Calendar, Priority Matrix, Weekly Review, Archive — six views of the same task data), **ระบบติดตามงาน** (Product Launch, PR / GRPO — the two genuine pipelines), and **ตั้งค่า** (Categories, Settings, Team Overview).
