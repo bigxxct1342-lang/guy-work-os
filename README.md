@@ -62,6 +62,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-11-task-pr-status.sql` PR / GRPO status columns on `tasks`
 - `migration-v7-13-kol-campaign.sql` KOL campaign tracker table
 - `migration-v7-14-kol-timeline.sql` agency working-timeline dates, remarks, ball-in-court, PR link
+- `migration-v7-15-kol-parallel.sql` per-stage status so campaign stages can run in parallel
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -177,6 +178,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.15 Parallel stages + campaign Gantt
+- **Stages no longer run single file.** The first model gave a campaign one current stage and derived the rest from its position, which forced 1 -> 2 -> 3. In practice stages 2 and 3, or 4 and 5, are worked at the same time. Each stage now carries its own status — ยังไม่เริ่ม / กำลังทำ / เสร็จ / ข้าม — so any number can be in flight at once and any can be skipped outright. Click a stage's dot to cycle it.
+- Campaigns saved under the old model are read back through their single stage until first touched, so nothing needed a data migration.
+- Everything downstream became per-stage: lateness, the remark, and the "รอเรา / รอ Agency" flip. With several stages live, one campaign-wide answer to "who is holding this" was meaningless. The dashboard names the specific late stage and how many others are also overdue.
+- **Working-timeline Gantt**, in the same style as Product Launch. A bar is drawn from the start date agreed with the agency plus that stage's duration, falling back to the day the stage actually began, so the chart fills in as the timeline is entered. Bars are green when done, red when late, dark while in progress, with a line marking today.
+- Requires `migration-v7-15-kol-parallel.sql`.
 
 ## V7.14 Agency working timeline + one row per thing
 - **Fixed a real duplication on the Dashboard.** A single task that was both overdue *and* stuck in a PR stage was listed twice, once by each check. The two reasons now merge into one row ("เลยกำหนด 6 วัน · รอ PO จากจัดซื้อ 20 วัน"), so the attention list stays one row per real-world thing.
