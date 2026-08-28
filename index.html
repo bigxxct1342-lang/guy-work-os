@@ -197,6 +197,24 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
+.wip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.wip-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
+.wip-stat{border:1px solid var(--line);border-radius:14px;padding:17px 18px;background:var(--panel)}
+.wip-stat b{display:block;font-size:34px;font-weight:900;line-height:1.1}
+.wip-stat span{font-size:11px;color:var(--muted);font-weight:750}
+.wip-stat.bad b{color:#c33}
+.wip-grp{border:1px solid var(--line);border-radius:13px;margin-bottom:10px;overflow:hidden}
+.wip-ghead{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--soft)}
+.wip-ghead b{flex:1;font-size:13px}
+.wip-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-top:1px solid var(--line);background:var(--panel)}
+.wip-kind{font-size:9px;font-weight:850;padding:3px 9px;border-radius:999px;flex:none;background:var(--soft);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.wip-main{flex:1;min-width:0}
+.wip-name{font-size:13px;font-weight:780;line-height:1.45}
+.wip-stage{font-size:10px;color:var(--muted);margin-top:3px}
+.wip-days{font-size:11px;font-weight:850;flex:none;white-space:nowrap;min-width:66px;text-align:right;color:var(--muted)}
+.wip-days.late{color:#c33}
+.wip-pct{font-size:11px;font-weight:850;flex:none;min-width:44px;text-align:right}
+@media(max-width:820px){.wip-stats{grid-template-columns:repeat(2,1fr)}.wip-stat b{font-size:27px}.wip-row{flex-wrap:wrap;gap:8px}.wip-main{flex:1 1 100%;order:1}.wip-kind{order:0}.wip-days{order:2;margin-left:auto}}
 .kol-card{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
 .kol-head{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;background:var(--soft)}
 .kol-head:hover{filter:brightness(.98)}
@@ -340,7 +358,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.15 · KOL Campaign</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.17 · WIP Review</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -391,6 +409,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <button data-view="weekly">Weekly Review</button>
   <button data-view="archive">Archive</button>
   <div class="nav-group">ระบบติดตามงาน</div>
+  <button data-view="wip">WIP Review</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
   <button data-view="kol">KOL Campaign</button>
@@ -435,6 +454,17 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
  <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
+ <section id="wipView" class="hidden">
+  <div class="wip-head">
+   <div><h2 style="margin:0 0 4px">สถานะงานทั้งหมด ณ วันนี้</h2><div id="wipDate" class="help"></div></div>
+   <button id="wipRefresh" class="btn secondary">รีเฟรช</button>
+  </div>
+  <div id="wipStats" class="wip-stats"></div>
+  <div class="card section" style="margin-bottom:18px"><h2>ติดอยู่ที่ใคร</h2><div id="wipBlocked"></div></div>
+  <div class="card section" style="margin-bottom:18px"><h2>งานที่กำลังวิ่ง</h2><div id="wipRunning"></div></div>
+  <div class="card section"><h2>เสร็จแล้วใน 30 วันที่ผ่านมา</h2><div id="wipDone"></div></div>
+ </section>
+
  <section id="kolView" class="hidden">
   <div class="pr-top">
    <div class="help">งานจ้าง KOL รีวิวสินค้า — บรีฟ Agency → เลือก KOL → เปิด PR → ตรวจ Storyline / Content → ยิง Ads → Report → ปิดจบ<br>เวลาที่คาดของแต่ละขั้นพิมพ์แก้ได้เองในแต่ละแคมเปญ ค้างเกินที่ตั้งไว้จะขึ้นแดงและเตือนบน Dashboard</div>
@@ -1654,6 +1684,7 @@ $("kolList").onchange=e=>{
  if((el=e.target.closest("[data-kol-remark]"))){const[id,st]=el.dataset.kolRemark.split(":");return kolSetRemark(Number(id),st,el.value)}
 };
 $("addKolBtn").onclick=()=>kolFillModal(null);
+$("wipRefresh").onclick=()=>Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>toast("โหลดข้อมูลไม่สำเร็จ","bad"));
 $("saveKolBtn").onclick=async()=>{
  const name=$("kName").value.trim();
  if(!name)return $("kolModalError").textContent="ใส่ชื่อแคมเปญก่อน";
@@ -2331,6 +2362,92 @@ window.kolSetDays=async(id,stage,val)=>{
  if(val===""||val==null)delete days[stage];else days[stage]=Number(val);
  await kolPatch(id,{stage_days:days});
 };
+/* ---- WIP review ---------------------------------------------------------
+   The dashboard answers "what must I do today"; this answers a different
+   question, asked by somebody else: where does every piece of work stand, and
+   who is holding it up. Read-only on purpose -- it gets shown on a screen in a
+   meeting, where a stray click must not change anything.
+
+   The blocker grouping is the point. Most delay here is spent waiting on
+   Purchasing, an agency or a KOL, and until it is grouped that way it reads as
+   though the delay belongs to whoever is presenting. */
+let wipProgress={};
+async function loadWipProgress(){
+ // Product Launch loads steps only for the selected product; the review needs
+ // every product at once, so fetch the two tables and join them here.
+ const [m,st]=await Promise.all([
+  sb.from("product_milestones").select("id,product_id"),
+  sb.from("product_steps").select("milestone_id,status")
+ ]);
+ if(m.error||st.error){wipProgress={};return}
+ const owner={};(m.data||[]).forEach(x=>owner[x.id]=x.product_id);
+ const acc={};
+ (st.data||[]).forEach(x=>{const pid=owner[x.milestone_id];if(pid==null)return;
+  acc[pid]=acc[pid]||{done:0,total:0};
+  if(x.status==="skipped")return;
+  acc[pid].total++;if(x.status==="done")acc[pid].done++});
+ wipProgress=acc;
+}
+function wipDaysSince(iso){if(!iso)return 0;const a=new Date(iso.slice(0,10)+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
+// Everything in flight, normalised so one table can hold all of it.
+function wipItems(){
+ const out=[];
+ npdProducts.filter(p=>p.status!=="done").forEach(p=>{
+  const g=wipProgress[p.id],pct=g&&g.total?Math.round(g.done/g.total*100):null;
+  out.push({kind:"Product Launch",name:p.name,stage:pct!=null?`เสร็จ ${g.done}/${g.total} ขั้น`:"ยังไม่มีขั้นตอน",
+   who:"เรา",days:wipDaysSince(p.created_at),late:false,pct});
+ });
+ kolItems.filter(c=>c.stage!=="done"&&c.stage!=="cancelled").forEach(c=>{
+  const doing=kolDoing(c);
+  const done=KOL_STAGES.filter(x=>kolStatus(c,x.k)==="done").length;
+  const pct=Math.round(done/(KOL_STAGES.length-1)*100);
+  if(!doing.length){out.push({kind:"KOL",name:c.name,stage:"ยังไม่เริ่มขั้นไหน",who:"เรา",days:0,late:false,pct});return}
+  doing.forEach(x=>{const late=kolLate(c,x.k);
+   out.push({kind:"KOL",name:c.name,stage:x.n,who:(c.waiting_map||{})[x.k]==="us"?"เรา":x.who||"เรา",
+    days:kolAge(c,x.k),late:late>0,lateBy:late,pct})});
+ });
+ prAllItems().filter(i=>i.stage!=="done").forEach(i=>{
+  const st=prStage(i.stage),d=Math.max(0,Math.round((new Date()-new Date(i.since+"T00:00:00"))/86400000));
+  const who=i.stage==="wait_po"?"จัดซื้อ":"เรา";
+  out.push({kind:i.kind==="task"?"PR (งาน)":"PR",name:i.title,stage:st.name,who,days:d,
+   late:st.warn!=null&&d>st.warn,lateBy:st.warn!=null?Math.max(0,d-st.warn):0,pct:null});
+ });
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ scope.filter(t=>t.status==="Waiting").forEach(t=>{
+  out.push({kind:"งาน",name:t.task,stage:"รออยู่",who:"คนอื่น",days:waitDays(t)||0,late:(waitDays(t)||0)>=4,pct:null});
+ });
+ return out;
+}
+function wipRowHTML(i){
+ return `<div class="wip-row"><span class="wip-kind">${esc(i.kind)}</span><div class="wip-main"><div class="wip-name">${esc(i.name)}</div><div class="wip-stage">${esc(i.stage)}</div></div>${i.pct!=null?`<span class="wip-pct">${i.pct}%</span>`:""}<span class="wip-days${i.late?" late":""}">${i.days} วัน${i.late&&i.lateBy?` (ช้า ${i.lateBy})`:""}</span></div>`;
+}
+async function renderWip(){
+ if(!$("wipStats"))return;
+ $("wipDate").textContent=new Date().toLocaleDateString("th-TH",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ const all=wipItems(),late=all.filter(i=>i.late),onOthers=all.filter(i=>i.who!=="เรา");
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const cut=new Date();cut.setDate(cut.getDate()-30);
+ const recent=scope.filter(t=>t.status==="Done"&&t.completed_at&&new Date(t.completed_at)>=cut);
+ $("wipStats").innerHTML=[
+  ["งานที่กำลังวิ่ง",all.length,""],["ช้ากว่ากำหนด",late.length,late.length?"bad":""],
+  ["รอฝ่ายอื่น",onOthers.length,""],["เสร็จใน 30 วัน",recent.length,""]
+ ].map(x=>`<div class="wip-stat ${x[2]}"><b>${x[1]}</b><span>${esc(x[0])}</span></div>`).join("");
+
+ const groups=new Map();
+ onOthers.forEach(i=>{const k=i.who||"ไม่ระบุ";(groups.get(k)||groups.set(k,[]).get(k)).push(i)});
+ $("wipBlocked").innerHTML=groups.size?[...groups.entries()]
+  .sort((a,b)=>Math.max(...b[1].map(x=>x.days))-Math.max(...a[1].map(x=>x.days)))
+  .map(([who,rows])=>`<div class="wip-grp"><div class="wip-ghead"><b>รอ ${esc(who)}</b><span class="pr-age${rows.some(r=>r.late)?" late":""}">${rows.length} รายการ · นานสุด ${Math.max(...rows.map(r=>r.days))} วัน</span></div>${rows.sort((a,b)=>b.days-a.days).map(wipRowHTML).join("")}</div>`).join("")
+  :'<div class="empty">ไม่มีงานที่ค้างรอฝ่ายอื่น</div>';
+
+ $("wipRunning").innerHTML=all.length
+  ?[...all].sort((a,b)=>(b.late-a.late)||b.days-a.days).map(wipRowHTML).join("")
+  :'<div class="empty">ยังไม่มีงานที่กำลังวิ่ง</div>';
+ $("wipDone").innerHTML=recent.length
+  ?recent.sort((a,b)=>new Date(b.completed_at)-new Date(a.completed_at)).slice(0,20)
+   .map(t=>`<div class="wip-row"><span class="wip-kind">งาน</span><div class="wip-main"><div class="wip-name">${esc(t.task)}</div><div class="wip-stage">${esc(t.category||"")}</div></div><span class="wip-days">${new Date(t.completed_at).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</span></div>`).join("")
+  :'<div class="empty">ยังไม่มีงานที่เสร็จในช่วง 30 วัน</div>';
+}
 /* ---- Dashboard focus ---------------------------------------------------
    The old dashboard printed nine counters before a single task, and showed
    "overdue" three separate times (morning brief, metric card, Needs
@@ -2406,7 +2523,7 @@ renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol()}
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","wip","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
@@ -2416,6 +2533,7 @@ function goView(view){
  if(view==="matrix")renderMatrix();
  if(view==="pr")renderPr();
  if(view==="kol")renderKol();
+ if(view==="wip"){renderWip();Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
