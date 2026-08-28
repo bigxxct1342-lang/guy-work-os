@@ -179,6 +179,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.17 WIP Review
+- New read-only "WIP Review" section, built for showing the boss rather than for working in. The Dashboard answers "what must I do today"; this answers a different question asked by somebody else — where does every piece of work stand, and who is holding it up.
+- **ติดอยู่ที่ใคร is the point of the page.** Blocked work is grouped by *blocker* — จัดซื้อ, Agency, KOL, พี่วาว, คนอื่น — with the longest wait first. Until it is grouped that way a list of late items reads as though the delay belongs to whoever is presenting, when most of it is spent waiting on somebody else.
+- **งานที่กำลังวิ่ง** puts Product Launch, KOL campaigns, PR / GRPO and waiting tasks in one table — current stage, days elapsed, how far past due — so the whole picture is one screen instead of clicking through four sections.
+- **เสร็จแล้วใน 30 วัน** gives the counterweight: what actually shipped.
+- Read-only by design: it gets shown on a screen in a meeting, where a stray click must not change anything.
+- Product completion is fetched for every product at once rather than one at a time, and a failed load leaves the page standing instead of blanking it.
+- **No migration needed** — everything is derived from data the app already holds.
+
 ## V7.16 Explicit stage buttons + Gantt on top
 - **Every stage row now carries a labelled button.** V7.15 replaced the "ไปขั้นถัดไป" button with a small status dot you had to know to click, which left no visible way to finish a stage and move on. Rows now read: ยังไม่เริ่ม → **[เริ่มขั้นนี้] [ข้าม]**, กำลังทำ → **[เสร็จ] [สลับ]**, เสร็จ → **[ย้อนกลับ]**, ข้าม → **[เอากลับมาใช้]**. The dot is now only an indicator.
 - **Finishing a stage with nothing else running starts the next one**, so the ordinary single-file path is still one tap even though stages may overlap. If another stage is already in flight it does not auto-advance, since that would be guessing.
