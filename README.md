@@ -180,6 +180,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.20 Projects: progress, finished work, reordering
+- **A percentage per project.** The header now reads `เสร็จ 2/4` with a `50%` chip and a progress bar, and every channel shows `done/total` instead of a bare count. A plan is judged by how much of it is finished, and that number was nowhere on the page.
+- **Finished work can be linked.** The picker used to hide anything already done, which made a project look like a list of what is left rather than a picture of the whole plan. Done rows link in normally and render struck through with "· เสร็จแล้ว", so the overview shows what is finished as well as what is not.
+- **Rows can be reordered.** ↑ / ↓ move an item inside its channel, and a dropdown moves it to another channel when the project has more than one. A media plan has an order to it; alphabetical-by-accident did not reflect that.
+- Fixed: finished work was counted in the "เลยกำหนด" tally when its due date had passed, so completing late work never cleared the warning.
+- No SQL for this one — it all reads from data already stored.
+
 ## V7.19 Removable channels, KOL folded into Projects
 - **Channels can be deleted.** They could only be added before, so a mistyped channel was permanent. Deleting one that still holds work **moves that work to the remaining channel** rather than dropping it out of the project silently, and says so before doing it; the last channel cannot be removed.
 - **"KOL Campaign" leaves the sidebar** — with campaigns now filed under a project's channel it was a second door to the same thing. The detailed stage tracker is not deleted: it opens by clicking a KOL row inside a project, and carries a back link. Campaigns are created from a channel with "+ สร้างแคมเปญ KOL", which links the new campaign automatically.
