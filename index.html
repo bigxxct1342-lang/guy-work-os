@@ -208,14 +208,26 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pj-finish span{color:var(--muted);font-weight:700;font-size:11px;margin-left:6px}
 .pj-gantt{overflow-x:auto;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
 .pj-ch{margin-bottom:14px}
-.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
+.pj-chead:hover{border-color:var(--muted)}
+.pj-ch.is-open .pj-chead{margin-bottom:9px}
+.pj-chdate{font-size:9px;font-weight:800;color:var(--muted);flex:none;margin-left:auto}
 .pj-chead b{font-size:12px}
-.pj-delch{border:0;background:transparent;color:var(--muted);font-size:15px;line-height:1;cursor:pointer;padding:2px 5px;border-radius:6px;font-family:inherit}
-.pj-delch:hover{background:var(--red);color:var(--redT)}
+.pj-delch{margin-left:auto;color:var(--muted)}
 .pj-chead .pj-cnt{font-size:9px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted)}
 .pj-prog{margin-bottom:12px}
 .pj-pct{font-size:11px;font-weight:850;flex:none;color:var(--muted)}
-.pj-check{width:15px;flex:none;font-size:11px;font-weight:900;color:var(--greenT)}
+.pj-dot{width:11px;height:11px;border-radius:50%;flex:none;border:1.5px solid var(--muted);background:transparent;box-sizing:border-box}
+.pj-dot.s-done{background:#37a26a;border-color:#37a26a}
+.pj-dot.s-doing{background:#3d86cc;border-color:#3d86cc}
+.pj-dot.s-past{background:#dda01f;border-color:#dda01f}
+.pj-tally{display:flex;gap:7px;align-items:center;flex:none}
+.pj-tal{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:850;color:var(--muted)}
+.pj-tal .pj-dot{width:8px;height:8px}
+.pj-band{display:flex;align-items:center;gap:9px;margin:13px 0 7px;font-size:10px;font-weight:850;letter-spacing:.4px;color:var(--text)}
+.pj-band::after{content:"";flex:1;height:1px;background:var(--line)}
+.pj-caret{flex:none;font-size:9px;color:var(--muted);width:11px;transition:transform .15s}
+.pj-ch.is-open .pj-caret{transform:rotate(90deg)}
 .pj-item.is-done{background:var(--soft)}
 .pj-item.is-done .pj-iname{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .pj-ord{display:flex;flex-direction:column;gap:1px;flex:none}
@@ -240,7 +252,7 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pick-main{flex:1;min-width:0}
 .pick-t{font-size:12px;font-weight:750}
 .pick-s{font-size:10px;color:var(--muted);margin-top:2px}
-@media(max-width:820px){.pj-item{flex-wrap:wrap;gap:8px}.pj-itype{order:0}.pj-check{order:1}.pj-iname{flex:1 1 100%;order:2}.pj-ord{order:3}.pj-move{order:4;min-width:0;flex:1 1 auto}.pj-idate{order:5;width:130px}.pj-rm{order:6;margin-left:auto}}
+@media(max-width:820px){.pj-head .pj-tally{display:none}.pj-chead{flex-wrap:wrap;gap:7px}.pj-chdate{margin-left:0}.pj-item{flex-wrap:wrap;gap:8px}.pj-itype{order:0}.pj-dot{order:1}.pj-iname{flex:1 1 100%;order:2}.pj-ord{order:3}.pj-move{order:4;min-width:0;flex:1 1 auto}.pj-idate{order:5;width:130px}.pj-rm{order:6;margin-left:auto}}
 .wip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
 .wip-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
 .wip-stat{border:1px solid var(--line);border-radius:14px;padding:17px 18px;background:var(--panel)}
@@ -402,7 +414,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.20 · Projects</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.21 · Projects</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1772,6 +1784,8 @@ $("projList").onclick=e=>{
   if(k==="kol"){kolOpenId=Number(id);return goView("kol")}
   return goView("pr")}
  if(e.target.closest("[data-pj-date],[data-pj-move]"))return;
+ if((n=g("toggch"))){const k=n.dataset.pjToggch;
+  projOpenCh.has(k)?projOpenCh.delete(k):projOpenCh.add(k);return renderProj()}
  if((n=g("toggle"))){const id=Number(n.dataset.pjToggle);projOpenId=projOpenId===id?null:id;renderProj()}
 };
 $("projList").onchange=e=>{
@@ -2518,6 +2532,9 @@ window.kolSetDays=async(id,stage,val)=>{
    by the UI, so nothing can be counted under two plans. */
 const PROJ_CHANNELS=["KOL Review","BMN","สื่อออฟไลน์","Collab","อื่นๆ"];
 let projects=[],projItems=[],projTableMissing=false,editingProjId=null,projOpenId=null,pickCtx=null;
+// Which channels are expanded, keyed "<projectId>:<channel>". View state only,
+// so it lives in memory rather than in the row.
+const projOpenCh=new Set();
 
 async function loadProjects(){
  const [p,i]=await Promise.all([
@@ -2539,15 +2556,41 @@ function projTakenBy(kind,refId){
 // Resolve a pointer back to the live record it refers to.
 function projResolve(it){
  if(it.kind==="task"){const t=tasks.find(x=>x.id===it.ref_id);
-  return t?{title:t.task,end:t.due||"",sub:t.category||"",done:t.status==="Done",gone:false}
-          :{title:"(งานถูกลบแล้ว)",end:"",sub:"",done:false,gone:true}}
+  return t?{title:t.task,end:t.due||"",sub:t.category||"",done:t.status==="Done",
+            started:t.status!=="To Do",gone:false}
+          :{title:"(งานถูกลบแล้ว)",end:"",sub:"",done:false,started:false,gone:true}}
  if(it.kind==="kol"){const c=kolItems.find(x=>x.id===it.ref_id);
-  return c?{title:c.name,end:it.end_date||"",sub:c.agency||"",done:c.stage==="done",gone:false}
-          :{title:"(แคมเปญถูกลบแล้ว)",end:"",sub:"",done:false,gone:true}}
+  return c?{title:c.name,end:it.end_date||"",sub:c.agency||"",done:c.stage==="done",
+            started:KOL_STAGES.some(x=>kolStatus(c,x.k)!=="todo"),gone:false}
+          :{title:"(แคมเปญถูกลบแล้ว)",end:"",sub:"",done:false,started:false,gone:true}}
  const r=prItems.find(x=>x.id===it.ref_id);
- return r?{title:r.title,end:it.end_date||"",sub:r.pr_number||"",done:r.stage==="done",gone:false}
-         :{title:"(PR ถูกลบแล้ว)",end:"",sub:"",done:false,gone:true};
+ return r?{title:r.title,end:it.end_date||"",sub:r.pr_number||"",done:r.stage==="done",
+           started:r.stage!=="draft",gone:false}
+         :{title:"(PR ถูกลบแล้ว)",end:"",sub:"",done:false,started:false,gone:true};
 }
+// Four states, one dot. Note that a date already past is amber, not red: the
+// dates here are estimates, and work sitting behind somebody else is usually
+// just not urgent yet rather than actually failing.
+const PROJ_STATE={
+ done :{c:"s-done", t:"เสร็จแล้ว"},
+ past :{c:"s-past", t:"เลยวันที่ประเมินไว้"},
+ doing:{c:"s-doing",t:"กำลังทำ"},
+ todo :{c:"s-todo", t:"ยังไม่เริ่ม"}
+};
+function projState(r){
+ if(r.gone)return "todo";
+ if(r.done)return "done";
+ if(r.end&&r.end<todayISO())return "past";
+ return r.started?"doing":"todo";
+}
+// Counts per state, in the order they are shown.
+function projTally(rows){
+ const t={done:0,past:0,doing:0,todo:0};
+ rows.forEach(r=>{t[projState(r)]++});
+ return t;
+}
+const projTallyHTML=t=>["past","doing","todo","done"].filter(k=>t[k])
+ .map(k=>`<span class="pj-tal" title="${PROJ_STATE[k].t}"><i class="pj-dot ${PROJ_STATE[k].c}"></i>${t[k]}</span>`).join("");
 // Finished work counts toward the total rather than being hidden, which is the
 // point of pulling it in: the project should show what is done as well as what
 // is left.
@@ -2579,30 +2622,52 @@ function projGanttHTML(p){
  const fmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
  return `<div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(6,1fr)">${labels.map(d=>`<span>${fmt(d)}</span>`).join("")}</div></div>
  <div class="gantt-grid"><div class="gantt-labels">${rows.map(r=>`<div>${esc(r.ch)}</div>`).join("")}</div>
- <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar" style="left:0;width:${Math.max(4,pct(r.last))}%;background:${r.last<today?"#d64545":"#20262d"}">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
+ <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar" style="left:0;width:${Math.max(4,pct(r.last))}%;background:${r.last<today?"#dda01f":"#3d86cc"}">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
 }
 function projItemHTML(p,it,idx,total){
- const r=projResolve(it),chans=projChannels(p);
+ const r=projResolve(it),chans=projChannels(p),st=projState(r);
  const move=chans.length>1?`<select class="pj-move" title="ย้ายช่องทาง" data-pj-move="${it.id}">${chans.map(c=>`<option value="${esc(c)}"${c===it.channel?" selected":""}>${esc(c)}</option>`).join("")}</select>`:"";
- return `<div class="pj-item${r.done?" is-done":""}"><span class="pj-itype" data-pj-go="${it.kind}:${it.ref_id}" title="เปิดงานนี้">${PROJ_LABEL[it.kind]}</span><span class="pj-check">${r.done?"✓":""}</span><div class="pj-iname">${esc(r.title)}${r.sub?` <span style="color:var(--muted);font-weight:600">· ${esc(r.sub)}</span>`:""}</div><span class="pj-ord"><button class="pj-arrow" data-pj-up="${it.id}"${idx===0?" disabled":""} title="เลื่อนขึ้น">↑</button><button class="pj-arrow" data-pj-down="${it.id}"${idx===total-1?" disabled":""} title="เลื่อนลง">↓</button></span>${move}${r.gone?'<span class="pj-nodate">—</span>':`<input class="pj-idate" type="date" value="${esc(r.end)}" title="วันจบ — เว้นว่างได้ถ้ายังไม่กำหนด" data-pj-date="${it.id}">`}<button class="btn secondary small pj-rm" data-pj-rm="${it.id}" title="เอาออกจากโปรเจกต์ (ไม่ลบงาน)">เอาออก</button></div>`;
+ return `<div class="pj-item${r.done?" is-done":""}"><span class="pj-itype" data-pj-go="${it.kind}:${it.ref_id}" title="เปิดงานนี้">${PROJ_LABEL[it.kind]}</span><i class="pj-dot ${PROJ_STATE[st].c}" title="${PROJ_STATE[st].t}"></i><div class="pj-iname">${esc(r.title)}${r.sub?` <span style="color:var(--muted);font-weight:600">· ${esc(r.sub)}</span>`:""}</div><span class="pj-ord"><button class="pj-arrow" data-pj-up="${it.id}"${idx===0?" disabled":""} title="เลื่อนขึ้น">↑</button><button class="pj-arrow" data-pj-down="${it.id}"${idx===total-1?" disabled":""} title="เลื่อนลง">↓</button></span>${move}${r.gone?'<span class="pj-nodate">—</span>':`<input class="pj-idate" type="date" value="${esc(r.end)}" title="วันจบ — เว้นว่างได้ถ้ายังไม่กำหนด" data-pj-date="${it.id}">`}<button class="btn secondary small pj-rm" data-pj-rm="${it.id}" title="เอาออกจากโปรเจกต์ (ไม่ลบงาน)">เอาออก</button></div>`;
+}
+// A channel starts collapsed. A project can carry a lot of work, and having
+// every channel open at once turned the page into one long wall; the header
+// line carries enough -- done/total and the colour tally -- to read without
+// opening anything.
+function projChannelHTML(p,ch,items){
+ const open=projOpenCh.has(`${p.id}:${ch}`),cg=projProgress(p.id,ch);
+ const rows=items.filter(x=>x.channel===ch).sort((a,b)=>a.sort_order-b.sort_order||a.id-b.id);
+ const tally=projTallyHTML(projTally(rows.map(projResolve).filter(r=>!r.gone)));
+ const ends=rows.map(x=>projResolve(x).end).filter(Boolean).sort();
+ const last=ends.length?new Date(ends[ends.length-1]+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
+ const head=`<div class="pj-chead" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}</div>`;
+ if(!open)return `<div class="pj-ch">${head}</div>`;
+ // Two bands, because work that has not been picked up yet reads very
+ // differently from work in flight -- even when both are equally certain to
+ // happen. Order inside a band is the manual one; a row only crosses the
+ // line when the work itself actually starts or finishes.
+ const started=rows.filter(it=>{const r=projResolve(it);return r.started||r.done}),
+       later=rows.filter(it=>{const r=projResolve(it);return !r.started&&!r.done});
+ const band=(label,list)=>list.length
+  ? `<div class="pj-band">${label} ${list.length}</div>`+list.map((it,i)=>projItemHTML(p,it,i,list.length)).join("")
+  : "";
+ const body=rows.length?band("เริ่มแล้ว",started)+band("ยังไม่เริ่ม",later)
+                       :'<div class="pj-none">ยังไม่มีงาน</div>';
+ return `<div class="pj-ch is-open">${head}${body}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button><button class="btn secondary small pj-delch" data-pj-delch="${p.id}:${esc(ch)}">ลบช่องทางนี้</button></div></div>`;
 }
 function projCardHTML(p){
  const open=projOpenId===p.id,items=projItemsOf(p.id),fin=projFinish(p.id);
- const late=items.filter(it=>{const r=projResolve(it);return !r.done&&r.end&&r.end<todayISO()}).length;
+ const tal=projTally(items.map(projResolve).filter(r=>!r.gone));
  const bits=[];
  if(p.products)bits.push(esc(p.products));
  if(p.start_date)bits.push(new Date(p.start_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}));
  const g=projProgress(p.id);
  bits.push(`เสร็จ ${g.done}/${g.total}`);
- if(late)bits.push(`เลยกำหนด ${late}`);
  const chans=projChannels(p);
- return `<div class="pj-card"><div class="pj-head" data-pj-toggle="${p.id}"><div class="pj-headmain"><div class="pj-name">${esc(p.name)}</div><div class="pj-sub">${bits.join(" · ")}</div></div>${p.kind?`<span class="pj-kind">${esc(p.kind)}</span>`:""}<span class="pj-pct">${g.pct}%</span><span class="pr-age${late?" late":""}">${fin?`จบ ${new Date(fin+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`:"ยังไม่มีวันจบ"}</span></div>${open?`<div class="pj-body">
+ return `<div class="pj-card"><div class="pj-head" data-pj-toggle="${p.id}"><div class="pj-headmain"><div class="pj-name">${esc(p.name)}</div><div class="pj-sub">${bits.join(" · ")}</div></div>${p.kind?`<span class="pj-kind">${esc(p.kind)}</span>`:""}<span class="pj-tally">${projTallyHTML(tal)}</span><span class="pj-pct">${g.pct}%</span><span class="pr-age">${fin?`จบ ${new Date(fin+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`:"ยังไม่มีวันจบ"}</span></div>${open?`<div class="pj-body">
  <div class="pj-prog"><div class="progress-line"><strong>ความคืบหน้า</strong><strong>${g.pct}%</strong></div><div class="progress-wrap"><div class="progress-bar" style="width:${g.pct}%"></div></div></div>
  <div class="pj-finish">${fin?`จะจบประมาณ ${new Date(fin+"T00:00:00").toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`:"ยังกำหนดวันจบไม่ได้"}<span>${fin?"จากงานที่ครบกำหนดช้าที่สุด":"ใส่วันจบให้งานสักชิ้นก่อน"}</span></div>
  <div class="pj-gantt">${projGanttHTML(p)}</div>
- ${chans.map(ch=>{const rows=items.filter(x=>x.channel===ch).sort((a,b)=>a.sort_order-b.sort_order||a.id-b.id);
-  const cg=projProgress(p.id,ch);
-  return `<div class="pj-ch"><div class="pj-chead"><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><button class="pj-delch" data-pj-delch="${p.id}:${esc(ch)}" title="ลบช่องทางนี้">×</button></div>${rows.map((it,i)=>projItemHTML(p,it,i,rows.length)).join("")||'<div class="pj-none">ยังไม่มีงาน</div>'}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button></div></div>`}).join("")}
+ ${chans.map(ch=>projChannelHTML(p,ch,items)).join("")}
  <div class="kol-acts"><button class="btn secondary small" data-pj-addch="${p.id}">+ เพิ่มช่องทาง</button><button class="btn secondary small" data-pj-edit="${p.id}">แก้ไขโปรเจกต์</button></div></div>`:""}</div>`;
 }
 function renderProj(){
@@ -2641,7 +2706,12 @@ async function projLink(projectId,channel,kind,refId){
 // Order is stored per link, so moving a row only rewrites the two it swaps.
 window.projReorder=async(itemId,dir)=>{
  const it=projItems.find(x=>x.id===itemId);if(!it)return;
- const sibs=projItems.filter(x=>x.project_id===it.project_id&&x.channel===it.channel)
+ // Only within the same band. A row crosses the เริ่มแล้ว / ยังไม่เริ่ม line
+ // when the work itself starts, never by dragging, or the line would stop
+ // meaning anything.
+ const band=x=>{const r=projResolve(x);return r.started||r.done};
+ const mine=band(it);
+ const sibs=projItems.filter(x=>x.project_id===it.project_id&&x.channel===it.channel&&band(x)===mine)
    .sort((a,b)=>a.sort_order-b.sort_order||a.id-b.id);
  const i=sibs.findIndex(x=>x.id===itemId),j=i+dir;
  if(i<0||j<0||j>=sibs.length)return;

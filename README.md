@@ -180,6 +180,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.21 Projects: status colour, collapsible channels, started / not started
+- **One coloured dot per row**, replacing the tick: 🔵 กำลังทำ, ⚪ ยังไม่เริ่ม, 🟢 เสร็จแล้ว, 🟠 เลยวันที่ประเมินไว้. Channel headers and the project header carry the same dots as a tally, so a collapsed project still shows its shape.
+- **A date already past is amber, never red.** The dates in this app are estimates, and work sitting behind somebody else is usually not urgent yet rather than actually failing — a red alarm on every one of them trains you to ignore all of them. The "เลยกำหนด N" chip is gone, and the Gantt bar for a passed date is amber too.
+- **"เริ่มแล้ว" is read from the work itself**, never entered twice: a task counts as started once it leaves `To Do`, a PR once it leaves `ยังไม่เปิด PR`, a KOL campaign once any stage is doing or done.
+- **Channels collapse.** They all opened at once before, which turned a real project into one long wall. A channel now starts closed showing name, `เสร็จ/ทั้งหมด`, the dot tally and its last date; click to open, and several can be open together. "ลบช่องทางนี้" moved into the opened block so it cannot be hit while reaching for the header.
+- **Two bands inside a channel**, split by a labelled rule: เริ่มแล้ว and ยังไม่เริ่ม. ↑ / ↓ reorder within a band only — a row crosses the line when the work actually starts or finishes, so the line always means something.
+- Fixed: the on-track Gantt bar was filled `#20262d`, the dark theme's own panel colour, so it was invisible in dark mode. Bars now use the same blue and amber as the dots.
+- No SQL for this one.
+
 ## V7.20 Projects: progress, finished work, reordering
 - **A percentage per project.** The header now reads `เสร็จ 2/4` with a `50%` chip and a progress bar, and every channel shows `done/total` instead of a bare count. A plan is judged by how much of it is finished, and that number was nowhere on the page.
 - **Finished work can be linked.** The picker used to hide anything already done, which made a project look like a list of what is left rather than a picture of the whole plan. Done rows link in normally and render struck through with "· เสร็จแล้ว", so the overview shows what is finished as well as what is not.
