@@ -180,6 +180,11 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.19 Removable channels, KOL folded into Projects
+- **Channels can be deleted.** They could only be added before, so a mistyped channel was permanent. Deleting one that still holds work **moves that work to the remaining channel** rather than dropping it out of the project silently, and says so before doing it; the last channel cannot be removed.
+- **"KOL Campaign" leaves the sidebar** — with campaigns now filed under a project's channel it was a second door to the same thing. The detailed stage tracker is not deleted: it opens by clicking a KOL row inside a project, and carries a back link. Campaigns are created from a channel with "+ สร้างแคมเปญ KOL", which links the new campaign automatically.
+- Section renamed to **Projects**.
+
 ## V7.18 Projects
 - New "โปรเจกต์" section: an umbrella that groups work already living elsewhere. A project is a plan — a media plan, a year plan, anything else — covering one or more products, with its work grouped by **channel** (KOL Review, BMN, สื่อออฟไลน์, Collab, อื่นๆ), which is how the plan is actually written rather than by which table happens to store it. The channel list is editable; those five are only seeds.
 - **A project points at work, it never holds it.** Linking a task leaves that task exactly where it was — still in Tasks, Calendar and the dashboard — and adds only a pointer. Unlinking deletes nothing. That is what stops projects becoming a second, competing copy of the task list.

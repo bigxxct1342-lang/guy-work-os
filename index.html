@@ -210,6 +210,8 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pj-ch{margin-bottom:14px}
 .pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px}
 .pj-chead b{font-size:12px}
+.pj-delch{border:0;background:transparent;color:var(--muted);font-size:15px;line-height:1;cursor:pointer;padding:2px 5px;border-radius:6px;font-family:inherit}
+.pj-delch:hover{background:var(--red);color:var(--redT)}
 .pj-chead .pj-cnt{font-size:9px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted)}
 .pj-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--card)}
 .pj-itype{font-size:9px;font-weight:850;padding:2px 8px;border-radius:999px;flex:none;background:var(--soft);border:1px solid var(--line);color:var(--muted);cursor:pointer}
@@ -389,7 +391,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.18 · โปรเจกต์</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.19 · Projects</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -440,11 +442,10 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <button data-view="weekly">Weekly Review</button>
   <button data-view="archive">Archive</button>
   <div class="nav-group">ระบบติดตามงาน</div>
-  <button data-view="proj">โปรเจกต์</button>
+  <button data-view="proj">Projects</button>
   <button data-view="wip">WIP Review</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
-  <button data-view="kol">KOL Campaign</button>
   <div class="nav-group">ตั้งค่า</div>
   <button data-view="categories">Categories</button>
   <button data-view="settings">Settings</button>
@@ -507,6 +508,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  </section>
 
  <section id="kolView" class="hidden">
+  <div style="margin-bottom:12px"><button id="kolBackBtn" class="btn secondary small">← กลับไป Projects</button></div>
   <div class="pr-top">
    <div class="help">งานจ้าง KOL รีวิวสินค้า — บรีฟ Agency → เลือก KOL → เปิด PR → ตรวจ Storyline / Content → ยิง Ads → Report → ปิดจบ<br>เวลาที่คาดของแต่ละขั้นพิมพ์แก้ได้เองในแต่ละแคมเปญ ค้างเกินที่ตั้งไว้จะขึ้นแดงและเตือนบน Dashboard</div>
    <button id="addKolBtn" class="btn primary">+ แคมเปญใหม่</button>
@@ -1749,6 +1751,8 @@ $("projList").onclick=e=>{
  if((n=g("pick"))){const[id,ch]=pair(n.dataset.pjPick);return projOpenPick(id,ch)}
  if((n=g("new"))){const[id,ch]=pair(n.dataset.pjNew);return projNewTask(id,ch)}
  if((n=g("addch")))return projAddChannel(Number(n.dataset.pjAddch));
+ if((n=g("delch"))){const[id,ch]=pair(n.dataset.pjDelch);return projDelChannel(id,ch)}
+ if((n=g("newkol"))){const[id,ch]=pair(n.dataset.pjNewkol);return projNewKol(id,ch)}
  if((n=g("edit")))return projFillModal(projects.find(x=>x.id===Number(n.dataset.pjEdit)));
  if((n=g("go"))){const[k,id]=n.dataset.pjGo.split(":");
   if(k==="task")return editTask(Number(id));
@@ -1769,6 +1773,7 @@ $("pickList").onclick=e=>{
 };
 $("pickSearch").oninput=renderPick;
 $("addProjBtn").onclick=()=>projFillModal(null);
+$("kolBackBtn").onclick=()=>goView("proj");
 $("saveProjBtn").onclick=async()=>{
  const name=$("pjName").value.trim();
  if(!name)return $("projModalError").textContent="ใส่ชื่อโปรเจกต์ก่อน";
@@ -1795,6 +1800,11 @@ $("deleteProjBtn").onclick=async()=>{
 };
 // Creating work inside a project makes an ordinary task, then links it, so it
 // behaves like every other task everywhere else in the app.
+window.projNewKol=(projectId,channel)=>{
+ pendingProjKol={projectId,channel};
+ kolFillModal(null);
+};
+let pendingProjKol=null;
 window.projNewTask=(projectId,channel)=>{
  if(!categories.length)return toast("สร้าง Category ก่อน","bad");
  pendingProjLink={projectId,channel};
@@ -1818,7 +1828,9 @@ $("saveKolBtn").onclick=async()=>{
  if(error)return $("kolModalError").textContent=error.message;
  if(editingKolId){const i=kolItems.findIndex(x=>x.id===editingKolId);if(i>=0)kolItems[i]=data}
  else{kolItems.push(data);kolOpenId=data.id}
- closeLayer("kolModal");render();toast(editingKolId?"อัปเดตแล้ว":"สร้างแคมเปญแล้ว");
+ closeLayer("kolModal");
+ if(!editingKolId&&pendingProjKol){await projLink(pendingProjKol.projectId,pendingProjKol.channel,"kol",data.id);pendingProjKol=null}
+ render();toast(editingKolId?"อัปเดตแล้ว":"สร้างแคมเปญแล้ว");
 };
 $("deleteKolBtn").onclick=async()=>{
  if(!editingKolId||!confirm("ลบแคมเปญนี้?"))return;
@@ -2561,7 +2573,7 @@ function projCardHTML(p){
  <div class="pj-finish">${fin?`จะจบประมาณ ${new Date(fin+"T00:00:00").toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`:"ยังกำหนดวันจบไม่ได้"}<span>${fin?"จากงานที่ครบกำหนดช้าที่สุด":"ใส่วันจบให้งานสักชิ้นก่อน"}</span></div>
  <div class="pj-gantt">${projGanttHTML(p)}</div>
  ${chans.map(ch=>{const rows=items.filter(x=>x.channel===ch);
-  return `<div class="pj-ch"><div class="pj-chead"><b>${esc(ch)}</b><span class="pj-cnt">${rows.length}</span></div>${rows.map(it=>projItemHTML(p,it)).join("")||'<div class="pj-none">ยังไม่มีงาน</div>'}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button></div></div>`}).join("")}
+  return `<div class="pj-ch"><div class="pj-chead"><b>${esc(ch)}</b><span class="pj-cnt">${rows.length}</span><button class="pj-delch" data-pj-delch="${p.id}:${esc(ch)}" title="ลบช่องทางนี้">×</button></div>${rows.map(it=>projItemHTML(p,it)).join("")||'<div class="pj-none">ยังไม่มีงาน</div>'}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button></div></div>`}).join("")}
  <div class="kol-acts"><button class="btn secondary small" data-pj-addch="${p.id}">+ เพิ่มช่องทาง</button><button class="btn secondary small" data-pj-edit="${p.id}">แก้ไขโปรเจกต์</button></div></div>`:""}</div>`;
 }
 function renderProj(){
@@ -2613,6 +2625,24 @@ window.projSetDate=async(itemId,val)=>{
  const before=it.end_date;it.end_date=val||null;render();
  const {error}=await sb.from("project_items").update({end_date:val||null}).eq("id",itemId);
  if(error){it.end_date=before;render();toast(error.message,"bad")}
+};
+window.projDelChannel=async(id,ch)=>{
+ const p=projects.find(x=>x.id===id);if(!p)return;
+ const list=projChannels(p);
+ if(list.length<=1)return toast("ต้องเหลืออย่างน้อย 1 ช่องทาง","bad");
+ const rows=projItemsOf(id).filter(x=>x.channel===ch);
+ // Work filed here would otherwise vanish from the project with no trace, so
+ // it moves to the first remaining channel instead of being dropped.
+ const to=list.find(c=>c!==ch);
+ if(rows.length&&!confirm(`ช่องทาง "${ch}" มี ${rows.length} งานอยู่ — ลบแล้วงานจะย้ายไป "${to}" (งานไม่ถูกลบ) ยืนยันไหม`))return;
+ if(!rows.length&&!confirm(`ลบช่องทาง "${ch}"?`))return;
+ if(rows.length){
+  const {error}=await sb.from("project_items").update({channel:to}).eq("project_id",id).eq("channel",ch);
+  if(error)return toast(error.message,"bad");
+  rows.forEach(r=>r.channel=to);
+ }
+ if(await projPatch(id,{channels:list.filter(c=>c!==ch)}))
+  toast(rows.length?`ลบช่องทางแล้ว · ย้าย ${rows.length} งานไป "${to}"`:"ลบช่องทางแล้ว");
 };
 window.projAddChannel=async id=>{
  const p=projects.find(x=>x.id===id);if(!p)return;
@@ -2810,7 +2840,8 @@ function goView(view){
  ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","wip","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
- $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
+ const OFF_NAV={kol:"KOL Campaign"};
+ $("pageTitle").textContent=nav?.textContent?.trim()||OFF_NAV[view]||"Dashboard";
  if(view==="calendar")renderCalendar();
  if(view==="admin")renderAdmin();
  if(view==="settings"){refreshPushUI();loadLineStatus().then(refreshLineUI)}
