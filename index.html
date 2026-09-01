@@ -197,6 +197,37 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .group-frac{font-size:10.5px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
+.pj-card{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+.pj-head{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;background:var(--soft)}
+.pj-name{font-size:14px;font-weight:850;line-height:1.45}
+.pj-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.pj-headmain{flex:1;min-width:0}
+.pj-kind{font-size:9px;font-weight:850;padding:3px 9px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--muted);flex:none;white-space:nowrap}
+.pj-body{padding:14px 15px 15px}
+.pj-finish{font-size:13px;font-weight:850;margin-bottom:12px}
+.pj-finish span{color:var(--muted);font-weight:700;font-size:11px;margin-left:6px}
+.pj-gantt{overflow-x:auto;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.pj-ch{margin-bottom:14px}
+.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.pj-chead b{font-size:12px}
+.pj-chead .pj-cnt{font-size:9px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted)}
+.pj-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--card)}
+.pj-itype{font-size:9px;font-weight:850;padding:2px 8px;border-radius:999px;flex:none;background:var(--soft);border:1px solid var(--line);color:var(--muted);cursor:pointer}
+.pj-iname{flex:1;min-width:0;font-size:12px;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pj-idate{width:140px;flex:none;padding:5px 7px;font-size:11px}
+.pj-nodate{font-size:10px;color:var(--muted);flex:none}
+.pj-rm{flex:none}
+.pj-none{font-size:11px;color:var(--muted);padding:2px 0 4px}
+.pj-chacts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.pick-list{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:11px}
+.pick-row{display:flex;align-items:center;gap:11px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.pick-row:last-child{border-bottom:0}
+.pick-row:hover{background:var(--soft)}
+.pick-row.taken{opacity:.45;cursor:not-allowed}
+.pick-main{flex:1;min-width:0}
+.pick-t{font-size:12px;font-weight:750}
+.pick-s{font-size:10px;color:var(--muted);margin-top:2px}
+@media(max-width:820px){.pj-item{flex-wrap:wrap;gap:8px}.pj-iname{flex:1 1 100%;order:1}.pj-itype{order:0}.pj-idate{order:2;width:130px}.pj-rm{order:3;margin-left:auto}}
 .wip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
 .wip-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
 .wip-stat{border:1px solid var(--line);border-radius:14px;padding:17px 18px;background:var(--panel)}
@@ -358,7 +389,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.17 · WIP Review</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.18 · โปรเจกต์</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -409,6 +440,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <button data-view="weekly">Weekly Review</button>
   <button data-view="archive">Archive</button>
   <div class="nav-group">ระบบติดตามงาน</div>
+  <button data-view="proj">โปรเจกต์</button>
   <button data-view="wip">WIP Review</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
@@ -454,6 +486,15 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
  <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
  <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
+ <section id="projView" class="hidden">
+  <div class="pr-top">
+   <div class="help">รวมงานของแผนหนึ่งๆ ไว้ที่เดียว — Media Plan, Year Plan หรืออื่นๆ<br>งานที่ดึงเข้ามายังอยู่ที่เดิมทุกชิ้น โปรเจกต์แค่ผูกป้ายว่าเป็นเรื่องเดียวกัน · 1 งานอยู่ได้โปรเจกต์เดียว</div>
+   <button id="addProjBtn" class="btn primary">+ โปรเจกต์ใหม่</button>
+  </div>
+  <div id="projSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-18-projects.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <div id="projList"></div>
+ </section>
+
  <section id="wipView" class="hidden">
   <div class="wip-head">
    <div><h2 style="margin:0 0 4px">สถานะงานทั้งหมด ณ วันนี้</h2><div id="wipDate" class="help"></div></div>
@@ -636,6 +677,23 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </main>
 </div>
 
+<div id="projModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="projModal" aria-label="Close">×</button><h3 id="projModalTitle">โปรเจกต์ใหม่</h3><div class="formgrid">
+ <div class="full field"><label>ชื่อโปรเจกต์</label><input id="pjName" placeholder="เช่น แผนหอยเชลล์ผัดฉ่า Q4"></div>
+ <div class="field"><label>ประเภท</label><input id="pjKind" list="pjKindList" placeholder="Media Plan"><datalist id="pjKindList"><option>Media Plan</option><option>Year Plan</option></datalist></div>
+ <div class="field"><label>เริ่มแผนวันที่</label><input id="pjStart" type="date"></div>
+ <div class="full field"><label>สินค้าที่เกี่ยวข้อง</label><input id="pjProducts" placeholder="พิมพ์เอง คั่นด้วย , — ใส่สินค้าที่ขายอยู่แล้วก็ได้"></div>
+ <div class="full field"><label>โน้ต</label><textarea id="pjNote" rows="2"></textarea></div>
+</div>
+<div id="projModalError" class="error"></div>
+<div class="actions"><button id="deleteProjBtn" class="btn danger hidden">ลบ</button><button class="btn secondary" data-close-layer="projModal">ยกเลิก</button><button id="saveProjBtn" class="btn primary">บันทึก</button></div>
+</div></div>
+
+<div id="pickModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="pickModal" aria-label="Close">×</button><h3>เลือกงานที่มีอยู่</h3>
+<div id="pickChannel" class="help" style="margin-bottom:10px"></div>
+<input id="pickSearch" placeholder="ค้นหางาน…" style="margin-bottom:10px">
+<div id="pickList" class="pick-list"></div>
+<div class="actions"><button class="btn secondary" data-close-layer="pickModal">ปิด</button></div>
+</div></div>
 <div id="kolModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="kolModal" aria-label="Close">×</button><h3 id="kolModalTitle">แคมเปญใหม่</h3><div class="formgrid">
  <div class="full field"><label>ชื่อแคมเปญ</label><input id="kName" placeholder="เช่น รีวิวหอยเชลล์ผัดฉ่า Q4"></div>
  <div class="field"><label>Agency</label><input id="kAgency" placeholder="แก้ชื่อได้ตลอด"></div>
@@ -942,7 +1000,7 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
- const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();syncState("Cloud synced");render()}
+ const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();await loadProjects();syncState("Cloud synced");render()}
 // Task writes apply to local state and repaint first, then persist. A failed
 // write puts the old row back, so the screen never drifts from the server.
 async function saveTask(payload,id=null){
@@ -1683,6 +1741,66 @@ $("kolList").onchange=e=>{
  if((el=e.target.closest("[data-kol-plan]"))){const[id,st]=el.dataset.kolPlan.split(":");return kolSetPlan(Number(id),st,el.value)}
  if((el=e.target.closest("[data-kol-remark]"))){const[id,st]=el.dataset.kolRemark.split(":");return kolSetRemark(Number(id),st,el.value)}
 };
+$("projList").onclick=e=>{
+ const g=k=>e.target.closest(`[data-pj-${k}]`);
+ const pair=v=>{const i=v.indexOf(":");return[Number(v.slice(0,i)),v.slice(i+1)]};
+ let n;
+ if((n=g("rm")))return projUnlink(Number(n.dataset.pjRm));
+ if((n=g("pick"))){const[id,ch]=pair(n.dataset.pjPick);return projOpenPick(id,ch)}
+ if((n=g("new"))){const[id,ch]=pair(n.dataset.pjNew);return projNewTask(id,ch)}
+ if((n=g("addch")))return projAddChannel(Number(n.dataset.pjAddch));
+ if((n=g("edit")))return projFillModal(projects.find(x=>x.id===Number(n.dataset.pjEdit)));
+ if((n=g("go"))){const[k,id]=n.dataset.pjGo.split(":");
+  if(k==="task")return editTask(Number(id));
+  if(k==="kol"){kolOpenId=Number(id);return goView("kol")}
+  return goView("pr")}
+ if(e.target.closest("[data-pj-date]"))return;
+ if((n=g("toggle"))){const id=Number(n.dataset.pjToggle);projOpenId=projOpenId===id?null:id;renderProj()}
+};
+$("projList").onchange=e=>{
+ const el=e.target.closest("[data-pj-date]");if(!el)return;
+ projSetDate(Number(el.dataset.pjDate),el.value);
+};
+$("pickList").onclick=e=>{
+ const r=e.target.closest("[data-pick]");if(!r||!pickCtx)return;
+ const [kind,id]=r.dataset.pick.split(":");
+ projLink(pickCtx.projectId,pickCtx.channel,kind,Number(id));
+ closeLayer("pickModal");
+};
+$("pickSearch").oninput=renderPick;
+$("addProjBtn").onclick=()=>projFillModal(null);
+$("saveProjBtn").onclick=async()=>{
+ const name=$("pjName").value.trim();
+ if(!name)return $("projModalError").textContent="ใส่ชื่อโปรเจกต์ก่อน";
+ if(!profile?.team_id)return $("projModalError").textContent="ต้องเข้าร่วมทีมก่อน";
+ const payload={name,kind:$("pjKind").value.trim()||null,start_date:$("pjStart").value||null,
+  products:$("pjProducts").value.trim()||null,note:$("pjNote").value.trim()||null};
+ const q=editingProjId
+  ?sb.from("projects").update({...payload,updated_at:new Date().toISOString()}).eq("id",editingProjId).select().single()
+  :sb.from("projects").insert({...payload,team_id:profile.team_id,created_by:user.id,channels:PROJ_CHANNELS}).select().single();
+ const {data,error}=await q;
+ if(error)return $("projModalError").textContent=error.message;
+ if(editingProjId){const i=projects.findIndex(x=>x.id===editingProjId);if(i>=0)projects[i]=data}
+ else{projects.unshift(data);projOpenId=data.id}
+ closeLayer("projModal");render();toast(editingProjId?"อัปเดตแล้ว":"สร้างโปรเจกต์แล้ว");
+};
+$("deleteProjBtn").onclick=async()=>{
+ if(!editingProjId||!confirm("ลบโปรเจกต์นี้? งานข้างในจะไม่ถูกลบ แค่หลุดจากโปรเจกต์"))return;
+ const id=editingProjId,i=projects.findIndex(x=>x.id===id),before=projects[i];
+ projects.splice(i,1);projItems=projItems.filter(x=>x.project_id!==id);
+ closeLayer("projModal");render();
+ const {error}=await sb.from("projects").delete().eq("id",id);
+ if(error){projects.splice(i,0,before);render();return toast(error.message,"bad")}
+ toast("ลบโปรเจกต์แล้ว (งานยังอยู่)");
+};
+// Creating work inside a project makes an ordinary task, then links it, so it
+// behaves like every other task everywhere else in the app.
+window.projNewTask=(projectId,channel)=>{
+ if(!categories.length)return toast("สร้าง Category ก่อน","bad");
+ pendingProjLink={projectId,channel};
+ openTaskModal({});
+};
+let pendingProjLink=null;
 $("addKolBtn").onclick=()=>kolFillModal(null);
 $("wipRefresh").onclick=()=>Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>toast("โหลดข้อมูลไม่สำเร็จ","bad"));
 $("saveKolBtn").onclick=async()=>{
@@ -2362,6 +2480,172 @@ window.kolSetDays=async(id,stage,val)=>{
  if(val===""||val==null)delete days[stage];else days[stage]=Number(val);
  await kolPatch(id,{stage_days:days});
 };
+/* ---- Projects -----------------------------------------------------------
+   A project is a plan -- media plan, year plan, anything -- covering one or
+   more products, with its work grouped by channel because that is how the plan
+   is actually written. The channel list is editable; these are only seeds.
+
+   The rule that keeps this from becoming a rival task list: a project points
+   at work, it never holds it. A linked task stays in Tasks, Calendar and the
+   dashboard exactly as before, and unlinking deletes nothing. One piece of
+   work belongs to at most one project, enforced by a unique index rather than
+   by the UI, so nothing can be counted under two plans. */
+const PROJ_CHANNELS=["KOL Review","BMN","สื่อออฟไลน์","Collab","อื่นๆ"];
+let projects=[],projItems=[],projTableMissing=false,editingProjId=null,projOpenId=null,pickCtx=null;
+
+async function loadProjects(){
+ const [p,i]=await Promise.all([
+  sb.from("projects").select("*").order("created_at",{ascending:false}),
+  sb.from("project_items").select("*").order("sort_order")
+ ]);
+ projTableMissing=!!(p.error||i.error);
+ projects=p.error?[]:(p.data||[]);
+ projItems=i.error?[]:(i.data||[]);
+ return !projTableMissing;
+}
+const projChannels=p=>{const c=p.channels;return Array.isArray(c)&&c.length?c:PROJ_CHANNELS};
+const projItemsOf=id=>projItems.filter(x=>x.project_id===id);
+// Every linked ref, so the picker can grey out work already spoken for.
+function projTakenBy(kind,refId){
+ const it=projItems.find(x=>x.kind===kind&&x.ref_id===refId);
+ return it?projects.find(p=>p.id===it.project_id):null;
+}
+// Resolve a pointer back to the live record it refers to.
+function projResolve(it){
+ if(it.kind==="task"){const t=tasks.find(x=>x.id===it.ref_id);
+  return t?{title:t.task,end:t.due||"",sub:t.category||"",gone:false}:{title:"(งานถูกลบแล้ว)",end:"",sub:"",gone:true}}
+ if(it.kind==="kol"){const c=kolItems.find(x=>x.id===it.ref_id);
+  return c?{title:c.name,end:it.end_date||"",sub:c.agency||"",gone:false}:{title:"(แคมเปญถูกลบแล้ว)",end:"",sub:"",gone:true}}
+ const r=prAllItems().find(x=>x.kind==="pr"?x.id===it.ref_id:false)||prItems.find(x=>x.id===it.ref_id);
+ return r?{title:r.title,end:it.end_date||"",sub:r.pr_number||"",gone:false}:{title:"(PR ถูกลบแล้ว)",end:"",sub:"",gone:true};
+}
+const PROJ_LABEL={task:"งาน",kol:"KOL",pr:"PR"};
+function projEnds(id){
+ return projItemsOf(id).map(it=>projResolve(it).end).filter(Boolean).sort();
+}
+function projFinish(id){const e=projEnds(id);return e.length?e[e.length-1]:null}
+
+function projGanttHTML(p){
+ const chans=projChannels(p);
+ const rows=chans.map(ch=>{
+  const ends=projItemsOf(p.id).filter(x=>x.channel===ch).map(x=>projResolve(x).end).filter(Boolean).sort();
+  return ends.length?{ch,last:new Date(ends[ends.length-1]+"T00:00:00"),ticks:ends}:null;
+ }).filter(Boolean);
+ if(!rows.length)return '<div class="empty">ใส่วันจบให้งานสักชิ้นเพื่อให้ขึ้นตารางวันที่</div>';
+ const start=p.start_date?new Date(p.start_date+"T00:00:00")
+   :new Date(Math.min(...rows.flatMap(r=>r.ticks.map(t=>new Date(t+"T00:00:00").getTime()))));
+ const max=new Date(Math.max(...rows.map(r=>r.last.getTime())));
+ const span=Math.max(7,Math.round((max-start)/86400000));
+ const pct=d=>Math.max(0,Math.min(100,((d-start)/86400000)/span*100));
+ const labels=[];for(let i=0;i<6;i++){const d=new Date(start);d.setDate(d.getDate()+Math.round(i*span/5));labels.push(d)}
+ const today=new Date(todayISO()+"T00:00:00");
+ const fmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+ return `<div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(6,1fr)">${labels.map(d=>`<span>${fmt(d)}</span>`).join("")}</div></div>
+ <div class="gantt-grid"><div class="gantt-labels">${rows.map(r=>`<div>${esc(r.ch)}</div>`).join("")}</div>
+ <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar" style="left:0;width:${Math.max(4,pct(r.last))}%;background:${r.last<today?"#d64545":"#20262d"}">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
+}
+function projItemHTML(p,it){
+ const r=projResolve(it);
+ return `<div class="pj-item"><span class="pj-itype" data-pj-go="${it.kind}:${it.ref_id}" title="เปิดงานนี้">${PROJ_LABEL[it.kind]}</span><div class="pj-iname">${esc(r.title)}${r.sub?` <span style="color:var(--muted);font-weight:600">· ${esc(r.sub)}</span>`:""}</div>${r.gone?'<span class="pj-nodate">—</span>':`<input class="pj-idate" type="date" value="${esc(r.end)}" title="วันจบ — เว้นว่างได้ถ้ายังไม่กำหนด" data-pj-date="${it.id}">`}<button class="btn secondary small pj-rm" data-pj-rm="${it.id}" title="เอาออกจากโปรเจกต์ (ไม่ลบงาน)">เอาออก</button></div>`;
+}
+function projCardHTML(p){
+ const open=projOpenId===p.id,items=projItemsOf(p.id),fin=projFinish(p.id);
+ const late=items.filter(it=>{const e=projResolve(it).end;return e&&e<todayISO()}).length;
+ const bits=[];
+ if(p.products)bits.push(esc(p.products));
+ if(p.start_date)bits.push(new Date(p.start_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}));
+ bits.push(`${items.length} งาน`);
+ if(late)bits.push(`เลยกำหนด ${late}`);
+ const chans=projChannels(p);
+ return `<div class="pj-card"><div class="pj-head" data-pj-toggle="${p.id}"><div class="pj-headmain"><div class="pj-name">${esc(p.name)}</div><div class="pj-sub">${bits.join(" · ")}</div></div>${p.kind?`<span class="pj-kind">${esc(p.kind)}</span>`:""}<span class="pr-age${late?" late":""}">${fin?`จบ ${new Date(fin+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`:"ยังไม่มีวันจบ"}</span></div>${open?`<div class="pj-body">
+ <div class="pj-finish">${fin?`จะจบประมาณ ${new Date(fin+"T00:00:00").toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`:"ยังกำหนดวันจบไม่ได้"}<span>${fin?"จากงานที่ครบกำหนดช้าที่สุด":"ใส่วันจบให้งานสักชิ้นก่อน"}</span></div>
+ <div class="pj-gantt">${projGanttHTML(p)}</div>
+ ${chans.map(ch=>{const rows=items.filter(x=>x.channel===ch);
+  return `<div class="pj-ch"><div class="pj-chead"><b>${esc(ch)}</b><span class="pj-cnt">${rows.length}</span></div>${rows.map(it=>projItemHTML(p,it)).join("")||'<div class="pj-none">ยังไม่มีงาน</div>'}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button></div></div>`}).join("")}
+ <div class="kol-acts"><button class="btn secondary small" data-pj-addch="${p.id}">+ เพิ่มช่องทาง</button><button class="btn secondary small" data-pj-edit="${p.id}">แก้ไขโปรเจกต์</button></div></div>`:""}</div>`;
+}
+function renderProj(){
+ if(!$("projList"))return;
+ $("projSetupHint").classList.toggle("hidden",!projTableMissing);
+ $("projList").innerHTML=projects.length?projects.map(projCardHTML).join("")
+  :'<div class="empty">ยังไม่มีโปรเจกต์ — กด "+ โปรเจกต์ใหม่" เพื่อเริ่ม</div>';
+}
+// --- projects: mutations -------------------------------------------------
+async function projPatch(id,patch){
+ const p=projects.find(x=>x.id===id);if(!p)return false;
+ const before={...p};Object.assign(p,patch);render();
+ const {error}=await sb.from("projects").update({...patch,updated_at:new Date().toISOString()}).eq("id",id);
+ if(error){Object.assign(p,before);render();toast(error.message,"bad");return false}
+ return true;
+}
+function projFillModal(p){
+ editingProjId=p?.id??null;
+ $("projModalTitle").textContent=p?"แก้ไขโปรเจกต์":"โปรเจกต์ใหม่";
+ $("pjName").value=p?.name||"";$("pjKind").value=p?.kind||"";
+ $("pjStart").value=p?.start_date||"";$("pjProducts").value=p?.products||"";$("pjNote").value=p?.note||"";
+ $("projModalError").textContent="";
+ $("deleteProjBtn").classList.toggle("hidden",!p);
+ openLayer("projModal");
+}
+// Linking never copies work; it stores a pointer and leaves the record alone.
+async function projLink(projectId,channel,kind,refId){
+ const owner=projTakenBy(kind,refId);
+ if(owner)return toast(`งานนี้อยู่ในโปรเจกต์ "${owner.name}" แล้ว`,"bad");
+ const {data,error}=await sb.from("project_items")
+  .insert({project_id:projectId,channel,kind,ref_id:refId,sort_order:projItemsOf(projectId).length})
+  .select().single();
+ if(error)return toast(error.message,"bad");
+ projItems.push(data);render();toast("เพิ่มเข้าโปรเจกต์แล้ว");
+}
+window.projUnlink=async id=>{
+ const i=projItems.findIndex(x=>x.id===id);if(i<0)return;
+ const before=projItems[i];projItems.splice(i,1);render();
+ const {error}=await sb.from("project_items").delete().eq("id",id);
+ if(error){projItems.splice(i,0,before);render();return toast(error.message,"bad")}
+ toast("เอาออกจากโปรเจกต์แล้ว (งานยังอยู่)");
+};
+// A linked task keeps its own due date, so editing here writes to the task and
+// the change shows up in Calendar and the dashboard too. Only kol/pr rows,
+// which have no due date of their own, store the date on the link.
+window.projSetDate=async(itemId,val)=>{
+ const it=projItems.find(x=>x.id===itemId);if(!it)return;
+ if(it.kind==="task")return void await saveTask({due:val||null},it.ref_id);
+ const before=it.end_date;it.end_date=val||null;render();
+ const {error}=await sb.from("project_items").update({end_date:val||null}).eq("id",itemId);
+ if(error){it.end_date=before;render();toast(error.message,"bad")}
+};
+window.projAddChannel=async id=>{
+ const p=projects.find(x=>x.id===id);if(!p)return;
+ const name=prompt("ชื่อช่องทางใหม่");
+ if(!name||!name.trim())return;
+ const list=projChannels(p).slice();
+ if(list.includes(name.trim()))return toast("มีช่องทางนี้แล้ว","bad");
+ list.push(name.trim());
+ if(await projPatch(id,{channels:list}))toast("เพิ่มช่องทางแล้ว");
+};
+// --- picker --------------------------------------------------------------
+function projPickable(){
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ return [
+  ...scope.filter(t=>t.status!=="Done").map(t=>({kind:"task",id:t.id,title:t.task,sub:`${t.category||""}${t.due?" · ครบกำหนด "+t.due:" · ไม่มีวันจบ"}`})),
+  ...kolItems.filter(c=>c.stage!=="cancelled").map(c=>({kind:"kol",id:c.id,title:c.name,sub:`แคมเปญ KOL${c.agency?" · "+c.agency:""}`})),
+  ...prItems.filter(x=>x.stage!=="done").map(x=>({kind:"pr",id:x.id,title:x.title,sub:`ใบขอซื้อ${x.pr_number?" · "+x.pr_number:""}`}))
+ ];
+}
+function renderPick(){
+ if(!pickCtx)return;
+ const q=($("pickSearch").value||"").toLowerCase();
+ const rows=projPickable().filter(r=>!q||r.title.toLowerCase().includes(q));
+ $("pickList").innerHTML=rows.length?rows.map(r=>{
+  const owner=projTakenBy(r.kind,r.id);
+  return `<div class="pick-row${owner?" taken":""}"${owner?"":` data-pick="${r.kind}:${r.id}"`}><span class="pj-itype">${PROJ_LABEL[r.kind]}</span><div class="pick-main"><div class="pick-t">${esc(r.title)}</div><div class="pick-s">${esc(r.sub)}${owner?` · อยู่ในโปรเจกต์ "${esc(owner.name)}" แล้ว`:""}</div></div></div>`;
+ }).join(""):'<div class="empty">ไม่พบงาน</div>';
+}
+function projOpenPick(projectId,channel){
+ pickCtx={projectId,channel};
+ $("pickChannel").textContent=`เพิ่มเข้าช่องทาง: ${channel}`;
+ $("pickSearch").value="";renderPick();openLayer("pickModal");
+}
 /* ---- WIP review ---------------------------------------------------------
    The dashboard answers "what must I do today"; this answers a different
    question, asked by somebody else: where does every piece of work stand, and
@@ -2518,12 +2802,12 @@ $("weeklyStats").innerHTML=[
 $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty">Nothing completed this week.</div>';
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
-renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol()}
+renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol();renderProj()}
 ["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","wip","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","wip","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  $("pageTitle").textContent=nav?.textContent?.trim()||"Dashboard";
@@ -2533,6 +2817,7 @@ function goView(view){
  if(view==="matrix")renderMatrix();
  if(view==="pr")renderPr();
  if(view==="kol")renderKol();
+ if(view==="proj")renderProj();
  if(view==="wip"){renderWip();Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
@@ -2564,6 +2849,9 @@ $("saveTask").onclick=async()=>{
  $("saveTask").disabled=true;
  try{
    const ok=wasEdit?await saveTask(payload,editingTaskId):await saveTask({...payload,pinned:false});
+   if(ok&&!wasEdit&&pendingProjLink){const fresh=tasks[0];
+    if(fresh)await projLink(pendingProjLink.projectId,pendingProjLink.channel,"task",fresh.id);
+    pendingProjLink=null}
    if(!ok)return;
    closeLayer("taskModal");toast(wasEdit?"Task updated":"Task created");
  }finally{$("saveTask").disabled=false}
