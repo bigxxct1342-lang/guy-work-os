@@ -63,6 +63,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-13-kol-campaign.sql` KOL campaign tracker table
 - `migration-v7-14-kol-timeline.sql` agency working-timeline dates, remarks, ball-in-court, PR link
 - `migration-v7-15-kol-parallel.sql` per-stage status so campaign stages can run in parallel
+- `migration-v7-18-projects.sql` projects + the links that group existing work under them
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
 - `manifest.json` PWA metadata
@@ -178,6 +179,16 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.18 Projects
+- New "โปรเจกต์" section: an umbrella that groups work already living elsewhere. A project is a plan — a media plan, a year plan, anything else — covering one or more products, with its work grouped by **channel** (KOL Review, BMN, สื่อออฟไลน์, Collab, อื่นๆ), which is how the plan is actually written rather than by which table happens to store it. The channel list is editable; those five are only seeds.
+- **A project points at work, it never holds it.** Linking a task leaves that task exactly where it was — still in Tasks, Calendar and the dashboard — and adds only a pointer. Unlinking deletes nothing. That is what stops projects becoming a second, competing copy of the task list.
+- **One piece of work belongs to at most one project**, enforced by a unique index rather than left to the UI. The picker greys out anything already spoken for and names the project holding it.
+- "+ สร้างงานใหม่" creates an ordinary task and links it, so work born inside a project behaves like every other task everywhere else.
+- **The date table sits at the top**, in the Product Launch style: a bar per channel running to its last due date, a line for today, and the project's finish date — the latest date across all its work — called out above the chart.
+- Dates follow one source of truth. A linked task keeps its own due date, so editing it in the project also corrects Calendar and the dashboard; only KOL and PR rows, which have no due date of their own, store a date on the link. Work with no date yet is simply left blank.
+- Products are free text on purpose: plenty are already launched and selling, so requiring a Product Launch record would have excluded them.
+- Requires `migration-v7-18-projects.sql`.
 
 ## V7.17 WIP Review
 - New read-only "WIP Review" section, built for showing the boss rather than for working in. The Dashboard answers "what must I do today"; this answers a different question asked by somebody else — where does every piece of work stand, and who is holding it up.
