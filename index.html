@@ -208,43 +208,25 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pj-finish span{color:var(--muted);font-weight:700;font-size:11px;margin-left:6px}
 .pj-gantt{overflow-x:auto;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
 .pj-ch{margin-bottom:14px}
-/* Two levels, one ramp. The heading is a solid orange band with near-black
-   text so it reads as the top of a block; its rows sit on a much lighter wash
-   of the same tone so they read as belonging under it. Each channel takes its
-   own step, so blocks are told apart by tone and levels by weight. */
-.pj-ch{--tone:#ee8f48;--tone-soft:#fce7d7}
-.pj-t0{--tone:#f5b982;--tone-soft:#fdf1e6}
-.pj-t1{--tone:#f2a566;--tone-soft:#fdece0}
-.pj-t2{--tone:#ee8f48;--tone-soft:#fce7d7}
-.pj-t3{--tone:#e57c33;--tone-soft:#fbe1cd}
-.pj-t4{--tone:#d46b26;--tone-soft:#f9dbc4}
-.pj-t5{--tone:#bd5a1d;--tone-soft:#f7d5bb}
-body.dark .pj-t0{--tone-soft:#2b2620}
-body.dark .pj-t1{--tone-soft:#2e2721}
-body.dark .pj-t2{--tone-soft:#312822}
-body.dark .pj-t3{--tone-soft:#342923}
-body.dark .pj-t4{--tone-soft:#372a24}
-body.dark .pj-t5{--tone-soft:#3a2c25}
-.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:9px 11px;border:1px solid var(--tone);border-radius:10px;background:var(--tone);color:#22150a}
-.pj-chead b,.pj-chead .pj-chdate,.pj-chead .pj-caret{color:#22150a}
-.pj-chead .pj-cnt{background:rgba(255,255,255,.62);border-color:rgba(0,0,0,.12);color:#22150a}
+/* Two headings, two colours. หัวข้อหลัก (the channel) is a solid orange band
+   with near-black text; หัวข้อรอง (เริ่มแล้ว / ยังไม่เริ่ม) is the same orange
+   run much lighter. Rows stay neutral so the two headings are the only thing
+   carrying colour, which is what makes the levels tell apart at a glance. */
+.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:9px 11px;border:1px solid #e07f36;border-radius:10px;background:#ee8f48;color:#22150a}
+.pj-chead b,.pj-chead .pj-chdate,.pj-chead .pj-caret,.pj-chead .pj-tal{color:#22150a}
+.pj-chead .pj-cnt{background:rgba(255,255,255,.62);border:1px solid rgba(0,0,0,.12);color:#22150a;font-size:9px;font-weight:850;border-radius:999px;padding:2px 8px}
 .pj-chead .pj-dot,body.dark .pj-chead .pj-dot{--ink:#4d2707}
-.pj-chead .pj-tal{color:#22150a}
 body.dark .pj-chead .pj-dot.s-past{box-shadow:0 0 0 2px #4d2707}
+.pj-chead .pj-tally{margin-right:auto}
 .pj-chead:hover{filter:brightness(1.05)}
+.pj-chead b{font-size:12px}
 .pj-ch.is-open .pj-chead{margin-bottom:9px}
-/* Rows take the pale end of their heading's tone, so the block stays one
-   thing even when several channels are open at once. */
-.pj-ch.is-open .pj-item{background:var(--tone-soft);border-left:4px solid var(--tone)}
-.pj-ch.is-open .pj-item.is-done{background:var(--tone-soft);opacity:.72}
 .pj-charrows{display:flex;flex-direction:column;gap:1px;flex:none;margin-left:9px}
 .pj-charrow{border:1px solid rgba(0,0,0,.22);background:rgba(255,255,255,.55);color:#22150a;border-radius:4px;width:20px;height:13px;font-size:7px;line-height:1;cursor:pointer;padding:0;font-family:inherit}
 .pj-charrow:disabled{opacity:.32;cursor:default}
 .pj-charrow:hover:not(:disabled){background:#fff}
 .pj-chdate{font-size:9px;font-weight:800;flex:none}
-.pj-chead b{font-size:12px}
 .pj-delch{margin-left:auto;color:var(--muted)}
-.pj-chead .pj-cnt{font-size:9px;font-weight:850;border:1px solid rgba(0,0,0,.12);border-radius:999px;padding:2px 8px}
 .pj-prog{margin-bottom:12px}
 .pj-pct{font-size:11px;font-weight:850;flex:none;color:var(--muted)}
 /* Status is the other axis, so it uses fill rather than hue: empty, half,
@@ -264,8 +246,7 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-tal{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:850;color:var(--muted)}
 .pj-tal .pj-dot{width:9px;height:9px}
 .pj-tal .pj-dot.s-past{border-width:2px}
-.pj-band{display:flex;align-items:center;gap:9px;margin:13px 0 7px;font-size:10px;font-weight:850;letter-spacing:.4px;color:var(--text)}
-.pj-band::after{content:"";flex:1;height:1px;background:var(--line)}
+.pj-band{display:flex;align-items:center;gap:7px;margin:11px 0 7px;padding:5px 11px;border-radius:8px;background:#fbdfc6;border:1px solid #f3caa4;font-size:10px;font-weight:850;letter-spacing:.3px;color:#5a3010}
 .pj-caret{flex:none;font-size:9px;color:var(--muted);width:11px;transition:transform .15s}
 .pj-ch.is-open .pj-caret{transform:rotate(90deg)}
 .pj-item.is-done{background:var(--soft)}
@@ -2642,17 +2623,6 @@ function projProgress(id,channel){
  return {done,total:rows.length,pct:rows.length?Math.round(done/rows.length*100):0};
 }
 const PROJ_LABEL={task:"งาน",kol:"KOL",pr:"PR"};
-// Six steps of one soft-orange ramp, cycled by the channel's position in the
-// project. Kept in step with the .pj-t0..5 rules; the Gantt needs the values
-// in JS because each bar is placed inline.
-const PROJ_TONES=["#f5b982","#f2a566","#ee8f48","#e57c33","#d46b26","#bd5a1d"];
-// The deeper half of the ramp is too dark to carry near-black bar labels.
-const projBarInk=i=>i<=2?"#3d1f08":"#fff";
-const projTone=(p,ch)=>{
- const list=projChannels(p),i=list.indexOf(ch);
- if(i<0)return 2;
- return list.length<2?2:Math.round(i/(list.length-1)*(PROJ_TONES.length-1));
-};
 function projEnds(id){
  return projItemsOf(id).map(it=>projResolve(it).end).filter(Boolean).sort();
 }
@@ -2675,7 +2645,7 @@ function projGanttHTML(p){
  const fmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
  return `<div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(6,1fr)">${labels.map(d=>`<span>${fmt(d)}</span>`).join("")}</div></div>
  <div class="gantt-grid"><div class="gantt-labels">${rows.map(r=>`<div>${esc(r.ch)}</div>`).join("")}</div>
- <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar${r.last<today?" g-past":""}" style="left:0;width:${Math.max(4,pct(r.last))}%;background:${PROJ_TONES[projTone(p,r.ch)]};color:${projBarInk(projTone(p,r.ch))}">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
+ <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar${r.last<today?" g-past":""}" style="left:0;width:${Math.max(4,pct(r.last))}%;background:#ee8f48;color:#22150a">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
 }
 function projItemHTML(p,it,idx,total){
  const r=projResolve(it),chans=projChannels(p),st=projState(r);
@@ -2695,8 +2665,7 @@ function projChannelHTML(p,ch,items){
  const chans=projChannels(p),ci=chans.indexOf(ch);
  const ord=`<span class="pj-charrows"><button class="pj-charrow" data-pj-chup="${p.id}:${esc(ch)}"${ci<=0?" disabled":""} title="เลื่อนหัวข้อขึ้น">↑</button><button class="pj-charrow" data-pj-chdown="${p.id}:${esc(ch)}"${ci<0||ci>=chans.length-1?" disabled":""} title="เลื่อนหัวข้อลง">↓</button></span>`;
  const head=`<div class="pj-chead" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}${ord}</div>`;
- const tone=` pj-t${projTone(p,ch)}`;
- if(!open)return `<div class="pj-ch${tone}">${head}</div>`;
+ if(!open)return `<div class="pj-ch">${head}</div>`;
  // Two bands, because work that has not been picked up yet reads very
  // differently from work in flight -- even when both are equally certain to
  // happen. Order inside a band is the manual one; a row only crosses the
@@ -2708,7 +2677,7 @@ function projChannelHTML(p,ch,items){
   : "";
  const body=rows.length?band("เริ่มแล้ว",started)+band("ยังไม่เริ่ม",later)
                        :'<div class="pj-none">ยังไม่มีงาน</div>';
- return `<div class="pj-ch is-open${tone}">${head}${body}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button><button class="btn secondary small pj-delch" data-pj-delch="${p.id}:${esc(ch)}">ลบช่องทางนี้</button></div></div>`;
+ return `<div class="pj-ch is-open">${head}${body}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button><button class="btn secondary small pj-delch" data-pj-delch="${p.id}:${esc(ch)}">ลบช่องทางนี้</button></div></div>`;
 }
 function projCardHTML(p){
  const open=projOpenId===p.id,items=projItemsOf(p.id),fin=projFinish(p.id);
