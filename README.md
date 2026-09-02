@@ -180,6 +180,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.22 Projects: tick work off without losing sight of it
+- **A tick on every row.** Marking work done from a project finishes it where it actually lives — a task's status, a PR's stage, a campaign's stages — so it clears in Tasks, Calendar and the dashboard too, not just here. Nothing is unlinked: the row stays exactly where it was, struck through, because the point of pulling finished work into a project is to see what is done alongside what is not.
+- **Unticking restores the previous state**, not a guess. A task goes back to whatever it was before (In Progress, Waiting), a PR to the stage it was at, a campaign to its stage map — stashed the same way `toggleTask` already did it.
+- **A tick on the project too**, for when the whole plan is finished. The card keeps its place in the list with its name struck through.
+- **A channel needs no tick**: it is struck through automatically once every piece of work under it is done, since a channel is a grouping rather than a piece of work in its own right.
+- No SQL — `projects.status` and every record's own done state already exist.
+
 ## V7.21 Projects: status colour, collapsible channels, started / not started
 - **Two headings, two colours.** หัวข้อหลัก — the channel — is a solid orange band with near-black text. หัวข้อรอง — เริ่มแล้ว / ยังไม่เริ่ม inside it — is the same orange run much lighter. Rows stay neutral, so the only things carrying colour are the two heading levels, which is what makes them tell apart at a glance. An earlier attempt gave every channel its own step on a ramp; that answered a question nobody asked and left the levels themselves undifferentiated.
 - **Status is the other axis, so it uses fill rather than hue:** hollow = ยังไม่เริ่ม, half = กำลังทำ, solid = เสร็จแล้ว, with a dark ring for เลยวันที่ประเมินไว้. Channel headers and the project header carry the dots as a tally, so a collapsed project still shows its shape.

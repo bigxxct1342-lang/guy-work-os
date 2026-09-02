@@ -249,6 +249,10 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-band{display:flex;align-items:center;gap:7px;margin:11px 0 7px;padding:5px 11px;border-radius:8px;background:#fbdfc6;border:1px solid #f3caa4;font-size:10px;font-weight:850;letter-spacing:.3px;color:#5a3010}
 .pj-caret{flex:none;font-size:9px;color:var(--muted);width:11px;transition:transform .15s}
 .pj-ch.is-open .pj-caret{transform:rotate(90deg)}
+.pj-tick{width:16px;height:16px;flex:none;padding:0;margin:0;accent-color:#c96420;cursor:pointer}
+.pj-tick:disabled{cursor:not-allowed;opacity:.4}
+.pj-name.is-done{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
+.pj-chead.is-done b{text-decoration:line-through;text-decoration-color:rgba(34,21,10,.55)}
 .pj-item.is-done{background:var(--soft)}
 .pj-item.is-done .pj-iname{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .pj-ord{display:flex;flex-direction:column;gap:1px;flex:none}
@@ -273,7 +277,7 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pick-main{flex:1;min-width:0}
 .pick-t{font-size:12px;font-weight:750}
 .pick-s{font-size:10px;color:var(--muted);margin-top:2px}
-@media(max-width:820px){.pj-head .pj-tally{display:none}.pj-chead{flex-wrap:wrap;gap:7px}.pj-chdate{margin-left:0}.pj-item{flex-wrap:wrap;gap:8px}.pj-itype{order:0}.pj-dot{order:1}.pj-iname{flex:1 1 100%;order:2}.pj-ord{order:3}.pj-move{order:4;min-width:0;flex:1 1 auto}.pj-idate{order:5;width:130px}.pj-rm{order:6;margin-left:auto}}
+@media(max-width:820px){.pj-head .pj-tally{display:none}.pj-chead{flex-wrap:wrap;gap:7px}.pj-chdate{margin-left:0}.pj-item{flex-wrap:wrap;gap:8px}.pj-tick{order:0}.pj-itype{order:0}.pj-dot{order:1}.pj-iname{flex:1 1 100%;order:2}.pj-ord{order:3}.pj-move{order:4;min-width:0;flex:1 1 auto}.pj-idate{order:5;width:130px}.pj-rm{order:6;margin-left:auto}}
 .wip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
 .wip-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}
 .wip-stat{border:1px solid var(--line);border-radius:14px;padding:17px 18px;background:var(--panel)}
@@ -435,7 +439,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.21 · Projects</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.22 · Projects</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1804,7 +1808,7 @@ $("projList").onclick=e=>{
   if(k==="task")return editTask(Number(id));
   if(k==="kol"){kolOpenId=Number(id);return goView("kol")}
   return goView("pr")}
- if(e.target.closest("[data-pj-date],[data-pj-move]"))return;
+ if(e.target.closest("[data-pj-date],[data-pj-move],[data-pj-tick],[data-pj-ptick]"))return;
  if((n=g("chup"))){const[id,ch]=pair(n.dataset.pjChup);return projChMove(id,ch,-1)}
  if((n=g("chdown"))){const[id,ch]=pair(n.dataset.pjChdown);return projChMove(id,ch,1)}
  if((n=g("toggch"))){const k=n.dataset.pjToggch;
@@ -1813,6 +1817,8 @@ $("projList").onclick=e=>{
 };
 $("projList").onchange=e=>{
  let el;
+ if((el=e.target.closest("[data-pj-tick]")))return projSetDone(Number(el.dataset.pjTick),el.checked);
+ if((el=e.target.closest("[data-pj-ptick]")))return projSetProjDone(Number(el.dataset.pjPtick),el.checked);
  if((el=e.target.closest("[data-pj-move]")))return projMoveChannel(Number(el.dataset.pjMove),el.value);
  if((el=e.target.closest("[data-pj-date]")))return projSetDate(Number(el.dataset.pjDate),el.value);
 };
@@ -2650,7 +2656,7 @@ function projGanttHTML(p){
 function projItemHTML(p,it,idx,total){
  const r=projResolve(it),chans=projChannels(p),st=projState(r);
  const move=chans.length>1?`<select class="pj-move" title="ย้ายช่องทาง" data-pj-move="${it.id}">${chans.map(c=>`<option value="${esc(c)}"${c===it.channel?" selected":""}>${esc(c)}</option>`).join("")}</select>`:"";
- return `<div class="pj-item${r.done?" is-done":""}"><span class="pj-itype" data-pj-go="${it.kind}:${it.ref_id}" title="เปิดงานนี้">${PROJ_LABEL[it.kind]}</span><i class="pj-dot ${PROJ_STATE[st].c}" title="${PROJ_STATE[st].t}"></i><div class="pj-iname">${esc(r.title)}${r.sub?` <span style="color:var(--muted);font-weight:600">· ${esc(r.sub)}</span>`:""}</div><span class="pj-ord"><button class="pj-arrow" data-pj-up="${it.id}"${idx===0?" disabled":""} title="เลื่อนขึ้น">↑</button><button class="pj-arrow" data-pj-down="${it.id}"${idx===total-1?" disabled":""} title="เลื่อนลง">↓</button></span>${move}${r.gone?'<span class="pj-nodate">—</span>':`<input class="pj-idate" type="date" value="${esc(r.end)}" title="วันจบ — เว้นว่างได้ถ้ายังไม่กำหนด" data-pj-date="${it.id}">`}<button class="btn secondary small pj-rm" data-pj-rm="${it.id}" title="เอาออกจากโปรเจกต์ (ไม่ลบงาน)">เอาออก</button></div>`;
+ return `<div class="pj-item${r.done?" is-done":""}"><input class="pj-tick" type="checkbox"${r.done?" checked":""}${r.gone?" disabled":""} title="ติ๊กเมื่อเสร็จ — งานจะยังอยู่ตรงนี้ ขีดฆ่าไว้ให้เห็นว่าทำแล้ว" data-pj-tick="${it.id}"><span class="pj-itype" data-pj-go="${it.kind}:${it.ref_id}" title="เปิดงานนี้">${PROJ_LABEL[it.kind]}</span><i class="pj-dot ${PROJ_STATE[st].c}" title="${PROJ_STATE[st].t}"></i><div class="pj-iname">${esc(r.title)}${r.sub?` <span style="color:var(--muted);font-weight:600">· ${esc(r.sub)}</span>`:""}</div><span class="pj-ord"><button class="pj-arrow" data-pj-up="${it.id}"${idx===0?" disabled":""} title="เลื่อนขึ้น">↑</button><button class="pj-arrow" data-pj-down="${it.id}"${idx===total-1?" disabled":""} title="เลื่อนลง">↓</button></span>${move}${r.gone?'<span class="pj-nodate">—</span>':`<input class="pj-idate" type="date" value="${esc(r.end)}" title="วันจบ — เว้นว่างได้ถ้ายังไม่กำหนด" data-pj-date="${it.id}">`}<button class="btn secondary small pj-rm" data-pj-rm="${it.id}" title="เอาออกจากโปรเจกต์ (ไม่ลบงาน)">เอาออก</button></div>`;
 }
 // A channel starts collapsed. A project can carry a lot of work, and having
 // every channel open at once turned the page into one long wall; the header
@@ -2664,7 +2670,8 @@ function projChannelHTML(p,ch,items){
  const last=ends.length?new Date(ends[ends.length-1]+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
  const chans=projChannels(p),ci=chans.indexOf(ch);
  const ord=`<span class="pj-charrows"><button class="pj-charrow" data-pj-chup="${p.id}:${esc(ch)}"${ci<=0?" disabled":""} title="เลื่อนหัวข้อขึ้น">↑</button><button class="pj-charrow" data-pj-chdown="${p.id}:${esc(ch)}"${ci<0||ci>=chans.length-1?" disabled":""} title="เลื่อนหัวข้อลง">↓</button></span>`;
- const head=`<div class="pj-chead" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}${ord}</div>`;
+ const chdone=cg.total>0&&cg.done===cg.total;
+ const head=`<div class="pj-chead${chdone?" is-done":""}" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}${ord}</div>`;
  if(!open)return `<div class="pj-ch">${head}</div>`;
  // Two bands, because work that has not been picked up yet reads very
  // differently from work in flight -- even when both are equally certain to
@@ -2681,14 +2688,14 @@ function projChannelHTML(p,ch,items){
 }
 function projCardHTML(p){
  const open=projOpenId===p.id,items=projItemsOf(p.id),fin=projFinish(p.id);
- const tal=projTally(items.map(projResolve).filter(r=>!r.gone));
+ const tal=projTally(items.map(projResolve).filter(r=>!r.gone)),pdone=p.status==="done";
  const bits=[];
  if(p.products)bits.push(esc(p.products));
  if(p.start_date)bits.push(new Date(p.start_date+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}));
  const g=projProgress(p.id);
  bits.push(`เสร็จ ${g.done}/${g.total}`);
  const chans=projChannels(p);
- return `<div class="pj-card"><div class="pj-head" data-pj-toggle="${p.id}"><div class="pj-headmain"><div class="pj-name">${esc(p.name)}</div><div class="pj-sub">${bits.join(" · ")}</div></div>${p.kind?`<span class="pj-kind">${esc(p.kind)}</span>`:""}<span class="pj-tally">${projTallyHTML(tal)}</span><span class="pj-pct">${g.pct}%</span><span class="pr-age">${fin?`จบ ${new Date(fin+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`:"ยังไม่มีวันจบ"}</span></div>${open?`<div class="pj-body">
+ return `<div class="pj-card"><div class="pj-head" data-pj-toggle="${p.id}"><input class="pj-tick" type="checkbox"${pdone?" checked":""} title="ติ๊กเมื่อโปรเจกต์นี้จบ — ยังอยู่ในรายการ ขีดฆ่าไว้" data-pj-ptick="${p.id}"><div class="pj-headmain"><div class="pj-name${pdone?" is-done":""}">${esc(p.name)}</div><div class="pj-sub">${bits.join(" · ")}</div></div>${p.kind?`<span class="pj-kind">${esc(p.kind)}</span>`:""}<span class="pj-tally">${projTallyHTML(tal)}</span><span class="pj-pct">${g.pct}%</span><span class="pr-age">${fin?`จบ ${new Date(fin+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`:"ยังไม่มีวันจบ"}</span></div>${open?`<div class="pj-body">
  <div class="pj-prog"><div class="progress-line"><strong>ความคืบหน้า</strong><strong>${g.pct}%</strong></div><div class="progress-wrap"><div class="progress-bar" style="width:${g.pct}%"></div></div></div>
  <div class="pj-finish">${fin?`จะจบประมาณ ${new Date(fin+"T00:00:00").toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`:"ยังกำหนดวันจบไม่ได้"}<span>${fin?"จากงานที่ครบกำหนดช้าที่สุด":"ใส่วันจบให้งานสักชิ้นก่อน"}</span></div>
  <div class="pj-gantt">${projGanttHTML(p)}</div>
@@ -2749,6 +2756,43 @@ window.projReorder=async(itemId,dir)=>{
   sb.from("project_items").update({sort_order:it.sort_order}).eq("id",it.id),
   sb.from("project_items").update({sort_order:other.sort_order}).eq("id",other.id)]);
  if(r1.error||r2.error){it.sort_order=a1;other.sort_order=b1;render();toast("เลื่อนไม่สำเร็จ","bad")}
+};
+// Ticking a row finishes the work where it actually lives, so it also clears
+// in Tasks, Calendar and the dashboard rather than only looking finished here.
+// Nothing is unlinked: the point of the tick is to leave the row in place,
+// struck through, so the project keeps showing what is done as well as what
+// is not. The previous state is stashed the way toggleTask already does it,
+// so unticking puts the record back where it was instead of guessing.
+window.projSetDone=async(itemId,done)=>{
+ const it=projItems.find(x=>x.id===itemId);if(!it)return;
+ if(it.kind==="task")return toggleTask(it.ref_id,done);
+ if(it.kind==="pr"){
+  const p=prItems.find(x=>x.id===it.ref_id);if(!p)return;
+  const key="guy_prev_pr_"+p.id;
+  if(done)localStorage.setItem(key,p.stage);
+  const to=done?"done":(localStorage.getItem(key)||"working");
+  const before={...p},patch={stage:to,stage_since:todayISO(),updated_at:new Date().toISOString()};
+  if(done&&!p.docs_sent_on)patch.docs_sent_on=todayISO();
+  Object.assign(p,patch);render();
+  const {error}=await sb.from("purchase_requests").update(patch).eq("id",p.id);
+  if(error){Object.assign(p,before);render();return toast(error.message,"bad")}
+  return toast(done?"ปิดจบแล้ว":"กลับมาทำต่อ");
+ }
+ const c=kolItems.find(x=>x.id===it.ref_id);if(!c)return;
+ const key="guy_prev_kol_"+c.id;
+ if(done){
+  localStorage.setItem(key,JSON.stringify({stage:c.stage,stage_status:c.stage_status||{}}));
+  const map={};KOL_STAGES.forEach(x=>{const cur=kolStatus(c,x.k);map[x.k]=cur==="skip"?"skip":"done"});
+  if(await kolPatch(c.id,{stage:"done",stage_status:map}))toast("ปิดจบแคมเปญแล้ว");
+  return;
+ }
+ let prev={stage:"brief",stage_status:{}};
+ try{prev=JSON.parse(localStorage.getItem(key))||prev}catch(_){}
+ if(await kolPatch(c.id,prev))toast("กลับมาทำต่อ");
+};
+// A project is finished as a whole; its work keeps whatever state it has.
+window.projSetProjDone=async(id,done)=>{
+ await projPatch(id,{status:done?"done":"active"});
 };
 window.projChMove=async(id,ch,dir)=>{
  const p=projects.find(x=>x.id===id);if(!p)return;
