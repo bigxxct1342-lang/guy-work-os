@@ -208,8 +208,10 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pj-finish span{color:var(--muted);font-weight:700;font-size:11px;margin-left:6px}
 .pj-gantt{overflow-x:auto;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
 .pj-ch{margin-bottom:14px}
-.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
-.pj-chead:hover{border-color:var(--muted)}
+.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:7px 9px 7px 11px;border:1px solid var(--line);border-left:4px solid #eec39c;border-radius:10px;background:var(--soft)}
+.pj-chead.p-some{border-left-color:#f2a75f}
+.pj-chead.p-most{border-left-color:#c96420}
+.pj-chead:hover{border-color:var(--muted);border-left-color:#82400f}
 .pj-ch.is-open .pj-chead{margin-bottom:9px}
 .pj-chdate{font-size:9px;font-weight:800;color:var(--muted);flex:none;margin-left:auto}
 .pj-chead b{font-size:12px}
@@ -217,13 +219,29 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pj-chead .pj-cnt{font-size:9px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted)}
 .pj-prog{margin-bottom:12px}
 .pj-pct{font-size:11px;font-weight:850;flex:none;color:var(--muted)}
-.pj-dot{width:11px;height:11px;border-radius:50%;flex:none;border:1.5px solid var(--muted);background:transparent;box-sizing:border-box}
-.pj-dot.s-done{background:#37a26a;border-color:#37a26a}
-.pj-dot.s-doing{background:#3d86cc;border-color:#3d86cc}
-.pj-dot.s-past{background:#dda01f;border-color:#dda01f}
+.pj-dot{width:11px;height:11px;border-radius:50%;flex:none;box-sizing:border-box;background:#fae2ca;border:1.5px solid #eec39c}
+.pj-dot.s-doing{background:#f2a75f;border-color:#e08e42}
+.pj-dot.s-done{background:#c96420;border-color:#c96420}
+/* A slipped date is not a fourth level, it is a mark on whatever level the
+   work is already at -- so it keeps its fill and takes a dark ring. */
+.pj-dot.s-past{background:#f2a75f;border-color:#82400f;border-width:2.5px}
+body.dark .pj-dot{background:#46331f;border-color:#6d5335}
+body.dark .pj-dot.s-doing{background:#c97b33;border-color:#d98c42}
+body.dark .pj-dot.s-done{background:#f0a35c;border-color:#f0a35c}
+body.dark .pj-dot.s-past{background:#c97b33;border-color:#ffd6ac}
+body.dark .pj-chead{border-left-color:#59422c}
+body.dark .pj-chead.p-some{border-left-color:#c97b33}
+body.dark .pj-chead.p-most{border-left-color:#f0a35c}
+body.dark .pj-chead:hover{border-left-color:#ffd6ac}
+/* Bars carry no inline colour so each theme can pitch them itself. */
+.gantt-bar.g-on{background:#fbdcc2;color:#8a4a19}
+.gantt-bar.g-past{background:#c96420;color:#fff}
+body.dark .gantt-bar.g-on{background:#54402c;color:#f0cfae}
+body.dark .gantt-bar.g-past{background:#c96420;color:#fff}
 .pj-tally{display:flex;gap:7px;align-items:center;flex:none}
 .pj-tal{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:850;color:var(--muted)}
-.pj-tal .pj-dot{width:8px;height:8px}
+.pj-tal .pj-dot{width:9px;height:9px}
+.pj-tal .pj-dot.s-past{border-width:2px}
 .pj-band{display:flex;align-items:center;gap:9px;margin:13px 0 7px;font-size:10px;font-weight:850;letter-spacing:.4px;color:var(--text)}
 .pj-band::after{content:"";flex:1;height:1px;background:var(--line)}
 .pj-caret{flex:none;font-size:9px;color:var(--muted);width:11px;transition:transform .15s}
@@ -2622,7 +2640,7 @@ function projGanttHTML(p){
  const fmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
  return `<div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(6,1fr)">${labels.map(d=>`<span>${fmt(d)}</span>`).join("")}</div></div>
  <div class="gantt-grid"><div class="gantt-labels">${rows.map(r=>`<div>${esc(r.ch)}</div>`).join("")}</div>
- <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar" style="left:0;width:${Math.max(4,pct(r.last))}%;background:${r.last<today?"#dda01f":"#3d86cc"}">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
+ <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar ${r.last<today?"g-past":"g-on"}" style="left:0;width:${Math.max(4,pct(r.last))}%">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
 }
 function projItemHTML(p,it,idx,total){
  const r=projResolve(it),chans=projChannels(p),st=projState(r);
@@ -2639,7 +2657,8 @@ function projChannelHTML(p,ch,items){
  const tally=projTallyHTML(projTally(rows.map(projResolve).filter(r=>!r.gone)));
  const ends=rows.map(x=>projResolve(x).end).filter(Boolean).sort();
  const last=ends.length?new Date(ends[ends.length-1]+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
- const head=`<div class="pj-chead" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}</div>`;
+ const lvl=cg.total?(cg.pct>=67?" p-most":cg.pct>0?" p-some":""):"";
+ const head=`<div class="pj-chead${lvl}" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}</div>`;
  if(!open)return `<div class="pj-ch">${head}</div>`;
  // Two bands, because work that has not been picked up yet reads very
  // differently from work in flight -- even when both are equally certain to
