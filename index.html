@@ -208,36 +208,48 @@ body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--c
 .pj-finish span{color:var(--muted);font-weight:700;font-size:11px;margin-left:6px}
 .pj-gantt{overflow-x:auto;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
 .pj-ch{margin-bottom:14px}
-.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:7px 9px 7px 11px;border:1px solid var(--line);border-left:4px solid #eec39c;border-radius:10px;background:var(--soft)}
-.pj-chead.p-some{border-left-color:#f2a75f}
-.pj-chead.p-most{border-left-color:#c96420}
-.pj-chead:hover{border-color:var(--muted);border-left-color:#82400f}
+/* Colour belongs to the heading, not to the task. With a dozen channels on
+   screen the thing you need to tell apart is which block you are looking at,
+   so each channel takes its own step on one soft-orange ramp -- a tint behind
+   the header and a thick accent down its left edge, carried onto its rows and
+   its Gantt bar so a row is always traceable to its heading. */
+.pj-ch{--tone:#e8934f;--tone-bg:#fbecdd}
+.pj-t0{--tone:#f6c89e;--tone-bg:#fdf6ef}
+.pj-t1{--tone:#f0ad72;--tone-bg:#fcf1e6}
+.pj-t2{--tone:#e8934f;--tone-bg:#fce9d6}
+.pj-t3{--tone:#d97a30;--tone-bg:#fae7d4}
+.pj-t4{--tone:#c06325;--tone-bg:#f9e2cb}
+.pj-t5{--tone:#a34f1c;--tone-bg:#f8ddc2}
+body.dark .pj-t0{--tone-bg:#292420}
+body.dark .pj-t1{--tone-bg:#2c2521}
+body.dark .pj-t2{--tone-bg:#2f2622}
+body.dark .pj-t3{--tone-bg:#322722}
+body.dark .pj-t4{--tone-bg:#352823}
+body.dark .pj-t5{--tone-bg:#382a24}
+.pj-chead{display:flex;align-items:center;gap:9px;margin-bottom:7px;cursor:pointer;padding:8px 10px 8px 12px;border:1px solid var(--line);border-left:5px solid var(--tone);border-radius:10px;background:var(--tone-bg)}
+.pj-chead:hover{border-color:var(--tone)}
 .pj-ch.is-open .pj-chead{margin-bottom:9px}
+/* Open rows sit under their heading's colour so the block stays one thing. */
+.pj-ch.is-open .pj-item{border-left:4px solid var(--tone)}
+.pj-ch.is-open .pj-band{color:var(--text)}
 .pj-chdate{font-size:9px;font-weight:800;color:var(--muted);flex:none;margin-left:auto}
 .pj-chead b{font-size:12px}
 .pj-delch{margin-left:auto;color:var(--muted)}
-.pj-chead .pj-cnt{font-size:9px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted)}
+.pj-chead .pj-cnt{font-size:9px;font-weight:850;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--muted)}
 .pj-prog{margin-bottom:12px}
 .pj-pct{font-size:11px;font-weight:850;flex:none;color:var(--muted)}
-.pj-dot{width:11px;height:11px;border-radius:50%;flex:none;box-sizing:border-box;background:#fae2ca;border:1.5px solid #eec39c}
-.pj-dot.s-doing{background:#f2a75f;border-color:#e08e42}
-.pj-dot.s-done{background:#c96420;border-color:#c96420}
-/* A slipped date is not a fourth level, it is a mark on whatever level the
-   work is already at -- so it keeps its fill and takes a dark ring. */
-.pj-dot.s-past{background:#f2a75f;border-color:#82400f;border-width:2.5px}
-body.dark .pj-dot{background:#46331f;border-color:#6d5335}
-body.dark .pj-dot.s-doing{background:#c97b33;border-color:#d98c42}
-body.dark .pj-dot.s-done{background:#f0a35c;border-color:#f0a35c}
-body.dark .pj-dot.s-past{background:#c97b33;border-color:#ffd6ac}
-body.dark .pj-chead{border-left-color:#59422c}
-body.dark .pj-chead.p-some{border-left-color:#c97b33}
-body.dark .pj-chead.p-most{border-left-color:#f0a35c}
-body.dark .pj-chead:hover{border-left-color:#ffd6ac}
-/* Bars carry no inline colour so each theme can pitch them itself. */
-.gantt-bar.g-on{background:#fbdcc2;color:#8a4a19}
-.gantt-bar.g-past{background:#c96420;color:#fff}
-body.dark .gantt-bar.g-on{background:#54402c;color:#f0cfae}
-body.dark .gantt-bar.g-past{background:#c96420;color:#fff}
+/* Status is the other axis, so it uses fill rather than hue: empty, half,
+   full -- always drawn in the heading's own colour, so the two never fight. */
+.pj-dot{--ink:#b35a1c;width:12px;height:12px;border-radius:50%;flex:none;box-sizing:border-box;border:2px solid var(--ink);background:transparent}
+.pj-dot.s-doing{background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
+.pj-dot.s-done{background:var(--ink)}
+body.dark .pj-dot{--ink:#f0a35c}
+/* A slipped date is a mark on whichever level the work is at, not a level. */
+.pj-dot.s-past{box-shadow:0 0 0 2px var(--pastring,#8a4512)}
+body.dark .pj-dot.s-past{box-shadow:0 0 0 2px #ffd6ac}
+.pj-head .pj-dot{--ink:#b35a1c}
+.gantt-bar.g-past{outline:2px solid #8a4512;outline-offset:-2px}
+body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-tally{display:flex;gap:7px;align-items:center;flex:none}
 .pj-tal{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:850;color:var(--muted)}
 .pj-tal .pj-dot{width:9px;height:9px}
@@ -2618,6 +2630,11 @@ function projProgress(id,channel){
  return {done,total:rows.length,pct:rows.length?Math.round(done/rows.length*100):0};
 }
 const PROJ_LABEL={task:"งาน",kol:"KOL",pr:"PR"};
+// Six steps of one soft-orange ramp, cycled by the channel's position in the
+// project. Kept in step with the .pj-t0..5 rules; the Gantt needs the values
+// in JS because each bar is placed inline.
+const PROJ_TONES=["#f6c89e","#f0ad72","#e8934f","#d97a30","#c06325","#a34f1c"];
+const projTone=(p,ch)=>{const i=projChannels(p).indexOf(ch);return i<0?2:i%PROJ_TONES.length};
 function projEnds(id){
  return projItemsOf(id).map(it=>projResolve(it).end).filter(Boolean).sort();
 }
@@ -2640,7 +2657,7 @@ function projGanttHTML(p){
  const fmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
  return `<div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(6,1fr)">${labels.map(d=>`<span>${fmt(d)}</span>`).join("")}</div></div>
  <div class="gantt-grid"><div class="gantt-labels">${rows.map(r=>`<div>${esc(r.ch)}</div>`).join("")}</div>
- <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar ${r.last<today?"g-past":"g-on"}" style="left:0;width:${Math.max(4,pct(r.last))}%">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
+ <div class="gantt-plot">${today>=start&&today<=max?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>`<div class="gantt-track"><div class="gantt-bar${r.last<today?" g-past":""}" style="left:0;width:${Math.max(4,pct(r.last))}%;background:${PROJ_TONES[projTone(p,r.ch)]};color:#3d1f08">${fmt(r.last)}</div></div>`).join("")}</div></div>`;
 }
 function projItemHTML(p,it,idx,total){
  const r=projResolve(it),chans=projChannels(p),st=projState(r);
@@ -2657,9 +2674,9 @@ function projChannelHTML(p,ch,items){
  const tally=projTallyHTML(projTally(rows.map(projResolve).filter(r=>!r.gone)));
  const ends=rows.map(x=>projResolve(x).end).filter(Boolean).sort();
  const last=ends.length?new Date(ends[ends.length-1]+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
- const lvl=cg.total?(cg.pct>=67?" p-most":cg.pct>0?" p-some":""):"";
- const head=`<div class="pj-chead${lvl}" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}</div>`;
- if(!open)return `<div class="pj-ch">${head}</div>`;
+ const head=`<div class="pj-chead" data-pj-toggch="${p.id}:${esc(ch)}"><span class="pj-caret">▶</span><b>${esc(ch)}</b><span class="pj-cnt">${cg.total?`${cg.done}/${cg.total}`:"0"}</span><span class="pj-tally">${tally}</span>${last?`<span class="pj-chdate">ถึง ${last}</span>`:""}</div>`;
+ const tone=` pj-t${projTone(p,ch)}`;
+ if(!open)return `<div class="pj-ch${tone}">${head}</div>`;
  // Two bands, because work that has not been picked up yet reads very
  // differently from work in flight -- even when both are equally certain to
  // happen. Order inside a band is the manual one; a row only crosses the
@@ -2671,7 +2688,7 @@ function projChannelHTML(p,ch,items){
   : "";
  const body=rows.length?band("เริ่มแล้ว",started)+band("ยังไม่เริ่ม",later)
                        :'<div class="pj-none">ยังไม่มีงาน</div>';
- return `<div class="pj-ch is-open">${head}${body}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button><button class="btn secondary small pj-delch" data-pj-delch="${p.id}:${esc(ch)}">ลบช่องทางนี้</button></div></div>`;
+ return `<div class="pj-ch is-open${tone}">${head}${body}<div class="pj-chacts"><button class="btn secondary small" data-pj-pick="${p.id}:${esc(ch)}">+ เลือกงานที่มีอยู่</button><button class="btn secondary small" data-pj-new="${p.id}:${esc(ch)}">+ สร้างงานใหม่</button><button class="btn secondary small" data-pj-newkol="${p.id}:${esc(ch)}">+ สร้างแคมเปญ KOL</button><button class="btn secondary small pj-delch" data-pj-delch="${p.id}:${esc(ch)}">ลบช่องทางนี้</button></div></div>`;
 }
 function projCardHTML(p){
  const open=projOpenId===p.id,items=projItemsOf(p.id),fin=projFinish(p.id);
