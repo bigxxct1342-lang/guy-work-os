@@ -269,6 +269,9 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-rm{flex:none}
 .pj-none{font-size:11px;color:var(--muted);padding:2px 0 4px}
 .pj-chacts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.pick-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;font-size:11px;color:var(--muted);font-weight:700}
+.pick-bar label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.pick-bar input{width:15px;height:15px;margin:0;padding:0;flex:none;accent-color:#c96420;cursor:pointer}
 .pick-list{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:11px}
 .pick-row{display:flex;align-items:center;gap:11px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}
 .pick-row:last-child{border-bottom:0}
@@ -740,7 +743,8 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
 <div id="pickModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="pickModal" aria-label="Close">×</button><h3>เลือกงานที่มีอยู่</h3>
 <div id="pickChannel" class="help" style="margin-bottom:10px"></div>
-<input id="pickSearch" placeholder="ค้นหางาน…" style="margin-bottom:10px">
+<input id="pickSearch" placeholder="ค้นหางาน…" style="margin-bottom:8px">
+<div class="pick-bar"><label><input id="pickHideDone" type="checkbox"> ซ่อนงานที่เสร็จแล้ว</label><span id="pickCount"></span></div>
 <div id="pickList" class="pick-list"></div>
 <div class="actions"><button class="btn secondary" data-close-layer="pickModal">ปิด</button></div>
 </div></div>
@@ -1829,6 +1833,7 @@ $("pickList").onclick=e=>{
  closeLayer("pickModal");
 };
 $("pickSearch").oninput=renderPick;
+$("pickHideDone").onchange=renderPick;
 $("addProjBtn").onclick=()=>projFillModal(null);
 $("kolBackBtn").onclick=()=>goView("proj");
 $("saveProjBtn").onclick=async()=>{
@@ -2859,19 +2864,28 @@ window.projAddChannel=async id=>{
 function projPickable(){
  const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
  const mark=d=>d?" · เสร็จแล้ว":"";
- return [
-  ...scope.map(t=>({kind:"task",id:t.id,title:t.task,done:t.status==="Done",
+ const at=x=>x.updated_at||x.completed_at||x.stage_since||x.created_at||"";
+ const rows=[
+  ...scope.map(t=>({kind:"task",id:t.id,title:t.task,done:t.status==="Done",when:at(t),
    sub:`${t.category||""}${t.due?" · ครบกำหนด "+t.due:" · ไม่มีวันจบ"}${mark(t.status==="Done")}`})),
-  ...kolItems.filter(c=>c.stage!=="cancelled").map(c=>({kind:"kol",id:c.id,title:c.name,done:c.stage==="done",
+  ...kolItems.filter(c=>c.stage!=="cancelled").map(c=>({kind:"kol",id:c.id,title:c.name,done:c.stage==="done",when:at(c),
    sub:`แคมเปญ KOL${c.agency?" · "+c.agency:""}${mark(c.stage==="done")}`})),
-  ...prItems.map(x=>({kind:"pr",id:x.id,title:x.title,done:x.stage==="done",
+  ...prItems.map(x=>({kind:"pr",id:x.id,title:x.title,done:x.stage==="done",when:at(x),
    sub:`ใบขอซื้อ${x.pr_number?" · "+x.pr_number:""}${mark(x.stage==="done")}`}))
  ];
+ // The list arrived in creation order and never moved, so anything old sat
+ // below every task made since -- a task finished months ago and reopened
+ // today came out under the whole archive, which reads as "it is not here".
+ // Open work first, then whatever was touched most recently, which puts a
+ // just-reopened task at the top where it was looked for.
+ return rows.sort((a,b)=>(a.done-b.done)||String(b.when).localeCompare(String(a.when)));
 }
 function renderPick(){
  if(!pickCtx)return;
- const q=($("pickSearch").value||"").toLowerCase();
- const rows=projPickable().filter(r=>!q||r.title.toLowerCase().includes(q));
+ const q=($("pickSearch").value||"").toLowerCase(),hide=$("pickHideDone").checked;
+ const all=projPickable();
+ const rows=all.filter(r=>(!q||r.title.toLowerCase().includes(q))&&!(hide&&r.done));
+ $("pickCount").textContent=`${rows.length} จาก ${all.length}`;
  $("pickList").innerHTML=rows.length?rows.map(r=>{
   const owner=projTakenBy(r.kind,r.id);
   return `<div class="pick-row${owner?" taken":""}${r.done?" is-done":""}"${owner?"":` data-pick="${r.kind}:${r.id}"`}><span class="pj-itype">${PROJ_LABEL[r.kind]}</span><div class="pick-main"><div class="pick-t">${esc(r.title)}</div><div class="pick-s">${esc(r.sub)}${owner?` · อยู่ในโปรเจกต์ "${esc(owner.name)}" แล้ว`:""}</div></div></div>`;

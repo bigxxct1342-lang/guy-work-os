@@ -185,6 +185,7 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 - **Unticking restores the previous state**, not a guess. A task goes back to whatever it was before (In Progress, Waiting), a PR to the stage it was at, a campaign to its stage map — stashed the same way `toggleTask` already did it.
 - **A tick on the project too**, for when the whole plan is finished. The card keeps its place in the list with its name struck through.
 - **A channel needs no tick**: it is struck through automatically once every piece of work under it is done, since a channel is a grouping rather than a piece of work in its own right.
+- **Fixed: work reopened out of Archive looked missing from the picker.** The list arrived in creation order and never moved, so a task finished months ago and reopened today came out below every task created since — position 81 of 82 in a realistic history, which reads as "it is not there". Open work now sorts first, then whatever was touched most recently, which puts a just-reopened task at the top. A "ซ่อนงานที่เสร็จแล้ว" toggle and an "N จาก M" count sit above the list.
 - No SQL — `projects.status` and every record's own done state already exist.
 
 ## V7.21 Projects: status colour, collapsible channels, started / not started
