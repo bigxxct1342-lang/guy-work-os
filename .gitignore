@@ -7,3 +7,7 @@ Thumbs.db
 # Local backups
 *.backup.json
 GUY_*_BACKUP_*.json
+
+# Seeded design-canvas output — 2.5MB, regenerated from the .dc.html sources
+.design/*.html
+!.design/*.dc.html
