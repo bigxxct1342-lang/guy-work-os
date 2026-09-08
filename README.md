@@ -180,6 +180,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.24 เวลาจริงของแต่ละขั้น — measured durations
+- **Every stage in this app already stamped the day it was reached and nobody read them back.** A purchase request keeps a milestone date per leg (`pr_opened_on`, `po_received_on`, …); a campaign records when each stage started. The planned figure stayed whatever was typed once, so "late" meant late against a guess.
+- **New in WIP Review: ตั้งไว้ vs จริง per stage**, worst overrun first — *"รอ PO จากจัดซื้อ · ตั้งไว้ 7 วัน · จริง 12 วัน · ช้ากว่า 5 วัน · วัดจาก 6 ครั้ง"*. That is the sentence you can take to a meeting; the app could never say it before.
+- **The measured norm also rides inline** on a PR row and a KOL stage row (`ปกติ 12 วัน`), turning amber once reality runs 3+ days past the plan — so the comparison is in front of you while you work, not only in the report.
+- **Median, not mean:** one PR that stalled for three months should not move the figure everyone else is judged against. Nothing shows until a stage has actually happened twice, and a negative or absurd gap is dropped as bad data rather than counted as a long wait.
+- **No new field and no new typing** — the numbers had been accumulating all along.
+- Note: a task carrying a `pr_stage` only records when it entered its *current* stage, never the legs before it, so it cannot contribute a completed leg and is deliberately not counted. Standalone purchase requests carry the full trail.
+- No SQL.
+
 ## V7.23 Portfolio — the archive becomes a record of what was delivered
 - **The archive only ever held completed tasks**, so the things that would actually go on a CV — a campaign run end to end, a product taken to shelf, a plan delivered — never arrived there at all. A portfolio line reads "launched Cockle Mala 40g, 3 SKUs", never "sent product to KOLs", and only the second kind of thing was being kept. Finished **projects, KOL campaigns and products** now land here alongside tasks.
 - **Two tiers, because those are two different answers.** *ผลงานเด่น* is a handful of things worth naming, grouped by year the way a CV is read. *งานประจำ* is everything else, summarised as counts per year (`โปรเจกต์ 1 · แคมเปญ KOL 1 · งาน 47 · ใบขอซื้อ 23`) — volume is portfolio material too, it just belongs as a number rather than a list.
