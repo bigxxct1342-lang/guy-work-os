@@ -180,6 +180,16 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.23 Portfolio — the archive becomes a record of what was delivered
+- **The archive only ever held completed tasks**, so the things that would actually go on a CV — a campaign run end to end, a product taken to shelf, a plan delivered — never arrived there at all. A portfolio line reads "launched Cockle Mala 40g, 3 SKUs", never "sent product to KOLs", and only the second kind of thing was being kept. Finished **projects, KOL campaigns and products** now land here alongside tasks.
+- **Two tiers, because those are two different answers.** *ผลงานเด่น* is a handful of things worth naming, grouped by year the way a CV is read. *งานประจำ* is everything else, summarised as counts per year (`โปรเจกต์ 1 · แคมเปญ KOL 1 · งาน 47 · ใบขอซื้อ 23`) — volume is portfolio material too, it just belongs as a number rather than a list.
+- **Highlights are automatic.** A finished project, campaign or product is one by default: it is already the natural unit of a portfolio, and defaulting it true means nothing has to be tagged after the fact. A finished task is routine until promoted with the star — most of them were Tuesday. Purchase requests are never highlights; they count toward the tally instead.
+- **A portfolio title separate from the working name**, because the name written to get work done is not the name to be read by somebody else later, plus a one-line result — the only thing the app cannot derive, since it has never stored an outcome or a number.
+- **"คัดลอกเป็น Bullet"** copies the whole thing out grouped by year, ready to paste into a CV.
+- The star replaces the green tick at the front of each archive row: every row in that list was done, so the tick said nothing, while "is this portfolio material" is the one judgement worth making there — and it must not hide behind a hover.
+- Dates are pinned to the Gregorian calendar (`th-TH-u-ca-gregory`): `th-TH` defaults to the Buddhist era, so month labels were coming out in พ.ศ. under year headings in ค.ศ. — the same row read 2026 and 69.
+- Requires `migration-v7-23-portfolio.sql`.
+
 ## V7.22 Projects: tick work off without losing sight of it
 - **A tick on every row.** Marking work done from a project finishes it where it actually lives — a task's status, a PR's stage, a campaign's stages — so it clears in Tasks, Calendar and the dashboard too, not just here. Nothing is unlinked: the row stays exactly where it was, struck through, because the point of pulling finished work into a project is to see what is done alongside what is not.
 - **Unticking restores the previous state**, not a guess. A task goes back to whatever it was before (In Progress, Waiting), a PR to the stage it was at, a campaign to its stage map — stashed the same way `toggleTask` already did it.
