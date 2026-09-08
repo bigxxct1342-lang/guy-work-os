@@ -1,11 +1,11 @@
 {
-  "name": "GGG Work OS V7",
-  "short_name": "GGG",
+  "name": "PORKCHOP G",
+  "short_name": "PORKCHOP",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f3f1ec",
   "theme_color": "#1e2329",
-  "description": "Work dashboard with daily checklist, team admin view, and monthly calendar.",
+  "description": "Work OS for a product marketing desk — daily focus, campaign and purchasing trackers, and a record of what shipped.",
   "icons": [
     {
       "src": "./icon-192.png",

@@ -1,4 +1,6 @@
-# GUY WORK OS V6
+# PORKCHOP G
+
+_Formerly GUY WORK OS. The repository keeps its old name; the app does not._
 
 Private work dashboard with:
 - Daily checklist
@@ -65,7 +67,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-15-kol-parallel.sql` per-stage status so campaign stages can run in parallel
 - `migration-v7-18-projects.sql` projects + the links that group existing work under them
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
-- `supabase/functions/line-webhook` Edge Function that links a LINE account to a GUY WORK OS account
+- `supabase/functions/line-webhook` Edge Function that links a LINE account to a PORKCHOP G account
 - `manifest.json` PWA metadata
 - `sw.js` basic offline app-shell cache + push notification display
 - `vercel.json` Vercel config
@@ -179,6 +181,21 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
    Optionally set `APP_TIMEZONE` (IANA name, defaults to `Asia/Bangkok`) to control what counts as "today".
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
+
+## V7.26 PORKCHOP G — renamed, and a sidebar you can scan
+- **The app is now PORKCHOP G** — title, both sign-in screens, sidebar, PWA manifest and the push notification title. The backup *format* string is deliberately unchanged: it identifies a file, not a brand, and renaming it would have made every backup already on disk unrestorable. The restore screen says so.
+- **The sidebar was eleven flat items of identical weight**, three of them settings. It is now four clusters:
+  - **Dashboard** alone at the top — it is home, so it needs no group label.
+  - **งาน** — Tasks, Calendar, Priority Matrix, Weekly Review: four views of one task list, which is why they belong together.
+  - **แผนงาน** — Projects, Product Launch, PR / GRPO.
+  - **Portfolio** below a rule; it is a record rather than active work.
+  - หมวดหมู่ · ตั้งค่า · ทีม drop into a small row at the bottom — still labelled, no longer competing with the work.
+- **An icon per item**, inline stroke SVG, so the list is scanned by shape instead of read word by word.
+- **A badge only when something is actually waiting on you** — overdue-or-due-today on Dashboard, work past its date on Projects, PRs needing action on PR / GRPO. A count on every item would just be more to read; this way an empty sidebar genuinely means nothing needs you.
+- Fixed: the page heading rendered as `Dashboard1`, because it was read from the nav button's `textContent` and the button now also contains a badge.
+- The service worker still clears caches under the old `guy-work-os-` prefix as well as the new one, so no device is left holding a stale copy of the app.
+- Note: `favicon-32.png` and the app icons still carry the old GGG mark — supply a PORKCHOP icon and they can be swapped in.
+- No SQL.
 
 ## V7.25 WIP Review removed
 - **The section is gone.** Opening a project turned out to be the easier thing to show a reviewer, and a dedicated review page was a tenth sidebar item that duplicated what Projects already displays.
