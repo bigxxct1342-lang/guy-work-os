@@ -180,6 +180,12 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.25 WIP Review removed
+- **The section is gone.** Opening a project turned out to be the easier thing to show a reviewer, and a dedicated review page was a tenth sidebar item that duplicated what Projects already displays.
+- **Two of its panels had no other home, so they moved to Projects**, collapsed above the project list: *ติดอยู่ที่ใคร* (blocked work grouped by blocker, longest wait first) and *เวลาจริงของแต่ละขั้น* (planned vs measured). Both are exactly what gets asked in a review, and both are cross-project, which is why they sit above the cards rather than inside one.
+- **The rest was dropped rather than moved**: the four counters, the running list and the 30-day done list each repeated the Dashboard or the Portfolio. Carrying them along would have re-created the duplication the section was removed to end.
+- Sidebar is down to nine items.
+
 ## V7.24 เวลาจริงของแต่ละขั้น — measured durations
 - **Every stage in this app already stamped the day it was reached and nobody read them back.** A purchase request keeps a milestone date per leg (`pr_opened_on`, `po_received_on`, …); a campaign records when each stage started. The planned figure stayed whatever was typed once, so "late" meant late against a guess.
 - **New in WIP Review: ตั้งไว้ vs จริง per stage**, worst overrun first — *"รอ PO จากจัดซื้อ · ตั้งไว้ 7 วัน · จริง 12 วัน · ช้ากว่า 5 วัน · วัดจาก 6 ครั้ง"*. That is the sentence you can take to a meeting; the app could never say it before.

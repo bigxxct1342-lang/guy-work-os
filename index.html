@@ -249,6 +249,16 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-band{display:flex;align-items:center;gap:7px;margin:11px 0 7px;padding:5px 11px;border-radius:8px;background:#fbdfc6;border:1px solid #f3caa4;font-size:10px;font-weight:850;letter-spacing:.3px;color:#5a3010}
 .pj-caret{flex:none;font-size:9px;color:var(--muted);width:11px;transition:transform .15s}
 .pj-ch.is-open .pj-caret{transform:rotate(90deg)}
+.pj-panel{margin-bottom:12px;padding:0}
+.pj-panel>summary{list-style:none;cursor:pointer;padding:15px 21px;display:flex;align-items:center;gap:11px}
+.pj-panel>summary::-webkit-details-marker{display:none}
+.pj-panel>summary::before{content:"▶";font-size:9px;color:var(--muted);transition:transform .15s}
+.pj-panel[open]>summary::before{transform:rotate(90deg)}
+.pj-panel>summary b{font-size:14px}
+.pj-pnote{font-size:11px;color:var(--muted);font-weight:700;margin-left:auto}
+.pj-pnote.late{color:#a64242;font-weight:800}
+.pj-panel>*:not(summary){padding:0 21px}
+.pj-panel>*:last-child{padding-bottom:19px}
 .wt-chip{font-size:9px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--soft);border:1px solid var(--line);color:var(--muted);flex:none;white-space:nowrap}
 .wt-chip.over{background:var(--yellow);border-color:#e8d49a;color:var(--yellowT)}
 body.dark .wt-chip.over{background:#3a3524;border-color:#4d472e;color:#ecd68f}
@@ -482,7 +492,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.24 · Measured</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.25 · Measured</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -534,7 +544,6 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <button data-view="archive">Portfolio</button>
   <div class="nav-group">ระบบติดตามงาน</div>
   <button data-view="proj">Projects</button>
-  <button data-view="wip">WIP Review</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
   <div class="nav-group">ตั้งค่า</div>
@@ -584,23 +593,9 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <button id="addProjBtn" class="btn primary">+ โปรเจกต์ใหม่</button>
   </div>
   <div id="projSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-18-projects.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <details class="card section pj-panel"><summary><b>ติดอยู่ที่ใคร</b><span id="wipBlockedCount"></span></summary><div id="wipBlocked"></div></details>
+  <details class="card section pj-panel"><summary><b>เวลาจริงของแต่ละขั้น</b><span class="pj-pnote">ตั้งไว้ vs ที่เกิดขึ้นจริง</span></summary><div class="help" style="margin:0 0 13px">วัดจากวันที่ระบบบันทึกไว้เองทุกครั้งที่ขั้นตอนขยับ ไม่ได้มาจากการกรอก · แสดงเฉพาะขั้นที่เกิดขึ้นจริงตั้งแต่ 2 ครั้งขึ้นไป</div><div id="wipWait"></div></details>
   <div id="projList"></div>
- </section>
-
- <section id="wipView" class="hidden">
-  <div class="wip-head">
-   <div><h2 style="margin:0 0 4px">สถานะงานทั้งหมด ณ วันนี้</h2><div id="wipDate" class="help"></div></div>
-   <button id="wipRefresh" class="btn secondary">รีเฟรช</button>
-  </div>
-  <div id="wipStats" class="wip-stats"></div>
-  <div class="card section" style="margin-bottom:18px"><h2>ติดอยู่ที่ใคร</h2><div id="wipBlocked"></div></div>
-  <div class="card section" style="margin-bottom:18px">
-   <h2>เวลาจริงของแต่ละขั้น</h2>
-   <div class="help" style="margin-bottom:13px">วัดจากวันที่ระบบบันทึกไว้เองทุกครั้งที่ขั้นตอนขยับ ไม่ได้มาจากการกรอก · แสดงเฉพาะขั้นที่เกิดขึ้นจริงตั้งแต่ 2 ครั้งขึ้นไป</div>
-   <div id="wipWait"></div>
-  </div>
-  <div class="card section" style="margin-bottom:18px"><h2>งานที่กำลังวิ่ง</h2><div id="wipRunning"></div></div>
-  <div class="card section"><h2>เสร็จแล้วใน 30 วันที่ผ่านมา</h2><div id="wipDone"></div></div>
  </section>
 
  <section id="kolView" class="hidden">
@@ -2055,7 +2050,6 @@ window.projNewTask=(projectId,channel)=>{
 };
 let pendingProjLink=null;
 $("addKolBtn").onclick=()=>kolFillModal(null);
-$("wipRefresh").onclick=()=>Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>toast("โหลดข้อมูลไม่สำเร็จ","bad"));
 $("saveKolBtn").onclick=async()=>{
  const name=$("kName").value.trim();
  if(!name)return $("kolModalError").textContent="ใส่ชื่อแคมเปญก่อน";
@@ -3235,32 +3229,23 @@ function renderWaitTable(){
    return `<div class="wt-row${cls}"><span class="wt-name">${esc(r.label)}</span><span class="wt-who">${esc(r.who)}</span><span>${r.planned!=null?r.planned+" วัน":"—"}</span><span class="wt-act">${r.actual} วัน</span><span class="wt-off">${sign}</span><span class="wt-n">${r.n} ครั้ง</span></div>`;
   }).join("");
 }
-async function renderWip(){
- if(!$("wipStats"))return;
- $("wipDate").textContent=new Date().toLocaleDateString("th-TH",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
- const all=wipItems(),late=all.filter(i=>i.late),onOthers=all.filter(i=>i.who!=="เรา");
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
- const cut=new Date();cut.setDate(cut.getDate()-30);
- const recent=scope.filter(t=>t.status==="Done"&&t.completed_at&&new Date(t.completed_at)>=cut);
- $("wipStats").innerHTML=[
-  ["งานที่กำลังวิ่ง",all.length,""],["ช้ากว่ากำหนด",late.length,late.length?"bad":""],
-  ["รอฝ่ายอื่น",onOthers.length,""],["เสร็จใน 30 วัน",recent.length,""]
- ].map(x=>`<div class="wip-stat ${x[2]}"><b>${x[1]}</b><span>${esc(x[0])}</span></div>`).join("");
-
+// What survived WIP Review. The counters, the running list and the 30-day
+// done list all repeated the dashboard and the portfolio; only these two
+// answered something nothing else did -- who is holding work up, and whether
+// the plan matches reality -- so they moved to Projects, which is the page
+// actually opened for a reviewer now.
+async function renderWipPanels(){
+ if(!$("wipBlocked"))return;
+ const onOthers=wipItems().filter(i=>i.who!=="เรา");
  const groups=new Map();
  onOthers.forEach(i=>{const k=i.who||"ไม่ระบุ";(groups.get(k)||groups.set(k,[]).get(k)).push(i)});
+ $("wipBlockedCount").textContent=onOthers.length
+  ?`${onOthers.length} รายการ · นานสุด ${Math.max(...onOthers.map(r=>r.days))} วัน`:"ไม่มีงานค้าง";
+ $("wipBlockedCount").className="pj-pnote"+(onOthers.some(r=>r.late)?" late":"");
  $("wipBlocked").innerHTML=groups.size?[...groups.entries()]
   .sort((a,b)=>Math.max(...b[1].map(x=>x.days))-Math.max(...a[1].map(x=>x.days)))
   .map(([who,rows])=>`<div class="wip-grp"><div class="wip-ghead"><b>รอ ${esc(who)}</b><span class="pr-age${rows.some(r=>r.late)?" late":""}">${rows.length} รายการ · นานสุด ${Math.max(...rows.map(r=>r.days))} วัน</span></div>${rows.sort((a,b)=>b.days-a.days).map(wipRowHTML).join("")}</div>`).join("")
   :'<div class="empty">ไม่มีงานที่ค้างรอฝ่ายอื่น</div>';
-
- $("wipRunning").innerHTML=all.length
-  ?[...all].sort((a,b)=>(b.late-a.late)||b.days-a.days).map(wipRowHTML).join("")
-  :'<div class="empty">ยังไม่มีงานที่กำลังวิ่ง</div>';
- $("wipDone").innerHTML=recent.length
-  ?recent.sort((a,b)=>new Date(b.completed_at)-new Date(a.completed_at)).slice(0,20)
-   .map(t=>`<div class="wip-row"><span class="wip-kind">งาน</span><div class="wip-main"><div class="wip-name">${esc(t.task)}</div><div class="wip-stage">${esc(t.category||"")}</div></div><span class="wip-days">${new Date(t.completed_at).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</span></div>`).join("")
-  :'<div class="empty">ยังไม่มีงานที่เสร็จในช่วง 30 วัน</div>';
  renderWaitTable();
 }
 /* ---- Dashboard focus ---------------------------------------------------
@@ -3339,7 +3324,7 @@ renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol();renderProj(
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","wip","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  const OFF_NAV={kol:"KOL Campaign"};
@@ -3351,7 +3336,7 @@ function goView(view){
  if(view==="pr")renderPr();
  if(view==="kol")renderKol();
  if(view==="proj")renderProj();
- if(view==="wip"){renderWip();Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>{})}
+ if(view==="proj"){renderWipPanels();Promise.resolve().then(loadWipProgress).then(renderWipPanels).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
