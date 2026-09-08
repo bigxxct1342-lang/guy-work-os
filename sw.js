@@ -1,13 +1,13 @@
-const CACHE="guy-work-os-v7-25-no-wip";
+const CACHE="porkchop-g-v7-26-nav";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener("activate",e=>e.waitUntil(
-  caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("guy-work-os-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
+  caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith("porkchop-g-")||k.startsWith("guy-work-os-"))&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
 ));
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)))});
 
 self.addEventListener("push",e=>{
-  let data={title:"GUY WORK OS",body:"You have tasks to check.",url:"./"};
+  let data={title:"PORKCHOP G",body:"You have tasks to check.",url:"./"};
   try{if(e.data)data={...data,...e.data.json()}}catch(_){}
   e.waitUntil(self.registration.showNotification(data.title,{
     body:data.body,
