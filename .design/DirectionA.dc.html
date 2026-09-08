@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap');
+    body{margin:0;font-family:"IBM Plex Sans Thai",ui-sans-serif,system-ui,sans-serif;background:#f3f1ec;color:#20242a;-webkit-font-smoothing:antialiased}
+    a{color:#b45309}a:hover{color:#92400e}
+    .row{display:flex;align-items:center;gap:13px;padding:13px 4px;border-bottom:1px solid #e8e3da}
+    .row:last-child{border-bottom:0}
+    .nm{flex:1;min-width:0;font-size:14px;font-weight:400;line-height:1.4}
+    .mt{font-size:12px;color:#868d95}
+    .act{display:flex;gap:6px;flex:none;opacity:0}
+    .row.hov{background:#faf9f6;box-shadow:inset 3px 0 0 #d97a30}
+    .row.hov .act{opacity:1}
+    .gh{border:1px solid #ddd8ce;background:#fff;border-radius:4px;padding:5px 9px;font-size:12px;font-weight:400;color:#4d545c;font-family:inherit;cursor:pointer}
+  </style>
+</helmet>
+
+<div style="padding:34px 36px">
+
+  <div style="display:flex;align-items:baseline;gap:11px;margin-bottom:22px">
+    <div style="font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:#a0722c">Direction A</div>
+    <div style="font-size:13px;color:#868d95">เงียบ อ่านง่าย — ลำดับชั้นมาจากขนาดกับสี</div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #e4dfd7;border-radius:14px;padding:26px 28px 24px">
+
+    <div style="display:flex;align-items:flex-start;gap:14px;padding-bottom:20px;border-bottom:1px solid #e8e3da">
+      <input type="checkbox" style="width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:#d97a30">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:21px;font-weight:600;letter-spacing:-.3px;line-height:1.25">แผน Q4</div>
+        <div class="mt" style="margin-top:5px">Media Plan · Cockle_รสหม่าล่า 40 กรัม · จบ 22 กันยายน</div>
+      </div>
+      <div style="text-align:right;flex:none">
+        <div style="font-size:21px;font-weight:600;letter-spacing:-.3px;color:#d97a30;line-height:1.25">29%</div>
+        <div class="mt" style="margin-top:5px">เสร็จ 2 จาก 7</div>
+      </div>
+    </div>
+
+    <div style="height:3px;background:#eeeae3;border-radius:999px;margin:16px 0 24px;overflow:hidden"><div style="width:29%;height:100%;background:#d97a30"></div></div>
+
+    <div style="display:flex;align-items:center;gap:11px;margin-bottom:3px">
+      <div style="font-size:16px;font-weight:600;letter-spacing:-.1px">BMN</div>
+      <div class="mt">1 จาก 5 · ถึง 22 กันยายน</div>
+      <div style="flex:1"></div>
+      <button class="gh" style="border:0;background:transparent;color:#9aa1a9;padding:4px 6px">↑</button>
+      <button class="gh" style="border:0;background:transparent;color:#9aa1a9;padding:4px 6px">↓</button>
+    </div>
+    <div style="height:2px;background:#d97a30;border-radius:999px;width:38px;margin-bottom:6px"></div>
+
+    <div style="font-size:12px;font-weight:500;color:#a0722c;letter-spacing:.4px;margin:20px 0 2px">เริ่มแล้ว</div>
+
+    <div class="row">
+      <input type="checkbox" style="width:18px;height:18px;margin:0;flex:none;accent-color:#d97a30">
+      <i style="width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box;border:1.5px solid #d97a30;background:linear-gradient(90deg,#d97a30 50%,transparent 50%)"></i>
+      <div class="nm">ส่งของให้ KOLs โดยมีใบส่งและใบรับของ<div class="mt" style="margin-top:2px">งาน · 3 กันยายน</div></div>
+      <span class="act"></span>
+    </div>
+
+    <div class="row hov">
+      <input type="checkbox" style="width:18px;height:18px;margin:0;flex:none;accent-color:#d97a30">
+      <i style="width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box;border:1.5px solid #d97a30;background:linear-gradient(90deg,#d97a30 50%,transparent 50%)"></i>
+      <div class="nm">Kols_Review spicy cockles 40 g<div class="mt" style="margin-top:2px">งาน · 31 ตุลาคม</div></div>
+      <span class="act">
+        <button class="gh">ย้าย</button>
+        <button class="gh">วันที่</button>
+        <button class="gh">เอาออก</button>
+      </span>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" checked style="width:18px;height:18px;margin:0;flex:none;accent-color:#d97a30">
+      <i style="width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box;border:1.5px solid #d97a30;background:#d97a30"></i>
+      <div class="nm" style="color:#9aa1a9;text-decoration:line-through;text-decoration-color:#d9d4cb">Tellscore_Mala Cockles KOLs<div class="mt" style="margin-top:2px;text-decoration:none">ใบขอซื้อ · 30 กันยายน</div></div>
+      <span class="act"></span>
+    </div>
+
+    <div style="font-size:12px;font-weight:500;color:#a0722c;letter-spacing:.4px;margin:22px 0 2px">ยังไม่เริ่ม</div>
+
+    <div class="row">
+      <input type="checkbox" style="width:18px;height:18px;margin:0;flex:none;accent-color:#d97a30">
+      <i style="width:9px;height:9px;border-radius:50%;flex:none;box-sizing:border-box;border:1.5px solid #cfc9c0"></i>
+      <div class="nm">Billboard คลองสาน<div class="mt" style="margin-top:2px">งาน · ยังไม่กำหนดวัน</div></div>
+      <span class="act"></span>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:22px">
+      <button class="gh" style="padding:8px 13px">เลือกงานที่มีอยู่</button>
+      <button class="gh" style="padding:8px 13px">สร้างงานใหม่</button>
+      <button class="gh" style="padding:8px 13px">สร้างแคมเปญ KOL</button>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;display:flex;gap:26px;font-size:12.5px;line-height:1.7;color:#5c636b">
+    <div style="flex:1"><b style="font-weight:600;color:#20242a">ได้อะไร</b><br>อ่านสบายตาเวลากวาดหลายโปรเจกต์ ปุ่มโผล่ตอนชี้แถวเท่านั้น เหลือแค่ชื่อกับสถานะที่ต้องมอง · ส้มเหลือที่เดียว: ขีดใต้หัวข้อกับตัวเลขความคืบหน้า</div>
+    <div style="flex:1"><b style="font-weight:600;color:#20242a">เสียอะไร</b><br>แถวสูงขึ้น เห็นงานต่อจอน้อยลง และการแก้วันที่ต้องคลิกเพิ่มหนึ่งครั้ง — ไม่เหมาะถ้าต้องแก้วันที่รัวๆ ทีละหลายสิบแถว</div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap');
+    body{margin:0;font-family:"IBM Plex Sans Thai",ui-sans-serif,system-ui,sans-serif;background:#f3f1ec;color:#20242a;-webkit-font-smoothing:antialiased}
+    a{color:#b45309}a:hover{color:#92400e}
+    .n{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:30px;line-height:1;color:#c96420;flex:none;width:44px}
+    .ttl{font-size:16px;font-weight:600;letter-spacing:-.2px;margin-bottom:5px}
+    .dx{font-size:12.5px;line-height:1.7;color:#5c636b}
+    .find{display:flex;gap:16px;padding:22px 0;border-top:1px solid #e0dbd2}
+    .spec{margin-top:13px;border:1px solid #e4dfd7;border-radius:6px;background:#fff;overflow:hidden}
+    .sh{font-size:9.5px;font-weight:600;letter-spacing:1.1px;text-transform:uppercase;color:#8b9299;padding:7px 12px;background:#faf9f6;border-bottom:1px solid #eeeae3}
+    .sb{padding:13px 12px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#eeeae3}
+    .two>div{background:#fff}
+  </style>
+</helmet>
+
+<div style="padding:38px 40px 40px;max-width:940px">
+
+  <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#a0722c;margin-bottom:12px">ตรวจดีไซน์ · GUY WORK OS</div>
+  <div style="font-family:'Instrument Serif',Georgia,serif;font-size:52px;line-height:1.02;letter-spacing:-1px;margin-bottom:14px">เจ็ดจุด<br>ที่ควรแก้ก่อน</div>
+  <div class="dx" style="max-width:560px;margin-bottom:26px">อ่านค่าจริงจาก <span style="font-family:ui-monospace,monospace;font-size:11.5px;background:#eae6de;padding:1px 5px;border-radius:3px">index.html</span> ทั้งไฟล์ ไม่ได้ดูจากภาพ ตัวเลขข้างล่างคือของจริงที่นับได้</div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#e0dbd2;border:1px solid #e0dbd2;border-radius:8px;overflow:hidden;margin-bottom:8px">
+    <div style="background:#fff;padding:15px 13px"><div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;color:#c96420">24</div><div style="font-size:10.5px;color:#6b727a;margin-top:5px;line-height:1.4">ขนาดตัวอักษร<br>7px → 34px</div></div>
+    <div style="background:#fff;padding:15px 13px"><div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;color:#c96420">7</div><div style="font-size:10.5px;color:#6b727a;margin-top:5px;line-height:1.4">น้ำหนักตัวอักษร<br>600 → 900</div></div>
+    <div style="background:#fff;padding:15px 13px"><div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;color:#c96420">13</div><div style="font-size:10.5px;color:#6b727a;margin-top:5px;line-height:1.4">ค่ามุมโค้ง<br>4px → 18px</div></div>
+    <div style="background:#fff;padding:15px 13px"><div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;color:#20242a">0</div><div style="font-size:10.5px;color:#6b727a;margin-top:5px;line-height:1.4">ฟอนต์ที่โหลดจริง<br>ทั้งแอป</div></div>
+    <div style="background:#fff;padding:15px 13px"><div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;color:#20242a">0</div><div style="font-size:10.5px;color:#6b727a;margin-top:5px;line-height:1.4">focus state<br>สำหรับคีย์บอร์ด</div></div>
+  </div>
+  <div style="font-size:10.5px;color:#9aa1a9;margin-bottom:30px">นับจาก <span style="font-family:ui-monospace,monospace">grep</span> บนไฟล์จริง — ไม่ใช่ประมาณ</div>
+
+  <div class="find" style="border-top-width:2px;border-top-color:#20242a">
+    <div class="n">01</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">ไม่มีฟอนต์ถูกโหลดเลยสักตัว</div>
+      <div class="dx">CSS เขียนว่า <span style="font-family:ui-monospace,monospace;font-size:11.5px">font-family:Inter,…</span> แต่ในไฟล์ไม่มี <span style="font-family:ui-monospace,monospace;font-size:11.5px">@font-face</span> และไม่มีลิงก์ Google Fonts เลย แปลว่า Inter ไม่เคยถูกโหลด ทุกเครื่องเลยตกไปที่ฟอนต์ระบบคนละตัว และ<b style="font-weight:600">ตัวไทยไม่เคยถูกกำหนดเลย</b> ได้ฟอนต์ไทยที่ OS แถมมาให้ ซึ่งคนละบุคลิกกับตัวลาตินในบรรทัดเดียวกัน · น้ำหนัก 750 / 780 / 850 ก็ไม่มีอยู่จริงในฟอนต์ระบบส่วนใหญ่ เบราว์เซอร์ปัดเป็น 700 หรือ 900 — ความละเอียดที่ตั้งใจไว้หายไปเงียบๆ</div>
+      <div class="spec">
+        <div class="sh">แอปเดียวกัน สามเครื่อง</div>
+        <div class="sb" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+          <div><div style="font-size:9px;color:#9aa1a9;margin-bottom:5px">iPhone → SF Pro + Thonburi</div><div style="font-family:-apple-system,'Helvetica Neue',sans-serif;font-size:14px;font-weight:700">แผน Q4 · Media Plan</div></div>
+          <div><div style="font-size:9px;color:#9aa1a9;margin-bottom:5px">Windows → Segoe + Leelawadee</div><div style="font-family:'Segoe UI',Tahoma,sans-serif;font-size:14px;font-weight:700">แผน Q4 · Media Plan</div></div>
+          <div><div style="font-size:9px;color:#9aa1a9;margin-bottom:5px">Android → Roboto + Noto Thai</div><div style="font-family:Roboto,'Noto Sans Thai',sans-serif;font-size:14px;font-weight:700">แผน Q4 · Media Plan</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="n">02</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">ลำดับชั้นมาจากความหนา ไม่ใช่ขนาด</div>
+      <div class="dx">24 ขนาด กับ 7 น้ำหนัก แต่เกือบทุกอย่างอยู่ที่ 750–900 ทั้งหมด เมื่อทุกอย่างหนาเท่ากัน ก็ไม่มีอะไรเด่นขึ้นมา — หน้าที่งานเยอะเลยอ่านเป็นเสียงรบกวน ทางแก้คือให้<b style="font-weight:600">ขนาดกับสี</b>เป็นตัวจัดลำดับ แล้วเหลือน้ำหนักแค่สองระดับ</div>
+      <div class="spec"><div class="two">
+        <div><div class="sh">ตอนนี้ — 4 น้ำหนักในการ์ดเดียว</div><div class="sb" style="font-family:-apple-system,system-ui,sans-serif"><div style="font-size:14px;font-weight:850">แผน Q4</div><div style="font-size:10px;font-weight:800;color:#747b84;margin-top:3px">เสร็จ 2/7 · MEDIA PLAN</div><div style="font-size:12px;font-weight:750;margin-top:8px">ส่งของให้ KOLs</div><div style="font-size:9px;font-weight:850;margin-top:4px;color:#747b84">BMN 1/5</div></div></div>
+        <div><div class="sh">เสนอ — 2 น้ำหนัก 3 ขนาด</div><div class="sb"><div style="font-size:17px;font-weight:600;letter-spacing:-.2px">แผน Q4</div><div style="font-size:12px;font-weight:400;color:#7b828a;margin-top:4px">เสร็จ 2 จาก 7 · Media Plan</div><div style="font-size:14px;font-weight:400;margin-top:9px">ส่งของให้ KOLs</div><div style="font-size:12px;font-weight:400;margin-top:4px;color:#7b828a">BMN 1/5</div></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="n">03</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">ตัวเล็กเกินไปสำหรับงานจริง</div>
+      <div class="dx">ข้อความที่ต้องอ่านจริงอยู่ที่ 9–12px และป้ายสถานะอยู่ที่ 9px หนา 850 บนมือถือขนาดนั้นอ่านไม่ออกในแสงจริง — พื้นตัวอักษรควรเริ่มที่ 13–14px และป้ายเล็กสุดไม่ต่ำกว่า 11px</div>
+      <div class="spec"><div class="sb" style="display:flex;align-items:baseline;gap:22px;flex-wrap:wrap">
+        <div><div style="font-size:9px;font-weight:850">เริ่มแล้ว 3</div><div style="font-size:9px;color:#9aa1a9;margin-top:6px">9 / 850 · ตอนนี้</div></div>
+        <div><div style="font-size:11px;font-weight:500">เริ่มแล้ว 3</div><div style="font-size:9px;color:#9aa1a9;margin-top:6px">11 / 500 · เล็กสุดที่รับได้</div></div>
+        <div><div style="font-size:13px;font-weight:400">ส่งของให้ KOLs</div><div style="font-size:9px;color:#9aa1a9;margin-top:6px">13 / 400 · พื้นข้อความ</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="n">04</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">ไม่มีสเกลระยะและมุมโค้ง</div>
+      <div class="dx">มุมโค้ง 13 ค่าตั้งแต่ 4 ถึง 18px และระยะห่างเป็นเลขเดี่ยวเกือบทุกจำนวน (5 6 7 8 9 10 11 12 13 14 …) แต่ละส่วนคิดเลขของตัวเองตอนเขียน ผลคือขอบและช่องไฟไม่เคยตรงกันข้ามส่วน เหลือมุมโค้ง 3 ค่าและระยะ 6 ขั้นก็พอ</div>
+      <div class="spec"><div class="two">
+        <div><div class="sh">ตอนนี้ — 13 ค่า</div><div class="sb" style="display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap">
+          <span style="width:34px;height:34px;background:#efeae2;border-radius:4px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:5px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:6px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:7px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:8px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:9px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:10px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:11px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:12px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:13px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:14px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:16px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:18px"></span>
+        </div></div>
+        <div><div class="sh">เสนอ — 3 ค่า</div><div class="sb" style="display:flex;gap:10px;align-items:flex-end">
+          <span style="width:34px;height:34px;background:#efeae2;border-radius:4px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:8px"></span><span style="width:34px;height:34px;background:#efeae2;border-radius:14px"></span>
+          <span style="font-size:10.5px;color:#9aa1a9;padding-bottom:3px">4 ปุ่มเล็ก · 8 การ์ด · 14 กล่องใหญ่</span>
+        </div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="n">05</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">สีกลายเป็นสองระบบที่ไม่คุยกัน</div>
+      <div class="dx">ฐานเป็นนิวทรัลอุ่นกับพาสเทลจาง 5 คู่ แล้วหน้า Projects เพิ่งเติมส้มเข้ม <span style="font-family:ui-monospace,monospace;font-size:11.5px">#ee8f48</span> เข้าไป — เป็นสีที่ดังที่สุดในแอปแต่มีอยู่หน้าเดียว · พาสเทลเองก็ใช้ซ้ำความหมาย แดง = ทั้ง High และ Overdue ม่วง = Today ทำให้สีบอกอะไรไม่ได้แน่ชัด ควรเหลือ<b style="font-weight:600">สีเน้นหนึ่งสีใช้ทั้งแอป</b> แล้วให้พาสเทลทำหน้าที่บอกสถานะอย่างเดียว</div>
+      <div class="spec"><div class="sb" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#f9dddd;color:#963e3e">High</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#f9dddd;color:#963e3e">Overdue</span>
+        <span style="font-size:10.5px;color:#9aa1a9;margin-right:10px">← สีเดียวกัน คนละความหมาย</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#fff0bf;color:#745a00">Medium</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#dfeaf8;color:#315f8f">Waiting</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#ece5f7;color:#654792">Today</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#dceee2;color:#2d6841">Done</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:850;background:#ee8f48;color:#22150a">BMN</span>
+        <span style="font-size:10.5px;color:#9aa1a9">← มีที่เดียวในแอป</span>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="n">06</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">หนึ่งแถวมีเจ็ดตัวควบคุม เปิดอยู่ตลอดเวลา</div>
+      <div class="dx">แถวงานในโปรเจกต์มี ติ๊ก · ป้ายชนิด · จุดสถานะ · ชื่อ · ปุ่มขึ้นลง · ดรอปดาวน์ช่องทาง · ช่องวันที่ · ปุ่มเอาออก ทุกอันน้ำหนักสายตาเท่ากันหมด ทั้งที่ 90% ของเวลาผู้ใช้แค่<b style="font-weight:600">อ่าน</b>กับ<b style="font-weight:600">ติ๊ก</b> ที่เหลือควรโผล่ตอน hover หรือตอนเลือกแถวนั้น</div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="n">07</div>
+    <div style="flex:1;min-width:0">
+      <div class="ttl">โหมดมืดสลับแค่ครึ่งเดียว · ไม่มี focus state เลย</div>
+      <div class="dx"><span style="font-family:ui-monospace,monospace;font-size:11.5px">body.dark</span> เปลี่ยนแค่ 7 ตัวนิวทรัล ส่วนพาสเทลทั้ง 5 คู่ไม่ถูกเปลี่ยน ป้ายพื้นอ่อนตัวหนังสือเข้มเลยลอยเรืองบนพื้นมืด (บั๊กแบบเดียวกับที่เจอสองรอบวันนี้) · และทั้งไฟล์ไม่มี <span style="font-family:ui-monospace,monospace;font-size:11.5px">:focus-visible</span> สักที่ กด Tab แล้วไม่รู้ว่าอยู่ตรงไหน</div>
+      <div class="spec"><div class="sb" style="background:#20242a;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#f9dddd;color:#963e3e">Overdue</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:800;background:#fff0bf;color:#745a00">Medium</span>
+        <span style="font-size:10.5px;color:#8b9299;margin-right:auto">← พาสเทลบนพื้นมืด วันนี้</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:500;background:#3a2f24;color:#f0c48a">Overdue</span>
+        <span style="padding:4px 9px;border-radius:999px;font-size:10px;font-weight:500;background:#3a3524;color:#ecd68f">Medium</span>
+        <span style="font-size:10.5px;color:#8b9299">← ที่ควรเป็น</span>
+      </div></div>
+    </div>
+  </div>
+
+  <div style="border-top:2px solid #20242a;margin-top:8px;padding-top:20px;display:flex;gap:26px">
+    <div style="flex:1">
+      <div style="font-size:10px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#a0722c;margin-bottom:9px">ทำอะไรก่อน</div>
+      <div class="dx">01 กับ 02 คุ้มที่สุด — โหลดฟอนต์จริงที่มีตัวไทย แล้วตัดสเกลเหลือ 6 ขนาด 2 น้ำหนัก แค่สองอย่างนี้เปลี่ยนความรู้สึกทั้งแอปโดยไม่ต้องแตะโครงสร้างสักบรรทัด · 04 กับ 05 เป็นการเก็บกวาดครึ่งวัน · 06 ต้องคิดใหม่ทีละหน้า · 07 คือแก้บั๊ก ไม่ใช่ดีไซน์</div>
+    </div>
+    <div style="width:250px;flex:none;background:#20242a;color:#e8e4dc;border-radius:8px;padding:16px 17px">
+      <div style="font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:#a9b0b8;margin-bottom:9px">ดูสองทิศทางข้างๆ</div>
+      <div style="font-size:12.5px;line-height:1.65;color:#cfcbc3">อาร์ตบอร์ด <b style="font-weight:600;color:#fff">Direction A</b> กับ <b style="font-weight:600;color:#fff">Direction B</b> คือหน้า Projects หน้าเดียวกัน เขียนใหม่ตามระบบข้างบน คนละบุคลิก — เลือกอันที่ใช่แล้วผมทำต่อ</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

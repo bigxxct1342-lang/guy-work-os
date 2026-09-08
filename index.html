@@ -249,6 +249,56 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-band{display:flex;align-items:center;gap:7px;margin:11px 0 7px;padding:5px 11px;border-radius:8px;background:#fbdfc6;border:1px solid #f3caa4;font-size:10px;font-weight:850;letter-spacing:.3px;color:#5a3010}
 .pj-caret{flex:none;font-size:9px;color:var(--muted);width:11px;transition:transform .15s}
 .pj-ch.is-open .pj-caret{transform:rotate(90deg)}
+.pj-panel{margin-bottom:12px;padding:0}
+.pj-panel>summary{list-style:none;cursor:pointer;padding:15px 21px;display:flex;align-items:center;gap:11px}
+.pj-panel>summary::-webkit-details-marker{display:none}
+.pj-panel>summary::before{content:"▶";font-size:9px;color:var(--muted);transition:transform .15s}
+.pj-panel[open]>summary::before{transform:rotate(90deg)}
+.pj-panel>summary b{font-size:14px}
+.pj-pnote{font-size:11px;color:var(--muted);font-weight:700;margin-left:auto}
+.pj-pnote.late{color:#a64242;font-weight:800}
+.pj-panel>*:not(summary){padding:0 21px}
+.pj-panel>*:last-child{padding-bottom:19px}
+.wt-chip{font-size:9px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--soft);border:1px solid var(--line);color:var(--muted);flex:none;white-space:nowrap}
+.wt-chip.over{background:var(--yellow);border-color:#e8d49a;color:var(--yellowT)}
+body.dark .wt-chip.over{background:#3a3524;border-color:#4d472e;color:#ecd68f}
+.wt-head,.wt-row{display:grid;grid-template-columns:1.7fr .8fr .6fr .6fr 1fr .6fr;gap:10px;align-items:center;padding:9px 11px;font-size:12px}
+.wt-head{font-size:10px;font-weight:850;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
+.wt-row{border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--card)}
+.wt-row.over{border-left:4px solid #dda01f}
+.wt-row.under{border-left:4px solid #37a26a}
+.wt-name{font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wt-who,.wt-n{color:var(--muted);font-weight:700;font-size:11px}
+.wt-act{font-weight:850}
+.wt-off{font-size:11px;font-weight:750;color:var(--muted)}
+.wt-row.over .wt-off{color:#9a6b10}
+.wt-row.under .wt-off{color:#2d6841}
+body.dark .wt-row.over .wt-off{color:#e8bd6a}
+body.dark .wt-row.under .wt-off{color:#7fc79c}
+@media(max-width:820px){.wt-head{display:none}.wt-row{grid-template-columns:1fr auto;gap:4px 10px}.wt-name{grid-column:1/-1}.wt-off{grid-column:1/-1}}
+.pf-top{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:15px}
+.pf-sub{flex:1;min-width:200px;font-size:11px;color:var(--muted);line-height:1.55}
+.pf-year{margin-bottom:16px}
+.pf-yhead{display:flex;align-items:baseline;gap:9px;padding-bottom:7px;margin-bottom:9px;border-bottom:2px solid var(--text)}
+.pf-yhead b{font-size:15px}
+.pf-yhead span{font-size:11px;color:var(--muted);font-weight:700}
+.pf-row{display:flex;align-items:flex-start;gap:11px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:7px;background:var(--card)}
+.pf-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.pf-title{font-size:13px;font-weight:750;padding:6px 8px}
+.pf-result{font-size:11px;padding:6px 8px;color:var(--muted)}
+.pf-orig{font-size:10px;color:var(--muted)}
+.pf-side{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none;padding-top:5px}
+.pf-kind{font-size:9px;font-weight:850;padding:2px 8px;border-radius:999px;background:var(--soft);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pf-when{font-size:10px;color:var(--muted);font-weight:700;white-space:nowrap}
+.pf-star{border:0;background:transparent;font-size:17px;line-height:1;cursor:pointer;padding:3px 2px;color:var(--muted);opacity:.4;font-family:inherit;flex:none}
+.pf-star.on{opacity:1;color:#d9930f}
+.pf-star:hover{opacity:1}
+.pf-tally{margin-bottom:14px}
+.pf-trow{display:flex;gap:11px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line);font-size:12px}
+.pf-trow:last-child{border-bottom:0}
+.pf-trow b{font-size:13px;width:48px;flex:none}
+.pf-trow span{color:var(--muted);font-weight:700}
+@media(max-width:820px){.pf-row{flex-wrap:wrap}.pf-side{flex-direction:row;align-items:center;width:100%;padding-top:2px}}
 .pj-tick{width:16px;height:16px;flex:none;padding:0;margin:0;accent-color:#c96420;cursor:pointer}
 .pj-tick:disabled{cursor:not-allowed;opacity:.4}
 .pj-name.is-done{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
@@ -269,6 +319,9 @@ body.dark .gantt-bar.g-past{outline-color:#ffd6ac}
 .pj-rm{flex:none}
 .pj-none{font-size:11px;color:var(--muted);padding:2px 0 4px}
 .pj-chacts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.pick-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;font-size:11px;color:var(--muted);font-weight:700}
+.pick-bar label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.pick-bar input{width:15px;height:15px;margin:0;padding:0;flex:none;accent-color:#c96420;cursor:pointer}
 .pick-list{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:11px}
 .pick-row{display:flex;align-items:center;gap:11px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}
 .pick-row:last-child{border-bottom:0}
@@ -439,7 +492,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.22 · Projects</div>
+ <div class="authbox"><div class="authname">GUY WORK OS</div><div class="authsub">V7.25 · Measured</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -488,10 +541,9 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <button data-view="calendar">Calendar</button>
   <button data-view="matrix">Priority Matrix</button>
   <button data-view="weekly">Weekly Review</button>
-  <button data-view="archive">Archive</button>
+  <button data-view="archive">Portfolio</button>
   <div class="nav-group">ระบบติดตามงาน</div>
   <button data-view="proj">Projects</button>
-  <button data-view="wip">WIP Review</button>
   <button data-view="productlaunch">Product Launch</button>
   <button data-view="pr">PR / GRPO</button>
   <div class="nav-group">ตั้งค่า</div>
@@ -541,18 +593,9 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <button id="addProjBtn" class="btn primary">+ โปรเจกต์ใหม่</button>
   </div>
   <div id="projSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-18-projects.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <details class="card section pj-panel"><summary><b>ติดอยู่ที่ใคร</b><span id="wipBlockedCount"></span></summary><div id="wipBlocked"></div></details>
+  <details class="card section pj-panel"><summary><b>เวลาจริงของแต่ละขั้น</b><span class="pj-pnote">ตั้งไว้ vs ที่เกิดขึ้นจริง</span></summary><div class="help" style="margin:0 0 13px">วัดจากวันที่ระบบบันทึกไว้เองทุกครั้งที่ขั้นตอนขยับ ไม่ได้มาจากการกรอก · แสดงเฉพาะขั้นที่เกิดขึ้นจริงตั้งแต่ 2 ครั้งขึ้นไป</div><div id="wipWait"></div></details>
   <div id="projList"></div>
- </section>
-
- <section id="wipView" class="hidden">
-  <div class="wip-head">
-   <div><h2 style="margin:0 0 4px">สถานะงานทั้งหมด ณ วันนี้</h2><div id="wipDate" class="help"></div></div>
-   <button id="wipRefresh" class="btn secondary">รีเฟรช</button>
-  </div>
-  <div id="wipStats" class="wip-stats"></div>
-  <div class="card section" style="margin-bottom:18px"><h2>ติดอยู่ที่ใคร</h2><div id="wipBlocked"></div></div>
-  <div class="card section" style="margin-bottom:18px"><h2>งานที่กำลังวิ่ง</h2><div id="wipRunning"></div></div>
-  <div class="card section"><h2>เสร็จแล้วใน 30 วันที่ผ่านมา</h2><div id="wipDone"></div></div>
  </section>
 
  <section id="kolView" class="hidden">
@@ -595,7 +638,18 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   </div>
  </section>
 
- <section id="archiveView" class="hidden"><div class="card section"><h2>Completed Tasks</h2><div class="archive-toolbar"><input id="archiveSearch" placeholder="Search completed tasks…"><select id="archiveCategory"><option value="">All Categories</option></select></div><div id="archiveList"></div></div></section>
+ <section id="archiveView" class="hidden">
+  <div class="card section">
+   <div class="pf-top"><h2 style="margin:0">ผลงานเด่น</h2><div class="pf-sub">โปรเจกต์ แคมเปญ และสินค้าที่ปิดจบแล้ว เข้ามาเองอัตโนมัติ · งานเดี่ยวกดดาวเพื่อเลื่อนขึ้นมา</div><button id="pfCopyBtn" class="btn primary small">คัดลอกเป็น Bullet</button></div>
+   <div id="pfHighlights"></div>
+  </div>
+  <div class="card section">
+   <h2>งานประจำ</h2>
+   <div id="pfTally" class="pf-tally"></div>
+   <div class="archive-toolbar"><input id="archiveSearch" placeholder="ค้นหางานที่เสร็จแล้ว…"><select id="archiveCategory"><option value="">All Categories</option></select></div>
+   <div id="archiveList"></div>
+  </div>
+</section>
 
 
  <section id="productlaunchView" class="hidden">
@@ -740,7 +794,8 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
 <div id="pickModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="pickModal" aria-label="Close">×</button><h3>เลือกงานที่มีอยู่</h3>
 <div id="pickChannel" class="help" style="margin-bottom:10px"></div>
-<input id="pickSearch" placeholder="ค้นหางาน…" style="margin-bottom:10px">
+<input id="pickSearch" placeholder="ค้นหางาน…" style="margin-bottom:8px">
+<div class="pick-bar"><label><input id="pickHideDone" type="checkbox"> ซ่อนงานที่เสร็จแล้ว</label><span id="pickCount"></span></div>
 <div id="pickList" class="pick-list"></div>
 <div class="actions"><button class="btn secondary" data-close-layer="pickModal">ปิด</button></div>
 </div></div>
@@ -1050,7 +1105,7 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
- const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();await loadProjects();syncState("Cloud synced");render()}
+ const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();await loadProjects();await loadNpdProducts();syncState("Cloud synced");render()}
 // Task writes apply to local state and repaint first, then persist. A failed
 // write puts the old row back, so the screen never drifts from the server.
 async function saveTask(payload,id=null){
@@ -1075,10 +1130,118 @@ function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateStr
 /* Archive rows are history, not a to-do list: the checkbox, star, priority and
    "Done" pill that taskHTML draws are all redundant once everything is done,
    so completed tasks get their own compact row grouped under their category. */
+function renderPortfolio(){
+ if(!$("pfHighlights"))return;
+ const all=pfDone(),hi=all.filter(r=>r.hi);
+ // Grouped by year, because that is how a portfolio is read and written.
+ const years=[...new Set(hi.map(r=>pfYear(r.end)).filter(Boolean))].sort().reverse();
+ $("pfHighlights").innerHTML=hi.length?years.map(y=>{
+  const rows=hi.filter(r=>pfYear(r.end)===y);
+  return `<div class="pf-year"><div class="pf-yhead"><b>${y}</b><span>${rows.length} ชิ้น</span></div>${rows.map(pfRowHTML).join("")}</div>`;
+ }).join(""):'<div class="empty">ยังไม่มีผลงานเด่น — ปิดจบโปรเจกต์ แคมเปญ หรือสินค้าสักอัน แล้วมันจะขึ้นมาเอง</div>';
+ const tallyYears=[...new Set(all.map(r=>pfYear(r.end)).filter(Boolean))].sort().reverse();
+ $("pfTally").innerHTML=tallyYears.length?tallyYears.map(y=>
+  `<div class="pf-trow"><b>${y}</b><span>${esc(pfTally(all,y))}</span></div>`).join("")
+  :'<div class="empty" style="padding:10px">ยังไม่มีงานที่เสร็จ</div>';
+}
+function pfRowHTML(r){
+ const when=pfSpan(r.start,r.end)||"—";
+ const ref=`${r.kind}:${r.id}`;
+ return `<div class="pf-row">
+  <button class="pf-star on" data-pf-star="${ref}" title="เอาออกจากผลงานเด่น">★</button>
+  <div class="pf-main">
+   <input class="pf-title" value="${esc(r.rec.portfolio_title||r.name)}" data-pf-title="${ref}" placeholder="ชื่อสำหรับพอร์ต" title="ชื่อที่จะขึ้นในพอร์ต — แก้ได้ ไม่กระทบชื่องานจริง">
+   <input class="pf-result" value="${esc(r.rec.portfolio_result||"")}" data-pf-result="${ref}" placeholder="ผลลัพธ์ เช่น KOL 24 ราย · reach 1.2M · ยอด +18%">
+   ${r.rec.portfolio_title&&r.rec.portfolio_title!==r.name?`<div class="pf-orig">ชื่อจริงในระบบ: ${esc(r.name)}</div>`:""}
+  </div>
+  <div class="pf-side"><span class="pf-kind">${PF_KIND[r.kind]}</span><span class="pf-when">${esc(when)}</span></div>
+ </div>`;
+}
 function archiveWhen(t){const s=t.completed_at||(t.due?t.due+"T00:00:00":null);return s?new Date(s):null}
 function archiveRowHTML(t,showOwner){
  const d=archiveWhen(t);
- return `<div class="ar-row"><span class="ar-check">✓</span><div class="ar-main"><div class="ar-title">${esc(t.task)}</div>${t.note?`<div class="ar-note">${esc(t.note)}</div>`:""}</div><div class="ar-side">${t.sub&&t.sub!=="General"?`<span class="ar-sub">${esc(t.sub)}</span>`:""}${showOwner?`<span class="ar-owner">${esc(profileName(t.user_id))}</span>`:""}<span class="ar-date">${d?d.toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"—"}</span></div><div class="ar-act"><button class="btn secondary small" onclick="toggleTask(${t.id},false)">Restore</button><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`;
+ return `<div class="ar-row"><button class="pf-star${t.is_highlight?" on":""}" onclick="event.stopPropagation();pfToggle('task',${t.id})" title="${t.is_highlight?"เอาออกจากผลงานเด่น":"เลื่อนขึ้นผลงานเด่น"}">${t.is_highlight?"★":"☆"}</button><div class="ar-main"><div class="ar-title">${esc(t.task)}</div>${t.note?`<div class="ar-note">${esc(t.note)}</div>`:""}</div><div class="ar-side">${t.sub&&t.sub!=="General"?`<span class="ar-sub">${esc(t.sub)}</span>`:""}${showOwner?`<span class="ar-owner">${esc(profileName(t.user_id))}</span>`:""}<span class="ar-date">${d?d.toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"—"}</span></div><div class="ar-act"><button class="btn secondary small" onclick="toggleTask(${t.id},false)">Restore</button><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`;
+}
+/* ---- portfolio ----------------------------------------------------------
+   The archive used to answer "what did I tick off". This answers a different
+   question that gets asked once a year and is impossible to reconstruct from
+   memory: what did I actually deliver. Two tiers, because those are two
+   different kinds of answer -- a handful of things worth naming, and a volume
+   of work that is only meaningful as a number.
+
+   Finished projects, campaigns and products arrive as highlights on their own;
+   a finished task has to be promoted, because most of them were Tuesday. */
+const PF_KIND={project:"โปรเจกต์",kol:"แคมเปญ KOL",product:"สินค้า",task:"งาน",pr:"ใบขอซื้อ"};
+const pfYear=d=>d?String(new Date(d).getFullYear()):"";
+const pfFmt=(d,o)=>new Date(d).toLocaleDateString("th-TH-u-ca-gregory",o);
+const pfMonth=d=>d?pfFmt(d,{month:"short",year:"numeric"}):"";
+// "มิ.ย.–ก.ย. 2026" rather than "มิ.ย. 2026 – ก.ย. 2026": within one year the
+// year only needs saying once.
+function pfSpan(start,end){
+ if(!start&&!end)return "";
+ if(!start||!end)return pfMonth(end||start);
+ const ys=pfFmt(start,{year:"numeric"}),ye=pfFmt(end,{year:"numeric"});
+ const ms=pfFmt(start,{month:"short"}),me=pfFmt(end,{month:"short"});
+ if(ys===ye)return ms===me?`${ms} ${ye}`:`${ms}–${me} ${ye}`;
+ return `${ms} ${ys} – ${me} ${ye}`;
+}
+// One row per finished thing, whatever table it came from.
+function pfDone(){
+ const mine=x=>isAdmin()||!x.user_id||x.user_id===user.id;
+ const out=[];
+ tasks.filter(t=>t.status==="Done"&&mine(t)).forEach(t=>out.push({
+  kind:"task",id:t.id,rec:t,name:t.task,meta:t.category||"",
+  start:t.created_at||null,end:t.completed_at||(t.due?t.due+"T00:00:00Z":null),
+  hi:!!t.is_highlight}));
+ projects.filter(p=>p.status==="done").forEach(p=>out.push({
+  kind:"project",id:p.id,rec:p,name:p.name,meta:p.products||p.kind||"",
+  start:p.start_date?p.start_date+"T00:00:00Z":p.created_at,end:p.updated_at||null,
+  hi:p.is_highlight!==false}));
+ kolItems.filter(c=>c.stage==="done").forEach(c=>out.push({
+  kind:"kol",id:c.id,rec:c,name:c.name,meta:c.agency||"",
+  start:c.created_at,end:c.updated_at||null,hi:c.is_highlight!==false}));
+ npdProducts.filter(p=>p.status==="done").forEach(p=>out.push({
+  kind:"product",id:p.id,rec:p,name:p.name,meta:"",
+  start:p.created_at,end:p.updated_at||null,hi:p.is_highlight!==false}));
+ // Purchase requests are never a portfolio line -- they are the paperwork
+ // around one. They still count toward the volume tally below.
+ prItems.filter(x=>x.stage==="done").forEach(x=>out.push({
+  kind:"pr",id:x.id,rec:x,name:x.title,meta:x.pr_number||"",
+  start:x.created_at,end:x.updated_at||null,hi:false}));
+ return out.sort((a,b)=>String(b.end||"").localeCompare(String(a.end||"")));
+}
+const pfTable={task:"tasks",project:"projects",kol:"kol_campaigns",product:"products"};
+window.pfToggle=async(kind,id)=>{
+ const r=pfDone().find(x=>x.kind===kind&&x.id===id);if(!r||!pfTable[kind])return;
+ const to=!r.hi,before=r.rec.is_highlight;
+ r.rec.is_highlight=to;render();
+ const {error}=await sb.from(pfTable[kind]).update({is_highlight:to}).eq("id",id);
+ if(error){r.rec.is_highlight=before;render();return toast(error.message,"bad")}
+ toast(to?"ย้ายไปผลงานเด่นแล้ว":"ย้ายลงงานประจำแล้ว");
+};
+window.pfField=async(kind,id,field,value)=>{
+ const r=pfDone().find(x=>x.kind===kind&&x.id===id);if(!r||!pfTable[kind])return;
+ const v=(value||"").trim()||null,before=r.rec[field];
+ if(v===before)return;
+ r.rec[field]=v;
+ const {error}=await sb.from(pfTable[kind]).update({[field]:v}).eq("id",id);
+ if(error){r.rec[field]=before;render();toast(error.message,"bad")}
+};
+// The bullets. Title falls back to the working name, which is usually wrong
+// for a portfolio -- that is exactly why portfolio_title is editable.
+function pfBullets(rows){
+ return rows.map(r=>{
+  const t=r.rec.portfolio_title||r.name;
+  const when=pfSpan(r.start,r.end);
+  const head=`• ${t}${when?` · ${when}`:""}`;
+  return r.rec.portfolio_result?`${head}\n  ${r.rec.portfolio_result}`:head;
+ }).join("\n");
+}
+function pfTally(rows,year){
+ const inYear=rows.filter(r=>!year||pfYear(r.end)===year);
+ const by={};inYear.forEach(r=>{by[r.kind]=(by[r.kind]||0)+1});
+ return Object.entries(by).filter(([k])=>k!=="pr"||by.pr)
+  .map(([k,n])=>`${PF_KIND[k]} ${n}`).join(" · ");
 }
 function archiveHTML(list){
  if(!list.length)return '<div class="empty">No completed tasks.</div>';
@@ -1760,6 +1923,23 @@ $("commandPalette").onclick=e=>{if(e.target===$("commandPalette"))closeLayer("co
 
 $("archiveSearch").oninput=render;$("archiveCategory").onchange=render;
 // Rows reveal their actions on hover; touch devices tap a row instead.
+$("pfHighlights").onclick=e=>{
+ const b=e.target.closest("[data-pf-star]");if(!b)return;
+ const [k,id]=b.dataset.pfStar.split(":");pfToggle(k,Number(id));
+};
+$("pfHighlights").onchange=e=>{
+ const t=e.target.closest("[data-pf-title]"),r=e.target.closest("[data-pf-result]");
+ if(t){const[k,id]=t.dataset.pfTitle.split(":");return pfField(k,Number(id),"portfolio_title",t.value)}
+ if(r){const[k,id]=r.dataset.pfResult.split(":");return pfField(k,Number(id),"portfolio_result",r.value)}
+};
+$("pfCopyBtn").onclick=async()=>{
+ const hi=pfDone().filter(r=>r.hi);
+ if(!hi.length)return toast("ยังไม่มีผลงานเด่นให้คัดลอก","bad");
+ const years=[...new Set(hi.map(r=>pfYear(r.end)).filter(Boolean))].sort().reverse();
+ const text=years.map(y=>`${y}\n${pfBullets(hi.filter(r=>pfYear(r.end)===y))}`).join("\n\n");
+ try{await navigator.clipboard.writeText(text);toast(`คัดลอก ${hi.length} บรรทัดแล้ว`)}
+ catch(_){prompt("คัดลอกข้อความนี้",text)}
+};
 $("archiveList").onclick=e=>{
  if(e.target.closest("button, summary"))return;
  const row=e.target.closest(".ar-row");if(!row)return;
@@ -1829,6 +2009,7 @@ $("pickList").onclick=e=>{
  closeLayer("pickModal");
 };
 $("pickSearch").oninput=renderPick;
+$("pickHideDone").onchange=renderPick;
 $("addProjBtn").onclick=()=>projFillModal(null);
 $("kolBackBtn").onclick=()=>goView("proj");
 $("saveProjBtn").onclick=async()=>{
@@ -1869,7 +2050,6 @@ window.projNewTask=(projectId,channel)=>{
 };
 let pendingProjLink=null;
 $("addKolBtn").onclick=()=>kolFillModal(null);
-$("wipRefresh").onclick=()=>Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>toast("โหลดข้อมูลไม่สำเร็จ","bad"));
 $("saveKolBtn").onclick=async()=>{
  const name=$("kName").value.trim();
  if(!name)return $("kolModalError").textContent="ใส่ชื่อแคมเปญก่อน";
@@ -2283,7 +2463,7 @@ function prRowHTML(it){
  if(it.vendor)bits.push(`<span>${esc(it.vendor)}</span>`);
  if(it.amount!=null&&it.amount!=="")bits.push(`<span>${Number(it.amount).toLocaleString("en-US",{maximumFractionDigits:2})} บาท</span>`);
  if(it.sub)bits.push(`<span>${esc(it.sub)}</span>`);
- return `<div class="pr-row"><div class="pr-main" data-pr-edit="${it.kind}:${it.id}"><div class="pr-title">${esc(it.title)}</div><div class="pr-meta">${bits.join("")}</div></div><span class="pr-age${need?" late":""}">${it.stage==="done"?"จบแล้ว":(need&&it.taskDone?"งานเสร็จแล้ว":`${prDays(it)} วัน`)}</span>${s.next?`<button class="btn secondary small pr-next" data-pr-next="${it.kind}:${it.id}">${s.next}</button>`:""}</div>`;
+ return `<div class="pr-row"><div class="pr-main" data-pr-edit="${it.kind}:${it.id}"><div class="pr-title">${esc(it.title)}</div><div class="pr-meta">${bits.join("")}</div></div>${it.stage==="done"?"":waitChip("pr",it.stage)}<span class="pr-age${need?" late":""}">${it.stage==="done"?"จบแล้ว":(need&&it.taskDone?"งานเสร็จแล้ว":`${prDays(it)} วัน`)}</span>${s.next?`<button class="btn secondary small pr-next" data-pr-next="${it.kind}:${it.id}">${s.next}</button>`:""}</div>`;
 }
 function renderPr(){
  if(!$("prBoard"))return;
@@ -2427,7 +2607,7 @@ function kolStepHTML(c,s){
   :st==="done"?B("doing","secondary","ย้อนกลับ")
   :B("todo","secondary","เอากลับมาใช้");
  const show=doing||rm;
- return `<div class="kol-step st-${st}"><span class="kol-dot">${KOL_ST[st]}</span><div class="kol-sname">${esc(s.n)}${s.who?`<div class="kol-who">${doing?esc(kolStageWhoLabel(c,s.k)):"รอ "+esc(s.who)}</div>`:""}${show?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}<span class="kol-btns">${acts}</span>${s.d!=null?`<input class="kol-plan" type="date" value="${esc(plan)}" title="วันเริ่มตาม Working Timeline" data-kol-plan="${c.id}:${s.k}"><input class="kol-days" type="number" min="0" value="${exp}" title="ใช้เวลากี่วัน" data-kol-days="${c.id}:${s.k}"><span class="kol-dlab">วัน</span>`:""}<span class="kol-actual${late>0?" late":""}">${txt}</span></div>`;
+ return `<div class="kol-step st-${st}"><span class="kol-dot">${KOL_ST[st]}</span><div class="kol-sname">${esc(s.n)}${s.who?`<div class="kol-who">${doing?esc(kolStageWhoLabel(c,s.k)):"รอ "+esc(s.who)}</div>`:""}${show?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}<span class="kol-btns">${acts}</span>${s.d!=null?`<input class="kol-plan" type="date" value="${esc(plan)}" title="วันเริ่มตาม Working Timeline" data-kol-plan="${c.id}:${s.k}"><input class="kol-days" type="number" min="0" value="${exp}" title="ใช้เวลากี่วัน" data-kol-days="${c.id}:${s.k}"><span class="kol-dlab">วัน</span>${waitChip("kol",s.k)}`:""}<span class="kol-actual${late>0?" late":""}">${txt}</span></div>`;
 }
 // Bars come from the agreed start plus its duration, falling back to the day
 // the stage actually began, so the chart fills in as the timeline is entered.
@@ -2859,19 +3039,28 @@ window.projAddChannel=async id=>{
 function projPickable(){
  const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
  const mark=d=>d?" · เสร็จแล้ว":"";
- return [
-  ...scope.map(t=>({kind:"task",id:t.id,title:t.task,done:t.status==="Done",
+ const at=x=>x.updated_at||x.completed_at||x.stage_since||x.created_at||"";
+ const rows=[
+  ...scope.map(t=>({kind:"task",id:t.id,title:t.task,done:t.status==="Done",when:at(t),
    sub:`${t.category||""}${t.due?" · ครบกำหนด "+t.due:" · ไม่มีวันจบ"}${mark(t.status==="Done")}`})),
-  ...kolItems.filter(c=>c.stage!=="cancelled").map(c=>({kind:"kol",id:c.id,title:c.name,done:c.stage==="done",
+  ...kolItems.filter(c=>c.stage!=="cancelled").map(c=>({kind:"kol",id:c.id,title:c.name,done:c.stage==="done",when:at(c),
    sub:`แคมเปญ KOL${c.agency?" · "+c.agency:""}${mark(c.stage==="done")}`})),
-  ...prItems.map(x=>({kind:"pr",id:x.id,title:x.title,done:x.stage==="done",
+  ...prItems.map(x=>({kind:"pr",id:x.id,title:x.title,done:x.stage==="done",when:at(x),
    sub:`ใบขอซื้อ${x.pr_number?" · "+x.pr_number:""}${mark(x.stage==="done")}`}))
  ];
+ // The list arrived in creation order and never moved, so anything old sat
+ // below every task made since -- a task finished months ago and reopened
+ // today came out under the whole archive, which reads as "it is not here".
+ // Open work first, then whatever was touched most recently, which puts a
+ // just-reopened task at the top where it was looked for.
+ return rows.sort((a,b)=>(a.done-b.done)||String(b.when).localeCompare(String(a.when)));
 }
 function renderPick(){
  if(!pickCtx)return;
- const q=($("pickSearch").value||"").toLowerCase();
- const rows=projPickable().filter(r=>!q||r.title.toLowerCase().includes(q));
+ const q=($("pickSearch").value||"").toLowerCase(),hide=$("pickHideDone").checked;
+ const all=projPickable();
+ const rows=all.filter(r=>(!q||r.title.toLowerCase().includes(q))&&!(hide&&r.done));
+ $("pickCount").textContent=`${rows.length} จาก ${all.length}`;
  $("pickList").innerHTML=rows.length?rows.map(r=>{
   const owner=projTakenBy(r.kind,r.id);
   return `<div class="pick-row${owner?" taken":""}${r.done?" is-done":""}"${owner?"":` data-pick="${r.kind}:${r.id}"`}><span class="pj-itype">${PROJ_LABEL[r.kind]}</span><div class="pick-main"><div class="pick-t">${esc(r.title)}</div><div class="pick-s">${esc(r.sub)}${owner?` · อยู่ในโปรเจกต์ "${esc(owner.name)}" แล้ว`:""}</div></div></div>`;
@@ -2910,6 +3099,89 @@ async function loadWipProgress(){
 }
 function wipDaysSince(iso){if(!iso)return 0;const a=new Date(iso.slice(0,10)+"T00:00:00"),b=new Date();b.setHours(0,0,0,0);return Math.max(0,Math.round((b-a)/86400000))}
 // Everything in flight, normalised so one table can hold all of it.
+/* ---- measured durations -------------------------------------------------
+   Every stage in this app already stamps the day it was reached -- PR keeps a
+   milestone date per leg, a campaign records when each stage started. Nobody
+   was ever reading them back. So the planned days stayed whatever was typed in
+   once, and "late" meant late against a guess.
+
+   This turns those stamps into what actually happened: how long จัดซื้อ really
+   takes to return a PO, how long the agency really sits on a storyline. It
+   needs no new field and no new typing -- the numbers have been accumulating
+   all along.
+
+   Median, not mean: one PR that stalled for three months should not move the
+   figure everyone else is judged against. */
+const dayDiff=(a,b)=>{
+ if(!a||!b)return null;
+ const x=new Date(String(a).slice(0,10)+"T00:00:00"),y=new Date(String(b).slice(0,10)+"T00:00:00");
+ const d=Math.round((y-x)/86400000);
+ return d>=0&&d<400?d:null;   // a negative or absurd gap means bad data, not a long wait
+};
+const median=xs=>{
+ if(!xs.length)return null;
+ const a=[...xs].sort((p,q)=>p-q),m=a.length>>1;
+ return a.length%2?a[m]:Math.round((a[m-1]+a[m])/2);
+};
+// One PR leg ends at its own stamp and starts at the previous leg's, so the
+// stamps already describe every completed leg without any extra bookkeeping.
+function prSamples(){
+ const out={};
+ // prAllItems() projects to a narrow board shape that drops the stamps, so
+ // read the records themselves. A task carrying a pr_stage only records when
+ // it entered its CURRENT stage, never the legs before it, so it cannot
+ // contribute a completed leg and is deliberately not counted here.
+ prItems.forEach(it=>{
+  let prev=it.created_at||null;
+  PR_STAGES.forEach(st=>{
+   if(!st.stamp)return;
+   const end=it[st.stamp];
+   if(end){const d=dayDiff(prev,end);if(d!=null)(out[st.k]=out[st.k]||[]).push(d);prev=end}
+  });
+ });
+ return out;
+}
+// A campaign records when each stage began; a stage therefore ran until the
+// next one began. The last stage of a finished campaign runs to its close.
+function kolSamples(){
+ const out={};
+ kolItems.forEach(c=>{
+  const started=KOL_STAGES.map(st=>({k:st.k,at:(c.stage_started||{})[st.k]||""}))
+    .filter(x=>x.at).sort((a,b)=>a.at.localeCompare(b.at));
+  started.forEach((x,i)=>{
+   const end=started[i+1]?started[i+1].at:(c.stage==="done"?(c.updated_at||"").slice(0,10):"");
+   const d=dayDiff(x.at,end);
+   if(d!=null)(out[x.k]=out[x.k]||[]).push(d);
+  });
+ });
+ return out;
+}
+// Planned figures come from where each tracker already keeps them: a constant
+// for PR, a per-campaign override for KOL (so the plan is the typical one).
+function waitStats(){
+ const pr=prSamples(),kol=kolSamples(),rows=[];
+ PR_STAGES.filter(st=>st.stamp).forEach(st=>{
+  const xs=pr[st.k]||[];
+  rows.push({src:"pr",k:st.k,label:st.name,who:st.k==="wait_po"?"จัดซื้อ":"เรา",
+   planned:st.warn,actual:median(xs),n:xs.length});
+ });
+ KOL_STAGES.filter(st=>st.k!=="done").forEach(st=>{
+  const xs=kol[st.k]||[];
+  const plans=kolItems.map(c=>kolExpect(c,st.k)).filter(v=>v!=null&&!isNaN(v));
+  rows.push({src:"kol",k:st.k,label:st.n,who:st.who||"เรา",
+   planned:median(plans)??st.d,actual:median(xs),n:xs.length});
+ });
+ return rows;
+}
+// Only worth showing once it has seen the thing happen more than once.
+const waitStat=(src,k)=>{const r=waitStats().find(x=>x.src===src&&x.k===k);return r&&r.n>=2?r:null};
+function waitChip(src,k){
+ const r=waitStat(src,k);
+ if(!r||r.actual==null)return "";
+ const off=r.planned!=null?r.actual-r.planned:0;
+ const tone=off>=3?" over":"";
+ return `<span class="wt-chip${tone}" title="วัดจากของจริง ${r.n} ครั้ง${r.planned!=null?` · ที่ตั้งไว้ ${r.planned} วัน`:""}">ปกติ ${r.actual} วัน</span>`;
+}
 function wipItems(){
  const out=[];
  npdProducts.filter(p=>p.status!=="done").forEach(p=>{
@@ -2941,32 +3213,40 @@ function wipItems(){
 function wipRowHTML(i){
  return `<div class="wip-row"><span class="wip-kind">${esc(i.kind)}</span><div class="wip-main"><div class="wip-name">${esc(i.name)}</div><div class="wip-stage">${esc(i.stage)}</div></div>${i.pct!=null?`<span class="wip-pct">${i.pct}%</span>`:""}<span class="wip-days${i.late?" late":""}">${i.days} วัน${i.late&&i.lateBy?` (ช้า ${i.lateBy})`:""}</span></div>`;
 }
-async function renderWip(){
- if(!$("wipStats"))return;
- $("wipDate").textContent=new Date().toLocaleDateString("th-TH",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
- const all=wipItems(),late=all.filter(i=>i.late),onOthers=all.filter(i=>i.who!=="เรา");
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
- const cut=new Date();cut.setDate(cut.getDate()-30);
- const recent=scope.filter(t=>t.status==="Done"&&t.completed_at&&new Date(t.completed_at)>=cut);
- $("wipStats").innerHTML=[
-  ["งานที่กำลังวิ่ง",all.length,""],["ช้ากว่ากำหนด",late.length,late.length?"bad":""],
-  ["รอฝ่ายอื่น",onOthers.length,""],["เสร็จใน 30 วัน",recent.length,""]
- ].map(x=>`<div class="wip-stat ${x[2]}"><b>${x[1]}</b><span>${esc(x[0])}</span></div>`).join("");
-
+function renderWaitTable(){
+ if(!$("wipWait"))return;
+ const rows=waitStats().filter(r=>r.n>=2&&r.actual!=null)
+   .sort((a,b)=>((b.actual-(b.planned??b.actual))-(a.actual-(a.planned??a.actual))));
+ if(!rows.length){
+  $("wipWait").innerHTML='<div class="empty">ยังไม่มีข้อมูลพอ — เมื่อผ่านขั้นตอนเดิมครบ 2 ครั้ง ตัวเลขจริงจะขึ้นมาเอง</div>';
+  return;
+ }
+ $("wipWait").innerHTML=`<div class="wt-head"><span>ขั้นตอน</span><span>รอใคร</span><span>ตั้งไว้</span><span>จริง</span><span>ส่วนต่าง</span><span>วัดจาก</span></div>`+
+  rows.map(r=>{
+   const off=r.planned!=null?r.actual-r.planned:null;
+   const cls=off==null?"":off>=3?" over":off<=-3?" under":"";
+   const sign=off==null?"—":off>0?`ช้ากว่า ${off} วัน`:off<0?`เร็วกว่า ${-off} วัน`:"ตรงตามที่ตั้ง";
+   return `<div class="wt-row${cls}"><span class="wt-name">${esc(r.label)}</span><span class="wt-who">${esc(r.who)}</span><span>${r.planned!=null?r.planned+" วัน":"—"}</span><span class="wt-act">${r.actual} วัน</span><span class="wt-off">${sign}</span><span class="wt-n">${r.n} ครั้ง</span></div>`;
+  }).join("");
+}
+// What survived WIP Review. The counters, the running list and the 30-day
+// done list all repeated the dashboard and the portfolio; only these two
+// answered something nothing else did -- who is holding work up, and whether
+// the plan matches reality -- so they moved to Projects, which is the page
+// actually opened for a reviewer now.
+async function renderWipPanels(){
+ if(!$("wipBlocked"))return;
+ const onOthers=wipItems().filter(i=>i.who!=="เรา");
  const groups=new Map();
  onOthers.forEach(i=>{const k=i.who||"ไม่ระบุ";(groups.get(k)||groups.set(k,[]).get(k)).push(i)});
+ $("wipBlockedCount").textContent=onOthers.length
+  ?`${onOthers.length} รายการ · นานสุด ${Math.max(...onOthers.map(r=>r.days))} วัน`:"ไม่มีงานค้าง";
+ $("wipBlockedCount").className="pj-pnote"+(onOthers.some(r=>r.late)?" late":"");
  $("wipBlocked").innerHTML=groups.size?[...groups.entries()]
   .sort((a,b)=>Math.max(...b[1].map(x=>x.days))-Math.max(...a[1].map(x=>x.days)))
   .map(([who,rows])=>`<div class="wip-grp"><div class="wip-ghead"><b>รอ ${esc(who)}</b><span class="pr-age${rows.some(r=>r.late)?" late":""}">${rows.length} รายการ · นานสุด ${Math.max(...rows.map(r=>r.days))} วัน</span></div>${rows.sort((a,b)=>b.days-a.days).map(wipRowHTML).join("")}</div>`).join("")
   :'<div class="empty">ไม่มีงานที่ค้างรอฝ่ายอื่น</div>';
-
- $("wipRunning").innerHTML=all.length
-  ?[...all].sort((a,b)=>(b.late-a.late)||b.days-a.days).map(wipRowHTML).join("")
-  :'<div class="empty">ยังไม่มีงานที่กำลังวิ่ง</div>';
- $("wipDone").innerHTML=recent.length
-  ?recent.sort((a,b)=>new Date(b.completed_at)-new Date(a.completed_at)).slice(0,20)
-   .map(t=>`<div class="wip-row"><span class="wip-kind">งาน</span><div class="wip-main"><div class="wip-name">${esc(t.task)}</div><div class="wip-stage">${esc(t.category||"")}</div></div><span class="wip-days">${new Date(t.completed_at).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</span></div>`).join("")
-  :'<div class="empty">ยังไม่มีงานที่เสร็จในช่วง 30 วัน</div>';
+ renderWaitTable();
 }
 /* ---- Dashboard focus ---------------------------------------------------
    The old dashboard printed nine counters before a single task, and showed
@@ -3022,8 +3302,9 @@ function renderDashboardFocus(active,done){
 function render(){populateFilters();renderCategories();updateLastBackup();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
 const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
-const archived=done.filter(t=>(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
+const archived=done.filter(t=>!t.is_highlight&&(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
 $("archiveList").innerHTML=archiveHTML(archived);
+renderPortfolio();
 $("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").split(" ")[0]||"Guy"}`;
 $("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
 const focusTop=[...active].sort((a,b)=>(isOverdue(b)-isOverdue(a))||((b.priority==="High")-(a.priority==="High"))||((a.due||"9999").localeCompare(b.due||"9999"))).slice(0,3);
@@ -3043,7 +3324,7 @@ renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol();renderProj(
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","wip","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  $(view+"View")?.classList.remove("hidden");
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  const OFF_NAV={kol:"KOL Campaign"};
@@ -3055,7 +3336,7 @@ function goView(view){
  if(view==="pr")renderPr();
  if(view==="kol")renderKol();
  if(view==="proj")renderProj();
- if(view==="wip"){renderWip();Promise.resolve().then(loadNpdProducts).then(loadWipProgress).then(renderWip).catch(()=>{})}
+ if(view==="proj"){renderWipPanels();Promise.resolve().then(loadWipProgress).then(renderWipPanels).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
