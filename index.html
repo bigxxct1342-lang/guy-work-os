@@ -308,6 +308,8 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-main{flex:1;min-width:0}
 .cv-title{font-size:14px;font-weight:800}
 .cv-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.cv-ads{background:var(--green);color:var(--greenT);font-weight:850;padding:1px 7px;border-radius:999px}
+body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .cv-tasklink{color:var(--text);font-weight:800;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line)}
 .cv-tasklink:hover{text-decoration-color:currentColor}
 .cv-link{font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--soft);border:1px solid var(--line);color:var(--muted);text-decoration:none;flex:none}
@@ -539,7 +541,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.28 · Creative</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.29 · Creative</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -804,7 +806,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.28</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.29</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -870,9 +872,9 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </div></div>
 
 <div id="cvPickModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="cvPickModal" aria-label="Close">×</button><h3>เลือกงานที่มีอยู่</h3>
- <div class="help" style="margin-bottom:10px">งานที่เลือกจะยังอยู่ใน Tasks เหมือนเดิม — ตรงนี้แค่เปิดสายงาน Creative คู่ไปกับมัน</div>
+ <div class="help" style="margin-bottom:10px">งานที่เลือกจะยังอยู่ใน Tasks เหมือนเดิม — ตรงนี้แค่เปิดสายงาน Creative คู่ไปกับมัน<br>งานที่เสร็จแล้วก็ดึงเข้ามาได้ จะเข้ามาเป็น "อนุมัติแล้ว" ทันที ไม่ต้องไล่ขั้นตอนใหม่</div>
  <input id="cvPickSearch" placeholder="ค้นหางาน…" style="margin-bottom:8px">
- <div class="pick-bar"><label><input id="cvPickHideDone" type="checkbox" checked> ซ่อนงานที่เสร็จแล้ว</label><span id="cvPickCount"></span></div>
+ <div class="pick-bar"><label><input id="cvPickHideDone" type="checkbox"> ซ่อนงานที่เสร็จแล้ว</label><span id="cvPickCount"></span></div>
  <div id="cvPickList" class="pick-list"></div>
  <div class="actions"><button class="btn secondary" data-close-layer="cvPickModal">ปิด</button></div>
 </div></div>
@@ -3274,13 +3276,19 @@ $("cvPickHideDone").onchange=renderCvPick;
 $("cvPickList").onclick=async e=>{
  const r=e.target.closest("[data-cv-pick]");if(!r)return;
  const t=tasks.find(x=>x.id===Number(r.dataset.cvPick));if(!t)return;
+ // A task already marked Done arrives with its work finished -- opening it at
+ // "ยังไม่ส่งบรีฟ" would be a lie, and would ask for a brief that was sent
+ // months ago. It comes in approved, dated from when the task actually closed.
+ const wasDone=t.status==="Done";
  const {data,error}=await sb.from("creative_jobs").insert({
-   title:t.task,task_id:t.id,status:"briefing",waiting_on:"us",rounds:[],
+   title:t.task,task_id:t.id,
+   status:wasDone?"done":"briefing",waiting_on:"us",rounds:[],
+   approved_on:wasDone?((t.completed_at||"").slice(0,10)||t.due||todayISO()):null,
    team_id:profile.team_id,created_by:user.id
  }).select().single();
  if(error)return toast(error.message,"bad");
  creativeJobs.unshift(data);render();closeLayer("cvPickModal");
- toast(`เปิดงาน Creative จาก "${t.task}" แล้ว`);
+ toast(wasDone?`ดึง "${t.task}" เข้ามาเป็นงานที่อนุมัติแล้ว`:`เปิดงาน Creative จาก "${t.task}" แล้ว`);
 };
 
 window.postEdit=(id,presetDate)=>{
@@ -3332,11 +3340,21 @@ $("postSave").onclick=async()=>{
 // Grouped by who is holding the job, not by date -- with dozens of these per
 // project a flat list of fifty is unusable, and "what is waiting on me" is the
 // only question worth opening the page for.
+// Approved is not the same as over: the artwork can be delivered while the
+// ads it feeds are still running. That is read off the linked post's boost
+// window rather than asked for again -- the dates are already there.
+function cvAds(j){
+ if(!posts.length)return null;
+ const p=posts.find(x=>x.creative_id===j.id&&x.boost&&x.boost_from&&x.boost_to);
+ return p&&boostCovers(p,todayISO())?p:null;
+}
+const cvGroupOf=j=>cvStatus(j)==="done"&&cvAds(j)?"running":cvStatus(j);
 const CV_GROUPS=[
  {k:"reviewing",t:"รอเราตรวจ"},
  {k:"briefing", t:"ยังไม่ส่งบรีฟ"},
  {k:"waiting",  t:"รอ Creative"},
- {k:"done",     t:"อนุมัติแล้ว"}
+ {k:"running",  t:"อนุมัติแล้ว · กำลังรัน Ads"},
+ {k:"done",     t:"จบแล้ว"}
 ];
 function cvRoundsHTML(j){
  const rs=cvRounds(j);
@@ -3369,6 +3387,8 @@ function cvCardHTML(j){
  if(tk)bits.push(`<span class="cv-tasklink" onclick="editTask(${tk.id});event.stopPropagation()">งาน: ${esc(tk.task)}</span>`);
  if(n)bits.push(`ดราฟต์ที่ ${n}`);
  if(linked)bits.push(`โพสต์ ${fmtD(linked.post_date)}`);
+ const ads=cvAds(j);
+ if(ads)bits.push(`<span class="cv-ads">รัน Ads ถึง ${fmtD(ads.boost_to)}</span>`);
  return `<div class="cv-card${cvLate(j)?" late":""}">
   <div class="cv-head">
    <div class="cv-main"><div class="cv-title">${esc(j.title)}</div><div class="cv-sub">${bits.join(" · ")||"ไม่ได้ผูกโปรเจกต์"}</div></div>
@@ -3386,7 +3406,7 @@ function renderCreative(){
   $("cvList").innerHTML='<div class="empty">ยังไม่มีงาน Creative — กด "+ งาน Creative" เพื่อเริ่ม</div>';return;
  }
  $("cvList").innerHTML=CV_GROUPS.map(g=>{
-  const rows=creativeJobs.filter(j=>cvStatus(j)===g.k)
+  const rows=creativeJobs.filter(j=>cvGroupOf(j)===g.k)
     .sort((a,b)=>String(cvDue(a)||"9999").localeCompare(String(cvDue(b)||"9999")));
   if(!rows.length)return "";
   return `<div class="cv-group"><div class="cv-ghead"><b>${g.t}</b><span>${rows.length}</span></div>${rows.map(cvCardHTML).join("")}</div>`;

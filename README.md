@@ -196,6 +196,8 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 - **Start from a task you already have.** "+ เลือกงานที่มีอยู่" opens a picker over existing tasks, so a job that began life as *ทำ KV หม่าล่า* is not retyped into a second record. The job **points at** the task rather than copying it — the task stays in Tasks, Calendar and the dashboard — and a unique index makes one task drive at most one creative job, enforced in the database rather than left to the UI.
 - **The due date now has three sources, in order of authority:** a date typed on the job, then the post it feeds, then the task it came from. Nothing is entered twice.
 - An unrecognised `status` falls back to the first stage rather than throwing: it used to take the whole page down and drop the row out of every group.
+- **Finished work can be pulled in, and arrives finished.** The picker shows completed tasks by default now — a task marked Done in Tasks often is not over, because the ads it feeds are still running. Choosing one opens the job **already approved**, dated from when the task actually closed; opening it at "ยังไม่ส่งบรีฟ" would be a lie and would ask for a brief sent months ago.
+- **Approved is not the same as over.** A job whose linked post is inside its boost window sits under *อนุมัติแล้ว · กำลังรัน Ads* with the end date on the card, instead of sinking into the archive while the ads are still live. Read off the post's boost dates — nothing extra to enter.
 - Requires `migration-v7-28-creative-posts.sql`.
 
 ## V7.27 PORKCHOP icons
