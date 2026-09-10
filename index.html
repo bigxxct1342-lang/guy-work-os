@@ -299,10 +299,28 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cal-boost{height:9px;border-radius:3px;margin-bottom:4px;background:repeating-linear-gradient(45deg,#f6c89e,#f6c89e 4px,#fbe0c6 4px,#fbe0c6 8px);font-size:7px;font-weight:850;color:#8a4512;line-height:9px;padding:0 4px;overflow:hidden}
 .cal-cv{border-radius:6px;padding:4px 6px;margin-bottom:4px;font-size:10px;font-weight:750;background:#fbe0c6;color:#8a4512;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cal-cv.late{background:#f9dddd;color:#963e3e}
+/* The Projects header, shared: solid orange, near-black text, collapsible. */
+.gap-card{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
+.gap-head,.cv-ghead{display:flex;align-items:center;gap:10px;padding:10px 13px;cursor:pointer;background:#ee8f48;color:#22150a;border:1px solid #e07f36;border-radius:10px}
+.gap-head b,.cv-ghead b{font-size:13px;color:#22150a}
+.gap-caret,.cv-gcaret{font-size:9px;color:#22150a;width:11px;flex:none;transition:transform .15s}
+.gap-card.is-open .gap-caret,.cv-group.is-open .cv-gcaret{transform:rotate(90deg)}
+.gap-head:hover,.cv-ghead:hover{filter:brightness(1.05)}
+.gap-cnt,.cv-gcnt{font-size:10px;font-weight:850;padding:2px 9px;border-radius:999px;background:rgba(255,255,255,.62);border:1px solid rgba(0,0,0,.12);color:#22150a}
+.gap-cnt.has{background:#22150a;color:#f7c89e}
+.gap-total{font-size:10px;font-weight:800;color:#22150a;margin-left:auto;opacity:.72}
+.cv-gnote{font-size:10px;font-weight:800;color:#22150a;margin-left:auto;opacity:.8}
+.gap-card{border:0;border-radius:0;background:transparent;margin-bottom:14px}
+.gap-body{padding:9px 2px 0}
+.gap-row{display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--card);cursor:pointer}
+.gap-row:hover{border-color:var(--muted)}
+.gap-n{flex:none;min-width:28px;text-align:center;font-size:12px;font-weight:850;padding:3px 8px;border-radius:999px}
+.gap-t{flex:1;min-width:0;font-size:13px;font-weight:750}
+.gap-ex{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gap-arrow{flex:none;color:var(--muted);font-size:15px}
+.gap-ok{font-size:12px;color:var(--muted);padding:8px 4px}
 .cv-group{margin-bottom:20px}
-.cv-ghead{display:flex;align-items:baseline;gap:9px;padding-bottom:7px;margin-bottom:10px;border-bottom:2px solid var(--text)}
-.cv-ghead b{font-size:14px}
-.cv-ghead span{font-size:11px;color:var(--muted);font-weight:800}
+.cv-ghead{margin-bottom:10px}
 .cv-card{border:1px solid var(--line);border-radius:13px;background:var(--card);padding:14px 16px;margin-bottom:9px}
 .cv-card.late{border-left:4px solid #dda01f}
 .cv-head{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
@@ -568,7 +586,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.32 · Creative</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.33 · Dashboard</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -638,7 +656,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="addCategoryBtn" class="btn secondary">+ Category</button><button id="addTaskBtn" class="btn primary">+ Task</button></div>
  </div>
 
- <section id="dashboardView">
+<section id="dashboardView">
 
    <div class="card section" style="margin-bottom:18px">
     <div class="focus-banner">
@@ -650,10 +668,10 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
     <div id="dashSummary" class="dash-sum"></div>
     <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
    </div>
-  <div class="tabs"><button class="tab active" data-focus="today">Today</button><button class="tab" data-focus="week">This Week</button><button class="tab" data-focus="pinned">Pinned</button><button class="tab" data-focus="priority">Priority</button></div>
-  <div class="grid"><div><div class="card section" style="margin-bottom:18px"><h2 id="focusTitle">Today</h2><div id="focusList" class="task-list"></div></div><div class="card section"><h2>Work by Category</h2><div id="categoryWork"></div></div></div><div><div class="card section" style="margin-bottom:18px"><h2>Waiting</h2><div id="waitingList"></div></div><div class="card section"><h2>Upcoming Deadlines</h2><div id="deadlineList"></div></div></div></div>
- </section>
 
+   <div class="help" style="margin:0 2px 10px">ยังขาดอะไรอยู่ตรงไหน — กดหัวข้อเพื่อดูรายละเอียด</div>
+   <div id="dashGaps"></div>
+ </section>
  <section id="calendarView" class="hidden">
   <div class="card calendar-shell">
    <div class="calendar-top"><div><div id="monthTitle" class="month-title"></div><div class="help">คลิกวันที่เพื่อเพิ่มงานวันนั้น · คลิกงานเพื่อแก้ Due Date/รายละเอียด</div></div>
@@ -835,7 +853,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.32</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.33</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3284,6 +3302,12 @@ function renderCvPick(){
   return `<div class="pick-row${done?" is-done":""}" data-cv-pick="${t.id}"><span class="pj-itype">งาน</span><div class="pick-main"><div class="pick-t">${esc(t.task)}</div><div class="pick-s">${esc(t.category||"")}${t.due?" · ครบกำหนด "+t.due:" · ไม่มีวันจบ"}${done?" · เสร็จแล้ว":""}</div></div></div>`;
  }).join(""):'<div class="empty">ไม่พบงาน</div>';
 }
+$("cvList").onclick=e=>{
+ const h=e.target.closest("[data-cv-group]");if(!h)return;
+ const k=h.dataset.cvGroup;
+ CV_OPEN.has(k)?CV_OPEN.delete(k):CV_OPEN.add(k);
+ renderCreative();
+};
 $("cvPickBtn").onclick=()=>{$("cvPickSearch").value="";renderCvPick();openLayer("cvPickModal")};
 $("cvPickSearch").oninput=renderCvPick;
 $("cvPickHideDone").onchange=renderCvPick;
@@ -3343,6 +3367,8 @@ window.postClear=async()=>{
 
 // Grouped by who is holding the work. With dozens of these a flat list is
 // unusable, and "what is waiting on me" is the only reason to open the page.
+// Everything but the finished pile starts open -- "จบแล้ว" is history.
+const CV_OPEN=new Set(["reviewing","briefing","waiting","running"]);
 const CV_GROUPS=[
  {k:"reviewing",t:"รอเราตรวจ"},
  {k:"briefing", t:"ยังไม่ส่งบรีฟ"},
@@ -3418,7 +3444,8 @@ function renderCreative(){
     .sort((a,b)=>String(cvDue(a)||"9999").localeCompare(String(cvDue(b)||"9999")));
   if(!rows.length)return "";
   const cap=rows.filter(r=>r.post_on&&!r.post_caption).length;
-  return `<div class="cv-group"><div class="cv-ghead"><b>${g.t}</b><span>${rows.length}</span>${cap?`<span class="cv-gnote">ยังไม่มี Caption ${cap}</span>`:""}</div>${rows.map(cvCardHTML).join("")}</div>`;
+  const open=CV_OPEN.has(g.k);
+  return `<div class="cv-group${open?" is-open":""}"><div class="cv-ghead" data-cv-group="${g.k}"><span class="cv-gcaret">▶</span><b>${g.t}</b><span class="cv-gcnt">${rows.length}</span>${cap?`<span class="cv-gnote">ยังไม่มี Caption ${cap}</span>`:""}</div>${open?rows.map(cvCardHTML).join(""):""}</div>`;
  }).join("")||'<div class="empty">ไม่มีงานค้าง</div>';
 }
 /* ---- creative work ------------------------------------------------------
@@ -3699,6 +3726,101 @@ async function renderWipPanels(){
   :'<div class="empty">ไม่มีงานที่ค้างรอฝ่ายอื่น</div>';
  renderWaitTable();
 }
+/* ---- what is missing, per system ----------------------------------------
+   The dashboard used to print a second task list, a second category
+   breakdown and a second deadline list -- all of which Tasks and the Priority
+   Matrix already showed. Repeating them is what made it feel cluttered while
+   still not answering the question actually being asked in the morning, which
+   is not "what work exists" but "where is something missing".
+
+   So each system reports its own gaps, in its own words, and every line is a
+   way in rather than something else to read.
+--------------------------------------------------------------------------- */
+const DASH_OPEN=new Set(["creative","pr","proj","launch","kol"]);
+function gapCreative(){
+ const jobs=cvJobs(),g=[];
+ const rev=jobs.filter(t=>cvStatus(t)==="reviewing");
+ const brief=jobs.filter(t=>cvStatus(t)==="briefing");
+ const cap=jobs.filter(t=>t.post_on&&!t.post_caption);
+ const late=jobs.filter(cvLate);
+ if(rev.length)  g.push({n:rev.length, t:"รอเราตรวจดราฟต์", tone:"bad", ex:rev});
+ if(brief.length)g.push({n:brief.length,t:"ยังไม่ได้ส่งบรีฟ", tone:"info",ex:brief});
+ if(cap.length)  g.push({n:cap.length, t:"ยังไม่มี Caption", tone:"warn",ex:cap});
+ if(late.length) g.push({n:late.length,t:"เลยวันโพสต์แล้ว", tone:"bad", ex:late});
+ return {view:"creative",title:"Creative",gaps:g,total:jobs.length,
+         ok:"ไม่มีอะไรค้าง",name:t=>t.task};
+}
+function gapPr(){
+ const items=prAllItems().filter(x=>x.stage!=="done"),g=[];
+ PR_STAGES.filter(st=>st.k!=="done").forEach(st=>{
+  const rows=items.filter(x=>x.stage===st.k&&prNeedsYou(x));
+  if(rows.length)g.push({n:rows.length,t:st.name,tone:st.tone==="calm"?"info":st.tone,ex:rows});
+ });
+ return {view:"pr",title:"PR / GRPO",gaps:g,total:items.length,
+         ok:"ไม่มีใบที่ต้องจัดการ",name:x=>x.title};
+}
+function gapProj(){
+ const g=[];
+ projects.filter(p=>p.status!=="done").forEach(p=>{
+  const late=projItemsOf(p.id).filter(it=>{const r=projResolve(it);return !r.done&&r.end&&r.end<todayISO()});
+  if(late.length)g.push({n:late.length,t:`${p.name} — เลยวันประเมิน`,tone:"warn",ex:[]});
+  const empty=projChannels(p).filter(ch=>!projItemsOf(p.id).some(x=>x.channel===ch));
+  if(empty.length)g.push({n:empty.length,t:`${p.name} — ช่องทางที่ยังไม่มีงาน`,tone:"info",ex:[]});
+ });
+ return {view:"proj",title:"Projects",gaps:g,total:projects.filter(p=>p.status!=="done").length,
+         ok:"ทุกโปรเจกต์เดินตามแผน",name:x=>""};
+}
+function gapLaunch(){
+ const g=[];
+ npdProducts.filter(p=>p.status!=="done").forEach(p=>{
+  const pr=wipProgress[p.id];
+  if(!pr||!pr.total){g.push({n:1,t:`${p.name} — ยังไม่ได้วางขั้นตอน`,tone:"info",ex:[]});return}
+  const left=pr.total-pr.done;
+  if(left)g.push({n:left,t:`${p.name} — เหลืออีก ${left} จาก ${pr.total} ขั้น`,tone:"info",ex:[]});
+ });
+ return {view:"productlaunch",title:"Product Launch",gaps:g,
+         total:npdProducts.filter(p=>p.status!=="done").length,
+         ok:"ทุกสินค้าครบขั้นตอน",name:x=>""};
+}
+function gapKol(){
+ const g=[];
+ kolItems.filter(c=>c.stage!=="done"&&c.stage!=="cancelled").forEach(c=>{
+  const n=kolNeedsYou(c);
+  if(n)g.push({n:1,t:`${c.name} — ${n.why}`,tone:n.tone||"info",ex:[]});
+ });
+ return {view:"kol",title:"KOL",gaps:g,
+         total:kolItems.filter(c=>c.stage!=="done"&&c.stage!=="cancelled").length,
+         ok:"ทุกแคมเปญเดินอยู่",name:x=>""};
+}
+function renderDashGaps(){
+ if(!$("dashGaps"))return;
+ const cards=[gapCreative(),gapPr(),gapProj(),gapLaunch(),gapKol()].filter(c=>c.total>0);
+ if(!cards.length){
+  $("dashGaps").innerHTML='<div class="empty">ยังไม่มีงานในระบบติดตาม — เริ่มที่ Projects หรือ Creative</div>';return;
+ }
+ $("dashGaps").innerHTML=cards.map(c=>{
+  const open=DASH_OPEN.has(c.view),n=c.gaps.reduce((a,x)=>a+x.n,0);
+  const body=c.gaps.length?c.gaps.map(x=>{
+   const ex=(x.ex||[]).slice(0,3).map(c.name).filter(Boolean).join(" · ");
+   return `<div class="gap-row" data-gap-go="${c.view}"><span class="gap-n tone-${x.tone}">${x.n}</span><span class="gap-t">${esc(x.t)}${ex?`<span class="gap-ex">${esc(ex)}${x.n>3?" …":""}</span>`:""}</span><span class="gap-arrow">›</span></div>`;
+  }).join(""):`<div class="gap-ok">${esc(c.ok)}</div>`;
+  return `<div class="gap-card${open?" is-open":""}">
+   <div class="gap-head" data-gap-toggle="${c.view}"><span class="gap-caret">▶</span><b>${esc(c.title)}</b>
+    <span class="gap-cnt${n?" has":""}">${n?`ขาด ${n}`:"ครบ"}</span>
+    <span class="gap-total">${c.total} รายการ</span></div>
+   ${open?`<div class="gap-body">${body}</div>`:""}
+  </div>`;
+ }).join("");
+}
+$("dashGaps").onclick=e=>{
+ const go=e.target.closest("[data-gap-go]");
+ if(go)return goView(go.dataset.gapGo);
+ const h=e.target.closest("[data-gap-toggle]");
+ if(!h)return;
+ const k=h.dataset.gapToggle;
+ DASH_OPEN.has(k)?DASH_OPEN.delete(k):DASH_OPEN.add(k);
+ renderDashGaps();
+};
 /* ---- Dashboard focus ---------------------------------------------------
    The old dashboard printed nine counters before a single task, and showed
    "overdue" three separate times (morning brief, metric card, Needs
@@ -3750,8 +3872,8 @@ function renderDashboardFocus(active,done){
   :`<div class="dash-clear">${active.length?"ไม่มีอะไรค้างตอนนี้ — เคลียร์หมดแล้ว":"ยังไม่มีงานในระบบ"}</div>`;
  $("dashSummary").innerHTML=[["ทำงานอยู่",active.length],["กำลังทำ",active.filter(t=>t.status==="In Progress").length],["รอคนอื่น",active.filter(t=>t.status==="Waiting").length],["เสร็จสัปดาห์นี้",done.filter(doneThisWeek).length]].map(x=>`<span><b>${x[1]}</b> ${x[0]}</span>`).join("");
 }
-function render(){populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
-const f=focusTasks(active);$("focusTitle").textContent=focusMode==="today"?"Today":focusMode==="week"?"This Week":focusMode==="pinned"?"Pinned":"Priority";$("focusList").innerHTML=f.length?f.map(taskHTML).join(""):'<div class="empty">Nothing here.</div>';$("categoryWork").innerHTML=groupedHTML(active);const waiting=active.filter(t=>t.status==="Waiting");$("waitingList").innerHTML=waiting.length?waiting.map(t=>`<div class="row"><strong>${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}${waitDays(t)!==null?" · Waiting "+waitDays(t)+" days":""}</span></div>`).join(""):'<div class="empty">Nothing waiting.</div>';const dl=active.filter(t=>t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,8);$("deadlineList").innerHTML=dl.length?dl.map(t=>`<div class="row"><strong>${new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"})} — ${esc(t.task)}</strong><span>${isAdmin()?esc(profileName(t.user_id))+" · ":""}${esc(t.category)} / ${esc(t.sub)}</span></div>`).join(""):'<div class="empty">No deadlines.</div>';const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
+function render(){populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();renderDashGaps();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
+const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>!t.is_highlight&&(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
 $("archiveList").innerHTML=archiveHTML(archived);
@@ -3771,7 +3893,7 @@ $("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'
 $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
 
 renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol();renderProj()}
-["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs:not(#npdSubtabs) .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");focusMode=b.dataset.focus;render()});
+["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
@@ -3790,6 +3912,7 @@ function goView(view){
  if(view==="pr")renderPr();
  if(view==="kol")renderKol();
  if(view==="proj")renderProj();
+ if(view==="dashboard"){Promise.resolve().then(loadWipProgress).then(renderDashGaps).catch(()=>{})}
  if(view==="proj"){renderWipPanels();Promise.resolve().then(loadWipProgress).then(renderWipPanels).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
