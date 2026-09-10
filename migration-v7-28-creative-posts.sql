@@ -48,6 +48,14 @@ create table if not exists public.creative_jobs (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- `create table if not exists` skips the WHOLE table when it already exists,
+-- so a column added to this file later never reaches a database that ran an
+-- earlier copy of it. Every column added after the first release therefore
+-- also needs its own `add column if not exists`, or the migration only works
+-- on a fresh database.
+alter table public.creative_jobs
+  add column if not exists task_id bigint references public.tasks(id) on delete set null;
+
 create index if not exists creative_jobs_team_idx on public.creative_jobs(team_id);
 create index if not exists creative_jobs_project_idx on public.creative_jobs(project_id);
 -- One task drives at most one creative job, enforced here rather than left to
