@@ -193,6 +193,9 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
   - **Boost is its own span** under the post, since it usually runs past the day the post goes out.
   - **Caption** is a tick: filled dot when ready, dashed outline when not, so an unfinished post is visible without opening it.
 - The app cannot send mail or write to Planner, so the brief modal offers **"คัดลอกบรีฟเป็นอีเมล"** and stamps the day it was sent, rather than a button that looks like it delivers and does not.
+- **Start from a task you already have.** "+ เลือกงานที่มีอยู่" opens a picker over existing tasks, so a job that began life as *ทำ KV หม่าล่า* is not retyped into a second record. The job **points at** the task rather than copying it — the task stays in Tasks, Calendar and the dashboard — and a unique index makes one task drive at most one creative job, enforced in the database rather than left to the UI.
+- **The due date now has three sources, in order of authority:** a date typed on the job, then the post it feeds, then the task it came from. Nothing is entered twice.
+- An unrecognised `status` falls back to the first stage rather than throwing: it used to take the whole page down and drop the row out of every group.
 - Requires `migration-v7-28-creative-posts.sql`.
 
 ## V7.27 PORKCHOP icons
