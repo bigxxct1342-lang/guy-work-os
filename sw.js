@@ -1,4 +1,4 @@
-const CACHE="porkchop-g-v7-33-dashboard";
+const CACHE="porkchop-g-v7-34-shell-fix";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./icon-maskable-512.png","./apple-touch-icon.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener("activate",e=>e.waitUntil(
