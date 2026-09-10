@@ -309,6 +309,10 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-main{flex:1;min-width:0}
 .cv-title{font-size:14px;font-weight:800}
 .cv-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.po-month{margin-bottom:18px}
+.po-mhead{display:flex;align-items:baseline;gap:9px;padding-bottom:6px;border-bottom:2px solid var(--text);margin-bottom:8px}
+.po-mhead b{font-size:13px}
+.po-mhead span{font-size:11px;color:var(--muted);font-weight:800}
 .po-head,.po-row{display:grid;grid-template-columns:96px 1.6fr .7fr .9fr 110px 1.5fr 130px;gap:11px;align-items:center;padding:10px 11px;font-size:12px}
 .po-head{font-size:10px;font-weight:850;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
 .po-row{border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--card)}
@@ -564,7 +568,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.30 · Posts</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.31 · Posts</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -660,13 +664,10 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
     <button class="tab" data-layer="task">งาน</button>
     <button class="tab" data-layer="post">โพสต์</button>
     <button class="tab" data-layer="creative">Creative</button>
+    <button id="calGoPosts" class="btn secondary small" style="margin-left:auto">จัดการโพสต์ →</button>
    </div>
    <div id="calendarWeekdays" class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
    <div id="calendarGrid" class="calendar-grid"></div><div id="weekGrid" class="week-board hidden"></div>
-  </div>
-  <div id="postPanel" class="card section hidden" style="margin-top:16px">
-   <div class="pf-top"><h2 style="margin:0">ตารางโพสต์</h2><div class="pf-sub" id="postSummary"></div><button id="addPostBtn2" class="btn primary small">+ โพสต์</button></div>
-   <div id="postTable"></div>
   </div>
  </section>
 
@@ -690,6 +691,17 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   </div>
   <div id="cvSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-28-creative-posts.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="cvList"></div>
+
+  <div id="postPanel" class="card section" style="margin-top:22px">
+   <div class="pf-top">
+    <h2 style="margin:0">ตารางโพสต์</h2>
+    <div class="pf-sub" id="postSummary"></div>
+    <button id="postGoCal" class="btn secondary small">ดูบนปฏิทิน →</button>
+    <button id="addPostBtn2" class="btn primary small">+ โพสต์</button>
+   </div>
+   <label class="cbline" style="margin-bottom:12px"><input id="postShowPast" type="checkbox"> แสดงที่ผ่านมาด้วย</label>
+   <div id="postTable"></div>
+  </div>
  </section>
 
  <section id="kolView" class="hidden">
@@ -833,7 +845,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.30</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.31</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1499,47 +1511,54 @@ function calBoostBar(p,ds){
 // and which is the actual question when a dozen posts are in flight.
 function renderPostTable(){
  if(!$("postPanel"))return;
- const show=calLayer==="post"||calLayer==="all";
- $("postPanel").classList.toggle("hidden",!show);
- if(!show)return;
- const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();
- const inMonth=p=>{const d=new Date(p.post_date+"T00:00:00");return d.getFullYear()===y&&d.getMonth()===m};
- const rows=posts.filter(p=>p.status!=="cancelled"&&inMonth(p))
+ const past=$("postShowPast").checked,now=todayISO().slice(0,7);
+ const all=posts.filter(p=>p.status!=="cancelled");
+ const rows=all.filter(p=>past||p.post_date.slice(0,7)>=now)
    .sort((a,b)=>a.post_date.localeCompare(b.post_date));
  const cap=rows.filter(p=>p.caption_ready).length,bo=rows.filter(p=>p.boost).length;
+ const live=all.filter(p=>p.boost&&boostCovers(p,todayISO())).length;
  $("postSummary").textContent=rows.length
-  ? `เดือนนี้ ${rows.length} โพสต์ · มี Caption ${cap} · ยังไม่มี ${rows.length-cap} · บูท ${bo}`
-  : "เดือนนี้ยังไม่มีโพสต์";
- if(!rows.length){$("postTable").innerHTML='<div class="empty">ยังไม่มีโพสต์ในเดือนนี้ — กด "+ โพสต์"</div>';return}
- $("postTable").innerHTML=`<div class="po-head"><span>วันโพสต์</span><span>ชื่อ</span><span>ช่องทาง</span><span>ประเภท</span><span>Caption</span><span>บูท</span><span></span></div>`+
- rows.map(p=>{
-  const span=p.kind==="event"&&(p.days||1)>1;
-  const bdays=p.boost&&p.boost_from&&p.boost_to
-    ? Math.round((new Date(p.boost_to+"T00:00:00")-new Date(p.boost_from+"T00:00:00"))/86400000)+1 : null;
-  const live=p.boost&&boostCovers(p,todayISO());
-  const boost=!p.boost?'<span class="po-off">ไม่บูท</span>'
-   :(p.boost_from&&p.boost_to
-     ? `<span class="po-boost${live?" live":""}">${fmtD(p.boost_from)} – ${fmtD(p.boost_to)} · ${bdays} วัน${live?" · กำลังรัน":""}</span>`
-     : '<span class="po-warn">บูท — ยังไม่ใส่วัน</span>');
-  const job=p.creative_id?creativeJobs.find(j=>j.id===p.creative_id):null;
-  const art=job&&cvOpen(job)?`<div class="po-art">อาร์ตเวิร์กยังไม่อนุมัติ · ดราฟต์ ${cvRound(job)||1}</div>`:"";
-  return `<div class="po-row${live?" live":""}">
-   <span class="po-date">${fmtD(p.post_date)}${span?` <b>+${p.days-1}</b>`:""}</span>
-   <span class="po-name">${esc(p.title)}${art}</span>
-   <span class="po-ch">${esc(p.channel||"—")}</span>
-   <span class="po-kind">${span?`กิจกรรม ${p.days} วัน`:"โพสต์"}</span>
-   <span><button class="po-cap${p.caption_ready?" on":""}" onclick="postToggleCaption(${p.id})" title="ติ๊กเมื่อ Caption พร้อม">${p.caption_ready?"✓ มีแล้ว":"○ ยังไม่มี"}</button></span>
-   <span>${boost}</span>
-   <span class="po-act"><button class="btn secondary small" onclick="postEdit(${p.id})">แก้ไข</button><button class="btn danger small" onclick="postDelete(${p.id})">ลบ</button></span>
-  </div>`;
+  ? `${rows.length} โพสต์ · มี Caption ${cap} · ยังไม่มี ${rows.length-cap} · บูท ${bo}${live?` · กำลังรัน ${live}`:""}`
+  : (past?"ยังไม่มีโพสต์":"ยังไม่มีโพสต์ที่จะถึง");
+ if(!rows.length){$("postTable").innerHTML='<div class="empty">ยังไม่มีโพสต์ — กด "+ โพสต์" เพื่อเริ่ม</div>';return}
+ // Grouped by month: a flat list of everything upcoming loses the sense of
+ // which week is crowded, which is what you look at a schedule for.
+ const months=[...new Set(rows.map(p=>p.post_date.slice(0,7)))];
+ $("postTable").innerHTML=months.map(mk=>{
+  const ms=rows.filter(p=>p.post_date.slice(0,7)===mk);
+  const label=new Date(mk+"-01T00:00:00").toLocaleDateString("th-TH-u-ca-gregory",{month:"long",year:"numeric"});
+  return `<div class="po-month"><div class="po-mhead"><b>${esc(label)}</b><span>${ms.length} โพสต์</span></div>`
+   +`<div class="po-head"><span>วันโพสต์</span><span>ชื่อ</span><span>ช่องทาง</span><span>ประเภท</span><span>Caption</span><span>บูท</span><span></span></div>`
+   +ms.map(postRowHTML).join("")+`</div>`;
  }).join("");
+}
+function postRowHTML(p){
+ const span=p.kind==="event"&&(p.days||1)>1;
+ const bdays=p.boost&&p.boost_from&&p.boost_to
+   ? Math.round((new Date(p.boost_to+"T00:00:00")-new Date(p.boost_from+"T00:00:00"))/86400000)+1 : null;
+ const live=p.boost&&boostCovers(p,todayISO());
+ const boost=!p.boost?'<span class="po-off">ไม่บูท</span>'
+  :(p.boost_from&&p.boost_to
+    ? `<span class="po-boost${live?" live":""}">${fmtD(p.boost_from)} – ${fmtD(p.boost_to)} · ${bdays} วัน${live?" · กำลังรัน":""}</span>`
+    : '<span class="po-warn">บูท — ยังไม่ใส่วัน</span>');
+ const job=p.creative_id?creativeJobs.find(j=>j.id===p.creative_id):null;
+ const art=job&&cvOpen(job)?`<div class="po-art">อาร์ตเวิร์กยังไม่อนุมัติ · ดราฟต์ ${cvRound(job)||1}</div>`:"";
+ return `<div class="po-row${live?" live":""}">
+  <span class="po-date">${fmtD(p.post_date)}${span?` <b>+${p.days-1}</b>`:""}</span>
+  <span class="po-name">${esc(p.title)}${art}</span>
+  <span class="po-ch">${esc(p.channel||"—")}</span>
+  <span class="po-kind">${span?`กิจกรรม ${p.days} วัน`:"โพสต์"}</span>
+  <span><button class="po-cap${p.caption_ready?" on":""}" onclick="postToggleCaption(${p.id})" title="ติ๊กเมื่อ Caption พร้อม">${p.caption_ready?"✓ มีแล้ว":"○ ยังไม่มี"}</button></span>
+  <span>${boost}</span>
+  <span class="po-act"><button class="btn secondary small" onclick="postEdit(${p.id})">แก้ไข</button><button class="btn danger small" onclick="postDelete(${p.id})">ลบ</button></span>
+ </div>`;
 }
 function renderCalendar(){
  const mode=$("calendarMode")?.value||calendarMode;calendarMode=mode;
  const selected=isAdmin()?($("calendarMember")?.value||""):"";
  if(mode==="week"){
    $("calendarGrid").classList.add("hidden");$("weekGrid").classList.remove("hidden");$("calendarWeekdays")?.classList.add("hidden");
-   renderWeekCalendar(selected);renderPostTable();return;
+   renderWeekCalendar(selected);return;
  }
  $("calendarGrid").classList.remove("hidden");$("weekGrid").classList.add("hidden");$("calendarWeekdays")?.classList.remove("hidden");
  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();
@@ -1562,7 +1581,6 @@ function renderCalendar(){
    </div>`;
  }
  $("calendarGrid").innerHTML=out;
- renderPostTable();
 }
 function renderWeekCalendar(selected=""){
  const start=startOfWeekFor(calendarCursor),end=new Date(start);end.setDate(end.getDate()+6);
@@ -3474,8 +3492,10 @@ function renderCreative(){
  if(!$("cvList"))return;
  $("cvSetupHint").classList.toggle("hidden",!creativeTableMissing);
  if(!creativeJobs.length){
-  $("cvList").innerHTML='<div class="empty">ยังไม่มีงาน Creative — กด "+ งาน Creative" เพื่อเริ่ม</div>';return;
+  $("cvList").innerHTML='<div class="empty">ยังไม่มีงาน Creative — กด "+ งาน Creative" เพื่อเริ่ม</div>';
+  renderPostTable();return;
  }
+ renderPostTable();
  $("cvList").innerHTML=CV_GROUPS.map(g=>{
   const rows=creativeJobs.filter(j=>cvGroupOf(j)===g.k)
     .sort((a,b)=>String(cvDue(a)||"9999").localeCompare(String(cvDue(b)||"9999")));
@@ -3911,13 +3931,21 @@ function goView(view){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 $("calLayers").onclick=e=>{
- const b=e.target.closest("[data-layer]");if(!b)return;
+ const b=e.target.closest("[data-layer]");if(!b)return;   // the "จัดการโพสต์" button has no data-layer
  calLayer=b.dataset.layer;
  $("calLayers").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));
  renderCalendar();
 };
 $("addPostBtn").onclick=()=>postEdit(null);
+$("calGoPosts").onclick=()=>goView("creative");
 $("addPostBtn2").onclick=()=>postEdit(null);
+$("postShowPast").onchange=renderPostTable;
+// The table manages; the calendar shows them in time next to everything else.
+$("postGoCal").onclick=()=>{
+ calLayer="post";goView("calendar");
+ $("calLayers").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x.dataset.layer==="post"));
+ renderCalendar();
+};
 document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>goView(btn.dataset.view));
 // A count on every item is just more to read. These appear only when the
 // section is holding something that needs you today, so an empty sidebar
