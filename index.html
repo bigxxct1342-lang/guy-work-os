@@ -284,7 +284,8 @@ body.dark .wt-chip.over{background:#3a3524;border-color:#4d472e;color:#ecd68f}
 body.dark .wt-row.over .wt-off{color:#e8bd6a}
 body.dark .wt-row.under .wt-off{color:#7fc79c}
 @media(max-width:820px){.wt-head{display:none}.wt-row{grid-template-columns:1fr auto;gap:4px 10px}.wt-name{grid-column:1/-1}.wt-off{grid-column:1/-1}}
-.cal-layers{display:flex;gap:7px;flex-wrap:wrap;padding:0 20px 14px}
+.cal-layers{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:0 20px 14px}
+.cal-layers::before{content:"แสดง";font-size:10px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-right:3px}
 .cbline{display:flex!important;align-items:center;gap:8px;font-size:13px!important;color:var(--text)!important;cursor:pointer}
 .cbline input{width:16px;height:16px;margin:0;padding:0;flex:none;accent-color:#ee8f48}
 .cal-post{border-radius:6px;padding:4px 6px;margin-bottom:4px;font-size:10px;font-weight:750;line-height:1.25;background:#dfeaf8;color:#264d75;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:4px}
@@ -1498,7 +1499,7 @@ function calBoostBar(p,ds){
 // and which is the actual question when a dozen posts are in flight.
 function renderPostTable(){
  if(!$("postPanel"))return;
- const show=calLayer==="post";
+ const show=calLayer==="post"||calLayer==="all";
  $("postPanel").classList.toggle("hidden",!show);
  if(!show)return;
  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();
