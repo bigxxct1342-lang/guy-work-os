@@ -9,12 +9,21 @@
 <link rel="icon" href="./favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Noto+Sans+Thai:wght@400..900&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./config.js"></script>
 <style>
 :root{--bg:#f3f1ec;--panel:#fff;--card:#fff;--text:#20242a;--muted:#747b84;--line:#e4dfd7;--dark:#20252c;--soft:#f8f7f3;--green:#dceee2;--greenT:#2d6841;--yellow:#fff0bf;--yellowT:#745a00;--red:#f9dddd;--redT:#963e3e;--blue:#dfeaf8;--blueT:#315f8f;--purple:#ece5f7;--purpleT:#654792;--shadow:0 10px 30px rgba(30,34,39,.055)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}.hidden{display:none!important}
-.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}.btn.primary{background:var(--dark);color:#fff}.btn.secondary{background:#fff;border:1px solid var(--line)}.btn.danger{background:#fff;border:1px solid #edcaca;color:#9b4343}.btn.small{padding:7px 10px;font-size:11px}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,"Noto Sans Thai",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%}
+/* Inter carries no Thai, so Thai used to fall through to whatever face the
+   device happened to have -- a different shape and a different set of weights
+   in the same line. Noto Sans Thai is loaded beside it with the same 400-900
+   range so both scripts bend together. Buttons take colour from the page for
+   the same reason: left alone, iOS paints every one of them system blue. */
+button,input,select,textarea{font:inherit;color:inherit}.hidden{display:none!important}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;color:var(--text)}.btn.primary{background:var(--dark);color:#fff}.btn.secondary{background:#fff;border:1px solid var(--line)}.btn.danger{background:#fff;border:1px solid #edcaca;color:#9b4343}.btn.small{padding:7px 10px;font-size:11px}
 .auth{min-height:100vh;background:#1e2329;color:#fff;display:flex;align-items:center;justify-content:center;padding:22px}.authbox{width:min(430px,100%)}.authname{font-size:27px;font-weight:900}.authsub{font-size:11px;color:#939ca6;letter-spacing:1.3px;text-transform:uppercase;margin:7px 0 25px}.authcard{background:#fff;color:var(--text);border-radius:18px;padding:23px}.authcard h2{margin:0 0 18px}.field{margin-bottom:12px}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff}.help{font-size:11px;color:var(--muted);line-height:1.5}.error{font-size:12px;color:#a64242;min-height:18px;margin:8px 0}
 .app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}aside{background:#1e2329;color:#fff;padding:28px 18px;position:sticky;top:0;height:100vh}.identity{padding:0 10px 25px;border-bottom:1px solid rgba(255,255,255,.09);margin-bottom:18px}.identity .brand{font-weight:900;font-size:18px}.identity .who{font-size:11px;color:#c5cbd1;margin-top:5px}.identity .role{font-size:10px;color:#8f98a3;letter-spacing:1.2px;text-transform:uppercase;margin-top:3px}.nav button{width:100%;border:0;background:transparent;color:#bcc3cb;padding:9px 12px;border-radius:9px;text-align:left;cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:11px;font-size:13px;font-weight:600}.nav button.active,.nav button:hover{background:#2b3138;color:#fff}.nav button.active{font-weight:750;box-shadow:inset 2px 0 0 #ee8f48}
 .nav-ico{width:17px;height:17px;flex:none;opacity:.62}
@@ -27,7 +36,7 @@
 .nav-minor button.active,.nav-minor button:hover{color:#fff;background:#2b3138;box-shadow:none}.sidefoot{position:absolute;bottom:20px;left:18px;right:18px}
 main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:26px}h1{margin:0;font-size:30px;letter-spacing:-.8px}.date{font-size:14px;color:var(--muted);margin-top:6px}.sync{font-size:10px;color:#8fc59f;margin-top:5px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.section{padding:21px}.section h2{font-size:16px;margin:0 0 15px}.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:18px}.metric{padding:18px}.metric .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}.metric .value{font-size:28px;font-weight:900;margin-top:7px}.grid{display:grid;grid-template-columns:1.45fr .85fr;gap:18px}
-.tabs,.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer}.tab.active{background:var(--dark);color:#fff;border-color:var(--dark)}.search{min-width:240px;flex:1}
+.tabs,.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer;color:var(--text)}.tab.active{background:var(--dark);color:#fff;border-color:var(--dark)}.search{min-width:240px;flex:1}
 .progress-wrap{height:9px;background:#ece8e1;border-radius:999px;overflow:hidden}.progress-bar{height:100%;background:#292f36;border-radius:999px}.progress-line{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
 .category-block{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}.category-head{background:var(--soft);padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.category-name{font-weight:850;font-size:14px}.category-meta{font-size:11px;color:var(--muted);margin-top:4px}.subcategory{padding:12px 14px 14px}.subcategory+.subcategory{border-top:1px solid var(--line)}.sub-title{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.7px;color:#767d85;margin-bottom:9px}
 .task-list{display:flex;flex-direction:column;gap:8px}.task{display:grid;grid-template-columns:auto auto 1fr auto;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}.task input[type=checkbox]{width:17px;height:17px;accent-color:#252a31}.pin{border:0;background:transparent;font-size:17px;cursor:pointer;opacity:.35}.pin.on{opacity:1}.task-title{font-size:13px;font-weight:750}.task-note{font-size:11px;color:var(--muted);margin-top:4px}.task-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:11px}.task-actions{display:flex;gap:6px}
@@ -284,8 +293,15 @@ body.dark .wt-chip.over{background:#3a3524;border-color:#4d472e;color:#ecd68f}
 body.dark .wt-row.over .wt-off{color:#e8bd6a}
 body.dark .wt-row.under .wt-off{color:#7fc79c}
 @media(max-width:820px){.wt-head{display:none}.wt-row{grid-template-columns:1fr auto;gap:4px 10px}.wt-name{grid-column:1/-1}.wt-off{grid-column:1/-1}}
-.cal-layers{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:0 20px 14px}
-.cal-layers::before{content:"แสดง";font-size:10px;font-weight:850;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-right:3px}
+.cv-modes{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.cv-legend{display:flex;gap:14px;flex-wrap:wrap;padding:0 20px 14px;font-size:10px;font-weight:800;color:var(--muted)}
+.cv-legend .lg{display:inline-flex;align-items:center;gap:6px}
+.cv-legend .lg::before{content:"";width:13px;height:9px;border-radius:3px;flex:none}
+.cv-legend .lg-post::before{background:#dfeaf8;border:1px solid #7ba0cc}
+.cv-legend .lg-nocap::before{background:#eef4fb;border:1px dashed #7ba0cc}
+.cv-legend .lg-boost::before{background:repeating-linear-gradient(45deg,#f6c89e,#f6c89e 4px,#fbe0c6 4px,#fbe0c6 8px)}
+.cv-legend .lg-art::before{background:#fbe0c6}
+.cv-cal-day{min-height:112px}
 .cbline{display:flex!important;align-items:center;gap:8px;font-size:13px!important;color:var(--text)!important;cursor:pointer}
 .cbline input{width:16px;height:16px;margin:0;padding:0;flex:none;accent-color:#ee8f48}
 .cal-post{border-radius:6px;padding:4px 6px;margin-bottom:4px;font-size:10px;font-weight:750;line-height:1.25;background:#dfeaf8;color:#264d75;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:4px}
@@ -369,7 +385,7 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .cv-wait{color:var(--muted);font-weight:800}
 .cv-none{font-size:11px;color:var(--muted);margin-top:9px}
 .cv-acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-@media(max-width:820px){.cv-round{grid-template-columns:1fr 1fr;gap:4px 9px}.cal-layers{padding:0 14px 12px}}
+@media(max-width:820px){.cv-round{grid-template-columns:1fr 1fr;gap:4px 9px}.cv-legend{padding:0 14px 12px}}
 .pf-top{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:15px}
 .pf-sub{flex:1;min-width:200px;font-size:11px;color:var(--muted);line-height:1.55}
 .pf-year{margin-bottom:16px}
@@ -586,7 +602,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.34 · Dashboard</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.35 · Creative</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -677,12 +693,6 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div class="calendar-top"><div><div id="monthTitle" class="month-title"></div><div class="help">คลิกวันที่เพื่อเพิ่มงานวันนั้น · คลิกงานเพื่อแก้ Due Date/รายละเอียด</div></div>
     <div class="calendar-controls"><select id="calendarMode" class="calendar-mode"><option value="month">Month View</option><option value="week">Week View</option></select><button id="prevMonth" class="btn secondary small">‹</button><button id="todayMonth" class="btn secondary small">Today</button><button id="nextMonth" class="btn secondary small">›</button><select id="calendarMember" class="member-filter hidden"></select></div>
    </div>
-   <div class="cal-layers" id="calLayers">
-    <button class="tab active" data-layer="all">ทั้งหมด</button>
-    <button class="tab" data-layer="task">งาน</button>
-    <button class="tab" data-layer="post">โพสต์</button>
-    <button class="tab" data-layer="creative">Creative</button>
-   </div>
    <div id="calendarWeekdays" class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
    <div id="calendarGrid" class="calendar-grid"></div><div id="weekGrid" class="week-board hidden"></div>
   </div>
@@ -707,7 +717,19 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="cvPickBtn" class="btn secondary">+ เลือกงานที่มีอยู่</button><button id="addCvBtn" class="btn primary">+ งาน Creative</button></div>
   </div>
   <div id="cvSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-28-creative-posts.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <div class="cv-modes" id="cvModes">
+   <button class="tab active" data-cvmode="list">รายการงาน</button>
+   <button class="tab" data-cvmode="cal">ปฏิทินโพสต์</button>
+  </div>
   <div id="cvList"></div>
+  <div id="cvCalWrap" class="card calendar-shell hidden">
+   <div class="calendar-top"><div><div id="cvMonthTitle" class="month-title"></div><div class="help">ปฏิทินของโพสต์และงานอาร์ตเวิร์กเท่านั้น · คลิกโพสต์เพื่อแก้รายละเอียด</div></div>
+    <div class="calendar-controls"><button id="cvPrevMonth" class="btn secondary small">‹</button><button id="cvTodayMonth" class="btn secondary small">Today</button><button id="cvNextMonth" class="btn secondary small">›</button></div>
+   </div>
+   <div class="cv-legend"><span class="lg lg-post">โพสต์</span><span class="lg lg-nocap">ยังไม่มี Caption</span><span class="lg lg-boost">ช่วงบูท</span><span class="lg lg-art">รออาร์ตเวิร์ก</span></div>
+   <div class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
+   <div id="cvCalGrid" class="calendar-grid"></div>
+  </div>
  </section>
 
  <section id="kolView" class="hidden">
@@ -851,7 +873,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.34</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.35</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1482,8 +1504,6 @@ function startOfWeekFor(date){
 }
 // One calendar, layered -- a second calendar for posts would be the same
 // duplication this app keeps having to undo. "ทั้งหมด" is the way back.
-let calLayer="all";
-const calShow=k=>calLayer==="all"||calLayer===k;
 // A creative job appears on the day its artwork must be approved, which is
 // either its own date or the date of the post it feeds.
 function calCreativeOn(ds){
@@ -1494,13 +1514,15 @@ function calPostChip(p,ds){
  const span=p.post_kind==="event"&&(p.post_days||1)>1;
  const edge=span?(start?" s":end?" e":" m"):"";
  const art=p.cv_on&&cvOpen(p)?` · อาร์ตเวิร์กดราฟต์ ${cvRound(p)||1}`:"";
- const tip=`${p.title}${p.channel?" · "+p.channel:""}${span?` · กิจกรรม ${p.post_days} วัน`:""}${p.post_caption?" · มี Caption":" · ยังไม่มี Caption"}${art}`;
+ // A post is a task, so its words live in task/post_channel. Reading title
+ // and channel left every chip in the month grid blank.
+ const tip=`${p.task}${p.post_channel?" · "+p.post_channel:""}${span?` · กิจกรรม ${p.post_days} วัน`:""}${p.post_caption?" · มี Caption":" · ยังไม่มี Caption"}${art}`;
  // In a month grid every day is its own cell, so a continuation day with no
  // label is just an unexplained bar. Repeat the title, dimmed, and keep the
  // squared-off edges to carry the sense of one run.
  return `<div class="cal-post${edge}${p.post_caption?"":" nocap"}${p.cv_on&&cvOpen(p)?" art":""}${span&&!start?" cont":""}" onclick="postEdit(${p.id});event.stopPropagation()" title="${esc(tip)}">`
   +`${start?`<span class="cap">${p.post_caption?"●":"○"}</span>`:""}`
-  +`${esc(p.title)}${end&&span?` <span class="cap">จบ</span>`:""}</div>`;
+  +`${esc(p.task)}${end&&span?` <span class="cap">จบ</span>`:""}</div>`;
 }
 function calBoostBar(p,ds){
  const first=ds===p.post_boost_from;
@@ -1519,16 +1541,10 @@ function renderCalendar(){
  const first=new Date(y,m,1),offset=(first.getDay()+6)%7,start=new Date(y,m,1-offset);let out="";
  for(let i=0;i<42;i++){
    const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
-   const dayTasks=calShow("task")?tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected)):[];
-   const dayPosts=calShow("post")?cvPosts().filter(p=>postCovers(p,ds)):[];
-   const dayBoost=calShow("post")?cvPosts().filter(p=>boostCovers(p,ds)):[];
-   const dayCv=calShow("creative")?calCreativeOn(ds):[];
+   const dayTasks=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected));
    const outside=d.getMonth()!==m,td=ds===todayISO();
    out+=`<div class="day ${outside?"outside":""} ${td?"today-day":""}" onclick="openDay('${ds}',event)">
-     <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${(()=>{const n=dayTasks.length+dayPosts.length+dayCv.length;return n?n+" รายการ":""})()}</span></div>
-     ${dayPosts.map(p=>calPostChip(p,ds)).join("")}
-     ${dayBoost.map(p=>calBoostBar(p,ds)).join("")}
-     ${dayCv.map(j=>`<div class="cal-cv${cvLate(j)?" late":""}" onclick="goView('creative');event.stopPropagation()" title="${esc(j.task+" · ดราฟต์ที่ "+(cvRound(j)||0)+" · "+CV_STATUS[cvStatus(j)].t)}">✎ ${esc(j.task)}</div>`).join("")}
+     <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${dayTasks.length?dayTasks.length+" รายการ":""}</span></div>
      ${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}
      ${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}
    </div>`;
@@ -3431,7 +3447,40 @@ function cvCardHTML(t){
   <div class="cv-acts">${acts.join("")}<button class="btn secondary small" onclick="editTask(${t.id})">แก้ไขงาน</button><button class="btn secondary small" onclick="cvRemove(${t.id})">เอาออกจาก Creative</button></div>
  </div>`;
 }
+/* The Creative page keeps its own calendar. Posts, boost runs and artwork
+   due dates were crowding the Tasks calendar, which is a different question
+   -- "what is due today" is not "what goes out this month". Two calendars,
+   neither of them mixed. */
+let cvCursor=new Date(),cvMode="list";
+function renderCvCalendar(){
+ if(!$("cvCalGrid"))return;
+ const y=cvCursor.getFullYear(),m=cvCursor.getMonth();
+ $("cvMonthTitle").textContent=cvCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
+ const first=new Date(y,m,1),offset=(first.getDay()+6)%7,start=new Date(y,m,1-offset);let out="";
+ for(let i=0;i<42;i++){
+  const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
+  const posts=cvPosts().filter(t=>postCovers(t,ds));
+  const boost=cvPosts().filter(t=>boostCovers(t,ds));
+  const art=calCreativeOn(ds);
+  const n=posts.length+art.length;
+  out+=`<div class="day cv-cal-day ${d.getMonth()!==m?"outside":""} ${ds===todayISO()?"today-day":""}">
+    <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${n?n+" รายการ":""}</span></div>
+    ${posts.map(t=>calPostChip(t,ds)).join("")}
+    ${boost.map(t=>calBoostBar(t,ds)).join("")}
+    ${art.map(t=>`<div class="cal-cv${cvLate(t)?" late":""}" title="${esc(t.task+" · ดราฟต์ที่ "+(cvRound(t)||0)+" · "+CV_STATUS[cvStatus(t)].t)}">✎ ${esc(t.task)}</div>`).join("")}
+   </div>`;
+ }
+ $("cvCalGrid").innerHTML=out;
+}
+function applyCvMode(){
+ const cal=cvMode==="cal";
+ $("cvList")?.classList.toggle("hidden",cal);
+ $("cvCalWrap")?.classList.toggle("hidden",!cal);
+ $("cvModes")?.querySelectorAll("[data-cvmode]").forEach(b=>b.classList.toggle("active",b.dataset.cvmode===cvMode));
+ if(cal)renderCvCalendar();
+}
 function renderCreative(){
+ applyCvMode();
  if(!$("cvList"))return;
  const jobs=cvJobs();
  if(!jobs.length){
@@ -3919,12 +3968,10 @@ function goView(view){
  if(view==="productlaunch")renderProductLaunch();
  window.scrollTo({top:0,behavior:"smooth"});
 }
-$("calLayers").onclick=e=>{
- const b=e.target.closest("[data-layer]");if(!b)return;   // the "จัดการโพสต์" button has no data-layer
- calLayer=b.dataset.layer;
- $("calLayers").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));
- renderCalendar();
-};
+$("cvModes").onclick=e=>{const b=e.target.closest("[data-cvmode]");if(!b)return;cvMode=b.dataset.cvmode;applyCvMode()};
+$("cvPrevMonth").onclick=()=>{cvCursor=new Date(cvCursor.getFullYear(),cvCursor.getMonth()-1,1);renderCvCalendar()};
+$("cvNextMonth").onclick=()=>{cvCursor=new Date(cvCursor.getFullYear(),cvCursor.getMonth()+1,1);renderCvCalendar()};
+$("cvTodayMonth").onclick=()=>{cvCursor=new Date();renderCvCalendar()};
 document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>goView(btn.dataset.view));
 // A count on every item is just more to read. These appear only when the
 // section is holding something that needs you today, so an empty sidebar
