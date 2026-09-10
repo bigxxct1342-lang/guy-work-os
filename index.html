@@ -568,7 +568,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.31 · Posts</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.32 · Creative</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -657,14 +657,13 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <section id="calendarView" class="hidden">
   <div class="card calendar-shell">
    <div class="calendar-top"><div><div id="monthTitle" class="month-title"></div><div class="help">คลิกวันที่เพื่อเพิ่มงานวันนั้น · คลิกงานเพื่อแก้ Due Date/รายละเอียด</div></div>
-    <div class="calendar-controls"><select id="calendarMode" class="calendar-mode"><option value="month">Month View</option><option value="week">Week View</option></select><button id="prevMonth" class="btn secondary small">‹</button><button id="todayMonth" class="btn secondary small">Today</button><button id="nextMonth" class="btn secondary small">›</button><select id="calendarMember" class="member-filter hidden"></select><button id="addPostBtn" class="btn primary small">+ โพสต์</button></div>
+    <div class="calendar-controls"><select id="calendarMode" class="calendar-mode"><option value="month">Month View</option><option value="week">Week View</option></select><button id="prevMonth" class="btn secondary small">‹</button><button id="todayMonth" class="btn secondary small">Today</button><button id="nextMonth" class="btn secondary small">›</button><select id="calendarMember" class="member-filter hidden"></select></div>
    </div>
    <div class="cal-layers" id="calLayers">
     <button class="tab active" data-layer="all">ทั้งหมด</button>
     <button class="tab" data-layer="task">งาน</button>
     <button class="tab" data-layer="post">โพสต์</button>
     <button class="tab" data-layer="creative">Creative</button>
-    <button id="calGoPosts" class="btn secondary small" style="margin-left:auto">จัดการโพสต์ →</button>
    </div>
    <div id="calendarWeekdays" class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
    <div id="calendarGrid" class="calendar-grid"></div><div id="weekGrid" class="week-board hidden"></div>
@@ -692,15 +691,6 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
   <div id="cvSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-28-creative-posts.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="cvList"></div>
 
-  <div id="postPanel" class="card section" style="margin-top:22px">
-   <div class="pf-top">
-    <h2 style="margin:0">ตารางโพสต์</h2>
-    <div class="pf-sub" id="postSummary"></div>
-    <button id="postGoCal" class="btn secondary small">ดูบนปฏิทิน →</button>
-    <button id="addPostBtn2" class="btn primary small">+ โพสต์</button>
-   </div>
-   <label class="cbline" style="margin-bottom:12px"><input id="postShowPast" type="checkbox"> แสดงที่ผ่านมาด้วย</label>
-   <div id="postTable"></div>
   </div>
  </section>
 
@@ -845,7 +835,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.31</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.32</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -901,8 +891,6 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 <div id="cvModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="cvModal" aria-label="Close">×</button><h3 id="cvModalTitle">งาน Creative ใหม่</h3>
  <div class="formgrid">
   <div class="field full"><label>ชื่องาน</label><input id="cvTitle" placeholder="เช่น KV หม่าล่า 40g"></div>
-  <div class="field"><label>โปรเจกต์ (ไม่บังคับ)</label><select id="cvProject"><option value="">— ไม่ผูก —</option></select></div>
-  <div class="field full" id="cvTaskWrap"><label>งานที่ผูกอยู่</label><div class="cv-linked"><span id="cvTaskName"></span><button type="button" id="cvUnlink" class="btn secondary small">ยกเลิกการผูก</button></div></div>
   <div class="field"><label>วันที่ต้องอนุมัติ</label><input id="cvDue" type="date"><div class="help" style="margin-top:5px">เว้นว่างได้ถ้าผูกโพสต์ไว้ — จะใช้วันโพสต์เป็นวันอนุมัติให้เอง</div></div>
   <div class="field full"><label>ลิงก์บรีฟ (ไม่บังคับ)</label><input id="cvBriefUrl" placeholder="วางลิงก์ไฟล์บรีฟ"></div>
   <div class="field full"><label>บรีฟย่อ / โน้ต</label><textarea id="cvNote" rows="3" placeholder="สรุปสั้นๆ ไว้ก็อปวางลงเมลได้"></textarea></div>
@@ -920,19 +908,16 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 
 <div id="postModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="postModal" aria-label="Close">×</button><h3 id="postModalTitle">โพสต์ใหม่</h3>
  <div class="formgrid">
-  <div class="field full"><label>ชื่อโพสต์</label><input id="postTitle" placeholder="เช่น เปิดตัวหม่าล่า 40g"></div>
   <div class="field"><label>ประเภท</label><select id="postKind"><option value="post">โพสต์</option><option value="event">โพสต์กิจกรรม</option></select></div>
   <div class="field"><label>ช่องทาง</label><input id="postChannel" placeholder="FB / IG / TikTok / LINE"></div>
   <div class="field"><label>วันโพสต์</label><input id="postDate" type="date"></div>
   <div class="field" id="postDaysWrap"><label>กี่วัน</label><input id="postDays" type="number" min="1" value="1"></div>
-  <div class="field"><label>โปรเจกต์ (ไม่บังคับ)</label><select id="postProject"><option value="">— ไม่ผูก —</option></select></div>
-  <div class="field"><label>งาน Creative (ไม่บังคับ)</label><select id="postCreative"><option value="">— ไม่ผูก —</option></select></div>
   <div class="field full"><label class="cbline"><input id="postCaption" type="checkbox"> มี Caption แล้ว</label></div>
   <div class="field full"><label class="cbline"><input id="postBoost" type="checkbox"> บูทโพสต์นี้</label></div>
   <div class="field"><label>บูทตั้งแต่</label><input id="postBoostFrom" type="date"></div>
   <div class="field"><label>ถึง</label><input id="postBoostTo" type="date"></div>
  </div>
- <div class="actions"><button class="btn secondary" data-close-layer="postModal">ยกเลิก</button><button id="postSave" class="btn primary">บันทึก</button></div>
+ <div class="actions"><button id="postClearBtn" class="btn secondary">เอาออกจากตารางโพสต์</button><button class="btn secondary" data-close-layer="postModal">ยกเลิก</button><button id="postSave" class="btn primary">บันทึก</button></div>
 </div></div>
 
 <div id="pickModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="pickModal" aria-label="Close">×</button><h3>เลือกงานที่มีอยู่</h3>
@@ -1248,7 +1233,7 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
- const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();await loadProjects();await loadNpdProducts();await loadCreative();await loadPosts();syncState("Cloud synced");render()}
+ const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();await loadProjects();await loadNpdProducts();syncState("Cloud synced");render()}
 // Task writes apply to local state and repaint first, then persist. A failed
 // write puts the old row back, so the screen never drifts from the server.
 async function saveTask(payload,id=null){
@@ -1486,72 +1471,24 @@ const calShow=k=>calLayer==="all"||calLayer===k;
 // A creative job appears on the day its artwork must be approved, which is
 // either its own date or the date of the post it feeds.
 function calCreativeOn(ds){
- return creativeJobs.filter(j=>cvOpen(j)&&cvDue(j)===ds);
+ return cvJobs().filter(t=>cvOpen(t)&&!t.post_on&&cvDue(t)===ds);
 }
 function calPostChip(p,ds){
  const start=ds===p.post_date,end=ds===postEnd(p);
- const span=p.kind==="event"&&(p.days||1)>1;
+ const span=p.post_kind==="event"&&(p.post_days||1)>1;
  const edge=span?(start?" s":end?" e":" m"):"";
- const job=p.creative_id?creativeJobs.find(j=>j.id===p.creative_id):null;
- const art=job&&cvOpen(job)?` · อาร์ตเวิร์กดราฟต์ ${cvRound(job)||1}`:"";
- const tip=`${p.title}${p.channel?" · "+p.channel:""}${span?` · กิจกรรม ${p.days} วัน`:""}${p.caption_ready?" · มี Caption":" · ยังไม่มี Caption"}${art}`;
+ const art=p.cv_on&&cvOpen(p)?` · อาร์ตเวิร์กดราฟต์ ${cvRound(p)||1}`:"";
+ const tip=`${p.title}${p.channel?" · "+p.channel:""}${span?` · กิจกรรม ${p.post_days} วัน`:""}${p.post_caption?" · มี Caption":" · ยังไม่มี Caption"}${art}`;
  // In a month grid every day is its own cell, so a continuation day with no
  // label is just an unexplained bar. Repeat the title, dimmed, and keep the
  // squared-off edges to carry the sense of one run.
- return `<div class="cal-post${edge}${p.caption_ready?"":" nocap"}${job&&cvOpen(job)?" art":""}${span&&!start?" cont":""}" onclick="postEdit(${p.id});event.stopPropagation()" title="${esc(tip)}">`
-  +`${start?`<span class="cap">${p.caption_ready?"●":"○"}</span>`:""}`
+ return `<div class="cal-post${edge}${p.post_caption?"":" nocap"}${p.cv_on&&cvOpen(p)?" art":""}${span&&!start?" cont":""}" onclick="postEdit(${p.id});event.stopPropagation()" title="${esc(tip)}">`
+  +`${start?`<span class="cap">${p.post_caption?"●":"○"}</span>`:""}`
   +`${esc(p.title)}${end&&span?` <span class="cap">จบ</span>`:""}</div>`;
 }
 function calBoostBar(p,ds){
- const first=ds===p.boost_from;
- return `<div class="cal-boost" title="บูท ${fmtD(p.boost_from)} – ${fmtD(p.boost_to)}">${first?"บูท":""}</div>`;
-}
-// The calendar shows WHEN. This answers WHAT STATE -- boost on or off, how
-// many days it runs, caption written or not -- which a grid of chips cannot,
-// and which is the actual question when a dozen posts are in flight.
-function renderPostTable(){
- if(!$("postPanel"))return;
- const past=$("postShowPast").checked,now=todayISO().slice(0,7);
- const all=posts.filter(p=>p.status!=="cancelled");
- const rows=all.filter(p=>past||p.post_date.slice(0,7)>=now)
-   .sort((a,b)=>a.post_date.localeCompare(b.post_date));
- const cap=rows.filter(p=>p.caption_ready).length,bo=rows.filter(p=>p.boost).length;
- const live=all.filter(p=>p.boost&&boostCovers(p,todayISO())).length;
- $("postSummary").textContent=rows.length
-  ? `${rows.length} โพสต์ · มี Caption ${cap} · ยังไม่มี ${rows.length-cap} · บูท ${bo}${live?` · กำลังรัน ${live}`:""}`
-  : (past?"ยังไม่มีโพสต์":"ยังไม่มีโพสต์ที่จะถึง");
- if(!rows.length){$("postTable").innerHTML='<div class="empty">ยังไม่มีโพสต์ — กด "+ โพสต์" เพื่อเริ่ม</div>';return}
- // Grouped by month: a flat list of everything upcoming loses the sense of
- // which week is crowded, which is what you look at a schedule for.
- const months=[...new Set(rows.map(p=>p.post_date.slice(0,7)))];
- $("postTable").innerHTML=months.map(mk=>{
-  const ms=rows.filter(p=>p.post_date.slice(0,7)===mk);
-  const label=new Date(mk+"-01T00:00:00").toLocaleDateString("th-TH-u-ca-gregory",{month:"long",year:"numeric"});
-  return `<div class="po-month"><div class="po-mhead"><b>${esc(label)}</b><span>${ms.length} โพสต์</span></div>`
-   +`<div class="po-head"><span>วันโพสต์</span><span>ชื่อ</span><span>ช่องทาง</span><span>ประเภท</span><span>Caption</span><span>บูท</span><span></span></div>`
-   +ms.map(postRowHTML).join("")+`</div>`;
- }).join("");
-}
-function postRowHTML(p){
- const span=p.kind==="event"&&(p.days||1)>1;
- const bdays=p.boost&&p.boost_from&&p.boost_to
-   ? Math.round((new Date(p.boost_to+"T00:00:00")-new Date(p.boost_from+"T00:00:00"))/86400000)+1 : null;
- const live=p.boost&&boostCovers(p,todayISO());
- const boost=!p.boost?'<span class="po-off">ไม่บูท</span>'
-  :(p.boost_from&&p.boost_to
-    ? `<span class="po-boost${live?" live":""}">${fmtD(p.boost_from)} – ${fmtD(p.boost_to)} · ${bdays} วัน${live?" · กำลังรัน":""}</span>`
-    : '<span class="po-warn">บูท — ยังไม่ใส่วัน</span>');
- const job=p.creative_id?creativeJobs.find(j=>j.id===p.creative_id):null;
- const art=job&&cvOpen(job)?`<div class="po-art">อาร์ตเวิร์กยังไม่อนุมัติ · ดราฟต์ ${cvRound(job)||1}</div>`:"";
- return `<div class="po-row${live?" live":""}">
-  <span class="po-date">${fmtD(p.post_date)}${span?` <b>+${p.days-1}</b>`:""}</span>
-  <span class="po-name">${esc(p.title)}${art}</span>
-  <span class="po-ch">${esc(p.channel||"—")}</span>
-  <span class="po-kind">${span?`กิจกรรม ${p.days} วัน`:"โพสต์"}</span>
-  <span><button class="po-cap${p.caption_ready?" on":""}" onclick="postToggleCaption(${p.id})" title="ติ๊กเมื่อ Caption พร้อม">${p.caption_ready?"✓ มีแล้ว":"○ ยังไม่มี"}</button></span>
-  <span>${boost}</span>
-  <span class="po-act"><button class="btn secondary small" onclick="postEdit(${p.id})">แก้ไข</button><button class="btn danger small" onclick="postDelete(${p.id})">ลบ</button></span>
- </div>`;
+ const first=ds===p.post_boost_from;
+ return `<div class="cal-boost" title="บูท ${fmtD(p.post_boost_from)} – ${fmtD(p.post_boost_to)}">${first?"บูท":""}</div>`;
 }
 function renderCalendar(){
  const mode=$("calendarMode")?.value||calendarMode;calendarMode=mode;
@@ -1567,15 +1504,15 @@ function renderCalendar(){
  for(let i=0;i<42;i++){
    const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
    const dayTasks=calShow("task")?tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected)):[];
-   const dayPosts=calShow("post")?posts.filter(p=>p.status!=="cancelled"&&postCovers(p,ds)):[];
-   const dayBoost=calShow("post")?posts.filter(p=>p.status!=="cancelled"&&boostCovers(p,ds)):[];
+   const dayPosts=calShow("post")?cvPosts().filter(p=>postCovers(p,ds)):[];
+   const dayBoost=calShow("post")?cvPosts().filter(p=>boostCovers(p,ds)):[];
    const dayCv=calShow("creative")?calCreativeOn(ds):[];
    const outside=d.getMonth()!==m,td=ds===todayISO();
    out+=`<div class="day ${outside?"outside":""} ${td?"today-day":""}" onclick="openDay('${ds}',event)">
      <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${(()=>{const n=dayTasks.length+dayPosts.length+dayCv.length;return n?n+" รายการ":""})()}</span></div>
      ${dayPosts.map(p=>calPostChip(p,ds)).join("")}
      ${dayBoost.map(p=>calBoostBar(p,ds)).join("")}
-     ${dayCv.map(j=>`<div class="cal-cv${cvLate(j)?" late":""}" onclick="goView('creative');event.stopPropagation()" title="${esc(j.title+" · ดราฟต์ที่ "+(cvRound(j)||0)+" · "+CV_STATUS[cvStatus(j)].t)}">✎ ${esc(j.title)}</div>`).join("")}
+     ${dayCv.map(j=>`<div class="cal-cv${cvLate(j)?" late":""}" onclick="goView('creative');event.stopPropagation()" title="${esc(j.task+" · ดราฟต์ที่ "+(cvRound(j)||0)+" · "+CV_STATUS[cvStatus(j)].t)}">✎ ${esc(j.task)}</div>`).join("")}
      ${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}
      ${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}
    </div>`;
@@ -3295,46 +3232,35 @@ function projOpenPick(projectId,channel){
  $("pickSearch").value="";renderPick();openLayer("pickModal");
 }
 // ---- modals -------------------------------------------------------------
-let cvUnlinkPending=false;
-function cvFillProjects(sel,val){
- sel.innerHTML='<option value="">— ไม่ผูก —</option>'+projects.filter(p=>p.status!=="cancelled")
-   .map(p=>`<option value="${p.id}"${String(val)===String(p.id)?" selected":""}>${esc(p.name)}</option>`).join("");
-}
+// "+ งาน Creative" creates an ordinary TASK with the creative track switched
+// on, so work born here behaves like every other task everywhere else --
+// Tasks, Calendar, the dashboard, the portfolio. There is no second record.
 window.cvEdit=id=>{
- const j=creativeJobs.find(x=>x.id===id)||null;
- editingCreativeId=j?j.id:null;
- $("cvModalTitle").textContent=j?"แก้ไขงาน Creative":"งาน Creative ใหม่";
- $("cvTitle").value=j?j.title:"";
- cvFillProjects($("cvProject"),j?j.project_id:"");
- // The link is made once, from "+ เลือกงานที่มีอยู่". Offering a second way to
- // set it here only invited linking the same work twice over.
- const lt=j?cvTask(j):null;
- cvUnlinkPending=false;
- $("cvTaskWrap").classList.toggle("hidden",!lt);
- if(lt)$("cvTaskName").textContent=lt.task;
- $("cvDue").value=j?(j.due_date||""):"";
- $("cvBriefUrl").value=j?(j.brief_url||""):"";
- $("cvNote").value=j?(j.brief_note||""):"";
+ const t=id?tasks.find(x=>x.id===id):null;
+ editingCreativeId=t?t.id:null;
+ $("cvModalTitle").textContent=t?"แก้ไขงาน Creative":"งาน Creative ใหม่";
+ $("cvTitle").value=t?t.task:"";
+ $("cvDue").value=t?(t.due||""):"";
+ $("cvBriefUrl").value=t?(t.cv_brief_url||""):"";
+ $("cvNote").value=t?(t.note||""):"";
  openLayer("cvModal");
 };
 $("addCvBtn").onclick=()=>cvEdit(null);
-$("cvUnlink").onclick=()=>{cvUnlinkPending=true;$("cvTaskWrap").classList.add("hidden");toast("จะยกเลิกการผูกเมื่อกดบันทึก")};
 $("cvSave").onclick=async()=>{
  const title=$("cvTitle").value.trim();
  if(!title)return toast("ใส่ชื่องานก่อน","bad");
- const payload={title,project_id:$("cvProject").value?Number($("cvProject").value):null,
-  ...(cvUnlinkPending?{task_id:null}:{}),
-  due_date:$("cvDue").value||null,brief_url:$("cvBriefUrl").value.trim()||null,
-  brief_note:$("cvNote").value.trim()||null};
+ const patch={task:title,due:$("cvDue").value||null,
+  cv_brief_url:$("cvBriefUrl").value.trim()||null,note:$("cvNote").value.trim()||""};
  if(editingCreativeId){
-  if(await cvPatch(editingCreativeId,payload)){closeLayer("cvModal");toast("บันทึกแล้ว")}
+  if(await saveTask(patch,editingCreativeId)){closeLayer("cvModal");toast("บันทึกแล้ว")}
   return;
  }
- const {data,error}=await sb.from("creative_jobs")
-   .insert({...payload,status:"briefing",waiting_on:"us",rounds:[],
-            team_id:profile.team_id,created_by:user.id}).select().single();
- if(error)return toast(error.message,"bad");
- creativeJobs.unshift(data);render();closeLayer("cvModal");toast("สร้างงาน Creative แล้ว");
+ const cat=categories[0];
+ const ok=await createTask({user_id:user.id,category:cat?cat.name:"General",
+  sub:(cat&&cat.subs&&cat.subs[0])||"General",status:"To Do",priority:"Medium",
+  pinned:false,completed_at:null,
+  cv_on:true,cv_status:"briefing",cv_waiting_on:"us",cv_rounds:[],...patch});
+ if(ok){closeLayer("cvModal");toast("สร้างงาน Creative แล้ว")}
 };
 // The app cannot send mail or write to Planner, so it hands over the text
 // instead of pretending to deliver it.
@@ -3347,8 +3273,7 @@ $("cvCopyBrief").onclick=async()=>{
  catch(_){prompt("คัดลอกข้อความนี้",text)}
 };
 
-// Starting from an existing task copies nothing but the name: the job points
-// at the task, so the due date and everything else stay in one place.
+// Bringing a task into Creative is a flag on the task, not a new record.
 function renderCvPick(){
  const q=($("cvPickSearch").value||"").toLowerCase(),hide=$("cvPickHideDone").checked;
  const all=cvPickableTasks();
@@ -3365,37 +3290,29 @@ $("cvPickHideDone").onchange=renderCvPick;
 $("cvPickList").onclick=async e=>{
  const r=e.target.closest("[data-cv-pick]");if(!r)return;
  const t=tasks.find(x=>x.id===Number(r.dataset.cvPick));if(!t)return;
- // A task already marked Done arrives with its work finished -- opening it at
- // "ยังไม่ส่งบรีฟ" would be a lie, and would ask for a brief that was sent
- // months ago. It comes in approved, dated from when the task actually closed.
+ // A task already marked Done arrives with its work finished; opening it at
+ // "ยังไม่ส่งบรีฟ" would ask for a brief that went out months ago.
  const wasDone=t.status==="Done";
- const {data,error}=await sb.from("creative_jobs").insert({
-   title:t.task,task_id:t.id,
-   status:wasDone?"done":"briefing",waiting_on:"us",rounds:[],
-   approved_on:wasDone?((t.completed_at||"").slice(0,10)||t.due||todayISO()):null,
-   team_id:profile.team_id,created_by:user.id
- }).select().single();
- if(error)return toast(error.message,"bad");
- creativeJobs.unshift(data);render();closeLayer("cvPickModal");
- toast(wasDone?`ดึง "${t.task}" เข้ามาเป็นงานที่อนุมัติแล้ว`:`เปิดงาน Creative จาก "${t.task}" แล้ว`);
+ const ok=await saveTask({cv_on:true,
+   cv_status:wasDone?"done":"briefing",cv_waiting_on:"us",
+   cv_approved_on:wasDone?((t.completed_at||"").slice(0,10)||t.due||todayISO()):null},t.id);
+ if(!ok)return;
+ closeLayer("cvPickModal");
+ toast(wasDone?`ดึง "${t.task}" เข้ามาเป็นงานที่อนุมัติแล้ว`:`เปิดสาย Creative ให้ "${t.task}" แล้ว`);
 };
 
 window.postEdit=(id,presetDate)=>{
- const p=posts.find(x=>x.id===id)||null;
- editingPostId=p?p.id:null;
- $("postModalTitle").textContent=p?"แก้ไขโพสต์":"โพสต์ใหม่";
- $("postTitle").value=p?p.title:"";
- $("postKind").value=p?p.kind:"post";
- $("postChannel").value=p?(p.channel||""):"";
- $("postDate").value=p?p.post_date:(presetDate||todayISO());
- $("postDays").value=p?(p.days||1):1;
- cvFillProjects($("postProject"),p?p.project_id:"");
- $("postCreative").innerHTML='<option value="">— ไม่ผูก —</option>'+creativeJobs
-   .map(j=>`<option value="${j.id}"${p&&String(p.creative_id)===String(j.id)?" selected":""}>${esc(j.title)}</option>`).join("");
- $("postCaption").checked=p?!!p.caption_ready:false;
- $("postBoost").checked=p?!!p.boost:false;
- $("postBoostFrom").value=p?(p.boost_from||""):"";
- $("postBoostTo").value=p?(p.boost_to||""):"";
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ editingPostId=t.id;
+ $("postModalTitle").textContent=`รายละเอียดโพสต์ — ${t.task}`;
+ $("postKind").value=t.post_kind||"post";
+ $("postChannel").value=t.post_channel||"";
+ $("postDate").value=t.post_date||presetDate||"";
+ $("postDays").value=t.post_days||1;
+ $("postCaption").checked=!!t.post_caption;
+ $("postBoost").checked=!!t.post_boost;
+ $("postBoostFrom").value=t.post_boost_from||"";
+ $("postBoostTo").value=t.post_boost_to||"";
  postSyncKind();
  openLayer("postModal");
 };
@@ -3404,40 +3321,28 @@ function postSyncKind(){
  if($("postKind").value!=="event")$("postDays").value=1;
 }
 $("postKind").onchange=postSyncKind;
+$("postClearBtn").onclick=()=>postClear();
 $("postSave").onclick=async()=>{
- const title=$("postTitle").value.trim();
- if(!title)return toast("ใส่ชื่อโพสต์ก่อน","bad");
+ if(!editingPostId)return;
  if(!$("postDate").value)return toast("ใส่วันโพสต์ก่อน","bad");
  const boost=$("postBoost").checked;
- const payload={title,kind:$("postKind").value,channel:$("postChannel").value.trim()||null,
-  post_date:$("postDate").value,days:Math.max(1,Number($("postDays").value)||1),
-  project_id:$("postProject").value?Number($("postProject").value):null,
-  creative_id:$("postCreative").value?Number($("postCreative").value):null,
-  caption_ready:$("postCaption").checked,boost,
-  boost_from:boost?($("postBoostFrom").value||null):null,
-  boost_to:boost?($("postBoostTo").value||null):null};
- if(editingPostId){
-  if(await postPatch(editingPostId,payload)){closeLayer("postModal");toast("บันทึกแล้ว")}
-  return;
+ const ok=await saveTask({post_on:true,post_kind:$("postKind").value,
+  post_channel:$("postChannel").value.trim()||null,
+  post_date:$("postDate").value,post_days:Math.max(1,Number($("postDays").value)||1),
+  post_caption:$("postCaption").checked,post_boost:boost,
+  post_boost_from:boost?($("postBoostFrom").value||null):null,
+  post_boost_to:boost?($("postBoostTo").value||null):null},editingPostId);
+ if(ok){closeLayer("postModal");toast("บันทึกรายละเอียดโพสต์แล้ว")}
+};
+window.postClear=async()=>{
+ if(!editingPostId)return;
+ if(await saveTask({post_on:false,post_date:null,post_boost:false},editingPostId)){
+  closeLayer("postModal");toast("เอาออกจากตารางโพสต์แล้ว");
  }
- const {data,error}=await sb.from("posts")
-   .insert({...payload,team_id:profile.team_id,created_by:user.id}).select().single();
- if(error)return toast(error.message,"bad");
- posts.push(data);render();closeLayer("postModal");toast("เพิ่มโพสต์แล้ว");
 };
 
-// Grouped by who is holding the job, not by date -- with dozens of these per
-// project a flat list of fifty is unusable, and "what is waiting on me" is the
-// only question worth opening the page for.
-// Approved is not the same as over: the artwork can be delivered while the
-// ads it feeds are still running. That is read off the linked post's boost
-// window rather than asked for again -- the dates are already there.
-function cvAds(j){
- if(!posts.length)return null;
- const p=posts.find(x=>x.creative_id===j.id&&x.boost&&x.boost_from&&x.boost_to);
- return p&&boostCovers(p,todayISO())?p:null;
-}
-const cvGroupOf=j=>cvStatus(j)==="done"&&cvAds(j)?"running":cvStatus(j);
+// Grouped by who is holding the work. With dozens of these a flat list is
+// unusable, and "what is waiting on me" is the only reason to open the page.
 const CV_GROUPS=[
  {k:"reviewing",t:"รอเราตรวจ"},
  {k:"briefing", t:"ยังไม่ส่งบรีฟ"},
@@ -3445,8 +3350,8 @@ const CV_GROUPS=[
  {k:"running",  t:"อนุมัติแล้ว · กำลังรัน Ads"},
  {k:"done",     t:"จบแล้ว"}
 ];
-function cvRoundsHTML(j){
- const rs=cvRounds(j);
+function cvRoundsHTML(t){
+ const rs=cvRounds(t);
  if(!rs.length)return '<div class="cv-none">ยังไม่ได้ส่งบรีฟ</div>';
  return `<div class="cv-rounds">${rs.map(r=>{
   const days=r.sent&&r.back?Math.round((new Date(r.back+"T00:00:00")-new Date(r.sent+"T00:00:00"))/86400000):null;
@@ -3456,185 +3361,77 @@ function cvRoundsHTML(j){
   return `<div class="cv-round"><b>ดราฟต์ ${r.n}</b><span>ส่ง ${fmtD(r.sent)}</span><span>${r.back?"ได้กลับ "+fmtD(r.back):"—"}</span><span class="cv-days">${days!=null?days+" วัน":""}</span>${mark}</div>`;
  }).join("")}</div>`;
 }
-const fmtD=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"—";
-function cvCardHTML(j){
- const due=cvDue(j),left=cvLeft(j),n=cvRound(j);
- const linked=posts.find(x=>x.creative_id===j.id);
+// The post is not a separate thing to go and look at -- it is the detail of
+// this same piece of work, so it sits in the card with everything else.
+function cvPostHTML(t){
+ if(!t.post_on)return `<div class="cv-post empty-post"><span>ยังไม่ได้ตั้งเป็นโพสต์</span><button class="btn secondary small" onclick="postEdit(${t.id})">ตั้งวันโพสต์</button></div>`;
+ const span=t.post_kind==="event"&&(t.post_days||1)>1;
+ const live=boostCovers(t,todayISO());
+ const bdays=t.post_boost&&t.post_boost_from&&t.post_boost_to
+   ? Math.round((new Date(t.post_boost_to+"T00:00:00")-new Date(t.post_boost_from+"T00:00:00"))/86400000)+1:null;
+ const boost=!t.post_boost?'<span class="po-off">ไม่บูท</span>'
+  :(t.post_boost_from&&t.post_boost_to
+    ? `<span class="po-boost${live?" live":""}">บูท ${fmtD(t.post_boost_from)} – ${fmtD(t.post_boost_to)} · ${bdays} วัน${live?" · กำลังรัน":""}</span>`
+    : '<span class="po-warn">บูท — ยังไม่ใส่วัน</span>');
+ return `<div class="cv-post">
+  <span class="cv-pdate">${t.post_date?fmtD(t.post_date):"ยังไม่มีวัน"}${span?` <b>+${t.post_days-1}</b>`:""}</span>
+  <span class="po-kind">${span?`กิจกรรม ${t.post_days} วัน`:"โพสต์"}${t.post_channel?` · ${esc(t.post_channel)}`:""}</span>
+  <button class="po-cap${t.post_caption?" on":""}" onclick="postToggleCaption(${t.id})" title="ติ๊กเมื่อ Caption พร้อม">${t.post_caption?"✓ มี Caption":"○ ยังไม่มี Caption"}</button>
+  ${boost}
+  <button class="btn secondary small cv-pedit" onclick="postEdit(${t.id})">แก้รายละเอียดโพสต์</button>
+ </div>`;
+}
+function cvCardHTML(t){
+ const due=cvDue(t),left=cvLeft(t),n=cvRound(t);
  const acts=[];
- if(cvStatus(j)==="briefing")acts.push(`<button class="btn primary small" onclick="cvSendBrief(${j.id})">ส่งบรีฟแล้ว</button>`);
- if(cvStatus(j)==="waiting") acts.push(`<button class="btn primary small" onclick="cvGotDraft(${j.id})">ได้ดราฟต์ที่ ${n} แล้ว</button>`);
- if(cvStatus(j)==="reviewing"){
-  acts.push(`<button class="btn primary small" onclick="cvApprove(${j.id})">✓ อนุมัติ</button>`);
-  acts.push(`<button class="btn secondary small" onclick="cvRevise(${j.id})">↻ ขอแก้ (ดราฟต์ ${n+1})</button>`);
+ if(cvStatus(t)==="briefing")acts.push(`<button class="btn primary small" onclick="cvSendBrief(${t.id})">ส่งบรีฟแล้ว</button>`);
+ if(cvStatus(t)==="waiting") acts.push(`<button class="btn primary small" onclick="cvGotDraft(${t.id})">ได้ดราฟต์ที่ ${n} แล้ว</button>`);
+ if(cvStatus(t)==="reviewing"){
+  acts.push(`<button class="btn primary small" onclick="cvApprove(${t.id})">✓ อนุมัติ</button>`);
+  acts.push(`<button class="btn secondary small" onclick="cvRevise(${t.id})">↻ ขอแก้ (ดราฟต์ ${n+1})</button>`);
  }
- if(cvStatus(j)==="done")acts.push(`<button class="btn secondary small" onclick="cvReopen(${j.id})">กลับมาแก้</button>`);
- if(cvOpen(j))acts.push(`<button class="btn secondary small" onclick="cvFlip(${j.id})">${j.waiting_on==="us"?"→ ส่งให้ Creative":"← กลับมาที่เรา"}</button>`);
+ if(cvStatus(t)==="done")acts.push(`<button class="btn secondary small" onclick="cvReopen(${t.id})">กลับมาแก้</button>`);
+ if(cvOpen(t))acts.push(`<button class="btn secondary small" onclick="cvFlip(${t.id})">${t.cv_waiting_on==="creative"?"← กลับมาที่เรา":"→ ส่งให้ Creative"}</button>`);
  const bits=[];
- const pj=j.project_id?projects.find(p=>p.id===j.project_id):null;
- if(pj)bits.push(esc(pj.name));
- const tk=cvTask(j);
- if(tk)bits.push(`<span class="cv-tasklink" onclick="editTask(${tk.id});event.stopPropagation()">งาน: ${esc(tk.task)}</span>`);
+ if(t.category)bits.push(esc(t.category));
  if(n)bits.push(`ดราฟต์ที่ ${n}`);
- if(linked)bits.push(`โพสต์ ${fmtD(linked.post_date)}`);
- const ads=cvAds(j);
- if(ads)bits.push(`<span class="cv-ads">รัน Ads ถึง ${fmtD(ads.boost_to)}</span>`);
- return `<div class="cv-card${cvLate(j)?" late":""}">
+ if(t.status==="Done")bits.push("งานปิดแล้ว");
+ return `<div class="cv-card${cvLate(t)?" late":""}">
   <div class="cv-head">
-   <div class="cv-main"><div class="cv-title">${esc(j.title)}</div><div class="cv-sub">${bits.join(" · ")||"ไม่ได้ผูกโปรเจกต์"}</div></div>
-   ${j.brief_url?`<a class="cv-link" href="${esc(j.brief_url)}" target="_blank" rel="noopener">บรีฟ</a>`:""}
-   <span class="cv-due${cvLate(j)?" late":""}">${due?`อนุมัติ ${fmtD(due)}${left!=null?` · ${left<0?`เลย ${-left} วัน`:`เหลือ ${left} วัน`}`:""}`:"ยังไม่มีวัน"}</span>
+   <div class="cv-main"><div class="cv-title">${esc(t.task)}</div><div class="cv-sub">${bits.join(" · ")||"ไม่มีหมวดหมู่"}</div></div>
+   ${t.cv_brief_url?`<a class="cv-link" href="${esc(t.cv_brief_url)}" target="_blank" rel="noopener">บรีฟ</a>`:""}
+   <span class="cv-due${cvLate(t)?" late":""}">${due?`${t.post_date?"โพสต์":"กำหนด"} ${fmtD(due)}${left!=null?` · ${left<0?`เลย ${-left} วัน`:`เหลือ ${left} วัน`}`:""}`:"ยังไม่มีวัน"}</span>
   </div>
-  ${cvRoundsHTML(j)}
-  <div class="cv-acts">${acts.join("")}<button class="btn secondary small" onclick="cvEdit(${j.id})">แก้ไข</button><button class="btn danger small" onclick="cvDelete(${j.id})">ลบ</button></div>
+  ${cvPostHTML(t)}
+  ${cvRoundsHTML(t)}
+  <div class="cv-acts">${acts.join("")}<button class="btn secondary small" onclick="editTask(${t.id})">แก้ไขงาน</button><button class="btn secondary small" onclick="cvRemove(${t.id})">เอาออกจาก Creative</button></div>
  </div>`;
 }
 function renderCreative(){
  if(!$("cvList"))return;
- $("cvSetupHint").classList.toggle("hidden",!creativeTableMissing);
- if(!creativeJobs.length){
-  $("cvList").innerHTML='<div class="empty">ยังไม่มีงาน Creative — กด "+ งาน Creative" เพื่อเริ่ม</div>';
-  renderPostTable();return;
+ const jobs=cvJobs();
+ if(!jobs.length){
+  $("cvList").innerHTML='<div class="empty">ยังไม่มีงาน Creative — กด "+ เลือกงานที่มีอยู่" หรือ "+ งาน Creative"</div>';return;
  }
- renderPostTable();
  $("cvList").innerHTML=CV_GROUPS.map(g=>{
-  const rows=creativeJobs.filter(j=>cvGroupOf(j)===g.k)
+  const rows=jobs.filter(t=>cvGroupOf(t)===g.k)
     .sort((a,b)=>String(cvDue(a)||"9999").localeCompare(String(cvDue(b)||"9999")));
   if(!rows.length)return "";
-  return `<div class="cv-group"><div class="cv-ghead"><b>${g.t}</b><span>${rows.length}</span></div>${rows.map(cvCardHTML).join("")}</div>`;
+  const cap=rows.filter(r=>r.post_on&&!r.post_caption).length;
+  return `<div class="cv-group"><div class="cv-ghead"><b>${g.t}</b><span>${rows.length}</span>${cap?`<span class="cv-gnote">ยังไม่มี Caption ${cap}</span>`:""}</div>${rows.map(cvCardHTML).join("")}</div>`;
  }).join("")||'<div class="empty">ไม่มีงานค้าง</div>';
 }
-// Mutations. Every one is optimistic: change the local record, re-render,
-// persist, and put it back if the write fails.
-async function cvPatch(id,patch){
- const j=creativeJobs.find(x=>x.id===id);if(!j)return false;
- const before={...j};Object.assign(j,patch);render();
- const {error}=await sb.from("creative_jobs").update({...patch,updated_at:new Date().toISOString()}).eq("id",id);
- if(error){Object.assign(j,before);render();toast(error.message,"bad");return false}
- return true;
-}
-window.cvSendBrief=async id=>{
- const j=creativeJobs.find(x=>x.id===id);if(!j)return;
- const rounds=[...cvRounds(j),{n:1,sent:todayISO(),back:null,outcome:null}];
- if(await cvPatch(id,{status:"waiting",waiting_on:"creative",brief_sent_on:todayISO(),rounds}))
-  toast("ส่งบรีฟแล้ว — รอดราฟต์ที่ 1");
-};
-window.cvGotDraft=async id=>{
- const j=creativeJobs.find(x=>x.id===id);if(!j)return;
- const rounds=cvRounds(j).map(r=>({...r}));
- if(!rounds.length)return;
- rounds[rounds.length-1].back=todayISO();
- if(await cvPatch(id,{status:"reviewing",waiting_on:"us",rounds}))
-  toast(`ได้ดราฟต์ที่ ${rounds.length} แล้ว — รอเราตรวจ`);
-};
-// The loop has no ceiling: asking for another round just appends one.
-window.cvRevise=async id=>{
- const j=creativeJobs.find(x=>x.id===id);if(!j)return;
- const rounds=cvRounds(j).map(r=>({...r}));
- if(!rounds.length)return;
- rounds[rounds.length-1].outcome="revise";
- rounds.push({n:rounds.length+1,sent:todayISO(),back:null,outcome:null});
- if(await cvPatch(id,{status:"waiting",waiting_on:"creative",rounds}))
-  toast(`ขอแก้ — รอดราฟต์ที่ ${rounds.length}`);
-};
-window.cvApprove=async id=>{
- const j=creativeJobs.find(x=>x.id===id);if(!j)return;
- const rounds=cvRounds(j).map(r=>({...r}));
- if(rounds.length)rounds[rounds.length-1].outcome="approve";
- if(await cvPatch(id,{status:"done",waiting_on:"us",approved_on:todayISO(),rounds}))
-  toast(`อนุมัติแล้ว — จบที่ดราฟต์ ${rounds.length||1}`);
-};
-window.cvReopen=async id=>{
- const j=creativeJobs.find(x=>x.id===id);if(!j)return;
- if(await cvPatch(id,{status:cvRounds(j).length?"reviewing":"briefing",approved_on:null,waiting_on:"us"}))
-  toast("กลับมาทำต่อ");
-};
-window.cvFlip=async id=>{
- const j=creativeJobs.find(x=>x.id===id);if(!j)return;
- const to=j.waiting_on==="us"?"creative":"us";
- if(await cvPatch(id,{waiting_on:to}))toast(to==="us"?"ตอนนี้รอเรา":"ตอนนี้รอ Creative");
-};
-window.cvDelete=async id=>{
- if(!confirm("ลบงาน Creative นี้?"))return;
- const i=creativeJobs.findIndex(x=>x.id===id);if(i<0)return;
- const before=creativeJobs[i];creativeJobs.splice(i,1);render();
- const {error}=await sb.from("creative_jobs").delete().eq("id",id);
- if(error){creativeJobs.splice(i,0,before);render();return toast(error.message,"bad")}
- toast("ลบแล้ว");
-};
-
-/* ---- posts ---------------------------------------------------------------
-   The posting schedule. An event is stored as a start plus a LENGTH IN DAYS
-   rather than an end date, because that is how the work is described -- "a
-   three-day activity", not "ending on the 17th". Boost is its own span since
-   it usually runs past the day the post goes out. */
-const postEnd=p=>{const d=new Date(p.post_date+"T00:00:00");d.setDate(d.getDate()+Math.max(1,p.days||1)-1);return iso(d)};
-const postCovers=(p,ds)=>ds>=p.post_date&&ds<=postEnd(p);
-const boostCovers=(p,ds)=>!!(p.boost&&p.boost_from&&p.boost_to&&ds>=p.boost_from&&ds<=p.boost_to);
-async function postPatch(id,patch){
- const p=posts.find(x=>x.id===id);if(!p)return false;
- const before={...p};Object.assign(p,patch);render();
- const {error}=await sb.from("posts").update({...patch,updated_at:new Date().toISOString()}).eq("id",id);
- if(error){Object.assign(p,before);render();toast(error.message,"bad");return false}
- return true;
-}
-window.postToggleCaption=async id=>{
- const p=posts.find(x=>x.id===id);if(!p)return;
- await postPatch(id,{caption_ready:!p.caption_ready});
-};
-window.postDelete=async id=>{
- if(!confirm("ลบโพสต์นี้?"))return;
- const i=posts.findIndex(x=>x.id===id);if(i<0)return;
- const before=posts[i];posts.splice(i,1);render();
- const {error}=await sb.from("posts").delete().eq("id",id);
- if(error){posts.splice(i,0,before);render();return toast(error.message,"bad")}
- toast("ลบแล้ว");
-};
-
-/* ---- creative jobs -------------------------------------------------------
-   A short relay that loops: we brief, Creative returns a draft, we approve it
-   or ask for another. Unlike the KOL tracker -- thirteen stages that run
-   forward, where sending something back is the exception -- here the loop IS
-   the process, so the rounds are a list that grows rather than a fixed set of
-   stages. No comment text: the feedback file already lives in the company's
-   own systems and copying it here would add a step without adding an answer.
+/* ---- creative work ------------------------------------------------------
+   A creative job is a TASK with a creative track on it, not a record beside
+   one. The app already had this pattern and it was not used: a task carries
+   its own purchasing trail in pr_stage. Three records for one piece of work is
+   what produced a picker to link them, an index to stop them being linked
+   twice, a separate table for the post, and nowhere that said "this is at this
+   stage and its caption is still missing". One record says all of it.
 --------------------------------------------------------------------------- */
-let creativeJobs=[],creativeTableMissing=false,editingCreativeId=null;
-let posts=[],postsTableMissing=false,editingPostId=null;
-
-async function loadCreative(){
- const {data,error}=await sb.from("creative_jobs").select("*").order("due_date",{nullsFirst:false});
- creativeTableMissing=!!error;
- creativeJobs=error?[]:(data||[]);
- return !error;
-}
-async function loadPosts(){
- const {data,error}=await sb.from("posts").select("*").order("post_date");
- postsTableMissing=!!error;
- posts=error?[]:(data||[]);
- return !error;
-}
-const cvRounds=j=>Array.isArray(j.rounds)?j.rounds:[];
-const cvRound=j=>cvRounds(j).length;
-// Three sources, in order of authority: a date typed on the job itself, then
-// the post it feeds (the artwork is needed when the post goes out), then the
-// task it came from. Nothing has to be entered twice.
-function cvDue(j){
- if(j.due_date)return j.due_date;
- const p=posts.find(x=>x.creative_id===j.id);
- if(p)return p.post_date;
- const t=j.task_id?tasks.find(x=>x.id===j.task_id):null;
- return t&&t.due?t.due:"";
-}
-const cvTask=j=>j.task_id?tasks.find(x=>x.id===j.task_id):null;
-// Tasks not already driving a creative job -- the DB enforces this too, but
-// the picker should not offer something it will refuse.
-function cvPickableTasks(){
- const taken=new Set(creativeJobs.map(j=>j.task_id).filter(Boolean));
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
- return scope.filter(t=>!taken.has(t.id))
-  .sort((a,b)=>(a.status==="Done")-(b.status==="Done")
-    ||String(b.updated_at||b.created_at||"").localeCompare(String(a.updated_at||a.created_at||"")));
-}
+const cvJobs=()=>(isAdmin()?tasks:tasks.filter(t=>t.user_id===user?.id)).filter(t=>t.cv_on);
+const cvRounds=t=>Array.isArray(t.cv_rounds)?t.cv_rounds:[];
+const cvRound=t=>cvRounds(t).length;
 const CV_STATUS={
  briefing :{t:"ยังไม่ส่งบรีฟ", who:"us",       tone:"info"},
  waiting  :{t:"รอดราฟต์",      who:"creative", tone:"warn"},
@@ -3642,22 +3439,89 @@ const CV_STATUS={
  done     :{t:"อนุมัติแล้ว",    who:"",         tone:"calm"},
  cancelled:{t:"ยกเลิก",        who:"",         tone:"calm"}
 };
-const cvStatus=j=>CV_STATUS[j.status]?j.status:"briefing";
-const cvOpen=j=>cvStatus(j)!=="done"&&cvStatus(j)!=="cancelled";
-// Days left against the day the artwork has to be approved.
-function cvLeft(j){
- const d=cvDue(j);
- if(!d||!cvOpen(j))return null;
+const cvStatus=t=>CV_STATUS[t.cv_status]?t.cv_status:"briefing";
+const cvOpen=t=>cvStatus(t)!=="done"&&cvStatus(t)!=="cancelled";
+// The day the artwork is needed IS the day it posts, so there is one date and
+// it lives on the same record. With no post, the task's own due date stands.
+const cvDue=t=>t.post_date||t.due||"";
+const fmtD=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"—";
+const postEnd=t=>{const d=new Date(t.post_date+"T00:00:00");d.setDate(d.getDate()+Math.max(1,t.post_days||1)-1);return iso(d)};
+const postCovers=(t,ds)=>!!t.post_date&&ds>=t.post_date&&ds<=postEnd(t);
+const boostCovers=(t,ds)=>!!(t.post_boost&&t.post_boost_from&&t.post_boost_to&&ds>=t.post_boost_from&&ds<=t.post_boost_to);
+const cvPosts=()=>(isAdmin()?tasks:tasks.filter(t=>t.user_id===user?.id)).filter(t=>t.post_on&&t.post_date);
+// Approved is not over while the ads it feeds are still running.
+const cvAds=t=>cvStatus(t)==="done"&&boostCovers(t,todayISO())?t:null;
+const cvGroupOf=t=>cvAds(t)?"running":cvStatus(t);
+function cvLeft(t){
+ const d=cvDue(t);
+ if(!d||!cvOpen(t))return null;
  return Math.round((new Date(d+"T00:00:00")-new Date(todayISO()+"T00:00:00"))/86400000);
 }
-const cvLate=j=>{const n=cvLeft(j);return n!=null&&n<0};
-function cvNeedsYou(j){
- if(!cvOpen(j))return null;
- if(cvStatus(j)==="reviewing")return {why:`ตรวจดราฟต์ที่ ${cvRound(j)}`,tone:"bad"};
- if(cvStatus(j)==="briefing")return {why:"ยังไม่ได้ส่งบรีฟ",tone:"info"};
- if(cvLate(j))return {why:`เลยวันอนุมัติ ${-cvLeft(j)} วัน`,tone:"bad"};
+const cvLate=t=>{const n=cvLeft(t);return n!=null&&n<0};
+function cvNeedsYou(t){
+ if(!cvOpen(t))return null;
+ if(cvStatus(t)==="reviewing")return {why:`ตรวจดราฟต์ที่ ${cvRound(t)}`,tone:"bad"};
+ if(cvStatus(t)==="briefing")return {why:"ยังไม่ได้ส่งบรีฟ",tone:"info"};
+ if(cvLate(t))return {why:`เลยวันอนุมัติ ${-cvLeft(t)} วัน`,tone:"bad"};
  return null;
 }
+function cvPickableTasks(){
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ return scope.filter(t=>!t.cv_on)
+  .sort((a,b)=>(a.status==="Done")-(b.status==="Done")
+    ||String(b.updated_at||b.created_at||"").localeCompare(String(a.updated_at||a.created_at||"")));
+}
+
+// Every mutation is saveTask. There is no second table to keep in step, and
+// no rollback path of its own -- saveTask already has one.
+window.cvSendBrief=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const cv_rounds=[...cvRounds(t),{n:1,sent:todayISO(),back:null,outcome:null}];
+ if(await saveTask({cv_status:"waiting",cv_waiting_on:"creative",cv_brief_sent_on:todayISO(),cv_rounds},id))
+  toast("ส่งบรีฟแล้ว — รอดราฟต์ที่ 1");
+};
+window.cvGotDraft=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const cv_rounds=cvRounds(t).map(r=>({...r}));if(!cv_rounds.length)return;
+ cv_rounds[cv_rounds.length-1].back=todayISO();
+ if(await saveTask({cv_status:"reviewing",cv_waiting_on:"us",cv_rounds},id))
+  toast(`ได้ดราฟต์ที่ ${cv_rounds.length} แล้ว — รอเราตรวจ`);
+};
+// No ceiling on the loop: asking for another round appends one.
+window.cvRevise=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const cv_rounds=cvRounds(t).map(r=>({...r}));if(!cv_rounds.length)return;
+ cv_rounds[cv_rounds.length-1].outcome="revise";
+ cv_rounds.push({n:cv_rounds.length+1,sent:todayISO(),back:null,outcome:null});
+ if(await saveTask({cv_status:"waiting",cv_waiting_on:"creative",cv_rounds},id))
+  toast(`ขอแก้ — รอดราฟต์ที่ ${cv_rounds.length}`);
+};
+window.cvApprove=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const cv_rounds=cvRounds(t).map(r=>({...r}));
+ if(cv_rounds.length)cv_rounds[cv_rounds.length-1].outcome="approve";
+ if(await saveTask({cv_status:"done",cv_approved_on:todayISO(),cv_rounds},id))
+  toast(`อนุมัติแล้ว — จบที่ดราฟต์ ${cv_rounds.length||1}`);
+};
+window.cvReopen=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ if(await saveTask({cv_status:cvRounds(t).length?"reviewing":"briefing",cv_approved_on:null,cv_waiting_on:"us"},id))
+  toast("กลับมาทำต่อ");
+};
+window.cvFlip=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ const to=t.cv_waiting_on==="us"?"creative":"us";
+ if(await saveTask({cv_waiting_on:to},id))toast(to==="us"?"ตอนนี้รอเรา":"ตอนนี้รอ Creative");
+};
+// Leaving Creative deletes nothing: the task stays a task.
+window.cvRemove=async id=>{
+ if(!confirm("เอางานนี้ออกจาก Creative? ตัวงานยังอยู่ใน Tasks ตามเดิม"))return;
+ if(await saveTask({cv_on:false},id))toast("เอาออกจาก Creative แล้ว");
+};
+window.postToggleCaption=async id=>{
+ const t=tasks.find(x=>x.id===id);if(!t)return;
+ await saveTask({post_caption:!t.post_caption},id);
+};
 /* ---- WIP review ---------------------------------------------------------
    The dashboard answers "what must I do today"; this answers a different
    question, asked by somebody else: where does every piece of work stand, and
@@ -3936,16 +3800,6 @@ $("calLayers").onclick=e=>{
  $("calLayers").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));
  renderCalendar();
 };
-$("addPostBtn").onclick=()=>postEdit(null);
-$("calGoPosts").onclick=()=>goView("creative");
-$("addPostBtn2").onclick=()=>postEdit(null);
-$("postShowPast").onchange=renderPostTable;
-// The table manages; the calendar shows them in time next to everything else.
-$("postGoCal").onclick=()=>{
- calLayer="post";goView("calendar");
- $("calLayers").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x.dataset.layer==="post"));
- renderCalendar();
-};
 document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>goView(btn.dataset.view));
 // A count on every item is just more to read. These appear only when the
 // section is holding something that needs you today, so an empty sidebar
@@ -3956,7 +3810,7 @@ function renderNavBadges(){
  const active=scope.filter(t=>t.status!=="Done");
  set("navBadgeDash",active.filter(t=>isOverdue(t)||isToday(t)).length);
  set("navBadgePr",prAllItems().filter(it=>it.stage!=="done"&&prNeedsYou(it)).length);
- set("navBadgeCv",creativeJobs.filter(j=>cvNeedsYou(j)).length);
+ set("navBadgeCv",cvJobs().filter(cvNeedsYou).length);
  set("navBadgeProj",projects.filter(p=>p.status!=="done").reduce((n,p)=>
    n+projItemsOf(p.id).filter(it=>{const r=projResolve(it);return !r.done&&r.end&&r.end<todayISO()}).length,0));
 }
