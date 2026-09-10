@@ -182,6 +182,19 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.28 Creative jobs and the posting schedule
+- **New "Creative" section.** Work with Creative is short, loops several times per job, and there can be dozens under a single project — burying it inside a project card would have made the thing you touch most often the thing hardest to reach.
+- **The loop has no ceiling.** Rounds are an array, not columns: `draft_1 / draft_2 / draft_3` would need migrating the first time a job needed a fourth. Each round records only what the app can answer with — sent, returned, days taken, and whether it went back or was approved.
+- **No comment text is stored.** The feedback is a file that already lives in the company's own systems; copying it here would add a step without adding an answer. What is kept is the shape of the relay — how many rounds, how long each took, who is holding it now.
+- **One date, not two.** "The day we need the artwork" and "the day it is approved" are the same day, so `due_date` is the target and `approved_on` records what happened against it.
+- **A job linked to a post inherits the post's date.** The artwork is needed when the post goes out, so there is no second date to keep in step — and the calendar can then say *"posting on the 15th, artwork still on draft 2"*, which is the sentence that stops a post slipping.
+- **The posting schedule layers onto the existing calendar** rather than adding a second one — that duplication is what this app keeps having to undo. Filter chips read ทั้งหมด · งาน · โพสต์ · Creative, with ทั้งหมด as the way back.
+  - A **post** is one chip; an **event** is stored as a start plus a **length in days** (that is how the work is described — "a three-day activity", not "ending on the 17th") and runs as a squared-off bar across its days, dimmed on continuation days and marked จบ on the last, because in a month grid an unlabelled bar explains nothing.
+  - **Boost is its own span** under the post, since it usually runs past the day the post goes out.
+  - **Caption** is a tick: filled dot when ready, dashed outline when not, so an unfinished post is visible without opening it.
+- The app cannot send mail or write to Planner, so the brief modal offers **"คัดลอกบรีฟเป็นอีเมล"** and stamps the day it was sent, rather than a button that looks like it delivers and does not.
+- Requires `migration-v7-28-creative-posts.sql`.
+
 ## V7.27 PORKCHOP icons
 - **The app icon is PORKCHOP**, replacing the old GGG mark across the favicon, the PWA icons and the iPhone home screen.
 - **One mark at every size — the face, not the whole cat.** The full body is charming at poster size, but at the ~60pt a home screen actually draws it is a speck, while the face survives down to a 16px favicon. An icon that changes between sizes is not a mark.
