@@ -1,5 +1,5 @@
-const CACHE="porkchop-g-v7-26-nav";
-const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp"];
+const CACHE="porkchop-g-v7-27-icons";
+const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./icon-maskable-512.png","./apple-touch-icon.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener("activate",e=>e.waitUntil(
   caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith("porkchop-g-")||k.startsWith("guy-work-os-"))&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
