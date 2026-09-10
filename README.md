@@ -182,6 +182,20 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.30 The posting table, and one way to link a task
+- **ตารางโพสต์ under the calendar**, on the โพสต์ layer. The grid answers *when*; this answers *what state* — boost on or off, the span and how many days it runs, caption written or not — which a grid of chips cannot, and which is the actual question once a dozen posts are in flight. A header line reads `เดือนนี้ 3 โพสต์ · มี Caption 1 · ยังไม่มี 2 · บูท 2`.
+- **Caption is a tick in the table**, toggled in place. A boost still running today is marked `กำลังรัน` with a green edge on the row; a post whose artwork is not approved yet carries `อาร์ตเวิร์กยังไม่อนุมัติ · ดราฟต์ N` under its name.
+- **A boost switched on with no dates is called out** rather than shown blank — that is a post nobody is going to remember to schedule.
+- **The task-link dropdown is gone from the Creative modal.** The link is made once, from "+ เลือกงานที่มีอยู่"; a second way to set it only invited linking the same work twice, which is the thing the link exists to prevent. The modal shows the linked task read-only with a "ยกเลิกการผูก" button, and hides the block when nothing is linked.
+- Fixed, and pre-existing: on a phone the **Calendar scrolled the whole page sideways** instead of scrolling inside `.calendar-shell`. `main` is a grid item, and a grid item's default `min-width:auto` lets it grow to its content, so the grid's 850px minimum pushed the page out to 888px on a 390px screen. Confirmed against `main` before changing it; `min-width:0` holds it.
+- No SQL.
+
+## V7.29 Creative takes in work that is already finished
+- **A task marked Done is often not over** — the artwork is delivered but the ads it feeds are still running, which is exactly when it still needs watching. The picker shows completed tasks by default rather than hiding them behind a toggle.
+- **Choosing a finished task opens the job already approved**, dated from when the task actually closed. Opening it at "ยังไม่ส่งบรีฟ" would be a lie, and would ask for a brief that went out months ago.
+- **Approved is not the same as over.** A job whose linked post is inside its boost window sits under *อนุมัติแล้ว · กำลังรัน Ads* with the end date on the card instead of sinking into the archive while the ads are live — read off the post's boost dates, so nothing extra is entered. The final group is renamed อนุมัติแล้ว → จบแล้ว.
+- No SQL.
+
 ## V7.28 Creative jobs and the posting schedule
 - **New "Creative" section.** Work with Creative is short, loops several times per job, and there can be dozens under a single project — burying it inside a project card would have made the thing you touch most often the thing hardest to reach.
 - **The loop has no ceiling.** Rounds are an array, not columns: `draft_1 / draft_2 / draft_3` would need migrating the first time a job needed a fourth. Each round records only what the app can answer with — sent, returned, days taken, and whether it went back or was approved.
