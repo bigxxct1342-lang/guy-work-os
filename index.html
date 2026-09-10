@@ -308,6 +308,8 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-main{flex:1;min-width:0}
 .cv-title{font-size:14px;font-weight:800}
 .cv-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.cv-tasklink{color:var(--text);font-weight:800;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line)}
+.cv-tasklink:hover{text-decoration-color:currentColor}
 .cv-link{font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--soft);border:1px solid var(--line);color:var(--muted);text-decoration:none;flex:none}
 .cv-due{font-size:11px;font-weight:800;color:var(--muted);flex:none;white-space:nowrap}
 .cv-due.late{color:#a64242}
@@ -655,7 +657,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <section id="creativeView" class="hidden">
   <div class="pr-top">
    <div class="help">งานที่ทำกับ Creative — เขียนบรีฟ → ส่ง → รอดราฟต์ → ตรวจ → ขอแก้หรืออนุมัติ<br>ขอแก้ได้ไม่จำกัดรอบ ระบบนับให้เองว่าอยู่ดราฟต์ที่เท่าไหร่และแต่ละรอบใช้เวลากี่วัน</div>
-   <button id="addCvBtn" class="btn primary">+ งาน Creative</button>
+   <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="cvPickBtn" class="btn secondary">+ เลือกงานที่มีอยู่</button><button id="addCvBtn" class="btn primary">+ งาน Creative</button></div>
   </div>
   <div id="cvSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-28-creative-posts.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="cvList"></div>
@@ -859,11 +861,20 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <div class="formgrid">
   <div class="field full"><label>ชื่องาน</label><input id="cvTitle" placeholder="เช่น KV หม่าล่า 40g"></div>
   <div class="field"><label>โปรเจกต์ (ไม่บังคับ)</label><select id="cvProject"><option value="">— ไม่ผูก —</option></select></div>
+  <div class="field full"><label>ผูกกับงานใน Tasks (ไม่บังคับ)</label><select id="cvTask"><option value="">— ไม่ผูก —</option></select></div>
   <div class="field"><label>วันที่ต้องอนุมัติ</label><input id="cvDue" type="date"><div class="help" style="margin-top:5px">เว้นว่างได้ถ้าผูกโพสต์ไว้ — จะใช้วันโพสต์เป็นวันอนุมัติให้เอง</div></div>
   <div class="field full"><label>ลิงก์บรีฟ (ไม่บังคับ)</label><input id="cvBriefUrl" placeholder="วางลิงก์ไฟล์บรีฟ"></div>
   <div class="field full"><label>บรีฟย่อ / โน้ต</label><textarea id="cvNote" rows="3" placeholder="สรุปสั้นๆ ไว้ก็อปวางลงเมลได้"></textarea></div>
  </div>
  <div class="actions"><button id="cvCopyBrief" class="btn secondary">คัดลอกบรีฟเป็นอีเมล</button><button class="btn secondary" data-close-layer="cvModal">ยกเลิก</button><button id="cvSave" class="btn primary">บันทึก</button></div>
+</div></div>
+
+<div id="cvPickModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="cvPickModal" aria-label="Close">×</button><h3>เลือกงานที่มีอยู่</h3>
+ <div class="help" style="margin-bottom:10px">งานที่เลือกจะยังอยู่ใน Tasks เหมือนเดิม — ตรงนี้แค่เปิดสายงาน Creative คู่ไปกับมัน</div>
+ <input id="cvPickSearch" placeholder="ค้นหางาน…" style="margin-bottom:8px">
+ <div class="pick-bar"><label><input id="cvPickHideDone" type="checkbox" checked> ซ่อนงานที่เสร็จแล้ว</label><span id="cvPickCount"></span></div>
+ <div id="cvPickList" class="pick-list"></div>
+ <div class="actions"><button class="btn secondary" data-close-layer="cvPickModal">ปิด</button></div>
 </div></div>
 
 <div id="postModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="postModal" aria-label="Close">×</button><h3 id="postModalTitle">โพสต์ใหม่</h3>
@@ -1476,7 +1487,7 @@ function renderCalendar(){
      <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${(()=>{const n=dayTasks.length+dayPosts.length+dayCv.length;return n?n+" รายการ":""})()}</span></div>
      ${dayPosts.map(p=>calPostChip(p,ds)).join("")}
      ${dayBoost.map(p=>calBoostBar(p,ds)).join("")}
-     ${dayCv.map(j=>`<div class="cal-cv${cvLate(j)?" late":""}" onclick="goView('creative');event.stopPropagation()" title="${esc(j.title+" · ดราฟต์ที่ "+(cvRound(j)||0)+" · "+CV_STATUS[j.status].t)}">✎ ${esc(j.title)}</div>`).join("")}
+     ${dayCv.map(j=>`<div class="cal-cv${cvLate(j)?" late":""}" onclick="goView('creative');event.stopPropagation()" title="${esc(j.title+" · ดราฟต์ที่ "+(cvRound(j)||0)+" · "+CV_STATUS[cvStatus(j)].t)}">✎ ${esc(j.title)}</div>`).join("")}
      ${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}
      ${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}
    </div>`;
@@ -3206,6 +3217,11 @@ window.cvEdit=id=>{
  $("cvModalTitle").textContent=j?"แก้ไขงาน Creative":"งาน Creative ใหม่";
  $("cvTitle").value=j?j.title:"";
  cvFillProjects($("cvProject"),j?j.project_id:"");
+ const cur=j?j.task_id:null;
+ const opts=cvPickableTasks();
+ if(cur&&!opts.find(t=>t.id===cur)){const t=tasks.find(x=>x.id===cur);if(t)opts.unshift(t)}
+ $("cvTask").innerHTML='<option value="">— ไม่ผูก —</option>'+opts.slice(0,200)
+   .map(t=>`<option value="${t.id}"${String(cur)===String(t.id)?" selected":""}>${esc(t.task)}</option>`).join("");
  $("cvDue").value=j?(j.due_date||""):"";
  $("cvBriefUrl").value=j?(j.brief_url||""):"";
  $("cvNote").value=j?(j.brief_note||""):"";
@@ -3216,6 +3232,7 @@ $("cvSave").onclick=async()=>{
  const title=$("cvTitle").value.trim();
  if(!title)return toast("ใส่ชื่องานก่อน","bad");
  const payload={title,project_id:$("cvProject").value?Number($("cvProject").value):null,
+  task_id:$("cvTask").value?Number($("cvTask").value):null,
   due_date:$("cvDue").value||null,brief_url:$("cvBriefUrl").value.trim()||null,
   brief_note:$("cvNote").value.trim()||null};
  if(editingCreativeId){
@@ -3223,7 +3240,8 @@ $("cvSave").onclick=async()=>{
   return;
  }
  const {data,error}=await sb.from("creative_jobs")
-   .insert({...payload,team_id:profile.team_id,created_by:user.id}).select().single();
+   .insert({...payload,status:"briefing",waiting_on:"us",rounds:[],
+            team_id:profile.team_id,created_by:user.id}).select().single();
  if(error)return toast(error.message,"bad");
  creativeJobs.unshift(data);render();closeLayer("cvModal");toast("สร้างงาน Creative แล้ว");
 };
@@ -3236,6 +3254,33 @@ $("cvCopyBrief").onclick=async()=>{
  const text=`บรีฟงาน: ${t}${due}${url}\n\n${$("cvNote").value.trim()}`;
  try{await navigator.clipboard.writeText(text);toast("คัดลอกแล้ว วางในเมลได้เลย")}
  catch(_){prompt("คัดลอกข้อความนี้",text)}
+};
+
+// Starting from an existing task copies nothing but the name: the job points
+// at the task, so the due date and everything else stay in one place.
+function renderCvPick(){
+ const q=($("cvPickSearch").value||"").toLowerCase(),hide=$("cvPickHideDone").checked;
+ const all=cvPickableTasks();
+ const rows=all.filter(t=>(!q||t.task.toLowerCase().includes(q))&&!(hide&&t.status==="Done"));
+ $("cvPickCount").textContent=`${rows.length} จาก ${all.length}`;
+ $("cvPickList").innerHTML=rows.length?rows.map(t=>{
+  const done=t.status==="Done";
+  return `<div class="pick-row${done?" is-done":""}" data-cv-pick="${t.id}"><span class="pj-itype">งาน</span><div class="pick-main"><div class="pick-t">${esc(t.task)}</div><div class="pick-s">${esc(t.category||"")}${t.due?" · ครบกำหนด "+t.due:" · ไม่มีวันจบ"}${done?" · เสร็จแล้ว":""}</div></div></div>`;
+ }).join(""):'<div class="empty">ไม่พบงาน</div>';
+}
+$("cvPickBtn").onclick=()=>{$("cvPickSearch").value="";renderCvPick();openLayer("cvPickModal")};
+$("cvPickSearch").oninput=renderCvPick;
+$("cvPickHideDone").onchange=renderCvPick;
+$("cvPickList").onclick=async e=>{
+ const r=e.target.closest("[data-cv-pick]");if(!r)return;
+ const t=tasks.find(x=>x.id===Number(r.dataset.cvPick));if(!t)return;
+ const {data,error}=await sb.from("creative_jobs").insert({
+   title:t.task,task_id:t.id,status:"briefing",waiting_on:"us",rounds:[],
+   team_id:profile.team_id,created_by:user.id
+ }).select().single();
+ if(error)return toast(error.message,"bad");
+ creativeJobs.unshift(data);render();closeLayer("cvPickModal");
+ toast(`เปิดงาน Creative จาก "${t.task}" แล้ว`);
 };
 
 window.postEdit=(id,presetDate)=>{
@@ -3309,17 +3354,19 @@ function cvCardHTML(j){
  const due=cvDue(j),left=cvLeft(j),n=cvRound(j);
  const linked=posts.find(x=>x.creative_id===j.id);
  const acts=[];
- if(j.status==="briefing")acts.push(`<button class="btn primary small" onclick="cvSendBrief(${j.id})">ส่งบรีฟแล้ว</button>`);
- if(j.status==="waiting") acts.push(`<button class="btn primary small" onclick="cvGotDraft(${j.id})">ได้ดราฟต์ที่ ${n} แล้ว</button>`);
- if(j.status==="reviewing"){
+ if(cvStatus(j)==="briefing")acts.push(`<button class="btn primary small" onclick="cvSendBrief(${j.id})">ส่งบรีฟแล้ว</button>`);
+ if(cvStatus(j)==="waiting") acts.push(`<button class="btn primary small" onclick="cvGotDraft(${j.id})">ได้ดราฟต์ที่ ${n} แล้ว</button>`);
+ if(cvStatus(j)==="reviewing"){
   acts.push(`<button class="btn primary small" onclick="cvApprove(${j.id})">✓ อนุมัติ</button>`);
   acts.push(`<button class="btn secondary small" onclick="cvRevise(${j.id})">↻ ขอแก้ (ดราฟต์ ${n+1})</button>`);
  }
- if(j.status==="done")acts.push(`<button class="btn secondary small" onclick="cvReopen(${j.id})">กลับมาแก้</button>`);
+ if(cvStatus(j)==="done")acts.push(`<button class="btn secondary small" onclick="cvReopen(${j.id})">กลับมาแก้</button>`);
  if(cvOpen(j))acts.push(`<button class="btn secondary small" onclick="cvFlip(${j.id})">${j.waiting_on==="us"?"→ ส่งให้ Creative":"← กลับมาที่เรา"}</button>`);
  const bits=[];
  const pj=j.project_id?projects.find(p=>p.id===j.project_id):null;
  if(pj)bits.push(esc(pj.name));
+ const tk=cvTask(j);
+ if(tk)bits.push(`<span class="cv-tasklink" onclick="editTask(${tk.id});event.stopPropagation()">งาน: ${esc(tk.task)}</span>`);
  if(n)bits.push(`ดราฟต์ที่ ${n}`);
  if(linked)bits.push(`โพสต์ ${fmtD(linked.post_date)}`);
  return `<div class="cv-card${cvLate(j)?" late":""}">
@@ -3339,7 +3386,7 @@ function renderCreative(){
   $("cvList").innerHTML='<div class="empty">ยังไม่มีงาน Creative — กด "+ งาน Creative" เพื่อเริ่ม</div>';return;
  }
  $("cvList").innerHTML=CV_GROUPS.map(g=>{
-  const rows=creativeJobs.filter(j=>j.status===g.k)
+  const rows=creativeJobs.filter(j=>cvStatus(j)===g.k)
     .sort((a,b)=>String(cvDue(a)||"9999").localeCompare(String(cvDue(b)||"9999")));
   if(!rows.length)return "";
   return `<div class="cv-group"><div class="cv-ghead"><b>${g.t}</b><span>${rows.length}</span></div>${rows.map(cvCardHTML).join("")}</div>`;
@@ -3457,12 +3504,25 @@ async function loadPosts(){
 }
 const cvRounds=j=>Array.isArray(j.rounds)?j.rounds:[];
 const cvRound=j=>cvRounds(j).length;
-// A job linked to a post inherits the post's date: the artwork is needed when
-// the post goes out, so there is no second date to keep in step.
+// Three sources, in order of authority: a date typed on the job itself, then
+// the post it feeds (the artwork is needed when the post goes out), then the
+// task it came from. Nothing has to be entered twice.
 function cvDue(j){
  if(j.due_date)return j.due_date;
  const p=posts.find(x=>x.creative_id===j.id);
- return p?p.post_date:"";
+ if(p)return p.post_date;
+ const t=j.task_id?tasks.find(x=>x.id===j.task_id):null;
+ return t&&t.due?t.due:"";
+}
+const cvTask=j=>j.task_id?tasks.find(x=>x.id===j.task_id):null;
+// Tasks not already driving a creative job -- the DB enforces this too, but
+// the picker should not offer something it will refuse.
+function cvPickableTasks(){
+ const taken=new Set(creativeJobs.map(j=>j.task_id).filter(Boolean));
+ const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ return scope.filter(t=>!taken.has(t.id))
+  .sort((a,b)=>(a.status==="Done")-(b.status==="Done")
+    ||String(b.updated_at||b.created_at||"").localeCompare(String(a.updated_at||a.created_at||"")));
 }
 const CV_STATUS={
  briefing :{t:"ยังไม่ส่งบรีฟ", who:"us",       tone:"info"},
@@ -3471,7 +3531,8 @@ const CV_STATUS={
  done     :{t:"อนุมัติแล้ว",    who:"",         tone:"calm"},
  cancelled:{t:"ยกเลิก",        who:"",         tone:"calm"}
 };
-const cvOpen=j=>j.status!=="done"&&j.status!=="cancelled";
+const cvStatus=j=>CV_STATUS[j.status]?j.status:"briefing";
+const cvOpen=j=>cvStatus(j)!=="done"&&cvStatus(j)!=="cancelled";
 // Days left against the day the artwork has to be approved.
 function cvLeft(j){
  const d=cvDue(j);
@@ -3481,8 +3542,8 @@ function cvLeft(j){
 const cvLate=j=>{const n=cvLeft(j);return n!=null&&n<0};
 function cvNeedsYou(j){
  if(!cvOpen(j))return null;
- if(j.status==="reviewing")return {why:`ตรวจดราฟต์ที่ ${cvRound(j)}`,tone:"bad"};
- if(j.status==="briefing")return {why:"ยังไม่ได้ส่งบรีฟ",tone:"info"};
+ if(cvStatus(j)==="reviewing")return {why:`ตรวจดราฟต์ที่ ${cvRound(j)}`,tone:"bad"};
+ if(cvStatus(j)==="briefing")return {why:"ยังไม่ได้ส่งบรีฟ",tone:"info"};
  if(cvLate(j))return {why:`เลยวันอนุมัติ ${-cvLeft(j)} วัน`,tone:"bad"};
  return null;
 }

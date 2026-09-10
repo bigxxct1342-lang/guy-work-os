@@ -24,6 +24,11 @@ create table if not exists public.creative_jobs (
   title text not null,
   -- optional: plenty of creative work is not part of a formal plan
   project_id bigint references public.projects(id) on delete set null,
+  -- A creative job usually starts life as an ordinary task ("ทำ KV หม่าล่า").
+  -- Pointing at that task instead of retyping its name keeps one piece of work
+  -- as one record: the task stays in Tasks, Calendar and the dashboard, and
+  -- the creative job is the relay running alongside it.
+  task_id bigint references public.tasks(id) on delete set null,
   brief_note text,
   brief_url text,
   brief_sent_on date,
@@ -43,8 +48,20 @@ create table if not exists public.creative_jobs (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+-- `create table if not exists` skips the WHOLE table when it already exists,
+-- so a column added to this file later never reaches a database that ran an
+-- earlier copy of it. Every column added after the first release therefore
+-- also needs its own `add column if not exists`, or the migration only works
+-- on a fresh database.
+alter table public.creative_jobs
+  add column if not exists task_id bigint references public.tasks(id) on delete set null;
+
 create index if not exists creative_jobs_team_idx on public.creative_jobs(team_id);
 create index if not exists creative_jobs_project_idx on public.creative_jobs(project_id);
+-- One task drives at most one creative job, enforced here rather than left to
+-- the UI, so the same work can never be tracked twice.
+create unique index if not exists creative_jobs_task_unique
+  on public.creative_jobs(task_id) where task_id is not null;
 
 create table if not exists public.posts (
   id bigint generated always as identity primary key,
