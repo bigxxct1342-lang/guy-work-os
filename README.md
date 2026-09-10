@@ -182,6 +182,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.33 A dashboard that says what is missing, and one header style
+- **The dashboard printed a second task list, a second category breakdown and a second deadline list** — all of which Tasks and the Priority Matrix already showed. Repeating them is what made it cluttered while still not answering the question actually asked in the morning, which is not *what work exists* but *where is something missing*.
+- **Each system now reports its own gaps, in its own words**, and every line is a way in rather than something else to read: Creative (รอเราตรวจ / ยังไม่ส่งบรีฟ / ยังไม่มี Caption / เลยวันโพสต์), PR / GRPO (per stage that needs you), Projects (งานเลยวันประเมิน, ช่องทางที่ยังไม่มีงาน, per project), Product Launch (เหลืออีก N จาก M ขั้น, per product), KOL. A system with nothing in it does not appear at all.
+- The Morning Brief at the top stays — it was already the one part that answered "what needs me today".
+- **One header style across the app**, taken from Projects: a solid orange bar with near-black text that collapses. Creative's group headings were plain text over a rule, which read as a different app; they are now the same control, and every group but จบแล้ว opens by default.
+- No SQL.
+
 ## V7.32 One record: creative work and its post live on the task
 - **A creative job is a task**, not a record beside one. v7.28 made `creative_jobs` a table and `posts` another, with a `task_id` pointing back — three records for one piece of work, which is what produced a picker to link them, a unique index to stop them being linked twice, a separate table to read post details from, and nowhere that said "this is at this stage and its caption is still missing".
 - The app already had the right pattern and was not using it: a task carries its own purchasing trail in `pr_stage`. The creative track and the post are the same shape of thing, so they go on the task — and every join disappears with them. Bringing work into Creative is now a flag, not an insert; leaving is a flag too, and the task stays a task.
