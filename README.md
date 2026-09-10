@@ -182,6 +182,16 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 4. Schedule the function to run once a day (Supabase Dashboard → Edge Functions → `daily-brief` → Cron, or `pg_cron` + `pg_net` calling the function URL with the service role key). A time like `0 23 * * *` UTC (06:00 Asia/Bangkok) works well for a morning brief.
 5. In the app, go to Settings → Daily Task Reminder → Enable Reminders, and allow the browser notification permission prompt. On iPhone, add the app to the Home Screen first (Safari share sheet → Add to Home Screen) — iOS only allows Web Push for installed PWAs.
 
+## V7.27 PORKCHOP icons
+- **The app icon is PORKCHOP**, replacing the old GGG mark across the favicon, the PWA icons and the iPhone home screen.
+- **One mark at every size — the face, not the whole cat.** The full body is charming at poster size, but at the ~60pt a home screen actually draws it is a speck, while the face survives down to a 16px favicon. An icon that changes between sizes is not a mark.
+- **A dedicated `apple-touch-icon.png` at 180×180.** iOS ignores `sizes` and takes whatever `apple-touch-icon` points at; it was pointing at the 192 and downscaling it. Saved as RGB with no alpha, since iOS renders transparency as black.
+- **A separate maskable icon.** The 512 was doing double duty as `any` and `maskable`, but Android's circle mask crops roughly 20% off every edge — it was taking an ear off. `icon-maskable-512.png` holds the face at 78% inside the safe zone, cut from a wider window of the original so the padding is the picture's own background rather than a flat fill butted against it.
+- `favicon.ico` is multi-resolution (16/24/32/48/64) so a browser picks a size instead of scaling one.
+- The large icons are quantised to 192 colours — indistinguishable side by side, and it takes the set from 768 KB to 332 KB, all of which the service worker caches on install.
+- Source art kept as `porkchop-icon-source.webp` so the set can be regenerated.
+- No SQL.
+
 ## V7.26 PORKCHOP G — renamed, and a sidebar you can scan
 - **The app is now PORKCHOP G** — title, both sign-in screens, sidebar, PWA manifest and the push notification title. The backup *format* string is deliberately unchanged: it identifies a file, not a brand, and renaming it would have made every backup already on disk unrestorable. The restore screen says so.
 - **The sidebar was eleven flat items of identical weight**, three of them settings. It is now four clusters:
