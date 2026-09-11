@@ -25,15 +25,27 @@
 button,input,select,textarea{font:inherit;color:inherit}.hidden{display:none!important}
 .btn{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;color:var(--text)}.btn.primary{background:var(--dark);color:#fff}.btn.secondary{background:#fff;border:1px solid var(--line)}.btn.danger{background:#fff;border:1px solid #edcaca;color:#9b4343}.btn.small{padding:7px 10px;font-size:11px}
 .auth{min-height:100vh;background:#1e2329;color:#fff;display:flex;align-items:center;justify-content:center;padding:22px}.authbox{width:min(430px,100%)}.authname{font-size:27px;font-weight:900}.authsub{font-size:11px;color:#939ca6;letter-spacing:1.3px;text-transform:uppercase;margin:7px 0 25px}.authcard{background:#fff;color:var(--text);border-radius:18px;padding:23px}.authcard h2{margin:0 0 18px}.field{margin-bottom:12px}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff}.help{font-size:11px;color:var(--muted);line-height:1.5}.error{font-size:12px;color:#a64242;min-height:18px;margin:8px 0}
-.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}aside{background:#1e2329;color:#fff;padding:28px 18px;position:sticky;top:0;height:100vh}.identity{padding:0 10px 25px;border-bottom:1px solid rgba(255,255,255,.09);margin-bottom:18px}.identity .brand{font-weight:900;font-size:18px}.identity .who{font-size:11px;color:#c5cbd1;margin-top:5px}.identity .role{font-size:10px;color:#8f98a3;letter-spacing:1.2px;text-transform:uppercase;margin-top:3px}.nav button{width:100%;border:0;background:transparent;color:#bcc3cb;padding:9px 12px;border-radius:9px;text-align:left;cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:11px;font-size:13px;font-weight:600}.nav button.active,.nav button:hover{background:#2b3138;color:#fff}.nav button.active{font-weight:750;box-shadow:inset 2px 0 0 #ee8f48}
-.nav-ico{width:17px;height:17px;flex:none;opacity:.62}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}/* A light sidebar with orange type. Bright orange on white sits at about
+   2:1 and cannot be read, so the text takes a deep burnt orange (7:1 for
+   the brand, 5.3:1 for the labels) and the bright orange is spent only on
+   the selected row and the counts, where it has to catch the eye. */
+aside{background:#fffaf4;color:#a3541a;padding:28px 18px;position:sticky;top:0;height:100vh;
+ border-right:1px solid #f0dcc4}.identity{padding:0 10px 22px;border-bottom:1px solid #f0dcc4;margin-bottom:16px}.identity .brand{font-weight:900;font-size:18px;color:#8f3f06;letter-spacing:.02em}.identity .who{font-size:11px;color:#a3541a;margin-top:5px;font-weight:600}.identity .role{font-size:10px;color:#96662f;letter-spacing:1.2px;text-transform:uppercase;margin-top:3px;font-weight:700}.nav button{width:100%;border:0;background:transparent;color:#a3541a;padding:9px 12px;border-radius:9px;text-align:left;cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:11px;font-size:13px;font-weight:650}
+.nav button:hover{background:#fff2e2;color:#8f3f06}.nav button.active,.nav button:hover{background:#2b3138;color:#fff}.nav button.active{font-weight:800;color:#7a3405;background:#ffeeda;box-shadow:inset 3px 0 0 #ff8c1a}
+.nav-ico{width:17px;height:17px;flex:none;opacity:.72}
 .nav button.active .nav-ico,.nav button:hover .nav-ico{opacity:1}
 .nav-lbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nav-badge{flex:none;min-width:19px;text-align:center;font-size:10px;font-weight:850;padding:2px 6px;border-radius:999px;background:#ee8f48;color:#22150a}
-.nav-rule{height:1px;background:rgba(255,255,255,.09);margin:14px 10px}
-.nav-minor{display:flex;gap:3px;margin-top:16px;padding-top:13px;border-top:1px solid rgba(255,255,255,.09)}
-.nav-minor button{width:auto;flex:1;justify-content:center;padding:7px 6px;font-size:11px;font-weight:700;color:#8f98a3;gap:0}
-.nav-minor button.active,.nav-minor button:hover{color:#fff;background:#2b3138;box-shadow:none}.sidefoot{position:absolute;bottom:20px;left:18px;right:18px}
+.nav-badge{flex:none;min-width:19px;text-align:center;font-size:10px;font-weight:850;padding:2px 6px;border-radius:999px;background:#ff8c1a;color:#3d1c02}
+.nav-rule{height:1px;background:#f0dcc4;margin:14px 10px}
+.nav-minor{display:flex;gap:3px;margin-top:16px;padding-top:13px;border-top:1px solid #f0dcc4}
+.nav-minor button{width:auto;flex:1;justify-content:center;padding:7px 6px;font-size:11px;font-weight:750;color:#96662f;gap:0}
+.nav-minor button.active,.nav-minor button:hover{color:#7a3405;background:#ffeeda;box-shadow:none}.sidefoot{position:absolute;bottom:20px;left:18px;right:18px}
+aside .sidefoot .btn{background:#fff;border:1.5px solid #e8c9a4;color:#8f3f06}
+aside .sidefoot .btn:hover{background:#fff2e2}
+/* PORKCHOP paces the sidebar too. Hidden on phones, where the sidebar is a
+   row of buttons with no floor to walk on. */
+.side-cat{height:34px;margin-bottom:10px}
+.side-cat canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:26px}h1{margin:0;font-size:30px;letter-spacing:-.8px}.date{font-size:14px;color:var(--muted);margin-top:6px}.sync{font-size:10px;color:#8fc59f;margin-top:5px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.section{padding:21px}.section h2{font-size:16px;margin:0 0 15px}.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:18px}.metric{padding:18px}.metric .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}.metric .value{font-size:28px;font-weight:900;margin-top:7px}.grid{display:grid;grid-template-columns:1.45fr .85fr;gap:18px}
 .tabs,.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer;color:var(--text)}.tab.active{background:var(--dark);color:#fff;border-color:var(--dark)}.search{min-width:240px;flex:1}
@@ -51,7 +63,7 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 /* Admin */
 .admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}.member-card{padding:17px}.member-head{display:flex;justify-content:space-between;gap:10px}.member-name{font-weight:850}.member-email{font-size:10px;color:var(--muted);margin-top:3px}.member-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.member-stat{background:var(--soft);padding:9px;border-radius:9px}.member-stat b{display:block;font-size:16px}.member-stat span{font-size:9px;color:var(--muted);text-transform:uppercase}.role-select{width:auto;padding:6px 8px;font-size:10px}
 @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}.admin-grid{grid-template-columns:repeat(2,1fr)}.day{min-height:110px}}
-@media(max-width:820px){.app{grid-template-columns:1fr}aside{height:auto;position:sticky;z-index:20;display:flex;align-items:center;padding:12px 14px;overflow:auto}.identity{border:0;margin:0;padding:0 12px 0 0;white-space:nowrap}.identity .role{display:none}.nav{display:flex;gap:4px}.nav button{width:auto;white-space:nowrap;margin:0}.nav-rule{display:none}.nav-minor{display:flex;margin:0;padding:0;border:0;gap:4px}.nav-minor button{flex:none;font-size:13px;padding:9px 12px}.sidefoot{position:static;margin-left:auto}.sidefoot .btn{white-space:nowrap}main{padding:18px;min-width:0}.calendar-shell{overflow-x:auto}.calendar-weekdays,.calendar-grid{min-width:850px}}
+@media(max-width:820px){.app{grid-template-columns:1fr}aside{height:auto;position:sticky;z-index:20;display:flex;align-items:center;padding:12px 14px;overflow:auto}.identity{border:0;margin:0;padding:0 12px 0 0;white-space:nowrap}.identity .role{display:none}.nav{display:flex;gap:4px}.nav button{width:auto;white-space:nowrap;margin:0}.nav-rule{display:none}.nav-minor{display:flex;margin:0;padding:0;border:0;gap:4px}.nav-minor button{flex:none;font-size:13px;padding:9px 12px}.sidefoot{position:static;margin-left:auto}.sidefoot .btn{white-space:nowrap}.side-cat{display:none}main{padding:18px;min-width:0}.calendar-shell{overflow-x:auto}.calendar-weekdays,.calendar-grid{min-width:850px}}
 @media(max-width:590px){.metrics{grid-template-columns:1fr 1fr}.topbar{flex-direction:column}.formgrid{grid-template-columns:1fr}.task{grid-template-columns:auto auto 1fr}.task-actions{grid-column:3}.search{min-width:100%}.admin-grid{grid-template-columns:1fr}h1{font-size:25px}}
 
 .toast-wrap{position:fixed;right:20px;bottom:20px;z-index:5000;display:grid;gap:8px}.toast{background:#20262d;color:#fff;padding:11px 14px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:12px;max-width:360px}.toast.bad{background:#7d2b2b}.toast.good{background:#214f3d}
@@ -122,6 +134,18 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .task{transition:border-color .15s ease,box-shadow .15s ease}
 .task:hover{border-color:#cfc9bf;box-shadow:0 4px 14px rgba(30,34,39,.05)}
 body.dark .task,body.dark .tab{background:var(--card);color:var(--text)}
+body.dark aside{background:#17130f;border-right-color:#33251a;color:#e8a55f}
+body.dark .identity{border-bottom-color:#33251a}
+body.dark .identity .brand{color:#ffb15e}
+body.dark .identity .who{color:#e8a55f}
+body.dark .identity .role,body.dark .nav-group,body.dark .nav-minor button{color:#b5854f}
+body.dark .nav button{color:#e8a55f}
+body.dark .nav button:hover{background:#251b13;color:#ffb15e}
+body.dark .nav button.active{background:#2a1d12;color:#ffc17a;box-shadow:inset 3px 0 0 #ff8c1a}
+body.dark .nav-rule,body.dark .nav-minor{border-color:#33251a}
+body.dark .nav-rule{background:#33251a}
+body.dark .nav-minor button.active,body.dark .nav-minor button:hover{background:#2a1d12;color:#ffc17a}
+body.dark aside .sidefoot .btn{background:#241a12;border-color:#43301f;color:#ffb15e}
 body.dark .day.outside{background:#1b1f24}
 body.dark .calendar-weekdays div{background:var(--soft)}
 body.dark .modal-close{background:var(--card);color:var(--text)}
@@ -515,7 +539,7 @@ body.dark .pr-src{background:var(--line);color:var(--text)}
 .pr-stage.is-empty{opacity:.5}
 .pr-stage.is-empty .pr-shead{padding:8px 14px}
 @media(max-width:820px){.pr-row{flex-wrap:wrap;gap:9px;padding:11px 12px}.pr-main{flex:1 1 100%}.pr-next{margin-left:auto}}
-.nav-group{font-size:9px;font-weight:850;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.4);padding:0 10px;margin:17px 0 6px}
+.nav-group{font-size:9px;font-weight:850;letter-spacing:1.3px;text-transform:uppercase;color:#96662f;padding:0 10px;margin:17px 0 6px}
 .nav-group:first-child{margin-top:0}
 @media(max-width:820px){.nav-group{display:none}}
 .dash-chips{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 0}
@@ -660,7 +684,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </section>
 
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.37 · Daily Report</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.38 · Sidebar</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -722,7 +746,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <button id="adminNav" class="admin-only hidden" data-view="admin">ทีม</button>
   </div>
  </div>
- <div class="sidefoot"><button id="signOutBtn" class="btn secondary" style="width:100%">Sign out</button></div>
+ <div class="sidefoot"><div class="side-cat"><canvas id="sideCatCv"></canvas></div><button id="signOutBtn" class="btn secondary" style="width:100%">Sign out</button></div>
 </aside>
 
 <main>
@@ -931,7 +955,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.37</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.38</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1226,7 +1250,21 @@ async function boot(){
 }
 async function enterApp(){await loadIdentityAndGate()}
 function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>$(id).classList.add("hidden"))}
-function showApp(){hideAllScreens();$("app").classList.remove("hidden")}
+const SIDE_PAL={"1":"#8f3f06","2":"#ff8c1a","3":"#ffd9a8","4":"#3d1c02"};
+const SIDE_PAL_DARK={"1":"#7a3405","2":"#ff9a1f","3":"#c98a4a","4":"#1a0c02"};
+let sideCatStop=null;
+// The sidebar becomes a row of buttons under 820px with nowhere to walk, so
+// the loop is only alive while the full sidebar is.
+function sideCatSync(){
+ const wide=window.matchMedia("(min-width:821px)").matches;
+ if(wide&&!sideCatStop){
+  sideCatStop=btCatWalk("sideCatCv",{scale:2,
+   pal:document.body.classList.contains("dark")?SIDE_PAL_DARK:SIDE_PAL,
+   ground:document.body.classList.contains("dark")?"#43301f":"#e8c9a4"});
+ }else if(!wide&&sideCatStop){sideCatStop();sideCatStop=null}
+}
+window.addEventListener("resize",sideCatSync);
+function showApp(){hideAllScreens();$("app").classList.remove("hidden");sideCatSync()}
 function showAuth(){hideAllScreens();$("authScreen").classList.remove("hidden")}
 function showTeamGate(){hideAllScreens();$("teamGate").classList.remove("hidden");$("teamGateError").textContent="";$("teamCodeInput").value=""}
 function showPinGate(setup=false){hideAllScreens();pinNeedsSetup=setup;$("pinGate").classList.remove("hidden");$("pinGateTitle").textContent=setup?"Create your PIN":"Enter PIN";$("pinGateHelp").textContent=setup?"ตั้ง PIN 4 หลักของคุณ ใช้หลัง Email/Password ทุกครั้งที่ Login ใหม่":"ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard";$("pinConfirmField").classList.toggle("hidden",!setup);$("pinSubmitBtn").textContent=setup?"Save PIN & Continue":"Unlock";$("pinInput").value="";$("pinConfirmInput").value="";$("pinGateError").textContent="";$("pinGateTeam").textContent=team?.name?`Team: ${team.name}`:"Private dashboard lock"}
@@ -1650,7 +1688,7 @@ window.calendarAdd=(ds,e)=>{if(e?.target?.closest?.(".cal-task,.week-task"))retu
 window.calendarEdit=(id,e)=>{e.stopPropagation();editTask(id)}
 
 $("toggleFocusBtn").onclick=()=>{focusEnabled=!focusEnabled;render();$("toggleFocusBtn").textContent=focusEnabled?"Exit Focus Mode":"Focus Mode"};
-$("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("guy_theme",document.body.classList.contains("dark")?"dark":"light")};
+$("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("guy_theme",document.body.classList.contains("dark")?"dark":"light");if(sideCatStop){sideCatStop();sideCatStop=null}sideCatSync()};
 if(localStorage.getItem("guy_theme")==="dark")document.body.classList.add("dark");
 
 function urlBase64ToUint8Array(base64String){
@@ -4169,10 +4207,12 @@ $("splashEnterBtn").onclick=()=>{$("splashScreen").classList.add("hidden")};
 // 2 coat, 3 belly, 4 eye. Two frames: legs apart, legs together.
 const BT_SPRITE=[["...................", "............1..1...", "...........1211211.", "..1........1222221.", ".121.......1242321.", ".1221......1223331.", ".12221111111222221.", ".122222222222222221", "..1222222222222221.", "...13333333333331..", "....22..22..22.22..", "....11..11..11.11.."], ["...................", "............1..1...", "...........1211211.", "..1........1222221.", ".121.......1242321.", ".1221......1223331.", ".12221111111222221.", ".122222222222222221", "..1222222222222221.", "...13333333333331..", ".....2222....2222..", ".....1111....1111.."]];
 const BT_PAL={"1":"#a75f18","2":"#ff9a1f","3":"#ffc46b","4":"#2a1608"};
-function btCatWalk(){
- const cv=$("btCatCv");if(!cv)return ()=>{};
+function btCatWalk(id,opt){
+ opt=opt||{};
+ const cv=$(id||"btCatCv");if(!cv)return ()=>{};
+ const PAL=opt.pal||BT_PAL,GND=opt.ground||"#5c3410";
  const g=cv.getContext("2d"),SP=BT_SPRITE,H=SP[0].length,W=SP[0][0].length;
- const S=3,sw=W*S,sh=H*S;
+ const S=opt.scale||3,sw=W*S,sh=H*S;
  let dir=1,x=0,fr=0,tFrame=0,raf=0,w=0,h=0;
  const fit=()=>{const dpr=Math.min(2,window.devicePixelRatio||1);
   w=cv.clientWidth||300;h=cv.clientHeight||44;
@@ -4182,10 +4222,10 @@ function btCatWalk(){
   g.save();
   if(flip){g.translate(ox+sw,oy);g.scale(-1,1)}else g.translate(ox,oy);
   SP[f].forEach((row,ry)=>{for(let rx=0;rx<row.length;rx++){
-   const c=BT_PAL[row[rx]];if(c){g.fillStyle=c;g.fillRect(rx*S,ry*S,S,S)}}});
+   const c=PAL[row[rx]];if(c){g.fillStyle=c;g.fillRect(rx*S,ry*S,S,S)}}});
   g.restore();
  };
- const ground=y=>{g.fillStyle="#5c3410";for(let i=0;i<w;i+=4)g.fillRect(i,y,2,1)};
+ const ground=y=>{g.fillStyle=GND;for(let i=0;i<w;i+=4)g.fillRect(i,y,2,1)};
  const draw=()=>{g.clearRect(0,0,w,h);const base=h-sh-3;ground(h-2);sprite(fr,Math.round(x),base,dir<0)};
  let prev=0;
  const step=t=>{
@@ -4315,7 +4355,7 @@ function bootReport(){
   if(box)box.style.display=[...box.children].some(c=>c.style.display!=="none")?"":"none";
  };
  sc.classList.remove("hidden");
- const stopCat=btCatWalk();          // needs a laid-out canvas, so after unhiding
+ const stopCat=btCatWalk("btCatCv"); // needs a laid-out canvas, so after unhiding
  const finish=()=>{clearTimeout(btTimer);atEnd=true;total=totalOf();paint(total)};
  const close=()=>{clearTimeout(btTimer);stopCat();sc.classList.add("hidden")};
  sc.onclick=e=>{
