@@ -542,42 +542,60 @@ body.dark .pr-src{background:var(--line);color:var(--text)}
 .nav-group{font-size:9px;font-weight:850;letter-spacing:1.3px;text-transform:uppercase;color:#96662f;padding:0 10px;margin:17px 0 6px}
 .nav-group:first-child{margin-top:0}
 @media(max-width:820px){.nav-group{display:none}}
-/* ---- Dashboard: a 90s readout, in whichever ink the theme is using -----
-   Light is a printout: warm paper, burnt-orange ink. Dark is the CRT from
-   the boot screen. Same grammar in both -- corner brackets, letterspaced
-   section rules, dotted leaders, monospace counts. Styling only: every row
-   is still the same element the renderers already produce, so everything
-   that was clickable still is.
------------------------------------------------------------------------ */
-#dashboardView{--t-bg:#fffaf4;--t-ink:#a3541a;--t-hi:#7a3405;--t-dim:#96662f;
- --t-line:#e8c9a4;--t-accent:#ff8c1a;--t-tint:#fff3e4;--t-grid:rgba(196,120,40,.045)}
-body.dark #dashboardView{--t-bg:#0f0b07;--t-ink:#ff9a1f;--t-hi:#ffc46b;--t-dim:#a75f18;
- --t-line:#3d2914;--t-accent:#ff8c1a;--t-tint:#1b1209;--t-grid:rgba(255,140,26,.06)}
-#dashboardView .crt{position:relative;background:var(--t-bg);color:var(--t-ink);
- border:1px solid var(--t-line);border-radius:4px;padding:26px 22px}
-#dashboardView .crt::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:4px;
- background:repeating-linear-gradient(90deg,var(--t-grid) 0 1px,transparent 1px 9px),
-            repeating-linear-gradient(0deg,var(--t-grid) 0 1px,transparent 1px 9px)}
-body.dark #dashboardView .crt::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:4px;
- background:repeating-linear-gradient(0deg,rgba(0,0,0,.26) 0 1px,transparent 1px 3px)}
-#dashboardView .crt>i{position:absolute;width:20px;height:16px;border:2px solid var(--t-accent);z-index:1}
-#dashboardView .crt>i.tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
-#dashboardView .crt>i.tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
-#dashboardView .crt>i.bl{bottom:-1px;left:-1px;border-right:0;border-top:0}
-#dashboardView .crt>i.br{bottom:-1px;right:-1px;border-left:0;border-top:0}
-#dashboardView .crt>*{position:relative;z-index:2}
-#dashboardView .focus-banner{margin-bottom:4px}
-#dashboardView #morningTitle{margin:0 0 4px;color:var(--t-hi);font-size:16px;
+/* ---- Dashboard as a piece of hardware --------------------------------
+   A moulded case with a CRT sunk into it. The case follows the theme; the
+   screen never does, because a screen is dark whatever the room is doing.
+   Styling only -- the renderers emit what they always emitted, so every row
+   still opens what it opened.
+---------------------------------------------------------------------- */
+#dashboardView{--case:linear-gradient(#e6dfcd,#cfc5ad)}
+#dashboardView{--case-edge:#aa9f85;--plate:#6f6450}
+body.dark #dashboardView{--case:linear-gradient(#3a352c,#26221b);--case-edge:#191610}
+body.dark #dashboardView{--plate:#9a8f76}
+#dashboardView .hw{position:relative;background:var(--case);border-radius:22px;padding:20px 20px 26px;
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.55),inset 0 -4px 8px rgba(0,0,0,.16),
+            0 1px 0 var(--case-edge),0 14px 32px rgba(0,0,0,.2)}
+#dashboardView .screw{position:absolute;width:9px;height:9px;border-radius:50%;
+ background:radial-gradient(circle at 34% 32%,#fff,#9d927a 62%,#6d644f);
+ box-shadow:inset 0 0 0 1px rgba(0,0,0,.22)}
+#dashboardView .screw.s1{top:9px;left:9px}#dashboardView .screw.s2{top:9px;right:9px}
+#dashboardView .screw.s3{bottom:9px;left:9px}#dashboardView .screw.s4{bottom:9px;right:9px}
+#dashboardView .hw-plate{text-align:right;font-family:"VT323",ui-monospace,monospace;font-size:15px;
+ letter-spacing:.22em;color:var(--plate);margin:-4px 4px 10px 0;text-transform:uppercase}
+#dashboardView .hw-plate span{letter-spacing:.12em;opacity:.7}
+
+/* the tube itself */
+#dashboardView .scr{--t-ink:#ff9a1f;--t-hi:#ffc46b;
+ position:relative;background:#0c0803;border-radius:16px;overflow:hidden;
+ box-shadow:inset 0 0 0 3px #17110a,inset 0 0 70px 10px rgba(0,0,0,.95),
+            inset 0 3px 9px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.4)}
+#dashboardView .scr{--t-dim:#a75f18;--t-line:#3d2914;--t-accent:#ff8c1a;--t-tint:#1b1209}
+#dashboardView .scr::before,#dashboardView .scr::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4}
+#dashboardView .scr::before{background:
+ repeating-linear-gradient(90deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px),
+ repeating-linear-gradient(0deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px)}
+#dashboardView .scr::after{background:
+ repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
+ radial-gradient(ellipse 92% 88% at 50% 46%,transparent 42%,rgba(0,0,0,.72) 100%)}
+#dashboardView .scr-in{position:relative;z-index:2;padding:24px 22px 26px;color:var(--t-ink)}
+#dashboardView .scr-cat{position:absolute;z-index:3;top:0;left:0;pointer-events:none;
+ image-rendering:pixelated;will-change:transform}
+
+/* panels on the screen, labelled on their own border */
+#dashboardView .grp{position:relative;border:1px solid var(--t-line);border-radius:7px;
+ padding:19px 14px 14px;margin-top:24px}
+#dashboardView .grp-l{position:absolute;top:-8px;left:11px;background:#0c0803;padding:0 7px;
+ font-size:11px;font-weight:850;letter-spacing:.08em;color:var(--t-dim)}
+#dashboardView .focus-banner{margin-bottom:2px}
+#dashboardView #morningTitle{margin:0 0 4px;color:var(--t-hi);font-size:17px;
  letter-spacing:.2em;text-transform:uppercase;font-family:"VT323",ui-monospace,monospace;font-weight:700}
 #dashboardView #morningTitle::before{content:"> "}
 #dashboardView #morningDate,#dashboardView .help{color:var(--t-dim)}
 #dashboardView .btn.secondary{background:transparent;border:1.5px solid var(--t-accent);color:var(--t-hi)}
-#dashboardView .crt-sec{margin:22px 0 9px;font-size:11px;font-weight:850;letter-spacing:.08em;
- text-transform:uppercase;color:var(--t-dim);display:flex;align-items:center;gap:10px}
-#dashboardView .crt-sec::after{content:"";flex:1;border-top:1px dashed var(--t-line)}
 #dashboardView .dash-chip{background:transparent;border:1px solid var(--t-line);color:var(--t-ink);
  border-radius:3px;font-size:11px;letter-spacing:.04em}
 #dashboardView .dash-chip.active{background:var(--t-tint);border-color:var(--t-accent);color:var(--t-hi)}
+#dashboardView .dash-chips{margin:0 0 2px}
 #dashboardView .dash-list{border:0;border-top:1px dashed var(--t-line);border-radius:0;margin-top:11px}
 #dashboardView .dash-row{background:transparent;border-top:0;border-bottom:1px dashed var(--t-line);padding:10px 4px}
 #dashboardView .dash-row:hover{background:var(--t-tint)}
@@ -591,7 +609,6 @@ body.dark #dashboardView .crt::after{content:"";position:absolute;inset:0;pointe
 #dashboardView .dash-sum{color:var(--t-dim);margin-top:12px;letter-spacing:.03em}
 #dashboardView .dash-sum b{font-family:"VT323",ui-monospace,monospace;font-size:17px;color:var(--t-hi)}
 #dashboardView .dash-clear{border-color:var(--t-line);color:var(--t-dim);border-radius:3px}
-/* the gap cards drop their solid orange bar for a section line */
 #dashboardView .gap-card{border:0;background:transparent;margin-bottom:2px}
 #dashboardView .gap-head{background:transparent;border:0;border-bottom:1px dashed var(--t-line);
  border-radius:0;padding:9px 4px;color:var(--t-ink)}
@@ -609,8 +626,10 @@ body.dark #dashboardView .crt::after{content:"";position:absolute;inset:0;pointe
  font-family:"VT323",ui-monospace,monospace;font-size:17px;min-width:1.6em;text-align:right}
 #dashboardView .gap-t{color:var(--t-ink)}
 #dashboardView .gap-ex,#dashboardView .gap-arrow,#dashboardView .gap-ok{color:var(--t-dim)}
-@media(max-width:820px){#dashboardView .crt{padding:20px 14px}
- #dashboardView #morningTitle{font-size:14px;letter-spacing:.12em}}
+@media(max-width:820px){#dashboardView .hw{padding:14px 13px 20px;border-radius:16px}
+ #dashboardView .scr-in{padding:18px 13px 20px}#dashboardView .grp{padding:17px 10px 12px}
+ #dashboardView #morningTitle{font-size:15px;letter-spacing:.12em}
+ #dashboardView .hw-plate{font-size:12px}}
 .dash-chips{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0 0}
 .dash-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
 .dash-chip .n{font-size:13px;font-weight:900}
@@ -753,7 +772,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </section>
 
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.39 · Dashboard</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.40 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -824,23 +843,30 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  </div>
 
 <section id="dashboardView">
-  <div class="crt">
-   <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+  <div class="hw">
+   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
+   <div class="hw-plate">PORKCHOP G <span>· WORK MONITOR</span></div>
+   <div class="scr">
+    <canvas id="dashCatCv" class="scr-cat"></canvas>
+    <div class="scr-in">
+     <div class="focus-banner">
+      <div><h2 id="morningTitle">Morning Brief</h2><div id="morningDate" class="help"></div></div>
+      <div><button id="toggleFocusBtn" class="btn secondary">Focus Mode</button></div>
+     </div>
 
-   <div class="focus-banner">
-    <div><h2 id="morningTitle">Morning Brief</h2><div id="morningDate" class="help"></div></div>
-    <div><button id="toggleFocusBtn" class="btn secondary">Focus Mode</button></div>
+     <div class="grp"><span class="grp-l">ต้องจัดการ</span>
+      <div id="dashChips" class="dash-chips"></div>
+      <div id="dashList"></div>
+      <div id="dashSummary" class="dash-sum"></div>
+      <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
+     </div>
+
+     <div class="grp"><span class="grp-l">ยังขาดอะไรอยู่ตรงไหน</span>
+      <div class="help" style="margin:0 0 10px">กดหัวข้อเพื่อดูรายละเอียด</div>
+      <div id="dashGaps"></div>
+     </div>
+    </div>
    </div>
-
-   <div class="crt-sec">ต้องจัดการ</div>
-   <div id="dashChips" class="dash-chips"></div>
-   <div id="dashList"></div>
-   <div id="dashSummary" class="dash-sum"></div>
-   <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
-
-   <div class="crt-sec">ยังขาดอะไรอยู่ตรงไหน</div>
-   <div class="help" style="margin:0 0 10px">กดหัวข้อเพื่อดูรายละเอียด</div>
-   <div id="dashGaps"></div>
   </div>
  </section>
  <section id="calendarView" class="hidden">
@@ -1028,7 +1054,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.39</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.40</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1326,6 +1352,60 @@ function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>
 const SIDE_PAL={"1":"#8f3f06","2":"#ff8c1a","3":"#ffd9a8","4":"#3d1c02"};
 const SIDE_PAL_DARK={"1":"#7a3405","2":"#ff9a1f","3":"#c98a4a","4":"#1a0c02"};
 let sideCatStop=null;
+/* PORKCHOP wanders the monitor. He moves on a plane rather than along a
+   line, so the vertical speed is held to about a third of the horizontal --
+   a side-on cat drifting straight up reads as floating, drifting slowly
+   while walking reads as walking. The canvas is only as big as the sprite
+   and is moved with a transform; a canvas the size of the whole screen
+   would be cleared and repainted sixty times a second for one small cat. */
+let dashCatStop=null;
+function dashCatRoam(){
+ const cv=$("dashCatCv"),scr=cv&&cv.closest(".scr");if(!cv||!scr)return ()=>{};
+ const g=cv.getContext("2d"),SP=BT_SPRITE,H=SP[0].length,W=SP[0][0].length,S=2;
+ const sw=W*S,sh=H*S,dpr=Math.min(2,window.devicePixelRatio||1);
+ cv.width=sw*dpr;cv.height=sh*dpr;cv.style.width=sw+"px";cv.style.height=sh+"px";
+ g.setTransform(dpr,0,0,dpr,0,0);g.imageSmoothingEnabled=false;
+ let bw=0,bh=0,x=0,y=0,tx=0,ty=0,face=1,fr=0,tFrame=0,rest=0,raf=0,prev=0,drawn="";
+ const bounds=()=>{bw=Math.max(40,scr.clientWidth-sw);bh=Math.max(30,scr.clientHeight-sh)};
+ const retarget=()=>{tx=Math.random()*bw;ty=Math.random()*bh;rest=0};
+ const render=()=>{
+  const key=fr+"|"+face;if(key===drawn)return;drawn=key;
+  g.clearRect(0,0,sw,sh);
+  g.save();
+  if(face<0){g.translate(sw,0);g.scale(-1,1)}
+  SP[fr].forEach((row,ry)=>{for(let rx=0;rx<row.length;rx++){
+   const c=BT_PAL[row[rx]];if(c){g.fillStyle=c;g.fillRect(rx*S,ry*S,S,S)}}});
+  g.restore();
+ };
+ const step=t=>{
+  if(!prev)prev=t;const dt=Math.min(70,t-prev);prev=t;
+  if(rest>0){rest-=dt;fr=0;render()}
+  else{
+   const dx=tx-x,dy=ty-y,d=Math.hypot(dx,dy);
+   if(d<3){rest=800+Math.random()*1700;setTimeout(retarget,rest)}
+   else{
+    const v=dt*0.022;
+    x+=dx/d*v;y+=dy/d*v*0.35;
+    if(Math.abs(dx)>1)face=dx<0?-1:1;
+    tFrame+=dt;if(tFrame>160){tFrame=0;fr=(fr+1)%SP.length}
+    render();
+   }
+  }
+  cv.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px)`;
+  raf=requestAnimationFrame(step);
+ };
+ const onResize=()=>{bounds();x=Math.min(x,bw);y=Math.min(y,bh);if(tx>bw||ty>bh)retarget()};
+ bounds();x=bw*0.2;y=bh*0.55;retarget();
+ window.addEventListener("resize",onResize);
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  render();cv.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px)`;
+ }else raf=requestAnimationFrame(step);
+ return ()=>{cancelAnimationFrame(raf);window.removeEventListener("resize",onResize)};
+}
+function dashCatSync(on){
+ if(on&&!dashCatStop)dashCatStop=dashCatRoam();
+ else if(!on&&dashCatStop){dashCatStop();dashCatStop=null}
+}
 // The sidebar becomes a row of buttons under 820px with nowhere to walk, so
 // the loop is only alive while the full sidebar is.
 function sideCatSync(){
@@ -1337,7 +1417,8 @@ function sideCatSync(){
  }else if(!wide&&sideCatStop){sideCatStop();sideCatStop=null}
 }
 window.addEventListener("resize",sideCatSync);
-function showApp(){hideAllScreens();$("app").classList.remove("hidden");sideCatSync()}
+function showApp(){hideAllScreens();$("app").classList.remove("hidden");sideCatSync();
+ dashCatSync(!$("dashboardView").classList.contains("hidden"))}
 function showAuth(){hideAllScreens();$("authScreen").classList.remove("hidden")}
 function showTeamGate(){hideAllScreens();$("teamGate").classList.remove("hidden");$("teamGateError").textContent="";$("teamCodeInput").value=""}
 function showPinGate(setup=false){hideAllScreens();pinNeedsSetup=setup;$("pinGate").classList.remove("hidden");$("pinGateTitle").textContent=setup?"Create your PIN":"Enter PIN";$("pinGateHelp").textContent=setup?"ตั้ง PIN 4 หลักของคุณ ใช้หลัง Email/Password ทุกครั้งที่ Login ใหม่":"ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard";$("pinConfirmField").classList.toggle("hidden",!setup);$("pinSubmitBtn").textContent=setup?"Save PIN & Continue":"Unlock";$("pinInput").value="";$("pinConfirmInput").value="";$("pinGateError").textContent="";$("pinGateTeam").textContent=team?.name?`Team: ${team.name}`:"Private dashboard lock"}
@@ -4132,6 +4213,7 @@ function goView(view){
  if(view==="pr")renderPr();
  if(view==="kol")renderKol();
  if(view==="proj")renderProj();
+ dashCatSync(view==="dashboard");   // he only paces while the monitor is on screen
  if(view==="dashboard"){Promise.resolve().then(loadWipProgress).then(renderDashGaps).catch(()=>{})}
  if(view==="proj"){renderWipPanels();Promise.resolve().then(loadWipProgress).then(renderWipPanels).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
