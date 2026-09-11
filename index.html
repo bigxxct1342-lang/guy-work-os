@@ -430,7 +430,6 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cal-cv{border-radius:6px;padding:4px 6px;margin-bottom:4px;font-size:10px;font-weight:750;background:#fbe0c6;color:#8a4512;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cal-cv.late{background:#f9dddd;color:#963e3e}
 /* The Projects header, shared: solid orange, near-black text, collapsible. */
-.gap-card{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
 .gap-head,.cv-ghead{display:flex;align-items:center;gap:10px;padding:10px 13px;cursor:pointer;background:#ee8f48;color:#22150a;border:1px solid #e07f36;border-radius:10px}
 .gap-head b,.cv-ghead b{font-size:13px;color:#22150a}
 .gap-caret,.cv-gcaret{font-size:9px;color:#22150a;width:11px;flex:none;transition:transform .15s}
@@ -997,7 +996,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.48 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.49 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1140,7 +1139,6 @@ body.dark .splash{background:#15120e}
    <div class="help">งานที่ทำกับ Creative — เขียนบรีฟ → ส่ง → รอดราฟต์ → ตรวจ → ขอแก้หรืออนุมัติ<br>ขอแก้ได้ไม่จำกัดรอบ ระบบนับให้เองว่าอยู่ดราฟต์ที่เท่าไหร่และแต่ละรอบใช้เวลากี่วัน</div>
    <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="cvPickBtn" class="btn secondary">+ เลือกงานที่มีอยู่</button><button id="addCvBtn" class="btn primary">+ งาน Creative</button></div>
   </div>
-  <div id="cvSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-28-creative-posts.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div class="cv-modes" id="cvModes">
    <button class="tab active" data-cvmode="list">รายการงาน</button>
    <button class="tab" data-cvmode="cal">ปฏิทินโพสต์</button>
@@ -1301,7 +1299,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.48</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.49</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1700,8 +1698,6 @@ function catFace(){
   window.removeEventListener("pointerdown",onDown);
   window.removeEventListener("pointerup",onUp);};
 }
-const SIDE_PAL={"1":"#8f3f06","2":"#ff8c1a","3":"#ffd9a8","4":"#3d1c02"};
-const SIDE_PAL_DARK={"1":"#7a3405","2":"#ff9a1f","3":"#c98a4a","4":"#1a0c02"};
 let sideCatStop=null;
 /* PORKCHOP wanders the monitor. He moves on a plane rather than along a
    line, so the vertical speed is held to about a third of the horizontal --
@@ -3878,10 +3874,14 @@ window.cvEdit=id=>{
  // A creative job is a task, so the form that makes one asks for what a task
  // needs. Before this it invented a category and a priority and you found out
  // later, on the Tasks page, that the work had arrived half filled in.
- $("cvCat").innerHTML=categories.length
-  ? categories.map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join("")
-  : '<option value="General">General</option>';
- if(t&&t.category)$("cvCat").value=t.category;
+ const catNames=categories.map(c=>c.name);
+ // A task can carry a category that has since been renamed or deleted. Keep
+ // it in the list, or the select lands on empty and saving quietly rewrites
+ // the task's category to General.
+ if(t&&t.category&&!catNames.includes(t.category))catNames.unshift(t.category);
+ if(!catNames.length)catNames.push("General");
+ $("cvCat").innerHTML=catNames.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
+ $("cvCat").value=(t&&t.category)||catNames[0];
  $("cvPriority").value=t?(t.priority||"Medium"):"Medium";
  $("cvOwnerField").classList.toggle("hidden",!isAdmin());
  $("cvOwner").innerHTML=profiles.map(pf=>`<option value="${pf.user_id}">${esc(pf.full_name||pf.email||"")}</option>`).join("");
