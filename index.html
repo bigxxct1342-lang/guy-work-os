@@ -825,9 +825,25 @@ body.dark .splash{background:#15120e}
 .splash-ctl .btn:disabled{cursor:default;filter:saturate(.5) brightness(.92)}
 .splash-ctl .btn svg{width:14px;height:14px;flex:none}
 .splash-ctl .btn.waiting svg{display:none}
-@media(max-width:820px){.splash-scr{aspect-ratio:4/5}
+/* On a phone the handset is the machine: the case fills the screen edge to
+   edge and the tube takes whatever height is left between the name plate and
+   the button. dvh rather than vh so Safari's toolbar sliding away does not
+   leave a strip of case hanging past the bottom. */
+@media(max-width:820px){
+ .splash{padding:0;align-items:stretch;overflow:hidden}
+ .splash-hw{width:100%;height:100vh;height:100dvh;border-radius:0;
+  display:flex;flex-direction:column;
+  padding:calc(12px + env(safe-area-inset-top)) 13px calc(16px + env(safe-area-inset-bottom));
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.45)}
+ .splash-hw .hw-plate{margin:0 2px 9px 0;font-size:13px}
+ .splash-hw .screw.s1,.splash-hw .screw.s3{left:7px}
+ .splash-hw .screw.s2,.splash-hw .screw.s4{right:7px}
+ .splash-hw .screw.s1,.splash-hw .screw.s2{top:calc(8px + env(safe-area-inset-top))}
+ .splash-hw .screw.s3,.splash-hw .screw.s4{bottom:calc(8px + env(safe-area-inset-bottom))}
+ .splash-scr{flex:1 1 auto;min-height:0;aspect-ratio:auto;border-radius:13px}
  .splash-bg{background-image:url('./porkchop-splash-mobile.webp');background-position:50% 14%}
- .splash-ctl{justify-content:center}.splash-ctl .btn{font-size:16px}}
+ .splash-ctl{justify-content:center;margin-top:13px;flex:none}
+ .splash-ctl .btn{font-size:17px;padding:13px 26px}}
 @media(prefers-reduced-motion:reduce){.splash-bg{animation:none}.splash-led{animation:none}}
 @keyframes splashPan{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.05) translate(-1%,-0.6%)}}
 @media(prefers-reduced-motion:reduce){.splash-bg{animation:none}}
@@ -859,7 +875,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.43 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.44 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1146,7 +1162,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.43</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.44</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
