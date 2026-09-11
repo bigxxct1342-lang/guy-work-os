@@ -1,6 +1,15 @@
-const CACHE="porkchop-g-v7-42-entry";
+const CACHE="porkchop-g-v7-43-autoupdate";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./icon-maskable-512.png","./apple-touch-icon.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp"];
-self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
+// addAll rejects the whole install if a single asset 404s, which leaves the
+// new worker stuck and the deploy unable to land. Each asset is allowed to
+// fail on its own instead.
+self.addEventListener("install",e=>{
+  self.skipWaiting();
+  e.waitUntil(caches.open(CACHE).then(c=>Promise.allSettled(ASSETS.map(a=>c.add(a)))));
+});
+// skipWaiting() at install time is not always honoured; the page asks again
+// once it sees the new worker sitting in waiting.
+self.addEventListener("message",e=>{if(e.data&&e.data.type==="SKIP_WAITING")self.skipWaiting()});
 self.addEventListener("activate",e=>e.waitUntil(
   caches.keys().then(keys=>Promise.all(keys.filter(k=>(k.startsWith("porkchop-g-")||k.startsWith("guy-work-os-"))&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
 ));
