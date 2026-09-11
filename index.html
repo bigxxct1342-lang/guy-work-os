@@ -548,50 +548,95 @@ body.dark .pr-src{background:var(--line);color:var(--text)}
    Styling only -- the renderers emit what they always emitted, so every row
    still opens what it opened.
 ---------------------------------------------------------------------- */
-#dashboardView{--case:linear-gradient(#e6dfcd,#cfc5ad)}
-#dashboardView{--case-edge:#aa9f85;--plate:#6f6450}
-body.dark #dashboardView{--case:linear-gradient(#3a352c,#26221b);--case-edge:#191610}
-body.dark #dashboardView{--plate:#9a8f76}
-#dashboardView .hw{position:relative;background:var(--case);border-radius:22px;padding:20px 20px 26px;
+.hw{--case:linear-gradient(#e6dfcd,#cfc5ad);--case-edge:#aa9f85;--plate:#6f6450}
+body.dark .hw{--case:linear-gradient(#3a352c,#26221b);--case-edge:#191610;--plate:#9a8f76}
+.hw{position:relative;background:var(--case);border-radius:22px;padding:20px 20px 26px;
  box-shadow:inset 0 2px 0 rgba(255,255,255,.55),inset 0 -4px 8px rgba(0,0,0,.16),
             0 1px 0 var(--case-edge),0 14px 32px rgba(0,0,0,.2)}
-#dashboardView .screw{position:absolute;width:9px;height:9px;border-radius:50%;
+.screw{position:absolute;width:9px;height:9px;border-radius:50%;
  background:radial-gradient(circle at 34% 32%,#fff,#9d927a 62%,#6d644f);
  box-shadow:inset 0 0 0 1px rgba(0,0,0,.22)}
-#dashboardView .screw.s1{top:9px;left:9px}#dashboardView .screw.s2{top:9px;right:9px}
-#dashboardView .screw.s3{bottom:9px;left:9px}#dashboardView .screw.s4{bottom:9px;right:9px}
-#dashboardView .hw-plate{text-align:right;font-family:"VT323",ui-monospace,monospace;font-size:15px;
+.screw.s1{top:9px;left:9px}.screw.s2{top:9px;right:9px}
+.screw.s3{bottom:9px;left:9px}.screw.s4{bottom:9px;right:9px}
+.hw-plate{text-align:right;font-family:"VT323",ui-monospace,monospace;font-size:15px;
  letter-spacing:.22em;color:var(--plate);margin:-4px 4px 10px 0;text-transform:uppercase}
-#dashboardView .hw-plate span{letter-spacing:.12em;opacity:.7}
+.hw-plate span{letter-spacing:.12em;opacity:.7}
+
+/* The page heading used to be plain text floating above a machine. It is
+   now its own small unit -- a two-line readout with the buttons sitting on
+   the case beside it, the way the panel in the reference carries EDITOR and
+   COMMAND above the controls. */
+.hw-bar{display:flex;align-items:center;gap:16px;padding:13px 15px;border-radius:14px;margin-bottom:20px}
+.hw-bar .screw.s1{top:6px;left:6px}.hw-bar .screw.s2{bottom:6px;left:6px}
+.hw-bar .scr{flex:1;min-width:0;border-radius:9px;padding:10px 14px}
+.hw-bar .scr::after{background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
+ radial-gradient(ellipse 96% 120% at 50% 50%,transparent 55%,rgba(0,0,0,.6) 100%)}
+.bar-row{position:relative;z-index:2;display:flex;align-items:baseline;gap:12px;line-height:1.5}
+.bar-k{flex:none;width:52px;font-family:"VT323",ui-monospace,monospace;font-size:14px;
+ letter-spacing:.14em;color:var(--t-dim)}
+.bar-k::after{content:":"}
+#pageTitle{margin:0;font-size:19px;letter-spacing:.2em;text-transform:uppercase;color:var(--t-hi);
+ font-family:"VT323",ui-monospace,monospace;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#todayText{font-family:"VT323",ui-monospace,monospace;font-size:15px;letter-spacing:.1em;
+ color:var(--t-ink);margin:0;text-transform:uppercase}
+.hw-bar .hw-btns{flex:none;display:flex;gap:9px;flex-wrap:wrap}
+/* panel buttons, not web buttons -- they sit on the case, so they get the
+   case's bevel rather than the app's flat fill */
+.hw-bar .hw-btns .btn{font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.12em;
+ text-transform:uppercase;padding:9px 15px;border-radius:7px;
+ background:linear-gradient(#fbf7ec,#e3dbc7);color:#5f5440;border:1px solid var(--case-edge);
+ box-shadow:inset 0 1px 0 #fff,0 2px 0 var(--case-edge),0 3px 5px rgba(0,0,0,.16)}
+.hw-bar .hw-btns .btn:active{transform:translateY(2px);box-shadow:inset 0 1px 3px rgba(0,0,0,.28)}
+.hw-bar .hw-btns .btn.primary{background:linear-gradient(#ffa640,#ef7f14);color:#3d1c02;
+ border-color:#c96a0c;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 0 #b85f08,0 3px 6px rgba(0,0,0,.22)}
+body.dark .hw-bar .hw-btns .btn{background:linear-gradient(#4a443a,#332e26);color:#d9cfb8}
+body.dark .hw-bar .hw-btns .btn.primary{background:linear-gradient(#ffa640,#ef7f14);color:#3d1c02}
+@media(max-width:590px){.hw-bar{flex-direction:column;align-items:stretch}
+ .hw-bar .hw-btns{justify-content:flex-end}#pageTitle{font-size:16px}.bar-k{width:42px;font-size:12px}}
+
+/* Changing view should feel like changing channel: the picture collapses to
+   a line, flares, and springs back. 220ms, and nothing at all for anyone who
+   has asked the system for less motion. */
+@keyframes chswitch{
+ 0%{transform:scaleY(1);filter:brightness(1) contrast(1);opacity:1}
+ 14%{transform:scaleY(.012);filter:brightness(3.4) contrast(1.6);opacity:1}
+ 24%{transform:scaleY(.012);filter:brightness(3.4)}
+ 46%{transform:scaleY(1.05);filter:brightness(1.5)}
+ 70%{transform:scaleY(.985);filter:brightness(1.05)}
+ 100%{transform:scaleY(1);filter:brightness(1) contrast(1)}
+}
+.ch-switch{animation:chswitch .22s ease-out}
+@media(prefers-reduced-motion:reduce){.ch-switch{animation:none}}
 
 /* the tube itself */
-#dashboardView .scr{--t-ink:#ff9a1f;--t-hi:#ffc46b;
+.scr{--t-ink:#ff9a1f;--t-hi:#ffc46b;
  position:relative;background:#0c0803;border-radius:16px;overflow:hidden;
  box-shadow:inset 0 0 0 3px #17110a,inset 0 0 70px 10px rgba(0,0,0,.95),
             inset 0 3px 9px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.4)}
-#dashboardView .scr{--t-dim:#a75f18;--t-line:#3d2914;--t-accent:#ff8c1a;--t-tint:#1b1209}
-#dashboardView .scr::before,#dashboardView .scr::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4}
-#dashboardView .scr::before{background:
+.scr{--t-dim:#a75f18;--t-line:#3d2914;--t-accent:#ff8c1a;--t-tint:#1b1209}
+.scr::before,.scr::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4}
+.scr::before{background:
  repeating-linear-gradient(90deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px),
  repeating-linear-gradient(0deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px)}
-#dashboardView .scr::after{background:
+.scr::after{background:
  repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
  radial-gradient(ellipse 92% 88% at 50% 46%,transparent 42%,rgba(0,0,0,.72) 100%)}
-#dashboardView .scr-in{position:relative;z-index:2;padding:24px 22px 26px;color:var(--t-ink)}
-#dashboardView .scr-cat{position:absolute;z-index:3;top:0;left:0;pointer-events:none;
+.scr-in{position:relative;z-index:2;padding:24px 22px 26px;color:var(--t-ink)}
+.scr-cat{position:absolute;z-index:3;top:0;left:0;pointer-events:none;
  image-rendering:pixelated;will-change:transform}
 
 /* panels on the screen, labelled on their own border */
-#dashboardView .grp{position:relative;border:1px solid var(--t-line);border-radius:7px;
+.grp{position:relative;border:1px solid var(--t-line);border-radius:7px;
  padding:19px 14px 14px;margin-top:24px}
-#dashboardView .grp-l{position:absolute;top:-8px;left:11px;background:#0c0803;padding:0 7px;
+.grp-l{position:absolute;top:-8px;left:11px;background:#0c0803;padding:0 7px;
  font-size:11px;font-weight:850;letter-spacing:.08em;color:var(--t-dim)}
 #dashboardView .focus-banner{margin-bottom:2px}
 #dashboardView #morningTitle{margin:0 0 4px;color:var(--t-hi);font-size:17px;
  letter-spacing:.2em;text-transform:uppercase;font-family:"VT323",ui-monospace,monospace;font-weight:700}
 #dashboardView #morningTitle::before{content:"> "}
-#dashboardView #morningDate,#dashboardView .help{color:var(--t-dim)}
-#dashboardView .btn.secondary{background:transparent;border:1.5px solid var(--t-accent);color:var(--t-hi)}
+#dashboardView #morningDate{color:var(--t-dim)}
+.scr .help{color:var(--t-dim)}
+.scr .btn.secondary{background:transparent;border:1.5px solid var(--t-accent);color:var(--t-hi)}
 #dashboardView .dash-chip{background:transparent;border:1px solid var(--t-line);color:var(--t-ink);
  border-radius:3px;font-size:11px;letter-spacing:.04em}
 #dashboardView .dash-chip.active{background:var(--t-tint);border-color:var(--t-accent);color:var(--t-hi)}
@@ -772,7 +817,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </section>
 
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.40 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.41 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -838,8 +883,13 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 </aside>
 
 <main>
- <div class="topbar"><div><h1 id="pageTitle">Dashboard</h1><div id="todayText" class="date"></div></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="addCategoryBtn" class="btn secondary">+ Category</button><button id="addTaskBtn" class="btn primary">+ Task</button></div>
+ <div class="hw hw-bar">
+  <b class="screw s1"></b><b class="screw s2"></b>
+  <div class="scr">
+   <div class="bar-row"><span class="bar-k">VIEW</span><h1 id="pageTitle">Dashboard</h1></div>
+   <div class="bar-row"><span class="bar-k">DATE</span><div id="todayText"></div></div>
+  </div>
+  <div class="hw-btns"><button id="addCategoryBtn" class="btn secondary">+ Category</button><button id="addTaskBtn" class="btn primary">+ Task</button></div>
  </div>
 
 <section id="dashboardView">
@@ -1054,7 +1104,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.40</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.41</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4199,7 +4249,10 @@ function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
  ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","creative","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
- $(view+"View")?.classList.remove("hidden");
+ const sec=$(view+"View");
+ sec?.classList.remove("hidden");
+ // channel change: restart the animation even when the class is already on
+ if(sec){sec.classList.remove("ch-switch");void sec.offsetWidth;sec.classList.add("ch-switch")}
  const nav=document.querySelector(`.nav button[data-view="${view}"]`);
  const OFF_NAV={kol:"KOL Campaign"};
  // The nav button now also holds an icon and a badge, so read the label
