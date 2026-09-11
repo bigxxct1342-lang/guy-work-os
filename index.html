@@ -805,8 +805,15 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 .splash{position:fixed;inset:0;z-index:9000;overflow:auto;display:flex;align-items:center;
  justify-content:center;padding:22px;background:#efece4}
 body.dark .splash{background:#15120e}
-.splash-hw{width:min(760px,100%)}
-.splash-scr{aspect-ratio:16/9;width:100%}
+/* Grow with the window instead of sitting at a fixed 760px in the middle of
+   a wide screen. The tube keeps 16:9 but yields to the height available, so
+   a short window shortens the picture rather than pushing the button off. */
+/* Sized from both directions at once: as wide as the window allows, but no
+   wider than the height can carry at 16:9 once the plate, the button and the
+   case padding are accounted for. So it fills a wide screen and a short one
+   without ever cropping the picture or pushing the button out of view. */
+.splash-hw{width:min(1500px,92vw,calc((100dvh - 210px) * 16 / 9 + 40px))}
+.splash-scr{aspect-ratio:16/9;width:100%;max-height:calc(100dvh - 210px)}
 .splash-bg{position:absolute;inset:0;background-image:url('./porkchop-splash.webp');background-size:cover;
  background-position:32% center;animation:splashPan 20s ease-in-out infinite alternate;
  will-change:transform;transform-origin:center;z-index:1}
@@ -875,7 +882,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.44 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.45 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1162,7 +1169,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.44</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.45</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
