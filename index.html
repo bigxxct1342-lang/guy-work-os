@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Noto+Sans+Thai:wght@400..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=Noto+Sans+Thai:wght@400..900&family=VT323&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./config.js"></script>
 <style>
@@ -585,6 +585,54 @@ body.pm-dragging-on{user-select:none;-webkit-user-select:none}
 body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
 @media(max-width:820px){.pm-wrap{grid-template-columns:1fr}.pm-ylab{display:none}.pm-grid{gap:8px}.pm-q{padding:10px;min-height:168px;border-radius:13px}.pm-qhead b{font-size:11px}.pm-qsub{display:none}.pm-title{font-size:11px}.pm-xlab{gap:8px;margin-bottom:6px}}
 @media(prefers-reduced-motion:reduce){.pm-card.pm-heating{animation:none}}
+/* ---- boot report -------------------------------------------------------
+   An amber CRT readout that stands between the cat and the app. You cannot
+   reach the app without reading what today is holding, which is the whole
+   point of the app: not dropping things.
+------------------------------------------------------------------------ */
+.boot{position:fixed;inset:0;z-index:9500;background:#0a0604;color:#ff9a1f;overflow-y:auto;
+ font-family:"VT323",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+ display:flex;align-items:center;justify-content:center;padding:18px}
+.boot::before,.boot::after{content:"";position:fixed;inset:0;pointer-events:none}
+.boot::before{z-index:2;background:
+ repeating-linear-gradient(90deg,rgba(255,140,26,.075) 0 1px,transparent 1px 7px),
+ repeating-linear-gradient(0deg,rgba(255,140,26,.075) 0 1px,transparent 1px 7px)}
+.boot::after{z-index:3;background:
+ repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
+ radial-gradient(ellipse 88% 80% at 50% 45%,transparent 26%,rgba(0,0,0,.8) 100%)}
+.bt-screen{position:relative;z-index:1;width:min(540px,100%);text-shadow:0 0 7px rgba(255,140,26,.5)}
+.bt-frame{position:relative;padding:24px 20px}
+.bt-frame i{position:absolute;width:24px;height:20px;border:2px solid #ff9a1f}
+.bt-frame i.tl{top:0;left:0;border-right:0;border-bottom:0}
+.bt-frame i.tr{top:0;right:0;border-left:0;border-bottom:0}
+.bt-frame i.bl{bottom:0;left:0;border-right:0;border-top:0}
+.bt-frame i.br{bottom:0;right:0;border-left:0;border-top:0}
+.bt-cat{white-space:pre;font-size:12px;line-height:1.15;color:#ffc46b;text-align:center;margin-bottom:9px}
+.bt-ttl{text-align:center;font-size:19px;font-weight:700;letter-spacing:.2em;color:#ffc46b}
+.bt-ln{font-size:16px;line-height:1.6;letter-spacing:.04em;min-height:1px}
+.bt-ln.th{font-family:"Noto Sans Thai",sans-serif;font-size:13px;letter-spacing:.01em}
+.bt-sec{font-size:12px;letter-spacing:.26em;color:#a75f18;margin:13px 0 4px}
+.bt-rule{border-top:1px dashed #a75f18;margin:8px 0}
+.bt-d{color:#a75f18}.bt-h{color:#ffc46b}
+.bt-row{display:flex;align-items:baseline;gap:0;font-size:13px;line-height:1.9;
+ font-family:"Noto Sans Thai",sans-serif}
+.bt-row .nm{white-space:nowrap}
+.bt-row .lead{flex:1;border-bottom:1px dotted #a75f18;transform:translateY(-4px);margin:0 7px;min-width:12px}
+.bt-row b{font-family:"VT323",monospace;font-size:19px;min-width:1.4em;text-align:right;line-height:1}
+.bt-row.hot b{color:#ffd089}
+.bt-box{border:2px solid #ff9a1f;border-radius:11px;padding:11px 13px;margin-top:5px}
+.bt-ad{margin-bottom:9px}.bt-ad:last-child{margin-bottom:0}
+.bt-bar{height:7px;border:1px solid #a75f18;border-radius:2px;margin-top:4px;overflow:hidden}
+.bt-bar span{display:block;height:100%;
+ background:repeating-linear-gradient(45deg,#ff9a1f 0 3px,transparent 3px 6px)}
+.bt-ok{display:block;width:100%;margin-top:16px;padding:13px;background:transparent;cursor:pointer;
+ border:2px solid #ff9a1f;border-radius:9px;color:#ffc46b;font-family:"Noto Sans Thai",sans-serif;
+ font-size:14px;font-weight:700;letter-spacing:.12em;text-shadow:0 0 7px rgba(255,140,26,.5)}
+.bt-ok:hover{background:rgba(255,154,31,.13)}
+.bt-skip{display:block;width:100%;margin-top:9px;background:0;border:0;cursor:pointer;color:#a75f18;
+ font-family:"Noto Sans Thai",sans-serif;font-size:11px;letter-spacing:.08em}
+@media(max-width:430px){.bt-ttl{font-size:16px;letter-spacing:.1em}.bt-ln{font-size:14px}
+ .bt-ln.th,.bt-row{font-size:12px}.bt-row b{font-size:17px}}
 .splash{position:fixed;inset:0;z-index:9000;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding-bottom:64px}
 .splash-bg{position:absolute;inset:0;background-image:url('./porkchop-splash.webp');background-size:cover;background-position:32% center;animation:splashPan 20s ease-in-out infinite alternate;will-change:transform;transform-origin:center}
 .splash-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(18,12,8,.6) 0%,rgba(18,12,8,0) 38%)}
@@ -601,8 +649,17 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
  <div class="splash-overlay"></div>
  <button id="splashEnterBtn" class="splash-btn">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
 </section>
+
+<section id="bootScreen" class="boot hidden">
+ <div class="bt-screen"><div class="bt-frame">
+  <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+  <div class="bt-cat" id="btCat"></div>
+  <div id="btOut"></div>
+ </div></div>
+</section>
+
 <section id="authScreen" class="auth">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.35 · Creative</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.36 · Daily Report</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -873,7 +930,7 @@ body.dark .pm-banner{background:#3a3222;border-color:#5c4e33;color:#e8d5ad}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.35</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.36</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1186,7 +1243,7 @@ async function loadIdentityAndGate(){
  const unlocked=sessionStorage.getItem("guy_pin_unlocked_"+user.id)==="1";
  if(!hasPin){showPinGate(true);return}
  if(!unlocked){showPinGate(false);return}
- showApp();await loadAll();
+ showApp();await loadAll();bootReport();
 }
 $("authSwitch").onclick=()=>{authMode=authMode==="signin"?"signup":"signin";$("authTitle").textContent=authMode==="signin"?"Sign in":"Create account";$("authSubmit").textContent=authMode==="signin"?"Sign in":"Create account";$("authSwitch").textContent=authMode==="signin"?"Create account":"Back to sign in";$("nameField").classList.toggle("hidden",authMode==="signin");$("authError").textContent=""}
 $("authSubmit").onclick=async()=>{
@@ -1244,7 +1301,7 @@ $("pinSubmitBtn").onclick=async()=>{
    if(!data){$("pinGateError").textContent="PIN ไม่ถูกต้อง";return}
  }
  sessionStorage.setItem("guy_pin_unlocked_"+user.id,"1");
- showApp();await loadAll();
+ showApp();await loadAll();bootReport();
 };
 
 $("changePinBtn").onclick=()=>{$("newPin").value="";$("newPinConfirm").value="";$("changePinError").textContent="";openLayer("changePinModal")};
@@ -4100,6 +4157,146 @@ $("restoreFile").onchange=e=>{
 };
 
 $("splashEnterBtn").onclick=()=>{$("splashScreen").classList.add("hidden")};
+
+/* ---- boot report --------------------------------------------------------
+   Between the cat and the app. Reads the same functions the pages read, so
+   it can never drift from them: pmQuad for the matrix, cvAds for what is on
+   air right now. It has to be acknowledged -- the point is that the day's
+   shape gets read, not that it gets displayed.
+------------------------------------------------------------------------- */
+const BT_CAT=" /\\_/\\ \n( o.o )  PORKCHOP\n > ^ < ";
+const WMO={0:"ฟ้าโปร่ง",1:"แดดจัด",2:"มีเมฆบางส่วน",3:"เมฆมาก",45:"หมอกลง",48:"หมอกลง",
+ 51:"ฝนปรอย",53:"ฝนปรอย",55:"ฝนปรอย",61:"ฝนตกเล็กน้อย",63:"ฝนตก",65:"ฝนตกหนัก",
+ 71:"หิมะ",73:"หิมะ",75:"หิมะ",80:"ฝนซู่",81:"ฝนซู่",82:"ฝนซู่หนัก",
+ 95:"ฝนฟ้าคะนอง",96:"ฝนฟ้าคะนอง",99:"ฝนฟ้าคะนอง"};
+async function btWeather(){
+ const lat=CFG.WEATHER_LAT??13.7563, lon=CFG.WEATHER_LON??100.5018;
+ const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
+   +`&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+   +`&timezone=Asia%2FBangkok&forecast_days=1`;
+ const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),6000);
+ try{
+  const r=await fetch(u,{signal:ctl.signal});clearTimeout(to);
+  if(!r.ok)return "";
+  const j=await r.json();
+  const t=Math.round(j.current?.temperature_2m);
+  const w=WMO[j.current?.weather_code]||"";
+  const hi=Math.round(j.daily?.temperature_2m_max?.[0]),lo=Math.round(j.daily?.temperature_2m_min?.[0]);
+  const rain=j.daily?.precipitation_probability_max?.[0];
+  if(!isFinite(t))return "";
+  return `${t}°${w?" · "+w:""}${isFinite(hi)&&isFinite(lo)?` · ${lo}–${hi}°`:""}`
+   +`${isFinite(rain)?` · โอกาสฝน ${rain}%`:""}`;
+ }catch(_){clearTimeout(to);return ""}
+}
+function btAds(){
+ // Approved work whose boost window covers today -- money is moving on these.
+ return cvJobs().filter(t=>cvAds(t)).sort((a,b)=>String(a.post_boost_to).localeCompare(String(b.post_boost_to)));
+}
+function btBoostPct(t){
+ const a=new Date(t.post_boost_from+"T00:00:00"),b=new Date(t.post_boost_to+"T00:00:00"),n=new Date(todayISO()+"T00:00:00");
+ const span=Math.max(1,Math.round((b-a)/864e5)+1),gone=Math.round((n-a)/864e5)+1;
+ return {pct:Math.max(0,Math.min(100,Math.round(gone/span*100))),left:Math.max(0,Math.round((b-n)/864e5))};
+}
+function btLines(){
+ const ref=pmRefISO(0),scope=pmScope(),q=[0,0,0,0,0];
+ scope.forEach(t=>q[pmQuad(t,ref)]++);
+ const d=new Date();
+ const L=[
+  {k:"ttl",t:"PORKCHOP G :: DAILY REPORT"},
+  {k:"rule"},
+  {k:"ln th",t:d.toLocaleDateString("th-TH-u-ca-gregory",{weekday:"long",day:"numeric",month:"long",year:"numeric"})
+     +" · "+d.toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"})+" น."},
+  {k:"ln th bt-d",t:"สภาพอากาศ: กำลังอ่าน…",id:"btWx"},
+  {k:"sec",t:"PRIORITY MATRIX"},
+  {k:"row hot",t:"Q1 · ทำวันนี้|"+q[1]},
+  {k:"row",t:"Q2 · ต้องวางแผน|"+q[2]},
+  {k:"row",t:"Q3 · รีบแต่ไม่สำคัญ|"+q[3]},
+  {k:"row",t:"Q4 · ไว้ก่อน|"+q[4]},
+  {k:"sec",t:"กิจกรรม · ADS ที่กำลังรัน"},
+  {k:"box"}
+ ];
+ const ads=btAds();
+ if(!ads.length)L.push({k:"ln th bt-d",t:"ตอนนี้ไม่มีตัวไหนรันแอดอยู่",box:1});
+ else ads.forEach(t=>{
+  const b=btBoostPct(t);
+  L.push({k:"ad",box:1,t:`${t.task}|บูท ${fmtD(t.post_boost_from)} – ${fmtD(t.post_boost_to)} · ${b.left?`เหลืออีก ${b.left} วัน`:"วันสุดท้าย"}|${b.pct}`});
+ });
+ L.push({k:"btn",t:"รับทราบ · เข้าสู่แอป"});
+ return L;
+}
+let btTimer=null;
+function bootReport(){
+ const sc=$("bootScreen");if(!sc)return;
+ const out=$("btOut"),spec=btLines();
+ out.innerHTML="";$("btCat").textContent="";
+ let box=null;const nodes=[],plan=[];
+ spec.forEach(sp=>{
+  if(sp.k==="rule"){const r=document.createElement("div");r.className="bt-rule";out.appendChild(r);return}
+  if(sp.k==="box"){box=document.createElement("div");box.className="bt-box";box.style.display="none";out.appendChild(box);return}
+  const host=sp.box?box:out,el=document.createElement("div");
+  if(sp.k.startsWith("row")){
+   el.className="bt-row"+(sp.k.includes("hot")?" hot":"");
+   el.innerHTML='<span class="nm"></span><span class="lead"></span><b></b>';
+  }else if(sp.k==="ad"){
+   el.className="bt-ad";
+   el.innerHTML='<div class="bt-ln th bt-h nm"></div><div class="bt-ln th bt-d sub" style="font-size:11.5px"></div><div class="bt-bar"><span style="width:0"></span></div>';
+  }else if(sp.k==="btn"){
+   el.innerHTML='<button class="bt-ok"></button>';
+  }else if(sp.k==="ttl"){el.className="bt-ttl"}
+  else if(sp.k==="sec"){el.className="bt-sec"}
+  else{el.className="bt-"+sp.k.replace(/^ln ?/,"ln ").replace("bt-d","bt-d")}
+  if(sp.id)el.id=sp.id;
+  host.appendChild(el);nodes.push({el,k:sp.k});plan.push(String(sp.t));
+ });
+ // plan can be rewritten under us (the forecast arrives late and is a
+ // different length), so the total is derived, never cached.
+ const totalOf=()=>plan.reduce((a,x)=>a+x.split("|").join("").length,0);
+ let total=totalOf(),atEnd=false;
+ const paint=n=>{
+  let left=n;$("btCat").textContent=n>0?BT_CAT:"";
+  nodes.forEach((nd,i)=>{
+   const parts=plan[i].split("|"),full=parts.join("");
+   if(left<=0){nd.el.style.display="none";return}
+   nd.el.style.display="";
+   const take=Math.min(left,full.length);left-=take;
+   const cut=full.slice(0,take);
+   if(nd.k.startsWith("row")){
+    const nm=parts[0];
+    nd.el.querySelector(".nm").textContent=cut.slice(0,nm.length);
+    nd.el.querySelector("b").textContent=cut.length>nm.length?cut.slice(nm.length):"";
+    nd.el.querySelector(".lead").style.visibility=cut.length>nm.length?"":"hidden";
+   }else if(nd.k==="ad"){
+    const [nm,sub,pct]=parts;
+    nd.el.querySelector(".nm").textContent=cut.slice(0,nm.length);
+    nd.el.querySelector(".sub").textContent=cut.length>nm.length?cut.slice(nm.length,nm.length+sub.length):"";
+    const done=cut.length>=nm.length+sub.length;
+    nd.el.querySelector(".bt-bar").style.visibility=done?"":"hidden";
+    nd.el.querySelector(".bt-bar span").style.width=done?pct+"%":"0";
+   }else if(nd.k==="btn"){nd.el.querySelector(".bt-ok").textContent=cut}
+   else nd.el.textContent=cut;
+  });
+  if(box)box.style.display=[...box.children].some(c=>c.style.display!=="none")?"":"none";
+ };
+ sc.classList.remove("hidden");
+ const finish=()=>{clearTimeout(btTimer);atEnd=true;total=totalOf();paint(total)};
+ const close=()=>{clearTimeout(btTimer);sc.classList.add("hidden")};
+ sc.onclick=e=>{
+  if(e.target.closest(".bt-ok"))return close();
+  finish();                       // a tap anywhere else just skips the typing
+ };
+ const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ if(reduce)finish();
+ else{let i=0;const tick=()=>{i+=3;total=totalOf();paint(Math.min(i,total));
+   if(i<total)btTimer=setTimeout(tick,13);else atEnd=true};tick()}
+ // The forecast lands on its own schedule; the line rewrites itself in place.
+ btWeather().then(w=>{
+  const i=nodes.findIndex(n=>n.el.id==="btWx");if(i<0)return;
+  plan[i]="สภาพอากาศ: "+(w||"ดูไม่ได้ตอนนี้");
+  total=totalOf();
+  if(atEnd)paint(total);              // already finished typing: rewrite in place
+ }).catch(()=>{});
+}
+
 
 bindLayerUX();
 if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));boot();

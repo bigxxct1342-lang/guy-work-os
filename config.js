@@ -8,5 +8,9 @@ window.GUY_CONFIG = {
   // LINE Official Account ID (the "@..." handle, without the @), used to build
   // the "add friend" link on the LINE Notifications linking screen. Optional —
   // leave as PASTE_LINE_OA_ID until a LINE Official Account is set up.
-  LINE_OA_ID: "PASTE_LINE_OA_ID"
+  LINE_OA_ID: "PASTE_LINE_OA_ID",
+  // Where the boot report reads the weather for. Defaults to Bangkok when
+  // these are absent. Uses open-meteo.com, which needs no key and no signup.
+  WEATHER_LAT: 13.7563,
+  WEATHER_LON: 100.5018
 };
