@@ -488,8 +488,14 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 body.dark .po-cap.on{background:#26382c;color:#8fd0a6}
 .po-boost{font-size:10px;font-weight:800;background:#fbdfc6;color:#5a3010;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .po-boost.live{background:var(--green);color:var(--greenT)}
+/* three states, three looks: coming up is outlined, running is filled green,
+   finished steps back so it stops competing with work that still needs you */
+.po-boost.soon{background:transparent;border:1px dashed #d59a5c;color:#8a5218}
+.po-boost.past{background:var(--soft);color:var(--muted);font-weight:700}
 body.dark .po-boost{background:#3a2f24;color:#f0c48a}
 body.dark .po-boost.live{background:#26382c;color:#8fd0a6}
+body.dark .po-boost.soon{background:transparent;border-color:#6b4a26;color:#d7a25f}
+body.dark .po-boost.past{background:#2b2620;color:#9a8f80}
 .po-off{font-size:10px;color:var(--muted);font-weight:700}
 .po-warn{font-size:10px;font-weight:800;background:var(--yellow);color:var(--yellowT);padding:3px 8px;border-radius:999px}
 .po-act{display:flex;gap:6px;justify-content:flex-end}
@@ -996,7 +1002,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.49 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.50 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1299,7 +1305,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.49</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.50</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3995,17 +4001,22 @@ window.postClear=async()=>{
 // Grouped by who is holding the work. With dozens of these a flat list is
 // unusable, and "what is waiting on me" is the only reason to open the page.
 // Everything but the finished pile starts open -- "จบแล้ว" is history.
-const CV_OPEN=new Set(["reviewing","briefing","waiting","running"]);
+const CV_OPEN=new Set(["reviewing","briefing","waiting","running","queued"]);
 const CV_GROUPS=[
  {k:"reviewing",t:"รอเราตรวจ"},
  {k:"briefing", t:"ยังไม่ส่งบรีฟ"},
  {k:"waiting",  t:"รอ Creative"},
  {k:"running",  t:"อนุมัติแล้ว · กำลังรัน Ads"},
+ {k:"queued",   t:"อนุมัติแล้ว · รอถึงคิว"},
  {k:"done",     t:"จบแล้ว"}
 ];
 function cvRoundsHTML(t){
  const rs=cvRounds(t);
- if(!rs.length)return '<div class="cv-none">ยังไม่ได้ส่งบรีฟ</div>';
+ if(!rs.length){
+  const st=cvStatus(t);
+  return `<div class="cv-none">${st==="done"?"ไม่ได้ผ่านรอบดราฟต์ — อนุมัติเลย"
+   :st==="briefing"?"ยังไม่ได้ส่งบรีฟ":"ยังไม่มีรอบดราฟต์"}</div>`;
+ }
  // A round that ended in "ขอแก้" is the reason the next round exists, so
  // saying so on every past row is noise; the only round whose state is news
  // is the last one, and the group header above the card already says it. So
@@ -4028,9 +4039,17 @@ function cvPostHTML(t){
  const live=boostCovers(t,todayISO());
  const bdays=t.post_boost&&t.post_boost_from&&t.post_boost_to
    ? Math.round((new Date(t.post_boost_to+"T00:00:00")-new Date(t.post_boost_from+"T00:00:00"))/86400000)+1:null;
+ // Dates alone made you work out for yourself whether an ad had run, was
+ // running, or had not started. It says which.
+ const now=todayISO();
+ const when=!t.post_boost_from||!t.post_boost_to?""
+  :live?" · กำลังรัน"
+  :t.post_boost_from>now?` · เริ่ม ${fmtD(t.post_boost_from)}`
+  :" · บูทจบแล้ว";
+ const cls=live?" live":(t.post_boost_from>now?" soon":" past");
  const boost=!t.post_boost?'<span class="po-off">ไม่บูท</span>'
   :(t.post_boost_from&&t.post_boost_to
-    ? `<span class="po-boost${live?" live":""}">บูท ${fmtD(t.post_boost_from)} – ${fmtD(t.post_boost_to)} · ${bdays} วัน${live?" · กำลังรัน":""}</span>`
+    ? `<span class="po-boost${cls}">บูท ${fmtD(t.post_boost_from)} – ${fmtD(t.post_boost_to)} · ${bdays} วัน${when}</span>`
     : '<span class="po-warn">บูท — ยังไม่ใส่วัน</span>');
  return `<div class="cv-post">
   <span class="cv-pdate">${t.post_date?fmtD(t.post_date):"ยังไม่มีวัน"}</span>
@@ -4147,7 +4166,21 @@ const boostCovers=(t,ds)=>!!(t.post_boost&&t.post_boost_from&&t.post_boost_to&&d
 const cvPosts=()=>(isAdmin()?tasks:tasks.filter(t=>t.user_id===user?.id)).filter(t=>t.post_on&&t.post_date);
 // Approved is not over while the ads it feeds are still running.
 const cvAds=t=>cvStatus(t)==="done"&&boostCovers(t,todayISO())?t:null;
-const cvGroupOf=t=>cvAds(t)?"running":cvStatus(t);
+/* "อนุมัติแล้ว" was being read as "จบแล้ว", so a post whose boost starts next
+   week sat under จบแล้ว with its own future dates printed on it. Approved
+   only becomes finished once nothing is still ahead: the post has gone out
+   and the boost has finished running. */
+function cvAhead(t){
+ const now=todayISO();
+ if(t.post_on&&t.post_date&&postEnd(t)>=now)return true;          // still to go out
+ if(t.post_boost&&t.post_boost_to&&t.post_boost_to>=now)return true; // still to run
+ return false;
+}
+const cvGroupOf=t=>{
+ if(cvStatus(t)!=="done")return cvStatus(t);
+ if(boostCovers(t,todayISO()))return "running";
+ return cvAhead(t)?"queued":"done";
+};
 function cvLeft(t){
  const d=cvDue(t);
  if(!d||!cvOpen(t))return null;
