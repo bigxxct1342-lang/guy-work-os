@@ -388,19 +388,20 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-scr .day-number{font-family:"VT323",ui-monospace,monospace;font-size:17px;color:var(--t-ink)}
 .cv-scr .day-count{color:var(--t-dim);font-size:9px;letter-spacing:.06em}
 /* a post: solid bar, dark text on amber */
-.cv-scr .cal-post{background:var(--t-accent);color:#2a1608;border:1px solid var(--t-accent);
- border-radius:3px;font-weight:800;font-size:10px;padding:3px 5px}
-.cv-scr .cal-post .cap{color:#2a1608}
+.cv-scr .cal-post{background:var(--c,var(--t-accent));color:#14100a;
+ border:1px solid var(--c,var(--t-accent));border-radius:3px;font-weight:800;font-size:10px;padding:3px 5px}
+.cv-scr .cal-post .cap{color:#14100a}
 /* no caption yet: same bar, hollow */
-.cv-scr .cal-post.nocap{background:transparent;color:var(--t-hi);border:1px dashed var(--t-accent)}
+.cv-scr .cal-post.nocap{background:transparent;color:var(--c,var(--t-hi));border:1px dashed var(--c,var(--t-accent))}
 .cv-scr .cal-post.cont{opacity:.55}
-.cv-scr .cal-post.art{box-shadow:inset 3px 0 0 #ffe0b0}
+.cv-scr .cal-post.art{box-shadow:inset 3px 0 0 rgba(255,255,255,.75)}
 /* boost: hatched, never solid, so it cannot be mistaken for the post itself */
-.cv-scr .cal-boost{border:1px solid #7a4a12;color:#ffc46b;height:9px;line-height:8px;font-size:7px;
- background:repeating-linear-gradient(45deg,#8a5216 0 3px,transparent 3px 6px)}
+.cv-scr .cal-boost{border:1px solid color-mix(in srgb,var(--c,#ff9a1f) 45%,transparent);
+ color:var(--c,#ffc46b);height:9px;line-height:8px;font-size:7px;
+ background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--c,#ff9a1f) 55%,transparent) 0 3px,transparent 3px 6px)}
 /* artwork due: a marked line, not a block */
-.cv-scr .cal-cv{background:transparent;color:#ffd089;border-left:3px solid #ffd089;border-radius:0;
- padding:2px 5px;font-size:10px;font-weight:750}
+.cv-scr .cal-cv{background:transparent;color:var(--c,#ffd089);border-left:3px solid var(--c,#ffd089);
+ border-radius:0;padding:2px 5px;font-size:10px;font-weight:750}
 .cv-scr .cal-cv.late{color:#ff9c9c;border-left-color:#ff9c9c}
 .cv-scr .cv-legend .lg-post::before{background:var(--t-accent);border:0}
 .cv-scr .cv-legend .lg-nocap::before{background:transparent;border:1px dashed var(--t-accent)}
@@ -411,6 +412,7 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-legend{display:flex;gap:14px;flex-wrap:wrap;padding:0 20px 14px;font-size:10px;font-weight:800;color:var(--muted)}
 .cv-legend .lg{display:inline-flex;align-items:center;gap:6px}
 .cv-legend .lg::before{content:"";width:13px;height:9px;border-radius:3px;flex:none}
+.lg-note{margin-left:auto;font-weight:700;opacity:.8;letter-spacing:.01em}
 .cv-legend .lg-post::before{background:#dfeaf8;border:1px solid #7ba0cc}
 .cv-legend .lg-nocap::before{background:#eef4fb;border:1px dashed #7ba0cc}
 .cv-legend .lg-boost::before{background:repeating-linear-gradient(45deg,#f6c89e,#f6c89e 4px,#fbe0c6 4px,#fbe0c6 8px)}
@@ -455,6 +457,7 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-head{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .cv-main{flex:1;min-width:0}
 .cv-title{font-size:15.5px;font-weight:800;line-height:1.35;display:flex;align-items:center;gap:8px}
+.cv-hue{flex:none;width:5px;height:19px;border-radius:3px}
 .cv-ico{flex:none;width:21px;height:21px;border-radius:6px;display:inline-flex;align-items:center;
  justify-content:center;font-size:12px;line-height:1;border:1px solid var(--line);background:var(--soft)}
 .cv-ico.tone-bad{background:#fbe6e6;border-color:#eec9c9;color:#9b3f3f}
@@ -1002,7 +1005,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.50 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.51 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1157,7 +1160,7 @@ body.dark .splash{background:#15120e}
    <div class="calendar-top"><div><div id="cvMonthTitle" class="month-title"></div><div class="help">ปฏิทินของโพสต์และงานอาร์ตเวิร์กเท่านั้น · คลิกโพสต์เพื่อแก้รายละเอียด</div></div>
     <div class="calendar-controls"><button id="cvPrevMonth" class="btn secondary small">‹</button><button id="cvTodayMonth" class="btn secondary small">Today</button><button id="cvNextMonth" class="btn secondary small">›</button></div>
    </div>
-   <div class="cv-legend"><span class="lg lg-post">โพสต์</span><span class="lg lg-nocap">ยังไม่มี Caption</span><span class="lg lg-boost">ช่วงบูท</span><span class="lg lg-art">รออาร์ตเวิร์ก</span></div>
+   <div class="cv-legend"><span class="lg lg-post">โพสต์</span><span class="lg lg-nocap">ยังไม่มี Caption</span><span class="lg lg-boost">ช่วงบูท</span><span class="lg lg-art">รออาร์ตเวิร์ก</span><span class="lg-note">สีบอกว่าเป็นงานไหน · ทรงบอกว่าสถานะอะไร</span></div>
    <div class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
    <div id="cvCalGrid" class="calendar-grid"></div>
    </div>
@@ -1305,7 +1308,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.50</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.51</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2111,6 +2114,18 @@ function startOfWeekFor(date){
 function calCreativeOn(ds){
  return cvJobs().filter(t=>cvOpen(t)&&!t.post_on&&cvDue(t)===ds);
 }
+/* Every bar was the same amber, so a post running seven days and the three
+   other posts beside it were one field of orange. Each job gets a hue of its
+   own, held by its id so it does not move between renders, and the boost and
+   the artwork marker take the same hue -- the colour says which job, the
+   shape still says what state. Eight phosphor tones, picked to sit apart on
+   black at about the same brightness so none of them shouts. */
+const CV_HUES=["#ff9a1f","#5ee07a","#4fd8e8","#b78bff","#ff7ab8","#c8e04f","#6aa8ff","#ff8a5c"];
+const cvHue=t=>{
+ const k=String(t.id||t.task||"");let h=0;
+ for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;
+ return CV_HUES[h%CV_HUES.length];
+};
 function calPostChip(p,ds){
  const start=ds===p.post_date,end=ds===postEnd(p);
  const span=p.post_kind==="event"&&(p.post_days||1)>1;
@@ -2122,13 +2137,13 @@ function calPostChip(p,ds){
  // In a month grid every day is its own cell, so a continuation day with no
  // label is just an unexplained bar. Repeat the title, dimmed, and keep the
  // squared-off edges to carry the sense of one run.
- return `<div class="cal-post${edge}${p.post_caption?"":" nocap"}${p.cv_on&&cvOpen(p)?" art":""}${span&&!start?" cont":""}" onclick="postEdit(${p.id});event.stopPropagation()" title="${esc(tip)}">`
+ return `<div class="cal-post${edge}${p.post_caption?"":" nocap"}${p.cv_on&&cvOpen(p)?" art":""}${span&&!start?" cont":""}" style="--c:${cvHue(p)}" onclick="postEdit(${p.id});event.stopPropagation()" title="${esc(tip)}">`
   +`${start?`<span class="cap">${p.post_caption?"●":"○"}</span>`:""}`
   +`${esc(p.task)}${end&&span?` <span class="cap">จบ</span>`:""}</div>`;
 }
 function calBoostBar(p,ds){
  const first=ds===p.post_boost_from;
- return `<div class="cal-boost" title="บูท ${fmtD(p.post_boost_from)} – ${fmtD(p.post_boost_to)}">${first?"บูท":""}</div>`;
+ return `<div class="cal-boost" style="--c:${cvHue(p)}" title="บูท ${fmtD(p.post_boost_from)} – ${fmtD(p.post_boost_to)}">${first?"บูท":""}</div>`;
 }
 function renderCalendar(){
  const mode=$("calendarMode")?.value||calendarMode;calendarMode=mode;
@@ -4078,7 +4093,7 @@ function cvCardHTML(t){
  if(t.status==="Done")bits.push("งานปิดแล้ว");
  return `<div class="cv-card${cvLate(t)?" late":""}">
   <div class="cv-head">
-   <div class="cv-main"><div class="cv-title"><span class="cv-ico tone-${CV_STATUS[cvStatus(t)].tone}" title="${esc(CV_STATUS[cvStatus(t)].t)}">${CV_ICON[cvStatus(t)]}</span>${esc(t.task)}</div><div class="cv-sub">${bits.join(" · ")||"ไม่มีหมวดหมู่"}</div></div>
+   <div class="cv-main"><div class="cv-title"><span class="cv-hue" style="background:${cvHue(t)}"></span><span class="cv-ico tone-${CV_STATUS[cvStatus(t)].tone}" title="${esc(CV_STATUS[cvStatus(t)].t)}">${CV_ICON[cvStatus(t)]}</span>${esc(t.task)}</div><div class="cv-sub">${bits.join(" · ")||"ไม่มีหมวดหมู่"}</div></div>
    ${t.cv_brief_url?`<a class="cv-link" href="${esc(t.cv_brief_url)}" target="_blank" rel="noopener">บรีฟ</a>`:""}
    <span class="cv-due${cvLate(t)?" late":""}">${due?`${t.post_date?"โพสต์":"กำหนด"} ${fmtD(due)}${left!=null?` · ${left<0?`เลย ${-left} วัน`:`เหลือ ${left} วัน`}`:""}`:"ยังไม่มีวัน"}</span>
   </div>
@@ -4107,7 +4122,7 @@ function renderCvCalendar(){
     <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${n?n+" รายการ":""}</span></div>
     ${posts.map(t=>calPostChip(t,ds)).join("")}
     ${boost.map(t=>calBoostBar(t,ds)).join("")}
-    ${art.map(t=>`<div class="cal-cv${cvLate(t)?" late":""}" title="${esc(t.task+" · ดราฟต์ที่ "+(cvRound(t)||0)+" · "+CV_STATUS[cvStatus(t)].t)}">✎ ${esc(t.task)}</div>`).join("")}
+    ${art.map(t=>`<div class="cal-cv${cvLate(t)?" late":""}" style="--c:${cvHue(t)}" title="${esc(t.task+" · ดราฟต์ที่ "+(cvRound(t)||0)+" · "+CV_STATUS[cvStatus(t)].t)}">✎ ${esc(t.task)}</div>`).join("")}
    </div>`;
  }
  $("cvCalGrid").innerHTML=out;
