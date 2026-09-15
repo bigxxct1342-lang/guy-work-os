@@ -370,44 +370,43 @@ body.dark .wt-row.under .wt-off{color:#7fc79c}
 .cv-hw{padding:16px 16px 20px}
 .cv-scr{position:relative;padding:4px 0 0;border-radius:12px}
 .cv-scr>*{position:relative;z-index:2}
-.cv-scr .calendar-top{padding:16px 18px 4px}
-.cv-scr .month-title{font-family:"VT323",ui-monospace,monospace;font-size:26px;letter-spacing:.14em;
+.scr .calendar-top{padding:16px 18px 4px}
+.scr .month-title{font-family:"VT323",ui-monospace,monospace;font-size:26px;letter-spacing:.14em;
  text-transform:uppercase;color:var(--t-amb)}
-.cv-scr .help{color:var(--t-dim)}
-.cv-scr .btn.secondary{background:transparent;border:1.5px solid var(--t-accent);color:var(--t-hi)}
-.cv-scr .cv-legend{color:var(--t-dim);padding:0 18px 12px}
-.cv-scr .calendar-weekdays{background:transparent;border-bottom:1px solid var(--t-line)}
-.cv-scr .calendar-weekdays div{background:transparent;color:var(--t-dim);border-right-color:var(--t-line);
+.scr .help{color:var(--t-dim)}
+.scr .cv-legend{color:var(--t-dim);padding:0 18px 12px}
+.scr .calendar-weekdays{background:transparent;border-bottom:1px solid var(--t-line)}
+.scr .calendar-weekdays div{background:transparent;color:var(--t-dim);border-right-color:var(--t-line);
  font-family:"VT323",ui-monospace,monospace;font-size:15px;letter-spacing:.2em;padding:8px 10px}
-.cv-scr .calendar-grid{background:transparent}
-.cv-scr .day{background:transparent;border-top:1px solid var(--t-line);border-right:1px solid var(--t-line);
+.scr .calendar-grid{background:transparent}
+.scr .day{background:transparent;border-top:1px solid var(--t-line);border-right:1px solid var(--t-line);
  min-height:104px;cursor:default}
-.cv-scr .day.outside{background:rgba(0,0,0,.4)}
-.cv-scr .day.outside .day-number{color:#5d3c16}
-.cv-scr .today-day{background:rgba(255,140,26,.07);box-shadow:inset 0 0 0 1px var(--t-accent)}
-.cv-scr .day-number{font-family:"VT323",ui-monospace,monospace;font-size:19px;color:var(--t-amb)}
-.cv-scr .day-count{color:var(--t-dim);font-size:11px;letter-spacing:.06em}
+.scr .day.outside{background:rgba(0,0,0,.4)}
+.scr .day.outside .day-number{color:#5d3c16}
+.scr .today-day{background:rgba(255,140,26,.07);box-shadow:inset 0 0 0 1px var(--t-accent)}
+.scr .day-number{font-family:"VT323",ui-monospace,monospace;font-size:19px;color:var(--t-amb)}
+.scr .day-count{color:var(--t-dim);font-size:11px;letter-spacing:.06em}
 /* a post: solid bar, dark text on amber */
-.cv-scr .cal-post{background:var(--c,var(--t-accent));color:#14100a;
+.scr .cal-post{background:var(--c,var(--t-accent));color:#14100a;
  border:1px solid var(--c,var(--t-accent));border-radius:3px;font-weight:800;font-size:11.5px;padding:3px 5px}
-.cv-scr .cal-post .cap{color:#14100a}
+.scr .cal-post .cap{color:#14100a}
 /* no caption yet: same bar, hollow */
-.cv-scr .cal-post.nocap{background:transparent;color:var(--c,var(--t-hi));border:1px dashed var(--c,var(--t-accent))}
-.cv-scr .cal-post.cont{opacity:.55}
-.cv-scr .cal-post.art{box-shadow:inset 3px 0 0 rgba(255,255,255,.75)}
+.scr .cal-post.nocap{background:transparent;color:var(--c,var(--t-hi));border:1px dashed var(--c,var(--t-accent))}
+.scr .cal-post.cont{opacity:.55}
+.scr .cal-post.art{box-shadow:inset 3px 0 0 rgba(255,255,255,.75)}
 /* boost: hatched, never solid, so it cannot be mistaken for the post itself */
-.cv-scr .cal-boost{border:1px solid color-mix(in srgb,var(--c,#ff9a1f) 45%,transparent);
+.scr .cal-boost{border:1px solid color-mix(in srgb,var(--c,#ff9a1f) 45%,transparent);
  color:var(--c,#ffc46b);height:9px;line-height:8px;font-size:7px;
  background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--c,#ff9a1f) 55%,transparent) 0 3px,transparent 3px 6px)}
 /* artwork due: a marked line, not a block */
-.cv-scr .cal-cv{background:transparent;color:var(--c,#ffd089);border-left:3px solid var(--c,#ffd089);
+.scr .cal-cv{background:transparent;color:var(--c,#ffd089);border-left:3px solid var(--c,#ffd089);
  border-radius:0;padding:2px 5px;font-size:11.5px;font-weight:750}
-.cv-scr .cal-cv.late{color:#ff9c9c;border-left-color:#ff9c9c}
-.cv-scr .cv-legend .lg-post::before{background:var(--t-accent);border:0}
-.cv-scr .cv-legend .lg-nocap::before{background:transparent;border:1px dashed var(--t-accent)}
-.cv-scr .cv-legend .lg-boost::before{background:repeating-linear-gradient(45deg,#8a5216 0 3px,transparent 3px 6px);border:1px solid #7a4a12}
-.cv-scr .cv-legend .lg-art::before{background:transparent;border-left:3px solid #ffd089;border-radius:0}
-@media(max-width:820px){.cv-hw{padding:10px 10px 14px}.cv-scr .calendar-top{padding:12px 12px 4px}}
+.scr .cal-cv.late{color:#ff9c9c;border-left-color:#ff9c9c}
+.scr .cv-legend .lg-post::before{background:var(--t-accent);border:0}
+.scr .cv-legend .lg-nocap::before{background:transparent;border:1px dashed var(--t-accent)}
+.scr .cv-legend .lg-boost::before{background:repeating-linear-gradient(45deg,#8a5216 0 3px,transparent 3px 6px);border:1px solid #7a4a12}
+.scr .cv-legend .lg-art::before{background:transparent;border-left:3px solid #ffd089;border-radius:0}
+@media(max-width:820px){.cv-hw{padding:10px 10px 14px}.scr .calendar-top{padding:12px 12px 4px}}
 .cv-modes{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
 .cv-legend{display:flex;gap:14px;flex-wrap:wrap;padding:0 20px 14px;font-size:11.5px;font-weight:800;color:var(--muted)}
 .cv-legend .lg{display:inline-flex;align-items:center;gap:6px}
@@ -661,6 +660,7 @@ body.dark .kst.tone-bad,body.dark .kst.tone-warn,body.dark .kst.tone-info,body.d
 .kpc-months{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:11px;margin-top:11px}
 .kpc-mt{font-size:11px;font-weight:850;color:var(--greenT);background:var(--green);border-radius:999px;padding:2px 8px}
 .kpc-bar{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;margin-top:11px}
+.kpc-sum{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .kpc{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:8px}
 .kpc-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;min-height:24px}
 .kpc-t{font-size:12px;font-weight:850}
@@ -746,8 +746,8 @@ body.dark .kst.tone-bad,body.dark .kst.tone-warn,body.dark .kst.tone-info,body.d
 .kmx-pend{font-weight:850;color:var(--muted)}
 .kmx-pend.zero{opacity:.35}
 .kmx .krun-n{width:54px}
-.cv-scr .krun-chip{background:transparent;color:var(--t-dim);border-color:var(--t-line-on)}
-.cv-scr .krun-chip.on{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
+.scr .krun-chip{background:transparent;color:var(--t-dim);border-color:var(--t-line-on)}
+.scr .krun-chip.on{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
 .krun-gate,.krun-tiers{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line)}
 .krun-amt{font-size:12px;font-weight:850}
 /* one badge vocabulary across the panel, same as the Creative cards:
@@ -795,105 +795,148 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .frame-key .pk::before{content:"";width:14px;height:8px;border-radius:2px;background:var(--c)}
 .frame-key .pk-note{font-size:11px;font-weight:700;color:var(--muted);flex:1 1 220px;line-height:1.5}
 @media(max-width:820px){.krun-d{width:47%}.krun-v{gap:7px 10px}.krun-hsum{margin-left:0;width:100%}}
+/* rows and chips that were painted for paper */
+.scr .task{background:rgba(255,255,255,.03);border-color:var(--t-line);color:var(--t-ink)}
+.scr .task:hover{border-color:var(--t-line-on);box-shadow:none}
+.scr .task-title{color:var(--t-hi)}
+.scr .task-note,.scr .task-meta,.scr .day-count,.scr .more{color:var(--t-mut)}
+.scr .task input[type=checkbox]{accent-color:var(--t-accent)}
+.scr .pill{background:transparent;border:1px solid currentColor}
+.scr .pill.high,.scr .pill.overdue{color:#e26b5b}
+.scr .pill.medium,.scr .pill.today{color:var(--t-amb)}
+.scr .pill.low,.scr .pill.owner{color:var(--t-dim)}
+.scr .pill.waiting{color:#7ea9d8}
+.scr .pill.done{color:#82ac87}
+.scr .cal-task{background:transparent;border:1px solid currentColor;border-radius:6px}
+.scr .cal-task.high{color:#e26b5b}
+.scr .cal-task.medium{color:var(--t-amb)}
+.scr .cal-task.low{color:var(--t-dim)}
+.scr .cal-task.done{opacity:.45}
+.scr .cal-owner{opacity:.75}
+.scr .search,.scr .toolbar select{background:rgba(0,0,0,.45)}
+.scr .modal-close{background:transparent;border-color:var(--t-line);color:var(--t-ink)}
+.scr .grid>.card{background:transparent}
+/* the shared furniture, on the tube */
+.scr .card,.scr .card.section{background:transparent;border:1px solid var(--t-line);box-shadow:none}
+.scr .hw{background:transparent;box-shadow:none;padding:0;border-radius:0}
+.scr .hw>.screw,.scr .hw>.hw-plate{display:none}
+.scr .scr{box-shadow:inset 0 0 0 1px var(--t-line);background:transparent}
+.scr .scr-in{padding:0}
+.scr h2,.scr h3,.scr strong,.scr b{color:var(--t-hi)}
+.scr .section h2{border-bottom-color:var(--t-line)}
+.scr .row{border-bottom-color:var(--t-line)}
+.scr .metric,.scr .brief-card,.scr .stat{background:rgba(0,0,0,.3);border-color:var(--t-line)}
+.scr .metric .label,.scr .muted,.scr .sub,.scr .pf-sub{color:var(--t-mut)}
+.scr .metric .value{color:var(--t-amb)}
+.scr .tab{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+.scr .tab.active{background:var(--t-tint);border-color:var(--t-accent);color:var(--t-hi)}
+.scr .pill{background:transparent;border:1px solid var(--t-line)}
+.scr .empty{color:var(--t-mut)}
+.scr table{color:var(--t-ink)}
+.scr th{color:var(--t-mut);border-bottom-color:var(--t-line)}
+.scr td{border-bottom-color:var(--t-line)}
+.scr .btn{background:transparent;border:1px solid var(--t-line);color:var(--t-ink)}
+.scr .btn.primary{background:var(--t-accent);border-color:var(--t-accent);color:#1b1206}
+.scr .btn.danger{background:transparent;border:1.5px solid #8c3f35;color:#f09a8c}
 /* ── KOL on the tube ───────────────────────────────────────────────────────
    Same screen the Dashboard runs on, so the page stops being a white form
    bolted onto a black app. Only colour is restated here -- every layout rule
    above still applies. */
-#kolView .scr-in{padding:22px 20px 24px}
-#kolView .kol-card{background:transparent;border:1px solid var(--t-line);border-radius:10px;margin-top:14px}
-#kolView .kol-card:hover{border-color:var(--t-line-on)}
-#kolView .kol-head{background:rgba(255,255,255,.03);border-bottom:1px dashed var(--t-line)}
-#kolView .kol-head:hover{filter:none;background:var(--t-tint)}
-#kolView .kol-body{background:transparent}
-#kolView .kol-name{color:var(--t-hi)}
-#kolView .kol-sub,#kolView .kol-next-k,#kolView .kpc-hint,#kolView .krun-lab,
-#kolView .krun-span,#kolView .krun-none,#kolView .kfield-l,#kolView .kfield-h,
-#kolView .kst-l,#kolView .kpc-w span,#kolView .kol-who{color:var(--t-mut)}
-#kolView .kol-next-t{color:var(--t-hi)}
-#kolView .kol-next-t.late{color:#e26b5b}
-#kolView .kol-next-w,#kolView .kst-pend,#kolView .krun-ok{background:transparent;border:1px solid var(--t-line);color:var(--t-dim)}
-#kolView .kol-stage{background:transparent;border:1px solid var(--t-line-on);color:var(--t-amb)}
-#kolView .ksec{background:transparent;border-color:var(--t-line)}
-#kolView .ksec-h{color:var(--t-amb);border-bottom-color:var(--t-line)}
-#kolView .krun-gate,#kolView .krun-tiers,#kolView .krun-row,#kolView .kol-step{border-bottom-color:var(--t-line)}
+.scr .kol-card{background:transparent;border:1px solid var(--t-line);border-radius:10px;margin-top:14px}
+.scr .kol-card:hover{border-color:var(--t-line-on)}
+.scr .kol-head{background:rgba(255,255,255,.03);border-bottom:1px dashed var(--t-line)}
+.scr .kol-head:hover{filter:none;background:var(--t-tint)}
+.scr .kol-body{background:transparent}
+.scr .kol-name{color:var(--t-hi)}
+.scr .kol-sub,.scr .kol-next-k,.scr .kpc-hint,.scr .krun-lab,
+.scr .krun-span,.scr .krun-none,.scr .kfield-l,.scr .kfield-h,
+.scr .kst-l,.scr .kpc-w span,.scr .kol-who{color:var(--t-mut)}
+.scr .kol-next-t{color:var(--t-hi)}
+.scr .kol-next-t.late{color:#e26b5b}
+.scr .kol-next-w,.scr .kst-pend,.scr .krun-ok{background:transparent;border:1px solid var(--t-line);color:var(--t-dim)}
+.scr .kol-stage{background:transparent;border:1px solid var(--t-line-on);color:var(--t-amb)}
+.scr .ksec{background:transparent;border-color:var(--t-line)}
+.scr .ksec-h{color:var(--t-amb);border-bottom-color:var(--t-line)}
+.scr .krun-gate,.scr .krun-tiers,.scr .krun-row,.scr .kol-step{border-bottom-color:var(--t-line)}
 /* badges keep their meaning, in the tube's palette */
-#kolView .kchip{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
-#kolView .kchip.done{color:var(--t-hi);border-color:var(--t-line-on)}
-#kolView .kchip.doing{color:var(--t-amb);border-color:var(--t-accent)}
-#kolView .cv-ico{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
-#kolView .cv-ico.tone-calm{background:rgba(130,172,135,.14);border-color:#4d7a55;color:#9fd0a6}
-#kolView .cv-ico.tone-warn{background:rgba(244,161,46,.14);border-color:#8a5a12;color:var(--t-amb)}
-#kolView .cv-ico.tone-info{background:rgba(126,169,216,.14);border-color:#3a5d8c;color:#9fc4e8}
-#kolView .cv-ico.tone-bad{background:rgba(226,107,91,.14);border-color:#8c3f35;color:#f09a8c}
+.scr .kchip{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+.scr .kchip.done{color:var(--t-hi);border-color:var(--t-line-on)}
+.scr .kchip.doing{color:var(--t-amb);border-color:var(--t-accent)}
+.scr .cv-ico{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+.scr .cv-ico.tone-calm{background:rgba(130,172,135,.14);border-color:#4d7a55;color:#9fd0a6}
+.scr .cv-ico.tone-warn{background:rgba(244,161,46,.14);border-color:#8a5a12;color:var(--t-amb)}
+.scr .cv-ico.tone-info{background:rgba(126,169,216,.14);border-color:#3a5d8c;color:#9fc4e8}
+.scr .cv-ico.tone-bad{background:rgba(226,107,91,.14);border-color:#8c3f35;color:#f09a8c}
 /* a field that wants a number: dark well, amber figures */
-#kolView .kfield{background:rgba(0,0,0,.35);border-color:var(--t-line)}
-#kolView .kfield.todo{background:rgba(244,161,46,.07);border-color:var(--t-accent)}
-#kolView input[type=number],#kolView input[type=date],#kolView input[type=text],#kolView .krun-why{
- background:rgba(0,0,0,.45);border:1px solid var(--t-line);color:var(--t-hi)}
-#kolView input::placeholder{color:var(--t-mut)}
-#kolView input[type=checkbox]{accent-color:var(--t-accent);opacity:.9}
-#kolView .kfield .krun-n{color:var(--t-amb)}
-#kolView .krun-chk,#kolView .kfield-chk{color:var(--t-ink)}
-#kolView .krun-total{background:transparent;border:1px solid var(--t-line-on);color:var(--t-hi)}
-#kolView .krun-vat{border-color:var(--t-line);color:var(--t-mut)}
-#kolView .krun-warn{background:rgba(244,161,46,.12);color:var(--t-amb)}
-#kolView .krun-chip{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
-#kolView .krun-chip.on{background:var(--t-tint);border-color:var(--t-accent);color:var(--t-hi)}
-#kolView .krev{background:transparent;border-color:var(--t-line)}
-#kolView .krev-t{color:var(--t-hi)}
-#kolView .kst{background:rgba(0,0,0,.3);border-color:var(--t-line)}
-#kolView .kst.tone-calm{border-color:rgba(130,172,135,.4)}
-#kolView .kst.tone-info{border-color:rgba(126,169,216,.4)}
-#kolView .kst.tone-bad{border-color:rgba(226,107,91,.45)}
-#kolView .kst.tone-warn{border-color:rgba(244,161,46,.4)}
+.scr .kfield{background:rgba(0,0,0,.35);border-color:var(--t-line)}
+.scr .kfield.todo{background:rgba(244,161,46,.07);border-color:var(--t-accent)}
+.scr input,.scr select,.scr textarea{background:rgba(0,0,0,.45);border:1px solid var(--t-line);color:var(--t-hi)}
+.scr input:focus,.scr select:focus,.scr textarea:focus{border-color:var(--t-accent);outline:none}
+.scr input::placeholder,.scr textarea::placeholder{color:var(--t-mut)}
+.scr input[type=checkbox],.scr input[type=radio]{accent-color:var(--t-accent);opacity:.9;background:none;border:0}
+.scr option{background:#16100a;color:var(--t-hi)}
+.scr .kfield .krun-n{color:var(--t-amb)}
+.scr .krun-chk,.scr .kfield-chk{color:var(--t-ink)}
+.scr .krun-total{background:transparent;border:1px solid var(--t-line-on);color:var(--t-hi)}
+.scr .krun-vat{border-color:var(--t-line);color:var(--t-mut)}
+.scr .krun-warn{background:rgba(244,161,46,.12);color:var(--t-amb)}
+.scr .krun-chip{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+.scr .krun-chip.on{background:var(--t-tint);border-color:var(--t-accent);color:var(--t-hi)}
+.scr .krev{background:transparent;border-color:var(--t-line)}
+.scr .krev-t{color:var(--t-hi)}
+.scr .kst{background:rgba(0,0,0,.3);border-color:var(--t-line)}
+.scr .kst.tone-calm{border-color:rgba(130,172,135,.4)}
+.scr .kst.tone-info{border-color:rgba(126,169,216,.4)}
+.scr .kst.tone-bad{border-color:rgba(226,107,91,.45)}
+.scr .kst.tone-warn{border-color:rgba(244,161,46,.4)}
 /* the month grids read as a readout, not a datepicker */
-#kolView .kpc{background:rgba(0,0,0,.3);border-color:var(--t-line)}
-#kolView .kpc-t{font-family:"VT323",ui-monospace,monospace;font-size:20px;letter-spacing:.1em;color:var(--t-amb)}
-#kolView .kpc-mt{background:rgba(130,172,135,.16);color:#9fd0a6}
-#kolView .kpc-ms{border-color:var(--t-line);color:var(--t-mut)}
-#kolView .kpc-d{background:rgba(255,255,255,.03);border-color:transparent}
-#kolView .kpc-d:hover{border-color:var(--t-line-on)}
-#kolView .kpc-d.pad{background:transparent}
-#kolView .kpc-n{font-family:"VT323",ui-monospace,monospace;font-size:16px;color:var(--t-dim)}
-#kolView .kpc-d.today{border-color:var(--t-accent);border-style:dashed}
-#kolView .kpc-d.has{background:rgba(130,172,135,.22)}
-#kolView .kpc-d.has .kpc-n{color:#bde4c2}
-#kolView .kpc-c{color:#9fd0a6}
-#kolView .kpc-d.sched{border-style:dashed;border-color:var(--t-line-on)}
-#kolView .kpc-d.sched .kpc-n,#kolView .kpc-d.sched .kpc-c{color:var(--t-mut)}
-#kolView .kpc-d.sel{border-color:var(--t-accent);box-shadow:0 0 0 1px var(--t-accent)}
-#kolView .kpc-sel{color:var(--t-hi)}
-#kolView .krun-bar{background:rgba(0,0,0,.4);border-color:var(--t-line)}
-#kolView .krun-bar i{background:#5c9968}
+.scr .kpc{background:rgba(0,0,0,.3);border-color:var(--t-line)}
+.scr .kpc-t{font-family:"VT323",ui-monospace,monospace;font-size:20px;letter-spacing:.1em;color:var(--t-amb)}
+.scr .kpc-mt{background:rgba(130,172,135,.16);color:#9fd0a6}
+.scr .kpc-ms{border-color:var(--t-line);color:var(--t-mut)}
+.scr .kpc-d{background:rgba(255,255,255,.03);border-color:transparent}
+.scr .kpc-d:hover{border-color:var(--t-line-on)}
+.scr .kpc-d.pad{background:transparent}
+.scr .kpc-n{font-family:"VT323",ui-monospace,monospace;font-size:16px;color:var(--t-dim)}
+.scr .kpc-d.today{border-color:var(--t-accent);border-style:dashed}
+.scr .kpc-d.has{background:rgba(130,172,135,.22)}
+.scr .kpc-d.has .kpc-n{color:#bde4c2}
+.scr .kpc-c{color:#9fd0a6}
+.scr .kpc-d.sched{border-style:dashed;border-color:var(--t-line-on)}
+.scr .kpc-d.sched .kpc-n,.scr .kpc-d.sched .kpc-c{color:var(--t-mut)}
+.scr .kpc-d.sel{border-color:var(--t-accent);box-shadow:0 0 0 1px var(--t-accent)}
+.scr .kpc-sel{color:var(--t-hi)}
+.scr .krun-bar{background:rgba(0,0,0,.4);border-color:var(--t-line)}
+.scr .krun-bar i{background:#5c9968}
 /* the queue strip sits in the same framed box the Dashboard uses */
-#kolView .kq-chip{background:transparent}
-#kolView .kq-chip.tone-bad{color:#e26b5b}
-#kolView .kq-chip.tone-warn{color:var(--t-amb)}
-#kolView .kq-chip.tone-info{color:#7ea9d8}
-#kolView .kq-chip.tone-calm{color:#82ac87}
-#kolView .kq-chip:hover{background:var(--t-tint)}
-#kolView .kq-none{color:var(--t-mut)}
+.scr .kq-chip{background:transparent}
+.scr .kq-chip.tone-bad{color:#e26b5b}
+.scr .kq-chip.tone-warn{color:var(--t-amb)}
+.scr .kq-chip.tone-info{color:#7ea9d8}
+.scr .kq-chip.tone-calm{color:#82ac87}
+.scr .kq-chip:hover{background:var(--t-tint)}
+.scr .kq-none{color:var(--t-mut)}
 /* audit trail + agency frame */
-#kolView .kol-stepstog{border-color:var(--t-line);color:var(--t-dim)}
-#kolView .kol-stepstog:hover{color:var(--t-hi);border-color:var(--t-line-on)}
-#kolView .kol-stepstog.warn{color:#e26b5b;border-color:#8c3f35}
-#kolView .kol-dot{background:rgba(0,0,0,.4);border-color:var(--t-line);color:var(--t-dim)}
-#kolView .kol-step.st-done .kol-dot{background:rgba(130,172,135,.2);color:#9fd0a6;border-color:#4d7a55}
-#kolView .kol-step.st-doing .kol-dot{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
-#kolView .kol-sname{color:var(--t-ink)}
-#kolView .kol-actual{color:var(--t-mut)}
-#kolView .kol-actual.late{color:#e26b5b}
-#kolView .kol-rev{background:rgba(244,161,46,.15);color:var(--t-amb)}
-#kolView .kol-gantt{border-bottom-color:var(--t-line)}
-#kolView .gantt-labels div,#kolView .gantt-ruler,#kolView .frame-key .pk{color:var(--t-dim)}
-#kolView .frame-key{border-top-color:var(--t-line)}
-#kolView .frame-key .pk-note{color:var(--t-mut)}
-#kolView .empty,#kolView .kmx thead th{color:var(--t-mut)}
-#kolView .btn.primary{background:var(--t-accent);border-color:var(--t-accent);color:#1b1206}
-#kolView .btn.danger{background:transparent;border:1.5px solid #8c3f35;color:#f09a8c}
-#kolView .kol-acts{border-top-color:var(--t-line)}
-#kolView .kol-cancelled{color:#e26b5b}
-@media(max-width:820px){#kolView .scr-in{padding:16px 11px 18px}}
+.scr .kol-stepstog{border-color:var(--t-line);color:var(--t-dim)}
+.scr .kol-stepstog:hover{color:var(--t-hi);border-color:var(--t-line-on)}
+.scr .kol-stepstog.warn{color:#e26b5b;border-color:#8c3f35}
+.scr .kol-dot{background:rgba(0,0,0,.4);border-color:var(--t-line);color:var(--t-dim)}
+.scr .kol-step.st-done .kol-dot{background:rgba(130,172,135,.2);color:#9fd0a6;border-color:#4d7a55}
+.scr .kol-step.st-doing .kol-dot{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
+.scr .kol-sname{color:var(--t-ink)}
+.scr .kol-actual{color:var(--t-mut)}
+.scr .kol-actual.late{color:#e26b5b}
+.scr .kol-rev{background:rgba(244,161,46,.15);color:var(--t-amb)}
+.scr .kol-gantt{border-bottom-color:var(--t-line)}
+.scr .gantt-labels div,.scr .gantt-ruler,.scr .frame-key .pk{color:var(--t-dim)}
+.scr .frame-key{border-top-color:var(--t-line)}
+.scr .frame-key .pk-note{color:var(--t-mut)}
+.scr .empty,.scr .kmx thead th{color:var(--t-mut)}
+.scr .btn.primary{background:var(--t-accent);border-color:var(--t-accent);color:#1b1206}
+.scr .btn.danger{background:transparent;border:1.5px solid #8c3f35;color:#f09a8c}
+.scr .kol-acts{border-top-color:var(--t-line)}
+.scr .kol-cancelled{color:#e26b5b}
+
 .pr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .pr-top .help{flex:1;min-width:240px;line-height:1.6}
 .pr-hint{border:1px solid #e0c9a8;background:#fdf5e8;color:#7a5a22;border-radius:12px;padding:11px 14px;font-size:12px;font-weight:700;margin-bottom:14px;line-height:1.6}
@@ -1275,7 +1318,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.67 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.68 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1446,14 +1489,8 @@ body.dark .splash{background:#15120e}
   </div>
   <div id="kolSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-13-kol-campaign.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="kolRunHint" class="pr-hint hidden">ตัวเลขของรอบ (จำนวน KOL / Storyline / Draft / Boost) ยังเซฟไม่ได้ — รัน <code>migration-v7-53-kol-run.sql</code> ใน Supabase SQL Editor ก่อน</div>
-  <div class="hw">
-   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
-   <div class="hw-plate">KOL <span>· CAMPAIGN MONITOR</span></div>
-   <div class="scr"><div class="scr-in">
-    <div class="grp"><span class="grp-l">ต้องทำตอนนี้</span><div id="kolQueue"></div></div>
-    <div id="kolList"></div>
-   </div></div>
-  </div>
+  <div class="grp"><span class="grp-l">ต้องทำตอนนี้</span><div id="kolQueue"></div></div>
+  <div id="kolList"></div>
  </section>
 
  <section id="prView" class="hidden">
@@ -1587,7 +1624,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.67</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.68</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3062,13 +3099,13 @@ $("kolList").onclick=e=>{
  if((n=g("frame"))){const id=Number(n.dataset.kolFrame);kolFrameOpen.has(id)?kolFrameOpen.delete(id):kolFrameOpen.add(id);return renderKol()}
  if((n=g("day"))){const[da,dd]=n.dataset.kolDay.split(":");const i=Number(da);
   kolPostSel[i]=kolPostSel[i]===dd?"":dd;return renderKol()}
- if((n=g("dayclr"))){const[ca,cd]=n.dataset.kolDayclr.split(":");kolPostSet(Number(ca),cd,0);return renderKol()}
+ if((n=g("dayclr"))){const[ca,cd]=n.dataset.kolDayclr.split(":");kolPostSet(Number(ca),cd,0);kolPostSel[Number(ca)]="";return renderKol()}
  if((n=g("why"))){const[wa,wk,ww]=n.dataset.kolWhy.split(":");return kolWhyToggle(Number(wa),wk,ww)}
  if((n=g("plat"))){const[pa,pk]=n.dataset.kolPlat.split(":");return kolPlatToggle(Number(pa),pk)}
  if((n=g("gate"))){const[ga,gk]=n.dataset.kolGate.split(":");
   return kolSetStatus(Number(ga),gk,kolStatus(kolItems.find(x=>x.id===Number(ga)),gk)==="done"?"doing":"done")}
  if((n=g("pr")))return goView("pr");
- if(e.target.closest("[data-kol-remark],[data-kol-run],[data-kol-postn]"))return;
+ if(e.target.closest("[data-kol-remark],[data-kol-run],[data-kol-postn],[data-kol-postmv]"))return;
  if((n=g("toggle"))){const id=Number(n.dataset.kolToggle);kolOpenId=kolOpenId===id?null:id;renderKol()}
 };
 $("kolList").onchange=e=>{
@@ -3076,6 +3113,8 @@ $("kolList").onchange=e=>{
  if((el=e.target.closest("[data-kol-remark]"))){const[id,st]=el.dataset.kolRemark.split(":");return kolSetRemark(Number(id),st,el.value)}
 };
 $("kolList").oninput=e=>{
+ const mv=e.target.closest("[data-kol-postmv]");
+ if(mv){const v=mv.dataset.kolPostmv,i=v.indexOf(":");return kolPostMove(Number(v.slice(0,i)),v.slice(i+1),mv.value)}
  const pn=e.target.closest("[data-kol-postn]");
  if(pn){const v=pn.dataset.kolPostn,i=v.indexOf(":");return kolPostSet(Number(v.slice(0,i)),v.slice(i+1),kolNum(pn.value))}
  const el=e.target.closest("[data-kol-run]");if(!el)return;
@@ -3847,9 +3886,13 @@ function kolBarHTML(c){
  return `<div class="krun-bar"><i style="width:${Math.min(100,Math.round(kolPosted(c)/n*100))}%"></i></div>`;
 }
 function kolPostSumHTML(c){
- const rows=kolPostRows(c),s=kolPostSpan(c);
+ const rows=kolPostRows(c),s=kolPostSpan(c),n=kolN(c),t=kolPosted(c);
  if(!rows.length)return "";
- return `<span class="krun-span">${rows.length} วัน · ${kolDM(s.from)} – ${kolDM(s.to)}</span>`;
+ // Days on the calendar have to add up to people in the round; anything else is
+ // a typo somewhere, and it is worth catching before the report is written.
+ const tally=!n?"":t>n?`<span class="krun-warn">รวม ${t} เกิน ${n} คน</span>`
+  :t===n?`<span class="krun-ok">ครบ ${n} คน</span>`:`<span class="kst-pend">${t} / ${n} คน</span>`;
+ return `<span class="krun-span">${rows.length} วัน · ${kolDM(s.from)} – ${kolDM(s.to)}</span>${tally}`;
 }
 const kolNIn=(id,path,val,ph)=>`<input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="${esc(ph||"0")}" value="${val?esc(String(val)):""}" data-kol-run="${id}:${path}">`;
 const kolDIn=(id,path,val)=>`<input class="krun-d" type="date" value="${esc(val||"")}" data-kol-run="${id}:${path}">`;
@@ -3936,7 +3979,22 @@ function kolPostEdit(c){
  const id=c.id,d=kolPostSel[id];
  if(!d)return `<div class="kpc-hint">กดวันในปฏิทินเพื่อใส่ว่าวันนั้นลงกี่คน</div>`;
  const cur=kolPostRows(c).find(x=>x.d===d),sc=kolSchedRows(c).find(x=>x.d===d);
- return `<div class="kpc-edit"><span class="kpc-sel">${kolDM(d)}</span>${sc?`<span class="kpc-ms">นัดไว้ ${kolNum(sc.n)}</span>`:""}<span class="krun-lab">ลงกี่คน</span><input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="0" value="${kolNum(cur&&cur.n)||""}" data-kol-postn="${id}:${d}"><span class="krun-lab">คน</span>${cur?`<button class="btn secondary small" data-kol-dayclr="${id}:${d}">ลบวันนี้</button>`:""}</div>`;
+ // The agency moves days around, so the date is a field, not a label: retype it
+ // and the count goes with it.
+ return `<div class="kpc-edit"><input class="krun-d" type="date" value="${esc(d)}" data-kol-postmv="${id}:${d}" title="เปลี่ยนวัน แล้วจำนวนคนย้ายตาม">${sc?`<span class="kpc-ms">นัดไว้ ${kolNum(sc.n)}</span>`:""}<span class="krun-lab">ลงกี่คน</span><input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="0" value="${kolNum(cur&&cur.n)||""}" data-kol-postn="${id}:${d}"><span class="krun-lab">คน</span>${cur?`<button class="btn secondary small" data-kol-dayclr="${id}:${d}">ลบวันนี้</button>`:""}</div>`;
+}
+// Moving a day merges into whatever is already there rather than replacing it.
+function kolPostMove(id,from,to){
+ const c=kolItems.find(x=>x.id===id);
+ if(!c||!to||to===from)return;
+ const rows=kolPostRows(c);
+ const n=kolNum((rows.find(x=>x.d===from)||{}).n)+kolNum((rows.find(x=>x.d===to)||{}).n);
+ const keep=rows.filter(x=>x.d!==from&&x.d!==to);
+ if(n>0)keep.push({d:to,n});
+ keep.sort((a,b)=>a.d<b.d?-1:1);
+ c.run={...kolRun(c),posts:keep};
+ kolPostSel[id]=to;
+ kolPatch(id,{run:c.run});
 }
 function kolPostSet(id,d,n){
  const c=kolItems.find(x=>x.id===id);if(!c)return;
@@ -5663,6 +5721,32 @@ $("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<d
 
 renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol();renderProj()}
 ["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;
+// Every view runs on the same monitor. The casing is chrome rather than
+// content, so it is put on once at boot around whatever each section holds --
+// twelve copies of the same markup would only be twelve chances to drift.
+const VIEW_PLATE={
+ tasks:["TASKS","\u00b7 WORK LIST"],calendar:["CALENDAR","\u00b7 MONTH"],
+ matrix:["PRIORITY MATRIX",""],weekly:["WEEKLY REVIEW",""],
+ proj:["PROJECTS","\u00b7 PLAN BOARD"],productlaunch:["PRODUCT LAUNCH","\u00b7 NPD"],
+ pr:["PR / GRPO","\u00b7 PURCHASE"],creative:["CREATIVE","\u00b7 JOBS"],
+ kol:["KOL","\u00b7 CAMPAIGN MONITOR"],archive:["PORTFOLIO",""],
+ categories:["CATEGORIES",""],settings:["SETTINGS",""],admin:["TEAM",""]
+};
+function tubeWrap(){
+ Object.keys(VIEW_PLATE).forEach(v=>{
+  const sec=$(v+"View");
+  if(!sec||sec.firstElementChild&&sec.firstElementChild.classList.contains("hw"))return;
+  const[a,b]=VIEW_PLATE[v];
+  const hw=document.createElement("div");
+  hw.className="hw";
+  hw.innerHTML='<b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>'
+   +`<div class="hw-plate">${a}${b?` <span>${b}</span>`:""}</div><div class="scr"><div class="scr-in"></div></div>`;
+  const inner=hw.querySelector(".scr-in");
+  while(sec.firstChild)inner.appendChild(sec.firstChild);
+  sec.appendChild(hw);
+ });
+}
+tubeWrap();
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
