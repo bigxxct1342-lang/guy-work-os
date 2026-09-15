@@ -667,6 +667,18 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krun-chk input{flex:none;width:15px;height:15px}
 .krun-pr{font-size:12px;font-weight:850}
 .krun-prst{font-size:11.5px;font-weight:800}
+.krun-gate,.krun-tiers{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line)}
+.krun-amt{font-size:12px;font-weight:850}
+.krun-tick{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.krun-tick:hover{color:var(--text)}
+.krun-tick.on{background:var(--green);color:var(--greenT);border-color:transparent}
+.krun-why-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:8px}
+.krun-chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.krun-chip:hover{color:var(--text)}
+.krun-chip.on{background:var(--yellow);color:var(--yellowT);border-color:transparent}
+.krun-why-row .krun-why{margin-top:0;flex:1 1 160px;width:auto}
+.kol-cal-post{border-radius:6px;padding:3px 6px;margin-bottom:4px;font-size:11px;font-weight:800;background:#fbe0c6;color:#8a4512;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cv-scr .kol-cal-post{background:transparent;color:var(--c,var(--t-hi));border-left:3px solid var(--c,var(--t-accent));border-radius:0;padding:2px 5px}
 .kol-stepstog{display:block;width:100%;text-align:left;border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:8px 11px;font-size:11.5px;font-weight:850;cursor:pointer;font-family:inherit}
 .kol-stepstog:hover{color:var(--text);border-style:solid}
 .kw-strip{margin-top:10px;position:relative}
@@ -1229,7 +1241,23 @@ body.dark .splash{background:#15120e}
   </div>
   <div id="kolSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-13-kol-campaign.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="kolRunHint" class="pr-hint hidden">ตัวเลขของรอบ (จำนวน KOL / Storyline / Draft / Boost) ยังเซฟไม่ได้ — รัน <code>migration-v7-53-kol-run.sql</code> ใน Supabase SQL Editor ก่อน</div>
+  <div class="cv-modes" id="kolModes">
+   <button class="tab active" data-kolmode="list">รายการแคมเปญ</button>
+   <button class="tab" data-kolmode="cal">ปฏิทิน KOL</button>
+  </div>
   <div id="kolList"></div>
+  <div id="kolCalWrap" class="hw cv-hw calendar-shell hidden">
+   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
+   <div class="hw-plate">KOL SCHEDULE</div>
+   <div class="scr cv-scr">
+   <div class="calendar-top"><div><div id="kolMonthTitle" class="month-title"></div><div class="help">วันที่ KOL ลงโพสต์ และช่วงที่บูทอยู่ · สีบอกว่าเป็นแคมเปญไหน</div></div>
+    <div class="calendar-controls"><button id="kolPrevMonth" class="btn secondary small">‹</button><button id="kolTodayMonth" class="btn secondary small">Today</button><button id="kolNextMonth" class="btn secondary small">›</button></div>
+   </div>
+   <div class="cv-legend"><span class="lg lg-art">วันลงโพสต์</span><span class="lg lg-boost">ช่วงบูท</span><span class="lg-note">ตัวเลขมุมขวา = วันนั้นลงกี่คนรวมทุกแคมเปญ</span></div>
+   <div class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
+   <div id="kolCalGrid" class="calendar-grid"></div>
+   </div>
+  </div>
  </section>
 
  <section id="prView" class="hidden">
@@ -2828,6 +2856,11 @@ $("kolList").onclick=e=>{
  if((n=g("gantt"))){const id=Number(n.dataset.kolGantt);kolGanttOpen=kolGanttOpen===id?null:id;return renderKol()}
  if((n=g("steps"))){const id=Number(n.dataset.kolSteps);kolStepsOpen.has(id)?kolStepsOpen.delete(id):kolStepsOpen.add(id);return renderKol()}
  if((n=g("waveadd")))return kolWaveAdd(Number(n.dataset.kolWaveadd));
+ if((n=g("postadd")))return kolPostAdd(Number(n.dataset.kolPostadd));
+ if((n=g("postdel"))){const[pa,pb]=n.dataset.kolPostdel.split(":");return kolPostDel(Number(pa),Number(pb))}
+ if((n=g("why"))){const[wa,wk,ww]=n.dataset.kolWhy.split(":");return kolWhyToggle(Number(wa),wk,ww)}
+ if((n=g("gate"))){const[ga,gk]=n.dataset.kolGate.split(":");
+  return kolSetStatus(Number(ga),gk,kolStatus(kolItems.find(x=>x.id===Number(ga)),gk)==="done"?"doing":"done")}
  if((n=g("wavedel"))){const[wa,wb]=n.dataset.kolWavedel.split(":");return kolWaveDel(Number(wa),Number(wb))}
  if((n=g("pr")))return goView("pr");
  if(e.target.closest("[data-kol-days],[data-kol-plan],[data-kol-remark],[data-kol-run]"))return;
@@ -2886,6 +2919,10 @@ $("pickSearch").oninput=renderPick;
 $("pickHideDone").onchange=renderPick;
 $("addProjBtn").onclick=()=>projFillModal(null);
 $("kolBackBtn").onclick=()=>goView("proj");
+$("kolModes").onclick=e=>{const b=e.target.closest("[data-kolmode]");if(!b)return;kolMode=b.dataset.kolmode;applyKolMode()};
+$("kolPrevMonth").onclick=()=>{kolCursor=new Date(kolCursor.getFullYear(),kolCursor.getMonth()-1,1);renderKolCalendar()};
+$("kolNextMonth").onclick=()=>{kolCursor=new Date(kolCursor.getFullYear(),kolCursor.getMonth()+1,1);renderKolCalendar()};
+$("kolTodayMonth").onclick=()=>{kolCursor=new Date();renderKolCalendar()};
 $("saveProjBtn").onclick=async()=>{
  const name=$("pjName").value.trim();
  if(!name)return $("projModalError").textContent="ใส่ชื่อโปรเจกต์ก่อน";
@@ -3513,17 +3550,43 @@ function kolGanttHTML(c){
 // โดยไม่ต้องคีย์ซ้ำกับตารางของ Agency ทั้งใบ
 const kolRun=c=>{const r=c.run;return r&&typeof r==="object"&&!Array.isArray(r)?r:{}};
 const kolNum=v=>{const n=Number(v);return Number.isFinite(n)&&n>0?Math.round(n):0};
-const kolN=c=>kolNum(kolRun(c).n);
 const kolSubN=(c,a,b)=>kolNum((kolRun(c)[a]||{})[b]);
-const kolWaves=c=>{const w=kolRun(c).boost;return Array.isArray(w)?w:[]};
+const kolList=(c,k)=>{const v=kolRun(c)[k];return Array.isArray(v)?v:[]};
+// Tiers break the headcount down; the round total stays its own number so it
+// can be entered the moment the QT lands, before the split is known.
+const KOL_TIERS=[{k:"mega",n:"Mega"},{k:"macro",n:"Macro"},{k:"micro",n:"Micro"},{k:"nano",n:"Nano"}];
+const kolTierSum=c=>KOL_TIERS.reduce((t,x)=>t+kolSubN(c,"tier",x.k),0);
+const kolN=c=>kolNum(kolRun(c).n)||kolTierSum(c);
+// Storyline and Draft are the same loop — like it / ask for edits / resent /
+// swap the person out — so they are one renderer used twice rather than two
+// half-matching sets of fields.
+// The four are where each person stands right now, not things that can both
+// be true of one person — so they add up to the headcount and a mismatch means
+// somebody really is unaccounted for.
+const KR_OUT=[{k:"ok",n:"ผ่านแล้ว"},{k:"fix",n:"ขอแก้ · รอเขาส่ง"},{k:"resub",n:"ส่งกลับมา · รอเราตรวจ"},{k:"drop",n:"เปลี่ยนคน"}];
+const KR_WHY=[{k:"slow",n:"ตอบช้า"},{k:"bad",n:"งานไม่ผ่าน"},{k:"busy",n:"ติดคิว / ไม่ว่าง"},{k:"price",n:"ราคาไม่ลงตัว"},{k:"other",n:"อื่นๆ"}];
+const kolWhy=(c,key)=>{const v=(kolRun(c)[key]||{}).why;return Array.isArray(v)?v:[]};
+const kolRevSum=(c,key)=>KR_OUT.reduce((t,o)=>t+kolSubN(c,key,o.k),0);
+// Posting is entered the way the agency reports it: this many people went up
+// on this day. The total, the span and the calendar all read off those rows.
+const kolPostRows=c=>kolList(c,"posts").filter(x=>x&&x.d);
+const kolPosted=c=>{
+ const rows=kolPostRows(c);
+ return rows.length?rows.reduce((t,x)=>t+kolNum(x.n),0):kolSubN(c,"post","done");
+};
+const kolPostSpan=c=>{
+ const d=kolPostRows(c).map(x=>x.d).sort();
+ if(!d.length){const p=kolRun(c).post||{};return p.from&&p.to?{from:p.from,to:p.to}:null}
+ return{from:d[0],to:d[d.length-1]};
+};
+const kolWaves=c=>kolList(c,"boost");
 const kolWavesOK=c=>kolWaves(c).map((w,i)=>({...(w||{}),i})).filter(w=>w.from&&w.to&&w.to>=w.from);
 const kolBoostLive=c=>{const t=todayISO();return kolWavesOK(c).filter(w=>w.from<=t&&w.to>=t)};
+const kolWaveOn=w=>{const t=todayISO();return !!(w&&w.from&&w.to&&w.from<=t&&w.to>=t)};
 function kolBoostSpan(c){
  const w=kolWavesOK(c);if(!w.length)return null;
  return{from:w.map(x=>x.from).sort()[0],to:w.map(x=>x.to).sort().slice(-1)[0]};
 }
-const kolPosted=c=>kolSubN(c,"post","done");
-const kolDraftPassed=c=>["r1","r2","r3"].reduce((n,k)=>n+kolSubN(c,"dr",k),0);
 // pr_ref is stored as "kind:id" so it can point at either a standalone PR or
 // a task that carries a PR stage; resolve it through the same board shape.
 function kolPrRef(c){
@@ -3532,6 +3595,9 @@ function kolPrRef(c){
  return prAllItems().find(x=>x.kind===kind&&x.id===id)||null;
 }
 const kolDM=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
+const KOL_HUES=["#ff9a1f","#5ee07a","#4fd8e8","#b78bff","#ff7ab8","#c8e04f","#6aa8ff","#ff8a5c"];
+const kolHue=c=>{const k=String(c.id||c.name||"");let h=0;
+ for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return KOL_HUES[h%KOL_HUES.length]};
 // Every KOL posts on a different day, so boost runs in waves rather than one
 // window. The strip below is those waves on one axis — no per-person rows.
 function kolWaveStrip(c){
@@ -3540,11 +3606,11 @@ function kolWaveStrip(c){
  const A=new Date(min+"T00:00:00"),B=new Date(max+"T00:00:00");
  const span=Math.max(1,Math.round((B-A)/86400000));
  const pct=d=>Math.max(0,Math.min(100,((new Date(d+"T00:00:00")-A)/86400000)/span*100));
- const t=todayISO(),live=x=>x.from<=t&&x.to>=t,past=x=>x.to<t;
+ const t=todayISO();
  const now=t>=min&&t<=max?`<div class="kw-now" style="left:${pct(t)}%"></div>`:"";
  return `<div class="kw-strip">${now}${w.map(x=>{
   const l=pct(x.from),r=pct(x.to);
-  return `<div class="kw-track"><div class="kw-bar${live(x)?" on":past(x)?" off":""}" style="left:${l}%;width:${Math.max(4,r-l)}%">${kolNum(x.n)?kolNum(x.n)+" คน":""}</div></div>`;
+  return `<div class="kw-track"><div class="kw-bar${kolWaveOn(x)?" on":x.to<t?" off":""}" style="left:${l}%;width:${Math.max(4,r-l)}%">${kolNum(x.n)?kolNum(x.n)+" คน":""}</div></div>`;
  }).join("")}<div class="kw-axis"><span>${kolDM(min)}</span><span>${kolDM(max)}</span></div></div>`;
 }
 function kolHeadSum(c){
@@ -3568,30 +3634,49 @@ function kolSpanHTML(c){
  const s=kolBoostSpan(c);
  return s?`<span class="krun-span">รวมทั้งรอบ ${kolDM(s.from)} – ${kolDM(s.to)}</span>`:"";
 }
-const kolWaveOn=w=>{const t=todayISO();return !!(w&&w.from&&w.to&&w.from<=t&&w.to>=t)};
+function kolPostSumHTML(c){
+ const rows=kolPostRows(c),s=kolPostSpan(c);
+ if(!rows.length)return "";
+ return `<span class="krun-span">${rows.length} วัน · ${kolDM(s.from)} – ${kolDM(s.to)}</span>`;
+}
+const kolNIn=(id,path,val,ph)=>`<input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="${esc(ph||"0")}" value="${val?esc(String(val)):""}" data-kol-run="${id}:${path}">`;
+const kolDIn=(id,path,val)=>`<input class="krun-d" type="date" value="${esc(val||"")}" data-kol-run="${id}:${path}">`;
+const kolF=(lab,inp)=>`<span class="krun-f"><span class="krun-lab">${lab}</span>${inp}</span>`;
+// One shape for Storyline and for Draft: the four outcomes, which round it is
+// on, and — only once somebody has been sent back or swapped — why.
+function kolReviewHTML(c,key){
+ const id=c.id,sel=kolWhy(c,key);
+ const outs=KR_OUT.map(o=>kolF(o.n,kolNIn(id,`${key}.${o.k}`,kolSubN(c,key,o.k)))).join("");
+ // The reasons stay on screen whether or not anybody has been sent back yet:
+ // they are the headings to pick from, so hiding them hides the vocabulary.
+ const why=`<div class="krun-why-row"><span class="krun-lab">เพราะ</span>${KR_WHY.map(w=>
+   `<button class="krun-chip${sel.includes(w.k)?" on":""}" data-kol-why="${id}:${key}:${w.k}">${w.n}</button>`).join("")
+  }<input class="krun-why" placeholder="จดเพิ่มถ้าต้อง" value="${esc((kolRun(c)[key]||{}).note||"")}" data-kol-run="${id}:${key}.note"></div>`;
+ return outs+kolF("รอบที่",kolNIn(id,`${key}.round`,kolSubN(c,key,"round")))
+  +`<span data-d="tally-${key}">${kolTally(c,kolRevSum(c,key))}</span>`+why;
+}
 function kolRunHTML(c){
  const id=c.id,n=kolN(c),r=kolRun(c);
- const N=(path,val,ph)=>`<input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="${esc(ph||"0")}" value="${val?esc(String(val)):""}" data-kol-run="${id}:${path}">`;
- const D=(path,val)=>`<input class="krun-d" type="date" value="${esc(val||"")}" data-kol-run="${id}:${path}">`;
- const F=(lab,inp)=>`<span class="krun-f"><span class="krun-lab">${lab}</span>${inp}</span>`;
+ const N=(path,val,ph)=>kolNIn(id,path,val,ph),D=(path,val)=>kolDIn(id,path,val),F=kolF;
  const row=(k,t,body,extra)=>`<div class="krun-row"><span class="krun-k">${k}</span><div class="krun-b"><div class="krun-t">${t}</div><div class="krun-v">${body}</div>${extra||""}</div></div>`;
- const slSum=kolSubN(c,"sl","ok")+kolSubN(c,"sl","fix")+kolSubN(c,"sl","drop");
  const pr=kolPrRef(c);
+ const gate=[{k:"quotation",n:"ได้ QT จาก Agency"},{k:"pr_sign",n:"เซ็นกลับแล้ว"}].map(g=>{
+  const on=kolStatus(c,g.k)==="done";
+  return `<button class="krun-tick${on?" on":""}" data-kol-gate="${id}:${g.k}">${on?"☑":"☐"} ${g.n}</button>`;
+ }).join("");
+ const tiers=KOL_TIERS.map(t=>F(t.n,N(`tier.${t.k}`,kolSubN(c,"tier",t.k)))).join("");
+ const posts=kolList(c,"posts").map((x,i)=>
+  `<div class="krun-wave">${D(`posts.${i}.d`,x&&x.d)}${N(`posts.${i}.n`,kolNum(x&&x.n))}<span class="krun-lab">คน</span><button class="krun-x" data-kol-postdel="${id}:${i}" title="ลบวันนี้">✕</button></div>`).join("");
  const waves=kolWaves(c).map((w,i)=>
-  `<div class="krun-wave">${D(`boost.${i}.from`,w&&w.from)}<span class="krun-dash">→</span>${D(`boost.${i}.to`,w&&w.to)}${N(`boost.${i}.n`,kolNum(w&&w.n))}<span class="krun-lab">คน</span><span data-d="live-${i}">${kolWaveOn(w)?'<span class="krun-live">กำลังบูท</span>':""}</span><button class="krun-x" data-kol-wavedel="${id}:${i}" title="ลบช่วงนี้">✕</button></div>`
- ).join("");
- return `<div class="krun" data-krun="${id}"><div class="krun-head"><span class="krun-hk">KOL รอบนี้</span>${N("n",n,"52")}<span class="krun-hu">คน</span><span class="krun-hsum" data-d="head">${kolHeadSum(c)}</span></div>
-${row("1","Storyline ที่ KOL ส่งมา",
-  F("คอนเฟิร์มแล้ว",N("sl.ok",kolSubN(c,"sl","ok")))+
-  F("ขอแก้",N("sl.fix",kolSubN(c,"sl","fix")))+F("รอบที่",N("sl.round",kolSubN(c,"sl","round")))+
-  F("เปลี่ยนคน",N("sl.drop",kolSubN(c,"sl","drop")))+`<span data-d="tally-sl">${kolTally(c,slSum)}</span>`,
-  `<input class="krun-why" placeholder="เปลี่ยนคนเพราะอะไร — ตอบช้า / งานไม่ผ่าน" value="${esc((r.sl||{}).why||"")}" data-kol-run="${id}:sl.why">`)}
-${row("2","Draft — ผ่านตอนรอบที่เท่าไร",
-  F("รอบ 1",N("dr.r1",kolSubN(c,"dr","r1")))+F("รอบ 2",N("dr.r2",kolSubN(c,"dr","r2")))+
-  F("รอบ 3+",N("dr.r3",kolSubN(c,"dr","r3")))+`<span data-d="tally-dr">${kolTally(c,kolDraftPassed(c))}</span>`)}
-${row("3","ลงโพสต์ (ข้อมูลจาก Agency)",
-  F("ลงแล้ว",N("post.done",kolPosted(c)))+`<span class="krun-lab" data-d="postof">/ ${n||"—"} คน</span>`+
-  F("เริ่มลง",D("post.from",(r.post||{}).from))+F("ลงครบ",D("post.to",(r.post||{}).to)),
+  `<div class="krun-wave">${D(`boost.${i}.from`,w&&w.from)}<span class="krun-dash">→</span>${D(`boost.${i}.to`,w&&w.to)}${N(`boost.${i}.n`,kolNum(w&&w.n))}<span class="krun-lab">คน</span><span data-d="live-${i}">${kolWaveOn(w)?'<span class="krun-live">กำลังบูท</span>':""}</span><button class="krun-x" data-kol-wavedel="${id}:${i}" title="ลบช่วงนี้">✕</button></div>`).join("");
+ return `<div class="krun" data-krun="${id}"><div class="krun-head"><span class="krun-hk">KOL รอบนี้</span>${N("n",kolNum(r.n),"52")}<span class="krun-hu">คน</span><span class="krun-hsum" data-d="head">${kolHeadSum(c)}</span></div>
+<div class="krun-gate"><span class="krun-lab">ยอดตาม QT</span><span class="krun-amt">${c.budget!=null&&c.budget!==""?Number(c.budget).toLocaleString("en-US",{maximumFractionDigits:2})+" บาท":"— ใส่ที่ “แก้ไขข้อมูล”"}</span>${gate}</div>
+<div class="krun-tiers"><span class="krun-lab">Tier</span>${tiers}<span data-d="tally-tier">${kolTierSum(c)?kolTally(c,kolTierSum(c)):""}</span></div>
+${row("1","Storyline ที่ KOL ส่งมา",kolReviewHTML(c,"sl"))}
+${row("2","Draft ที่ KOL ส่งมา",kolReviewHTML(c,"dr"))}
+${row("3","ลงโพสต์ — วันไหนลงกี่คน (ข้อมูลจาก Agency)",
+  (posts||`<span class="krun-none">ยังไม่ได้ใส่วันลง</span>`)+
+  `<div class="krun-add"><button class="btn secondary small" data-kol-postadd="${id}">+ เพิ่มวันลง</button><span data-d="postsum">${kolPostSumHTML(c)}</span></div>`,
   `<div data-d="bar">${kolBarHTML(c)}</div>`)}
 ${row("4","Boost — แต่ละคนลงคนละวัน บูทคนละช่วง",
   (waves||`<span class="krun-none">ยังไม่ได้ใส่ช่วงบูท</span>`)+
@@ -3613,16 +3698,18 @@ function kolRunTouch(c){
  if(root){
   const put=(k,html)=>{const e=root.querySelector(`[data-d="${k}"]`);if(e)e.innerHTML=html};
   put("head",kolHeadSum(c));
-  put("tally-sl",kolTally(c,kolSubN(c,"sl","ok")+kolSubN(c,"sl","fix")+kolSubN(c,"sl","drop")));
-  put("tally-dr",kolTally(c,kolDraftPassed(c)));
-  put("postof",`/ ${kolN(c)||"—"} คน`);
+  put("tally-sl",kolTally(c,kolRevSum(c,"sl")));
+  put("tally-dr",kolTally(c,kolRevSum(c,"dr")));
+  put("tally-tier",kolTierSum(c)?kolTally(c,kolTierSum(c)):"");
   put("bar",kolBarHTML(c));
+  put("postsum",kolPostSumHTML(c));
   put("span",kolSpanHTML(c));
   put("strip",kolWaveStrip(c));
   kolWaves(c).forEach((w,i)=>put(`live-${i}`,kolWaveOn(w)?'<span class="krun-live">กำลังบูท</span>':""));
  }
  const sub=document.querySelector(`[data-kolsub="${c.id}"]`);
  if(sub)sub.innerHTML=kolSubBits(c);
+ if(kolMode==="cal")renderKolCalendar();
 }
 // Saving is debounced rather than optimistic-with-rollback: rolling a field
 // back under a cursor that is still in it would fight the person typing, so a
@@ -3650,20 +3737,63 @@ function kolSetRun(id,path,val){
  kolRunTouch(c);
  kolRunSave(id);
 }
-// Adding or removing a wave changes the shape of the panel, so these do go
+window.kolWhyToggle=(id,key,w)=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const cur=kolWhy(c,key),next=cur.includes(w)?cur.filter(x=>x!==w):cur.concat(w);
+ kolSetRun(id,`${key}.why`,next);
+ const btn=document.querySelector(`[data-kol-why="${id}:${key}:${w}"]`);
+ if(btn)btn.classList.toggle("on",next.includes(w));
+};
+// Adding or removing a row changes the shape of the panel, so these do go
 // through the normal optimistic patch and redraw.
-window.kolWaveAdd=async id=>{
- const c=kolItems.find(x=>x.id===id);if(!c)return;
+function kolRowsPatch(id,key,fn){
+ const c=kolItems.find(x=>x.id===id);if(!c)return Promise.resolve(false);
  clearTimeout(kolRunTimers[id]);
- const w=kolWaves(c).slice();w.push({from:"",to:"",n:""});
- await kolPatch(id,{run:{...kolRun(c),boost:w}});
-};
-window.kolWaveDel=async(id,i)=>{
- const c=kolItems.find(x=>x.id===id);if(!c)return;
- clearTimeout(kolRunTimers[id]);
- const w=kolWaves(c).slice();if(i<0||i>=w.length)return;w.splice(i,1);
- await kolPatch(id,{run:{...kolRun(c),boost:w}});
-};
+ const rows=kolList(c,key).slice();
+ if(fn(rows)===false)return Promise.resolve(false);
+ return kolPatch(id,{run:{...kolRun(c),[key]:rows}});
+}
+window.kolWaveAdd=id=>kolRowsPatch(id,"boost",r=>{r.push({from:"",to:"",n:""})});
+window.kolWaveDel=(id,i)=>kolRowsPatch(id,"boost",r=>{if(i<0||i>=r.length)return false;r.splice(i,1)});
+window.kolPostAdd=id=>kolRowsPatch(id,"posts",r=>{r.push({d:todayISO(),n:""})});
+window.kolPostDel=(id,i)=>kolRowsPatch(id,"posts",r=>{if(i<0||i>=r.length)return false;r.splice(i,1)});
+// ── ปฏิทิน KOL ────────────────────────────────────────────────────────────
+// Everything dated in a campaign on one month grid: which day people posted
+// and how many, and which days each boost wave is running.
+let kolCursor=new Date(),kolMode="list";
+const kolLiveItems=()=>kolItems.filter(c=>c.stage!=="cancelled");
+function kolDayHTML(c,ds){
+ const out=[],hue=kolHue(c);
+ kolPostRows(c).filter(x=>x.d===ds).forEach(x=>
+  out.push(`<div class="kol-cal-post" style="--c:${hue}" title="${esc(c.name)} · ลง ${kolNum(x.n)} คน">▲ ${kolNum(x.n)} คน · ${esc(c.name)}</div>`));
+ kolWavesOK(c).filter(w=>w.from<=ds&&w.to>=ds).forEach(w=>
+  out.push(`<div class="cal-boost" style="--c:${hue}" title="${esc(c.name)} · บูท ${kolDM(w.from)} – ${kolDM(w.to)} · ${kolNum(w.n)} คน">${w.from===ds?"บูท "+kolNum(w.n):""}</div>`));
+ return out;
+}
+function renderKolCalendar(){
+ if(!$("kolCalGrid"))return;
+ const y=kolCursor.getFullYear(),m=kolCursor.getMonth();
+ $("kolMonthTitle").textContent=kolCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
+ const first=new Date(y,m,1),offset=(first.getDay()+6)%7,start=new Date(y,m,1-offset);
+ let out="";
+ for(let i=0;i<42;i++){
+  const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
+  const bits=kolLiveItems().flatMap(c=>kolDayHTML(c,ds));
+  const posted=kolLiveItems().reduce((t,c)=>t+kolPostRows(c).filter(x=>x.d===ds).reduce((s,x)=>s+kolNum(x.n),0),0);
+  out+=`<div class="day cv-cal-day ${d.getMonth()!==m?"outside":""} ${ds===todayISO()?"today-day":""}">
+    <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${posted?posted+" คน":""}</span></div>
+    ${bits.join("")}
+   </div>`;
+ }
+ $("kolCalGrid").innerHTML=out;
+}
+function applyKolMode(){
+ const cal=kolMode==="cal";
+ $("kolList")?.classList.toggle("hidden",cal);
+ $("kolCalWrap")?.classList.toggle("hidden",!cal);
+ $("kolModes")?.querySelectorAll("[data-kolmode]").forEach(b=>b.classList.toggle("active",b.dataset.kolmode===kolMode));
+ if(cal)renderKolCalendar();
+}
 function kolSubBits(c){
  const done=KOL_STAGES.filter(x=>kolStatus(c,x.k)==="done").length,n=kolN(c);
  const bits=[c.agency?`Agency: ${esc(c.agency)}`:"\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38 Agency"];
@@ -3696,6 +3826,7 @@ function renderKol(){
  $("kolSetupHint").classList.toggle("hidden",!kolTableMissing);
  $("kolRunHint").classList.toggle("hidden",!kolRunMissing);
  $("kolBackWrap").classList.toggle("hidden",!kolFromProj);
+ applyKolMode();
  const open=kolItems.filter(c=>c.stage!=="done"&&c.stage!=="cancelled");
  const rest=kolItems.filter(c=>c.stage==="done"||c.stage==="cancelled");
  const all=open.sort((a,b)=>kolDays(b)-kolDays(a)).concat(rest);
