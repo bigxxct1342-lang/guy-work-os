@@ -722,6 +722,15 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .cv-scr .kol-cal-post{background:transparent;color:var(--c,var(--t-hi));border-left:3px solid var(--c,var(--t-accent));border-radius:0;padding:2px 5px}
 .kol-stepstog{display:block;width:100%;text-align:left;border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:8px 11px;font-size:11.5px;font-weight:850;cursor:pointer;font-family:inherit}
 .kol-stepstog:hover{color:var(--text);border-style:solid}
+.kol-stepstog.warn{color:#c33;border-color:#c33}
+/* the agency writes long row names; one line each, full text on hover */
+.kol-frame .gantt-grid{grid-template-columns:230px 1fr}
+.kol-frame .gantt-labels div{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:26px}
+@media(max-width:820px){.kol-frame .gantt-grid{grid-template-columns:132px 1fr}}
+.frame-key{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.frame-key .pk{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--muted)}
+.frame-key .pk::before{content:"";width:14px;height:8px;border-radius:2px;background:var(--c)}
+.frame-key .pk-note{font-size:11px;font-weight:700;color:var(--muted);flex:1 1 220px;line-height:1.5}
 .kw-strip{margin-top:10px;position:relative}
 .kw-track{height:16px;position:relative;margin-bottom:4px}
 .kw-bar{position:absolute;top:2px;height:12px;border-radius:999px;background:var(--dark);color:#fff;font-size:9.5px;font-weight:850;line-height:12px;text-align:center;white-space:nowrap;overflow:hidden}
@@ -1111,7 +1120,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.60 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.61 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1434,7 +1443,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.60</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.61</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1542,7 +1551,7 @@ body.dark .splash{background:#15120e}
 <div id="kolPasteModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="kolPasteModal" aria-label="Close">×</button><h3>วางตาราง Agency</h3>
 <div class="cv-modes" id="kolPasteModes" style="margin-bottom:10px"><button class="tab active" data-kpmode="sheet">ตาราง KOL</button><button class="tab" data-kpmode="time">Working Timeline</button></div>
 <div class="help" id="kolPasteHelpSheet" style="margin-bottom:10px">เปิด Google Sheet ของ Agency → ลากเลือกทั้งตาราง (เอาหัวตารางมาด้วย) → Ctrl+C → วางในช่องนี้<br>มันจะนับ Tier / แพลตฟอร์ม / สถานะ / วันลง ให้เอง แล้วค่อยกดใส่ ส่วนที่พิมพ์เองไว้ (ราคา ช่วงบูท Report) ไม่ถูกแตะ<br>Tier คิดจากยอดผู้ติดตามเอง ไม่ได้เชื่อคอลัมน์ Tier ของ Agency — Nano ต่ำกว่า 10K · Micro 10K–100K · Macro 100K–1M · Mega 1M ขึ้นไป</div>
-<div class="help hidden" id="kolPasteHelpTime" style="margin-bottom:10px">ก๊อป Gantt ของ Agency ทั้งตาราง (เอาแถวเดือนกับแถววันที่มาด้วย) → วางตรงนี้<br>มันอ่าน <b>สีที่ระบายไว้</b> เป็นช่วงของแต่ละขั้น แล้วเอาไปใส่เป็นวันเริ่ม + กี่วัน ใน Audit Trail — แถว Boost จะกลายเป็นช่วงบูท<br>ช่องด้านล่างจะดูโล่ง ๆ เป็นเรื่องปกติ เพราะสีไม่ใช่ตัวหนังสือ</div>
+<div class="help hidden" id="kolPasteHelpTime" style="margin-bottom:10px">ก๊อป Gantt ของ Agency ทั้งตาราง (เอาแถวเดือนกับแถววันที่มาด้วย) → วางตรงนี้<br>มันอ่าน <b>สีที่ระบายไว้</b> เป็นช่วงของแต่ละรายการ แล้วเก็บไว้เป็น <b>กรอบเวลา</b> ของแคมเปญ<br>เก็บแยกจาก Audit Trail เพราะอันนี้คือสิ่งที่ตกลงกันไว้ ส่วน Audit Trail คือสิ่งที่เกิดขึ้นจริง — ไว้เทียบกันว่าเกินกรอบไปไหม<br>ช่องด้านล่างจะดูโล่ง ๆ เป็นเรื่องปกติ เพราะสีไม่ใช่ตัวหนังสือ</div>
 <textarea id="kolPasteIn" rows="6" placeholder="วางตรงนี้"></textarea>
 <div id="kolPastePrev" class="kp-prev"></div>
 <div class="actions"><button class="btn secondary" data-close-layer="kolPasteModal">ยกเลิก</button><button id="kolPasteApply" class="btn primary">ใส่ลงแคมเปญ</button></div>
@@ -2907,6 +2916,7 @@ $("kolList").onclick=e=>{
  if((n=g("paste")))return kolPasteOpen(Number(n.dataset.kolPaste));
  if((n=g("gantt"))){const id=Number(n.dataset.kolGantt);kolGanttOpen=kolGanttOpen===id?null:id;return renderKol()}
  if((n=g("steps"))){const id=Number(n.dataset.kolSteps);kolStepsOpen.has(id)?kolStepsOpen.delete(id):kolStepsOpen.add(id);return renderKol()}
+ if((n=g("frame"))){const id=Number(n.dataset.kolFrame);kolFrameOpen.has(id)?kolFrameOpen.delete(id):kolFrameOpen.add(id);return renderKol()}
  if((n=g("waveadd")))return kolWaveAdd(Number(n.dataset.kolWaveadd));
  if((n=g("postadd")))return kolPostAdd(Number(n.dataset.kolPostadd));
  if((n=g("postdel"))){const[pa,pb]=n.dataset.kolPostdel.split(":");return kolPostDel(Number(pa),Number(pb))}
@@ -3530,7 +3540,7 @@ const kolStage=k=>KOL_STAGES.find(s=>s.k===k)||KOL_STAGES[0];
 const kolIdx=k=>KOL_STAGES.findIndex(s=>s.k===k);
 let kolItems=[],kolTableMissing=false,editingKolId=null,kolOpenId=null,kolGanttOpen=null;
 let kolRunMissing=false,kolFromProj=false;
-const kolStepsOpen=new Set();
+const kolStepsOpen=new Set(),kolFrameOpen=new Set();
 
 async function loadKol(){
  const {data,error}=await sb.from("kol_campaigns").select("*").order("stage_since");
@@ -3836,10 +3846,52 @@ function kolQueueHTML(){
  if(lateN)bits.push(chip(lateC,`เกินกำหนด ${lateN} ขั้น`,"bad"));
  const ag=live.filter(c=>kolDoing(c).some(x=>kolStageWho(c,x.k)==="agency"));
  if(ag.length)bits.push(chip(ag[0].id,`รอ Agency ${ag.length} แคมเปญ`,"info"));
+ const framed=live.filter(c=>kolFrameOver(c).length);
+ if(framed.length)bits.push(chip(framed[0].id,`เลยกรอบ Agency ${framed.reduce((t,c)=>t+kolFrameOver(c).length,0)} รายการ`,"bad"));
  const boost=live.filter(c=>kolBoostLive(c).length);
  if(boost.length)bits.push(chip(boost[0].id,`กำลังบูท ${boost.length} แคมเปญ`,"calm"));
  if(!bits.length)return `<div class="kq"><span class="kq-k">ต้องทำตอนนี้</span><span class="kq-none">ไม่มีอะไรค้างอยู่ที่เรา</span></div>`;
  return `<div class="kq"><span class="kq-k">ต้องทำตอนนี้</span>${bits.join("")}</div>`;
+}
+// ── กรอบเวลาที่ Agency ให้มา ──────────────────────────────────────────────
+// นี่คือ "กรอบที่ไม่อยากให้เกิน" ไม่ใช่สิ่งที่เกิดขึ้นจริง จึงเก็บแยกจาก Process
+// ข้างใน แล้วเอามาเทียบกัน — ถ้าเอาไปทับกันจะไม่เหลืออะไรให้เทียบ
+const kolFrame=c=>{const v=kolRun(c).plan;return Array.isArray(v)?v.filter(x=>x&&x.f&&x.t):[]};
+// A row is only behind its frame if the work it stands for is not finished.
+// Rows the agency wrote that we have no stage for are judged on the date alone.
+function kolFrameState(c,r){
+ const t=todayISO();
+ if(r.k&&kolStatus(c,r.k)==="done")return "done";
+ if(r.t<t)return "over";
+ if(r.f<=t)return "now";
+ return "next";
+}
+const kolFrameOver=c=>kolFrame(c).filter(r=>kolFrameState(c,r)==="over");
+const FRAME_C={done:"#3ca05a",now:"#20262d",over:"#d64545",next:"#9aa3ad"};
+function kolFrameGantt(c){
+ const rows=kolFrame(c);
+ if(!rows.length)return '<div class="empty">ยังไม่ได้วาง Working Timeline ของ Agency</div>';
+ const min=new Date(rows.map(r=>r.f).sort()[0]+"T00:00:00");
+ const max=new Date(rows.map(r=>r.t).sort().slice(-1)[0]+"T00:00:00");
+ const span=Math.max(7,Math.round((max-min)/86400000));
+ const pct=d=>Math.max(0,Math.min(100,((new Date(d+"T00:00:00")-min)/86400000)/span*100));
+ const labels=[];for(let i=0;i<6;i++){const d=new Date(min);d.setDate(d.getDate()+Math.round(i*span/5));labels.push(d)}
+ const today=todayISO(),inside=today>=iso(min)&&today<=iso(max);
+ return `<div class="gantt-grid"><div></div><div class="gantt-ruler" style="grid-template-columns:repeat(6,1fr)">${
+  labels.map(d=>`<span>${d.toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</span>`).join("")}</div></div>
+ <div class="gantt-grid"><div class="gantt-labels">${rows.map(r=>`<div title="${esc(r.l)}">${esc(r.l)}</div>`).join("")}</div>
+ <div class="gantt-plot">${inside?`<div class="gantt-today" style="left:${pct(today)}%"></div>`:""}${rows.map(r=>{
+  const st=kolFrameState(c,r),a=pct(r.f),b=pct(r.t);
+  const over=st==="over"?` · เลยกรอบ ${Math.round((new Date(today+"T00:00:00")-new Date(r.t+"T00:00:00"))/86400000)} วัน`:"";
+  return `<div class="gantt-track"><div class="gantt-bar" style="left:${a}%;width:${Math.max(3,b-a)}%;background:${FRAME_C[st]}" title="${esc(r.l)} · ${kolDM(r.f)} – ${kolDM(r.t)}${over}">${st==="over"?"!":""}</div></div>`;
+ }).join("")}</div></div>`;
+}
+function kolFrameHTML(c){
+ const rows=kolFrame(c);
+ if(!rows.length)return "";
+ const open=kolFrameOpen.has(c.id),over=kolFrameOver(c);
+ return `<button class="kol-stepstog${over.length?" warn":""}" data-kol-frame="${c.id}">${open?"▾":"▸"} กรอบเวลาจาก Agency (${rows.length} รายการ${over.length?` · เลยกรอบ ${over.length}`:" · ยังอยู่ในกรอบ"})</button>${
+  open?`<div class="kol-gantt kol-frame">${kolFrameGantt(c)}<div class="frame-key"><span class="pk" style="--c:${FRAME_C.done}">เสร็จแล้ว</span><span class="pk" style="--c:${FRAME_C.now}">อยู่ในกรอบตอนนี้</span><span class="pk" style="--c:${FRAME_C.over}">เลยกรอบ</span><span class="pk" style="--c:${FRAME_C.next}">ยังไม่ถึง</span><span class="pk-note">กรอบนี้คือสิ่งที่ตกลงกับ Agency ไว้ ไม่ใช่สิ่งที่เกิดขึ้นจริง — ของจริงดูที่ Audit Trail</span></div></div>`:""}`;
 }
 function kolRunHTML(c){
  const id=c.id,n=kolN(c),r=kolRun(c);
@@ -4217,32 +4269,24 @@ function kolPastePreview(){
 // are what "ช้ากี่วัน" is measured against.
 function kolPasteTimePreview(){
  const r=kpParsed=kolParseTimeline(kpHtml);
- const keys=Object.keys(r.stages);
- $("kolPasteApply").disabled=!keys.length&&!r.boost;
+ $("kolPasteApply").disabled=!r.rows.length;
  const line=(k,v)=>v?`<div class="kp-line"><span class="kp-k">${k}</span><span>${v}</span></div>`:"";
  $("kolPastePrev").innerHTML=
-  line("อ่านได้",r.rows.length?`${r.rows.length} แถว · ${kolDM(r.span.from)} – ${kolDM(r.span.to)}`:"")
- +keys.map(k=>line(kolStage(k).n,`${kolDM(r.stages[k].from)} – ${kolDM(r.stages[k].to)} · ${ktDays(r.stages[k].from,r.stages[k].to)} วัน`)).join("")
- +line("Boost",r.boost?`${kolDM(r.boost.from)} – ${kolDM(r.boost.to)} → จะเพิ่มเป็นช่วงบูท`:"")
+  line("อ่านได้",r.rows.length?`${r.rows.length} รายการ · ${kolDM(r.span.from)} – ${kolDM(r.span.to)}`:"")
+ +r.rows.map(x=>line(esc(x.label),`${kolDM(x.from)}${x.to!==x.from?` – ${kolDM(x.to)}`:""}`)).join("")
  +r.warn.map(w=>`<div class="kp-warn">${esc(w)}</div>`).join("");
 }
 async function kolPasteTimeApply(){
  const c=kolItems.find(x=>x.id===kpFor),r=kpParsed;
  if(!c||!r)return;
- const dates={...(c.stage_dates||{})},days={...(c.stage_days||{})};
- Object.keys(r.stages).forEach(k=>{
-  dates[k]=r.stages[k].from;
-  days[k]=ktDays(r.stages[k].from,r.stages[k].to);
- });
- const patch={stage_dates:dates,stage_days:days};
- if(r.boost){
-  const w=kolWaves(c).slice();
-  if(!w.some(x=>x&&x.from===r.boost.from&&x.to===r.boost.to))w.push({from:r.boost.from,to:r.boost.to,n:""});
-  patch.run={...kolRun(c),boost:w};
- }
- if(await kolPatch(kpFor,patch)){
+ // Kept as the agency wrote it, row for row. Folding it into the stages would
+ // overwrite what actually happened with what was supposed to happen, and then
+ // there is nothing left to compare.
+ const plan=r.rows.map(x=>({l:x.label,f:x.from,t:x.to,k:x.stage||""}));
+ if(await kolPatch(kpFor,{run:{...kolRun(c),plan}})){
   closeLayer("kolPasteModal");
-  toast(`ใส่ Timeline แล้ว — ${Object.keys(r.stages).length} ขั้น`);
+  kolFrameOpen.add(kpFor);renderKol();
+  toast(`ใส่กรอบเวลาแล้ว — ${plan.length} รายการ`);
  }
 }
 async function kolPasteApply(){
@@ -4333,7 +4377,7 @@ function kolCardHTML(c){
  const stepsBtn=`<button class="kol-stepstog" data-kol-steps="${c.id}">${steps?"\u25be":"\u25b8"} Audit Trail \u00b7 \u0e02\u0e31\u0e49\u0e19\u0e15\u0e2d\u0e19\u0e07\u0e32\u0e19 (\u0e40\u0e2a\u0e23\u0e47\u0e08 ${done}/${KOL_STAGES.length-1})</button>`;
  const nx=kolNext(c);
  const nextLine=nx?`<div class="kol-next"><span class="kol-next-k">\u0e15\u0e49\u0e2d\u0e07\u0e17\u0e33</span><span class="kol-next-t${nx.late?" late":""}">${esc(nx.t)}</span><span class="kol-next-w">${nx.who==="agency"?"\u0e15\u0e2d\u0e19\u0e19\u0e35\u0e49\u0e23\u0e2d Agency":"\u0e2d\u0e22\u0e39\u0e48\u0e17\u0e35\u0e48\u0e40\u0e23\u0e32"}</span></div>`:"";
- return `<div class="kol-card"><div class="kol-head" data-kol-toggle="${c.id}"><div class="kol-headmain"><div class="kol-name">${esc(c.name)}</div><div class="kol-sub" data-kolsub="${c.id}">${bits[0]}</div>${nextLine}</div><span class="kol-stage tone-${cancelled?"bad":need?"bad":"calm"}">${esc(label)}</span></div>${open?`<div class="kol-body">${kolRunHTML(c)}${stepsBtn}${steps?`${kolGanttOpen===c.id?`<div class="kol-gantt">${kolGanttHTML(c)}</div>`:""}${KOL_STAGES.map(st=>kolStepHTML(c,st)).join("")}`:""}${cancelled&&c.cancel_reason?`<div class="kol-cancelled">\u0e1b\u0e34\u0e14\u0e40\u0e1e\u0e23\u0e32\u0e30: ${esc(c.cancel_reason)}</div>`:""}<div class="kol-acts">${acts.join("")}</div></div>`:""}</div>`;
+ return `<div class="kol-card"><div class="kol-head" data-kol-toggle="${c.id}"><div class="kol-headmain"><div class="kol-name">${esc(c.name)}</div><div class="kol-sub" data-kolsub="${c.id}">${bits[0]}</div>${nextLine}</div><span class="kol-stage tone-${cancelled?"bad":need?"bad":"calm"}">${esc(label)}</span></div>${open?`<div class="kol-body">${kolRunHTML(c)}${kolFrameHTML(c)}${stepsBtn}${steps?`${kolGanttOpen===c.id?`<div class="kol-gantt">${kolGanttHTML(c)}</div>`:""}${KOL_STAGES.map(st=>kolStepHTML(c,st)).join("")}`:""}${cancelled&&c.cancel_reason?`<div class="kol-cancelled">\u0e1b\u0e34\u0e14\u0e40\u0e1e\u0e23\u0e32\u0e30: ${esc(c.cancel_reason)}</div>`:""}<div class="kol-acts">${acts.join("")}</div></div>`:""}</div>`;
 }
 function renderKol(){
  if(!$("kolList"))return;
