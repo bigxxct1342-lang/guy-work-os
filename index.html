@@ -671,6 +671,7 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .kp-prev{margin:12px 0;border:1px solid var(--line);border-radius:10px;background:var(--soft);padding:10px 12px;min-height:44px}
 .kp-line{display:flex;gap:10px;align-items:baseline;font-size:12px;font-weight:750;padding:3px 0}
 .kp-k{width:74px;flex:none;font-size:11px;font-weight:850;color:var(--muted)}
+.kp-note{font-size:10.5px;font-weight:800;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 7px}
 .kp-warn{font-size:11.5px;font-weight:750;color:var(--yellowT);background:var(--yellow);border-radius:8px;padding:6px 9px;margin-top:8px;line-height:1.5}
 /* ต้องทำตอนนี้ — ทุกแคมเปญรวมกัน */
 .kq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -1109,7 +1110,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.58 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.59 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1432,7 +1433,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.58</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.59</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1538,7 +1539,7 @@ body.dark .splash{background:#15120e}
 <div class="actions"><button id="deleteKolBtn" class="btn danger hidden">ลบ</button><button class="btn secondary" data-close-layer="kolModal">ยกเลิก</button><button id="saveKolBtn" class="btn primary">บันทึก</button></div>
 </div></div>
 <div id="kolPasteModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="kolPasteModal" aria-label="Close">×</button><h3>วางตาราง Agency</h3>
-<div class="help" style="margin-bottom:10px">เปิด Google Sheet ของ Agency → ลากเลือกทั้งตาราง (เอาหัวตารางมาด้วย) → Ctrl+C → วางในช่องนี้<br>มันจะนับ Tier / แพลตฟอร์ม / สถานะ / วันลง ให้เอง แล้วค่อยกดใส่ ส่วนที่พิมพ์เองไว้ (ราคา ช่วงบูท Report) ไม่ถูกแตะ</div>
+<div class="help" style="margin-bottom:10px">เปิด Google Sheet ของ Agency → ลากเลือกทั้งตาราง (เอาหัวตารางมาด้วย) → Ctrl+C → วางในช่องนี้<br>มันจะนับ Tier / แพลตฟอร์ม / สถานะ / วันลง ให้เอง แล้วค่อยกดใส่ ส่วนที่พิมพ์เองไว้ (ราคา ช่วงบูท Report) ไม่ถูกแตะ<br>Tier คิดจากยอดผู้ติดตามเอง ไม่ได้เชื่อคอลัมน์ Tier ของ Agency — Nano ต่ำกว่า 10K · Micro 10K–100K · Macro 100K–1M · Mega 1M ขึ้นไป</div>
 <textarea id="kolPasteIn" rows="6" placeholder="วางตรงนี้"></textarea>
 <div id="kolPastePrev" class="kp-prev"></div>
 <div class="actions"><button class="btn secondary" data-close-layer="kolPasteModal">ยกเลิก</button><button id="kolPasteApply" class="btn primary">ใส่ลงแคมเปญ</button></div>
@@ -3977,6 +3978,23 @@ const KP_STATUS=[
  [/feedback|revise|แก้|ขอแก้/i,"fix"],
  [/approve|posted|published|ลงแล้ว|live/i,"ok"]
 ];
+// Tier is worked out from the follower count rather than trusted from the
+// sheet's own Tier column, which drifts: the same sheet had a 3.4M account
+// filed under Micro. The follower number is the fact; the label is an opinion.
+const KP_CUT=[["mega",1000000],["macro",100000],["micro",10000],["nano",0]];
+const kpTierOf=n=>(KP_CUT.find(([,min])=>n>=min)||["nano"])[0];
+const kpNum=v=>{
+ const m=/^(\d+(?:\.\d+)?)\s*([kKmM])?$/.exec(String(v||"").trim().replace(/,/g,""));
+ if(!m)return 0;
+ const u=(m[2]||"").toLowerCase();
+ return Math.round(Number(m[1])*(u==="m"?1e6:u==="k"?1e3:1));
+};
+// Prefer a column the header names; otherwise the biggest number on the row is
+// the follower count -- row numbers and post times are orders of magnitude off.
+const kpFollowers=(cells,col)=>{
+ if(col>=0){const n=kpNum(cells[col]);if(n)return n}
+ return cells.reduce((best,c)=>{const n=kpNum(c);return n>=1000&&n>best?n:best},0);
+};
 const KP_MONTH={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
 function kpDate(cell,year){
  const m=/^(\d{1,2})\s*[-\s]\s*([A-Za-z]{3,4})\.?$/.exec(String(cell||"").trim());
@@ -3990,7 +4008,7 @@ function kpDate(cell,year){
 // keep, and the agency's sheet keeps it anyway.
 function kolParseSheet(text,year){
  const lines=String(text||"").split(/\r?\n/);
- let plat="",postCol=-1,rows=0,swapped=0,unknown=0;
+ let plat="",postCol=-1,folCol=-1,rows=0,swapped=0,unknown=0,noFol=0,differs=0;
  const tier={},pl={},st={ok:0,fix:0,resub:0,drop:0},posts={},warn=[];
  lines.forEach(line=>{
   const cells=line.split("\t").map(x=>x.trim());
@@ -3999,7 +4017,8 @@ function kolParseSheet(text,year){
   const hasTier=cells.some(x=>KP_TIER.test(x));
   // a header row anywhere in the paste tells us where the post date lives
   const pc=cells.findIndex(x=>/post\s*date|วันโพส|วันที่ลง/i.test(x));
-  if(pc>=0&&!hasTier){postCol=pc;return}
+  const fc=cells.findIndex(x=>/follower|ผู้ติดตาม|subscriber|fan\s*page/i.test(x));
+  if(!hasTier&&(pc>=0||fc>=0)){if(pc>=0)postCol=pc;if(fc>=0)folCol=fc;return}
   if(filled.length<=2){
    const hit=KP_PLATS.find(([re])=>re.test(filled[0]));
    if(hit){plat=hit[1];return}
@@ -4007,7 +4026,9 @@ function kolParseSheet(text,year){
   const ti=cells.findIndex(x=>KP_TIER.test(x));
   if(ti<0)return;
   rows++;
-  const tk=cells[ti].toLowerCase();
+  const said=cells[ti].toLowerCase(),fol=kpFollowers(cells,folCol);
+  const tk=fol?kpTierOf(fol):said;
+  if(!fol)noFol++;else if(tk!==said)differs++;
   tier[tk]=(tier[tk]||0)+1;
   if(plat)pl[plat]=(pl[plat]||0)+1;
   // "ชื่อ แทน someone" is a replacement: this row is alive, somebody else was
@@ -4025,8 +4046,10 @@ function kolParseSheet(text,year){
  if(!rows)warn.push("ไม่เจอแถว KOL เลย — ต้องมีคอลัมน์ที่เขียนว่า Macro / Micro / Mega / Nano");
  if(unknown)warn.push(`${unknown} แถวอ่านสถานะไม่ออก นับเป็น "ยังไม่ส่ง"`);
  if(postCol<0)warn.push('ไม่เจอคอลัมน์ "Post Date" เลยยังไม่ได้ใส่วันลง');
+ if(noFol)warn.push(`${noFol} แถวอ่านยอดผู้ติดตามไม่ออก ใช้ Tier ที่ Agency ใส่มาแทน`);
+ if(differs)warn.push(`${differs} แถว Tier ไม่ตรงกับที่ Agency ใส่ไว้ — ใช้ตัวที่คิดจากผู้ติดตาม`);
  if(swapped)warn.push(`เจอ ${swapped} แถวที่เขียนว่า "แทน" (เปลี่ยนตัวคนใหม่เข้ามา) — แถวพวกนี้ยังวิ่งอยู่ ถ้าอยากนับคนเก่าที่หลุดไป ใส่ช่อง "เปลี่ยนคน" เอง`);
- return{rows,swapped,tier,plat:pl,st,
+ return{rows,swapped,differs,noFol,tier,plat:pl,st,
   posts:Object.keys(posts).sort().map(d=>({d,n:posts[d]})),warn};
 }
 let kpParsed=null,kpFor=null;
@@ -4046,11 +4069,13 @@ function kolPastePreview(){
  const r=kpParsed=kolParseSheet($("kolPasteIn").value,year);
  $("kolPasteApply").disabled=!r.rows;
  const line=(k,v)=>v?`<div class="kp-line"><span class="kp-k">${k}</span><span>${v}</span></div>`:"";
- const list=(o,names)=>Object.keys(o).map(k=>`${names[k]||k} ${o[k]}`).join(" · ");
+ // biggest tier first, not whichever the sheet happened to list first
+ const list=(o,names)=>Object.keys(names).filter(k=>o[k]).map(k=>`${names[k]} ${o[k]}`)
+  .concat(Object.keys(o).filter(k=>!names[k]).map(k=>`${k} ${o[k]}`)).join(" · ");
  const posts=r.posts.reduce((t,x)=>t+x.n,0);
  $("kolPastePrev").innerHTML=
   line("อ่านได้",`${r.rows} แถว — จ้างหลายคลิปนับตามจำนวนคลิป`)
- +line("Tier",list(r.tier,KP_TIER_N))
+ +line("Tier",list(r.tier,KP_TIER_N)+' <span class="kp-note">คิดจากผู้ติดตาม</span>')
  +line("ลงที่ไหน",list(r.plat,KP_PLAT_N))
  +line("Draft",`ผ่านแล้ว ${r.st.ok} · ขอแก้ ${r.st.fix} · รอเราตรวจ ${r.st.resub}${r.st.drop?` · เปลี่ยนคน ${r.st.drop}`:""}`)
  +line("ลงโพสต์",r.posts.length?`${r.posts.length} วัน · ${kolDM(r.posts[0].d)} – ${kolDM(r.posts[r.posts.length-1].d)} · ${posts} โพสต์`:"")
