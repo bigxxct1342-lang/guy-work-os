@@ -795,6 +795,105 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .frame-key .pk::before{content:"";width:14px;height:8px;border-radius:2px;background:var(--c)}
 .frame-key .pk-note{font-size:11px;font-weight:700;color:var(--muted);flex:1 1 220px;line-height:1.5}
 @media(max-width:820px){.krun-d{width:47%}.krun-v{gap:7px 10px}.krun-hsum{margin-left:0;width:100%}}
+/* ── KOL on the tube ───────────────────────────────────────────────────────
+   Same screen the Dashboard runs on, so the page stops being a white form
+   bolted onto a black app. Only colour is restated here -- every layout rule
+   above still applies. */
+#kolView .scr-in{padding:22px 20px 24px}
+#kolView .kol-card{background:transparent;border:1px solid var(--t-line);border-radius:10px;margin-top:14px}
+#kolView .kol-card:hover{border-color:var(--t-line-on)}
+#kolView .kol-head{background:rgba(255,255,255,.03);border-bottom:1px dashed var(--t-line)}
+#kolView .kol-head:hover{filter:none;background:var(--t-tint)}
+#kolView .kol-body{background:transparent}
+#kolView .kol-name{color:var(--t-hi)}
+#kolView .kol-sub,#kolView .kol-next-k,#kolView .kpc-hint,#kolView .krun-lab,
+#kolView .krun-span,#kolView .krun-none,#kolView .kfield-l,#kolView .kfield-h,
+#kolView .kst-l,#kolView .kpc-w span,#kolView .kol-who{color:var(--t-mut)}
+#kolView .kol-next-t{color:var(--t-hi)}
+#kolView .kol-next-t.late{color:#e26b5b}
+#kolView .kol-next-w,#kolView .kst-pend,#kolView .krun-ok{background:transparent;border:1px solid var(--t-line);color:var(--t-dim)}
+#kolView .kol-stage{background:transparent;border:1px solid var(--t-line-on);color:var(--t-amb)}
+#kolView .ksec{background:transparent;border-color:var(--t-line)}
+#kolView .ksec-h{color:var(--t-amb);border-bottom-color:var(--t-line)}
+#kolView .krun-gate,#kolView .krun-tiers,#kolView .krun-row,#kolView .kol-step{border-bottom-color:var(--t-line)}
+/* badges keep their meaning, in the tube's palette */
+#kolView .kchip{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+#kolView .kchip.done{color:var(--t-hi);border-color:var(--t-line-on)}
+#kolView .kchip.doing{color:var(--t-amb);border-color:var(--t-accent)}
+#kolView .cv-ico{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+#kolView .cv-ico.tone-calm{background:rgba(130,172,135,.14);border-color:#4d7a55;color:#9fd0a6}
+#kolView .cv-ico.tone-warn{background:rgba(244,161,46,.14);border-color:#8a5a12;color:var(--t-amb)}
+#kolView .cv-ico.tone-info{background:rgba(126,169,216,.14);border-color:#3a5d8c;color:#9fc4e8}
+#kolView .cv-ico.tone-bad{background:rgba(226,107,91,.14);border-color:#8c3f35;color:#f09a8c}
+/* a field that wants a number: dark well, amber figures */
+#kolView .kfield{background:rgba(0,0,0,.35);border-color:var(--t-line)}
+#kolView .kfield.todo{background:rgba(244,161,46,.07);border-color:var(--t-accent)}
+#kolView input[type=number],#kolView input[type=date],#kolView input[type=text],#kolView .krun-why{
+ background:rgba(0,0,0,.45);border:1px solid var(--t-line);color:var(--t-hi)}
+#kolView input::placeholder{color:var(--t-mut)}
+#kolView input[type=checkbox]{accent-color:var(--t-accent);opacity:.9}
+#kolView .kfield .krun-n{color:var(--t-amb)}
+#kolView .krun-chk,#kolView .kfield-chk{color:var(--t-ink)}
+#kolView .krun-total{background:transparent;border:1px solid var(--t-line-on);color:var(--t-hi)}
+#kolView .krun-vat{border-color:var(--t-line);color:var(--t-mut)}
+#kolView .krun-warn{background:rgba(244,161,46,.12);color:var(--t-amb)}
+#kolView .krun-chip{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
+#kolView .krun-chip.on{background:var(--t-tint);border-color:var(--t-accent);color:var(--t-hi)}
+#kolView .krev{background:transparent;border-color:var(--t-line)}
+#kolView .krev-t{color:var(--t-hi)}
+#kolView .kst{background:rgba(0,0,0,.3);border-color:var(--t-line)}
+#kolView .kst.tone-calm{border-color:rgba(130,172,135,.4)}
+#kolView .kst.tone-info{border-color:rgba(126,169,216,.4)}
+#kolView .kst.tone-bad{border-color:rgba(226,107,91,.45)}
+#kolView .kst.tone-warn{border-color:rgba(244,161,46,.4)}
+/* the month grids read as a readout, not a datepicker */
+#kolView .kpc{background:rgba(0,0,0,.3);border-color:var(--t-line)}
+#kolView .kpc-t{font-family:"VT323",ui-monospace,monospace;font-size:20px;letter-spacing:.1em;color:var(--t-amb)}
+#kolView .kpc-mt{background:rgba(130,172,135,.16);color:#9fd0a6}
+#kolView .kpc-ms{border-color:var(--t-line);color:var(--t-mut)}
+#kolView .kpc-d{background:rgba(255,255,255,.03);border-color:transparent}
+#kolView .kpc-d:hover{border-color:var(--t-line-on)}
+#kolView .kpc-d.pad{background:transparent}
+#kolView .kpc-n{font-family:"VT323",ui-monospace,monospace;font-size:16px;color:var(--t-dim)}
+#kolView .kpc-d.today{border-color:var(--t-accent);border-style:dashed}
+#kolView .kpc-d.has{background:rgba(130,172,135,.22)}
+#kolView .kpc-d.has .kpc-n{color:#bde4c2}
+#kolView .kpc-c{color:#9fd0a6}
+#kolView .kpc-d.sched{border-style:dashed;border-color:var(--t-line-on)}
+#kolView .kpc-d.sched .kpc-n,#kolView .kpc-d.sched .kpc-c{color:var(--t-mut)}
+#kolView .kpc-d.sel{border-color:var(--t-accent);box-shadow:0 0 0 1px var(--t-accent)}
+#kolView .kpc-sel{color:var(--t-hi)}
+#kolView .krun-bar{background:rgba(0,0,0,.4);border-color:var(--t-line)}
+#kolView .krun-bar i{background:#5c9968}
+/* the queue strip sits in the same framed box the Dashboard uses */
+#kolView .kq-chip{background:transparent}
+#kolView .kq-chip.tone-bad{color:#e26b5b}
+#kolView .kq-chip.tone-warn{color:var(--t-amb)}
+#kolView .kq-chip.tone-info{color:#7ea9d8}
+#kolView .kq-chip.tone-calm{color:#82ac87}
+#kolView .kq-chip:hover{background:var(--t-tint)}
+#kolView .kq-none{color:var(--t-mut)}
+/* audit trail + agency frame */
+#kolView .kol-stepstog{border-color:var(--t-line);color:var(--t-dim)}
+#kolView .kol-stepstog:hover{color:var(--t-hi);border-color:var(--t-line-on)}
+#kolView .kol-stepstog.warn{color:#e26b5b;border-color:#8c3f35}
+#kolView .kol-dot{background:rgba(0,0,0,.4);border-color:var(--t-line);color:var(--t-dim)}
+#kolView .kol-step.st-done .kol-dot{background:rgba(130,172,135,.2);color:#9fd0a6;border-color:#4d7a55}
+#kolView .kol-step.st-doing .kol-dot{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
+#kolView .kol-sname{color:var(--t-ink)}
+#kolView .kol-actual{color:var(--t-mut)}
+#kolView .kol-actual.late{color:#e26b5b}
+#kolView .kol-rev{background:rgba(244,161,46,.15);color:var(--t-amb)}
+#kolView .kol-gantt{border-bottom-color:var(--t-line)}
+#kolView .gantt-labels div,#kolView .gantt-ruler,#kolView .frame-key .pk{color:var(--t-dim)}
+#kolView .frame-key{border-top-color:var(--t-line)}
+#kolView .frame-key .pk-note{color:var(--t-mut)}
+#kolView .empty,#kolView .kmx thead th{color:var(--t-mut)}
+#kolView .btn.primary{background:var(--t-accent);border-color:var(--t-accent);color:#1b1206}
+#kolView .btn.danger{background:transparent;border:1.5px solid #8c3f35;color:#f09a8c}
+#kolView .kol-acts{border-top-color:var(--t-line)}
+#kolView .kol-cancelled{color:#e26b5b}
+@media(max-width:820px){#kolView .scr-in{padding:16px 11px 18px}}
 .pr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .pr-top .help{flex:1;min-width:240px;line-height:1.6}
 .pr-hint{border:1px solid #e0c9a8;background:#fdf5e8;color:#7a5a22;border-radius:12px;padding:11px 14px;font-size:12px;font-weight:700;margin-bottom:14px;line-height:1.6}
@@ -1176,7 +1275,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.66 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.67 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1347,8 +1446,14 @@ body.dark .splash{background:#15120e}
   </div>
   <div id="kolSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-13-kol-campaign.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="kolRunHint" class="pr-hint hidden">ตัวเลขของรอบ (จำนวน KOL / Storyline / Draft / Boost) ยังเซฟไม่ได้ — รัน <code>migration-v7-53-kol-run.sql</code> ใน Supabase SQL Editor ก่อน</div>
-  <div id="kolQueue"></div>
-  <div id="kolList"></div>
+  <div class="hw">
+   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
+   <div class="hw-plate">KOL <span>· CAMPAIGN MONITOR</span></div>
+   <div class="scr"><div class="scr-in">
+    <div class="grp"><span class="grp-l">ต้องทำตอนนี้</span><div id="kolQueue"></div></div>
+    <div id="kolList"></div>
+   </div></div>
+  </div>
  </section>
 
  <section id="prView" class="hidden">
@@ -1482,7 +1587,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.66</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.67</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3904,8 +4009,7 @@ function kolQueueHTML(){
  if(framed.length)bits.push(chip(framed[0].id,`เลยกรอบ Agency ${framed.reduce((t,c)=>t+kolFrameOver(c).length,0)} รายการ`,"bad"));
  const boost=live.filter(c=>kolRun(c).boostOn);
  if(boost.length)bits.push(chip(boost[0].id,`Boost แล้ว ${boost.length} แคมเปญ`,"calm"));
- if(!bits.length)return `<div class="kq"><span class="kq-k">ต้องทำตอนนี้</span><span class="kq-none">ไม่มีอะไรค้างอยู่ที่เรา</span></div>`;
- return `<div class="kq"><span class="kq-k">ต้องทำตอนนี้</span>${bits.join("")}</div>`;
+ return `<div class="kq">${bits.length?bits.join(""):'<span class="kq-none">ไม่มีอะไรค้างอยู่ที่เรา</span>'}</div>`;
 }
 // ── กรอบเวลาที่ Agency ให้มา ──────────────────────────────────────────────
 // นี่คือ "กรอบที่ไม่อยากให้เกิน" ไม่ใช่สิ่งที่เกิดขึ้นจริง จึงเก็บแยกจาก Process
