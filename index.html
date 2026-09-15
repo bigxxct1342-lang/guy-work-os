@@ -667,6 +667,11 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .kpc-d.pad{background:transparent;cursor:default;border-color:transparent}
 .kpc-d.today{border-color:var(--muted);border-style:dashed}
 .kpc-d.has{background:var(--green)}
+/* approved with a date, not up yet: outlined, never filled */
+.kpc-d.sched{border-style:dashed;border-color:var(--muted)}
+.kpc-d.sched .kpc-n,.kpc-d.sched .kpc-c{color:var(--muted)}
+.kpc-tt{display:inline-flex;gap:5px;align-items:center}
+.kpc-ms{font-size:11px;font-weight:850;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
 .kpc-d.has .kpc-n{color:var(--greenT);font-weight:900}
 .kpc-c{position:absolute;right:3px;bottom:1px;font-size:9px;font-weight:900;color:var(--greenT)}
 .kpc-d.sel{border-color:var(--dark);box-shadow:0 0 0 1px var(--dark)}
@@ -1148,7 +1153,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.64 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.65 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1454,7 +1459,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.64</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.65</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3674,6 +3679,8 @@ const kolRevSum=(c,key)=>KR_OUT.reduce((t,o)=>t+kolSubN(c,key,o.k),0);
 // Posting is entered the way the agency reports it: this many people went up
 // on this day. The total, the span and the calendar all read off those rows.
 const kolPostRows=c=>kolList(c,"posts").filter(x=>x&&x.d);
+// Approved-with-a-date is a plan, not a post. Shown, but never counted as done.
+const kolSchedRows=c=>kolList(c,"sched").filter(x=>x&&x.d);
 const kolPosted=c=>{
  const rows=kolPostRows(c);
  return rows.length?rows.reduce((t,x)=>t+kolNum(x.n),0):kolSubN(c,"post","done");
@@ -3755,7 +3762,7 @@ function kolRevBlock(c,key,title){
 // window is laid out at once instead of behind arrows.
 const kolPostSel={};
 function kolPostMonths(c){
- const ds=kolPostRows(c).map(x=>x.d);
+ const ds=kolPostRows(c).concat(kolSchedRows(c)).map(x=>x.d);
  // before anything is entered, the agency's own post-date row frames it
  kolFrame(c).filter(r=>/post/i.test(r.l)).forEach(r=>{ds.push(r.f);ds.push(r.t)});
  if(!ds.length)return[todayISO().slice(0,7)];
@@ -3769,8 +3776,9 @@ function kolPostMonths(c){
  return out;
 }
 function kolPostMonth(c,ym){
- const id=c.id,map={};
+ const id=c.id,map={},smap={};
  kolPostRows(c).forEach(x=>map[x.d]=kolNum(x.n));
+ kolSchedRows(c).forEach(x=>smap[x.d]=kolNum(x.n));
  const cur=new Date(ym+"-01T00:00:00"),y=cur.getFullYear(),m=cur.getMonth();
  const off=(cur.getDay()+6)%7,start=new Date(y,m,1-off);
  const last=new Date(y,m+1,0).getDate(),weeks=Math.ceil((off+last)/7);
@@ -3780,11 +3788,13 @@ function kolPostMonth(c,ym){
   // months are shown side by side, so a day spilling into its neighbour's grid
   // would appear twice with the same count on it
   if(d.getMonth()!==m){cells+='<span class="kpc-d pad"></span>';continue}
-  const ds=iso(d),nn=map[ds]||0;
-  cells+=`<button class="kpc-d${ds===todayISO()?" today":""}${nn?" has":""}${kolPostSel[id]===ds?" sel":""}" data-kol-day="${id}:${ds}" title="${kolDM(ds)}${nn?` · ${nn} คน`:""}"><span class="kpc-n">${d.getDate()}</span>${nn?`<span class="kpc-c">${nn}</span>`:""}</button>`;
+  const ds=iso(d),nn=map[ds]||0,sn=smap[ds]||0;
+  const tip=kolDM(ds)+(nn?` · ลงแล้ว ${nn} คน`:"")+(sn?` · นัดไว้ ${sn} คน`:"");
+  cells+=`<button class="kpc-d${ds===todayISO()?" today":""}${nn?" has":sn?" sched":""}${kolPostSel[id]===ds?" sel":""}" data-kol-day="${id}:${ds}" title="${tip}"><span class="kpc-n">${d.getDate()}</span>${nn||sn?`<span class="kpc-c">${nn||sn}</span>`:""}</button>`;
  }
- const tot=Object.keys(map).filter(d=>d.slice(0,7)===ym).reduce((t,d)=>t+map[d],0);
- return `<div class="kpc"><div class="kpc-top"><span class="kpc-t">${cur.toLocaleDateString("en-GB",{month:"long",year:"numeric"})}</span>${tot?`<span class="kpc-mt">${tot} คน</span>`:""}</div>
+ const sum=o=>Object.keys(o).filter(d=>d.slice(0,7)===ym).reduce((t,d)=>t+o[d],0);
+ const tot=sum(map),stot=sum(smap);
+ return `<div class="kpc"><div class="kpc-top"><span class="kpc-t">${cur.toLocaleDateString("en-GB",{month:"long",year:"numeric"})}</span><span class="kpc-tt">${tot?`<span class="kpc-mt">ลงแล้ว ${tot}</span>`:""}${stot?`<span class="kpc-ms">นัดไว้ ${stot}</span>`:""}</span></div>
  <div class="kpc-w">${["จ","อ","พ","พฤ","ศ","ส","อา"].map(x=>`<span>${x}</span>`).join("")}</div>
  <div class="kpc-g">${cells}</div></div>`;
 }
@@ -3792,8 +3802,8 @@ const kolPostCal=c=>`<div class="kpc-months">${kolPostMonths(c).map(ym=>kolPostM
 function kolPostEdit(c){
  const id=c.id,d=kolPostSel[id];
  if(!d)return `<div class="kpc-hint">กดวันในปฏิทินเพื่อใส่ว่าวันนั้นลงกี่คน</div>`;
- const cur=kolPostRows(c).find(x=>x.d===d);
- return `<div class="kpc-edit"><span class="kpc-sel">${kolDM(d)}</span><span class="krun-lab">ลงกี่คน</span><input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="0" value="${kolNum(cur&&cur.n)||""}" data-kol-postn="${id}:${d}"><span class="krun-lab">คน</span>${cur?`<button class="btn secondary small" data-kol-dayclr="${id}:${d}">ลบวันนี้</button>`:""}</div>`;
+ const cur=kolPostRows(c).find(x=>x.d===d),sc=kolSchedRows(c).find(x=>x.d===d);
+ return `<div class="kpc-edit"><span class="kpc-sel">${kolDM(d)}</span>${sc?`<span class="kpc-ms">นัดไว้ ${kolNum(sc.n)}</span>`:""}<span class="krun-lab">ลงกี่คน</span><input class="krun-n" type="number" min="0" inputmode="numeric" placeholder="0" value="${kolNum(cur&&cur.n)||""}" data-kol-postn="${id}:${d}"><span class="krun-lab">คน</span>${cur?`<button class="btn secondary small" data-kol-dayclr="${id}:${d}">ลบวันนี้</button>`:""}</div>`;
 }
 function kolPostSet(id,d,n){
  const c=kolItems.find(x=>x.id===id);if(!c)return;
@@ -4051,20 +4061,30 @@ const kpFollowers=(cells,col)=>{
  return cells.reduce((best,c)=>{const n=kpNum(c);return n>=1000&&n>best?n:best},0);
 };
 const KP_MONTH={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+// The agency writes a range when the day is not pinned yet -- "22-24 Sep",
+// "31 Aug - 1 Sep". The old parser wanted exactly "<day> <month>" and silently
+// dropped every one of them, which quietly lost rows off the calendar. Take the
+// first day named and say that a range was read.
 function kpDate(cell,year){
- const m=/^(\d{1,2})\s*[-\s]\s*([A-Za-z]{3,4})\.?$/.exec(String(cell||"").trim());
- if(!m)return "";
- const mo=KP_MONTH[m[2].toLowerCase()];
- if(mo==null)return "";
- return iso(new Date(year,mo,Number(m[1])));
+ const t=String(cell||"").trim();
+ if(!t||/^[-–—]+$/.test(t))return null;
+ const d=/(\d{1,2})/.exec(t),mo=/([A-Za-z]{3,9})/.exec(t);
+ if(!d||!mo)return null;
+ const key=mo[1].toLowerCase();
+ const k=KP_MONTH[key.slice(0,4)]!=null?KP_MONTH[key.slice(0,4)]:KP_MONTH[key.slice(0,3)];
+ if(k==null)return null;
+ const day=Number(d[1]);
+ if(day<1||day>31)return null;
+ return {d:iso(new Date(year,k,day)),range:/\d\s*[-–—]\s*\d/.test(t)||/[A-Za-z]\s*[-–—]/.test(t)};
 }
+// A round that starts in December lands its January posts in the next year.
 // One row, one unit. A KOL hired for three clips is three rows and counts as
 // three -- tracking who did how many is detail this app deliberately does not
 // keep, and the agency's sheet keeps it anyway.
 function kolParseSheet(text,year){
  const lines=String(text||"").split(/\r?\n/);
- let plat="",postCol=-1,folCol=-1,rows=0,swapped=0,unknown=0,noFol=0,differs=0;
- const tier={},pl={},st={ok:0,fix:0,resub:0,drop:0},posts={},warn=[];
+ let plat="",postCol=-1,folCol=-1,rows=0,swapped=0,unknown=0,noFol=0,differs=0,ranged=0;
+ const tier={},pl={},st={ok:0,fix:0,resub:0,drop:0},posts={},sched={},warn=[];
  lines.forEach(line=>{
   const cells=line.split("\t").map(x=>x.trim());
   const filled=cells.filter(Boolean);
@@ -4094,18 +4114,28 @@ function kolParseSheet(text,year){
   for(const [re,k] of KP_STATUS){if(cells.some(c=>re.test(c))){s=k;break}}
   if(s)st[s]++;else unknown++;
   if(postCol>=0){
-   const d=kpDate(cells[postCol],year);
-   if(d)posts[d]=(posts[d]||0)+1;
+   const r=kpDate(cells[postCol],year);
+   if(r){
+    // "Posted" is a fact; "Approve" with a date is a plan. Only the first is
+    // ลงจริง -- counting the second as posted would say the round is further
+    // along than it is.
+    const up=cells.some(x=>/posted|published|ลงแล้ว/i.test(x));
+    const bag=up?posts:sched;
+    bag[r.d]=(bag[r.d]||0)+1;
+    if(r.range)ranged++;
+   }
   }
  });
  if(!rows)warn.push("ไม่เจอแถว KOL เลย — ต้องมีคอลัมน์ที่เขียนว่า Macro / Micro / Mega / Nano");
  if(unknown)warn.push(`${unknown} แถวอ่านสถานะไม่ออก นับเป็น "ยังไม่ส่ง"`);
  if(postCol<0)warn.push('ไม่เจอคอลัมน์ "Post Date" เลยยังไม่ได้ใส่วันลง');
+ if(ranged)warn.push(`${ranged} แถวใส่ Post Date เป็นช่วงวัน (เช่น 22-24 Sep) — ใช้วันแรกไปก่อน แก้เองได้ในปฏิทิน`);
  if(noFol)warn.push(`${noFol} แถวอ่านยอดผู้ติดตามไม่ออก ใช้ Tier ที่ Agency ใส่มาแทน`);
  if(differs)warn.push(`${differs} แถว Tier ไม่ตรงกับที่ Agency ใส่ไว้ — ใช้ตัวที่คิดจากผู้ติดตาม`);
  if(swapped)warn.push(`เจอ ${swapped} แถวที่เขียนว่า "แทน" (เปลี่ยนตัวคนใหม่เข้ามา) — แถวพวกนี้ยังวิ่งอยู่ ถ้าอยากนับคนเก่าที่หลุดไป ใส่ช่อง "เปลี่ยนคน" เอง`);
- return{rows,swapped,differs,noFol,tier,plat:pl,st,
-  posts:Object.keys(posts).sort().map(d=>({d,n:posts[d]})),warn};
+ const rowsOf=o=>Object.keys(o).sort().map(d=>({d,n:o[d]}));
+ return{rows,swapped,differs,noFol,ranged,tier,plat:pl,st,
+  posts:rowsOf(posts),sched:rowsOf(sched),warn};
 }
 // ── วาง Working Timeline ที่ Agency ทำมา ─────────────────────────────────
 // Timeline เป็น Gantt ที่ "สี" คือข้อมูล ไม่ใช่ตัวหนังสือ วางเป็นข้อความธรรมดา
@@ -4255,7 +4285,8 @@ function kolPastePreview(){
  +line("Tier",list(r.tier,KP_TIER_N)+' <span class="kp-note">คิดจากผู้ติดตาม</span>')
  +line("ลงที่ไหน",list(r.plat,KP_PLAT_N))
  +line("Draft",`ผ่านแล้ว ${r.st.ok} · ขอแก้ ${r.st.fix} · รอเราตรวจ ${r.st.resub}${r.st.drop?` · เปลี่ยนคน ${r.st.drop}`:""}`)
- +line("ลงโพสต์",r.posts.length?`${r.posts.length} วัน · ${kolDM(r.posts[0].d)} – ${kolDM(r.posts[r.posts.length-1].d)} · ${posts} โพสต์`:"")
+ +line("ลงแล้วจริง",r.posts.length?`${r.posts.length} วัน · ${kolDM(r.posts[0].d)} – ${kolDM(r.posts[r.posts.length-1].d)} · ${posts} โพสต์`:"ยังไม่มีแถวไหนขึ้น Posted")
+ +line("นัดไว้",r.sched.length?`${r.sched.length} วัน · ${kolDM(r.sched[0].d)} – ${kolDM(r.sched[r.sched.length-1].d)} · ${r.sched.reduce((t,x)=>t+x.n,0)} โพสต์ (อนุมัติแล้ว ยังไม่ขึ้น)`:"")
  +r.warn.map(w=>`<div class="kp-warn">${esc(w)}</div>`).join("");
 }
 // The timeline fills only the agreed dates and how long each step should take.
@@ -4292,6 +4323,7 @@ async function kolPasteApply(){
  const run={...kolRun(c),n:r.rows,tier:r.tier,plat:r.plat,
   dr:{...(kolRun(c).dr||{}),ok:r.st.ok,fix:r.st.fix,resub:r.st.resub,drop:r.st.drop}};
  if(r.posts.length)run.posts=r.posts;
+ run.sched=r.sched;
  if(await kolPatch(kpFor,{run})){
   closeLayer("kolPasteModal");
   toast(`ใส่แล้ว — ${r.rows} รายการ`);
