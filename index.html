@@ -704,6 +704,8 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krun-money{gap:7px 10px}
 .krun-money .krun-n{width:88px}
 .krun-total{font-size:12px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
+/* VAT sits outside every comparison on this row, so it is drawn as an aside */
+.krun-vat{font-size:11.5px;font-weight:800;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .krun-why-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:8px}
 .krun-chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
 .krun-chip:hover{color:var(--text)}
@@ -1102,7 +1104,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.54 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.55 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1425,7 +1427,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.54</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.55</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3618,6 +3620,7 @@ const kolDealN=(c,k)=>kolNum(kolDeal(c)[k]);
 const kolFee=c=>Math.round(kolDealN(c,"kol")*kolNum(kolDeal(c).feePct)/100);
 const kolDealTotal=c=>kolDealN(c,"kol")+kolDealN(c,"boost")
  +(kolDeal(c).basket?kolDealN(c,"basketFee"):0)+kolFee(c);
+const KOL_VAT=.07;
 const kolBaht=v=>Number(v||0).toLocaleString("en-US",{maximumFractionDigits:2});
 // Say what the percentage is taken of, so the number is checkable against the
 // agency's own quote instead of being trusted on faith.
@@ -3752,6 +3755,14 @@ function kolBudgetHTML(c){
  const out=[];
  out.push(`<span class="krun-total">เคาะไว้ ${agreed?kolBaht(agreed):"—"}</span>`);
  out.push(`<span class="krun-total">QT ${qt!=null?kolBaht(qt):"—"}</span>`);
+ // VAT plays no part in any of the comparisons above -- those are all
+ // pre-VAT figures and stay that way. It is here because the invoice will
+ // carry it and the number is worth knowing before it arrives.
+ const base=qt!=null?Math.round(qt):agreed;
+ if(base){
+  const vat=Math.round(base*KOL_VAT);
+  out.push(`<span class="krun-vat" title="VAT ${Math.round(KOL_VAT*100)}% ของ${qt!=null?" QT":"ที่เคาะไว้"} ${kolBaht(base)} \u2014 ไม่รวมอยู่ในยอดด้านซ้าย">+VAT ${kolBaht(vat)} \u00b7 รวม ${kolBaht(base+vat)}</span>`);
+ }
  if(agreed&&qt!=null&&Math.round(qt)!==agreed)
   out.push(`<span class="krun-warn">QT ต่างจากที่เคาะ ${qt-agreed>0?"+":""}${kolBaht(qt-agreed)}</span>`);
  if(act){
