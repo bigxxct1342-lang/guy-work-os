@@ -1109,7 +1109,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.57 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.58 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1432,7 +1432,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.57</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.58</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3970,13 +3970,12 @@ window.kolPostDel=(id,i)=>kolRowsPatch(id,"posts",r=>{if(i<0||i>=r.length)return
 // a section, and the status is whichever cell matches a known status word.
 const KP_TIER=/^(mega|macro|micro|nano)$/i;
 const KP_PLATS=[[/tiktok/i,"tiktok"],[/facebook|fb\s*page/i,"facebook"],[/instagram|^ig$/i,"ig"],[/youtube|^yt$/i,"youtube"]];
-// Ranked least-advanced first: somebody with three posts is only as far along
-// as their furthest-behind one.
+// Ranked most terminal first, so a row is read by its worst news.
 const KP_STATUS=[
+ [/ยกเลิก|เปลี่ยนตัว|cancel|reject|dropped/i,"drop"],
  [/รอตรวจ|ลูกค้าตรวจ|final\s*draft|pending|wait/i,"resub"],
  [/feedback|revise|แก้|ขอแก้/i,"fix"],
- [/approve/i,"ok"],
- [/posted|published|ลงแล้ว|live/i,"posted"]
+ [/approve|posted|published|ลงแล้ว|live/i,"ok"]
 ];
 const KP_MONTH={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
 function kpDate(cell,year){
@@ -3986,18 +3985,21 @@ function kpDate(cell,year){
  if(mo==null)return "";
  return iso(new Date(year,mo,Number(m[1])));
 }
+// One row, one unit. A KOL hired for three clips is three rows and counts as
+// three -- tracking who did how many is detail this app deliberately does not
+// keep, and the agency's sheet keeps it anyway.
 function kolParseSheet(text,year){
  const lines=String(text||"").split(/\r?\n/);
- let plat="",postCol=-1;
- const people=new Map(),posts={},warn=[];
- let rows=0,swapped=0,unknown=0;
+ let plat="",postCol=-1,rows=0,swapped=0,unknown=0;
+ const tier={},pl={},st={ok:0,fix:0,resub:0,drop:0},posts={},warn=[];
  lines.forEach(line=>{
   const cells=line.split("\t").map(x=>x.trim());
   const filled=cells.filter(Boolean);
   if(!filled.length)return;
-  // header row anywhere in the paste tells us where the post date lives
+  const hasTier=cells.some(x=>KP_TIER.test(x));
+  // a header row anywhere in the paste tells us where the post date lives
   const pc=cells.findIndex(x=>/post\s*date|วันโพส|วันที่ลง/i.test(x));
-  if(pc>=0&&!cells.some(x=>KP_TIER.test(x))){postCol=pc;return}
+  if(pc>=0&&!hasTier){postCol=pc;return}
   if(filled.length<=2){
    const hit=KP_PLATS.find(([re])=>re.test(filled[0]));
    if(hit){plat=hit[1];return}
@@ -4005,36 +4007,26 @@ function kolParseSheet(text,year){
   const ti=cells.findIndex(x=>KP_TIER.test(x));
   if(ti<0)return;
   rows++;
-  const tier=cells[ti].toLowerCase();
-  const raw=(cells.slice(0,ti).filter(x=>x&&!/^\d+$/.test(x))[0]||`(แถวที่ ${rows})`).trim();
-  // "ชื่อ (Post 2)" is the same person again; "ชื่อ แทน someone" is a swap
-  const name=raw.replace(/\s*\(\s*post\s*\d+\s*\)/i,"").replace(/\s*แทน[\s\S]*$/,"").trim().toLowerCase();
-  if(/แทน/.test(raw)&&!people.has(name))swapped++;
-  let st="";
-  for(const [re,k] of KP_STATUS){if(cells.some(c=>re.test(c))){st=k;break}}
-  if(!st)unknown++;
-  const rank={resub:0,fix:1,ok:2,posted:3};
-  const cur=people.get(name);
-  if(!cur)people.set(name,{tier,plat,st});
-  else{
-   if(st&&(!cur.st||rank[st]<rank[cur.st]))cur.st=st;
-  }
+  const tk=cells[ti].toLowerCase();
+  tier[tk]=(tier[tk]||0)+1;
+  if(plat)pl[plat]=(pl[plat]||0)+1;
+  // "ชื่อ แทน someone" is a replacement: this row is alive, somebody else was
+  // swapped out for it. That is an event, not a state, so it is reported
+  // rather than folded into the four buckets.
+  if(/แทน/.test(cells.slice(0,Math.max(1,ti)).join(" ")))swapped++;
+  let s="";
+  for(const [re,k] of KP_STATUS){if(cells.some(c=>re.test(c))){s=k;break}}
+  if(s)st[s]++;else unknown++;
   if(postCol>=0){
    const d=kpDate(cells[postCol],year);
    if(d)posts[d]=(posts[d]||0)+1;
   }
  });
- const tier={},pl={},st={ok:0,fix:0,resub:0};
- people.forEach(v=>{
-  tier[v.tier]=(tier[v.tier]||0)+1;
-  if(v.plat)pl[v.plat]=(pl[v.plat]||0)+1;
-  if(v.st==="posted"||v.st==="ok")st.ok++;
-  else if(v.st)st[v.st]++;
- });
  if(!rows)warn.push("ไม่เจอแถว KOL เลย — ต้องมีคอลัมน์ที่เขียนว่า Macro / Micro / Mega / Nano");
  if(unknown)warn.push(`${unknown} แถวอ่านสถานะไม่ออก นับเป็น "ยังไม่ส่ง"`);
  if(postCol<0)warn.push('ไม่เจอคอลัมน์ "Post Date" เลยยังไม่ได้ใส่วันลง');
- return{rows,people:people.size,swapped,tier,plat:pl,st,
+ if(swapped)warn.push(`เจอ ${swapped} แถวที่เขียนว่า "แทน" (เปลี่ยนตัวคนใหม่เข้ามา) — แถวพวกนี้ยังวิ่งอยู่ ถ้าอยากนับคนเก่าที่หลุดไป ใส่ช่อง "เปลี่ยนคน" เอง`);
+ return{rows,swapped,tier,plat:pl,st,
   posts:Object.keys(posts).sort().map(d=>({d,n:posts[d]})),warn};
 }
 let kpParsed=null,kpFor=null;
@@ -4055,15 +4047,13 @@ function kolPastePreview(){
  $("kolPasteApply").disabled=!r.rows;
  const line=(k,v)=>v?`<div class="kp-line"><span class="kp-k">${k}</span><span>${v}</span></div>`:"";
  const list=(o,names)=>Object.keys(o).map(k=>`${names[k]||k} ${o[k]}`).join(" · ");
- const sum=r.st.ok+r.st.fix+r.st.resub+r.swapped;
  const posts=r.posts.reduce((t,x)=>t+x.n,0);
  $("kolPastePrev").innerHTML=
-  line("อ่านได้",`${r.rows} แถว → ${r.people} คน${r.rows!==r.people?" (รวมโพสต์ซ้ำของคนเดิมแล้ว)":""}`)
+  line("อ่านได้",`${r.rows} แถว — จ้างหลายคลิปนับตามจำนวนคลิป`)
  +line("Tier",list(r.tier,KP_TIER_N))
  +line("ลงที่ไหน",list(r.plat,KP_PLAT_N))
- +line("Draft",`ผ่านแล้ว ${r.st.ok} · ขอแก้ ${r.st.fix} · รอเราตรวจ ${r.st.resub}${r.swapped?` · เปลี่ยนคน ${r.swapped}`:""}`)
+ +line("Draft",`ผ่านแล้ว ${r.st.ok} · ขอแก้ ${r.st.fix} · รอเราตรวจ ${r.st.resub}${r.st.drop?` · เปลี่ยนคน ${r.st.drop}`:""}`)
  +line("ลงโพสต์",r.posts.length?`${r.posts.length} วัน · ${kolDM(r.posts[0].d)} – ${kolDM(r.posts[r.posts.length-1].d)} · ${posts} โพสต์`:"")
- +(r.swapped&&sum>r.people?`<div class="kp-warn">รวมทุกช่องได้ ${sum} เกิน ${r.people} เพราะนับคนเก่าที่ถูกเปลี่ยนด้วย — ถ้าไม่อยากให้การ์ดขึ้นเตือน ลบช่อง "เปลี่ยนคน" ออกทีหลังได้</div>`:"")
  +r.warn.map(w=>`<div class="kp-warn">${esc(w)}</div>`).join("");
 }
 async function kolPasteApply(){
@@ -4071,12 +4061,12 @@ async function kolPasteApply(){
  if(!c||!r||!r.rows)return;
  // Only the counted fields are replaced. Everything typed by hand -- the deal,
  // the boost waves, the report tick -- is left exactly as it was.
- const run={...kolRun(c),n:r.people,tier:r.tier,plat:r.plat,
-  dr:{...(kolRun(c).dr||{}),ok:r.st.ok,fix:r.st.fix,resub:r.st.resub,drop:r.swapped}};
+ const run={...kolRun(c),n:r.rows,tier:r.tier,plat:r.plat,
+  dr:{...(kolRun(c).dr||{}),ok:r.st.ok,fix:r.st.fix,resub:r.st.resub,drop:r.st.drop}};
  if(r.posts.length)run.posts=r.posts;
  if(await kolPatch(kpFor,{run})){
   closeLayer("kolPasteModal");
-  toast(`ใส่แล้ว — ${r.people} คน จาก ${r.rows} แถว`);
+  toast(`ใส่แล้ว — ${r.rows} รายการ`);
  }
 }
 // ── ปฏิทิน KOL ────────────────────────────────────────────────────────────
