@@ -646,7 +646,13 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krev-r{margin-left:auto;display:inline-flex;align-items:center;gap:6px}
 .kst-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .kst{border:1px solid var(--line);border-radius:9px;background:var(--soft);padding:8px 7px;text-align:center}
-.kst-l{font-size:10.5px;font-weight:850;color:var(--muted);line-height:1.3;margin-bottom:7px;min-height:27px}
+.kst.tone-bad{background:#fdf2f2;border-color:#eec9c9}
+.kst.tone-warn{background:#fffaf0;border-color:#f0dfba}
+.kst.tone-info{background:#f4f8fd;border-color:#d4e2f2}
+.kst.tone-calm{background:#f3faf5;border-color:#cfe6d7}
+body.dark .kst.tone-bad,body.dark .kst.tone-warn,body.dark .kst.tone-info,body.dark .kst.tone-calm{background:var(--soft)}
+.kst-l .cv-ico{width:18px;height:18px;font-size:10px;margin:0 auto 5px;display:flex}
+.kst-l{font-size:10.5px;font-weight:850;color:var(--muted);line-height:1.3;margin-bottom:7px;min-height:46px}
 .kst-l i{display:block;font-style:normal;font-weight:700;opacity:.75}
 .kst .krun-n{width:100%}
 .kst-pend{font-size:11.5px;font-weight:850;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:2px 9px;white-space:nowrap}
@@ -744,12 +750,29 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .cv-scr .krun-chip.on{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
 .krun-gate,.krun-tiers{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line)}
 .krun-amt{font-size:12px;font-weight:850}
-.krun-tick{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
-.krun-tick:hover{color:var(--text)}
-.krun-tick.on{background:var(--green);color:var(--greenT);border-color:transparent}
-/* the go / no-go: the one tick that decides whether the round happens at all */
-.krun-tick.decide{border-style:dashed;border-color:var(--muted)}
-.krun-tick.decide.on{border-style:solid}
+/* one badge vocabulary across the panel, same as the Creative cards:
+   shape = which state, tint = how loud */
+.kchip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:5px 13px 5px 6px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.kchip:hover{border-color:var(--muted)}
+.kchip .cv-ico{width:20px;height:20px;font-size:11px}
+.kchip.done{color:var(--text)}
+.kchip.doing{color:var(--yellowT);border-color:#f0d09a}
+.kchip.star{box-shadow:inset 0 0 0 1px var(--line)}
+.kchip.star.todo,.kchip.star.doing{border-style:dashed}
+/* fields that want a number, and figures the app works out for itself */
+.kmoney{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:9px;margin-top:11px}
+.kfield{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:9px 10px 8px}
+.kfield.todo{border-color:#e6c99c;background:#fffdf7}
+body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
+.kfield-l{font-size:10.5px;font-weight:850;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;min-height:14px}
+.kfield .krun-n{width:100%;text-align:right;font-size:14.5px;font-weight:850;padding:6px 8px}
+.kfield-h{font-size:10.5px;font-weight:750;color:var(--muted);margin-top:5px;min-height:13px}
+.kmoney.tiny{grid-template-columns:repeat(auto-fit,minmax(88px,1fr));margin-top:8px}
+.kfield.tiny{padding:7px 8px 6px}
+.kfield.tiny .kfield-l{margin-bottom:5px;min-height:0}
+.kfield.tiny .krun-n{font-size:13.5px;padding:5px 7px}
+.kfield-chk{display:inline-flex;align-items:center;gap:6px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:11px;color:var(--text)}
+.kfield-chk input{width:14px;height:14px}
 .krun-money{gap:7px 10px}
 .krun-money .krun-n{width:88px}
 .krun-total{font-size:12px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
@@ -1153,7 +1176,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.65 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.66 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1459,7 +1482,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.65</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.66</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3658,7 +3681,7 @@ const kolBaht=v=>Number(v||0).toLocaleString("en-US",{maximumFractionDigits:2});
 // agency's own quote instead of being trusted on faith.
 const kolFeeHTML=c=>{
  const pct=kolNum(kolDeal(c).feePct),base=kolDealN(c,"kol");
- return `<span title="${pct}% \u0e02\u0e2d\u0e07\u0e04\u0e48\u0e32\u0e15\u0e31\u0e27 KOL ${kolBaht(base)}">= ${kolBaht(kolFee(c))}</span>`;
+ return `<span title="${pct}% \u0e02\u0e2d\u0e07\u0e04\u0e48\u0e32\u0e15\u0e31\u0e27 KOL ${kolBaht(base)}">% \u2192 ${kolBaht(kolFee(c))} \u0e1a\u0e32\u0e17</span>`;
 };
 function kolTotalHTML(c){
  const qt=c.budget!=null&&c.budget!==""?Number(c.budget):null,t=kolDealTotal(c);
@@ -3672,7 +3695,12 @@ const kolN=c=>kolNum(kolRun(c).n)||kolTierSum(c);
 // The four are where each person stands right now, not things that can both
 // be true of one person — so they add up to the headcount and a mismatch means
 // somebody really is unaccounted for.
-const KR_OUT=[{k:"ok",n:"ผ่านแล้ว"},{k:"fix",n:"ขอแก้ · รอเขาส่ง"},{k:"resub",n:"ส่งกลับมา · รอเราตรวจ"},{k:"drop",n:"เปลี่ยนคน"}];
+const KR_OUT=[
+ {k:"ok",   n:"ผ่านแล้ว",             tone:"calm",ico:"✓"},
+ {k:"fix",  n:"ขอแก้ · รอเขาส่ง",      tone:"info",ico:"→"},
+ {k:"resub",n:"ส่งกลับมา · รอเราตรวจ", tone:"bad", ico:"◉"},
+ {k:"drop", n:"เปลี่ยนคน",             tone:"warn",ico:"⇄"}
+];
 const KR_WHY=[{k:"slow",n:"ตอบช้า"},{k:"bad",n:"งานไม่ผ่าน"},{k:"busy",n:"ติดคิว / ไม่ว่าง"},{k:"price",n:"ราคาไม่ลงตัว"},{k:"other",n:"อื่นๆ"}];
 const kolWhy=(c,key)=>{const v=(kolRun(c)[key]||{}).why;return Array.isArray(v)?v:[]};
 const kolRevSum=(c,key)=>KR_OUT.reduce((t,o)=>t+kolSubN(c,key,o.k),0);
@@ -3747,7 +3775,7 @@ function kolRevBlock(c,key,title){
  const id=c.id;
  const boxes=KR_OUT.map(o=>{
   const two=o.n.split(" · ");
-  return `<div class="kst"><div class="kst-l">${two[0]}${two[1]?`<i>${two[1]}</i>`:""}</div>${kolNIn(id,`${key}.${o.k}`,kolSubN(c,key,o.k))}</div>`;
+  return `<div class="kst tone-${o.tone}"><div class="kst-l"><span class="cv-ico tone-${o.tone}">${o.ico}</span>${two[0]}${two[1]?`<i>${two[1]}</i>`:""}</div>${kolNIn(id,`${key}.${o.k}`,kolSubN(c,key,o.k))}</div>`;
  }).join("");
  return `<div class="krev">
   <div class="krev-h"><span class="krev-t">${title}</span><span data-d="pend-${key}">${kolPendHTML(c,key)}</span><span class="krev-r"><span class="krun-lab">ตอนนี้รอบที่</span>${kolNIn(id,`${key}.round`,kolSubN(c,key,"round"))}</span></div>
@@ -3924,30 +3952,42 @@ function kolRunHTML(c){
  const N=(path,val,ph)=>kolNIn(id,path,val,ph),F=kolF;
  const sec=(t,body)=>`<section class="ksec"><div class="ksec-h">${t}</div>${body}</section>`;
  const pr=kolPrRef(c);
- const gate=KOL_PRE.map((g,i)=>{
-  const st=kolStatus(c,g.k),on=st==="done";
-  return `<button class="krun-tick${on?" on":""}${g.decide?" decide":""}" data-kol-gate="${id}:${g.k}"${g.decide?' title="ผ่านข้อนี้ถึงไปต่อ"':""}>${KOL_NUMS[i]} ${g.n}${on?" ✓":st==="doing"?" …":""}</button>`;
+ // Same badge the Creative cards use: the shape says what state it is in, the
+ // tint says how much it matters, and the star marks the one that decides
+ // whether the round runs at all.
+ const gate=KOL_PRE.map(g=>{
+  const st=kolStatus(c,g.k);
+  const tone=st==="done"?"calm":st==="doing"?"warn":"";
+  const ico=st==="done"?"\u2713":st==="doing"?"\u25cf":g.decide?"\u2605":"\u25cb";
+  return `<button class="kchip ${st}${g.decide?" star":""}" data-kol-gate="${id}:${g.k}"${g.decide?' title="\u0e1c\u0e48\u0e32\u0e19\u0e02\u0e49\u0e2d\u0e19\u0e35\u0e49\u0e16\u0e36\u0e07\u0e44\u0e1b\u0e15\u0e48\u0e2d"':""}><span class="cv-ico${tone?" tone-"+tone:""}">${ico}</span>${g.n}</button>`;
  }).join("");
- const money=F("ค่าตัว KOL",N("deal.kol",kolDealN(c,"kol")))
-  +F("ค่าบูท",N("deal.boost",kolDealN(c,"boost")))
-  +`<label class="krun-chk"><input type="checkbox"${kolDeal(c).basket?" checked":""} data-kol-run="${id}:deal.basket"> ปักตะกร้า</label>`
-  +`<span class="krun-f${kolDeal(c).basket?"":" hidden"}" data-d="basketf"><span class="krun-lab">ค่าปักตะกร้า</span>${N("deal.basketFee",kolDealN(c,"basketFee"))}</span>`
-  +F("Agency Fee %",N("deal.feePct",kolNum(kolDeal(c).feePct)))
-  +`<span class="krun-lab" data-d="fee">${kolFeeHTML(c)}</span>`
-  +F("จ่ายจริง",N("actual",kolNum(r.actual)));
- const tiers=KOL_TIERS.map(t=>F(t.n,N(`tier.${t.k}`,kolSubN(c,"tier",t.k)))).join("");
+ // Loud where a number is missing, quiet once it is there, and the figures the
+ // app works out for itself never look like something to fill in.
+ const fld=(lab,body,hint,empty)=>`<div class="kfield${empty?" todo":""}"><div class="kfield-l">${lab}</div>${body}${hint?`<div class="kfield-h">${hint}</div>`:""}</div>`;
+ const basket=kolDeal(c).basket;
+ const money=`<div class="kmoney">
+  ${fld("\u0e04\u0e48\u0e32\u0e15\u0e31\u0e27 KOL",N("deal.kol",kolDealN(c,"kol")),"\u0e1a\u0e32\u0e17",!kolDealN(c,"kol"))}
+  ${fld("\u0e04\u0e48\u0e32\u0e1a\u0e39\u0e17",N("deal.boost",kolDealN(c,"boost")),"\u0e1a\u0e32\u0e17",!kolDealN(c,"boost"))}
+  ${fld(`<label class="kfield-chk"><input type="checkbox"${basket?" checked":""} data-kol-run="${id}:deal.basket"> \u0e1b\u0e31\u0e01\u0e15\u0e30\u0e01\u0e23\u0e49\u0e32</label>`,
+    `<span data-d="basketf" class="${basket?"":"hidden"}">${N("deal.basketFee",kolDealN(c,"basketFee"))}</span>`,
+    basket?"\u0e1a\u0e32\u0e17":"\u0e44\u0e21\u0e48\u0e1b\u0e31\u0e01",false)}
+  ${fld("Agency Fee",N("deal.feePct",kolNum(kolDeal(c).feePct)),`<span data-d="fee">${kolFeeHTML(c)}</span>`,!kolNum(kolDeal(c).feePct))}
+  ${fld("\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07",N("actual",kolNum(r.actual)),"\u0e1a\u0e32\u0e17 \u00b7 \u0e43\u0e2a\u0e48\u0e15\u0e2d\u0e19\u0e44\u0e14\u0e49 Invoice",false)}
+ </div>`;
+ const tiers=KOL_TIERS.map(t=>`<div class="kfield tiny"><div class="kfield-l">${t.n}</div>${N(`tier.${t.k}`,kolSubN(c,"tier",t.k))}</div>`).join("");
  const plats=KOL_PLATS.map(x=>{
   const on=kolPlatOn(c,x.k);
-  return `<span class="krun-f"><button class="krun-tick${on?" on":""}" data-kol-plat="${id}:${x.k}">${on?"☑":"☐"} ${x.n}</button>${on?N(`plat.${x.k}`,kolSubN(c,"plat",x.k)):""}</span>`;
+  return `<span class="krun-f"><button class="kchip ${on?"done":"todo"}" data-kol-plat="${id}:${x.k}"><span class="cv-ico${on?" tone-calm":""}">${on?"\u2713":"\u25cb"}</span>${x.n}</button>${on?N(`plat.${x.k}`,kolSubN(c,"plat",x.k)):""}</span>`;
  }).join("");
  return `<div class="krun" data-krun="${id}">
 ${sec("ดีลกับ Agency",
   `<div class="krun-gate">${gate}</div>
-   <div class="krun-gate krun-money">${money}</div>
+   ${money}
    <div class="krun-gate krun-money" data-d="budget">${kolBudgetHTML(c)}</div>`)}
 ${sec("ทีม KOL รอบนี้",
   `<div class="krun-gate"><span class="krun-lab">ทั้งหมด</span>${N("n",kolNum(r.n))}<span class="krun-lab">คน</span><span class="krun-hsum" data-d="head">${kolHeadSum(c)}</span></div>
-   <div class="krun-tiers"><span class="krun-lab">Tier</span>${tiers}<span data-d="tally-tier">${kolTierSum(c)?kolTally(c,kolTierSum(c)):""}</span></div>
+   <div class="krun-tiers"><span class="krun-lab">Tier</span><span data-d="tally-tier">${kolTierSum(c)?kolTally(c,kolTierSum(c)):""}</span></div>
+   <div class="kmoney tiny">${tiers}</div>
    <div class="krun-tiers"><span class="krun-lab">ลงที่ไหน</span>${plats}<span data-d="tally-plat">${kolPlatSum(c)?kolTally(c,kolPlatSum(c)):""}</span></div>`)}
 ${sec("งานที่ต้องตรวจ",kolRevBlock(c,"sl","Storyline")+kolRevBlock(c,"dr","Draft"))}
 ${sec("ลงจริง",
@@ -3977,6 +4017,8 @@ function kolRunTouch(c){
   put("budget",kolBudgetHTML(c));
   put("fee",kolFeeHTML(c));
   root.querySelector('[data-d="basketf"]')?.classList.toggle("hidden",!kolDeal(c).basket);
+  const bf=root.querySelector('[data-d="basketf"]')?.closest(".kfield")?.querySelector(".kfield-h");
+  if(bf)bf.textContent=kolDeal(c).basket?"บาท":"ไม่ปัก";
   KR_ROWS.forEach(r=>put(`pend-${r.k}`,kolPendHTML(c,r.k)));
   put("bar",kolBarHTML(c));
   put("postsum",kolPostSumHTML(c));
