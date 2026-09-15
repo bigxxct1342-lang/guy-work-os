@@ -672,6 +672,13 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krun-tick{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
 .krun-tick:hover{color:var(--text)}
 .krun-tick.on{background:var(--green);color:var(--greenT);border-color:transparent}
+/* the go / no-go: the one tick that decides whether the round happens at all */
+.krun-tick.decide{border-style:dashed;border-color:var(--muted)}
+.krun-tick.decide.on{border-style:solid}
+.krun-money{gap:7px 10px}
+.krun-money .krun-n{width:88px}
+.krun-money [data-d="total"]{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
+.krun-total{font-size:12px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .krun-why-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:8px}
 .krun-chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
 .krun-chip:hover{color:var(--text)}
@@ -3446,7 +3453,8 @@ const KOL_STAGES=[
  {k:"brief",     n:"เตรียมไฟล์บรีฟให้ Agency", who:"เรา",     d:3,  tone:"info"},
  {k:"proposal",  n:"รอ Agency เสนอ KOL + พรีเซ้น", who:"Agency", d:7,  tone:"warn"},
  {k:"review",    n:"ตรวจข้อเสนอ",              who:"เรา",     d:3,  tone:"info", decide:true},
- {k:"quotation", n:"เลือก KOL แล้ว รอ QT",     who:"Agency",  d:5,  tone:"warn"},
+ {k:"quotation", n:"เคาะ KOL + ค่าตัว + Condition",who:"Agency", d:5,  tone:"warn"},
+ {k:"qt",        n:"รอ QT จาก Agency",          who:"Agency",  d:3,  tone:"warn"},
  {k:"pr_sign",   n:"เปิด PR + ส่งเซ็น",        who:"เรา / จัดซื้อ",d:7,tone:"info"},
  {k:"kol_brief", n:"ตรวจบรีฟ KOL + Timeline",  who:"เรา",     d:3,  tone:"info"},
  {k:"storyline", n:"ตรวจ Storyline",           who:"KOL",     d:7,  tone:"warn", draft:true},
@@ -3556,6 +3564,32 @@ const kolList=(c,k)=>{const v=kolRun(c)[k];return Array.isArray(v)?v:[]};
 // can be entered the moment the QT lands, before the split is known.
 const KOL_TIERS=[{k:"mega",n:"Mega"},{k:"macro",n:"Macro"},{k:"micro",n:"Micro"},{k:"nano",n:"Nano"}];
 const kolTierSum=c=>KOL_TIERS.reduce((t,x)=>t+kolSubN(c,"tier",x.k),0);
+// Nothing below exists until the deal is closed, and the QT is the last step of
+// closing it, not the first step of anything: brief goes out, the agency
+// presents, we say yes or no — that yes is what decides whether the round runs
+// at all — then they send the KOL list with fees and conditions, and only once
+// that is agreed do they cut the QT. These read and write the campaign's own
+// stages, so ticking here moves the checklist below and vice versa.
+const KOL_PRE=[
+ {k:"brief",    n:"ส่ง Brief ให้ Agency"},
+ {k:"proposal", n:"Agency พรีเซ้น Proposal"},
+ {k:"review",   n:"เราคอนเฟิร์ม Proposal",decide:true},
+ {k:"quotation",n:"เคาะ KOL + ค่าตัว + Condition"},
+ {k:"qt",       n:"ได้ QT"},
+ {k:"pr_sign",  n:"เซ็นกลับ"}
+];
+const KOL_NUMS=["①","②","③","④","⑤","⑥"];
+const kolDeal=c=>{const d=kolRun(c).deal;return d&&typeof d==="object"?d:{}};
+const kolDealN=(c,k)=>kolNum(kolDeal(c)[k]);
+const kolFee=c=>Math.round(kolDealN(c,"kol")*kolNum(kolDeal(c).feePct)/100);
+const kolDealTotal=c=>kolDealN(c,"kol")+kolDealN(c,"boost")
+ +(kolDeal(c).basket?kolDealN(c,"basketFee"):0)+kolFee(c);
+const kolBaht=v=>Number(v||0).toLocaleString("en-US",{maximumFractionDigits:2});
+function kolTotalHTML(c){
+ const qt=c.budget!=null&&c.budget!==""?Number(c.budget):null,t=kolDealTotal(c);
+ return (t?`<span class="krun-total">รวม ${kolBaht(t)} บาท</span>`:"")
+  +(t&&qt!=null&&Math.round(qt)!==t?`<span class="krun-warn">QT ${kolBaht(qt)} ไม่ตรง</span>`:"");
+}
 const kolN=c=>kolNum(kolRun(c).n)||kolTierSum(c);
 // Storyline and Draft are the same loop — like it / ask for edits / resent /
 // swap the person out — so they are one renderer used twice rather than two
@@ -3660,17 +3694,26 @@ function kolRunHTML(c){
  const N=(path,val,ph)=>kolNIn(id,path,val,ph),D=(path,val)=>kolDIn(id,path,val),F=kolF;
  const row=(k,t,body,extra)=>`<div class="krun-row"><span class="krun-k">${k}</span><div class="krun-b"><div class="krun-t">${t}</div><div class="krun-v">${body}</div>${extra||""}</div></div>`;
  const pr=kolPrRef(c);
- const gate=[{k:"quotation",n:"ได้ QT จาก Agency"},{k:"pr_sign",n:"เซ็นกลับแล้ว"}].map(g=>{
-  const on=kolStatus(c,g.k)==="done";
-  return `<button class="krun-tick${on?" on":""}" data-kol-gate="${id}:${g.k}">${on?"☑":"☐"} ${g.n}</button>`;
+ const gate=KOL_PRE.map((g,i)=>{
+  const st=kolStatus(c,g.k),on=st==="done";
+  return `<button class="krun-tick${on?" on":""}${g.decide?" decide":""}" data-kol-gate="${id}:${g.k}"${g.decide?' title="ผ่านข้อนี้ถึงไปต่อ"':""}>${KOL_NUMS[i]} ${g.n}${on?" \u2713":st==="doing"?" \u2026":""}</button>`;
  }).join("");
+ const money=`<span class="krun-lab">ที่เคาะกัน</span>`
+  +F("ค่าตัว KOL",N("deal.kol",kolDealN(c,"kol"),"250000"))
+  +F("ค่าบูท",N("deal.boost",kolDealN(c,"boost"),"50000"))
+  +`<label class="krun-chk"><input type="checkbox"${kolDeal(c).basket?" checked":""} data-kol-run="${id}:deal.basket"> ปักตะกร้า</label>`
+  +(kolDeal(c).basket?F("ค่าปักตะกร้า",N("deal.basketFee",kolDealN(c,"basketFee"))):"")
+  +F("Agency Fee %",N("deal.feePct",kolNum(kolDeal(c).feePct),"15"))
+  +`<span class="krun-lab">= ${kolBaht(kolFee(c))}</span>`
+  +`<span data-d="total">${kolTotalHTML(c)}</span>`;
  const tiers=KOL_TIERS.map(t=>F(t.n,N(`tier.${t.k}`,kolSubN(c,"tier",t.k)))).join("");
  const posts=kolList(c,"posts").map((x,i)=>
   `<div class="krun-wave">${D(`posts.${i}.d`,x&&x.d)}${N(`posts.${i}.n`,kolNum(x&&x.n))}<span class="krun-lab">คน</span><button class="krun-x" data-kol-postdel="${id}:${i}" title="ลบวันนี้">✕</button></div>`).join("");
  const waves=kolWaves(c).map((w,i)=>
   `<div class="krun-wave">${D(`boost.${i}.from`,w&&w.from)}<span class="krun-dash">→</span>${D(`boost.${i}.to`,w&&w.to)}${N(`boost.${i}.n`,kolNum(w&&w.n))}<span class="krun-lab">คน</span><span data-d="live-${i}">${kolWaveOn(w)?'<span class="krun-live">กำลังบูท</span>':""}</span><button class="krun-x" data-kol-wavedel="${id}:${i}" title="ลบช่วงนี้">✕</button></div>`).join("");
  return `<div class="krun" data-krun="${id}"><div class="krun-head"><span class="krun-hk">KOL รอบนี้</span>${N("n",kolNum(r.n),"52")}<span class="krun-hu">คน</span><span class="krun-hsum" data-d="head">${kolHeadSum(c)}</span></div>
-<div class="krun-gate"><span class="krun-lab">ยอดตาม QT</span><span class="krun-amt">${c.budget!=null&&c.budget!==""?Number(c.budget).toLocaleString("en-US",{maximumFractionDigits:2})+" บาท":"— ใส่ที่ “แก้ไขข้อมูล”"}</span>${gate}</div>
+<div class="krun-gate"><span class="krun-lab">ก่อนเริ่ม — ตกลงกันจบยัง</span>${gate}</div>
+<div class="krun-gate krun-money">${money}</div>
 <div class="krun-tiers"><span class="krun-lab">Tier</span>${tiers}<span data-d="tally-tier">${kolTierSum(c)?kolTally(c,kolTierSum(c)):""}</span></div>
 ${row("1","Storyline ที่ KOL ส่งมา",kolReviewHTML(c,"sl"))}
 ${row("2","Draft ที่ KOL ส่งมา",kolReviewHTML(c,"dr"))}
@@ -3701,6 +3744,7 @@ function kolRunTouch(c){
   put("tally-sl",kolTally(c,kolRevSum(c,"sl")));
   put("tally-dr",kolTally(c,kolRevSum(c,"dr")));
   put("tally-tier",kolTierSum(c)?kolTally(c,kolTierSum(c)):"");
+  put("total",kolTotalHTML(c));
   put("bar",kolBarHTML(c));
   put("postsum",kolPostSumHTML(c));
   put("span",kolSpanHTML(c));
