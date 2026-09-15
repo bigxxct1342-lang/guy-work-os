@@ -1104,7 +1104,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.55 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.56 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1427,7 +1427,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.55</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.56</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2895,6 +2895,7 @@ $("kolList").onclick=e=>{
  if((n=g("postadd")))return kolPostAdd(Number(n.dataset.kolPostadd));
  if((n=g("postdel"))){const[pa,pb]=n.dataset.kolPostdel.split(":");return kolPostDel(Number(pa),Number(pb))}
  if((n=g("why"))){const[wa,wk,ww]=n.dataset.kolWhy.split(":");return kolWhyToggle(Number(wa),wk,ww)}
+ if((n=g("plat"))){const[pa,pk]=n.dataset.kolPlat.split(":");return kolPlatToggle(Number(pa),pk)}
  if((n=g("gate"))){const[ga,gk]=n.dataset.kolGate.split(":");
   return kolSetStatus(Number(ga),gk,kolStatus(kolItems.find(x=>x.id===Number(ga)),gk)==="done"?"doing":"done")}
  if((n=g("wavedel"))){const[wa,wb]=n.dataset.kolWavedel.split(":");return kolWaveDel(Number(wa),Number(wb))}
@@ -3600,6 +3601,12 @@ const kolList=(c,k)=>{const v=kolRun(c)[k];return Array.isArray(v)?v:[]};
 // can be entered the moment the QT lands, before the split is known.
 const KOL_TIERS=[{k:"mega",n:"Mega"},{k:"macro",n:"Macro"},{k:"micro",n:"Micro"},{k:"nano",n:"Nano"}];
 const kolTierSum=c=>KOL_TIERS.reduce((t,x)=>t+kolSubN(c,"tier",x.k),0);
+// A round is usually not one platform. Ticking a platform is the claim that it
+// is in this round at all; the count beside it is how many went there. A key
+// that is absent means "not used", which is different from "used, nobody yet".
+const KOL_PLATS=[{k:"tiktok",n:"TikTok"},{k:"facebook",n:"Facebook"},{k:"ig",n:"IG"},{k:"youtube",n:"YouTube"}];
+const kolPlatOn=(c,k)=>Object.prototype.hasOwnProperty.call(kolRun(c).plat||{},k);
+const kolPlatSum=c=>KOL_PLATS.reduce((t,x)=>t+kolSubN(c,"plat",x.k),0);
 // Nothing below exists until the deal is closed, and the QT is the last step of
 // closing it, not the first step of anything: brief goes out, the agency
 // presents, we say yes or no — that yes is what decides whether the round runs
@@ -3830,6 +3837,10 @@ function kolRunHTML(c){
   +`<span class="krun-lab" data-d="fee">${kolFeeHTML(c)}</span>`
   +F("จ่ายจริง",N("actual",kolNum(r.actual)));
  const tiers=KOL_TIERS.map(t=>F(t.n,N(`tier.${t.k}`,kolSubN(c,"tier",t.k)))).join("");
+ const plats=KOL_PLATS.map(x=>{
+  const on=kolPlatOn(c,x.k);
+  return `<span class="krun-f"><button class="krun-tick${on?" on":""}" data-kol-plat="${id}:${x.k}">${on?"\u2611":"\u2610"} ${x.n}</button>${on?N(`plat.${x.k}`,kolSubN(c,"plat",x.k)):""}</span>`;
+ }).join("");
  const posts=kolList(c,"posts").map((x,i)=>
   `<div class="krun-wave">${D(`posts.${i}.d`,x&&x.d)}${N(`posts.${i}.n`,kolNum(x&&x.n))}<span class="krun-lab">คน</span><button class="krun-x" data-kol-postdel="${id}:${i}" title="ลบวันนี้">✕</button></div>`).join("");
  const waves=kolWaves(c).map((w,i)=>
@@ -3839,6 +3850,7 @@ function kolRunHTML(c){
 <div class="krun-gate krun-money"><span class="krun-lab">Budget</span>${money}</div>
 <div class="krun-gate krun-money" data-d="budget">${kolBudgetHTML(c)}</div>
 <div class="krun-tiers"><span class="krun-lab">Tier</span>${tiers}<span data-d="tally-tier">${kolTierSum(c)?kolTally(c,kolTierSum(c)):""}</span></div>
+<div class="krun-tiers"><span class="krun-lab">ลงที่ไหน</span>${plats}<span data-d="tally-plat">${kolPlatSum(c)?kolTally(c,kolPlatSum(c)):""}</span></div>
 ${row("1·2","Storyline / Draft — แต่ละแถวนับแยกกัน ไม่ต้องผ่านตามลำดับ",kolMatrixHTML(c))}
 ${row("3","ลงโพสต์ — วันไหนลงกี่คน (ข้อมูลจาก Agency)",
   (posts||`<span class="krun-none">ยังไม่ได้ใส่วันลง</span>`)+
@@ -3867,6 +3879,7 @@ function kolRunTouch(c){
   put("tally-sl",kolTally(c,kolRevSum(c,"sl")));
   put("tally-dr",kolTally(c,kolRevSum(c,"dr")));
   put("tally-tier",kolTierSum(c)?kolTally(c,kolTierSum(c)):"");
+  put("tally-plat",kolPlatSum(c)?kolTally(c,kolPlatSum(c)):"");
   put("budget",kolBudgetHTML(c));
   put("fee",kolFeeHTML(c));
   root.querySelector('[data-d="basketf"]')?.classList.toggle("hidden",!kolDeal(c).basket);
@@ -3907,6 +3920,14 @@ function kolSetRun(id,path,val){
  kolRunTouch(c);
  kolRunSave(id);
 }
+window.kolPlatToggle=(id,k)=>{
+ const c=kolItems.find(x=>x.id===id);if(!c)return;
+ const plat={...(kolRun(c).plat||{})};
+ if(k in plat)delete plat[k];else plat[k]=0;
+ c.run={...kolRun(c),plat};
+ renderKol();
+ kolRunSave(id);
+};
 window.kolWhyToggle=(id,key,w)=>{
  const c=kolItems.find(x=>x.id===id);if(!c)return;
  const cur=kolWhy(c,key),next=cur.includes(w)?cur.filter(x=>x!==w):cur.concat(w);
