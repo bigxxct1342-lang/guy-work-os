@@ -736,9 +736,6 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .kmx-pend{font-weight:850;color:var(--muted)}
 .kmx-pend.zero{opacity:.35}
 .kmx .krun-n{width:54px}
-.kol-calf{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:0 20px 10px}
-.krun-sel{padding:4px 8px;font-size:11.5px;font-weight:750;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-family:inherit;max-width:200px}
-.cv-scr .krun-sel{background:transparent;color:var(--t-ink);border-color:var(--t-line-on)}
 .cv-scr .krun-chip{background:transparent;color:var(--t-dim);border-color:var(--t-line-on)}
 .cv-scr .krun-chip.on{background:var(--t-tint);color:var(--t-hi);border-color:var(--t-accent)}
 .krun-gate,.krun-tiers{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line)}
@@ -759,8 +756,6 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krun-chip:hover{color:var(--text)}
 .krun-chip.on{background:var(--yellow);color:var(--yellowT);border-color:transparent}
 .krun-why-row .krun-why{margin-top:0;flex:1 1 160px;width:auto}
-.kol-cal-post{border-radius:6px;padding:3px 6px;margin-bottom:4px;font-size:11px;font-weight:800;background:#fbe0c6;color:#8a4512;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cv-scr .kol-cal-post{background:transparent;color:var(--c,var(--t-hi));border-left:3px solid var(--c,var(--t-accent));border-radius:0;padding:2px 5px}
 .kol-stepstog{display:block;width:100%;text-align:left;border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:8px 11px;font-size:11.5px;font-weight:850;cursor:pointer;font-family:inherit}
 .kol-stepstog:hover{color:var(--text);border-style:solid}
 .kol-stepstog.warn{color:#c33;border-color:#c33}
@@ -1154,7 +1149,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.62 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.63 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1326,24 +1321,7 @@ body.dark .splash{background:#15120e}
   <div id="kolSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-13-kol-campaign.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="kolRunHint" class="pr-hint hidden">ตัวเลขของรอบ (จำนวน KOL / Storyline / Draft / Boost) ยังเซฟไม่ได้ — รัน <code>migration-v7-53-kol-run.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="kolQueue"></div>
-  <div class="cv-modes" id="kolModes">
-   <button class="tab active" data-kolmode="list">รายการแคมเปญ</button>
-   <button class="tab" data-kolmode="cal">ปฏิทิน KOL</button>
-  </div>
   <div id="kolList"></div>
-  <div id="kolCalWrap" class="hw cv-hw calendar-shell hidden">
-   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
-   <div class="hw-plate">KOL SCHEDULE</div>
-   <div class="scr cv-scr">
-   <div class="calendar-top"><div><div id="kolMonthTitle" class="month-title"></div><div class="help">วันที่ KOL ลงโพสต์ · สีบอกว่าเป็นแคมเปญไหน</div></div>
-    <div class="calendar-controls"><button id="kolPrevMonth" class="btn secondary small">‹</button><button id="kolTodayMonth" class="btn secondary small">Today</button><button id="kolNextMonth" class="btn secondary small">›</button></div>
-   </div>
-   <div class="kol-calf"><select id="kolFCamp" class="krun-sel"></select><select id="kolFAgency" class="krun-sel"></select><button class="krun-chip on" data-kolf="post">วันลงโพสต์</button></div>
-   <div class="cv-legend"><span class="lg lg-art">วันลงโพสต์</span><span class="lg-note">ตัวเลขมุมขวา = วันนั้นลงกี่คนรวมทุกแคมเปญ</span></div>
-   <div class="calendar-weekdays"><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div><div>SUN</div></div>
-   <div id="kolCalGrid" class="calendar-grid"></div>
-   </div>
-  </div>
  </section>
 
  <section id="prView" class="hidden">
@@ -1477,7 +1455,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.62</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.63</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3026,17 +3004,9 @@ $("kolPasteIn").addEventListener("paste",e=>{
 });
 $("kolPasteModes").onclick=e=>{const b=e.target.closest("[data-kpmode]");if(b)kolPasteMode(b.dataset.kpmode)};
 $("kolPasteApply").onclick=kolPasteApply;
-$("kolModes").onclick=e=>{const b=e.target.closest("[data-kolmode]");if(!b)return;kolMode=b.dataset.kolmode;applyKolMode()};
 $("kolQueue").onclick=e=>{const b=e.target.closest("[data-kolq]");if(!b)return;
- kolMode="list";kolOpenId=Number(b.dataset.kolq);renderKol();
+ kolOpenId=Number(b.dataset.kolq);renderKol();
  document.querySelector(`[data-kol-toggle="${kolOpenId}"]`)?.scrollIntoView({behavior:"smooth",block:"center"})};
-$("kolPrevMonth").onclick=()=>{kolCursor=new Date(kolCursor.getFullYear(),kolCursor.getMonth()-1,1);renderKolCalendar()};
-$("kolNextMonth").onclick=()=>{kolCursor=new Date(kolCursor.getFullYear(),kolCursor.getMonth()+1,1);renderKolCalendar()};
-$("kolTodayMonth").onclick=()=>{kolCursor=new Date();renderKolCalendar()};
-$("kolCalWrap").onclick=e=>{const b=e.target.closest("[data-kolf]");if(!b)return;
- kolCalF[b.dataset.kolf]=!kolCalF[b.dataset.kolf];renderKolCalendar()};
-$("kolFCamp").onchange=e=>{kolCalF.camp=e.target.value;renderKolCalendar()};
-$("kolFAgency").onchange=e=>{kolCalF.agency=e.target.value;renderKolCalendar()};
 $("saveProjBtn").onclick=async()=>{
  const name=$("pjName").value.trim();
  if(!name)return $("projModalError").textContent="ใส่ชื่อโปรเจกต์ก่อน";
@@ -3726,9 +3696,6 @@ function kolPrRef(c){
  return prAllItems().find(x=>x.kind===kind&&x.id===id)||null;
 }
 const kolDM=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
-const KOL_HUES=["#ff9a1f","#5ee07a","#4fd8e8","#b78bff","#ff7ab8","#c8e04f","#6aa8ff","#ff8a5c"];
-const kolHue=c=>{const k=String(c.id||c.name||"");let h=0;
- for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return KOL_HUES[h%KOL_HUES.length]};
 function kolHeadSum(c){
  const n=kolN(c);if(!n)return "ใส่จำนวน KOL ของรอบนี้ก่อน";
  return `ลงแล้ว ${kolPosted(c)} · เหลือ ${Math.max(0,n-kolPosted(c))}`+(kolRun(c).boostOn?" · Boost แล้ว":"");
@@ -3792,7 +3759,9 @@ const kolPostCur={},kolPostSel={};
 function kolPostCal(c){
  const id=c.id,map={};
  kolPostRows(c).forEach(x=>map[x.d]=kolNum(x.n));
- const base=kolPostCur[id]||kolPostRows(c)[0]?.d||todayISO();
+ // This month, not the month the round started in. What is being asked here is
+ // "did today's posts go up", so today is where it opens.
+ const base=kolPostCur[id]||todayISO();
  const cur=new Date(base+"T00:00:00"),y=cur.getFullYear(),m=cur.getMonth();
  const first=new Date(y,m,1),off=(first.getDay()+6)%7,start=new Date(y,m,1-off);
  let cells="";
@@ -3959,7 +3928,7 @@ ${sec("งานที่ต้องตรวจ",kolRevBlock(c,"sl","Storyline
 ${sec("ลงจริง",
   `<div class="kpc-wrap"><div data-d="postcal">${kolPostCal(c)}</div><div class="kpc-side"><div data-d="postedit">${kolPostEdit(c)}</div><div class="kpc-sum" data-d="postsum">${kolPostSumHTML(c)}</div><div data-d="bar">${kolBarHTML(c)}</div>
    <label class="krun-chk kpc-boost"><input type="checkbox"${r.boostOn?" checked":""} data-kol-run="${id}:boostOn"> Boost แล้ว</label>
-   <div class="kpc-hint">ช่วงบูทของแต่ละคน Agency ถือตารางอยู่แล้ว ตรงนี้ติ๊กพอ</div></div></div>`)}
+   <div class="kpc-hint">วันที่มาจากคอลัมน์ Post Date ของ Agency เท่านั้น<br>ช่วงบูทของแต่ละคน Agency ถือตารางอยู่แล้ว ตรงนี้ติ๊กพอ</div></div></div>`)}
 ${sec("ปิดงาน",
   `<div class="krun-gate"><label class="krun-chk"><input type="checkbox"${r.report?" checked":""} data-kol-run="${id}:report"> ได้ Report จาก Agency แล้ว</label></div>
    <div class="krun-gate">${pr?`<span class="krun-pr">${esc(pr.pr_number||pr.title)}</span><span class="krun-prst tone-${prStage(pr.stage).tone}">${esc(prStage(pr.stage).name)}</span><button class="btn secondary small" data-kol-pr="${id}">เปิดหน้า PR / GRPO</button>`
@@ -3989,7 +3958,6 @@ function kolRunTouch(c){
  }
  const sub=document.querySelector(`[data-kolsub="${c.id}"]`);
  if(sub)sub.innerHTML=kolSubBits(c);
- if(kolMode==="cal")renderKolCalendar();
 }
 // Saving is debounced rather than optimistic-with-rollback: rolling a field
 // back under a cursor that is still in it would fight the person typing, so a
@@ -4316,47 +4284,7 @@ async function kolPasteApply(){
 // ── ปฏิทิน KOL ────────────────────────────────────────────────────────────
 // Everything dated in a campaign on one month grid: which day people posted
 // and how many, and which days each boost wave is running.
-let kolCursor=new Date(),kolMode="list";
-const kolCalF={camp:"",agency:"",post:true};
 const kolLiveItems=()=>kolItems.filter(c=>c.stage!=="cancelled");
-const kolCalItems=()=>kolLiveItems().filter(c=>
- (!kolCalF.camp||String(c.id)===kolCalF.camp)&&(!kolCalF.agency||(c.agency||"")===kolCalF.agency));
-function kolDayHTML(c,ds){
- const out=[],hue=kolHue(c);
- if(kolCalF.post)kolPostRows(c).filter(x=>x.d===ds).forEach(x=>
-  out.push(`<div class="kol-cal-post" style="--c:${hue}" title="${esc(c.name)} · ลง ${kolNum(x.n)} คน">▲ ${kolNum(x.n)} คน · ${esc(c.name)}</div>`));
- return out;
-}
-function renderKolCalendar(){
- if(!$("kolCalGrid"))return;
- const y=kolCursor.getFullYear(),m=kolCursor.getMonth();
- $("kolMonthTitle").textContent=kolCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
- const ags=[...new Set(kolLiveItems().map(c=>c.agency).filter(Boolean))];
- $("kolFCamp").innerHTML='<option value="">ทุกแคมเปญ</option>'+kolLiveItems().map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");
- $("kolFCamp").value=kolCalF.camp;
- $("kolFAgency").innerHTML='<option value="">ทุก Agency</option>'+ags.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join("");
- $("kolFAgency").value=kolCalF.agency;
- $("kolCalWrap").querySelectorAll("[data-kolf]").forEach(b=>b.classList.toggle("on",!!kolCalF[b.dataset.kolf]));
- const first=new Date(y,m,1),offset=(first.getDay()+6)%7,start=new Date(y,m,1-offset);
- let out="";
- for(let i=0;i<42;i++){
-  const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
-  const bits=kolCalItems().flatMap(c=>kolDayHTML(c,ds));
-  const posted=kolCalItems().reduce((t,c)=>t+kolPostRows(c).filter(x=>x.d===ds).reduce((s,x)=>s+kolNum(x.n),0),0);
-  out+=`<div class="day cv-cal-day ${d.getMonth()!==m?"outside":""} ${ds===todayISO()?"today-day":""}">
-    <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${posted?posted+" คน":""}</span></div>
-    ${bits.join("")}
-   </div>`;
- }
- $("kolCalGrid").innerHTML=out;
-}
-function applyKolMode(){
- const cal=kolMode==="cal";
- $("kolList")?.classList.toggle("hidden",cal);
- $("kolCalWrap")?.classList.toggle("hidden",!cal);
- $("kolModes")?.querySelectorAll("[data-kolmode]").forEach(b=>b.classList.toggle("active",b.dataset.kolmode===kolMode));
- if(cal)renderKolCalendar();
-}
 function kolSubBits(c){
  const done=KOL_STAGES.filter(x=>kolStatus(c,x.k)==="done").length,n=kolN(c);
  const bits=[c.agency?`Agency: ${esc(c.agency)}`:"\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38 Agency"];
@@ -4392,7 +4320,6 @@ function renderKol(){
  $("kolRunHint").classList.toggle("hidden",!kolRunMissing);
  $("kolBackWrap").classList.toggle("hidden",!kolFromProj);
  $("kolQueue").innerHTML=kolQueueHTML();
- applyKolMode();
  const open=kolItems.filter(c=>c.stage!=="done"&&c.stage!=="cancelled");
  const rest=kolItems.filter(c=>c.stage==="done"||c.stage==="cancelled");
  const all=open.sort((a,b)=>kolDays(b)-kolDays(a)).concat(rest);
