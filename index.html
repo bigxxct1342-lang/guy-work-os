@@ -703,7 +703,6 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krun-tick.decide.on{border-style:solid}
 .krun-money{gap:7px 10px}
 .krun-money .krun-n{width:88px}
-.krun-money [data-d="total"]{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap}
 .krun-total{font-size:12px;font-weight:850;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .krun-why-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;width:100%;margin-top:8px}
 .krun-chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
@@ -1103,7 +1102,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.53 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.54 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1426,7 +1425,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.53</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.54</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3620,6 +3619,12 @@ const kolFee=c=>Math.round(kolDealN(c,"kol")*kolNum(kolDeal(c).feePct)/100);
 const kolDealTotal=c=>kolDealN(c,"kol")+kolDealN(c,"boost")
  +(kolDeal(c).basket?kolDealN(c,"basketFee"):0)+kolFee(c);
 const kolBaht=v=>Number(v||0).toLocaleString("en-US",{maximumFractionDigits:2});
+// Say what the percentage is taken of, so the number is checkable against the
+// agency's own quote instead of being trusted on faith.
+const kolFeeHTML=c=>{
+ const pct=kolNum(kolDeal(c).feePct),base=kolDealN(c,"kol");
+ return `<span title="${pct}% \u0e02\u0e2d\u0e07\u0e04\u0e48\u0e32\u0e15\u0e31\u0e27 KOL ${kolBaht(base)}">= ${kolBaht(kolFee(c))}</span>`;
+};
 function kolTotalHTML(c){
  const qt=c.budget!=null&&c.budget!==""?Number(c.budget):null,t=kolDealTotal(c);
  return (t?`<span class="krun-total">รวม ${kolBaht(t)} บาท</span>`:"")
@@ -3803,19 +3808,22 @@ function kolRunHTML(c){
   const st=kolStatus(c,g.k),on=st==="done";
   return `<button class="krun-tick${on?" on":""}${g.decide?" decide":""}" data-kol-gate="${id}:${g.k}"${g.decide?' title="ผ่านข้อนี้ถึงไปต่อ"':""}>${KOL_NUMS[i]} ${g.n}${on?" ✓":st==="doing"?" …":""}</button>`;
  }).join("");
- const money=F("ค่าตัว KOL",N("deal.kol",kolDealN(c,"kol"),"250000"))
-  +F("ค่าบูท",N("deal.boost",kolDealN(c,"boost"),"50000"))
+ // The fee and the basket field are derived, so they carry hooks: without them
+ // the fee stayed at whatever it was when the card opened, and ticking the
+ // basket left its cost field nowhere to be typed.
+ const money=F("ค่าตัว KOL",N("deal.kol",kolDealN(c,"kol")))
+  +F("ค่าบูท",N("deal.boost",kolDealN(c,"boost")))
   +`<label class="krun-chk"><input type="checkbox"${kolDeal(c).basket?" checked":""} data-kol-run="${id}:deal.basket"> ปักตะกร้า</label>`
-  +(kolDeal(c).basket?F("ค่าปักตะกร้า",N("deal.basketFee",kolDealN(c,"basketFee"))):"")
-  +F("Agency Fee %",N("deal.feePct",kolNum(kolDeal(c).feePct),"15"))
-  +`<span class="krun-lab">= ${kolBaht(kolFee(c))}</span>`
+  +`<span class="krun-f${kolDeal(c).basket?"":" hidden"}" data-d="basketf"><span class="krun-lab">ค่าปักตะกร้า</span>${N("deal.basketFee",kolDealN(c,"basketFee"))}</span>`
+  +F("Agency Fee %",N("deal.feePct",kolNum(kolDeal(c).feePct)))
+  +`<span class="krun-lab" data-d="fee">${kolFeeHTML(c)}</span>`
   +F("จ่ายจริง",N("actual",kolNum(r.actual)));
  const tiers=KOL_TIERS.map(t=>F(t.n,N(`tier.${t.k}`,kolSubN(c,"tier",t.k)))).join("");
  const posts=kolList(c,"posts").map((x,i)=>
   `<div class="krun-wave">${D(`posts.${i}.d`,x&&x.d)}${N(`posts.${i}.n`,kolNum(x&&x.n))}<span class="krun-lab">คน</span><button class="krun-x" data-kol-postdel="${id}:${i}" title="ลบวันนี้">✕</button></div>`).join("");
  const waves=kolWaves(c).map((w,i)=>
   `<div class="krun-wave">${D(`boost.${i}.from`,w&&w.from)}<span class="krun-dash">→</span>${D(`boost.${i}.to`,w&&w.to)}${N(`boost.${i}.n`,kolNum(w&&w.n))}<span class="krun-lab">คน</span><span data-d="live-${i}">${kolWaveOn(w)?'<span class="krun-live">กำลังบูท</span>':""}</span><button class="krun-x" data-kol-wavedel="${id}:${i}" title="ลบช่วงนี้">✕</button></div>`).join("");
- return `<div class="krun" data-krun="${id}"><div class="krun-head"><span class="krun-hk">KOL รอบนี้</span>${N("n",kolNum(r.n),"52")}<span class="krun-hu">คน</span><span class="krun-hsum" data-d="head">${kolHeadSum(c)}</span></div>
+ return `<div class="krun" data-krun="${id}"><div class="krun-head"><span class="krun-hk">KOL รอบนี้</span>${N("n",kolNum(r.n))}<span class="krun-hu">คน</span><span class="krun-hsum" data-d="head">${kolHeadSum(c)}</span></div>
 <div class="krun-gate"><span class="krun-lab">ก่อนเริ่ม — ตกลงกันจบยัง</span>${gate}</div>
 <div class="krun-gate krun-money"><span class="krun-lab">Budget</span>${money}</div>
 <div class="krun-gate krun-money" data-d="budget">${kolBudgetHTML(c)}</div>
@@ -3849,6 +3857,8 @@ function kolRunTouch(c){
   put("tally-dr",kolTally(c,kolRevSum(c,"dr")));
   put("tally-tier",kolTierSum(c)?kolTally(c,kolTierSum(c)):"");
   put("budget",kolBudgetHTML(c));
+  put("fee",kolFeeHTML(c));
+  root.querySelector('[data-d="basketf"]')?.classList.toggle("hidden",!kolDeal(c).basket);
   KR_ROWS.forEach(r=>put(`pend-${r.k}`,kolPendHTML(c,r.k)));
   put("bar",kolBarHTML(c));
   put("postsum",kolPostSumHTML(c));
