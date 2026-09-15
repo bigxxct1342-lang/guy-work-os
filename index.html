@@ -667,6 +667,11 @@ body.dark .cv-ads{background:#26382c;color:#8fd0a6}
 .krun-chk input{flex:none;width:15px;height:15px}
 .krun-pr{font-size:12px;font-weight:850}
 .krun-prst{font-size:11.5px;font-weight:800}
+#kolPasteIn{width:100%;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.45;white-space:pre;overflow-x:auto}
+.kp-prev{margin:12px 0;border:1px solid var(--line);border-radius:10px;background:var(--soft);padding:10px 12px;min-height:44px}
+.kp-line{display:flex;gap:10px;align-items:baseline;font-size:12px;font-weight:750;padding:3px 0}
+.kp-k{width:74px;flex:none;font-size:11px;font-weight:850;color:var(--muted)}
+.kp-warn{font-size:11.5px;font-weight:750;color:var(--yellowT);background:var(--yellow);border-radius:8px;padding:6px 9px;margin-top:8px;line-height:1.5}
 /* ต้องทำตอนนี้ — ทุกแคมเปญรวมกัน */
 .kq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .kq-k{font-size:11px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -1104,7 +1109,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.56 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.57 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1427,7 +1432,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.56</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.57</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1531,6 +1536,12 @@ body.dark .splash{background:#15120e}
 </div>
 <div id="kolModalError" class="error"></div>
 <div class="actions"><button id="deleteKolBtn" class="btn danger hidden">ลบ</button><button class="btn secondary" data-close-layer="kolModal">ยกเลิก</button><button id="saveKolBtn" class="btn primary">บันทึก</button></div>
+</div></div>
+<div id="kolPasteModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="kolPasteModal" aria-label="Close">×</button><h3>วางตาราง Agency</h3>
+<div class="help" style="margin-bottom:10px">เปิด Google Sheet ของ Agency → ลากเลือกทั้งตาราง (เอาหัวตารางมาด้วย) → Ctrl+C → วางในช่องนี้<br>มันจะนับ Tier / แพลตฟอร์ม / สถานะ / วันลง ให้เอง แล้วค่อยกดใส่ ส่วนที่พิมพ์เองไว้ (ราคา ช่วงบูท Report) ไม่ถูกแตะ</div>
+<textarea id="kolPasteIn" rows="6" placeholder="วางตรงนี้"></textarea>
+<div id="kolPastePrev" class="kp-prev"></div>
+<div class="actions"><button class="btn secondary" data-close-layer="kolPasteModal">ยกเลิก</button><button id="kolPasteApply" class="btn primary">ใส่ลงแคมเปญ</button></div>
 </div></div>
 <div id="prModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="prModal" aria-label="Close">×</button><h3 id="prModalTitle">เปิด PR ใหม่</h3><div class="formgrid">
  <div class="full field"><label>เรื่อง / งานที่ขอซื้อ</label><input id="prTitle" placeholder="เช่น ผลิตกล่องหอยเชลล์ 50 กรัม"></div>
@@ -1639,7 +1650,7 @@ body.dark .splash{background:#15120e}
 <script>
 const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
 const $=id=>document.getElementById(id);
-const layerIds=["dayDrawer","memberSummaryDrawer","taskModal","categoryModal","deleteCategoryModal","changePinModal","commandPalette"];
+const layerIds=["dayDrawer","memberSummaryDrawer","taskModal","categoryModal","deleteCategoryModal","changePinModal","kolPasteModal","commandPalette"];
 function refreshLayerLock(){document.body.classList.toggle("layer-open",layerIds.some(id=>$(id)&&!$(id).classList.contains("hidden")))}
 function openLayer(id){const el=$(id);if(!el)return;el.classList.remove("hidden");refreshLayerLock()}
 function closeLayer(id){const el=$(id);if(!el)return;el.classList.add("hidden");if(id==="dayDrawer")drawerDate=null;if(id==="memberSummaryDrawer")summaryMemberId=null;refreshLayerLock()}
@@ -2889,6 +2900,7 @@ $("kolList").onclick=e=>{
  if((n=g("back")))return kolBack(Number(n.dataset.kolBack));
  if((n=g("cancel")))return kolCancel(Number(n.dataset.kolCancel));
  if((n=g("edit")))return kolFillModal(kolItems.find(x=>x.id===Number(n.dataset.kolEdit)));
+ if((n=g("paste")))return kolPasteOpen(Number(n.dataset.kolPaste));
  if((n=g("gantt"))){const id=Number(n.dataset.kolGantt);kolGanttOpen=kolGanttOpen===id?null:id;return renderKol()}
  if((n=g("steps"))){const id=Number(n.dataset.kolSteps);kolStepsOpen.has(id)?kolStepsOpen.delete(id):kolStepsOpen.add(id);return renderKol()}
  if((n=g("waveadd")))return kolWaveAdd(Number(n.dataset.kolWaveadd));
@@ -2956,6 +2968,8 @@ $("pickSearch").oninput=renderPick;
 $("pickHideDone").onchange=renderPick;
 $("addProjBtn").onclick=()=>projFillModal(null);
 $("kolBackBtn").onclick=()=>goView("proj");
+$("kolPasteIn").oninput=kolPastePreview;
+$("kolPasteApply").onclick=kolPasteApply;
 $("kolModes").onclick=e=>{const b=e.target.closest("[data-kolmode]");if(!b)return;kolMode=b.dataset.kolmode;applyKolMode()};
 $("kolQueue").onclick=e=>{const b=e.target.closest("[data-kolq]");if(!b)return;
  kolMode="list";kolOpenId=Number(b.dataset.kolq);renderKol();
@@ -3948,6 +3962,123 @@ window.kolWaveAdd=id=>kolRowsPatch(id,"boost",r=>{r.push({from:"",to:"",n:""})})
 window.kolWaveDel=(id,i)=>kolRowsPatch(id,"boost",r=>{if(i<0||i>=r.length)return false;r.splice(i,1)});
 window.kolPostAdd=id=>kolRowsPatch(id,"posts",r=>{r.push({d:todayISO(),n:""})});
 window.kolPostDel=(id,i)=>kolRowsPatch(id,"posts",r=>{if(i<0||i>=r.length)return false;r.splice(i,1)});
+// ── วางตาราง Agency แล้วให้มันนับเอง ─────────────────────────────────────
+// ตาราง Agency เป็นรายคน 50-60 แถวและเปลี่ยนทุกวัน แอปนี้เก็บแค่ยอดรวม การ
+// นั่งนับเองทุกรอบคือสิ่งที่ทำให้เลิกอัปเดต — วางทั้งแผ่นแล้วให้มันนับให้
+// The sheet is somebody else's and its columns move, so nothing here is read
+// by position: the tier cell identifies a KOL row, a lone platform name starts
+// a section, and the status is whichever cell matches a known status word.
+const KP_TIER=/^(mega|macro|micro|nano)$/i;
+const KP_PLATS=[[/tiktok/i,"tiktok"],[/facebook|fb\s*page/i,"facebook"],[/instagram|^ig$/i,"ig"],[/youtube|^yt$/i,"youtube"]];
+// Ranked least-advanced first: somebody with three posts is only as far along
+// as their furthest-behind one.
+const KP_STATUS=[
+ [/รอตรวจ|ลูกค้าตรวจ|final\s*draft|pending|wait/i,"resub"],
+ [/feedback|revise|แก้|ขอแก้/i,"fix"],
+ [/approve/i,"ok"],
+ [/posted|published|ลงแล้ว|live/i,"posted"]
+];
+const KP_MONTH={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+function kpDate(cell,year){
+ const m=/^(\d{1,2})\s*[-\s]\s*([A-Za-z]{3,4})\.?$/.exec(String(cell||"").trim());
+ if(!m)return "";
+ const mo=KP_MONTH[m[2].toLowerCase()];
+ if(mo==null)return "";
+ return iso(new Date(year,mo,Number(m[1])));
+}
+function kolParseSheet(text,year){
+ const lines=String(text||"").split(/\r?\n/);
+ let plat="",postCol=-1;
+ const people=new Map(),posts={},warn=[];
+ let rows=0,swapped=0,unknown=0;
+ lines.forEach(line=>{
+  const cells=line.split("\t").map(x=>x.trim());
+  const filled=cells.filter(Boolean);
+  if(!filled.length)return;
+  // header row anywhere in the paste tells us where the post date lives
+  const pc=cells.findIndex(x=>/post\s*date|วันโพส|วันที่ลง/i.test(x));
+  if(pc>=0&&!cells.some(x=>KP_TIER.test(x))){postCol=pc;return}
+  if(filled.length<=2){
+   const hit=KP_PLATS.find(([re])=>re.test(filled[0]));
+   if(hit){plat=hit[1];return}
+  }
+  const ti=cells.findIndex(x=>KP_TIER.test(x));
+  if(ti<0)return;
+  rows++;
+  const tier=cells[ti].toLowerCase();
+  const raw=(cells.slice(0,ti).filter(x=>x&&!/^\d+$/.test(x))[0]||`(แถวที่ ${rows})`).trim();
+  // "ชื่อ (Post 2)" is the same person again; "ชื่อ แทน someone" is a swap
+  const name=raw.replace(/\s*\(\s*post\s*\d+\s*\)/i,"").replace(/\s*แทน[\s\S]*$/,"").trim().toLowerCase();
+  if(/แทน/.test(raw)&&!people.has(name))swapped++;
+  let st="";
+  for(const [re,k] of KP_STATUS){if(cells.some(c=>re.test(c))){st=k;break}}
+  if(!st)unknown++;
+  const rank={resub:0,fix:1,ok:2,posted:3};
+  const cur=people.get(name);
+  if(!cur)people.set(name,{tier,plat,st});
+  else{
+   if(st&&(!cur.st||rank[st]<rank[cur.st]))cur.st=st;
+  }
+  if(postCol>=0){
+   const d=kpDate(cells[postCol],year);
+   if(d)posts[d]=(posts[d]||0)+1;
+  }
+ });
+ const tier={},pl={},st={ok:0,fix:0,resub:0};
+ people.forEach(v=>{
+  tier[v.tier]=(tier[v.tier]||0)+1;
+  if(v.plat)pl[v.plat]=(pl[v.plat]||0)+1;
+  if(v.st==="posted"||v.st==="ok")st.ok++;
+  else if(v.st)st[v.st]++;
+ });
+ if(!rows)warn.push("ไม่เจอแถว KOL เลย — ต้องมีคอลัมน์ที่เขียนว่า Macro / Micro / Mega / Nano");
+ if(unknown)warn.push(`${unknown} แถวอ่านสถานะไม่ออก นับเป็น "ยังไม่ส่ง"`);
+ if(postCol<0)warn.push('ไม่เจอคอลัมน์ "Post Date" เลยยังไม่ได้ใส่วันลง');
+ return{rows,people:people.size,swapped,tier,plat:pl,st,
+  posts:Object.keys(posts).sort().map(d=>({d,n:posts[d]})),warn};
+}
+let kpParsed=null,kpFor=null;
+const KP_TIER_N={mega:"Mega",macro:"Macro",micro:"Micro",nano:"Nano"};
+const KP_PLAT_N={tiktok:"TikTok",facebook:"Facebook",ig:"IG",youtube:"YouTube"};
+function kolPasteOpen(id){
+ kpFor=id;kpParsed=null;
+ $("kolPasteIn").value="";
+ $("kolPastePrev").innerHTML='<div class="help">วางแล้วจะขึ้นสรุปตรงนี้</div>';
+ $("kolPasteApply").disabled=true;
+ openLayer("kolPasteModal");
+ setTimeout(()=>$("kolPasteIn").focus(),40);
+}
+function kolPastePreview(){
+ const c=kolItems.find(x=>x.id===kpFor);
+ const year=c&&c.stage_since?Number(c.stage_since.slice(0,4)):new Date().getFullYear();
+ const r=kpParsed=kolParseSheet($("kolPasteIn").value,year);
+ $("kolPasteApply").disabled=!r.rows;
+ const line=(k,v)=>v?`<div class="kp-line"><span class="kp-k">${k}</span><span>${v}</span></div>`:"";
+ const list=(o,names)=>Object.keys(o).map(k=>`${names[k]||k} ${o[k]}`).join(" · ");
+ const sum=r.st.ok+r.st.fix+r.st.resub+r.swapped;
+ const posts=r.posts.reduce((t,x)=>t+x.n,0);
+ $("kolPastePrev").innerHTML=
+  line("อ่านได้",`${r.rows} แถว → ${r.people} คน${r.rows!==r.people?" (รวมโพสต์ซ้ำของคนเดิมแล้ว)":""}`)
+ +line("Tier",list(r.tier,KP_TIER_N))
+ +line("ลงที่ไหน",list(r.plat,KP_PLAT_N))
+ +line("Draft",`ผ่านแล้ว ${r.st.ok} · ขอแก้ ${r.st.fix} · รอเราตรวจ ${r.st.resub}${r.swapped?` · เปลี่ยนคน ${r.swapped}`:""}`)
+ +line("ลงโพสต์",r.posts.length?`${r.posts.length} วัน · ${kolDM(r.posts[0].d)} – ${kolDM(r.posts[r.posts.length-1].d)} · ${posts} โพสต์`:"")
+ +(r.swapped&&sum>r.people?`<div class="kp-warn">รวมทุกช่องได้ ${sum} เกิน ${r.people} เพราะนับคนเก่าที่ถูกเปลี่ยนด้วย — ถ้าไม่อยากให้การ์ดขึ้นเตือน ลบช่อง "เปลี่ยนคน" ออกทีหลังได้</div>`:"")
+ +r.warn.map(w=>`<div class="kp-warn">${esc(w)}</div>`).join("");
+}
+async function kolPasteApply(){
+ const c=kolItems.find(x=>x.id===kpFor),r=kpParsed;
+ if(!c||!r||!r.rows)return;
+ // Only the counted fields are replaced. Everything typed by hand -- the deal,
+ // the boost waves, the report tick -- is left exactly as it was.
+ const run={...kolRun(c),n:r.people,tier:r.tier,plat:r.plat,
+  dr:{...(kolRun(c).dr||{}),ok:r.st.ok,fix:r.st.fix,resub:r.st.resub,drop:r.swapped}};
+ if(r.posts.length)run.posts=r.posts;
+ if(await kolPatch(kpFor,{run})){
+  closeLayer("kolPasteModal");
+  toast(`ใส่แล้ว — ${r.people} คน จาก ${r.rows} แถว`);
+ }
+}
 // ── ปฏิทิน KOL ────────────────────────────────────────────────────────────
 // Everything dated in a campaign on one month grid: which day people posted
 // and how many, and which days each boost wave is running.
@@ -4009,6 +4140,7 @@ function kolCardHTML(c){
  const label=cancelled?"ปิดแล้ว":!doing.length?"ยังไม่เริ่มขั้นไหน":doing.length<=2?doing.map(x=>x.n).join(" + "):`${doing[0].n} +อีก ${doing.length-1}`;
  const acts=[];
  if(!cancelled){
+  acts.push(`<button class="btn secondary small" data-kol-paste="${c.id}">วางตาราง Agency</button>`);
   acts.push(`<button class="btn secondary small" data-kol-gantt="${c.id}">${kolGanttOpen===c.id?"ซ่อน Timeline":"ดู Timeline"}</button>`);
   doing.filter(x=>x.draft).forEach(x=>acts.push(`<button class="btn secondary small" data-kol-draft="${c.id}:${x.k}">+1 รอบดราฟ (${esc(x.n)})</button>`));
   if(doing.some(x=>x.decide))acts.push(`<button class="btn secondary small" data-kol-back="${c.id}">ขอแก้ (กลับไป Agency)</button>`);
