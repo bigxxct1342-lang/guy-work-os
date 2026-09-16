@@ -101,6 +101,15 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 
 /* Admin */
 .admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}.member-card{padding:17px}.member-head{display:flex;justify-content:space-between;gap:10px}.member-name{font-weight:850}.member-email{font-size:11.5px;color:var(--muted);margin-top:3px}.member-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.member-stat{background:var(--soft);padding:9px;border-radius:9px}.member-stat b{display:block;font-size:16px}.member-stat span{font-size:11px;color:var(--muted);text-transform:uppercase}.role-select{width:auto;padding:6px 8px;font-size:11.5px}
+.member-plan{margin-top:11px;border-top:1px dashed var(--line);padding-top:9px;display:grid;gap:5px}
+.member-planrow{display:flex;align-items:baseline;gap:8px;font-size:12px}
+.member-plank{font-weight:850;flex:none}
+.member-plann{flex:none;font-weight:850;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--soft)}
+.member-planv{color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scr .member-plan{border-top-color:var(--t-line)}
+.scr .member-plank{color:var(--t-amb)}
+.scr .member-plann{background:transparent;border:1px solid var(--t-line);color:var(--t-ink)}
+.scr .member-planv{color:var(--t-dim)}
 @media(max-width:1100px){.metrics{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}.admin-grid{grid-template-columns:repeat(2,1fr)}.day{min-height:110px}}
 @media(max-width:820px){.app{grid-template-columns:1fr}
  /* The sidebar turns into a strip of buttons on a phone -- a case and a tube
@@ -878,6 +887,8 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr .gantt-flag{border-left-color:rgba(244,161,46,.45)}
 .scr .gantt-flag .gf-label{color:var(--t-dim)}
 .scr .mini-day.outside{color:var(--t-mut)}
+.scr .category-progress{background:rgba(255,255,255,.09)}
+.scr .category-progress>i{background:var(--t-accent)}
 .scr .check-box{background:transparent;border-color:var(--t-line);color:var(--t-ink)}
 .scr .check-box.st-na{background:rgba(255,255,255,.07);border-color:var(--t-line);color:var(--t-mut)}
 .scr .group-frac{color:var(--t-dim)}
@@ -1404,7 +1415,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.71 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.72 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1710,7 +1721,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.71</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.72</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -1921,7 +1932,7 @@ body.dark .splash{background:#15120e}
 <div id="toastWrap" class="toast-wrap"></div>
 
 <script>
-const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
+const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],teamTasks=[],teamCategories=[],teamProjects=[],teamKol=[],teamPr=[],teamProducts=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
 const $=id=>document.getElementById(id);
 const layerIds=["dayDrawer","memberSummaryDrawer","taskModal","categoryModal","deleteCategoryModal","changePinModal","kolPasteModal","commandPalette"];
 function refreshLayerLock(){document.body.classList.toggle("layer-open",layerIds.some(id=>$(id)&&!$(id).classList.contains("hidden")))}
@@ -2279,7 +2290,20 @@ $("saveTeamSettingsBtn").onclick=async()=>{
 
 
 async function loadAll(){syncState("Syncing…");if(profile?.team_id){const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();if(tr.data)team=tr.data;}const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();if(pr.error){syncState("Run V6 migration SQL",false);alert("V6 Admin migration has not been applied yet.");return}profile=pr.data;if(!profile){syncState("Profile missing",false);return}$("whoText").textContent=profile.full_name||profile.email;$("roleText").textContent=profile.role==="super_admin"?"SUPER ADMIN":"MEMBER";$("teamText").textContent=team?.name?`TEAM · ${team.name.toUpperCase()}`:"";if(isAdmin()&&$("adminTeamName"))$("adminTeamName").value=team?.name||"Marketing";$("adminNav").classList.toggle("hidden",!isAdmin());$("filterMember").classList.toggle("hidden",!isAdmin());$("calendarMember").classList.toggle("hidden",!isAdmin());$("ownerField").classList.toggle("hidden",!isAdmin());
- const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];categories=c.data||[];tasks=t.data||[];await loadPr();await loadKol();await loadProjects();await loadNpdProducts();syncState("Cloud synced");render()}
+ const [p,c,t]=await Promise.all([isAdmin()?sb.from("profiles").select("*").order("full_name"):Promise.resolve({data:[profile]}),sb.from("categories").select("*").order("id"),sb.from("tasks").select("*").order("created_at",{ascending:false})]);if(p.error||c.error||t.error){syncState("Sync error",false);console.error(p.error||c.error||t.error);return}profiles=p.data||[];splitOwn(c.data||[],t.data||[]);await loadPr();await loadKol();await loadProjects();await loadNpdProducts();syncState("Cloud synced");render()}
+// The Super Admin reads across the team, so every list would quietly become
+// "everybody's work" -- which is not what a personal page means. A row the
+// signed-in person does not own goes to the team side and stays there.
+function splitOwn(cats,ts){
+ const own=x=>!x.user_id||x.user_id===user.id;
+ categories=cats.filter(own);teamCategories=cats.filter(x=>!own(x));
+ tasks=ts.filter(own);teamTasks=ts.filter(x=>!own(x));
+}
+// Same rule on the planning side, where the owner column is created_by.
+function splitRows(rows){
+ const own=x=>!x.created_by||x.created_by===user.id;
+ return [rows.filter(own),rows.filter(x=>!own(x))];
+}
 // Task writes apply to local state and repaint first, then persist. A failed
 // write puts the old row back, so the screen never drifts from the server.
 async function saveTask(payload,id=null){
@@ -2298,7 +2322,7 @@ async function createTask(payload){
 window.toggleTask=async(id,checked)=>{const t=tasks.find(x=>x.id===id);if(!t)return;if(checked){localStorage.setItem("guy_prev_status_"+id,t.status);await saveTask({status:"Done",completed_at:new Date().toISOString()},id);if(t.recurring_rule&&t.due){const nd=addRecurringDate(t.due,t.recurring_rule);if(nd){await createTask({user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,status:"To Do",priority:t.priority,due:nd,waiting_since:null,note:t.note||"",pinned:false,estimate_minutes:t.estimate_minutes||null,recurring_rule:t.recurring_rule,completed_at:null})}}}else{const prev=localStorage.getItem("guy_prev_status_"+id)||"To Do";await saveTask({status:prev==="Done"?"To Do":prev,completed_at:null},id)}};window.togglePin=async id=>{const t=tasks.find(x=>x.id===id);if(t)await saveTask({pinned:!t.pinned},id)};
 window.quickMove=async(id,where)=>{const due=where==="today"?todayISO():where==="tomorrow"?tomorrowISO():nextMondayISO();await saveTask({due},id);toast(`Moved to ${where==="today"?"Today":where==="tomorrow"?"Tomorrow":"Next Monday"}`)};
 window.deleteTask=async id=>{if(!confirm("Delete task?"))return;const i=tasks.findIndex(x=>x.id===id);if(i<0)return;const before=tasks[i];tasks.splice(i,1);render();syncState("Saving…");const {error}=await sb.from("tasks").delete().eq("id",id);if(error){tasks.splice(i,0,before);render();toast(error.message,"bad");syncState("Save failed",false);return}toast("Task deleted");syncState("Cloud synced")}
-function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"No date",wd=waitDays(t);return `<div class="task"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${t.id},this.checked)"><button class="pin ${t.pinned?"on":""}" onclick="togglePin(${t.id})">${t.pinned?"★":"☆"}</button><div><div class="task-title">${esc(t.task)}</div>${t.note?`<div class="task-note">${esc(t.note)}</div>`:""}<div class="task-meta"><span>${esc(t.category)} / ${esc(t.sub)}</span>${isAdmin()?`<span class="pill owner">${esc(profileName(t.user_id))}</span>`:""}<span class="pill ${pclass(t.priority)}">${t.priority}</span>${t.status==="Waiting"?'<span class="pill waiting">Waiting</span>':""}${t.status==="Done"?'<span class="pill done">Done</span>':""}${isOverdue(t)?'<span class="pill overdue">Overdue</span>':""}${isToday(t)?'<span class="pill today">Today</span>':""}<span>${due}</span>${wd!==null?`<span>Waiting ${wd} days</span>`:""}${t.estimate_minutes?`<span>${fmtMinutes(t.estimate_minutes)} est.</span>`:""}${t.recurring_rule?`<span>↻ ${esc(t.recurring_rule)}</span>`:""}</div><div class="quick-actions">
+function taskHTML(t){const due=t.due?new Date(t.due+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"No date",wd=waitDays(t);return `<div class="task"><input type="checkbox" ${t.status==="Done"?"checked":""} onchange="toggleTask(${t.id},this.checked)"><button class="pin ${t.pinned?"on":""}" onclick="togglePin(${t.id})">${t.pinned?"★":"☆"}</button><div><div class="task-title">${esc(t.task)}</div>${t.note?`<div class="task-note">${esc(t.note)}</div>`:""}<div class="task-meta"><span>${esc(t.category)} / ${esc(t.sub)}</span>${isAdmin()&&t.user_id&&t.user_id!==user?.id?`<span class="pill owner">${esc(profileName(t.user_id))}</span>`:""}<span class="pill ${pclass(t.priority)}">${t.priority}</span>${t.status==="Waiting"?'<span class="pill waiting">Waiting</span>':""}${t.status==="Done"?'<span class="pill done">Done</span>':""}${isOverdue(t)?'<span class="pill overdue">Overdue</span>':""}${isToday(t)?'<span class="pill today">Today</span>':""}<span>${due}</span>${wd!==null?`<span>Waiting ${wd} days</span>`:""}${t.estimate_minutes?`<span>${fmtMinutes(t.estimate_minutes)} est.</span>`:""}${t.recurring_rule?`<span>↻ ${esc(t.recurring_rule)}</span>`:""}</div><div class="quick-actions">
       ${t.status!=="Done"?`<button class="btn secondary small" onclick="quickMove(${t.id},'today')">Today</button><button class="btn secondary small" onclick="quickMove(${t.id},'tomorrow')">Tomorrow</button><button class="btn secondary small" onclick="quickMove(${t.id},'monday')">Next Mon</button>`:""}
     </div></div><div class="task-actions"><button class="btn secondary small" onclick="editTask(${t.id})">Edit</button><button class="btn danger small" onclick="deleteTask(${t.id})">Delete</button></div></div>`}
 /* Archive rows are history, not a to-do list: the checkbox, star, priority and
@@ -2361,7 +2385,7 @@ function pfSpan(start,end){
 }
 // One row per finished thing, whatever table it came from.
 function pfDone(){
- const mine=x=>isAdmin()||!x.user_id||x.user_id===user.id;
+ const mine=x=>!x.user_id||x.user_id===user.id;
  const out=[];
  tasks.filter(t=>t.status==="Done"&&mine(t)).forEach(t=>out.push({
   kind:"task",id:t.id,rec:t,name:t.task,meta:t.category||"",
@@ -2431,11 +2455,11 @@ function archiveHTML(list){
  ).join("");
 }
 function groupedHTML(list){const g={};list.forEach(t=>{g[t.category]??={};g[t.category][t.sub]??=[];g[t.category][t.sub].push(t)});return Object.keys(g).map(cat=>`<div class="category-block"><div class="category-head"><div class="category-name">${esc(cat)}</div></div>${Object.keys(g[cat]).map(sub=>`<div class="subcategory"><div class="sub-title">${esc(sub)}</div><div class="task-list">${g[cat][sub].map(taskHTML).join("")}</div></div>`).join("")}</div>`).join("")||'<div class="empty">No tasks.</div>'}
-function populateFilters(){const opts=profiles.map(p=>`<option value="${p.user_id}">${esc(p.full_name||p.email)}</option>`).join("");$("filterMember").innerHTML='<option value="">All Members</option>'+opts;$("calendarMember").innerHTML='<option value="">All Members</option>'+opts;const fc=$("filterCategory").value,fs=$("filterSub").value;$("filterCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(categories.map(c=>c.name))].map(n=>`<option>${esc(n)}</option>`).join("");$("filterCategory").value=fc;const subs=[...new Set(categories.flatMap(c=>Array.isArray(c.subs)?c.subs:[]))];$("filterSub").innerHTML='<option value="">All Subcategories</option>'+subs.map(s=>`<option>${esc(s)}</option>`).join("");$("filterSub").value=fs}
+function populateFilters(){const fm=$("filterMember").value,cm=$("calendarMember").value;const others=profiles.filter(p=>p.user_id!==user.id).map(p=>`<option value="${p.user_id}">${esc(p.full_name||p.email)}</option>`).join("");$("filterMember").innerHTML='<option value="">งานของฉัน</option>'+others;$("calendarMember").innerHTML='<option value="">งานของฉัน</option>'+others;$("filterMember").value=fm;$("calendarMember").value=cm;const fc=$("filterCategory").value,fs=$("filterSub").value;$("filterCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(categories.map(c=>c.name))].map(n=>`<option>${esc(n)}</option>`).join("");$("filterCategory").value=fc;const subs=[...new Set(categories.flatMap(c=>Array.isArray(c.subs)?c.subs:[]))];$("filterSub").innerHTML='<option value="">All Subcategories</option>'+subs.map(s=>`<option>${esc(s)}</option>`).join("");$("filterSub").value=fs}
 function populateTaskForm(owner,cat,sub){if(isAdmin()){$("fOwner").innerHTML=profiles.filter(p=>p.status==="active").map(p=>`<option value="${p.user_id}">${esc(p.full_name||p.email)}</option>`).join("");$("fOwner").value=owner||user.id}const ownerId=isAdmin()?$("fOwner").value:user.id;const cats=categories.filter(c=>c.user_id===ownerId);$("fCategory").innerHTML=(cats.length?cats:categories.filter(c=>c.user_id===user.id)).map(c=>`<option>${esc(c.name)}</option>`).join("");if(cat)$("fCategory").value=cat;updateSubs(sub)}
 function updateSubs(selected){const ownerId=isAdmin()?$("fOwner").value:user.id;const c=categories.find(x=>x.user_id===ownerId&&x.name===$("fCategory").value)||categories.find(x=>x.name===$("fCategory").value);const subs=Array.isArray(c?.subs)?c.subs:[];$("fSub").innerHTML=subs.map(s=>`<option>${esc(s)}</option>`).join("");if(selected)$("fSub").value=selected}
 $("fOwner").onchange=()=>populateTaskForm($("fOwner").value);$("fCategory").onchange=()=>updateSubs();
-function renderCategories(){const list=isAdmin()?categories.filter(c=>c.user_id===user.id):categories;$("manageCategories").innerHTML=list.map(c=>{const ct=tasks.filter(t=>t.user_id===c.user_id&&t.category===c.name),done=ct.filter(t=>t.status==="Done").length,pct=ct.length?Math.round(done/ct.length*100):0;return `<div class="category-block"><div class="category-head"><div style="flex:1"><div class="category-name">${esc(c.name)}</div><div class="category-meta">${(c.subs||[]).map(esc).join(" • ")} · ${done}/${ct.length} done · ${pct}%</div><div class="category-progress"><i style="width:${pct}%"></i></div></div><div><button class="btn secondary small" onclick="editCategory(${c.id})">Edit</button> <button class="btn danger small" onclick="removeCategory(${c.id})">Delete</button></div></div></div>`}).join("")||'<div class="empty">No categories.</div>'}
+function renderCategories(){const list=categories;$("manageCategories").innerHTML=list.map(c=>{const ct=tasks.filter(t=>t.user_id===c.user_id&&t.category===c.name),done=ct.filter(t=>t.status==="Done").length,pct=ct.length?Math.round(done/ct.length*100):0;return `<div class="category-block"><div class="category-head"><div style="flex:1"><div class="category-name">${esc(c.name)}</div><div class="category-meta">${(c.subs||[]).map(esc).join(" • ")} · ${done}/${ct.length} done · ${pct}%</div><div class="category-progress"><i style="width:${pct}%"></i></div></div><div><button class="btn secondary small" onclick="editCategory(${c.id})">Edit</button> <button class="btn danger small" onclick="removeCategory(${c.id})">Delete</button></div></div></div>`}).join("")||'<div class="empty">No categories.</div>'}
 window.editCategory=id=>{const c=categories.find(x=>x.id===id);editingCategoryId=id;$("cName").value=c.name;$("cSubs").value=(c.subs||[]).join(", ");$("categoryModalTitle").textContent="Edit Category";openLayer("categoryModal")};
 let deletingCategoryId=null;
 window.removeCategory=id=>{
@@ -2548,6 +2572,7 @@ function calBoostBar(p,ds){
  const first=ds===p.post_boost_from;
  return `<div class="cal-boost" style="--c:${cvHue(p)}" title="บูท ${fmtD(p.post_boost_from)} – ${fmtD(p.post_boost_to)}">${first?"บูท":""}</div>`;
 }
+const peopleScope=sel=>sel?tasks.concat(teamTasks).filter(t=>t.user_id===sel):tasks;
 function renderCalendar(){
  const mode=$("calendarMode")?.value||calendarMode;calendarMode=mode;
  const selected=isAdmin()?($("calendarMember")?.value||""):"";
@@ -2561,11 +2586,11 @@ function renderCalendar(){
  const first=new Date(y,m,1),offset=(first.getDay()+6)%7,start=new Date(y,m,1-offset);let out="";
  for(let i=0;i<42;i++){
    const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
-   const dayTasks=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected));
+   const dayTasks=peopleScope(selected).filter(t=>t.due===ds);
    const outside=d.getMonth()!==m,td=ds===todayISO();
    out+=`<div class="day ${outside?"outside":""} ${td?"today-day":""}" onclick="openDay('${ds}',event)">
      <div class="day-head"><span class="day-number">${d.getDate()}</span><span class="day-count">${dayTasks.length?dayTasks.length+" รายการ":""}</span></div>
-     ${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}
+     ${dayTasks.slice(0,4).map(t=>`<div class="cal-task ${t.status==="Done"?"done":pclass(t.priority)}" onclick="calendarEdit(${t.id},event)" title="${esc(t.task)}">${esc(t.task)}${isAdmin()&&t.user_id&&t.user_id!==user?.id?`<div class="cal-owner">${esc(profileName(t.user_id))}</div>`:""}</div>`).join("")}
      ${dayTasks.length>4?`<div class="more">+${dayTasks.length-4} more · open day</div>`:""}
    </div>`;
  }
@@ -2580,7 +2605,7 @@ function renderWeekCalendar(selected=""){
  let out="";
  for(let i=0;i<7;i++){
    const d=new Date(start);d.setDate(start.getDate()+i);const ds=iso(d);
-   const list=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected));
+   const list=peopleScope(selected).filter(t=>t.due===ds);
    const mins=taskMinutes(list.filter(t=>t.status!=="Done"));
    out+=`<div class="week-col ${ds===todayISO()?"today-col":""}" onclick="openDay('${ds}',event)">
      <div class="week-head"><b>${d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric"})}</b><span>${list.length} tasks · ${fmtMinutes(mins)||"0m"}</span></div>
@@ -2595,7 +2620,7 @@ window.openDay=(ds,e)=>{
  if(e?.target?.closest?.(".cal-task,.week-task"))return;
  drawerDate=ds;
  const selected=isAdmin()?($("calendarMember")?.value||""):"";
- const list=tasks.filter(t=>t.due===ds&&(!selected||t.user_id===selected)).sort((a,b)=>a.status.localeCompare(b.status));
+ const list=peopleScope(selected).filter(t=>t.due===ds).sort((a,b)=>a.status.localeCompare(b.status));
  $("dayDrawerTitle").textContent=new Date(ds+"T00:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
  $("dayDrawerDate").textContent=`${list.length} task${list.length===1?"":"s"}`;
  $("dayDrawerList").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty">No tasks this day.</div>';
@@ -2736,7 +2761,7 @@ function pmRefISO(off=pmOffset){const d=new Date();d.setHours(0,0,0,0);d.setDate
 function pmDaysUntil(t,ref){if(!t.due)return 9999;return Math.round((new Date(t.due+"T00:00:00")-new Date(ref+"T00:00:00"))/86400000)}
 function pmUrgent(t,ref){return pmDaysUntil(t,ref)<=PM_URGENT_DAYS}
 function pmQuad(t,ref){const u=pmUrgent(t,ref),i=t.priority==="High";return i?(u?1:2):(u?3:4)}
-function pmScope(){const s=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);return s.filter(t=>t.status!=="Done")}
+function pmScope(){return tasks.filter(t=>t.status!=="Done")}
 function pmDueLabel(d,due){if(!due)return"ไม่มีกำหนด";if(d<0)return`เลยมา ${Math.abs(d)} วัน`;if(d===0)return"วันนี้";if(d===1)return"พรุ่งนี้";return`อีก ${d} วัน`}
 function pmCardHTML(t,ref,today){
  const d=pmDaysUntil(t,ref),dt=pmDaysUntil(t,today);
@@ -2904,7 +2929,7 @@ async function loadNpdHolidays(){
 async function loadNpdProducts(){
  const {data,error}=await sb.from("products").select("*").order("created_at");
  if(error){toast("Load products failed: "+error.message,"bad");return}
- npdProducts=data||[];
+ [npdProducts,teamProducts]=splitRows(data||[]);
  if(!npdProducts.find(p=>p.id===npdCurrentProductId))npdCurrentProductId=npdProducts[0]?.id||null;
  $("npdProductSelect").innerHTML=npdProducts.map(p=>`<option value="${p.id}" ${p.id===npdCurrentProductId?"selected":""}>${esc(p.name)}${p.status!=="active"?` (${p.status})`:""}</option>`).join("");
  $("npdEmpty").classList.toggle("hidden",npdProducts.length>0);
@@ -3356,7 +3381,7 @@ $("calendarMode").onchange=()=>{calendarMode=$("calendarMode").value;calendarCur
 function renderAdmin(){
  if(!isAdmin())return;
  const members=profiles.filter(p=>p.status==="active"&&p.user_id!==user.id);
- const allTeamTasks=tasks.filter(t=>t.user_id!==user.id);
+ const allTeamTasks=teamTasks;
  const activeTasks=allTeamTasks.filter(t=>t.status!=="Done");
  $("teamMemberCount").textContent=members.length;
  $("teamActiveCount").textContent=activeTasks.length;
@@ -3365,7 +3390,7 @@ function renderAdmin(){
  $("teamDoneWeekCount").textContent=allTeamTasks.filter(doneThisWeek).length;
 
  $("adminMembers").innerHTML=members.length?members.map(p=>{
-   const pt=tasks.filter(t=>t.user_id===p.user_id);
+   const pt=teamTasks.filter(t=>t.user_id===p.user_id);
    const active=pt.filter(t=>t.status!=="Done");
    const done=pt.filter(t=>t.status==="Done").length;
    const inprog=active.filter(t=>t.status==="In Progress").length;
@@ -3376,6 +3401,7 @@ function renderAdmin(){
    const workload=workloadLabel(pt);
    const longWait=active.filter(t=>t.status==="Waiting"&&waitDays(t)>=4).length;
    const highNoDue=active.filter(t=>t.priority==="High"&&!t.due).length;
+   const plan=memberPlanHTML(p.user_id);
    return `<div class="card member-card">
      <div class="member-head">
        <div><div class="member-name">${esc(p.full_name||p.email)}</div><div class="member-email">${esc(p.email||"")}</div></div>
@@ -3390,6 +3416,7 @@ function renderAdmin(){
        <div class="member-stat"><b>${pct}%</b><span>Complete</span></div>
      </div>
      <div class="category-progress"><i style="width:${pct}%"></i></div>
+     ${plan}
      <div class="help" style="margin-top:9px">${longWait?`${longWait} waiting ≥ 4d · `:""}${highNoDue?`${highNoDue} high priority no due`:""}${!longWait&&!highNoDue&&!over?"No urgent signal":""}</div>
      <button class="btn secondary small" style="margin-top:12px" onclick="viewMemberSummary('${p.user_id}')">View Summary</button>
    </div>`;
@@ -3397,7 +3424,7 @@ function renderAdmin(){
 
  const attention=[];
  members.forEach(p=>{
-   const pt=tasks.filter(t=>t.user_id===p.user_id&&t.status!=="Done");
+   const pt=teamTasks.filter(t=>t.user_id===p.user_id&&t.status!=="Done");
    const ov=pt.filter(isOverdue).length;
    const lw=pt.filter(t=>t.status==="Waiting"&&waitDays(t)>=4).length;
    const nd=pt.filter(t=>t.priority==="High"&&!t.due).length;
@@ -3409,10 +3436,34 @@ function renderAdmin(){
 }
 
 let summaryMemberId=null;
+// What the other person is running, named but not opened up. The point is to
+// know where they are, and where to offer help -- not to read their work.
+function memberPlanBits(uid){
+ const live=r=>r.created_by===uid;
+ const b=[];
+ const pj=teamProjects.filter(x=>live(x)&&x.status!=="done");
+ const kl=teamKol.filter(x=>live(x)&&x.stage!=="done"&&x.stage!=="cancelled");
+ const pr=teamPr.filter(x=>live(x)&&x.stage!=="done"&&x.stage!=="cancelled");
+ const np=teamProducts.filter(x=>live(x)&&x.status!=="done");
+ if(pj.length)b.push(["Projects",pj.length,pj.map(x=>x.name)]);
+ if(np.length)b.push(["Product Launch",np.length,np.map(x=>x.name)]);
+ if(kl.length)b.push(["KOL",kl.length,kl.map(x=>x.name)]);
+ if(pr.length)b.push(["PR / GRPO",pr.length,pr.map(x=>x.title)]);
+ return b;
+}
+function memberPlanHTML(uid){
+ const b=memberPlanBits(uid);
+ if(!b.length)return "";
+ return `<div class="member-plan">${b.map(([t,n,names])=>
+   `<div class="member-planrow"><span class="member-plank">${esc(t)}</span>`
+   +`<span class="member-plann">${n}</span>`
+   +`<span class="member-planv">${esc(names.slice(0,2).join(" · "))}${n>2?" …":""}</span></div>`
+  ).join("")}</div>`;
+}
 window.viewMemberSummary=uid=>{
  const p=profiles.find(x=>x.user_id===uid);if(!p)return;
  summaryMemberId=uid;
- const pt=tasks.filter(t=>t.user_id===uid);
+ const pt=teamTasks.filter(t=>t.user_id===uid);
  const active=pt.filter(t=>t.status!=="Done");
  const over=active.filter(isOverdue);
  const wait=active.filter(t=>t.status==="Waiting");
@@ -3441,6 +3492,10 @@ window.viewMember=uid=>viewMemberSummary(uid);
 
 function backupPayload(){
  const scope=isAdmin()?"team":"personal";
+ // A backup that says "team" has to hold the team. Personal lists stop at the
+ // signed-in person now, so a team export reads both sides back together.
+ const cats=scope==="team"?categories.concat(teamCategories):categories;
+ const ts  =scope==="team"?tasks.concat(teamTasks):tasks;
  return {
   format:"GUY_WORK_OS_BACKUP",
   version:"7.1",
@@ -3448,11 +3503,11 @@ function backupPayload(){
   exportedAt:new Date().toISOString(),
   scope,
   exportedBy:user.id,
-  categories:categories.map(c=>({
+  categories:cats.map(c=>({
    user_id:c.user_id,name:c.name,subs:Array.isArray(c.subs)?c.subs:[],
    created_at:c.created_at||null,updated_at:c.updated_at||null
   })),
-  tasks:tasks.map(t=>({
+  tasks:ts.map(t=>({
    user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,
    status:t.status||"To Do",priority:t.priority||"Medium",
    due:t.due||null,waiting_since:t.waiting_since||null,note:t.note||"",
@@ -3605,8 +3660,8 @@ function duplicateIds(rows,keyFn){
  return dups;
 }
 async function cleanDuplicateImports(){
- const cats=isAdmin()?categories:categories.filter(c=>c.user_id===user.id);
- const ts=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const cats=categories;
+ const ts=tasks;
  const catDupIds=duplicateIds(cats,categoryDupKey);
  const taskDupIds=duplicateIds(ts,taskDupKey);
  if(!catDupIds.length&&!taskDupIds.length){
@@ -3668,12 +3723,12 @@ async function loadPr(){
  // A missing table must not take the rest of the app down with it: the
  // migration is run by hand, so treat it as "nothing here yet" and say so.
  prTableMissing=!!error;
- prItems=error?[]:(data||[]);
+ [prItems,teamPr]=splitRows(error?[]:(data||[]));
  return !error;
 }
 // One shape for both sources, so lanes and dashboard rows need no special cases.
 function prAllItems(){
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const scope=tasks;
  return scope.filter(t=>t.pr_stage).map(t=>({
    kind:"task",id:t.id,title:t.task,pr_number:t.pr_number,po_number:t.po_number,
    vendor:null,amount:null,stage:t.pr_stage,since:t.pr_stage_since||todayISO(),
@@ -3796,7 +3851,7 @@ const kolStepsOpen=new Set(),kolFrameOpen=new Set();
 async function loadKol(){
  const {data,error}=await sb.from("kol_campaigns").select("*").order("stage_since");
  kolTableMissing=!!error;
- kolItems=error?[]:(data||[]);
+ [kolItems,teamKol]=splitRows(error?[]:(data||[]));
  // The panel writes one jsonb column. If the migration has not been run the
  // rows come back without it, so say so instead of failing on first save.
  kolRunMissing=!error&&kolItems.length>0&&!("run" in kolItems[0]);
@@ -4741,8 +4796,10 @@ async function loadProjects(){
   sb.from("project_items").select("*").order("sort_order")
  ]);
  projTableMissing=!!(p.error||i.error);
- projects=p.error?[]:(p.data||[]);
- projItems=i.error?[]:(i.data||[]);
+ [projects,teamProjects]=splitRows(p.error?[]:(p.data||[]));
+ // an item follows whichever project owns it
+ const mineIds=new Set(projects.map(x=>x.id));
+ projItems=(i.error?[]:(i.data||[])).filter(x=>mineIds.has(x.project_id));
  return !projTableMissing;
 }
 const projChannels=p=>{const c=p.channels;return Array.isArray(c)&&c.length?c:PROJ_CHANNELS};
@@ -5031,7 +5088,7 @@ window.projAddChannel=async id=>{
 };
 // --- picker --------------------------------------------------------------
 function projPickable(){
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const scope=tasks;
  const mark=d=>d?" · เสร็จแล้ว":"";
  const at=x=>x.updated_at||x.completed_at||x.stage_since||x.created_at||"";
  const rows=[
@@ -5343,7 +5400,7 @@ function renderCreative(){
    twice, a separate table for the post, and nowhere that said "this is at this
    stage and its caption is still missing". One record says all of it.
 --------------------------------------------------------------------------- */
-const cvJobs=()=>(isAdmin()?tasks:tasks.filter(t=>t.user_id===user?.id)).filter(t=>t.cv_on);
+const cvJobs=()=>tasks.filter(t=>t.cv_on);
 const cvRounds=t=>Array.isArray(t.cv_rounds)?t.cv_rounds:[];
 const cvRound=t=>cvRounds(t).length;
 const CV_STATUS={
@@ -5363,7 +5420,7 @@ const fmtD=d=>d?new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric
 const postEnd=t=>{const d=new Date(t.post_date+"T00:00:00");d.setDate(d.getDate()+Math.max(1,t.post_days||1)-1);return iso(d)};
 const postCovers=(t,ds)=>!!t.post_date&&ds>=t.post_date&&ds<=postEnd(t);
 const boostCovers=(t,ds)=>!!(t.post_boost&&t.post_boost_from&&t.post_boost_to&&ds>=t.post_boost_from&&ds<=t.post_boost_to);
-const cvPosts=()=>(isAdmin()?tasks:tasks.filter(t=>t.user_id===user?.id)).filter(t=>t.post_on&&t.post_date);
+const cvPosts=()=>tasks.filter(t=>t.post_on&&t.post_date);
 // Approved is not over while the ads it feeds are still running.
 const cvAds=t=>cvStatus(t)==="done"&&boostCovers(t,todayISO())?t:null;
 /* "อนุมัติแล้ว" was being read as "จบแล้ว", so a post whose boost starts next
@@ -5395,7 +5452,7 @@ function cvNeedsYou(t){
  return null;
 }
 function cvPickableTasks(){
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const scope=tasks;
  return scope.filter(t=>!t.cv_on)
   .sort((a,b)=>(a.status==="Done")-(b.status==="Done")
     ||String(b.updated_at||b.created_at||"").localeCompare(String(a.updated_at||a.created_at||"")));
@@ -5583,7 +5640,7 @@ function wipItems(){
   out.push({kind:i.kind==="task"?"PR (งาน)":"PR",name:i.title,stage:st.name,who,days:d,
    late:st.warn!=null&&d>st.warn,lateBy:st.warn!=null?Math.max(0,d-st.warn):0,pct:null});
  });
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id);
+ const scope=tasks;
  scope.filter(t=>t.status==="Waiting").forEach(t=>{
   out.push({kind:"งาน",name:t.task,stage:"รออยู่",who:"คนอื่น",days:waitDays(t)||0,late:(waitDays(t)||0)>=4,pct:null});
  });
@@ -5777,8 +5834,8 @@ function renderDashboardFocus(active,done){
   :`<div class="dash-clear">${active.length?"ไม่มีอะไรค้างตอนนี้ — เคลียร์หมดแล้ว":"ยังไม่มีงานในระบบ"}</div>`;
  $("dashSummary").innerHTML=[["ทำงานอยู่",active.length],["กำลังทำ",active.filter(t=>t.status==="In Progress").length],["รอคนอื่น",active.filter(t=>t.status==="Waiting").length],["เสร็จสัปดาห์นี้",done.filter(doneThisWeek).length]].map(x=>`<span><b>${x[1]}</b> ${x[0]}</span>`).join("");
 }
-function render(){populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();renderDashGaps();const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user.id),active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
-const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=scope.filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st)&&(!fm||t.user_id===fm));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
+function render(){populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();renderDashGaps();const scope=tasks,active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
+const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=peopleScope(fm).filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>!t.is_highlight&&(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
 $("archiveList").innerHTML=archiveHTML(archived);
@@ -5863,7 +5920,7 @@ document.querySelectorAll(".nav button").forEach(btn=>btn.onclick=()=>{kolFromPr
 // genuinely means nothing is waiting.
 function renderNavBadges(){
  const set=(id,n)=>{const el=$(id);if(!el)return;el.textContent=n;el.classList.toggle("hidden",!n)};
- const scope=isAdmin()?tasks:tasks.filter(t=>t.user_id===user?.id);
+ const scope=tasks;
  const active=scope.filter(t=>t.status!=="Done");
  set("navBadgeDash",active.filter(t=>isOverdue(t)||isToday(t)).length);
  set("navBadgePr",prAllItems().filter(it=>it.stage!=="done"&&prNeedsYou(it)).length);
