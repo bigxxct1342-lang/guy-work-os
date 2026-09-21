@@ -1177,11 +1177,133 @@ body.dark .hw-bar .hw-btns .btn.primary{background:linear-gradient(#ffa640,#ef7f
  padding:19px 14px 14px;margin-top:24px}
 .grp-l{position:absolute;top:-8px;left:11px;background:#e9dcbe;padding:0 7px;
  font-size:12px;font-weight:850;letter-spacing:.08em;color:var(--t-amb)}
+/* ── the dashboard as a terminal page ──────────────────────────────────
+   Everything here is drawn as printed chrome: a rule at the top with the
+   build and the clock, a masthead, a row of gauges, then the work. The
+   boxes are double-ruled because a single hairline on paper reads as a
+   mistake, and a second line reads as a frame. */
+#dashboardView .term-top{display:flex;justify-content:space-between;align-items:baseline;
+ font-family:"VT323",ui-monospace,monospace;font-size:15px;letter-spacing:.14em;
+ color:var(--t-dim);border-bottom:1px solid var(--t-line);padding-bottom:5px;margin-bottom:12px}
+#dashboardView .term-top span:last-child{font-variant-numeric:tabular-nums}
+
+.banner{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) 210px;
+ gap:0;border:1px solid var(--t-line);box-shadow:0 0 0 3px rgba(255,252,242,.5),0 0 0 4px var(--t-line);
+ margin-bottom:20px;background:rgba(255,252,242,.45)}
+.banner>*{padding:13px 16px}
+.banner-id{border-right:1px dashed var(--t-line);min-width:0}
+.banner-name{font-family:"VT323",ui-monospace,monospace;font-size:46px;line-height:.92;
+ letter-spacing:.06em;color:var(--t-hi);font-weight:400}
+.banner-sub{font-family:"VT323",ui-monospace,monospace;font-size:23px;line-height:1;
+ letter-spacing:.2em;color:var(--t-amb);margin-top:2px}
+.banner-date{font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.11em;
+ color:var(--t-dim);margin-top:7px;text-transform:uppercase}
+.banner-quote{display:flex;flex-direction:column;justify-content:center;gap:8px;
+ border-right:1px dashed var(--t-line);min-width:0}
+.banner-quote #morningTitle{font-family:"VT323",ui-monospace,monospace;font-size:20px;line-height:1.15;
+ letter-spacing:.11em;color:var(--t-ink);text-transform:uppercase;margin:0;font-weight:400}
+.banner-line{font-family:"VT323",ui-monospace,monospace;font-size:17px;line-height:1.2;
+ letter-spacing:.11em;color:var(--t-dim);text-transform:uppercase}
+.banner-caret{font-family:"VT323",ui-monospace,monospace;font-size:19px;color:var(--t-amb);
+ border-bottom:1px solid var(--t-line);padding-bottom:4px}
+.banner-caret::after{content:"";display:inline-block;width:8px;height:14px;margin-left:2px;
+ background:var(--t-amb);vertical-align:-2px;animation:cw 1.05s steps(1,end) infinite}
+@keyframes cw{50%{opacity:0}}
+.banner-cat{padding:0;background:#070501;overflow:hidden}
+.banner-cat canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+
+.statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:18px}
+.statbox{border:1px solid var(--t-line);box-shadow:0 0 0 3px rgba(255,252,242,.5),0 0 0 4px var(--t-line);
+ background:rgba(255,252,242,.45);padding:11px 11px;display:flex;gap:9px;align-items:flex-start;min-width:0}
+.stat-ico{flex:none;width:30px;height:30px;border:1px solid var(--t-line);border-radius:4px;
+ display:flex;align-items:center;justify-content:center;color:var(--t-amb);background:rgba(224,149,31,.12)}
+.stat-ico svg{width:19px;height:19px}
+.stat-b{min-width:0;flex:1}
+.stat-k{font-family:"VT323",ui-monospace,monospace;font-size:14px;letter-spacing:.07em;
+ color:var(--t-dim);text-transform:uppercase;line-height:1.1;word-break:normal;overflow-wrap:normal}
+.stat-v{font-family:"VT323",ui-monospace,monospace;font-size:36px;line-height:1;color:var(--t-hi);margin:3px 0 4px}
+.stat-n{font-size:11.5px;color:var(--t-dim);line-height:1.3}
+.stat-n b{color:var(--t-amb);font-weight:800}
+.stat-n .bad{color:#a33224;font-weight:800}
+.donut{flex:none;width:30px;height:30px;border-radius:50%;
+ background:conic-gradient(var(--t-accent) calc(var(--p)*1%),rgba(74,52,16,.16) 0);
+ display:flex;align-items:center;justify-content:center}
+.donut::after{content:"";width:16px;height:16px;border-radius:50%;background:#efe6cf}
+.wx{flex-direction:column;gap:6px}
+.wx-top{display:flex;align-items:center;gap:9px;width:100%}
+.wx-t{font-family:"VT323",ui-monospace,monospace;font-size:32px;line-height:1;color:var(--t-hi)}
+.wx-d{font-size:11.5px;color:var(--t-dim);line-height:1.45;min-width:0}
+
+.dash-grid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:14px;margin-bottom:16px;align-items:start}
+.dash-rail{display:flex;flex-direction:column;gap:14px;min-width:0}
+.dpanel{border:1px solid var(--t-line);box-shadow:0 0 0 3px rgba(255,252,242,.5),0 0 0 4px var(--t-line);
+ background:rgba(255,252,242,.45);padding:12px 14px 14px;min-width:0;margin-bottom:16px}
+.dash-grid .dpanel,.dash-rail .dpanel{margin-bottom:0}
+.dpanel-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+ border-bottom:1px solid var(--t-line);padding-bottom:8px;margin-bottom:10px}
+.dpanel-t{font-family:"VT323",ui-monospace,monospace;font-size:20px;letter-spacing:.17em;
+ color:var(--t-hi);text-transform:uppercase;flex:1;min-width:0}
+.dpanel-note{font-size:11.5px;color:var(--t-dim)}
+.dpanel-h .btn{flex:none}
+.dcal-nav{display:flex;align-items:center;gap:7px;font-size:12px}
+.dcal-nav button{border:1px solid var(--t-line);background:transparent;color:var(--t-dim);
+ width:20px;height:20px;border-radius:3px;cursor:pointer;line-height:1}
+.dcal-nav button:hover{border-color:var(--t-line-on);color:var(--t-amb)}
+.dcal-nav b{font-size:11px;color:var(--t-ink);min-width:74px;text-align:center}
+.dcal-nav{margin-left:auto}
+.dcal-nav button{width:18px;height:18px}
+/* the rail is narrow, so its headings give the month controls room */
+.dash-rail .dpanel-t{font-size:17px;letter-spacing:.12em}
+
+.dcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;
+ font-family:"VT323",ui-monospace,monospace;font-size:16px}
+.dcal .hd{color:var(--t-dim);text-align:center;font-size:13px;letter-spacing:.09em;padding:3px 0 5px}
+.dcal .d{text-align:center;padding:5px 0;color:var(--t-ink);border-radius:3px;position:relative}
+.dcal .d.out{color:var(--t-mut);opacity:.55}
+.dcal .d.today{border:1px solid var(--t-accent);color:var(--t-hi)}
+.dcal .d.has::after{content:"";position:absolute;left:50%;bottom:2px;width:3px;height:3px;
+ margin-left:-1.5px;border-radius:50%;background:var(--t-amb)}
+
+#dashNote{width:100%;resize:vertical;min-height:84px;font-size:12.5px;line-height:1.55;
+ border:1px dashed var(--t-line);border-radius:4px;padding:9px 10px}
+.dnote-saved{font-size:11px;color:var(--t-dim)}
+.dnote-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:8px}
+.dnote-foot span{font-family:"VT323",ui-monospace,monospace;font-size:13px;letter-spacing:.14em;
+ color:var(--t-dim);line-height:1.25}
+.dnote-foot canvas{width:58px;height:44px;image-rendering:pixelated;flex:none}
+
+.ticker{display:flex;align-items:center;gap:12px;border:1px solid var(--t-line);
+ box-shadow:0 0 0 3px rgba(255,252,242,.5),0 0 0 4px var(--t-line);
+ background:rgba(255,252,242,.45);padding:7px 12px;
+ font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.13em;color:var(--t-dim)}
+.ticker-led{background:#0c0803;color:var(--t-accent);padding:3px 12px;flex:none;border-radius:2px}
+.ticker-sep{color:var(--t-amb);flex:none}
+.ticker-msg{flex:none;color:var(--t-ink)}
+.ticker-dots{flex:1;min-width:20px;border-bottom:2px dotted var(--t-line);height:9px}
+.ticker-sig{flex:none;text-align:right;line-height:1.1;font-size:14px}
+
+#dashboardView .scr-in{container-type:inline-size}
+@container (max-width:900px){
+ /* he keeps his own column and grows taller; the text stacks beside him */
+ .banner{grid-template-columns:minmax(0,1fr) 184px}
+ .banner-id{grid-column:1;grid-row:1}
+ .banner-quote{grid-column:1;grid-row:2;border-right:0;border-top:1px dashed var(--t-line)}
+ .banner-cat{grid-column:2;grid-row:1/3}
+ .dash-grid{grid-template-columns:1fr}
+ .dash-rail{flex-direction:row;flex-wrap:wrap}
+ .dash-rail>*{flex:1 1 270px}
+}
+@container (max-width:620px){
+ .banner{grid-template-columns:1fr}
+ .banner-id{grid-column:1;grid-row:1}
+ .banner-quote{grid-column:1;grid-row:2}
+ .banner-cat{grid-column:1;grid-row:3;height:120px}
+ .banner-id,.banner-quote{border-right:0;border-bottom:1px dashed var(--t-line);border-top:0}
+ .banner-name{font-size:34px}.banner-sub{font-size:18px}
+ .dash-rail{flex-direction:column}
+ .ticker{flex-wrap:wrap;gap:8px}.ticker-dots{display:none}
+}
 #dashboardView .focus-banner{margin-bottom:2px}
-#dashboardView #morningTitle{margin:0 0 4px;color:var(--t-amb);font-size:17px;
- letter-spacing:.2em;text-transform:uppercase;font-family:"VT323",ui-monospace,monospace;font-weight:700}
-#dashboardView #morningTitle::before{content:"> "}
-#dashboardView #morningDate{color:var(--t-dim)}
 .scr .help{color:var(--t-dim)}
 .scr .btn.secondary{background:transparent;border:1.5px solid var(--t-accent);color:var(--t-hi)}
 #dashboardView .dash-chip{background:transparent;border:1px solid var(--t-line);color:var(--t-ink);
@@ -1266,6 +1388,13 @@ body.dark .hw-bar .hw-btns .btn.primary{background:linear-gradient(#ffa640,#ef7f
 .dash-sum{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
 .dash-sum b{color:var(--text);font-weight:850;font-size:13px}
 @media(max-width:820px){.dash-row{padding:10px 12px;gap:9px}.dash-why{font-size:11px;padding:3px 8px}.dash-sum{gap:12px}}
+/* On a phone the reason chip does not shrink and the task name had nowhere
+   left to go, so the row breaks: name first, reason underneath it. */
+@media(max-width:599px){
+ .dash-row{flex-wrap:wrap;row-gap:6px}
+ .dash-row .dash-main{flex:1 1 100%;min-width:0}
+ .dash-row .dash-why{margin-left:17px;white-space:normal}
+}
 .pm-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
 .pm-time{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .pm-time>span{font-size:11.5px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:.7px}
@@ -1535,21 +1664,54 @@ body.dark .splash{background:#15120e}
    <div class="scr">
     <canvas id="dashCatCv" class="scr-cat"></canvas>
     <div class="scr-in">
-     <div class="focus-banner">
-      <div><h2 id="morningTitle">Morning Brief</h2><div id="morningDate" class="help"></div></div>
-      <div><button id="toggleFocusBtn" class="btn secondary">Focus Mode</button></div>
+     <div class="term-top"><span>PORKCHOP G v1.0</span><span id="termClock">--:--:--</span></div>
+
+     <div class="banner">
+      <div class="banner-id">
+       <div class="banner-name">PORKCHOP&nbsp;G</div>
+       <div class="banner-sub">DASHBOARD</div>
+       <div class="banner-date" id="morningDate"></div>
+      </div>
+      <div class="banner-quote"><div id="morningTitle"></div><div id="bannerLine" class="banner-line"></div><div class="banner-caret">&gt;_</div></div>
+      <div class="banner-cat"><canvas id="bannerCatCv" aria-hidden="true"></canvas></div>
      </div>
 
-     <div class="grp"><span class="grp-l">ต้องจัดการ</span>
-      <div id="dashChips" class="dash-chips"></div>
-      <div id="dashList"></div>
-      <div id="dashSummary" class="dash-sum"></div>
-      <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
+     <div class="statrow" id="statRow"></div>
+
+     <div class="dash-grid">
+      <div class="dpanel">
+       <div class="dpanel-h"><span class="dpanel-t">TASKS</span>
+        <button id="toggleFocusBtn" class="btn secondary small">Focus Mode</button></div>
+       <div id="dashChips" class="dash-chips"></div>
+       <div id="dashList"></div>
+       <div id="dashSummary" class="dash-sum"></div>
+       <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
+      </div>
+      <div class="dash-rail">
+       <div class="dpanel">
+        <div class="dpanel-h"><span class="dpanel-t">CALENDAR</span>
+         <span class="dcal-nav"><button data-dcal="-1" aria-label="เดือนก่อน">&lsaquo;</button><b id="dcalTitle"></b><button data-dcal="1" aria-label="เดือนถัดไป">&rsaquo;</button></span></div>
+        <div id="dashMiniCal"></div>
+       </div>
+       <div class="dpanel">
+        <div class="dpanel-h"><span class="dpanel-t">MY NOTE</span><span id="noteSaved" class="dnote-saved"></span></div>
+        <textarea id="dashNote" rows="4" placeholder="Write something...&#10;Ideas, reminders, or just a thought for today."></textarea>
+        <div class="dnote-foot"><span>BETTER WORK<br>BRIGHTER DAYS.</span><canvas id="noteCatCv" aria-hidden="true"></canvas></div>
+       </div>
+      </div>
      </div>
 
-     <div class="grp"><span class="grp-l">ยังขาดอะไรอยู่ตรงไหน</span>
-      <div class="help" style="margin:0 0 10px">กดหัวข้อเพื่อดูรายละเอียด</div>
+     <div class="dpanel">
+      <div class="dpanel-h"><span class="dpanel-t">ยังขาดอะไรอยู่ตรงไหน</span>
+       <span class="dpanel-note">กดหัวข้อเพื่อดูรายละเอียด</span></div>
       <div id="dashGaps"></div>
+     </div>
+
+     <div class="ticker">
+      <span class="ticker-led">SYSTEM READY</span><span class="ticker-sep">//</span>
+      <span class="ticker-msg" id="tickerMsg">DISCIPLINE TURNS PLANS INTO RESULTS.</span>
+      <span class="ticker-dots"></span><span class="ticker-sep">//</span>
+      <span class="ticker-sig">PORKCHOP G<br>&copy; 2026</span>
      </div>
     </div>
    </div>
@@ -2286,9 +2448,63 @@ function catPortrait(id,src,opt){
  return ()=>{dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onResize)};
 }
 window.addEventListener("resize",sideCatSync);
+/* The clock is the one thing on the page that is true to the second, so it
+   runs off its own interval rather than waiting for a render. */
+let dashClockT=null;
+function dashClockSync(on){
+ const el=$("termClock");if(!el)return;
+ if(on&&!dashClockT){
+  const tick=()=>{const d=new Date();
+   el.textContent=d.toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",year:"numeric"}).toUpperCase()
+    +"  "+d.toLocaleTimeString("en-GB",{hour12:false})};
+  tick();dashClockT=setInterval(tick,1000);
+ }else if(!on&&dashClockT){clearInterval(dashClockT);dashClockT=null}
+}
+
+/* The note is the only thing on this page the user types into, and it belongs
+   to this browser -- it is a scratchpad, not a record, so it never leaves. */
+const NOTE_KEY="porkchop_note";
+let noteT=null,bannerCatStop=null,noteCatStop=null;
+function dashNoteInit(){
+ const el=$("dashNote");if(!el||el.dataset.wired)return;
+ el.dataset.wired="1";
+ try{el.value=localStorage.getItem(NOTE_KEY)||""}catch(_){}
+ el.addEventListener("input",()=>{
+  clearTimeout(noteT);
+  noteT=setTimeout(()=>{
+   try{localStorage.setItem(NOTE_KEY,el.value);
+    const s=$("noteSaved");if(s){s.textContent="saved";setTimeout(()=>{if(s)s.textContent=""},1400)}
+   }catch(_){}
+  },500);
+ });
+}
+function dashChromeSync(on){
+ dashClockSync(on);
+ if(on){
+  dashNoteInit();
+  // the masthead crop is his eyes only, which is what carries at that width
+  if(!bannerCatStop)bannerCatStop=catPortrait("bannerCatCv","./icon-512.png",{cell:3,
+   eyes:[{x:.17,y:.33,w:.26,h:.17},{x:.50,y:.35,w:.26,h:.17}]});
+  if(!noteCatStop)noteCatStop=btCatWalk("noteCatCv",{scale:2,pal:NOTE_PAL,ground:"#b9a577"});
+ }else{
+  if(bannerCatStop){bannerCatStop();bannerCatStop=null}
+  if(noteCatStop){noteCatStop();noteCatStop=null}
+ }
+}
+const NOTE_PAL={"1":"#8a5a08","2":"#c2790f","3":"#e0951f","4":"#2a2013"};
+
+document.addEventListener("click",e=>{
+ const n=e.target.closest("[data-dcal]");if(!n)return;
+ dashCalCursor=new Date(dashCalCursor||new Date());
+ dashCalCursor.setDate(1);
+ dashCalCursor.setMonth(dashCalCursor.getMonth()+Number(n.dataset.dcal));
+ renderDashCal();
+});
+
 function showApp(){hideAllScreens();$("app")?.classList.remove("hidden");sideCatSync();
  if(!cfStop)cfStop=catFace();
- dashCatSync(!$("dashboardView").classList.contains("hidden"))}
+ const onDash=!$("dashboardView").classList.contains("hidden");
+ dashCatSync(false);dashChromeSync(onDash)}
 function showAuth(){hideAllScreens();$("authScreen")?.classList.remove("hidden");splashRelease()}
 function showTeamGate(){splashRelease();hideAllScreens();$("teamGate")?.classList.remove("hidden");$("teamGateError").textContent="";$("teamCodeInput").value=""}
 function showPinGate(setup=false){splashRelease();hideAllScreens();pinNeedsSetup=setup;$("pinGate")?.classList.remove("hidden");$("pinGateTitle").textContent=setup?"Create your PIN":"Enter PIN";$("pinGateHelp").textContent=setup?"ตั้ง PIN 4 หลักของคุณ ใช้หลัง Email/Password ทุกครั้งที่ Login ใหม่":"ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard";$("pinConfirmField").classList.toggle("hidden",!setup);$("pinSubmitBtn").textContent=setup?"Save PIN & Continue":"Unlock";$("pinInput").value="";$("pinConfirmInput").value="";$("pinGateError").textContent="";$("pinGateTeam").textContent=team?.name?`Team: ${team.name}`:"Private dashboard lock"}
@@ -5910,6 +6126,84 @@ function dashRowHTML(x){
  const sub=x.p?((x.p.kind==="kol"?"KOL Campaign":"PR / GRPO")+(x.p.pr_number?` · ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
  return `<div class="dash-row" ${attr}><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(title)}</div><div class="dash-c">${x.p?esc(sub):sub}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
 }
+/* ── dashboard chrome ────────────────────────────────────────────────────
+   The gauges, the clock, the month and the note. None of it holds state the
+   database cares about: it is all derived from the same task list the rest of
+   the page reads, so there is nothing here to keep in sync. */
+const TICKER=[
+ "DISCIPLINE TURNS PLANS INTO RESULTS.",
+ "SMALL STEPS MAKE BIG PROGRESS.",
+ "GOOD FOOD FUELS A GOOD TEAM.",
+ "PLAN THE WORK. WORK THE PLAN.",
+ "FINISH ONE THING BEFORE STARTING TWO.",
+ "A WRITTEN DATE BEATS A REMEMBERED ONE.",
+ "SLOW IS SMOOTH. SMOOTH IS FAST."];
+const ICO={
+ all:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="12" height="15" rx="2"/><path d="M7.5 7h5M7.5 10.5h5M7.5 14h3"/></svg>',
+ due:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.2"/><path d="M10 5.6V10l3 1.9"/></svg>',
+ done:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.4l4 4 8-9"/></svg>',
+ sun:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10" cy="10" r="4"/><path d="M10 1.6v2M10 16.4v2M1.6 10h2M16.4 10h2M4.1 4.1l1.4 1.4M14.5 14.5l1.4 1.4M15.9 4.1l-1.4 1.4M5.5 14.5l-1.4 1.4"/></svg>'};
+
+function renderDashChrome(active,done){
+ if(!$("statRow"))return;
+ const inProg=active.filter(t=>t.status==="In Progress").length;
+ const over=active.filter(isOverdue).length;
+ const week=(()=>{const n=todayISO();const e=iso(new Date(Date.now()+6*864e5));
+  return active.filter(t=>t.due&&t.due>=n&&t.due<=e).length})();
+ const high=active.filter(t=>t.priority==="High").length;
+ const newToday=tasks.filter(t=>(t.created_at||"").slice(0,10)===todayISO()).length;
+ const total=active.length+done.length;
+ const pct=total?Math.round(inProg/total*100):0;
+ const weekDone=done.filter(doneThisWeek).length;
+
+ const box=(ico,k,v,note)=>`<div class="statbox"><div class="stat-ico">${ico}</div>`
+  +`<div class="stat-b"><div class="stat-k">${k}</div><div class="stat-v">${v}</div>`
+  +`<div class="stat-n">${note}</div></div></div>`;
+
+ $("statRow").innerHTML=
+  box(ICO.all,"ALL TASKS",active.length,newToday?`<b>&uarr; ${newToday} new today</b>`:"ทั้งหมดที่ยังไม่เสร็จ")
+ +`<div class="statbox"><div class="donut" style="--p:${pct}"></div><div class="stat-b">`
+  +`<div class="stat-k">IN PROGRESS</div><div class="stat-v">${inProg}</div>`
+  +`<div class="stat-n"><b>${pct}%</b> of total</div></div></div>`
+ +box(ICO.due,"DUE THIS WEEK",week,over?`<span class="bad">! ${over} overdue</span>`:(high?`<b>${high} high priority</b>`:"ยังว่างอยู่"))
+ +box(ICO.done,"COMPLETED",weekDone,weekDone?"เสร็จสัปดาห์นี้":"Keep going!")
+ +`<div class="statbox wx" id="wxBox"><div class="wx-top"><div class="stat-ico">${ICO.sun}</div>`
+  +`<div class="stat-k" style="flex:1">${esc(CFG.WEATHER_NAME||"BANGKOK, TH")}</div></div>`
+  +`<div class="wx-top"><div class="wx-t" id="wxT">--&deg;</div><div class="wx-d" id="wxD">กำลังดูอากาศ…</div></div></div>`;
+
+ if(!renderDashChrome._wx){renderDashChrome._wx=1;
+  btWeather().then(w=>{if(!w||!$("wxT"))return;
+   const bits=w.split(" · ");
+   $("wxT").textContent=bits.shift()||"--°";
+   $("wxD").innerHTML=bits.map(esc).join("<br>")||"";
+  }).catch(()=>{if($("wxD"))$("wxD").textContent="ดูอากาศไม่ได้"});}
+
+ renderDashCal();
+ // one line a day, picked by the date so it is steady all day and changes
+ // on its own overnight
+ const line=TICKER[new Date().getDate()%TICKER.length];
+ if($("tickerMsg"))$("tickerMsg").textContent=line;
+ if($("bannerLine"))$("bannerLine").textContent=line;
+}
+
+let dashCalCursor=null;
+function renderDashCal(){
+ const host=$("dashMiniCal");if(!host)return;
+ const now=dashCalCursor||new Date();dashCalCursor=now;
+ const y=now.getFullYear(),m=now.getMonth();
+ $("dcalTitle").textContent=new Date(y,m,1).toLocaleDateString("en-GB",{month:"long",year:"numeric"});
+ const first=new Date(y,m,1),off=(first.getDay()+6)%7,start=new Date(y,m,1-off);
+ const byDay=new Set(tasks.filter(t=>t.due&&t.status!=="Done").map(t=>t.due));
+ let out=["MON","TUE","WED","THU","FRI","SAT","SUN"].map(d=>`<div class="hd">${d}</div>`).join("");
+ for(let i=0;i<42;i++){
+  const d=new Date(start);d.setDate(start.getDate()+i);
+  const ds=iso(d),cls=[d.getMonth()!==m?"out":"",ds===todayISO()?"today":"",byDay.has(ds)?"has":""].filter(Boolean).join(" ");
+  out+=`<div class="d ${cls}">${d.getDate()}</div>`;
+  if(i>=34&&d.getMonth()!==m&&(i+1)%7===0)break;
+ }
+ host.innerHTML=`<div class="dcal">${out}</div>`;
+}
+
 function renderDashboardFocus(active,done){
  if(!$("dashChips"))return;
  // One row per real-world thing. A task that is both late AND stuck in a PR
@@ -5941,8 +6235,9 @@ if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option v
 const archived=done.filter(t=>!t.is_highlight&&(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
 $("archiveList").innerHTML=archiveHTML(archived);
 renderPortfolio();
-$("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").split(" ")[0]||"Guy"}`;
-$("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+$("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").split(" ")[0]||"Guy"}`.toUpperCase();
+$("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+renderDashChrome(active,done);
 const focusTop=[...active].sort((a,b)=>(isOverdue(b)-isOverdue(a))||((b.priority==="High")-(a.priority==="High"))||((a.due||"9999").localeCompare(b.due||"9999"))).slice(0,3);
 $("focusTopList").innerHTML=focusTop.length?focusTop.map(taskHTML).join(""):'<div class="empty">No focus tasks.</div>';
 $("focusPanel").classList.toggle("hidden",!focusEnabled);
@@ -6005,7 +6300,8 @@ function goView(view){
  if(view==="kol")renderKol();
  if(view==="proj")renderProj();
  window.catMood&&window.catMood("blink",180);
- dashCatSync(view==="dashboard");   // he only paces while the monitor is on screen
+ dashCatSync(false);
+ dashChromeSync(view==="dashboard");
  if(view==="dashboard"){Promise.resolve().then(loadWipProgress).then(renderDashGaps).catch(()=>{})}
  if(view==="proj"){renderWipPanels();Promise.resolve().then(loadWipProgress).then(renderWipPanels).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
