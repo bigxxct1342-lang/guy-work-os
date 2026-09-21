@@ -83,6 +83,10 @@ body.dark aside .sidefoot .btn{background:linear-gradient(#4a443a,#332e26);color
 aside .sidefoot .btn:hover{filter:brightness(1.04)}
 /* PORKCHOP paces the sidebar too. Hidden on phones, where the sidebar is a
    row of buttons with no floor to walk on. */
+.side-portrait{flex:none;margin:2px 6px 10px;border:1px solid var(--t-line);border-radius:6px;
+ overflow:hidden;background:#070501;aspect-ratio:1/.96}
+.side-portrait canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+@media(max-width:820px){.side-portrait{display:none}}
 .side-cat{flex:none;height:32px;margin:0 6px 8px}
 .side-cat canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:26px}h1{margin:0;font-size:30px;letter-spacing:-.8px}.date{font-size:14px;color:var(--muted);margin-top:6px}
@@ -848,46 +852,46 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
    written against --panel/--card/--soft/--line/--text follows automatically;
    only hardcoded colours need saying twice. */
 .scr{
- --panel:rgba(255,255,255,.045);--card:rgba(255,255,255,.035);--soft:rgba(255,255,255,.06);
- --bg:transparent;--line:rgba(244,161,46,.22);--shadow:none;
- --text:#f2ecdd;--muted:#9a927f;--dark:#f4a12e;
- --green:rgba(130,172,135,.2);--greenT:#9fd0a6;
- --yellow:rgba(244,161,46,.18);--yellowT:#f4a12e;
- --red:rgba(226,107,91,.18);--redT:#f09a8c;
- --blue:rgba(126,169,216,.18);--blueT:#9fc4e8;
- --purple:rgba(183,139,255,.18);--purpleT:#c8adff}
+ --panel:rgba(255,250,235,.55);--card:rgba(255,250,235,.62);--soft:rgba(74,52,16,.07);
+ --bg:transparent;--line:rgba(74,52,16,.26);--shadow:none;
+ --text:#2a2013;--muted:#7b6844;--dark:#a8640a;
+ --green:rgba(47,107,60,.16);--greenT:#2f6b3c;
+ --yellow:rgba(200,140,20,.22);--yellowT:#8a5a08;
+ --red:rgba(163,50,36,.15);--redT:#a33224;
+ --blue:rgba(42,92,146,.15);--blueT:#2a5c92;
+ --purple:rgba(93,58,148,.15);--purpleT:#5d3a94}
 /* the stragglers that name a colour instead of a token */
 .scr .task,.scr .phase-block,.scr .pj-charrow:hover:not(:disabled),.scr .tab,
 .scr .mini-day.weekend,.scr .pj-band,.scr .day{background:var(--panel)}
 .scr .cal-cv,.scr .po-span,.scr .po-kind.ev,.scr .po-boost,.scr .cv-legend .lg-art::before{
- background:rgba(244,161,46,.16);color:var(--t-amb);border-color:rgba(244,161,46,.4)}
-.scr .cal-cv.late{background:rgba(226,107,91,.18);color:#f09a8c}
-.scr .cv-ico.tone-bad{background:rgba(226,107,91,.16);border-color:#8c3f35;color:#f09a8c}
-.scr .cv-ico.tone-warn{background:rgba(244,161,46,.16);border-color:#8a5a12;color:var(--t-amb)}
-.scr .cv-ico.tone-info{background:rgba(126,169,216,.16);border-color:#3a5d8c;color:#9fc4e8}
-.scr .cv-ico.tone-calm{background:rgba(130,172,135,.16);border-color:#4d7a55;color:#9fd0a6}
-.scr .day.outside{background:rgba(0,0,0,.35)}
+ background:rgba(224,149,31,.22);color:#7d4a06;border-color:rgba(168,100,10,.45)}
+.scr .cal-cv.late{background:rgba(163,50,36,.16);color:#a33224}
+.scr .cv-ico.tone-bad{background:rgba(163,50,36,.14);border-color:#b8705f;color:#a33224}
+.scr .cv-ico.tone-warn{background:rgba(224,149,31,.20);border-color:#c39a4a;color:#8a5a08}
+.scr .cv-ico.tone-info{background:rgba(42,92,146,.13);border-color:#7d9cc0;color:#2a5c92}
+.scr .cv-ico.tone-calm{background:rgba(47,107,60,.14);border-color:#7ea587;color:#2f6b3c}
+.scr .day.outside{background:rgba(74,52,16,.09)}
 /* product launch names a lot of colours outright, so each one is restated */
 .scr .pl-step{background:var(--card)}
-.scr .status-select.st-skipped,.scr .badge-flex{background:rgba(255,255,255,.07);color:var(--t-dim)}
+.scr .status-select.st-skipped,.scr .badge-flex{background:rgba(74,52,16,.09);color:var(--t-dim)}
 .scr .owners-tag{background:transparent;border:1px solid var(--t-line);color:var(--t-dim)}
 .scr .icon-btn{background:transparent;border:1px solid var(--t-line);border-radius:6px;
  color:var(--t-dim);cursor:pointer;padding:3px 5px;display:inline-flex;align-items:center}
 .scr .icon-btn:hover{border-color:var(--t-line-on);color:var(--t-amb)}
-.scr .milestone-num{background:var(--t-accent);color:#1b1206}
-.scr .progress-wrap,.scr .phase-progress{background:rgba(255,255,255,.09)}
+.scr .milestone-num{background:var(--t-accent);color:#2a1a02}
+.scr .progress-wrap,.scr .phase-progress{background:rgba(74,52,16,.14)}
 .scr .progress-bar,.scr .phase-progress>i{background:var(--t-accent)}
-.scr .gantt-bar.g-formula,.scr .gantt-bar.g-label,.scr .gantt-bar.g-carton{color:#1b1206}
-.scr .gantt-bar.g-formula{background:#f4a12e}
-.scr .gantt-bar.g-label{background:#c8adff}
-.scr .gantt-bar.g-carton{background:#9fc4e8}
-.scr .gantt-marker{border-left-color:#e26b5b}.scr .gantt-marker .gm-label{color:#e26b5b}
+.scr .gantt-bar.g-formula,.scr .gantt-bar.g-label,.scr .gantt-bar.g-carton{color:#2a1a02}
+.scr .gantt-bar.g-formula{background:#e0951f}
+.scr .gantt-bar.g-label{background:#a98ae0}
+.scr .gantt-bar.g-carton{background:#8fb3d8}
+.scr .gantt-marker{border-left-color:#a33224}.scr .gantt-marker .gm-label{color:#a33224}
 .scr .gantt-marker.today-marker{border-left-color:var(--t-accent)}
 .scr .gantt-marker.today-marker .gm-label{color:var(--t-accent)}
 .scr .gantt-flag{border-left-color:rgba(244,161,46,.45)}
 .scr .gantt-flag .gf-label{color:var(--t-dim)}
 .scr .mini-day.outside{color:var(--t-mut)}
-.scr .category-progress{background:rgba(255,255,255,.09)}
+.scr .category-progress{background:rgba(74,52,16,.14)}
 .scr .category-progress>i{background:var(--t-accent)}
 .scr .check-box{background:transparent;border-color:var(--t-line);color:var(--t-ink)}
 .scr .check-box.st-na{background:rgba(255,255,255,.07);border-color:var(--t-line);color:var(--t-mut)}
@@ -915,8 +919,8 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr th{color:var(--t-mut);border-bottom-color:var(--t-line)}
 .scr td{border-bottom-color:var(--t-line)}
 .scr .btn{background:transparent;border:1px solid var(--t-line);color:var(--t-ink)}
-.scr .btn.primary{background:var(--t-accent);border-color:var(--t-accent);color:#1b1206}
-.scr .btn.danger{background:transparent;border:1.5px solid #8c3f35;color:#f09a8c}
+.scr .btn.primary{background:var(--t-accent);border-color:#b8791a;color:#2a1a02}
+.scr .btn.danger{background:transparent;border:1.5px solid #b8705f;color:#a33224}
 /* ── KOL on the tube ───────────────────────────────────────────────────────
    Same screen the Dashboard runs on, so the page stops being a white form
    bolted onto a black app. Only colour is restated here -- every layout rule
@@ -949,11 +953,14 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 /* a field that wants a number: dark well, amber figures */
 .scr .kfield{background:rgba(0,0,0,.35);border-color:var(--t-line)}
 .scr .kfield.todo{background:rgba(244,161,46,.07);border-color:var(--t-accent)}
-.scr input,.scr select,.scr textarea{background:rgba(0,0,0,.45);border:1px solid var(--t-line);color:var(--t-hi)}
+.scr input,.scr select,.scr textarea{background:rgba(255,252,242,.72);border:1px solid var(--t-line);color:var(--t-hi)}
+.scr input::placeholder,.scr textarea::placeholder{color:var(--t-mut)}
+/* the two panels that stay unlit keep dark fields */
+.scr.side-scr input,.scr.side-scr select,.hw-bar .scr input,.hw-bar .scr select{background:rgba(0,0,0,.45)}
 .scr input:focus,.scr select:focus,.scr textarea:focus{border-color:var(--t-accent);outline:none}
 .scr input::placeholder,.scr textarea::placeholder{color:var(--t-mut)}
 .scr input[type=checkbox],.scr input[type=radio]{accent-color:var(--t-accent);opacity:.9;background:none;border:0}
-.scr option{background:#16100a;color:var(--t-hi)}
+.scr option{background:#f4ecd8;color:#2a2013}
 .scr .kfield .krun-n{color:var(--t-amb)}
 .scr .krun-chk,.scr .kfield-chk{color:var(--t-ink)}
 .scr .krun-total{background:transparent;border:1px solid var(--t-line-on);color:var(--t-hi)}
@@ -1011,10 +1018,10 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr .frame-key{border-top-color:var(--t-line)}
 .scr .frame-key .pk-note{color:var(--t-mut)}
 .scr .empty,.scr .kmx thead th{color:var(--t-mut)}
-.scr .btn.primary{background:var(--t-accent);border-color:var(--t-accent);color:#1b1206}
-.scr .btn.danger{background:transparent;border:1.5px solid #8c3f35;color:#f09a8c}
+.scr .btn.primary{background:var(--t-accent);border-color:#b8791a;color:#2a1a02}
+.scr .btn.danger{background:transparent;border:1.5px solid #b8705f;color:#a33224}
 .scr .kol-acts{border-top-color:var(--t-line)}
-.scr .kol-cancelled{color:#e26b5b}
+.scr .kol-cancelled{color:#a33224}
 
 .pr-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .pr-top .help{flex:1;min-width:240px;line-height:1.6}
@@ -1070,6 +1077,23 @@ body.dark .hw{--case:linear-gradient(#3a352c,#26221b);--case-edge:#191610;--plat
 .hw-bar{display:flex;align-items:center;gap:16px;padding:13px 15px;border-radius:14px;margin-bottom:20px}
 .hw-bar .screw.s1{top:6px;left:6px}.hw-bar .screw.s2{bottom:6px;left:6px}
 .hw-bar .scr{flex:1;min-width:0;border-radius:9px;padding:10px 14px}
+/* Two surfaces stay unlit: the sidebar and the status strip read as the
+   machine's own panels, with the page as the lit paper between them. */
+.scr.side-scr,.hw-bar .scr{
+ --panel:rgba(255,255,255,.045);--card:rgba(255,255,255,.035);--soft:rgba(255,255,255,.06);
+ --line:rgba(244,161,46,.22);--text:#f2ecdd;--muted:#9a927f;--dark:#f4a12e;
+ --t-ink:#f2ecdd;--t-hi:#fffbf2;--t-amb:#f4a12e;--t-dim:#b3aa98;--t-mut:#7d7566;
+ --t-line:rgba(244,161,46,.18);--t-line-on:rgba(244,161,46,.5);
+ --t-accent:#f4a12e;--t-tint:rgba(244,161,46,.09);
+ background:#0c0803;
+ box-shadow:inset 0 0 0 3px #17110a,inset 0 0 70px 10px rgba(0,0,0,.95),
+            inset 0 3px 9px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.4)}
+.scr.side-scr::before,.hw-bar .scr::before{background:
+ repeating-linear-gradient(90deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px),
+ repeating-linear-gradient(0deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px)}
+.scr.side-scr::after,.hw-bar .scr::after{background:
+ repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
+ radial-gradient(ellipse 92% 88% at 50% 46%,transparent 42%,rgba(0,0,0,.72) 100%)}
 .hw-bar .scr::after{background:repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
  radial-gradient(ellipse 96% 120% at 50% 50%,transparent 55%,rgba(0,0,0,.6) 100%)}
 .bar-row{position:relative;z-index:2;display:flex;align-items:baseline;gap:12px;line-height:1.5}
@@ -1126,24 +1150,24 @@ body.dark .hw-bar .hw-btns .btn.primary{background:linear-gradient(#ffa640,#ef7f
 /* Everything on the tube used to be amber, so nothing on it could stand out.
    Body text is cream now and amber is spent only where it has to pull the eye:
    headings, key numbers, active state, controls. Status keeps its own colours. */
-.scr{--t-ink:#f2ecdd;--t-hi:#fffbf2;--t-amb:#f4a12e;
- position:relative;background:#0c0803;border-radius:16px;overflow:hidden;
- box-shadow:inset 0 0 0 3px #17110a,inset 0 0 70px 10px rgba(0,0,0,.95),
-            inset 0 3px 9px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.4)}
-.scr{--t-dim:#b3aa98;--t-mut:#7d7566;--t-line:rgba(244,161,46,.18);
- --t-line-on:rgba(244,161,46,.5);--t-accent:#f4a12e;--t-tint:rgba(244,161,46,.09)}
+.scr{--t-ink:#2a2013;--t-hi:#161007;--t-amb:#a8640a;
+ position:relative;background:#e9dcbe;border-radius:16px;overflow:hidden;
+ box-shadow:inset 0 0 0 3px #cbb98f,inset 0 0 60px 10px rgba(120,95,50,.20),
+            inset 0 3px 9px rgba(90,68,28,.18),0 0 0 1px rgba(90,68,28,.30)}
+.scr{--t-dim:#6d5b39;--t-mut:#8e7c56;--t-line:rgba(74,52,16,.26);
+ --t-line-on:rgba(168,100,10,.55);--t-accent:#e0951f;--t-tint:rgba(168,100,10,.10)}
 /* status keeps its own colour on a dark screen instead of borrowing the amber */
-.scr .tone-bad{color:#e26b5b}
-.scr .tone-warn{color:#f4a12e}
-.scr .tone-info{color:#7ea9d8}
-.scr .tone-calm{color:#82ac87}
+.scr .tone-bad{color:#a33224}
+.scr .tone-warn{color:#8a5a08}
+.scr .tone-info{color:#2a5c92}
+.scr .tone-calm{color:#2f6b3c}
 .scr::before,.scr::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4}
 .scr::before{background:
- repeating-linear-gradient(90deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px),
- repeating-linear-gradient(0deg,rgba(255,140,26,.055) 0 1px,transparent 1px 8px)}
+ repeating-linear-gradient(90deg,rgba(74,52,16,.045) 0 1px,transparent 1px 8px),
+ repeating-linear-gradient(0deg,rgba(74,52,16,.045) 0 1px,transparent 1px 8px)}
 .scr::after{background:
- repeating-linear-gradient(0deg,rgba(0,0,0,.3) 0 1px,transparent 1px 3px),
- radial-gradient(ellipse 92% 88% at 50% 46%,transparent 42%,rgba(0,0,0,.72) 100%)}
+ repeating-linear-gradient(0deg,rgba(74,52,16,.055) 0 1px,transparent 1px 3px),
+ radial-gradient(ellipse 92% 88% at 50% 46%,transparent 46%,rgba(120,95,50,.20) 100%)}
 .scr-in{position:relative;z-index:2;padding:24px 22px 26px;color:var(--t-ink)}
 .scr-cat{position:absolute;z-index:3;top:0;left:0;pointer-events:none;
  image-rendering:pixelated;will-change:transform}
@@ -1151,7 +1175,7 @@ body.dark .hw-bar .hw-btns .btn.primary{background:linear-gradient(#ffa640,#ef7f
 /* panels on the screen, labelled on their own border */
 .grp{position:relative;border:1px solid var(--t-line);border-radius:7px;
  padding:19px 14px 14px;margin-top:24px}
-.grp-l{position:absolute;top:-8px;left:11px;background:#0c0803;padding:0 7px;
+.grp-l{position:absolute;top:-8px;left:11px;background:#e9dcbe;padding:0 7px;
  font-size:12px;font-weight:850;letter-spacing:.08em;color:var(--t-amb)}
 #dashboardView .focus-banner{margin-bottom:2px}
 #dashboardView #morningTitle{margin:0 0 4px;color:var(--t-amb);font-size:17px;
@@ -1415,7 +1439,7 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.72 · Work Monitor</div>
+ <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.73 · Work Monitor</div>
   <div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
@@ -1460,6 +1484,7 @@ body.dark .splash{background:#15120e}
   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
   <div class="identity"><div class="brand"><img src="./favicon-32.png" alt=""><span>PORKCHOP&nbsp;G</span></div></div>
   <div class="scr side-scr">
+   <div class="side-portrait"><canvas id="sidePortraitCv" aria-label="PORKCHOP"></canvas></div>
    <div class="side-id">
     <div class="bar-row"><span class="bar-k">USER</span><div id="whoText" class="who"></div></div>
     <div class="bar-row"><span class="bar-k">ROLE</span><div id="roleText" class="role"></div></div>
@@ -1487,7 +1512,6 @@ body.dark .splash{background:#15120e}
    <button id="adminNav" class="admin-only hidden" data-view="admin">ทีม</button>
   </div>
  </div>
-   <div class="side-cat"><canvas id="sideCatCv"></canvas></div>
   </div>
   <div class="sidefoot"><button id="signOutBtn" class="btn" style="width:100%">Sign out</button></div>
  </div>
@@ -1721,7 +1745,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.72</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.73</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2181,8 +2205,85 @@ function dashCatSync(on){
 function sideCatSync(){
  const wide=window.matchMedia("(min-width:821px)").matches;
  if(wide&&!sideCatStop){
-  sideCatStop=btCatWalk("sideCatCv",{scale:2,pal:BT_PAL,ground:"#4a3016"});
+  sideCatStop=catPortrait("sidePortraitCv","./icon-512.png");
  }else if(!wide&&sideCatStop){sideCatStop();sideCatStop=null}
+}
+
+/* PORKCHOP as the machine sees him.
+   The photo is read once into a grid of luminance, then ordered-dithered
+   through a Bayer 4x4 into four amber levels -- the same trick a dot-matrix
+   printer used, which is why it reads as hardware rather than as a filter.
+   Nothing here samples the image again after the first pass: the animation
+   only nudges the threshold, so the portrait never drifts. */
+const CAT_LV=["#0b0703","#8a4708","#d1841c","#ffd9a0"];
+const BAYER=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+function catPortrait(id,src,opt){
+ const cv=$(id);if(!cv)return ()=>{};
+ opt=opt||{};
+ const g=cv.getContext("2d",{alpha:false});
+ const CELL=opt.cell||3;
+ // the eyes carry the whole portrait, so they are the one thing that moves
+ const EYES=opt.eyes||[{x:.17,y:.33,w:.26,h:.17},{x:.50,y:.35,w:.26,h:.17}];
+ let L=null,cols=0,rows=0,jit=null,raf=0,t0=0,blinkAt=0,blinking=0,dead=false;
+
+ const build=img=>{
+  const w=cv.clientWidth||180,h=cv.clientHeight||148;
+  cols=Math.max(8,Math.round(w/CELL));rows=Math.max(8,Math.round(h/CELL));
+  cv.width=cols*CELL;cv.height=rows*CELL;
+  const off=document.createElement("canvas");off.width=cols;off.height=rows;
+  const og=off.getContext("2d",{willReadFrequently:true});
+  // cover, so a square photo fills a non-square panel without squashing him
+  const sc=Math.max(cols/img.width,rows/img.height),dw=img.width*sc,dh=img.height*sc;
+  og.drawImage(img,(cols-dw)/2,(rows-dh)/2,dw,dh);
+  const d=og.getImageData(0,0,cols,rows).data;
+  L=new Float32Array(cols*rows);jit=new Int8Array(cols*rows);
+  for(let i=0;i<cols*rows;i++){
+   const r=d[i*4],gg=d[i*4+1],b=d[i*4+2];
+   const y=(0.2126*r+0.7152*gg+0.0722*b)/255;
+   let v=(y-0.58)*2.35+0.46;
+   L[i]=v<0?0:v>1?1:v;
+  }
+  paintAll();
+ };
+
+ const inEye=(c,r)=>EYES.some(e=>c>=e.x*cols&&c<(e.x+e.w)*cols&&r>=e.y*rows&&r<(e.y+e.h)*rows);
+ const cell=(c,r)=>{
+  const i=r*cols+c;
+  let v=L[i]+jit[i]/255;
+  if(blinking&&inEye(c,r))v*=.28;
+  const lvl=Math.max(0,Math.min(3,Math.floor(v*4+(BAYER[r&3][c&3]/16-.5)*.9)));
+  g.fillStyle=CAT_LV[lvl];
+  g.fillRect(c*CELL,r*CELL,CELL,CELL);
+ };
+ const paintAll=()=>{for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)cell(c,r)};
+ const paintEyes=()=>{for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)if(inEye(c,r))cell(c,r)};
+
+ const img=new Image();
+ img.onload=()=>{if(!dead){build(img);loop(0)}};
+ img.onerror=()=>{g.fillStyle="#0b0703";g.fillRect(0,0,cv.width||1,cv.height||1)};
+ img.src=src;
+
+ const still=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ function loop(t){
+  if(dead)return;
+  raf=requestAnimationFrame(loop);
+  if(still||document.hidden||!L)return;
+  if(t-t0<66)return;                 // 15fps is plenty for a shimmer
+  t0=t;
+  // phosphor churn: a sparse handful of cells wobble one level
+  const n=Math.max(4,Math.round(cols*rows*0.012));
+  for(let k=0;k<n;k++){
+   const i=(Math.random()*L.length)|0;
+   jit[i]=((Math.random()*46)|0)-23;
+   cell(i%cols,(i/cols)|0);
+  }
+  if(!blinkAt)blinkAt=t+4000+Math.random()*4000;
+  if(!blinking&&t>=blinkAt){blinking=1;paintEyes();blinkAt=t+130}
+  else if(blinking&&t>=blinkAt){blinking=0;paintEyes();blinkAt=t+4000+Math.random()*4000}
+ }
+ const onResize=()=>{if(img.complete&&img.naturalWidth)build(img)};
+ window.addEventListener("resize",onResize);
+ return ()=>{dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onResize)};
 }
 window.addEventListener("resize",sideCatSync);
 function showApp(){hideAllScreens();$("app")?.classList.remove("hidden");sideCatSync();
