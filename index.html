@@ -194,7 +194,13 @@ main{padding:34px;max-width:1640px;width:100%}.topbar{display:flex;justify-conte
 .member-filter{min-width:180px}
 
 /* Admin */
-.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}.member-card{padding:17px}.member-head{display:flex;justify-content:space-between;gap:10px}.member-name{font-weight:850}.member-email{font-size:11.5px;color:var(--muted);margin-top:3px}.member-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.member-stat{background:var(--soft);padding:9px;border-radius:9px}.member-stat b{display:block;font-size:16px}.member-stat span{font-size:11px;color:var(--muted);text-transform:uppercase}.role-select{width:auto;padding:6px 8px;font-size:11.5px}
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:18px}.member-card{padding:17px}.member-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.member-head>div:first-child{flex:1;min-width:0}.member-name{font-weight:850}.member-email{font-size:11.5px;color:var(--muted);margin-top:3px}.member-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.member-stat{background:var(--soft);padding:9px;border-radius:9px}.member-stat b{display:block;font-size:16px}.member-stat span{font-size:11px;color:var(--muted);text-transform:uppercase}.role-select{width:auto;padding:6px 8px;font-size:11.5px}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;flex:none}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.live.on{color:#2f6b3c}.live.on i{background:#3f9c55;box-shadow:0 0 0 3px rgba(63,156,85,.2)}
+.live.off{color:var(--muted)}
+.scr .live.on{color:#3f9c55}
 .member-plan{margin-top:11px;border-top:1px dashed var(--line);padding-top:9px;display:grid;gap:5px}
 .member-planrow{display:flex;align-items:baseline;gap:8px;font-size:12px}
 .member-plank{font-weight:850;flex:none}
@@ -998,7 +1004,7 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr h2,.scr h3,.scr strong,.scr b{color:var(--t-hi)}
 .scr .section h2{border-bottom-color:var(--t-line)}
 .scr .row{border-bottom-color:var(--t-line)}
-.scr .metric,.scr .brief-card,.scr .stat{background:rgba(0,0,0,.3);border-color:var(--t-line)}
+.scr .metric,.scr .brief-card,.scr .stat{background:rgba(255,250,235,.55);border-color:var(--t-line)}
 .scr .metric .label,.scr .muted,.scr .sub,.scr .pf-sub{color:var(--t-mut)}
 .scr .metric .value{color:var(--t-amb)}
 .scr .tab{background:transparent;border-color:var(--t-line);color:var(--t-dim)}
@@ -1737,6 +1743,7 @@ body.dark .splash{background:#15120e}
    <div class="side-portrait"><canvas id="sidePortraitCv" aria-label="PORKCHOP"></canvas></div>
    <div class="side-id">
     <div class="bar-row"><span class="bar-k">USER</span><div id="whoText" class="who"></div></div>
+    <div class="bar-row"><span class="bar-k">ครั้งนี้</span><div id="liveText" class="role">—</div></div>
     <div class="bar-row"><span class="bar-k">ROLE</span><div id="roleText" class="role"></div></div>
     <div class="bar-row"><span class="bar-k">TEAM</span><div id="teamText" class="role"></div></div>
     <div id="syncText" class="sync">Connecting…</div>
@@ -2028,7 +2035,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.75</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.76</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2318,6 +2325,7 @@ async function boot(){
            if(changed||($("authScreen")&&!$("authScreen").classList.contains("hidden"))) await enterApp();
          }else if(user){
            sessionStorage.removeItem("guy_pin_unlocked_"+user.id);
+           liveSync(false);
            user=null;profile=null;team=null;showAuth();
          }
        }catch(err){
@@ -2336,6 +2344,65 @@ async function boot(){
  }
 }
 async function enterApp(){await loadIdentityAndGate()}
+
+/* ── who is here right now ───────────────────────────────────────────────
+   Supabase Realtime presence, not a table. Nobody writes a row and nobody
+   has to clean one up: the channel holds the list while the tab is open and
+   drops it when the socket closes -- including on a crash or a lost
+   connection, which a "last_seen" column never notices.
+
+   It carries no work, only a name and a user id, so it does not touch the
+   one-way visibility rule. Knowing somebody is at their desk is not the same
+   as seeing what is on it. */
+let liveChan=null,liveIds=new Set();
+function liveSync(on){
+ // A status dot must never be able to take the app down with it. If
+ // Realtime is missing or refuses, the rest of the page carries on and the
+ // dot simply never lights.
+ if(on&&!liveChan&&typeof sb?.channel==="function"&&profile?.team_id&&user?.id){
+  try{
+  liveChan=sb.channel("presence:"+profile.team_id,{config:{presence:{key:user.id}}});
+  const read=()=>{
+   const st=liveChan.presenceState()||{};
+   liveIds=new Set(Object.keys(st));
+   renderLive();
+  };
+  liveChan.on("presence",{event:"sync"},read)
+          .on("presence",{event:"join"},read)
+          .on("presence",{event:"leave"},read)
+          .subscribe(async status=>{
+   if(status!=="SUBSCRIBED")return;
+   await liveChan.track({name:profile.full_name||profile.email||"",at:Date.now()});
+  });
+  }catch(err){console.warn("presence unavailable",err);liveChan=null}
+ }else if(!on&&liveChan){
+  try{liveChan.unsubscribe()}catch(_){}
+  liveChan=null;liveIds=new Set();renderLive();
+ }
+}
+// A backgrounded phone keeps the socket for a while and then loses it. Say
+// so honestly rather than leaving a stale green dot on the other person.
+document.addEventListener("visibilitychange",()=>{
+ if(!liveChan)return;
+ if(document.hidden)liveChan.untrack().catch(()=>{});
+ else liveChan.track({name:profile?.full_name||"",at:Date.now()}).catch(()=>{});
+});
+window.addEventListener("pagehide",()=>{if(liveChan)liveChan.untrack().catch(()=>{})});
+
+const liveDot=(on,label)=>`<span class="live ${on?"on":"off"}"><i></i>${label||(on?"ออนไลน์":"ออฟไลน์")}</span>`;
+function renderLive(){
+ const el=$("liveText");
+ if(el){
+  const others=[...liveIds].filter(id=>id!==user?.id).length;
+  el.innerHTML=!liveChan?"—":others?`${others} คนออนไลน์`:"มีแค่คุณ";
+ }
+ // the member cards carry their own dot; repaint only that page
+ document.querySelectorAll("[data-live-for]").forEach(n=>{
+  const on=liveIds.has(n.dataset.liveFor);
+  n.className="live "+(on?"on":"off");
+  n.innerHTML='<i></i>'+(on?"ออนไลน์":"ออฟไลน์");
+ });
+}
 /* The emailed link puts the token in the address bar. Once Supabase has read
    it there is nothing left to use, but it is cleared anyway so a refresh does
    not look like a second recovery and the token is not left on screen. */
@@ -2642,7 +2709,7 @@ document.addEventListener("click",e=>{
 function showApp(){hideAllScreens();$("app")?.classList.remove("hidden");sideCatSync();
  if(!cfStop)cfStop=catFace();
  const onDash=!$("dashboardView").classList.contains("hidden");
- dashCatSync(false);dashChromeSync(onDash)}
+ dashCatSync(false);dashChromeSync(onDash);liveSync(true)}
 function showAuth(){hideAllScreens();$("authScreen")?.classList.remove("hidden");splashRelease()}
 function showTeamGate(){splashRelease();hideAllScreens();$("teamGate")?.classList.remove("hidden");$("teamGateError").textContent="";$("teamCodeInput").value=""}
 /* ── the operator card ───────────────────────────────────────────────────
@@ -4006,6 +4073,7 @@ function renderAdmin(){
    return `<div class="card member-card">
      <div class="member-head">
        <div><div class="member-name">${esc(p.full_name||p.email)}</div><div class="member-email">${esc(p.email||"")}</div></div>
+       <span class="live ${liveIds.has(p.user_id)?"on":"off"}" data-live-for="${esc(p.user_id)}"><i></i>${liveIds.has(p.user_id)?"ออนไลน์":"ออฟไลน์"}</span>
        <span class="pill">${esc(workload)}</span>
      </div>
      <div class="member-stats">
