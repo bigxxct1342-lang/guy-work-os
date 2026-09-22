@@ -111,6 +111,11 @@ button,input,select,textarea{font:inherit;color:inherit}.hidden{display:none!imp
 .auth .btn.secondary{background:transparent;border:1px solid var(--i-line);color:var(--i-dim)}
 .auth .btn.secondary:hover{border-color:var(--i);color:var(--i)}
 .idc-pin{letter-spacing:.5em!important;text-align:center;font-size:30px!important}
+.idc-link{display:block;width:100%;margin-top:11px;padding:4px 0;background:none;border:0;
+ font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.09em;
+ color:var(--i-dim);cursor:pointer;text-align:center;text-decoration:underline;
+ text-underline-offset:3px;text-decoration-color:var(--i-line)}
+.idc-link:hover{color:var(--i);text-decoration-color:var(--i)}
 @media(max-width:520px){
  .idc-body{grid-template-columns:1fr}
  .idc-photo{border-right:0;border-bottom:1px solid var(--i-line);flex-direction:row;align-items:stretch}
@@ -1660,11 +1665,13 @@ body.dark .splash{background:#15120e}
    <div class="r"><span class="idc-k">ACCESS</span><span class="idc-v">********</span></div></div>
   <div class="idc-form"><div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
-   <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
-   <div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password"></div>
-   <div class="help">ใช้รหัสอย่างน้อย 10 ตัว ระบบทีมไม่ควรบังคับความยาวพอดีแบบเดิม</div><div id="authError" class="error"></div>
+   <div id="emailField" class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
+   <div id="passField" class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password"></div>
+   <div id="pass2Field" class="field hidden"><label>Confirm new password</label><input id="authPassword2" type="password" autocomplete="new-password"></div>
+   <div class="help" id="authHelp">ใช้รหัสอย่างน้อย 10 ตัว ระบบทีมไม่ควรบังคับความยาวพอดีแบบเดิม</div><div id="authError" class="error"></div>
    <button id="authSubmit" class="btn primary" style="width:100%">Sign in</button>
    <button id="authSwitch" class="btn secondary" style="width:100%;margin-top:8px">Create account</button>
+   <button id="authForgot" class="idc-link">ลืมรหัสผ่าน? ส่งลิงก์รีเซ็ตเข้าเมล</button>
   </div></div>
   <div class="idc-legal">Access to this terminal is granted to named operators of the
    marketing team only. Every task, project, campaign and purchase request opened here
@@ -2021,7 +2028,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.74</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.75</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2232,7 +2239,12 @@ body.dark .splash{background:#15120e}
 <div id="toastWrap" class="toast-wrap"></div>
 
 <script>
-const CFG=window.GUY_CONFIG||{};let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],teamTasks=[],teamCategories=[],teamProjects=[],teamKol=[],teamPr=[],teamProducts=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
+const CFG=window.GUY_CONFIG||{};
+/* Read at parse time, on purpose. The Supabase client strips the recovery
+   token out of the address bar as it initialises, so by the time boot() has
+   awaited it there is nothing left to look at. */
+let authRecovery=/\btype=recovery\b/.test(location.hash||"")||/\btype=recovery\b/.test(location.search||"");
+let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],teamTasks=[],teamCategories=[],teamProjects=[],teamKol=[],teamPr=[],teamProducts=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
 const $=id=>document.getElementById(id);
 const layerIds=["dayDrawer","memberSummaryDrawer","taskModal","categoryModal","deleteCategoryModal","changePinModal","kolPasteModal","commandPalette"];
 function refreshLayerLock(){document.body.classList.toggle("layer-open",layerIds.some(id=>$(id)&&!$(id).classList.contains("hidden")))}
@@ -2292,11 +2304,14 @@ async function boot(){
    await ensureSupabaseClient();
    const {data,error}=await sb.auth.getSession();
    if(error) throw error;
-   if(data.session){user=data.session.user;await enterApp()}
+   if(authRecovery){enterRecovery()}
+   else if(data.session){user=data.session.user;await enterApp()}
    else showAuth();
    sb.auth.onAuthStateChange((event,session)=>{
      setTimeout(async()=>{
        try{
+         if(event==="PASSWORD_RECOVERY"){authRecovery=true;enterRecovery();return}
+         if(authRecovery)return;          // stay on the card until it is set
          if(session){
            const changed=!user||user.id!==session.user.id;
            user=session.user;
@@ -2321,6 +2336,13 @@ async function boot(){
  }
 }
 async function enterApp(){await loadIdentityAndGate()}
+/* The emailed link puts the token in the address bar. Once Supabase has read
+   it there is nothing left to use, but it is cleared anyway so a refresh does
+   not look like a second recovery and the token is not left on screen. */
+function enterRecovery(){
+ showAuth();authGo("recover");
+ try{history.replaceState(null,"",location.origin+location.pathname)}catch(_){}
+}
 function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>$(id)?.classList.add("hidden"))}
 /* The cat used to come down the moment it was tapped, which meant whatever
    boot had managed so far -- often the sign-in form, then the app, then the
@@ -2713,9 +2735,79 @@ async function loadIdentityAndGate(){
  if(!unlocked){showPinGate(false);return}
  showApp();await loadAll();bootReport();splashRelease();
 }
-$("authSwitch").onclick=()=>{authMode=authMode==="signin"?"signup":"signin";$("authTitle").textContent=authMode==="signin"?"Sign in":"Create account";$("authSubmit").textContent=authMode==="signin"?"Sign in":"Create account";$("authSwitch").textContent=authMode==="signin"?"Create account":"Back to sign in";$("nameField").classList.toggle("hidden",authMode==="signin");$("authError").textContent=""}
+/* Four states on one card. "recover" is the only one the user does not
+   choose: Supabase drops them into it when they come back from the emailed
+   link, and they cannot leave it until a new password is set. */
+const AUTH_UI={
+ signin :{t:"Sign in",       go:"Sign in",            alt:"Create account",   name:0,email:1,pass:1,pass2:0,forgot:1,
+          help:"ใช้รหัสอย่างน้อย 10 ตัว"},
+ signup :{t:"Create account",go:"Create account",     alt:"Back to sign in",  name:1,email:1,pass:1,pass2:0,forgot:0,
+          help:"ใช้รหัสอย่างน้อย 10 ตัว"},
+ reset  :{t:"Reset password",go:"ส่งลิงก์เข้าเมล",      alt:"Back to sign in",  name:0,email:1,pass:0,pass2:0,forgot:0,
+          help:"ใส่เมลที่ใช้สมัคร ระบบจะส่งลิงก์ไปให้ กดลิงก์แล้วตั้งรหัสใหม่ได้เลย"},
+ recover:{t:"Set new password",go:"บันทึกรหัสใหม่",     alt:"",                 name:0,email:0,pass:1,pass2:1,forgot:0,
+          help:"ตั้งรหัสใหม่อย่างน้อย 10 ตัว แล้วกดบันทึก"}
+};
+function authRender(){
+ const u=AUTH_UI[authMode]||AUTH_UI.signin;
+ $("authTitle").textContent=u.t;
+ $("authSubmit").textContent=u.go;
+ $("authSwitch").textContent=u.alt;
+ $("authSwitch").classList.toggle("hidden",!u.alt);
+ $("nameField").classList.toggle("hidden",!u.name);
+ $("emailField").classList.toggle("hidden",!u.email);
+ $("passField").classList.toggle("hidden",!u.pass);
+ $("pass2Field").classList.toggle("hidden",!u.pass2);
+ $("authForgot").classList.toggle("hidden",!u.forgot);
+ $("authHelp").textContent=u.help;
+ $("authPassword").setAttribute("autocomplete",authMode==="signin"?"current-password":"new-password");
+ $("authSig").textContent=authMode==="recover"?"RECOVERY":"LINK IDLE";
+}
+function authGo(mode){authMode=mode;$("authError").textContent="";authRender()}
+$("authSwitch").onclick=()=>authGo(authMode==="signin"?"signup":"signin");
+$("authForgot").onclick=()=>{
+ // carry whatever they already typed across, it is the same field
+ authGo("reset");$("authEmail").focus();
+};
 $("authSubmit").onclick=async()=>{
  const email=$("authEmail").value.trim(),password=$("authPassword").value,name=$("authName").value.trim();
+
+ if(authMode==="reset"){
+   if(!email)return $("authError").textContent="ใส่ Email ก่อน";
+   $("authError").textContent="กำลังส่ง…";$("authSubmit").disabled=true;
+   try{
+     await ensureSupabaseClient();
+     // back to this same page; Supabase only honours URLs on its allow list
+     const back=location.origin+location.pathname;
+     const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:back});
+     // Never say whether the address exists -- that turns this box into a
+     // way to find out who has an account.
+     $("authError").textContent=error?(error.message||"ส่งไม่สำเร็จ ลองใหม่อีกครั้ง")
+       :"ถ้าเมลนี้มีบัญชีอยู่ ลิงก์รีเซ็ตถูกส่งไปแล้ว — เช็คกล่องจดหมายและ Junk ด้วย";
+   }catch(err){$("authError").textContent=err?.message||"ส่งไม่สำเร็จ"}
+   finally{$("authSubmit").disabled=false}
+   return;
+ }
+
+ if(authMode==="recover"){
+   if(password.length<10)return $("authError").textContent="รหัสใหม่อย่างน้อย 10 ตัว";
+   if(password!==$("authPassword2").value)return $("authError").textContent="รหัสสองช่องไม่ตรงกัน";
+   $("authError").textContent="กำลังบันทึก…";$("authSubmit").disabled=true;
+   try{
+     await ensureSupabaseClient();
+     const {error}=await sb.auth.updateUser({password});
+     if(error){$("authError").textContent=error.message;return}
+     authRecovery=false;
+     $("authPassword").value="";$("authPassword2").value="";
+     $("authError").textContent="เปลี่ยนรหัสแล้ว กำลังเข้าระบบ…";
+     const {data}=await sb.auth.getSession();
+     if(data?.session){user=data.session.user;await enterApp()}
+     else authGo("signin");
+   }catch(err){$("authError").textContent=err?.message||"บันทึกไม่สำเร็จ"}
+   finally{$("authSubmit").disabled=false}
+   return;
+ }
+
  if(!email)return $("authError").textContent="ใส่ Email ก่อน";
  if(password.length<10)return $("authError").textContent="Password อย่างน้อย 10 ตัว";
  $("authError").textContent="Working…";$("authSubmit").disabled=true;
@@ -2743,7 +2835,7 @@ $("signOutBtn").onclick=async()=>await sb.auth.signOut();
 $("teamGateSignOut").onclick=$("pinGateSignOut").onclick=async()=>await sb.auth.signOut();
 $("pinPhotoBtn").onclick=()=>$("pinPhotoFile").click();
 $("pinPhotoFile").onchange=e=>{const f=e.target.files?.[0];e.target.value="";pinPhotoPick(f)};
-$("authSig").textContent="LINK IDLE";
+authRender();
 
 $("joinTeamBtn").onclick=async()=>{
  const code=$("teamCodeInput").value.trim();
