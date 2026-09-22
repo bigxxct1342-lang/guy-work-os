@@ -32,7 +32,92 @@
    the same reason: left alone, iOS paints every one of them system blue. */
 button,input,select,textarea{font:inherit;color:inherit}.hidden{display:none!important}
 .btn{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;color:var(--text)}.btn.primary{background:var(--dark);color:#fff}.btn.secondary{background:#fff;border:1px solid var(--line)}.btn.danger{background:#fff;border:1px solid #edcaca;color:#9b4343}.btn.small{padding:7px 10px;font-size:12px}
-.auth{min-height:100vh;background:#1e2329;color:#fff;display:flex;align-items:center;justify-content:center;padding:22px}.authbox{width:min(430px,100%)}.authname{font-size:27px;font-weight:900}.authsub{font-size:12px;color:#939ca6;letter-spacing:1.3px;text-transform:uppercase;margin:7px 0 25px}.authcard{background:#fff;color:var(--text);border-radius:18px;padding:23px}.authcard h2{margin:0 0 18px}.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff}.help{font-size:12px;color:var(--muted);line-height:1.5}.error{font-size:12px;color:#a64242;min-height:18px;margin:8px 0}
+/* ── the gate screens ────────────────────────────────────────────────────
+   Before the paper is lit you are talking to the machine, not to the page,
+   so both gates are drawn as an issued ID card: a ruled header, a body,
+   a block of authorisation text, a footer. Amber on black throughout --
+   the same unlit surface as the sidebar and the status strip. */
+/* the card is taller than a phone, so the screen scrolls and the card
+   still centres itself whenever there is room */
+.auth{min-height:100vh;background:#080602;color:#f2ecdd;display:flex;align-items:flex-start;
+ justify-content:center;padding:22px;overflow-y:auto;font-family:"VT323",ui-monospace,monospace}
+.authbox{margin:auto 0}
+.authbox{width:min(486px,100%)}
+.idc{--i:#f4a12e;--i-dim:#a8762c;--i-mut:#6f5a35;--i-line:rgba(244,161,46,.34);
+ border:1px solid var(--i-line);background:#0c0803;position:relative;overflow:hidden;
+ box-shadow:0 0 0 4px #0c0803,0 0 0 5px var(--i-line),0 22px 60px rgba(0,0,0,.6)}
+.idc::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;background:
+ repeating-linear-gradient(0deg,rgba(0,0,0,.32) 0 1px,transparent 1px 3px),
+ radial-gradient(ellipse 94% 90% at 50% 46%,transparent 44%,rgba(0,0,0,.6) 100%)}
+.idc>*{position:relative;z-index:2}
+.idc-bar{display:flex;align-items:center;gap:10px;padding:6px 11px;font-size:17px;
+ letter-spacing:.11em;color:var(--i);border-bottom:1px solid var(--i-line)}
+.idc-bar .sp{flex:1}
+.idc-sig{font-size:14px;color:var(--i-dim);letter-spacing:.13em}
+.idc-batt{width:26px;height:11px;border:1px solid var(--i);position:relative;flex:none}
+.idc-batt::before{content:"";position:absolute;inset:2px;background:
+ repeating-linear-gradient(90deg,var(--i) 0 4px,transparent 4px 6px)}
+.idc-batt::after{content:"";position:absolute;right:-4px;top:3px;width:3px;height:5px;background:var(--i)}
+.idc-who{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+ padding:9px 11px 10px;border-bottom:1px solid var(--i-line)}
+.idc-who>div:first-child{flex:1;min-width:0}
+.idc-k{font-size:14px;letter-spacing:.17em;color:var(--i-mut);display:block}
+.idc-v{font-size:clamp(17px,5.1vw,29px);line-height:.95;letter-spacing:.06em;color:#fffbf2;
+ text-transform:uppercase;overflow-wrap:anywhere}
+.idc-who .r{text-align:right;flex:none}
+.idc-who .r .idc-v{font-size:19px;letter-spacing:.34em;color:var(--i-dim)}
+.idc-body{display:grid;grid-template-columns:168px minmax(0,1fr);border-bottom:1px solid var(--i-line)}
+.idc-photo{border-right:1px solid var(--i-line);padding:10px;display:flex;flex-direction:column;gap:7px}
+.idc-frame{position:relative;aspect-ratio:1/1.18;border:1px solid var(--i-line);background:#070501;overflow:hidden}
+.idc-frame canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+.idc-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;gap:6px;color:var(--i-mut);font-size:15px;letter-spacing:.1em;text-align:center;padding:10px}
+.idc-photo .btn,.idc-foot .btn{font-family:inherit}
+.idc-up{width:100%;font-size:15px;letter-spacing:.11em;padding:5px 6px;border:1px solid var(--i-line);
+ background:transparent;color:var(--i-dim);cursor:pointer;border-radius:0}
+.idc-up:hover{border-color:var(--i);color:var(--i)}
+.idc-meta{padding:10px 12px;display:flex;flex-direction:column;gap:7px;min-width:0}
+.idc-row{min-width:0}
+.idc-row b{display:block;font-size:19px;letter-spacing:.06em;color:#fffbf2;font-weight:400;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.idc-th{font-size:20px;color:var(--i);letter-spacing:.02em;
+ font-family:"Noto Sans Thai",system-ui,sans-serif}
+.idc-mark{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:6px}
+.idc-mark i{flex:none;width:19px;height:22px;background:
+ repeating-linear-gradient(90deg,var(--i) 0 4px,transparent 4px 7px)}
+.idc-mark span{font-size:18px;letter-spacing:.16em;line-height:1.05;color:#fffbf2}
+.idc-mark span small{display:block;font-size:12px;letter-spacing:.22em;color:var(--i-dim)}
+.idc-legal{padding:10px 12px;font-size:15px;line-height:1.36;letter-spacing:.055em;
+ color:var(--i-dim);border-bottom:1px solid var(--i-line);text-transform:uppercase}
+.idc-foot{display:flex;align-items:center;gap:9px;padding:7px 11px;font-size:14px;
+ letter-spacing:.13em;color:var(--i-mut);line-height:1.2}
+.idc-foot i{flex:none;width:15px;height:15px;background:
+ repeating-linear-gradient(90deg,var(--i-mut) 0 3px,transparent 3px 5px)}
+.idc-form{padding:13px 12px 14px}
+.authcard{background:transparent;color:inherit;border-radius:0;padding:0}
+.authcard h2{margin:0 0 14px;font-size:24px;letter-spacing:.14em;color:var(--i);
+ text-transform:uppercase;font-weight:400}
+.auth .field label{font-family:"VT323",ui-monospace,monospace;font-size:15px;
+ letter-spacing:.15em;color:var(--i-mut);text-transform:uppercase}
+.auth input{background:rgba(244,161,46,.06);border:1px solid var(--i-line);border-radius:0;
+ color:#fffbf2;font-family:"VT323",ui-monospace,monospace;font-size:19px;letter-spacing:.08em}
+.auth input:focus{outline:none;border-color:var(--i);background:rgba(244,161,46,.1)}
+.auth .help{font-family:"VT323",ui-monospace,monospace;font-size:15px;letter-spacing:.06em;color:var(--i-mut)}
+.auth .error{font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.06em;color:#e26b5b}
+.auth .btn{border-radius:0;font-family:"VT323",ui-monospace,monospace;font-size:18px;letter-spacing:.16em;
+ text-transform:uppercase}
+.auth .btn.primary{background:var(--i);color:#1b1206;border:1px solid var(--i)}
+.auth .btn.primary:hover{filter:brightness(1.1)}
+.auth .btn.secondary{background:transparent;border:1px solid var(--i-line);color:var(--i-dim)}
+.auth .btn.secondary:hover{border-color:var(--i);color:var(--i)}
+.idc-pin{letter-spacing:.5em!important;text-align:center;font-size:30px!important}
+@media(max-width:520px){
+ .idc-body{grid-template-columns:1fr}
+ .idc-photo{border-right:0;border-bottom:1px solid var(--i-line);flex-direction:row;align-items:stretch}
+ .idc-frame{width:128px;flex:none;aspect-ratio:1/1.18}
+ .idc-photo .idc-up{width:auto;flex:1;align-self:center}
+ .idc-v{font-size:23px}
+}.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fff}.help{font-size:12px;color:var(--muted);line-height:1.5}.error{font-size:12px;color:#a64242;min-height:18px;margin:8px 0}
 .app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}/* A light sidebar with orange type. Bright orange on white sits at about
    2:1 and cannot be read, so the text takes a deep burnt orange (7:1 for
    the brand, 5.3:1 for the labels) and the bright orange is spent only on
@@ -1568,16 +1653,24 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div class="authsub">V7.73 · Work Monitor</div>
-  <div class="authcard"><h2 id="authTitle">Sign in</h2>
+ <div class="authbox"><div class="idc">
+  <div class="idc-bar"><span>PORKCHOP&nbsp;G</span><span class="sp"></span>
+   <span class="idc-sig" id="authSig">LINK IDLE</span><span class="idc-batt"></span></div>
+  <div class="idc-who"><div><span class="idc-k">TERMINAL</span><span class="idc-v">WORK&nbsp;MONITOR</span></div>
+   <div class="r"><span class="idc-k">ACCESS</span><span class="idc-v">********</span></div></div>
+  <div class="idc-form"><div class="authcard"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
    <div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password"></div>
    <div class="help">ใช้รหัสอย่างน้อย 10 ตัว ระบบทีมไม่ควรบังคับความยาวพอดีแบบเดิม</div><div id="authError" class="error"></div>
    <button id="authSubmit" class="btn primary" style="width:100%">Sign in</button>
    <button id="authSwitch" class="btn secondary" style="width:100%;margin-top:8px">Create account</button>
-  </div>
- </div>
+  </div></div>
+  <div class="idc-legal">Access to this terminal is granted to named operators of the
+   marketing team only. Every task, project, campaign and purchase request opened here
+   is recorded against the account that opened it.</div>
+  <div class="idc-foot"><i></i><span>PROPERTY OF PORKCHOP G<br>WORK MONITOR / OPERATIONS UNIT</span></div>
+ </div></div>
 </section>
 
 
@@ -1594,17 +1687,38 @@ body.dark .splash{background:#15120e}
 </section>
 
 <section id="pinGate" class="auth hidden">
- <div class="authbox"><div class="authname">PORKCHOP G</div><div id="pinGateTeam" class="authsub">Private dashboard lock</div>
-  <div class="authcard">
-   <h2 id="pinGateTitle">Enter PIN</h2>
-   <div id="pinGateHelp" class="help" style="margin-bottom:14px">ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard</div>
-   <div class="field"><label>4-digit PIN</label><input id="pinInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="font-size:24px;letter-spacing:10px;text-align:center"></div>
-   <div id="pinConfirmField" class="field hidden"><label>Confirm PIN</label><input id="pinConfirmInput" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="font-size:24px;letter-spacing:10px;text-align:center"></div>
+ <div class="authbox"><div class="idc">
+  <div class="idc-bar"><span>PORKCHOP&nbsp;G</span><span class="sp"></span>
+   <span class="idc-sig" id="pinSig">LINK IDLE</span><span class="idc-batt"></span></div>
+  <div class="idc-who"><div><span class="idc-k">OPERATOR</span><span class="idc-v" id="pinWho">—</span></div>
+   <div class="r"><span class="idc-k">ACCESS</span><span class="idc-v">********</span></div></div>
+  <div class="idc-body">
+   <div class="idc-photo">
+    <div class="idc-frame"><canvas id="pinPhotoCv"></canvas>
+     <div class="idc-empty" id="pinPhotoEmpty">NO PHOTO<br>ON FILE</div></div>
+    <button type="button" class="idc-up" id="pinPhotoBtn">+ ใส่รูป</button>
+    <input type="file" id="pinPhotoFile" accept="image/*" hidden>
+   </div>
+   <div class="idc-meta">
+    <div class="idc-row"><span class="idc-k">UNIT</span><b id="pinTeam">—</b></div>
+    <div class="idc-row"><span class="idc-k">CLEARANCE</span><b id="pinRole">—</b>
+     <div class="idc-th" id="pinRoleTh"></div></div>
+    <div class="idc-mark"><i></i><span>PORKCHOP&nbsp;G<small>WORK OS</small></span></div>
+   </div>
+  </div>
+  <div class="idc-legal" id="pinLegal">Authorization granted to the above operator to plan,
+   assign and close any task, project, campaign or purchase request held by this account.</div>
+  <div class="idc-form"><div class="authcard">
+   <div id="pinGateHelp" class="help" style="margin-bottom:10px">ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard</div>
+   <div class="hidden"><span id="pinGateTitle"></span><span id="pinGateTeam"></span></div>
+   <div class="field"><label>4-digit PIN</label><input id="pinInput" class="idc-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
+   <div id="pinConfirmField" class="field hidden"><label>Confirm PIN</label><input id="pinConfirmInput" class="idc-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
    <div id="pinGateError" class="error"></div>
    <button id="pinSubmitBtn" class="btn primary" style="width:100%">Unlock</button>
    <button id="pinGateSignOut" class="btn secondary" style="width:100%;margin-top:8px">Sign out</button>
-  </div>
- </div>
+  </div></div>
+  <div class="idc-foot"><i></i><span>PROPERTY OF PORKCHOP G<br>WORK MONITOR / OPERATIONS UNIT</span></div>
+ </div></div>
 </section>
 
 <div id="app" class="app hidden">
@@ -1907,7 +2021,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.73</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.74</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2386,6 +2500,7 @@ function catPortrait(id,src,opt){
  const CELL=opt.cell||3;
  // the eyes carry the whole portrait, so they are the one thing that moves
  const EYES=opt.eyes||[{x:.17,y:.33,w:.26,h:.17},{x:.50,y:.35,w:.26,h:.17}];
+ const MID=opt.mid??0.58,GAIN=opt.gain??2.35;
  let L=null,cols=0,rows=0,jit=null,raf=0,t0=0,blinkAt=0,blinking=0,dead=false;
 
  const build=img=>{
@@ -2402,7 +2517,7 @@ function catPortrait(id,src,opt){
   for(let i=0;i<cols*rows;i++){
    const r=d[i*4],gg=d[i*4+1],b=d[i*4+2];
    const y=(0.2126*r+0.7152*gg+0.0722*b)/255;
-   let v=(y-0.58)*2.35+0.46;
+   let v=(y-MID)*GAIN+0.46;
    L[i]=v<0?0:v>1?1:v;
   }
   paintAll();
@@ -2412,7 +2527,7 @@ function catPortrait(id,src,opt){
  const cell=(c,r)=>{
   const i=r*cols+c;
   let v=L[i]+jit[i]/255;
-  if(blinking&&inEye(c,r))v*=.28;
+  if(blinking&&EYES.length&&inEye(c,r))v*=.28;
   const lvl=Math.max(0,Math.min(3,Math.floor(v*4+(BAYER[r&3][c&3]/16-.5)*.9)));
   g.fillStyle=CAT_LV[lvl];
   g.fillRect(c*CELL,r*CELL,CELL,CELL);
@@ -2439,6 +2554,7 @@ function catPortrait(id,src,opt){
    jit[i]=((Math.random()*46)|0)-23;
    cell(i%cols,(i/cols)|0);
   }
+  if(!EYES.length)return;
   if(!blinkAt)blinkAt=t+4000+Math.random()*4000;
   if(!blinking&&t>=blinkAt){blinking=1;paintEyes();blinkAt=t+130}
   else if(blinking&&t>=blinkAt){blinking=0;paintEyes();blinkAt=t+4000+Math.random()*4000}
@@ -2507,7 +2623,80 @@ function showApp(){hideAllScreens();$("app")?.classList.remove("hidden");sideCat
  dashCatSync(false);dashChromeSync(onDash)}
 function showAuth(){hideAllScreens();$("authScreen")?.classList.remove("hidden");splashRelease()}
 function showTeamGate(){splashRelease();hideAllScreens();$("teamGate")?.classList.remove("hidden");$("teamGateError").textContent="";$("teamCodeInput").value=""}
-function showPinGate(setup=false){splashRelease();hideAllScreens();pinNeedsSetup=setup;$("pinGate")?.classList.remove("hidden");$("pinGateTitle").textContent=setup?"Create your PIN":"Enter PIN";$("pinGateHelp").textContent=setup?"ตั้ง PIN 4 หลักของคุณ ใช้หลัง Email/Password ทุกครั้งที่ Login ใหม่":"ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard";$("pinConfirmField").classList.toggle("hidden",!setup);$("pinSubmitBtn").textContent=setup?"Save PIN & Continue":"Unlock";$("pinInput").value="";$("pinConfirmInput").value="";$("pinGateError").textContent="";$("pinGateTeam").textContent=team?.name?`Team: ${team.name}`:"Private dashboard lock"}
+/* ── the operator card ───────────────────────────────────────────────────
+   The photo never travels as a file. The browser reads it, draws it down to
+   260px on the long edge, re-encodes it as a small JPEG and sends that text
+   through set_my_avatar(), which is the only thing on profiles a browser is
+   allowed to write. A copy is kept in this browser so the card is already
+   drawn on the next unlock instead of waiting for the round trip. */
+const AV_KEY=u=>"porkchop_avatar_"+u;
+let pinPhotoStop=null;
+
+function pinPhotoDraw(src){
+ const cv=$("pinPhotoCv"),empty=$("pinPhotoEmpty");
+ if(!cv)return;
+ if(pinPhotoStop){pinPhotoStop();pinPhotoStop=null}
+ if(!src){cv.style.visibility="hidden";if(empty)empty.classList.remove("hidden");return}
+ cv.style.visibility="visible";if(empty)empty.classList.add("hidden");
+ // a face wants an ordinary curve, and no eyes to blink
+ pinPhotoStop=catPortrait("pinPhotoCv",src,{cell:3,eyes:[],mid:0.5,gain:1.9});
+}
+
+function pinCardFill(){
+ const p=profile||{};
+ const nm=(p.full_name||p.email||"operator").split("@")[0];
+ $("pinWho").textContent=nm;
+ $("pinTeam").textContent=team?.name||"—";
+ const admin=p.role==="super_admin";
+ $("pinRole").textContent=admin?"SUPER ADMIN":"OPERATOR";
+ $("pinRoleTh").textContent=admin?"ผู้ควบคุมงาน":"ผู้ปฏิบัติงาน";
+ $("pinLegal").textContent=admin
+  ?"Authorization granted to the above operator to plan, assign and close any task, project, campaign or purchase request held by this account, and to read the headline record of every operator on this unit."
+  :"Authorization granted to the above operator to plan, assign and close any task, project, campaign or purchase request held by this account. Records held by other operators are out of scope.";
+ let cached=null;
+ try{cached=localStorage.getItem(AV_KEY(user?.id||""))}catch(_){}
+ pinPhotoDraw(p.avatar||cached||"");
+}
+
+function pinSig(t){const e=$("pinSig");if(e)e.textContent=t}
+
+async function pinPhotoPick(file){
+ if(!file)return;
+ if(!/^image\//.test(file.type))return $("pinGateError").textContent="ไฟล์นี้ไม่ใช่รูป";
+ pinSig("READING");
+ const url=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(file)})
+   .catch(()=>null);
+ if(!url)return pinSig("READ FAIL");
+ const img=new Image();
+ img.onload=async()=>{
+  // 260px on the long edge is more than the dither grid can use, and keeps
+  // the encoded text small enough to live in a text column
+  const M=260,sc=Math.min(1,M/Math.max(img.width,img.height));
+  const c=document.createElement("canvas");
+  c.width=Math.max(1,Math.round(img.width*sc));c.height=Math.max(1,Math.round(img.height*sc));
+  const g=c.getContext("2d");g.imageSmoothingQuality="high";g.drawImage(img,0,0,c.width,c.height);
+  let out=c.toDataURL("image/jpeg",0.72);
+  if(out.length>180000)out=c.toDataURL("image/jpeg",0.5);
+  try{localStorage.setItem(AV_KEY(user?.id||""),out)}catch(_){}
+  pinPhotoDraw(out);
+  pinSig("SAVING");
+  const {data,error}=await sb.rpc("set_my_avatar",{p_avatar:out});
+  if(error||!data){
+   // the column may not exist yet; the card still shows from this browser
+   pinSig("LOCAL ONLY");
+   $("pinGateError").textContent=error?.message?.includes("set_my_avatar")||error?.code==="PGRST202"
+    ?"ยังไม่ได้รัน migration-v7-74 — รูปเก็บในเครื่องนี้ก่อน":"";
+   return;
+  }
+  if(profile)profile.avatar=out;
+  pinSig("ON FILE");
+  $("pinGateError").textContent="";
+ };
+ img.onerror=()=>pinSig("READ FAIL");
+ img.src=url;
+}
+
+function showPinGate(setup=false){splashRelease();hideAllScreens();pinNeedsSetup=setup;$("pinGate")?.classList.remove("hidden");$("pinGateTitle").textContent=setup?"Create your PIN":"Enter PIN";$("pinGateHelp").textContent=setup?"ตั้ง PIN 4 หลักของคุณ ใช้หลัง Email/Password ทุกครั้งที่ Login ใหม่":"ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard";$("pinConfirmField").classList.toggle("hidden",!setup);$("pinSubmitBtn").textContent=setup?"Save PIN & Continue":"Unlock";$("pinInput").value="";$("pinConfirmInput").value="";$("pinGateError").textContent="";$("pinGateTeam").textContent=team?.name?`Team: ${team.name}`:"Private dashboard lock";pinCardFill();pinSig(setup?"ENROL":"LINK OK")}
 async function loadIdentityAndGate(){
  syncState("Checking access…");
  const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();
@@ -2552,6 +2741,9 @@ $("authSubmit").onclick=async()=>{
 $("signOutBtn").onclick=async()=>await sb.auth.signOut();
 
 $("teamGateSignOut").onclick=$("pinGateSignOut").onclick=async()=>await sb.auth.signOut();
+$("pinPhotoBtn").onclick=()=>$("pinPhotoFile").click();
+$("pinPhotoFile").onchange=e=>{const f=e.target.files?.[0];e.target.value="";pinPhotoPick(f)};
+$("authSig").textContent="LINK IDLE";
 
 $("joinTeamBtn").onclick=async()=>{
  const code=$("teamCodeInput").value.trim();
