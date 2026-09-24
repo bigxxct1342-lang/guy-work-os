@@ -406,6 +406,32 @@ body.dark .modal-close{background:var(--card);color:var(--text)}
 .check-row.lvl3 .check-label{color:var(--muted);font-size:12.5px}
 .group-indicator{width:19px;height:19px;display:flex;align-items:center;justify-content:center;flex:none;color:var(--muted)}
 .group-frac{font-size:12px;color:var(--muted);font-weight:700;margin-left:auto;margin-right:4px}
+/* who produces the paper, and whether it has been chased */
+.doc-src{flex:none;font-size:10.5px;font-weight:850;letter-spacing:.04em;padding:2px 7px;border-radius:4px;
+ border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.doc-src.factory{border-color:rgba(42,92,146,.35);color:#2a5c92;background:rgba(42,92,146,.07)}
+.doc-ask{flex:none;font-size:11px;font-weight:800;white-space:nowrap;color:#8a5a08}
+.doc-ask.late{color:#a33224}
+.doc-ask.got{color:var(--muted);font-weight:700}
+.doc-note{display:block;font-size:11.5px;font-weight:500;color:var(--muted);margin-top:2px;line-height:1.4}
+.doc-ask-btn{flex:none;font-size:11.5px;font-weight:850;padding:5px 10px;border-radius:7px;cursor:pointer;
+ border:1px solid #2a5c92;background:rgba(42,92,146,.08);color:#2a5c92;white-space:nowrap}
+.doc-ask-btn:hover{background:rgba(42,92,146,.16)}
+.doc-ask-btn:disabled{opacity:.5;cursor:default}
+.doc-upgrade{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 13px;margin-bottom:12px;
+ border:1px dashed var(--line);border-radius:10px;font-size:12.5px;color:var(--muted)}
+.doc-upgrade b{color:var(--text)}
+.doc-upgrade .btn{margin-left:auto}
+.fq-modal{max-width:640px}
+.fq-items{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow:auto;border:1px solid var(--line);
+ border-radius:9px;padding:8px 10px}
+.fq-item{display:flex;align-items:flex-start;gap:9px;font-size:12.5px;line-height:1.45;cursor:pointer}
+.fq-item input{width:auto;margin-top:3px;flex:none}
+.fq-item span{flex:1;min-width:0}
+.fq-item em{font-style:normal;font-size:11px;font-weight:800;color:#8a5a08;white-space:nowrap}
+#fqText{font-size:12.5px;line-height:1.6;font-family:inherit;resize:vertical}
+.fq-regen{border:0;background:none;color:var(--muted);font-size:11.5px;text-decoration:underline;cursor:pointer;padding:0}
+.scr .doc-src.factory{color:#2a5c92}
 body.dark .phase-block,body.dark .mini-cal,body.dark .pl-step{background:var(--card)}
 
 .pj-card{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--panel)}
@@ -1743,7 +1769,7 @@ body.dark .splash{background:#15120e}
    <div class="side-portrait"><canvas id="sidePortraitCv" aria-label="PORKCHOP"></canvas></div>
    <div class="side-id">
     <div class="bar-row"><span class="bar-k">USER</span><div id="whoText" class="who"></div></div>
-    <div class="bar-row"><span class="bar-k">ครั้งนี้</span><div id="liveText" class="role">—</div></div>
+    <div class="bar-row"><span class="bar-k">LIVE</span><div id="liveText" class="role">—</div></div>
     <div class="bar-row"><span class="bar-k">ROLE</span><div id="roleText" class="role"></div></div>
     <div class="bar-row"><span class="bar-k">TEAM</span><div id="teamText" class="role"></div></div>
     <div id="syncText" class="sync">Connecting…</div>
@@ -2035,7 +2061,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.76</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.77</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2109,6 +2135,19 @@ body.dark .splash{background:#15120e}
  <div class="actions"><button class="btn secondary" data-close-layer="cvPickModal">ปิด</button></div>
 </div></div>
 
+<div id="factoryModal" class="modalbg hidden"><div class="modal fq-modal"><button class="modal-close" data-close-layer="factoryModal" aria-label="Close">×</button>
+ <h3 id="fqTitle">ขอเอกสารจากโรงงาน</h3>
+ <div class="help" id="fqFor" style="margin:-8px 0 14px"></div>
+ <div class="formgrid">
+  <div class="field"><label>ส่งถึง</label><input id="fqFactory" placeholder="ชื่อโรงงาน / คนที่ติดต่อ"></div>
+  <div class="field"><label>ต้องการภายใน</label><input id="fqDue" type="date"></div>
+ </div>
+ <div class="field"><label>รายการที่จะขอ</label><div id="fqItems" class="fq-items"></div></div>
+ <div class="field"><label style="display:flex;justify-content:space-between;gap:8px"><span>ข้อความ — แก้ได้ก่อนส่ง</span><button type="button" id="fqRegen" class="fq-regen hidden">สร้างข้อความใหม่</button></label>
+  <textarea id="fqText" rows="13" spellcheck="false"></textarea></div>
+ <div class="help" id="fqHelp"></div>
+ <div class="actions"><button class="btn secondary" data-close-layer="factoryModal">ยกเลิก</button><button id="fqMail" class="btn secondary">เปิดอีเมล</button><button id="fqCopy" class="btn primary">คัดลอกข้อความ</button></div>
+</div></div>
 <div id="postModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="postModal" aria-label="Close">×</button><h3 id="postModalTitle">โพสต์ใหม่</h3>
  <div class="formgrid">
   <div class="field"><label>ประเภท</label><select id="postKind"><option value="post">โพสต์</option><option value="event">โพสต์กิจกรรม</option></select></div>
@@ -3548,26 +3587,40 @@ const NPD_TEMPLATE=[
  {phase:"label",title:"Label Production",duration_days:33,steps:[["Internal Approval by mail (5 วัน)","next","เลขา/RD/QC/Inter/Creative/MKT"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Black & White Film Shrink (8 วัน)","next","Supplier"],["Master Print (Digital Proof) (3 วัน)","next","เลขา/RD/QC/Inter/MKT"],["Proof Print 1-4 (3 วัน)","next","Supplier"],["Mold Production (5 วัน)","next","Supplier"],["On-Site Proof 3-4 (7 วัน)","next","Supplier"]]},
  {phase:"carton",title:"Carton Production",duration_days:19,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]}
 ];
+/* What 7-11 asks for before a product can be listed, in their order and in
+   their words. Each row says who produces the paper -- nine of these come
+   from the factory, and chasing them is most of the work -- and carries the
+   instruction 7-11 attaches to it, because that instruction has to reach
+   whoever makes the file.
+
+   tmpl is the row's permanent name. Labels get edited; tmpl does not, so the
+   set can be found again on any product without guessing from wording. */
+const DOC_711=[
+ {key:"711",      parent:null,   label:"เอกสาร 7-11",state:"not_yet"},
+ {key:"711.1",    parent:"711",  label:"1. แบบฟอร์ม",state:"not_yet"},
+ {key:"711.1.1",  parent:"711.1",label:"แบบฟอร์มข้อมูลมาตรฐานสินค้า",state:"not_yet",src:"factory",
+  note:"กรอกแบบฟอร์มตามเอกสารแนบ"},
+ {key:"711.2",    parent:"711",  label:"2. ฉลาก",state:"not_yet",
+  note:"แยกสินค้า 1 SKU / 1 ไฟล์ อ่านข้อความบนฉลากได้ชัดเจน"},
+ {key:"711.2.1",  parent:"711.2",label:"ฉลากสินค้า Art Work (แบบกางเห็นรายละเอียดทั้งหมด)",state:"not_yet",src:"us"},
+ {key:"711.2.2",  parent:"711.2",label:"รูป Pack Shot",state:"not_yet",src:"us"},
+ {key:"711.2.3",  parent:"711.2",label:"ตัวอย่าง LOT วันผลิต ควรบริโภคก่อน หมดอายุ พร้อมแสดงตัวอย่างการอ่าน",state:"not_yet",src:"factory",
+  note:"แยก 1 SKU / 1 ไฟล์ อ่านข้อความบนฉลากได้ชัดเจน"},
+ {key:"711.3",    parent:"711",  label:"3. เอกสารเลขที่จดทะเบียนกับหน่วยงานภาครัฐฉบับที่ได้รับอนุญาต เช่น สบ.05 / สบ.6 / อ.18",state:"not_yet",src:"factory"},
+ {key:"711.4",    parent:"711",  label:"4. เอกสารการตรวจสอบเลขที่จดทะเบียนกับหน่วยงานภาครัฐ ผ่านทางเว็บไซต์",state:"not_yet",src:"factory",
+  note:"เอกสารตรวจสอบการจดทะเบียน อย. ในเว็บไซต์ รบกวนลงนามและวันที่กำกับด้วย"},
+ {key:"711.5",    parent:"711",  label:"5. ใบอนุญาตนำเข้า (กรณีนำเข้า)",state:"na",src:"us"},
+ {key:"711.6",    parent:"711",  label:"6. ใบรับรองมาตรฐานการผลิต เช่น GMP / HACCP / BRC / ISO / HALAL",state:"not_yet",src:"factory",
+  note:"เอกสาร HALAL รบกวนใส่วันหมดอายุตามเอกสารไว้ที่ชื่อไฟล์"},
+ {key:"711.7",    parent:"711",  label:"7. Flow กระบวนการผลิต",state:"not_yet",src:"factory"},
+ {key:"711.8",    parent:"711",  label:"8. ผลวิเคราะห์ ด้านกายภาพ / เคมี / จุลินทรีย์",state:"not_yet",src:"factory"},
+ {key:"711.9",    parent:"711",  label:"9. ผลการศึกษาอายุสินค้า ด้านกายภาพ / เคมี / จุลินทรีย์",state:"not_yet",src:"factory"},
+ {key:"711.10",   parent:"711",  label:"10. ผลตรวจวิเคราะห์ข้อมูลโภชนาการ ฉลาก GDA (กรณีฉลากมีการกล่าวอ้าง)",state:"not_yet",src:"factory"}
+];
 const NPD_DOC_TEMPLATE=[
  {key:"1",parent:null,label:"ฉลากสินค้า",state:"not_yet"},
  {key:"2",parent:null,label:"สังเคราะห์ (KI)",state:"not_yet"},
- {key:"3",parent:null,label:"เอกสาร QA 7-11",state:"not_yet"},
- {key:"3.1",parent:"3",label:"ข้อมูลแบบฟอร์มข้อมูลมาตรฐานสินค้า",state:"not_yet"},
- {key:"3.2",parent:"3",label:"ฉลากสินค้า",state:"not_yet"},
- {key:"3.2a",parent:"3.2",label:"AW ฉลากสินค้า",state:"not_yet"},
- {key:"3.2b",parent:"3.2",label:"รูป Pack Shot",state:"not_yet"},
- {key:"3.2c",parent:"3.2",label:"ภาพตัวอย่าง LOT/วันผลิต/วันหมดอายุ พร้อมตัวอย่างวิธีอ่าน",state:"not_yet"},
- {key:"3.3",parent:"3",label:"เอกสารเลขที่จดทะเบียนกับหน่วยงานภาครัฐที่ได้รับอนุญาต (สบ.5)",state:"not_yet"},
- {key:"3.4",parent:"3",label:"เอกสารการตรวจสอบเลขที่จดทะเบียนกับหน่วยงานภาครัฐ ผ่านทางเว็บไซต์ ยืนยันสถานะและวันที่คงเหลือ",state:"not_yet"},
- {key:"3.5",parent:"3",label:"ใบรับรองมาตรฐานการผลิตต่างๆ เช่น GMP / HACCP / BRC / ISO / HALAL",state:"not_yet"},
- {key:"3.5a",parent:"3.5",label:"Halal Certificate",state:"not_yet"},
- {key:"3.5b",parent:"3.5",label:"Nutrition Test",state:"not_yet"},
- {key:"3.5c",parent:"3.5",label:"GMP",state:"not_yet"},
- {key:"3.5d",parent:"3.5",label:"HACCP",state:"not_yet"},
- {key:"3.5e",parent:"3.5",label:"ISO",state:"not_yet"},
- {key:"3.6",parent:"3",label:"Flow กระบวนการผลิต",state:"not_yet"},
- {key:"3.7",parent:"3",label:"ผลวิเคราะห์ เช่น ด้านกายภาพ / เคมี / จุลินทรีย์",state:"not_yet"},
- {key:"3.8",parent:"3",label:"ผลการศึกษาอายุสินค้า ทางด้านกายภาพ เคมี จุลินทรีย์ ผลวิเคราะห์ข้อมูลโภชนาการ ฉลาก GDA (ถ้ามีการกล่าวอ้าง)",state:"na"},
+ ...DOC_711,
  {key:"4",parent:null,label:"Mock up สินค้า",state:"not_yet"}
 ];
 
@@ -3580,13 +3633,31 @@ async function seedNpdTemplate(productId){
   if(error){toast(error.message,"bad");continue}
   await sb.from("product_steps").insert(m.steps.map((s,si)=>({milestone_id:ms.id,seq:si,name:s[0],status:s[1],owners:s[2]})));
  }
+ await insertDocTree(productId,NPD_DOC_TEMPLATE,null);
+}
+
+/* Parents first, so every child has an id to point at. Order among siblings
+   follows the template. If the V7.77 columns are not there yet the rows go
+   in without them rather than failing -- a new product must never be
+   blocked on a migration the user has not run. Returns false in that case
+   so the caller can say so. */
+let docColsOK=true;
+async function insertDocTree(productId,rows,rootParentId,rootSeqBase=0){
  const depthOf=k=>(k.match(/\./g)||[]).length;
- const sorted=[...NPD_DOC_TEMPLATE].sort((a,b)=>depthOf(a.key)-depthOf(b.key));
- const idMap={};
+ const sorted=[...rows].sort((a,b)=>depthOf(a.key)-depthOf(b.key));
+ const seqOf={},idMap={};
+ rows.forEach(r=>{const k=r.parent||"#";seqOf[r.key]=(seqOf["@"+k]=(seqOf["@"+k]??-1)+1)});
  for(const d of sorted){
-  const {data,error}=await sb.from("product_docs").insert({product_id:productId,parent_id:d.parent?idMap[d.parent]:null,seq:0,label:d.label,state:d.state}).select().single();
-  if(!error)idMap[d.key]=data.id;
+  const base={product_id:productId,parent_id:d.parent?idMap[d.parent]:rootParentId,
+   seq:seqOf[d.key]+(d.parent?0:rootSeqBase),label:d.label,state:d.state,note:d.note||null};
+  const full={...base,src:d.src||null,tmpl:/^711/.test(d.key)?d.key:null};
+  let r=docColsOK?await sb.from("product_docs").insert(full).select().single():{error:{code:"skip"}};
+  if(r.error&&docColsOK&&/column|schema cache|PGRST204/i.test(r.error.message||r.error.code||"")){docColsOK=false}
+  if(r.error&&!docColsOK)r=await sb.from("product_docs").insert(base).select().single();
+  if(r.error){toast(r.error.message,"bad");continue}
+  idMap[d.key]=r.data.id;
  }
+ return docColsOK;
 }
 
 async function loadNpdHolidays(){
@@ -3749,6 +3820,24 @@ function renderNpdPhases(){
 }
 function renderNpdTimelinePane(){renderNpdOverall();renderNpdGantt();renderNpdCalendar();renderNpdPhases()}
 
+/* src and tmpl come from the V7.77 columns. Until that migration is run,
+   rows inserted from DOC_711 still carry their exact labels, so the label is
+   used as a fallback -- the feature works before the migration, it just
+   cannot remember what was asked for. */
+const DOC_711_BY_LABEL=Object.fromEntries(DOC_711.map(d=>[d.label,d]));
+const docTmpl=d=>d.tmpl||DOC_711_BY_LABEL[d.label]?.key||null;
+const docSrc =d=>d.src ||DOC_711_BY_LABEL[d.label]?.src||null;
+const docDays=a=>a?Math.max(0,Math.round((new Date(todayISO()+"T00:00:00")-new Date(a+"T00:00:00"))/864e5)):null;
+function doc711Root(){return npdDocs.find(d=>docTmpl(d)==="711")||null}
+function docLeavesUnder(id){
+ const kids=npdDocChildren(id);
+ return kids.length?kids.flatMap(k=>docLeavesUnder(k.id)):[npdDocs.find(d=>d.id===id)].filter(Boolean);
+}
+// what still has to come from the factory: not in hand, not ruled out
+function docFactoryOpen(){
+ const root=doc711Root();if(!root)return [];
+ return docLeavesUnder(root.id).filter(d=>docSrc(d)==="factory"&&d.state==="not_yet");
+}
 function npdDocChildren(parentId){return npdDocs.filter(d=>d.parent_id===parentId).sort((a,b)=>a.seq-b.seq)}
 function npdDocLeafStats(doc){
  const kids=npdDocChildren(doc.id);
@@ -3761,14 +3850,29 @@ function renderNpdDocNode(doc,level){
   ?`<div class="group-indicator"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></div>`
   :`<div class="check-box ${doc.state==="have"?"st-have":doc.state==="na"?"st-na":""}" onclick="npdCycleDoc(${doc.id},'${doc.state}')">${doc.state==="have"?'<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg>':doc.state==="na"?"–":""}</div>`;
  const right=isParent?`<div class="group-frac">${stats.have}/${stats.total} พร้อม</div>`:`<button class="icon-btn" onclick="npdDeleteDoc(${doc.id})" aria-label="Delete"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4 4l.6 9a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9L12 4"/></svg></button>`;
- let html=`<div class="check-row lvl${level}">${box}<div class="check-label" onclick="npdEditDoc(${doc.id})" style="cursor:pointer">${esc(doc.label)}</div>${right}</div>`;
+ const src=docSrc(doc),days=docDays(doc.asked_at);
+ const who=!isParent&&src?`<span class="doc-src ${src}">${src==="factory"?"โรงงาน":"เรา"}</span>`:"";
+ // asked_at stays after the paper arrives, so it becomes the turnaround
+ const ask=isParent||!doc.asked_at?""
+  :doc.state==="have"?`<span class="doc-ask got">ได้ใน ${days} วัน</span>`
+  :doc.state==="not_yet"?`<span class="doc-ask${days>7?" late":""}">ขอแล้ว ${days} วัน</span>`:"";
+ let act="";
+ if(docTmpl(doc)==="711"){
+  const n=docFactoryOpen().length;
+  act=`<button class="doc-ask-btn" onclick="event.stopPropagation();npdAskFactory()"${n?"":" disabled"}>ขอโรงงาน${n?` (${n})`:" — ครบแล้ว"}</button>`;
+ }
+ const note=doc.note?`<span class="doc-note">${esc(doc.note)}</span>`:"";
+ let html=`<div class="check-row lvl${level}">${box}<div class="check-label" onclick="npdEditDoc(${doc.id})" style="cursor:pointer">${esc(doc.label)}${note}</div>${ask}${who}${act}${right}</div>`;
  html+=kids.map(k=>renderNpdDocNode(k,level+1)).join("");
- if(level<3)html+=`<div class="check-row lvl${level+1}"><button class="ghost-row" style="padding:5px 10px;font-size:12px" onclick="npdAddDoc(${doc.id})">+ Add Sub-item</button></div>`;
+ if(level<3&&(isParent||level===1))html+=`<div class="check-row lvl${level+1}"><button class="ghost-row" style="padding:5px 10px;font-size:12px" onclick="npdAddDoc(${doc.id})">+ Add Sub-item</button></div>`;
  return html;
 }
 function renderNpdChecklist(){
  const roots=npdDocChildren(null);
- $("npdDocList").innerHTML=roots.map(d=>renderNpdDocNode(d,1)).join("")||'<div class="empty">ยังไม่มีรายการ</div>';
+ const up=npdCurrentProductId&&!doc711Root()
+  ?`<div class="doc-upgrade"><span><b>ยังไม่มีชุดเอกสาร 7-11 ฉบับล่าสุด</b> · 10 หัวข้อ ระบุว่าอันไหนต้องขอโรงงาน</span>`
+   +`<button class="btn secondary small" onclick="npdAdd711()">+ ใส่ชุดเอกสาร 7-11</button></div>`:"";
+ $("npdDocList").innerHTML=up+(roots.map(d=>renderNpdDocNode(d,1)).join("")||'<div class="empty">ยังไม่มีรายการ</div>');
  const allStats=roots.reduce((acc,d)=>{const s=npdDocLeafStats(d);return {have:acc.have+s.have,total:acc.total+s.total}},{have:0,total:0});
  $("npdDocPct").textContent=`${allStats.have} / ${allStats.total} พร้อมแล้ว`;
  $("npdDocBar").style.width=(allStats.total?Math.round(allStats.have/allStats.total*100):0)+"%";
@@ -3783,6 +3887,109 @@ window.npdSetStepStatus=async(id,status)=>{const {error}=await sb.from("product_
 window.npdEditStep=async id=>{const s=npdSteps.find(x=>x.id===id);if(!s)return;const name=prompt("ชื่อขั้นตอน:",s.name);if(name===null||!name.trim())return;const owners=prompt("ผู้รับผิดชอบ:",s.owners||"");const deadline=prompt("Deadline note (เว้นว่างได้):",s.deadline_note||"");const {error}=await sb.from("product_steps").update({name:name.trim(),owners:owners||null,deadline_note:deadline||null}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdDeleteStep=async id=>{if(!confirm("ลบขั้นตอนนี้?"))return;const {error}=await sb.from("product_steps").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdCycleDoc=async(id,current)=>{const next=current==="not_yet"?"have":current==="have"?"na":"not_yet";const {error}=await sb.from("product_docs").update({state:next}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdChecklist()};
+/* Products made before this set existed carry the older, looser 7-11 group.
+   That is left alone -- it may have ticks on it -- and the new set goes in
+   beside it. The user deletes the old one when they are done comparing. */
+window.npdAdd711=async()=>{
+ if(!npdCurrentProductId||doc711Root())return;
+ const old=npdDocs.find(d=>!d.parent_id&&/7-11/.test(d.label)&&!docTmpl(d));
+ if(old&&!confirm(`มีกลุ่ม "${old.label}" แบบเก่าอยู่แล้ว\n\nจะเพิ่มชุดใหม่ต่อท้าย ของเก่าไม่ถูกลบ — ดูเทียบแล้วลบเองทีหลังได้`))return;
+ const ok=await insertDocTree(npdCurrentProductId,DOC_711,null,npdDocChildren(null).length);
+ await loadNpdProductData();renderNpdChecklist();
+ toast(ok?"เพิ่มชุดเอกสาร 7-11 แล้ว":"เพิ่มแล้ว — แต่ยังไม่ได้รัน migration-v7-77 ระบบเลยยังจำไม่ได้ว่าขอโรงงานไปวันไหน");
+};
+
+/* ── asking the factory ──────────────────────────────────────────────────
+   The message is built from the rows themselves, so it always lists exactly
+   what is still missing and carries 7-11's own instruction under each line.
+   Sending it -- copy or mail -- stamps asked_at on anything asked for the
+   first time. A second send is a follow-up and keeps the original date, so
+   "ขอแล้ว N วัน" keeps counting from when the factory first heard about it. */
+let fqDirty=false,fqRows=[];
+const fqProduct=()=>npdProducts.find(p=>p.id===npdCurrentProductId)||{};
+const fqStrip=l=>String(l||"").replace(/^\d+\.\s*/,"");
+const fqThaiDate=iso=>iso?new Date(iso+"T00:00:00").toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"}):"";
+function fqPicked(){return fqRows.filter(r=>$("fq_"+r.id)?.checked)}
+function fqCompose(){
+ const rows=fqPicked(),prod=fqProduct();
+ const to=$("fqFactory").value.trim()||"ทีมโรงงาน";
+ const followUp=rows.length&&rows.every(r=>r.asked_at);
+ const first=rows.map(r=>r.asked_at).filter(Boolean).sort()[0];
+ const lines=rows.map((r,i)=>{
+  // the ฉลาก group's instruction applies to its label rows too
+  const parent=npdDocs.find(d=>d.id===r.parent_id);
+  const note=r.note||(docTmpl(parent||{})==="711.2"?parent.note:"");
+  return `${i+1}. ${fqStrip(r.label)}${note?`\n   - ${note}`:""}`;
+ });
+ const due=$("fqDue").value;
+ return [
+  `เรียน ${to}`,"",
+  `เรื่อง ${followUp?"ติดตาม":"ขอ"}เอกสารสำหรับยื่นนำสินค้าเข้า 7-11`,
+  `สินค้า: ${prod.name||"-"}`,"",
+  followUp?`ติดตามเอกสารที่ขอไปเมื่อ ${fqThaiDate(first)} ยังขาดรายการด้านล่าง`
+          :"รบกวนจัดส่งเอกสารตามรายการด้านล่าง",
+  "",...lines,"",
+  due?`รบกวนส่งกลับภายในวันที่ ${fqThaiDate(due)}`:"",
+  "ขอบคุณมาก",
+  profile?.full_name||""
+ ].filter((l,i,a)=>!(l===""&&a[i-1]==="")).join("\n").trim();
+}
+function fqRefresh(force){
+ const n=fqPicked().length;
+ if(!fqDirty||force){$("fqText").value=fqCompose();fqDirty=false}
+ $("fqRegen").classList.toggle("hidden",!fqDirty);
+ $("fqHelp").textContent=!n?"ยังไม่ได้เลือกรายการ"
+  :fqDirty?"แก้ข้อความเองแล้ว — ติ๊กรายการจะไม่เขียนทับ กด “สร้างข้อความใหม่” ถ้าอยากเริ่มใหม่"
+  :`ส่งแล้วระบบจะจำวันที่ขอไว้ นับว่ารอโรงงานมากี่วัน`;
+ $("fqCopy").disabled=$("fqMail").disabled=!n;
+}
+window.npdAskFactory=()=>{
+ fqRows=docFactoryOpen();
+ if(!fqRows.length)return toast("เอกสารที่ต้องขอโรงงานครบแล้ว");
+ const prod=fqProduct();
+ $("fqFor").textContent=prod.name||"";
+ $("fqFactory").value=prod.factory||"";
+ const d=new Date();d.setDate(d.getDate()+7);$("fqDue").value=iso(d);
+ $("fqItems").innerHTML=fqRows.map(r=>`<label class="fq-item"><input type="checkbox" id="fq_${r.id}" checked>`
+  +`<span>${esc(fqStrip(r.label))}</span>${r.asked_at?`<em>ขอแล้ว ${docDays(r.asked_at)} วัน</em>`:""}</label>`).join("");
+ fqDirty=false;fqRefresh(true);
+ openLayer("factoryModal");
+};
+async function fqSent(how){
+ const rows=fqPicked(),today=todayISO(),prod=fqProduct();
+ const fresh=rows.filter(r=>!r.asked_at).map(r=>r.id);
+ let tracked=true;
+ if(fresh.length){
+  const {error}=await sb.from("product_docs").update({asked_at:today}).in("id",fresh);
+  if(error)tracked=false;
+ }
+ const fac=$("fqFactory").value.trim();
+ if(fac!==(prod.factory||"")&&prod.id){
+  const {error}=await sb.from("products").update({factory:fac||null}).eq("id",prod.id);
+  if(!error)prod.factory=fac||null;
+ }
+ closeLayer("factoryModal");
+ await loadNpdProductData();renderNpdChecklist();
+ toast(!tracked?`${how}แล้ว — แต่ยังไม่ได้รัน migration-v7-77 ระบบเลยยังจำวันที่ขอไม่ได้`
+  :fresh.length?`${how}แล้ว · จำไว้ว่าขอโรงงาน ${fresh.length} รายการวันนี้`:`${how}แล้ว · เป็นการติดตาม วันที่ขอเดิมไม่เปลี่ยน`);
+}
+$("fqFactory").oninput=$("fqDue").onchange=()=>fqRefresh();
+$("fqItems").onchange=()=>fqRefresh();
+$("fqText").oninput=()=>{fqDirty=true;fqRefresh()};
+$("fqRegen").onclick=()=>fqRefresh(true);
+$("fqCopy").onclick=async()=>{
+ const t=$("fqText").value;
+ try{await navigator.clipboard.writeText(t)}
+ catch(_){$("fqText").select();document.execCommand("copy")}
+ await fqSent("คัดลอก");
+};
+$("fqMail").onclick=async()=>{
+ const prod=fqProduct();
+ const url=`mailto:?subject=${encodeURIComponent("ขอเอกสาร 7-11 — "+(prod.name||""))}&body=${encodeURIComponent($("fqText").value)}`;
+ window.location.href=url;
+ await fqSent("เปิดอีเมล");
+};
+
 window.npdAddDoc=async parentId=>{const label=prompt("ชื่อรายการเอกสาร:");if(!label)return;const seq=npdDocs.filter(d=>d.parent_id===parentId).length;const {error}=await sb.from("product_docs").insert({product_id:npdCurrentProductId,parent_id:parentId,seq,label:label.trim(),state:"not_yet"});if(error)return toast(error.message,"bad");toast("เพิ่มแล้ว");await loadNpdProductData();renderNpdChecklist()};
 window.npdEditDoc=async id=>{const d=npdDocs.find(x=>x.id===id);if(!d)return;const label=prompt("แก้ชื่อรายการ:",d.label);if(!label)return;const {error}=await sb.from("product_docs").update({label:label.trim()}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdChecklist()};
 window.npdDeleteDoc=async id=>{if(!confirm("ลบรายการนี้?"))return;const {error}=await sb.from("product_docs").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdChecklist()};
