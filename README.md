@@ -435,6 +435,11 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.80 Ask the bot what is pending
+- A **📋 งานค้าง** button sits under the Telegram message box (also `/today`). It answers with the same report the app opens with after sign-in, read live: date, weather, the priority matrix counts, the Q1 and Q3 tasks by name with how late or close each is, and the ads running today.
+- Same rules as the app: High priority = important, due within 2 days or overdue = urgent; ads = approved creative whose boost window covers today. Only the asker's own tasks.
+- No SQL. Redeploy `telegram-webhook` and open `…/telegram-webhook?setup=1` once more so `/today` appears in the bot's menu.
+
 ## V7.79 Daily brief over Telegram
 - LINE setup stalled on an emailed OTP that never arrived. Telegram needs one bot token and nothing else.
 - Settings → Telegram → **เชื่อม Telegram** writes a one-time code and shows a **เปิด Telegram แล้วกด Start** link (`t.me/<bot>?start=<code>`). Pressing Start links the chat; the page notices on its own within a few seconds. Typing the code into the bot works too.
