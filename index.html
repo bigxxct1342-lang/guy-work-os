@@ -2041,7 +2041,7 @@ body.dark .splash{background:#15120e}
      <h2>Backup & Restore</h2>
      <div class="row">
       <strong>Export Cloud Backup</strong>
-      <span id="backupScopeText">สำรอง Tasks และ Categories ที่บัญชีนี้มีสิทธิ์เข้าถึงเป็น JSON</span>
+      <span id="backupScopeText">สำรองทุกอย่าง — Tasks, Categories, Projects, KOL, PR / GRPO, Product Launch และเอกสาร NPD ครบทุกช่อง</span>
       <button id="exportBtn" class="btn secondary" style="margin-top:9px">Export Backup</button>
      </div>
      <div class="row">
@@ -2061,7 +2061,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.77</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.78</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3637,7 +3637,7 @@ async function seedNpdTemplate(productId){
 }
 
 /* Parents first, so every child has an id to point at. Order among siblings
-   follows the template. If the V7.77 columns are not there yet the rows go
+   follows the template. If the V7.78 columns are not there yet the rows go
    in without them rather than failing -- a new product must never be
    blocked on a migration the user has not run. Returns false in that case
    so the caller can say so. */
@@ -3820,7 +3820,7 @@ function renderNpdPhases(){
 }
 function renderNpdTimelinePane(){renderNpdOverall();renderNpdGantt();renderNpdCalendar();renderNpdPhases()}
 
-/* src and tmpl come from the V7.77 columns. Until that migration is run,
+/* src and tmpl come from the V7.78 columns. Until that migration is run,
    rows inserted from DOC_711 still carry their exact labels, so the label is
    used as a fallback -- the feature works before the migration, it just
    cannot remember what was asked for. */
@@ -4021,7 +4021,7 @@ const commands=[
  {label:"Go to Tasks",run:()=>goView("tasks")},
  {label:"Go to Calendar",run:()=>goView("calendar")},
  {label:"Go to Weekly Review",run:()=>goView("weekly")},
- {label:"Export Backup",run:()=>exportBackup()}
+ {label:"Export Backup",run:()=>exportBackup().then(d=>toast("Backup แล้ว · "+bkSummary(d),"good")).catch(e=>alert("Backup ไม่สำเร็จ — "+(e?.message||e)))}
 ];
 function renderCommands(q=""){const x=q.toLowerCase();$("commandList").innerHTML=commands.filter(c=>c.label.toLowerCase().includes(x)).map((c,i)=>`<div class="cmd-item" data-ci="${i}">${esc(c.label)}</div>`).join("");[...$("commandList").querySelectorAll(".cmd-item")].forEach((el)=>el.onclick=()=>{const label=el.textContent;const c=commands.find(x=>x.label===label);closeLayer("commandPalette");if(c)c.run()})}
 document.addEventListener("keydown",e=>{
@@ -4366,50 +4366,89 @@ window.viewMemberSummary=uid=>{
 window.viewMember=uid=>viewMemberSummary(uid);
 
 
-function backupPayload(){
- const scope=isAdmin()?"team":"personal";
- // A backup that says "team" has to hold the team. Personal lists stop at the
- // signed-in person now, so a team export reads both sides back together.
- const cats=scope==="team"?categories.concat(teamCategories):categories;
- const ts  =scope==="team"?tasks.concat(teamTasks):tasks;
- return {
-  format:"GUY_WORK_OS_BACKUP",
-  version:"7.1",
-  schema:"V7_PLANNING_STABLE",
-  exportedAt:new Date().toISOString(),
-  scope,
-  exportedBy:user.id,
-  categories:cats.map(c=>({
-   user_id:c.user_id,name:c.name,subs:Array.isArray(c.subs)?c.subs:[],
-   created_at:c.created_at||null,updated_at:c.updated_at||null
-  })),
-  tasks:ts.map(t=>({
-   user_id:t.user_id,task:t.task,category:t.category,sub:t.sub,
-   status:t.status||"To Do",priority:t.priority||"Medium",
-   due:t.due||null,waiting_since:t.waiting_since||null,note:t.note||"",
-   pinned:!!t.pinned,completed_at:t.completed_at||null,
-   created_at:t.created_at||null,updated_at:t.updated_at||null
-  }))
- };
+/* ── backup ──────────────────────────────────────────────────────────────
+   Every table the app writes, every column, read straight from the database.
+   Not the in-memory lists: those only hold the product that is open and the
+   columns the screen happened to need, which is how the old backup came to
+   carry thirteen of a task's thirty-seven columns and none of the planning
+   side at all.
+
+   The order is the restore order -- parents before anything that points at
+   them. fk names a column holding another table's id; ref is project_items'
+   ref_id, whose table depends on kind; self is a table pointing at itself.
+   key is a column that identifies a row well enough to match it back after
+   an insert, so new ids can be handed to the children. */
+const BK=[
+ {t:"categories",       owner:"user_id",   key:"name",  label:"Categories"},
+ {t:"tasks",            owner:"user_id",   key:"task",  label:"Tasks"},
+ {t:"kol_campaigns",    owner:"created_by",key:"name",  label:"KOL",team:1},
+ {t:"purchase_requests",owner:"created_by",key:"title", label:"PR / GRPO",team:1},
+ {t:"projects",         owner:"created_by",key:"name",  label:"Projects",team:1},
+ {t:"project_items",    fk:{project_id:"projects"},     label:"งานในโปรเจกต์",
+  ref:{col:"ref_id",by:"kind",map:{task:"tasks",kol:"kol_campaigns",pr:"purchase_requests"}}},
+ {t:"products",         owner:"created_by",key:"name",  label:"Products",team:1},
+ {t:"product_milestones",fk:{product_id:"products"},key:"title",label:"Milestones"},
+ {t:"product_steps",    fk:{milestone_id:"product_milestones"},key:"name",label:"ขั้นตอน NPD"},
+ {t:"product_docs",     fk:{product_id:"products"},self:"parent_id",key:"label",label:"เอกสาร NPD"}
+];
+const bkMissingTable=e=>e&&(e.code==="42P01"||e.code==="PGRST205"||/does not exist|Could not find the table/i.test(e.message||""));
+// PostgREST hands back at most 1000 rows a request. A backup that stops at a
+// thousand without saying so is the worst kind of backup, so it pages.
+async function bkReadAll(t){
+ const rows=[],P=1000;
+ for(let from=0;;from+=P){
+  const {data,error}=await sb.from(t).select("*").order("id").range(from,from+P-1);
+  if(error)return {error};
+  rows.push(...(data||[]));
+  if(!data||data.length<P)break;
+ }
+ return {rows};
 }
+async function backupPayload(){
+ const scope=isAdmin()?"team":"personal";
+ const out={format:"GUY_WORK_OS_BACKUP",version:"7.78",schema:"V7_FULL",
+  exportedAt:new Date().toISOString(),scope,exportedBy:user.id,skipped:[]};
+ for(const b of BK){
+  const r=await bkReadAll(b.t);
+  if(r.error){
+   // a table whose migration was never run holds nothing to lose
+   if(bkMissingTable(r.error)){out.skipped.push(b.t);continue}
+   throw new Error(`อ่าน ${b.label} ไม่ได้ — ${r.error.message}`);
+  }
+  out[b.t]=r.rows;
+ }
+ return out;
+}
+const bkSummary=d=>BK.filter(b=>Array.isArray(d[b.t])&&d[b.t].length).map(b=>`${b.label} ${d[b.t].length}`).join(" · ")||"ไม่มีข้อมูล";
 function downloadJSON(data,filename){
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
  const u=URL.createObjectURL(blob),a=document.createElement("a");
  a.href=u;a.download=filename;a.click();URL.revokeObjectURL(u);
 }
 function updateLastBackup(){
- const v=localStorage.getItem("guy_work_os_last_backup");
- $("lastBackupText").textContent=v?new Date(v).toLocaleString("en-GB"):"Never";
- $("backupScopeText").textContent=isAdmin()
-  ?"Admin backup includes all Tasks and Categories currently visible to this Admin account."
-  :"Backup includes your Tasks and Categories.";
+ let v=null;try{v=localStorage.getItem("guy_work_os_last_backup")}catch(_){}
+ const days=v?Math.floor((Date.now()-new Date(v))/864e5):null;
+ const el=$("lastBackupText");
+ // the one number on this page that says whether a backup exists at all
+ el.textContent=v?`${new Date(v).toLocaleString("en-GB")}${days>=1?` · ${days} วันก่อน`:""}`:"ยังไม่เคย backup จากเครื่องนี้";
+ el.style.color=days===null||days>14?"#a33224":"";
+ el.style.fontWeight=days===null||days>14?"800":"";
+ $("backupScopeText").textContent=(isAdmin()?"สำรองทุกอย่างของทีม":"สำรองทุกอย่างของคุณ")
+  +" — Tasks, Categories, Projects, KOL, PR / GRPO, Product Launch และเอกสาร NPD ครบทุกช่อง";
 }
-function exportBackup(prefix="GUY_WORK_OS_BACKUP"){
- const stamp=new Date().toISOString().slice(0,10);
- downloadJSON(backupPayload(),`${prefix}_${stamp}.json`);
- const now=new Date().toISOString();
- localStorage.setItem("guy_work_os_last_backup",now);
- updateLastBackup();
+/* Resolves with the file it saved, or throws. Callers that are about to
+   delete something must await it and stop if it throws: a safety copy that
+   silently failed is no safety copy. */
+async function exportBackup(prefix="GUY_WORK_OS_BACKUP"){
+ syncState("Backing up…");
+ try{
+  const d=await backupPayload();
+  const stamp=new Date().toISOString().slice(0,10);
+  downloadJSON(d,`${prefix}_${stamp}.json`);
+  try{localStorage.setItem("guy_work_os_last_backup",new Date().toISOString())}catch(_){}
+  updateLastBackup();
+  return d;
+ }finally{syncState("Cloud synced")}
 }
 function cleanCategory(c,ownerOverride=null){
  return {
@@ -4458,46 +4497,115 @@ async function importLegacyData(d){
  await loadAll();
  toast("Old dashboard data imported.");
 }
+/* Every id in this database is generated, so a restored row cannot keep the
+   id it had. The old restore re-inserted tasks and let project_items go on
+   pointing at ids that no longer existed -- every task silently fell out of
+   every project. Here each table's old ids are mapped to the new ones as it
+   goes in, and anything pointing at them is rewritten before it follows.
+
+   A column the file has but this database does not (a migration not run
+   yet) is dropped from that table and reported, rather than failing the
+   whole restore halfway through after the old rows are already gone. */
+const bkMissingCol=e=>{const m=/Could not find the '([^']+)' column/i.exec(e?.message||"")||/column "?([a-z_]+)"? of relation .* does not exist/i.exec(e?.message||"");return m?m[1]:null};
+async function bkInsert(b,items,map,rep){
+ const dropped=rep.dropped[b.t]||(rep.dropped[b.t]=new Set());
+ for(let i=0;i<items.length;i+=200){
+  const chunk=items.slice(i,i+200);
+  for(let tries=0;;tries++){
+   const rows=chunk.map(it=>{const x={...it.x};dropped.forEach(c=>delete x[c]);return x});
+   const {data,error}=await sb.from(b.t).insert(rows).select(b.key?"id,"+b.key:"id");
+   if(!error){
+    if((data||[]).length!==chunk.length)throw new Error(`${b.label}: ใส่กลับไม่ครบ (${(data||[]).length}/${chunk.length})`);
+    // match back by content, not by position -- nothing promises the order
+    if(b.key){
+     const q=new Map();
+     data.forEach(r=>{const k=String(r[b.key]);(q.get(k)||q.set(k,[]).get(k)).push(r.id)});
+     chunk.forEach(it=>{const k=String(it.x[b.key]);const n=q.get(k)?.shift();if(n!=null&&it.old!=null)map[it.old]=n});
+    }
+    rep.done[b.t]=(rep.done[b.t]||0)+chunk.length;
+    break;
+   }
+   const col=bkMissingCol(error);
+   if(col&&!dropped.has(col)&&tries<40){dropped.add(col);continue}
+   throw new Error(`${b.label}: ${error.message}`);
+  }
+ }
+}
 async function restoreV6Backup(d){
  if(d?.format!=="GUY_WORK_OS_BACKUP"||!Array.isArray(d.categories)||!Array.isArray(d.tasks))throw new Error("ไฟล์นี้ไม่ใช่ Backup ของแอปนี้");
- const backupOwners=[...new Set([...d.categories.map(x=>x.user_id),...d.tasks.map(x=>x.user_id)].filter(Boolean))];
+ const full=d.schema==="V7_FULL";
+ const teamMode=isAdmin()&&d.scope==="team";
+ const present=BK.filter(b=>Array.isArray(d[b.t]));
+ const backupOwners=[...new Set(present.filter(b=>b.owner).flatMap(b=>d[b.t].map(r=>r[b.owner])).filter(Boolean))];
  const allowedOwners=new Set(profiles.map(p=>p.user_id));
  let ownerIds;
- if(isAdmin()&&d.scope==="team"){
+ if(teamMode){
   const unknown=backupOwners.filter(id=>!allowedOwners.has(id));
-  if(unknown.length)throw new Error("This team backup contains users that do not exist in this Supabase workspace.");
+  if(unknown.length)throw new Error("Backup ของทีมนี้มีผู้ใช้ที่ไม่อยู่ในทีมตอนนี้ — กู้คืนไม่ได้");
   ownerIds=backupOwners.length?backupOwners:[user.id];
- }else{
-  ownerIds=[user.id];
- }
- const label=isAdmin()&&d.scope==="team"?"ALL TEAM data included in this backup":"YOUR current data";
- const ok=confirm(
-  `RESTORE BACKUP?\n\nThis will replace ${label}.\n`+
-  `${d.categories.length} categories · ${d.tasks.length} tasks\n\n`+
-  `A pre-restore backup will download automatically first.`
- );
- if(!ok)return;
+ }else ownerIds=[user.id];
 
- // Safety copy before destructive restore
- exportBackup("GUY_WORK_OS_PRE_RESTORE");
+ const who=teamMode?"ข้อมูลทั้งทีม":"ข้อมูลของคุณ";
+ const what=present.map(b=>`${b.label} ${d[b.t].length}`).join("\n");
+ const old=full?"":"\n\n⚠ ไฟล์นี้เป็นแบบเก่า (ก่อน V7.78)\nเก็บแค่ Tasks กับ Categories และ task ไม่มีข้อมูล Creative / โพสต์ / PR / Portfolio\nกู้คืนแล้วข้อมูลส่วนนั้นของ task จะหาย และงานที่ผูกใน Projects จะหลุด\nส่วน Projects / KOL / PR / Product ไม่ถูกแตะ";
+ if(!confirm(`กู้คืน Backup?\n\nจะแทนที่${who}ในหมวดด้านล่างด้วยของในไฟล์\n\n${what}${old}\n\nก่อนเริ่ม ระบบจะดาวน์โหลด backup ของตอนนี้ให้ก่อน`))return;
+
+ // the safety copy must exist before anything is deleted
+ try{await exportBackup("GUY_WORK_OS_PRE_RESTORE")}
+ catch(e){throw new Error("ดาวน์โหลด backup กันพลาดไม่สำเร็จ เลยยังไม่ได้แตะข้อมูลเดิม — "+(e?.message||e))}
  syncState("Restoring backup…");
 
- const {error:te}=await sb.from("tasks").delete().in("user_id",ownerIds);
- if(te)throw te;
- const {error:ce}=await sb.from("categories").delete().in("user_id",ownerIds);
- if(ce)throw ce;
+ // parents only: every child table cascades from the row it belongs to
+ const skipped=[];
+ for(const b of [...present].reverse()){
+  if(!b.owner)continue;
+  const {error}=await sb.from(b.t).delete().in(b.owner,ownerIds);
+  if(error){if(bkMissingTable(error)){skipped.push(b.label);continue}throw new Error(`ลบ ${b.label} เดิมไม่ได้ — ${error.message}`)}
+ }
 
- const cats=d.categories
-  .filter(c=>isAdmin()&&d.scope==="team"?ownerIds.includes(c.user_id):true)
-  .map(c=>cleanCategory(c,isAdmin()&&d.scope==="team"?null:user.id));
- const ts=d.tasks
-  .filter(t=>isAdmin()&&d.scope==="team"?ownerIds.includes(t.user_id):true)
-  .map(t=>cleanTask(t,isAdmin()&&d.scope==="team"?null:user.id));
-
- await insertInChunks("categories",cats);
- await insertInChunks("tasks",ts);
+ const ids={},rep={done:{},orphan:{},dropped:{}};
+ try{
+ for(const b of present){
+  if(skipped.includes(b.label))continue;
+  const map=ids[b.t]={};
+  let src=d[b.t];
+  if(teamMode&&b.owner)src=src.filter(r=>ownerIds.includes(r[b.owner]));
+  // the old format had no ids and its own field names; keep reading it as before
+  if(!full&&b.t==="categories")src=src.map(c=>cleanCategory(c,teamMode?null:user.id));
+  if(!full&&b.t==="tasks")src=src.map(t=>cleanTask(t,teamMode?null:user.id));
+  const items=[],orphan=[];
+  for(const r of src){
+   const x={...r},oldId=x.id;delete x.id;
+   if(full&&b.owner&&!teamMode)x[b.owner]=user.id;
+   if(b.team)x.team_id=profile.team_id;
+   let ok=true;
+   for(const [col,pt] of Object.entries(b.fk||{})){const n=ids[pt]?.[x[col]];if(n==null){ok=false;break}x[col]=n}
+   if(ok&&b.ref){const pt=b.ref.map[x[b.ref.by]];const n=pt?ids[pt]?.[x[b.ref.col]]:null;if(n==null)ok=false;else x[b.ref.col]=n}
+   if(ok)items.push({old:oldId,x});else orphan.push(oldId);
+  }
+  if(b.self){
+   // a tree: put in whatever already has its parent, a level at a time
+   let pending=items;
+   while(pending.length){
+    const wave=pending.filter(it=>it.x[b.self]==null||map[it.x[b.self]]!=null);
+    if(!wave.length){orphan.push(...pending.map(it=>it.old));break}
+    wave.forEach(it=>{if(it.x[b.self]!=null)it.x[b.self]=map[it.x[b.self]]});
+    await bkInsert(b,wave,map,rep);
+    pending=pending.filter(it=>!wave.includes(it));
+   }
+  }else await bkInsert(b,items,map,rep);
+  if(orphan.length)rep.orphan[b.t]=orphan.length;
+ }
+ }catch(err){
+  await loadAll().catch(()=>{});
+  throw new Error(`กู้คืนไม่ครบ — ${err.message}\n\nข้อมูลก่อนกู้คืนอยู่ในไฟล์ GUY_WORK_OS_PRE_RESTORE ที่เพิ่งดาวน์โหลด ใช้ไฟล์นั้นกู้กลับได้`);
+ }
  await loadAll();
- alert("Backup restored successfully.");
+ const lines=present.map(b=>`${b.label}: ${rep.done[b.t]||0}${rep.orphan[b.t]?` (ข้าม ${rep.orphan[b.t]} ที่หาแม่ไม่เจอ)`:""}`);
+ const drops=Object.entries(rep.dropped).filter(([,v])=>v.size).map(([t,v])=>`${t}: ${[...v].join(", ")}`);
+ alert("กู้คืนเสร็จแล้ว\n\n"+lines.join("\n")
+  +(skipped.length?`\n\nข้าม (ตารางยังไม่มีในฐานข้อมูล): ${skipped.join(", ")}`:"")
+  +(drops.length?`\n\nคอลัมน์ที่ฐานข้อมูลนี้ยังไม่มี เลยไม่ได้ใส่กลับ — รัน migration ที่ค้างแล้วกู้คืนใหม่ได้:\n${drops.join("\n")}`:""));
 }
 
 
@@ -4553,7 +4661,8 @@ async function cleanDuplicateImports(){
    `A backup will download automatically before cleanup. Continue?`
  );
  if(!ok)return;
- exportBackup("GUY_WORK_OS_PRE_DEDUPE");
+ try{await exportBackup("GUY_WORK_OS_PRE_DEDUPE")}
+ catch(e){alert("ดาวน์โหลด backup กันพลาดไม่สำเร็จ เลยยังไม่ได้ลบอะไร — "+(e?.message||e));return}
  syncState("Cleaning duplicates…");
  try{
   for(let i=0;i<taskDupIds.length;i+=100){
@@ -6962,7 +7071,12 @@ $("deleteCategoryAll").onclick=async()=>{
 $("addCategoryBtn").onclick=()=>{editingCategoryId=null;$("cName").value="";$("cSubs").value="";$("categoryModalTitle").textContent="Add Category";openLayer("categoryModal")};$("cancelCategory").onclick=()=>closeLayer("categoryModal");$("saveCategory").onclick=async()=>{const name=$("cName").value.trim(),subs=$("cSubs").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name)return toast("Category name required.","bad");const dup=categories.find(c=>c.user_id===user.id&&c.id!==editingCategoryId&&String(c.name).trim().toLowerCase()===name.toLowerCase());if(dup)return toast("Duplicate category name. Use the existing category instead.","bad");if(!subs.length)subs.push("General");if(editingCategoryId){const old=categories.find(c=>c.id===editingCategoryId);if(old&&old.name!==name){const {error:te}=await sb.from("tasks").update({category:name,updated_at:new Date().toISOString()}).eq("user_id",old.user_id).eq("category",old.name);if(te)return toast(te.message,"bad")}const {error}=await sb.from("categories").update({name,subs,updated_at:new Date().toISOString()}).eq("id",editingCategoryId);if(error)return toast(error.message,"bad");toast("Category updated")}else{const {error}=await sb.from("categories").insert({user_id:user.id,name,subs});if(error)return toast(error.message,"bad");toast("Category created")}closeLayer("categoryModal");await loadAll()}
 
 $("cleanupDuplicatesBtn").onclick=cleanDuplicateImports;
-$("exportBtn").onclick=()=>exportBackup();
+$("exportBtn").onclick=async()=>{
+ const btn=$("exportBtn");btn.disabled=true;const was=btn.textContent;btn.textContent="กำลังสำรอง…";
+ try{const d=await exportBackup();toast("Backup แล้ว · "+bkSummary(d)+(d.skipped?.length?` · ข้าม ${d.skipped.join(", ")}`:""),"good")}
+ catch(e){alert("Backup ไม่สำเร็จ — "+(e?.message||e))}
+ finally{btn.disabled=false;btn.textContent=was}
+};
 $("importBtn").onclick=()=>$("importFile").click();
 $("restoreBtn").onclick=()=>$("restoreFile").click();
 
