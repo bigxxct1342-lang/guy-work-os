@@ -16,13 +16,21 @@ import webpush from "npm:web-push@3";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const VAPID_PUBLIC_KEY = Deno.env.get("VAPID_PUBLIC_KEY")!;
-const VAPID_PRIVATE_KEY = Deno.env.get("VAPID_PRIVATE_KEY")!;
+const VAPID_PUBLIC_KEY = Deno.env.get("VAPID_PUBLIC_KEY") || "";
+const VAPID_PRIVATE_KEY = Deno.env.get("VAPID_PRIVATE_KEY") || "";
 const VAPID_SUBJECT = Deno.env.get("VAPID_SUBJECT") || "mailto:admin@example.com";
 const APP_TIMEZONE = Deno.env.get("APP_TIMEZONE") || "Asia/Bangkok";
 const LINE_CHANNEL_ACCESS_TOKEN = Deno.env.get("LINE_CHANNEL_ACCESS_TOKEN") || "";
 
-webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
+const APP_URL = Deno.env.get("APP_URL") || "https://guy-work-os.vercel.app";
+
+// Web Push and LINE are two separate ways out, and either may be the only one
+// set up. This used to configure Web Push unconditionally at load: with no
+// VAPID keys that threw before a single request was served, so a project set
+// up for LINE alone never sent anything. Push is now only armed when its keys
+// are actually there.
+const PUSH_ON = !!(VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY);
+if (PUSH_ON) webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
 
 function todayInTimezone(tz: string): string {
   // en-CA gives YYYY-MM-DD, matching the app's `due` date format.
@@ -62,7 +70,12 @@ Deno.serve(async (req) => {
     sb.from("line_subscriptions").select("user_id,line_user_id"),
   ]);
 
-  if (taskErr || subErr || profErr || lineErr) {
+  // A table that was never created means nobody uses that channel, not that
+  // the whole brief should fail -- LINE-only and push-only setups both have
+  // one of these missing.
+  const missing = (e: { code?: string; message?: string } | null) =>
+    !!e && (e.code === "42P01" || e.code === "PGRST205" || /does not exist|Could not find the table/i.test(e.message || ""));
+  if ((taskErr || profErr) || (subErr && !missing(subErr)) || (lineErr && !missing(lineErr))) {
     return new Response(
       JSON.stringify({ error: (taskErr || subErr || profErr || lineErr)?.message }),
       { status: 500, headers: { "content-type": "application/json" } },
@@ -70,13 +83,13 @@ Deno.serve(async (req) => {
   }
 
   const subsByUser = new Map<string, typeof subs>();
-  for (const s of subs || []) {
+  for (const s of (PUSH_ON && !subErr ? subs : []) || []) {
     if (!subsByUser.has(s.user_id)) subsByUser.set(s.user_id, []);
     subsByUser.get(s.user_id)!.push(s);
   }
 
   const lineByUser = new Map<string, string>();
-  for (const l of lineSubs || []) lineByUser.set(l.user_id, l.line_user_id);
+  for (const l of (lineErr ? [] : lineSubs) || []) lineByUser.set(l.user_id, l.line_user_id);
 
   const nameByUser = new Map<string, string>();
   for (const p of profiles || []) nameByUser.set(p.user_id, p.full_name || p.email || "there");
@@ -102,15 +115,15 @@ Deno.serve(async (req) => {
     const title = dueToday.length
       ? `${dueToday.length} task${dueToday.length === 1 ? "" : "s"} today`
       : `${overdue.length} overdue task${overdue.length === 1 ? "" : "s"}`;
-    const body = parts.join(" · ") || "Open GUY WORK OS to see what's up.";
-    const name = nameByUser.get(userId) || "GUY WORK OS";
+    const body = parts.join(" · ") || "Open PORKCHOP G to see what's up.";
+    const name = nameByUser.get(userId) || "PORKCHOP G";
 
     usersNotified++;
     const lineUserId = lineByUser.get(userId);
 
     if (lineUserId && LINE_CHANNEL_ACCESS_TOKEN) {
       // Prefer LINE when linked, so the user doesn't get double notifications.
-      const ok = await sendLine(lineUserId, `${title} — ${name}\n${body}`);
+      const ok = await sendLine(lineUserId, `${title} — ${name}\n${body}\n\n${APP_URL}`);
       if (ok) sent++; else failed++;
       continue;
     }

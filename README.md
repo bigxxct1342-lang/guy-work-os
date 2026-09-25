@@ -434,6 +434,8 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
 ### Set up LINE Notifications
+> **V7.78:** `daily-brief` used to configure Web Push unconditionally at load, so with no VAPID keys it crashed before serving a request — a project set up for LINE alone never sent anything. Both channels are optional now; redeploy `daily-brief` after pulling this. Every step below can be done from the Supabase Dashboard (Edge Functions → Deploy a new function → Via Editor; Edge Functions → Secrets; Integrations → Cron) without installing the CLI.
+
 1. Create a LINE Official Account (free): https://www.linebiz.com/th/service/line-official-account/ → LINE Official Account Manager → create an account.
 2. In the LINE Official Account Manager, go to Settings → Messaging API → Enable the Messaging API, which links it to a channel in the LINE Developers Console.
 3. In the LINE Developers Console, open that channel → Messaging API tab:
