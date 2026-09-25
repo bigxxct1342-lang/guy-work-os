@@ -1,12 +1,12 @@
-// GUY WORK OS V7.2/V7.3 - Daily Task Reminder
+// PORKCHOP G - Daily Task Reminder
 // Scheduled Edge Function: sends one daily notification per user summarizing
-// today's tasks (and overdue count). Prefers LINE (if the user linked their
-// account) and falls back to Web Push otherwise, so nobody gets both.
+// today's tasks (and overdue count). Each person gets it once, on the first
+// channel they have linked: Telegram, then LINE, then Web Push.
 //
-// Required secrets (set with `supabase secrets set`):
-//   VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:you@example.com)
-// Optional secret (only needed once LINE is set up):
+// Every channel is optional; set the secrets for the ones in use:
+//   TELEGRAM_BOT_TOKEN                                  (V7.79)
 //   LINE_CHANNEL_ACCESS_TOKEN
+//   VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:you@example.com)
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are injected automatically.
 // Optional secret: APP_TIMEZONE (IANA name, default "Asia/Bangkok") controls
 // what counts as "today" when comparing against each task's due date.
@@ -21,6 +21,7 @@ const VAPID_PRIVATE_KEY = Deno.env.get("VAPID_PRIVATE_KEY") || "";
 const VAPID_SUBJECT = Deno.env.get("VAPID_SUBJECT") || "mailto:admin@example.com";
 const APP_TIMEZONE = Deno.env.get("APP_TIMEZONE") || "Asia/Bangkok";
 const LINE_CHANNEL_ACCESS_TOKEN = Deno.env.get("LINE_CHANNEL_ACCESS_TOKEN") || "";
+const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN") || "";
 
 const APP_URL = Deno.env.get("APP_URL") || "https://guy-work-os.vercel.app";
 
@@ -50,6 +51,20 @@ async function sendLine(lineUserId: string, text: string): Promise<boolean> {
   return res.ok;
 }
 
+// Returns "gone" when the person blocked the bot, so the link can be dropped
+// instead of failing again every morning.
+async function sendTelegram(chatId: number, text: string): Promise<"ok" | "gone" | "fail"> {
+  const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
+  });
+  if (res.ok) return "ok";
+  const detail = await res.text();
+  console.error("Telegram send failed", res.status, detail);
+  return res.status === 403 || (res.status === 400 && /chat not found/i.test(detail)) ? "gone" : "fail";
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST" && req.method !== "GET") {
     return new Response("Method not allowed", { status: 405 });
@@ -63,21 +78,23 @@ Deno.serve(async (req) => {
     { data: subs, error: subErr },
     { data: profiles, error: profErr },
     { data: lineSubs, error: lineErr },
+    { data: tgSubs, error: tgErr },
   ] = await Promise.all([
     sb.from("tasks").select("user_id,task,due,status,priority").neq("status", "Done"),
     sb.from("push_subscriptions").select("id,user_id,endpoint,p256dh,auth"),
     sb.from("profiles").select("user_id,full_name,email"),
     sb.from("line_subscriptions").select("user_id,line_user_id"),
+    sb.from("tg_subscriptions").select("user_id,chat_id"),
   ]);
 
   // A table that was never created means nobody uses that channel, not that
-  // the whole brief should fail -- LINE-only and push-only setups both have
-  // one of these missing.
+  // the whole brief should fail -- any setup that skips a channel has its
+  // table missing.
   const missing = (e: { code?: string; message?: string } | null) =>
     !!e && (e.code === "42P01" || e.code === "PGRST205" || /does not exist|Could not find the table/i.test(e.message || ""));
-  if ((taskErr || profErr) || (subErr && !missing(subErr)) || (lineErr && !missing(lineErr))) {
+  if ((taskErr || profErr) || (subErr && !missing(subErr)) || (lineErr && !missing(lineErr)) || (tgErr && !missing(tgErr))) {
     return new Response(
-      JSON.stringify({ error: (taskErr || subErr || profErr || lineErr)?.message }),
+      JSON.stringify({ error: (taskErr || subErr || profErr || lineErr || tgErr)?.message }),
       { status: 500, headers: { "content-type": "application/json" } },
     );
   }
@@ -91,10 +108,13 @@ Deno.serve(async (req) => {
   const lineByUser = new Map<string, string>();
   for (const l of (lineErr ? [] : lineSubs) || []) lineByUser.set(l.user_id, l.line_user_id);
 
+  const tgByUser = new Map<string, number>();
+  for (const t of (tgErr || !TELEGRAM_BOT_TOKEN ? [] : tgSubs) || []) tgByUser.set(t.user_id, t.chat_id);
+
   const nameByUser = new Map<string, string>();
   for (const p of profiles || []) nameByUser.set(p.user_id, p.full_name || p.email || "there");
 
-  const userIds = new Set<string>([...subsByUser.keys(), ...lineByUser.keys()]);
+  const userIds = new Set<string>([...subsByUser.keys(), ...lineByUser.keys(), ...tgByUser.keys()]);
 
   let sent = 0, expired = 0, failed = 0, usersNotified = 0;
 
@@ -119,6 +139,29 @@ Deno.serve(async (req) => {
     const name = nameByUser.get(userId) || "PORKCHOP G";
 
     usersNotified++;
+
+    const chatId = tgByUser.get(userId);
+    if (chatId) {
+      // A chat has room for the whole day, not just the first three.
+      const lines = [`☀️ ${title} — ${name}`, ""];
+      for (const t of dueToday.slice(0, 10)) lines.push(`• ${t.task}`);
+      if (dueToday.length > 10) lines.push(`… +${dueToday.length - 10} more`);
+      if (overdue.length) {
+        if (dueToday.length) lines.push("");
+        lines.push(`⚠️ ${overdue.length} overdue`);
+        for (const t of overdue.slice(0, 5)) lines.push(`• ${t.task} (${t.due})`);
+        if (overdue.length > 5) lines.push(`… +${overdue.length - 5} more`);
+      }
+      lines.push("", APP_URL);
+      const r = await sendTelegram(chatId, lines.join("\n"));
+      if (r === "ok") { sent++; continue; }
+      if (r === "gone") {
+        await sb.from("tg_subscriptions").delete().eq("user_id", userId);
+        expired++;
+      } else failed++;
+      // Fall through: LINE or push may still reach them today.
+    }
+
     const lineUserId = lineByUser.get(userId);
 
     if (lineUserId && LINE_CHANNEL_ACCESS_TOKEN) {

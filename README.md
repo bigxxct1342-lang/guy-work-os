@@ -66,7 +66,9 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-14-kol-timeline.sql` agency working-timeline dates, remarks, ball-in-court, PR link
 - `migration-v7-15-kol-parallel.sql` per-stage status so campaign stages can run in parallel
 - `migration-v7-18-projects.sql` projects + the links that group existing work under them
-- `supabase/functions/daily-brief` Edge Function that sends the daily reminder (LINE or push)
+- `migration-v7-79-telegram.sql` Telegram linking tables
+- `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
+- `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a PORKCHOP G account
 - `manifest.json` PWA metadata
 - `sw.js` basic offline app-shell cache + push notification display
@@ -432,6 +434,23 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.79 Daily brief over Telegram
+- LINE setup stalled on an emailed OTP that never arrived. Telegram needs one bot token and nothing else.
+- Settings → Telegram → **เชื่อม Telegram** writes a one-time code and shows a **เปิด Telegram แล้วกด Start** link (`t.me/<bot>?start=<code>`). Pressing Start links the chat; the page notices on its own within a few seconds. Typing the code into the bot works too.
+- `daily-brief` sends to Telegram first, then LINE, then Web Push — one message per person. The Telegram message lists up to 10 of today's tasks and 5 overdue ones, not just the first three. Blocking the bot (or `/stop`) unlinks it.
+- Only the `telegram-webhook` function (service role) can create a link, and only after Telegram delivers the code from that chat. Webhook calls are authenticated by a secret derived from the bot token, so there is no second secret to create.
+- Requires `migration-v7-79-telegram.sql`.
+
+### Set up Telegram (Dashboard only, no CLI)
+1. In Telegram, message **@BotFather** → `/newbot` → give it a name and a username ending in `bot`. Copy the token it replies with.
+2. Supabase → Edge Functions → Secrets → add `TELEGRAM_BOT_TOKEN` = that token.
+3. Run `migration-v7-79-telegram.sql` in the SQL Editor.
+4. Edge Functions → Deploy a new function → Via Editor → name `telegram-webhook`, paste `supabase/functions/telegram-webhook/index.ts`, deploy. Then open its Details and turn **Enforce JWT verification** (called "Verify JWT with legacy secret" on newer dashboards) off (Telegram calls it directly).
+5. Redeploy `daily-brief` with the current `supabase/functions/daily-brief/index.ts`.
+6. Open `https://<project-ref>.supabase.co/functions/v1/telegram-webhook?setup=1` once in a browser. It should answer `"ok":true` with the bot's username.
+7. In the app: Settings → Telegram → เชื่อม Telegram → เปิด Telegram แล้วกด Start.
+8. The daily brief is sent by the same Cron job as before. If none was ever created: Integrations → Cron → Create job → type **Supabase Edge Function**, function `daily-brief`, method POST, schedule `0 23 * * *` (06:00 Asia/Bangkok), and add the auth header with the service role key the form offers.
 
 ### Set up LINE Notifications
 > **V7.78:** `daily-brief` used to configure Web Push unconditionally at load, so with no VAPID keys it crashed before serving a request — a project set up for LINE alone never sent anything. Both channels are optional now; redeploy `daily-brief` after pulling this. Every step below can be done from the Supabase Dashboard (Edge Functions → Deploy a new function → Via Editor; Edge Functions → Secrets; Integrations → Cron) without installing the CLI.
