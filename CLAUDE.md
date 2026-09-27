@@ -20,6 +20,18 @@ If a migration is long, still paste it whole. Do not summarise it, do not
 send "the important part", and do not tell the user to open the file — they
 asked for the opposite, in those words.
 
+The attached file **cannot be opened from the user's app** — they have said so
+twice. Treat the pasted block as the only copy they will ever see.
+
+Lead with it. When there is SQL to run, the reply starts with the direct link
+to the SQL editor and the code block right under it — before any explanation
+of what was built:
+
+  https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new
+
+Then one line on what to look for in the VERIFY results. Everything else
+comes after.
+
 ## Migrations
 
 - Supabase is unreachable from the container. Every migration is run by hand
