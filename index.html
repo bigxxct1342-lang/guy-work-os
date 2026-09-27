@@ -1901,6 +1901,34 @@ body.dark .splash{background:#15120e}
  .cr-shop{grid-template-columns:repeat(2,minmax(0,1fr))}
  .cr-ghub{grid-template-columns:1fr}
 }
+/* V7.83: hands-on care */
+.cr-acts{grid-template-columns:repeat(4,minmax(0,1fr))}
+#crCv{touch-action:pan-y}
+.cr-care-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.cr-care-top .cr-back{padding:0}
+.cr-steps{display:flex;gap:5px;flex-wrap:wrap}
+.cr-steps span{font-size:12px;font-weight:800;border:2px solid rgba(42,32,19,.35);border-radius:3px;padding:2px 8px;color:var(--t-dim);background:rgba(255,250,235,.5)}
+.cr-steps span.cur{border-color:var(--ink);color:var(--ink);background:#fff4dc}
+.cr-steps span.done{border-color:#b86b12;color:#fff4dc;background:#b86b12}
+.cr-care-head{border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:8px 12px;margin-bottom:10px}
+.cr-care-head b{font-size:18px;margin-right:10px}
+.cr-care-head span{font-weight:700;font-size:14px}
+.cr-care-head .cr-qbar{height:10px;margin-top:6px}
+#crCareCv{touch-action:none}
+.cr-care-stage .cr-bubble{white-space:normal;width:max-content;max-width:min(260px,80%);text-align:center}
+.cr-tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.cr-tool{flex:1 1 110px;display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid var(--ink);border-radius:4px;background:var(--pap);
+ padding:8px 6px;cursor:pointer;font:800 13.5px "Noto Sans Thai",system-ui,sans-serif;color:var(--ink)}
+.cr-tool canvas{image-rendering:pixelated;height:30px;width:auto}
+.cr-tool.on{background:#b86b12;color:#fff4dc;border-color:#4a2a06}
+.cr-tool.need{animation:crNeed 1s ease-in-out infinite}
+@keyframes crNeed{0%,100%{box-shadow:0 0 0 0 rgba(224,149,31,.0)}50%{box-shadow:0 0 0 4px rgba(224,149,31,.75)}}
+@container (max-width:720px){
+ .cr-acts{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cr-tool{flex:1 1 70px;font-size:12px}
+}
+.cr-care-stage .cr-res{top:auto;bottom:10px;transform:translateX(-50%);padding:10px 14px}
+.cr-care-stage .cr-res .xp{font-size:22px}
 </style>
 </head>
 <body>
@@ -2306,13 +2334,16 @@ body.dark .splash{background:#15120e}
       <div class="cr-mrow"><div class="cr-k">FULL<small>อิ่ม</small></div><div class="cr-m" id="crFullM"></div><div class="cr-n" id="crFullN"></div></div>
       <div class="cr-mrow"><div class="cr-k">HAPPY<small>ความสุข</small></div><div class="cr-m" id="crHapM"></div><div class="cr-n" id="crHapN"></div></div>
       <div class="cr-mrow"><div class="cr-k">CLEAN<small>ความสะอาด</small></div><div class="cr-m" id="crClnM"></div><div class="cr-n" id="crClnN"></div></div>
+      <div class="cr-mrow"><div class="cr-k">GROOM<small>ขนสวย</small></div><div class="cr-m" id="crGrmM"></div><div class="cr-n" id="crGrmN"></div></div>
      </div>
     </div>
     <div class="cr-acts">
      <button class="cr-btn pri" id="crFeed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11h18l-2 7H5z"/><path d="M7 11c1-3 9-3 10 0"/></svg><span class="cr-bl"><span>ให้อาหาร</span><small id="crFeedS"></small></span></button>
      <button class="cr-btn" id="crPet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 11V4.5a1.5 1.5 0 0 1 3 0V12"/><path d="M14 11.5V6a1.5 1.5 0 0 1 3 0v8c0 4-2.5 7-6 7-2.6 0-4-1.3-5.3-3.4L4 14.4a1.4 1.4 0 0 1 2.3-1.6L8 15"/></svg><span class="cr-bl"><span>ลูบหัว</span><small id="crPetS"></small></span></button>
+     <button class="cr-btn" id="crBrush"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="5" rx="1"/><path d="M5 10v8M8.5 10v8M12 10v8M15.5 10v8M19 10v8"/></svg><span class="cr-bl"><span>หวีขน</span><small id="crBrushS"></small></span></button>
+     <button class="cr-btn" id="crBath"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V5a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/><path d="M13 6h.01M16 8h.01M13 9h.01"/></svg><span class="cr-bl"><span>อาบน้ำ</span><small id="crBathS"></small></span></button>
+     <button class="cr-btn" id="crClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h11l-1 5H5z"/><path d="M15 15l6-9"/><path d="M7 16.5h.01M10 16.5h.01M13 16.5h.01"/></svg><span class="cr-bl"><span>เก็บกระบะทราย</span><small id="crCleanS"></small></span></button>
      <button class="cr-btn" id="crGamesGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="4"/><path d="M7 11v3M5.5 12.5h3M15 11.5h.01M17.5 13.5h.01"/></svg><span class="cr-bl"><span>มินิเกม</span><small id="crGamesS"></small></span></button>
-     <button class="cr-btn" id="crClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6"/><path d="M17 7l-6 6"/><path d="M11 13l-6 1-2 7 7-2 1-6z"/><path d="M6 17l2-2"/></svg><span class="cr-bl"><span>เก็บกระบะทราย</span><small id="crCleanS"></small></span></button>
      <button class="cr-btn cr-house" id="crHouseGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>บ้านแมว</span></button>
     </div>
     <div class="cr-boxbar hidden" id="crBoxBar"><canvas id="crBoxCv"></canvas>
@@ -2320,6 +2351,13 @@ body.dark .splash{background:#15120e}
      <button class="cr-btn pri" id="crBoxOpen">เปิดกล่อง</button></div>
     <div class="cr-say"><canvas id="crSayCv"></canvas><div class="t" id="crSay"></div><div class="tm" id="crSayT"></div></div>
     <div class="cr-note" id="crNote"></div>
+   </div>
+
+   <div id="crCare" class="hidden">
+    <div class="cr-care-top"><button class="cr-back" id="crCareBack">&lsaquo; กลับห้องแมว</button><div class="cr-steps" id="crCareSteps"></div></div>
+    <div class="cr-care-head"><div><b id="crCareTitle"></b><span id="crCareTip"></span></div><div class="cr-qbar"><i id="crCareBar"></i></div></div>
+    <div class="cr-stage cr-care-stage"><canvas id="crCareCv" aria-label="ดูแลน้องแมว"></canvas><div class="cr-bubble hidden" id="crCareBubble"></div><div class="cr-res hidden" id="crCareRes"></div></div>
+    <div class="cr-tools" id="crCareTools"></div>
    </div>
 
    <div id="crHouse" class="hidden">
@@ -2427,7 +2465,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.82</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.83</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -7784,11 +7822,11 @@ const CR_FOODS=[
 const CR_STAGES=[
  {k:"kitten",th:"ลูกแมว",   up:"",                         desc:"ตัวเล็ก กลม ขนฟู"},
  {k:"teen",  th:"วัยรุ่น",   up:"โตเป็นวัยรุ่นแล้ว!",         desc:"เริ่มซนขึ้น มีพลังมากขึ้น และชอบสำรวจมากกว่าเดิม"},
- {k:"adult", th:"โตเต็มวัย", up:"โตเป็นแมวโตเต็มวัยแล้ว!",    desc:"สัดส่วนลงตัว มั่นใจ ขี้อ้อน"},
+ {k:"adult", th:"โตเต็มวัย", up:"โตเป็นแมวโตเต็มวัยแล้ว!",    desc:"โตเต็มที่แล้ว สัดส่วนลงตัว มั่นใจ ขี้อ้อน"},
  {k:"boss",  th:"เจ้าถิ่น",   up:"กลายเป็นเจ้าถิ่นแล้ว!",       desc:"ตัวใหญ่ หนักแน่น ใจเย็น เจ้าแห่งละแวกนี้"}
 ];
 const CR_NAMES=["MOCHI","LATTE","KOKO","MISO","TARO","TOFU","NORI","BUTTER","MANGO","KHANOM","PUDDING","SESAME","BIGGIE","MOMO"];
-const CR_HR=3600e3,CR_DRAIN=100/(7*CR_HR),CR_SAD=10/(12*CR_HR),CR_PET_CD=30*60e3,CR_DIRTY=24*CR_HR,CR_PLAYS=3,CR_GAME=15000;
+const CR_HR=3600e3,CR_GROOM=100/(48*CR_HR),CR_BATH_CD=24*CR_HR,CR_DRAIN=100/(7*CR_HR),CR_SAD=10/(12*CR_HR),CR_PET_CD=30*60e3,CR_DIRTY=24*CR_HR,CR_PLAYS=3,CR_GAME=15000;
 const CR_BOX_PRICE=500,CR_SLOT_PRICE=[0,600,1200];
 // daily quests: three a day, the same three on every device (seeded by date)
 const CR_Q=[
@@ -7800,7 +7838,9 @@ const CR_Q=[
  {k:"match", th:"เล่นเกมจับคู่ให้จบ 1 รอบ",          need:1, coin:30},
  {k:"jump10",th:"แมวกระโดดได้ 10 คะแนนขึ้นไป",       need:1, coin:35},
  {k:"games", th:"เล่นมินิเกม 2 รอบ",                need:2, coin:30},
- {k:"xp",    th:"ได้ XP รวม 60",                   need:60,coin:25}
+ {k:"xp",    th:"ได้ XP รวม 60",                   need:60,coin:25},
+ {k:"brush", th:"หวีขนให้น้องจนสวย",               need:1, coin:30},
+ {k:"bath",  th:"อาบน้ำให้น้องจนเสร็จ",             need:1, coin:40}
 ];
 const CR_Q_XP=15,CR_Q_BONUS=20;
 // three breeds never come out of a box: they are earned
@@ -7835,7 +7875,9 @@ const CR_DECOR=[
 ];
 const crNeed=L=>L<5?80+20*(L-1):L<15?180+30*(L-5):L<30?500+40*(L-15):1100+50*(L-30);
 function crLevel(xp){let L=1,r=Math.max(0,Math.floor(xp||0));while(r>=crNeed(L)&&L<500){r-=crNeed(L);L++}return{L,into:r,need:crNeed(L)}}
-const crStageOf=L=>L>=30?3:L>=15?2:L>=5?1:0;
+// a new body every 20 levels, and adult is as far as it goes
+const crStageOf=L=>L>=40?2:L>=20?1:0;
+const crBScale=si=>[.64,.82,1][Math.min(si,2)];
 const crFoodFor=L=>CR_FOODS.filter(f=>L>=f.lv).pop();
 const crBreed=k=>CR_BREEDS.find(b=>b.k===k)||CR_BREEDS[0];
 const crClamp=v=>Math.max(0,Math.min(100,v));
@@ -7844,7 +7886,7 @@ let cr=null,crCloud="",crLoading=null,crSaveT=null,crEvents=[],crSel=null,crTab=
 const crKey=()=>"porkchop_cat_"+(user?.id||"anon");
 const crImg=new Image();crImg.src="./cat-sprites.png";
 
-function crNewCat(id,breed,name){const now=Date.now();return {id,breed,name,xp:0,h:80,p:80,t:now,petAt:0,boxLv:0,born:now,wear:{}}}
+function crNewCat(id,breed,name){const now=Date.now();return {id,breed,name,xp:0,h:80,p:80,g:80,t:now,petAt:0,bathAt:0,boxLv:0,born:now,wear:{}}}
 function crNew(){
  const now=Date.now();
  return crValid({v:2,updated:now,seq:1,active:1,room:[1],slots:1,cleanAt:now,ageDay:todayISO(),boxes:0,coins:0,
@@ -7855,7 +7897,7 @@ function crNew(){
 function crValid(s){
  if(!s||typeof s!=="object"||!Array.isArray(s.cats)||!s.cats.length)return null;
  const now=Date.now(),day={day:"",n:0,best:0};
- s.cats=s.cats.filter(c=>c&&c.id!=null).map(c=>({breed:"mix",name:"CAT",xp:0,h:70,p:80,t:now,petAt:0,boxLv:0,born:now,...c,wear:{...(c.wear||{})}}));
+ s.cats=s.cats.filter(c=>c&&c.id!=null).map(c=>({breed:"mix",name:"CAT",xp:0,h:70,p:80,g:70,bathAt:0,t:now,petAt:0,boxLv:0,born:now,...c,wear:{...(c.wear||{})}}));
  if(!s.cats.length)return null;
  const ids=new Set(s.cats.map(c=>c.id));
  if(!ids.has(s.active))s.active=s.cats[0].id;
@@ -7881,11 +7923,11 @@ const crRoomCats=()=>cr.room.map(id=>cr.cats.find(c=>c.id===id)).filter(Boolean)
 // Only cats in the room live on the clock; the rest are asleep in the house.
 function crVals(c,now=Date.now()){
  const dt=crInRoom(c)?Math.max(0,now-c.t):0;
- const h=crClamp(c.h-dt*CR_DRAIN),p=crClamp(c.p-dt*CR_SAD);
+ const h=crClamp(c.h-dt*CR_DRAIN),p=crClamp(c.p-dt*CR_SAD),g=crClamp((c.g??70)-dt*CR_GROOM);
  const clean=now-cr.cleanAt<CR_DIRTY?100:35;
- return {h,p,clean,dirty:clean<100,sulk:h<20||p<25||clean<20};
+ return {h,p,g,clean,dirty:clean<100,sulk:h<20||p<25||clean<20};
 }
-function crSnap(c,now=Date.now()){const v=crVals(c,now);c.h=v.h;c.p=v.p;c.t=now;return v}
+function crSnap(c,now=Date.now()){const v=crVals(c,now);c.h=v.h;c.p=v.p;c.g=v.g;c.t=now;return v}
 
 function crGain(c,xp){
  xp=Math.round(xp);if(xp<=0)return;
@@ -7907,7 +7949,8 @@ function crDaily(){
  const today=todayISO();if(cr.daily.day===today)return;
  // no litter quest on a day the box will not get dirty before midnight
  const eod=new Date();eod.setHours(23,59,59,999);
- const r=crSeeded(today),pool=CR_Q.filter(q=>q.k!=="clean"||cr.cleanAt+CR_DIRTY<=eod.getTime());const list=[];
+ const canBath=crRoomCats().some(c=>(c.bathAt||0)+CR_BATH_CD<=eod.getTime());
+ const r=crSeeded(today),pool=CR_Q.filter(q=>(q.k!=="clean"||cr.cleanAt+CR_DIRTY<=eod.getTime())&&(q.k!=="bath"||canBath));const list=[];
  while(list.length<3&&pool.length)list.push(pool.splice(Math.floor(r()*pool.length),1)[0]);
  cr.daily={day:today,list:list.map(q=>({k:q.k,have:0,claimed:false})),bonus:false};
 }
@@ -7985,6 +8028,7 @@ function crMood(c=crCat()){
  if(v.sulk)return "งอนอยู่นะ... ขอนอนก่อน";
  if(v.h<30)return "หิวแล้วน้า... ขออาหารหน่อยได้ไหม?";
  if(v.dirty)return "กระบะทรายเริ่มเหม็นแล้วนะ...";
+ if(v.g<30)return "ขนพันกันยุ่งไปหมดแล้ว หวีให้หน่อยสิ";
  if(v.p<40)return "เหงาจัง มาลูบหัวหน่อยสิ";
  if(hr>=23||hr<6)return "ง่วงแล้ว... ฝันดีนะ";
  if(cr.room.length>1&&c.id%2)return "มีเพื่อนในห้องด้วย สนุกจัง";
@@ -8005,7 +8049,7 @@ function crFrame(c,pose){
  if(c.breed==="mix"||!CR_ATLAS.breeds[c.breed]){
   const f=CR_ATLAS.stages[st];return {r:f[pose]||f.sit,s:1,own:!!f[pose]};
  }
- return {r:CR_ATLAS.breeds[c.breed],s:[.64,.82,1,1.14][si],own:false};
+ return {r:CR_ATLAS.breeds[c.breed],s:crBScale(si),own:false};
 }
 const CR_DRESSED=new Set(["sit","sitB","happy"]);
 function crDraw(g,r,s,x,yb,flip){
@@ -8282,6 +8326,11 @@ function crStage(cvId,mode){
   g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1);
   if(p==="eat"&&!f.own)drawBowl(x+(flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
   const d=crDraw(g,f.r,f.s,x,yy,flip);
+  // an unbrushed coat shows: stray tufts around the outline
+  const vg=crVals(c).g;
+  if(vg<45&&p!=="leap"){const n=vg<20?9:vg<32?6:4;g.fillStyle="#8a4708";
+   for(let k=0;k<n;k++){const a=Math.PI*(.08+.84*((k*37+c.id*11)%n)/n),px=x+Math.cos(a)*d.w*.42,py=yy-d.h*.45-Math.sin(a)*d.h*.47;
+    g.fillRect(Math.round(px),Math.round(py),1,2);g.fillRect(Math.round(px+Math.cos(a)*1.5),Math.round(py-1),1,1)}}
   if(CR_DRESSED.has(p))crWearDraw(g,c,f.r,f.s,x,yy,flip);
   const a=st(c.id);a.top=y-d.h;a.cx=x;a.hw=d.w/2;a.x=x;
   if(marked){const my=Math.round(a.top-7+Math.sin(now/260)*1.5);g.fillStyle="#8a4708";for(let i=0;i<3;i++)g.fillRect(Math.round(x)-2+i,my+i,5-2*i,1)}
@@ -8351,19 +8400,33 @@ function crStage(cvId,mode){
    }
    return;
   }
-  // tap a cat: the first tap picks him, the next one pets him
-  const hit=crRoomCats().map(c=>({c,a:AS[c.id]})).filter(o=>o.a&&o.a.top!=null&&Math.abs(x-o.a.cx)<o.a.hw&&y>o.a.top-2)
-   .sort((p,q)=>Math.abs(x-p.a.cx)-Math.abs(x-q.a.cx))[0];
-  if(!hit)return;
-  if(hit.c.id!==cr.active)crSelect(hit.c.id);else crPet();
+  // press on a cat: a tap picks him (or pets the one already picked);
+  // rubbing back and forth pets him, with hearts along the way
+  const hit=catAt(x,y);
+  if(hit)rub={id:hit.c.id,x,y,dist:0,heart:0,done:false};
  }
- cv.addEventListener("pointerdown",tap);
+ let rub=null;
+ const catAt=(x,y)=>crRoomCats().map(c=>({c,a:AS[c.id]})).filter(o=>o.a&&o.a.top!=null&&Math.abs(x-o.a.cx)<o.a.hw&&y>o.a.top-2)
+   .sort((p,q)=>Math.abs(x-p.a.cx)-Math.abs(x-q.a.cx))[0];
+ function rubMove(ev){
+  if(!rub||mode!=="room")return;
+  const r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*W,y=(ev.clientY-r.top)/r.height*H;
+  rub.dist+=Math.hypot(x-rub.x,y-rub.y);rub.x=x;rub.y=y;
+  if(rub.dist-rub.heart>16&&catAt(x,y)){rub.heart=rub.dist;spawn("heart",x-2,y-4)}
+  if(!rub.done&&rub.dist>=90){rub.done=true;if(rub.id!==cr.active)crSelect(rub.id);crPet()}
+ }
+ function rubUp(){
+  if(rub&&!rub.done&&rub.dist<6){if(rub.id!==cr.active)crSelect(rub.id);else crPet()}
+  rub=null;
+ }
+ cv.addEventListener("pointerdown",tap);cv.addEventListener("pointermove",rubMove);cv.addEventListener("pointerup",rubUp);cv.addEventListener("pointerleave",rubUp);cv.addEventListener("pointercancel",rubUp);
  fit();
  const onR=()=>{fit()};window.addEventListener("resize",onR);
  raf=requestAnimationFrame(frame);
  return {
   mode,get S(){return S},
-  stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);cv.removeEventListener("pointerdown",tap)},
+  stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);cv.removeEventListener("pointerdown",tap);
+   cv.removeEventListener("pointermove",rubMove);cv.removeEventListener("pointerup",rubUp);cv.removeEventListener("pointerleave",rubUp);cv.removeEventListener("pointercancel",rubUp)},
   act(kind){
    const now=performance.now(),id=cr.active,a=st(id);
    if(kind==="eat")pose(id,"eat",2600);
@@ -8600,13 +8663,16 @@ function crRender(){
  const c=crCat(),v=crVals(c),lv=crLevel(c.xp),b=crBreed(c.breed),now=Date.now();
  $("crSub").textContent=`${c.name} · ${b.th} · ${CR_STAGES[crStageOf(lv.L)].th}`+(cr.room.length>1?` · ในห้อง ${cr.room.length} ตัว`:"");
  $("crLv").textContent=lv.L;$("crXpT").textContent=`${lv.into}/${lv.need}`;crMeter($("crXpM"),Math.floor(lv.into/lv.need*10));
- [["Full",v.h],["Hap",v.p],["Cln",v.clean]].forEach(([k,x])=>{crMeter($("cr"+k+"M"),cr10(x));const n=$("cr"+k+"N");n.textContent=cr10(x)+"/10";n.classList.toggle("cr-low",x<30)});
+ [["Full",v.h],["Hap",v.p],["Cln",v.clean],["Grm",v.g]].forEach(([k,x])=>{crMeter($("cr"+k+"M"),cr10(x));const n=$("cr"+k+"N");n.textContent=cr10(x)+"/10";n.classList.toggle("cr-low",x<30)});
  const food=crFoodFor(lv.L),full=v.h>=85;
  $("crFeedS").textContent=full?"อิ่มแล้ว":food.th;
  $("crFeed").classList.toggle("pri",!full);
  const cd=CR_PET_CD-(now-(c.petAt||0));
  $("crPet").disabled=cd>0;$("crPetS").textContent=cd>0?`${String(Math.floor(cd/60000)).padStart(2,"0")}:${String(Math.floor(cd/1000)%60).padStart(2,"0")}`:"";
  $("crClean").disabled=!v.dirty;$("crCleanS").textContent=v.dirty?"ต้องเก็บแล้ว":"สะอาดแล้ว";
+ $("crBrush").disabled=v.g>=90;$("crBrushS").textContent=v.g>=90?"ขนสวยแล้ว":v.g<30?"ขนพันกัน!":"หวีได้";
+ const bl=CR_BATH_CD-(now-(c.bathAt||0));$("crBath").disabled=bl>0;$("crBathS").textContent=bl>0?`อีก ${Math.ceil(bl/CR_HR)} ชม.`:"อาบได้";
+ $("crPetS").textContent||($("crPetS").textContent="ถูที่ตัวน้องได้");
  $("crGamesS").textContent=`เหลือ ${crPlaysLeft()} รอบ`;
  $("crBoxBar").classList.toggle("hidden",!cr.boxes);$("crBoxN").textContent=cr.boxes;
  if(cr.boxes&&CR_ATLAS.props.box)crPaint($("crBoxCv"),CR_ATLAS.props.box,.66);
@@ -8743,6 +8809,7 @@ function crRenderAll(){
 }
 function crShowTab(t){
  if(crBusy())return;
+ if(crCareS){crCareS.stop();crCareS=null;crCareKind="";$("crCare").classList.add("hidden");$("crRoom").classList.remove("hidden")}
  crTab=t;
  document.querySelectorAll("[data-crtab]").forEach(b=>b.classList.toggle("on",b.dataset.crtab===t));
  ["room","house","games","quests","shop"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.toggle("hidden",k!==t));
@@ -8758,10 +8825,10 @@ async function crOpen(){
  await crLoad();
  crShowTab(crTab==="games"?"games":crTab);
  clearInterval(crTimer);
- crTimer=setInterval(()=>{if(document.hidden)return;crTick();if(crTab==="room")crRender();else crBadges();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
+ crTimer=setInterval(()=>{if(document.hidden)return;crTick();if(crTab==="room"&&!crCareS)crRender();else crBadges();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
  setTimeout(crNextEvent,600);
 }
-function crClose(){clearInterval(crTimer);crTimer=null;if(crSc){crSc.stop();crSc=null}if(crJmp){crJmp.stop();crJmp=null}if(crMatchS)crMatchS.run=false;clearInterval(crMatchT)}
+function crClose(){clearInterval(crTimer);crTimer=null;if(crCareS){crCareS.stop();crCareS=null;crCareKind="";$("crCare").classList.add("hidden");$("crRoom").classList.remove("hidden")}if(crSc){crSc.stop();crSc=null}if(crJmp){crJmp.stop();crJmp=null}if(crMatchS)crMatchS.run=false;clearInterval(crMatchT)}
 
 /* ---- popups: level, stage, streak, box ---- */
 function crModal(title,body,onClose){
@@ -8789,7 +8856,7 @@ function crNextEvent(){
    +`<div class="col"><span class="lbl">${b.th}</span><canvas id="cmB" class="cm-pop"></canvas></div></div>`
    +`<div class="cm-box">${esc(c.name)} ${b.desc}<br>มาดูแลน้องกันต่อไปนะ!</div>`
    +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">เย้! เข้าใจแล้ว</button></div>`,next);
-  const pic=(id,si)=>{const cv=$(id);const f=c.breed==="mix"?{r:CR_ATLAS.stages[CR_STAGES[si].k].sit,s:1}:{r:CR_ATLAS.breeds[c.breed],s:[.64,.82,1,1.14][si]};crPaint(cv,f.r,f.s);cv.style.width=Math.round(f.r[2]*f.s*2.4)+"px"};
+  const pic=(id,si)=>{const cv=$(id);const f=c.breed==="mix"?{r:CR_ATLAS.stages[CR_STAGES[si].k].sit,s:1}:{r:CR_ATLAS.breeds[c.breed],s:crBScale(si)};crPaint(cv,f.r,f.s);cv.style.width=Math.round(f.r[2]*f.s*2.4)+"px"};
   pic("cmA",e.from);pic("cmB",e.to);
   $("cmOk").onclick=()=>$("cmX").click();
  }else if(e.type==="streak"){
@@ -8842,6 +8909,295 @@ function crHatch(breed,head){
 }
 function crSetName(cat){const i=$("cmName");if(!i)return;const n=i.value.trim().toUpperCase().slice(0,12);if(n)cat.name=n}
 
+/* ---- hands-on care: brushing, bathing, scooping ------------------------
+   Each is a close-up where the tool follows your finger, and progress is
+   measured on the cat itself: every sprite pixel keeps its own state
+   (brushed, wet, foamy), so the bar only fills where you actually went.
+   Leaving half-way costs nothing and earns nothing. */
+const CR_TOOL={
+ brush:  {th:"แปรงขน",    r:7,  px:["00000000000.....","02121212120.....","02222222220000..","0222222222222200","0000000000000000"]},
+ comb:   {th:"หวีซี่ถี่",   r:3.5,px:["00000000000","02222222220","00000000000","0.0.0.0.0.0","0.0.0.0.0.0","0.0.0.0.0.0"]},
+ hand:   {th:"จับน้อง",    r:0,  px:[".00.00.",".03030.0","003333030","033333330","033333330",".0333330.","..00000.."]},
+ shower: {th:"ฝักบัว",     r:8,  px:["......000","....00220","...0220..","0000000..","0222220..","0000000.."]},
+ shampoo:{th:"แชมพู",      r:6,  px:["..00...","..02...",".0000..","033330.","031130.","033330.","000000."]},
+ towel:  {th:"ผ้าเช็ดตัว",   r:8,  px:["000000000000","034343434330","033333333330","034343434330","000000000000"]},
+ scoop:  {th:"ที่ตักทราย",   r:7,  px:["000000.........","023230.........","032320000000000","023230222222220","000000000000000"]}
+};
+const CR_CARE={
+ brush:{th:"หวีขน",tools:["brush","comb"],steps:[{k:"brush",th:"หวีให้ทั่วตัว ตรงที่เป็นปมใช้หวีซี่ถี่",short:"หวีขน"}]},
+ bath:{th:"อาบน้ำ",tools:["hand","shower","shampoo","towel"],steps:[
+  {k:"tub", th:"ลากน้องไปใส่ในอ่าง",           short:"ลงอ่าง", tool:"hand"},
+  {k:"wet", th:"เปิดฝักบัว ราดน้ำให้ทั่วตัว",       short:"ราดน้ำ", tool:"shower"},
+  {k:"soap",th:"ถูแชมพูให้เป็นฟองทั่วตัว",        short:"แชมพู",  tool:"shampoo"},
+  {k:"rinse",th:"ใช้ฝักบัวล้างฟองออกให้หมด",      short:"ล้างฟอง",tool:"shower"},
+  {k:"dry", th:"เช็ดตัวให้แห้ง",                 short:"เช็ดตัว", tool:"towel"}]},
+ scoop:{th:"เก็บกระบะทราย",tools:["scoop"],steps:[{k:"scoop",th:"ตักก้อนทรายออกให้หมด",short:"ตักทราย",tool:"scoop"}]}
+};
+function crToolPaint(cv,k,ps=3){
+ const P=CR_TOOL[k].px,w=Math.max(...P.map(r=>r.length));cv.width=w*ps;cv.height=P.length*ps;
+ const g=cv.getContext("2d");P.forEach((row,j)=>{for(let i=0;i<row.length;i++){const ch=row[i];if(ch==="."||ch===" ")continue;g.fillStyle=CR_WPAL[+ch];g.fillRect(i*ps,j*ps,ps,ps)}});
+}
+let crCareS=null,crCareKind="";
+function crCareOpen(kind){
+ if(!cr)return;crTick();
+ const c=crCat(),v=crVals(c),now=Date.now();
+ if(kind==="brush"&&v.g>=90){crSay("ขนสวยอยู่แล้ว ไว้ค่อยหวีนะ");return}
+ if(kind==="bath"&&now-(c.bathAt||0)<CR_BATH_CD){crSay("เพิ่งอาบไปเอง ขอพักก่อนนะ");return}
+ if(kind==="scoop"&&!v.dirty){crSay("กระบะยังสะอาดอยู่เลย");return}
+ if(crSc){crSc.stop();crSc=null}
+ crCareKind=kind;$("crRoom").classList.add("hidden");$("crCare").classList.remove("hidden");
+ $("crCareRes").classList.add("hidden");
+ const D=CR_CARE[kind];
+ $("crCareTools").innerHTML=D.tools.map(k=>`<button class="cr-tool" data-tool="${k}"><canvas data-toolpic="${k}"></canvas><span>${CR_TOOL[k].th}</span></button>`).join("");
+ D.tools.forEach(k=>crToolPaint(document.querySelector(`[data-toolpic="${k}"]`),k));
+ crCareS=crCareScene(kind,c);
+ window.scrollTo({top:$("crCare").getBoundingClientRect().top+window.scrollY-90,behavior:"smooth"});
+}
+function crCareClose(){
+ if(crCareS){crCareS.stop();crCareS=null}
+ crCareKind="";$("crCare").classList.add("hidden");$("crRoom").classList.remove("hidden");
+ if(crTab==="room"&&!crSc)crSc=crStage("crCv","room");
+ crRender();
+}
+function crCareDone(kind){
+ const c=crCat(),now=Date.now();let xp=0,coins=0,say="";
+ crRoomCats().forEach(x=>crSnap(x,now));crCare();
+ if(kind==="brush"){c.g=crClamp(c.g+45);c.p=crClamp(c.p+8);crQ("brush");xp=15;coins=8;say="ขนนุ่มฟูเลย ขอบคุณนะ ♡"}
+ if(kind==="bath"){c.g=100;c.p=crClamp(c.p+10);c.bathAt=now;crQ("bath");xp=30;coins=15;say="หอมฟุ้งเลย! ขนนุ่มสุด ๆ"}
+ if(kind==="scoop"){cr.cleanAt=now;c.p=crClamp(c.p+5);crQ("clean");cr.stats.cleans++;xp=12;coins=5;say="หอมแล้ว ขอบคุณนะ"}
+ crGain(c,xp);crCoin(coins);cr.say={t:now,m:say,id:c.id};
+ $("crCareRes").innerHTML=`<h4>${{brush:"หวีขนเสร็จแล้ว!",bath:"อาบน้ำเสร็จแล้ว!",scoop:"สะอาดเอี่ยม!"}[kind]}</h4>`
+  +`<div class="k">${esc(c.name)}: ${esc(say)}</div><div class="xp">+${xp} XP · +${coins} เหรียญ</div>`
+  +`<button class="cr-btn pri" id="crCareOk">กลับห้องแมว</button>`;
+ $("crCareRes").classList.remove("hidden");$("crCareOk").onclick=crCareClose;
+ crSaveSoon();crBadges();crWidget();setTimeout(crNextEvent,900);
+}
+function crCareScene(kind,c){
+ const cv=$("crCareCv"),g=cv.getContext("2d"),D=CR_CARE[kind];
+ let W,H,S,bg=null,raf=0,dead=false,last=0,dirtyUI=true;
+ const Z={step:0,tool:D.steps[0].tool||D.tools[0],down:false,px:-99,py:-99,lx:0,ly:0,over:false,finished:false,shake:0};
+ const P=[];
+ const f=crFrame(c,"sit"),[sx,sy,sw,sh]=f.r;
+ const A=crAtlasData(),N=sw*sh,op=new Uint8Array(N);
+ if(A)for(let j=0;j<sh;j++)for(let i=0;i<sw;i++)op[j*sw+i]=A.d[((sy+j)*A.w+sx+i)*4+3]>128?1:0;
+ const br=new Uint8Array(N),mat=new Uint8Array(N),wet=new Uint8Array(N),foam=new Uint8Array(N),hitT=new Float64Array(N);
+ const cells=[];for(let k=0;k<N;k++)if(op[k])cells.push(k);
+ const v0=crVals(c);
+ // brushing: stray fur along the outline, and a few knots that only the comb undoes
+ const fluff=[];
+ if(kind==="brush"){
+  const pct=.3+(100-v0.g)/200;
+  for(const k of cells){const i=k%sw,j=(k/sw)|0;
+   for(const [dx,dy] of [[0,-1],[-1,0],[1,0]]){const x=i+dx,y=j+dy;if(x<0||y<0||x>=sw||!op[y*sw+x]){if(((i*7+j*13)%100)/100<pct)fluff.push({k,dx,dy});break}}}
+  const nm=v0.g<30?5:v0.g<60?3:1;let tries=0;
+  for(let m=0;m<nm&&tries<400;tries++){
+   const k=cells[Math.floor(Math.random()*cells.length)],i=k%sw,j=(k/sw)|0;
+   if(j<sh*.3||i<3||i>sw-4)continue;
+   let inside=true;for(let y=-2;y<=2;y++)for(let x=-2;x<=2;x++)if(!op[(j+y)*sw+i+x])inside=false;
+   if(!inside)continue;
+   for(let y=-2;y<=2;y++)for(let x=-2;x<=2;x++)if(x*x+y*y<=5)mat[(j+y)*sw+i+x]=1;m++;
+  }
+ }
+ const matCells=cells.filter(k=>mat[k]),plain=cells.filter(k=>!mat[k]);
+ const ov=document.createElement("canvas");ov.width=sw;ov.height=sh;const og=ov.getContext("2d");
+ // scooping: clumps in the sand
+ const clumps=[];
+ let z=1,catX=0,catY=0,inTub=false,drag=false,rimY=0,tub=null,sand=null;
+ function fit(){
+  ({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;
+  z=kind==="scoop"?Math.max(1,H*.34/sh):H*.62/sh;
+  if(kind==="bath"){tub={x0:Math.round(W*.5),x1:Math.round(W*.94),rim:Math.round(H*.6),bot:Math.round(H*.95)};rimY=tub.rim+4}
+  if(kind==="scoop"){sand={x0:Math.round(W*.28),x1:Math.round(W*.94),y0:Math.round(H*.32),y1:Math.round(H*.9)};
+   if(!clumps.length)for(let n=0;n<6;n++)clumps.push({x:sand.x0+12+Math.random()*(sand.x1-sand.x0-24),y:sand.y0+10+Math.random()*(sand.y1-sand.y0-18),r:3+Math.random()*2,gone:false})}
+  if(kind==="bath"&&!inTub&&!drag){catX=W*.24;catY=H*.92}
+  else if(kind==="bath"&&inTub){catX=(tub.x0+tub.x1)/2;catY=tubY()}
+  else if(kind==="scoop"){catX=W*.13;catY=H*.9}
+  else{catX=W*.5;catY=H*.93}
+  bg=crCareBg(kind,W,H,tub,sand);
+ }
+ const left=()=>Math.round(catX-sw*z/2),top=()=>Math.round(catY-sh*z);
+ // sitting in the water: two thirds of him above the rim
+ const tubY=()=>Math.round(tub.rim+sh*z*.34);
+ const onCat=(x,y)=>{const i=Math.floor((x-left())/z),j=Math.floor((y-top())/z);return i>=0&&j>=0&&i<sw&&j<sh&&op[j*sw+i]};
+ const visible=k=>kind!=="bath"||top()+((k/sw)|0)*z<rimY;
+ function each(x,y,R,fn){
+  const L=left(),T=top(),i0=Math.max(0,Math.floor((x-R-L)/z)),i1=Math.min(sw-1,Math.ceil((x+R-L)/z)),j0=Math.max(0,Math.floor((y-R-T)/z)),j1=Math.min(sh-1,Math.ceil((y+R-T)/z));
+  for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++){const k=j*sw+i;if(!op[k])continue;const cx=L+(i+.5)*z,cy=T+(j+.5)*z;if((cx-x)**2+(cy-y)**2<=R*R&&visible(k))fn(k,cx,cy)}
+ }
+ const step=()=>D.steps[Z.step];
+ function prog(){
+  const s=step();if(!s)return 1;
+  const vis=cells.filter(visible),n=Math.max(1,vis.length);
+  if(s.k==="brush"){const cov=plain.filter(k=>br[k]).length/Math.max(1,plain.length),mc=matCells.length?matCells.filter(k=>br[k]>=3).length/matCells.length:1;return Math.min(1,cov/.85)*.7+mc*.3}
+  if(s.k==="tub")return inTub?1:0;
+  if(s.k==="wet")return Math.min(1,vis.filter(k=>wet[k]).length/n/.85);
+  if(s.k==="soap")return Math.min(1,vis.filter(k=>foam[k]).length/n/.85);
+  if(s.k==="rinse"){const f=vis.filter(k=>foam[k]).length/n;return Math.min(1,(1-f)/.96)}
+  if(s.k==="dry"){const w=vis.filter(k=>wet[k]).length/n;return Math.min(1,(1-w)/.92)}
+  if(s.k==="scoop")return clumps.filter(q=>q.gone).length/clumps.length;
+  return 0;
+ }
+ let hintT=0;
+ function hint(m){const b=$("crCareBubble");if(!b)return;const now=performance.now();if(now-hintT<1800&&b.textContent===m)return;hintT=now;
+  b.textContent=m;b.classList.remove("hidden");const hw=b.offsetWidth/2+4,pw=cv.parentElement.clientWidth;
+  b.style.left=Math.max(hw,Math.min(pw-hw,catX*S+(cv.offsetLeft||0)))+"px";b.style.top=Math.max(4,top()*S-b.offsetHeight-12)+"px";
+  clearTimeout(hint.t);hint.t=setTimeout(()=>b.classList.add("hidden"),1800)}
+ function apply(x,y,dist){
+  const s=step();if(!s||Z.finished)return;
+  const want=s.tool;
+  if(want&&Z.tool!==want){hint(`ขั้นนี้ใช้${CR_TOOL[want].th}นะ`);return}
+  const R=CR_TOOL[Z.tool].r,now=performance.now();
+  if(s.k==="brush"){
+   let stuck=false;
+   each(x,y,R,(k,cx,cy)=>{
+    if(mat[k]){if(Z.tool==="comb"&&dist>1.2&&now-hitT[k]>90){hitT[k]=now;br[k]=Math.min(9,br[k]+1);if(br[k]===3&&Math.random()<.5)spawn("fur",cx,cy)}else if(Z.tool==="brush"&&br[k]<3)stuck=true;return}
+    if(!br[k]){br[k]=1;if(Math.random()<.18)spawn("fur",cx,cy)}
+   });
+   if(stuck)hint("ติดปม! ใช้หวีซี่ถี่ค่อย ๆ หวี");
+  }else if(s.k==="wet"||s.k==="rinse"){each(x,y+6,R,(k)=>{wet[k]=1;if(s.k==="rinse"&&foam[k]){foam[k]=0;if(Math.random()<.12)spawn("bub",left()+(k%sw)*z,top()+((k/sw)|0)*z)}})}
+  else if(s.k==="soap"){if(dist>.6)each(x,y,R,(k,cx,cy)=>{if(!foam[k]){foam[k]=1;if(Math.random()<.05)spawn("bub",cx,cy)}})}
+  else if(s.k==="dry"){if(dist>.6)each(x,y,R,(k)=>{wet[k]=0})}
+  else if(s.k==="scoop"){for(const q of clumps)if(!q.gone&&Math.hypot(q.x-x,q.y-y)<R+q.r){q.gone=true;for(let i=0;i<5;i++)spawn("dust",q.x,q.y)}}
+  dirtyUI=true;
+ }
+ function spawn(kind,x,y){P.push({kind,x,y,vx:(Math.random()-.5)*.03,vy:kind==="drop"?.09+Math.random()*.04:kind==="bub"?-.02:kind==="fur"?-.02-Math.random()*.02:-.03,t:performance.now(),life:kind==="drop"?600:1100})}
+ function next(){
+  Z.step++;dirtyUI=true;
+  if(Z.step>=D.steps.length){Z.finished=true;Z.shake=performance.now();for(let i=0;i<14;i++)spawn(kind==="bath"?"drop":"spark",catX+(Math.random()-.5)*sw*z,top()+Math.random()*sh*z*.6);setTimeout(()=>crCareDone(kind),kind==="bath"?1100:500);return}
+  const nt=step().tool;if(nt&&Z.tool!==nt)hint(`ต่อไป: ${step().th}`);
+ }
+ function ui(){
+  const s=step(),p=Z.finished?1:prog();
+  $("crCareTitle").textContent=D.th;
+  $("crCareTip").textContent=Z.finished?"เสร็จแล้ว!":s.th;
+  $("crCareBar").style.width=Math.round(p*100)+"%";
+  $("crCareSteps").innerHTML=D.steps.length>1?D.steps.map((x,i)=>`<span class="${i<Z.step||Z.finished?"done":i===Z.step?"cur":""}">${i+1}. ${x.short}</span>`).join(""):"";
+  document.querySelectorAll("[data-tool]").forEach(b=>{b.classList.toggle("on",b.dataset.tool===Z.tool);b.classList.toggle("need",!Z.finished&&!!s?.tool&&b.dataset.tool===s.tool&&Z.tool!==s.tool)});
+  cv.style.cursor=Z.tool==="hand"?(drag?"grabbing":"grab"):"none";
+ }
+ function pos(ev){const r=cv.getBoundingClientRect();return [(ev.clientX-r.left)/r.width*W,(ev.clientY-r.top)/r.height*H]}
+ function down(ev){
+  if(Z.finished)return;const [x,y]=pos(ev);Z.down=true;Z.px=Z.lx=x;Z.py=Z.ly=y;Z.over=true;
+  try{cv.setPointerCapture(ev.pointerId)}catch(_){}
+  const s=step();
+  if(s.k==="tub"){if(Z.tool!=="hand"){hint("ขั้นนี้ใช้มือจับน้องนะ");return}if(onCat(x,y)&&!inTub){drag=true;Z.gx=catX-x;Z.gy=catY-y}else if(!inTub)hint("กดที่ตัวน้องแล้วลากไปที่อ่าง")}
+  else apply(x,y,2);
+  ev.preventDefault();
+ }
+ function move(ev){
+  const [x,y]=pos(ev),d=Math.hypot(x-Z.lx,y-Z.ly);Z.px=x;Z.py=y;Z.over=true;
+  if(drag){catX=x+Z.gx;catY=Math.min(H*.95,y+Z.gy);return}
+  if(Z.down&&d>0){
+   // fill the gap between two moves, so a fast stroke still covers the path
+   const n=Math.max(1,Math.ceil(d/2));for(let i=1;i<=n;i++)apply(Z.lx+(x-Z.lx)*i/n,Z.ly+(y-Z.ly)*i/n,d/n);
+   if(Z.tool==="shower"&&Math.random()<.8)spawn("drop",x-4+Math.random()*8,y+4);
+  }
+  Z.lx=x;Z.ly=y;
+ }
+ function up(){
+  Z.down=false;
+  if(drag){drag=false;
+   if(catX>tub.x0+6&&catX<tub.x1-6&&catY<tub.bot+10){inTub=true;catX=(tub.x0+tub.x1)/2;catY=tubY();spawn("drop",catX,rimY);hint("ยอมลงอ่างแล้ว!")}
+   else{catY=H*.92;catX=Math.max(sw*z/2,Math.min(W-sw*z/2,catX));hint("อ่างอยู่ทางขวานะ")}
+   dirtyUI=true}
+ }
+ function leave(){Z.over=false;if(!drag)Z.down=false}
+ cv.addEventListener("pointerdown",down);cv.addEventListener("pointermove",move);
+ cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);cv.addEventListener("pointerleave",leave);
+ const toolClick=e=>{const b=e.target.closest("[data-tool]");if(!b)return;Z.tool=b.dataset.tool;dirtyUI=true};
+ $("crCareTools").addEventListener("click",toolClick);
+ function drawTool(){
+  if(Z.tool==="hand"||!Z.over||Z.finished)return;
+  const P2=CR_TOOL[Z.tool].px,ps=W<220?2:3,w=Math.max(...P2.map(r=>r.length))*ps,h=P2.length*ps;
+  const X=Math.round(Z.px-w/2),Y=Math.round(Z.py-h/2);
+  P2.forEach((row,j)=>{for(let i=0;i<row.length;i++){const ch=row[i];if(ch==="."||ch===" ")continue;g.fillStyle=CR_WPAL[+ch];g.fillRect(X+i*ps,Y+j*ps,ps,ps)}});
+ }
+ function frame(now){
+  if(dead)return;raf=requestAnimationFrame(frame);
+  if(document.hidden||!bg)return;
+  const dt=Math.min(50,now-(last||now));last=now;
+  g.drawImage(bg,0,0);
+  if(kind==="scoop"){
+   for(const q of clumps)if(!q.gone){for(let y=-q.r;y<=q.r;y++)for(let x=-q.r;x<=q.r;x++)if(x*x+y*y<=q.r*q.r){g.fillStyle=(x+y)%3?"#8a6636":"#5a3f1c";g.fillRect(Math.round(q.x+x),Math.round(q.y+y*.8),1,1)}}
+   if(clumps.some(q=>!q.gone))for(let k=0;k<3;k++){const bx=sand.x0+(sand.x1-sand.x0)*(.3+k*.2);for(let j=0;j<8;j++){g.fillStyle="#8a6636";g.fillRect(Math.round(bx+Math.sin(now/260+j*.8+k)*1.5),sand.y0-4-j,1,1)}}
+  }
+  // the cat
+  let jx=0;if(Z.finished&&now-Z.shake<900)jx=Math.round(Math.sin(now/30)*2);
+  const L=left()+jx,T=top();
+  if(crImg.complete)g.drawImage(crImg,sx,sy,sw,sh,L,T,Math.round(sw*z),Math.round(sh*z));
+  // per-pixel state drawn over him
+  const zz=Math.ceil(z);
+  if(kind==="brush"){
+   for(const fl of fluff){if(br[fl.k])continue;const i=fl.k%sw,j=(fl.k/sw)|0;g.fillStyle=(i+j)%2?"#8a4708":"#d1841c";
+    g.fillRect(Math.round(L+(i+fl.dx)*z),Math.round(T+(j+fl.dy)*z),zz,zz);g.fillRect(Math.round(L+(i+fl.dx*2)*z),Math.round(T+(j+fl.dy*2-(fl.dy?0:1))*z),zz,zz)}
+   for(const k of matCells){if(br[k]>=3)continue;const i=k%sw,j=(k/sw)|0;g.fillStyle=(i+j+br[k])%2?"#2b1d0c":"#5a3208";g.fillRect(Math.round(L+i*z),Math.round(T+j*z),zz,zz)}
+  }
+  if(kind==="bath"){
+   // wet fur and lather are painted at the sprite's own resolution and scaled
+   // with him, so neighbouring pixels never double up into a grey smear
+   og.clearRect(0,0,sw,sh);
+   for(const k of cells){if(!wet[k]&&!foam[k])continue;const i=k%sw,j=(k/sw)|0;
+    og.fillStyle=foam[k]?"rgba(255,244,220,.5)":"rgba(43,29,12,.22)";og.fillRect(i,j,1,1)}
+   g.drawImage(ov,0,0,sw,sh,L,T,Math.round(sw*z),Math.round(sh*z));
+   for(const k of cells)if(foam[k]){const i=k%sw,j=(k/sw)|0;if((i*3+j*5)%37)continue;const bx=Math.round(L+i*z),by=Math.round(T+j*z),bs=Math.ceil(z*1.5);
+    g.fillStyle="#d6b980";g.fillRect(bx-1,by-1,bs+2,bs+2);g.fillStyle="#fff4dc";g.fillRect(bx,by,bs,bs)}
+   if(cells.some(k=>wet[k])&&Math.random()<dt/140){const k=cells[Math.floor(Math.random()*cells.length)];if(wet[k]&&visible(k))spawn("drop",L+(k%sw)*z,T+((k/sw)|0)*z)}
+   // the front of the tub hides his legs once he is in
+   const t=tub;g.fillStyle="#2b1d0c";g.fillRect(t.x0,t.rim,t.x1-t.x0,t.bot-t.rim);
+   g.fillStyle="#f5e7c4";g.fillRect(t.x0+1,t.rim+1,t.x1-t.x0-2,t.bot-t.rim-2);
+   g.fillStyle="#d6b980";for(let y=t.rim+3;y<t.bot-1;y+=3)g.fillRect(t.x0+2,y,t.x1-t.x0-4,1);
+   g.fillStyle="#fff4dc";g.fillRect(t.x0-2,t.rim-2,t.x1-t.x0+4,3);g.fillStyle="#2b1d0c";g.fillRect(t.x0-2,t.rim-3,t.x1-t.x0+4,1);
+   g.fillStyle="#5a3f1c";g.fillRect(t.x0+3,t.bot,3,3);g.fillRect(t.x1-6,t.bot,3,3);
+  }
+  for(let i=P.length-1;i>=0;i--){const p=P[i],a=(now-p.t)/p.life;if(a>=1){P.splice(i,1);continue}
+   const x=p.x+p.vx*(now-p.t),y=p.y+p.vy*(now-p.t);g.globalAlpha=a>.7?(1-a)/.3:1;
+   if(p.kind==="drop"){g.fillStyle="#fff4dc";g.fillRect(Math.round(x),Math.round(y),1,2)}
+   else if(p.kind==="bub"){g.fillStyle="#d6b980";g.fillRect(Math.round(x)-1,Math.round(y)-1,4,4);g.fillStyle="#fff4dc";g.fillRect(Math.round(x),Math.round(y),2,2)}
+   else if(p.kind==="fur"){g.fillStyle="#d1841c";g.fillRect(Math.round(x),Math.round(y),2,1);g.fillRect(Math.round(x)+1,Math.round(y)+1,1,1)}
+   else if(p.kind==="dust"){g.fillStyle="#b8945c";g.fillRect(Math.round(x),Math.round(y),1,1)}
+   else{g.fillStyle="#fff4dc";g.fillRect(Math.round(x)-1,Math.round(y),3,1);g.fillRect(Math.round(x),Math.round(y)-1,1,3)}
+   g.globalAlpha=1}
+  if(Z.tool==="shower"&&Z.down)for(let i=0;i<2;i++)spawn("drop",Z.px-5+Math.random()*10,Z.py+3);
+  drawTool();
+  if(!Z.finished&&step()&&prog()>=1)next();
+  if(dirtyUI){dirtyUI=false;ui()}
+ }
+ fit();ui();
+ const onR=()=>fit();window.addEventListener("resize",onR);
+ raf=requestAnimationFrame(frame);
+ return {stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);
+  cv.removeEventListener("pointerdown",down);cv.removeEventListener("pointermove",move);cv.removeEventListener("pointerup",up);cv.removeEventListener("pointercancel",up);cv.removeEventListener("pointerleave",leave);
+  $("crCareTools").removeEventListener("click",toolClick)},
+  peek(){return {W,H,z,left:left(),top:top(),sw,sh,step:Z.step,prog:prog(),inTub,tub,clumps,tool:Z.tool,finished:Z.finished,catX,catY}}};
+}
+// backdrops for the close-ups, in the room's six tones
+function crCareBg(kind,W,H,tub,sand){
+ if(kind==="brush")return crRoom(W,H,cr.decor.on);
+ const c=document.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");
+ const R=(x,y,w,h,k)=>{g.fillStyle=CR_R[k];g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ if(kind==="bath"){
+  const F=Math.round(H*.7);
+  R(0,0,W,F,5);for(let y=0;y<F;y+=10)R(0,y,W,1,4);for(let y=0,r=0;y<F;y+=10,r++)for(let x=(r%2)*5;x<W;x+=10)R(x,y,1,10,4);
+  R(0,F,W,H-F,3);for(let x=0;x<W;x+=12)R(x,F,1,H-F,2);R(0,F,W,2,1);
+  // mirror, shelf with bottles, towel rail
+  const mx=Math.round(W*.08);R(mx,Math.round(H*.1),Math.round(W*.16),Math.round(H*.3),1);R(mx+2,Math.round(H*.1)+2,Math.round(W*.16)-4,Math.round(H*.3)-4,6);
+  R(mx+4,Math.round(H*.13),3,Math.round(H*.12),5);
+  const sy=Math.round(H*.3);R(Math.round(W*.55),sy,Math.round(W*.2),2,1);
+  [[.57,8,2],[.61,11,3],[.65,7,1],[.69,9,2]].forEach(([fx,h,k])=>{R(W*fx,sy-h,5,h,k);R(W*fx+1,sy-h-2,3,2,0)});
+  R(Math.round(W*.8),Math.round(H*.18),Math.round(W*.14),2,1);R(Math.round(W*.82),Math.round(H*.18)+2,Math.round(W*.1),Math.round(H*.18),4);
+  for(let y=Math.round(H*.18)+5;y<Math.round(H*.36);y+=4)R(Math.round(W*.82),y,Math.round(W*.1),1,3);
+  // the tub's inside and the tap on the wall above it
+  const t=tub;R(t.x0-2,t.rim-12,t.x1-t.x0+4,14,4);R(t.x0,t.rim-10,t.x1-t.x0,10,6);
+  R(t.x1-8,t.rim-22,2,10,1);R(t.x1-12,t.rim-24,8,3,1);
+  return c;
+ }
+ // scoop: the litter tray from above
+ const g2=g;R(0,0,W,H,4);for(let y=0;y<H;y+=6)R(0,y,W,1,3);
+ const s=sand;R(s.x0-6,s.y0-8,s.x1-s.x0+12,s.y1-s.y0+14,1);R(s.x0-4,s.y0-6,s.x1-s.x0+8,s.y1-s.y0+10,5);
+ for(let y=s.y0;y<s.y1;y++)for(let x=s.x0;x<s.x1;x++){g2.fillStyle=((BAYER[y&3][x&3]+.5)/16<.35)?CR_R[4]:CR_R[5];if((x*7+y*13)%23===0)g2.fillStyle=CR_R[3];g2.fillRect(x,y,1,1)}
+ return c;
+}
+
 /* ---- the dashboard's little window onto him ---- */
 async function crWidget(){
  const box=$("catWidget");if(!box||!user)return;
@@ -8866,7 +9222,9 @@ $("catWidget").addEventListener("click",e=>{
  goView("cat");
 });
 document.querySelectorAll("[data-crtab]").forEach(b=>b.onclick=()=>crShowTab(b.dataset.crtab));
-$("crFeed").onclick=crFeed;$("crPet").onclick=crPet;$("crClean").onclick=crClean;
+$("crFeed").onclick=crFeed;$("crPet").onclick=crPet;
+$("crClean").onclick=()=>crCareOpen("scoop");$("crBrush").onclick=()=>crCareOpen("brush");$("crBath").onclick=()=>crCareOpen("bath");
+$("crCareBack").onclick=crCareClose;
 $("crGamesGo").onclick=()=>crShowTab("games");$("crHouseGo").onclick=()=>crShowTab("house");
 $("crBoxOpen").onclick=crOpenBox;
 $("crLStart").onclick=crLaserStart;$("crMStart").onclick=crMatchStart;$("crJStart").onclick=crJumpStart;

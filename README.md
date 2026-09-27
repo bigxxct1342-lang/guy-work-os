@@ -437,6 +437,17 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.83 Cat Room: hands-on care, and a new body every 20 levels
+- **Growth**: kitten Lv 1–19, teen Lv 20–39, adult from Lv 40 — and adult is the last stage (the "boss" stage is gone).
+- **Care is something you do, not a button**. Each opens a close-up where the tool follows your finger and progress is measured on the cat's own pixels:
+  - **หวีขน** — brush and fine comb. Stray tufts come away where you stroke; knots only give to repeated comb strokes. The bar fills from what you actually covered.
+  - **อาบน้ำ** — five steps: drag him into the tub → wet him with the shower → work up a lather with shampoo → rinse the foam off → towel dry. Each step wants its tool; the wrong one says so. Once a day.
+  - **เก็บกระบะทราย** — scoop every clump out of the tray.
+  - **ลูบหัว** — rub on the cat in the room (hearts follow your finger); a tap still works.
+- **New stat GROOM (ขนสวย)**: drains over two days; a scruffy coat shows as tufts around the cat. Brushing +45, bathing to full.
+- Two new daily quests: brush him, bath him. Care pays XP and fish coins.
+- No SQL.
+
 ## V7.82 Cat Room: coins, quests, shop, more cats, more games
 - **Fish coins** (เหรียญปลา): daily quests, mini-games (up to 30 a game), +50 per level-up, +5 for the first meal of the day. Balance sits top-right of the Cat Room.
 - **Daily quests**: three a day, picked by date so every device shows the same three (no litter quest on a day the box cannot get dirty). Each pays coins + 15 XP; all three pay a +20 bonus. **Care streak**: any care counts the day; every 7 days in a row brings a mystery box.
