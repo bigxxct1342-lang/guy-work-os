@@ -1662,6 +1662,175 @@ body.dark .splash{background:#15120e}
 @media(prefers-reduced-motion:reduce){.splash-bg{animation:none}.splash-led{animation:none}}
 @keyframes splashPan{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.05) translate(-1%,-0.6%)}}
 @media(prefers-reduced-motion:reduce){.splash-bg{animation:none}}
+
+/* ── CAT ROOM ────────────────────────────────────────────────────────────
+   A pet, not a report: heavier borders, square corners and one filled
+   button, so it reads as a small game sitting on the same paper. Cats are
+   the four amber levels only; the laser dot is the one red in the room. */
+#catView .scr-in{container-type:inline-size}
+.cr{--ink:#2a2013;--fill:#b86b12;--fill-hi:#fff4dc;--pap:#f6ecd2;color:var(--ink)}
+.cr-vt{font-family:"VT323",ui-monospace,monospace;letter-spacing:.06em}
+.cr-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-bottom:12px}
+.cr-title{font-family:"VT323",ui-monospace,monospace;font-size:40px;line-height:.9;letter-spacing:.04em}
+.cr-sub{font-size:13px;color:var(--t-dim);margin-top:4px}
+.cr-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.cr-tabs button{font-family:"VT323",ui-monospace,monospace;font-size:19px;letter-spacing:.06em;border:2px solid var(--ink);
+ background:transparent;color:var(--ink);padding:3px 12px;border-radius:3px;cursor:pointer;position:relative}
+.cr-tabs button.on{background:var(--ink);color:#f4a12e}
+.cr-dot{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;border-radius:9px;background:#a33224;color:#fff;
+ font:800 11px/17px system-ui,sans-serif;text-align:center;padding:0 4px}
+.cr-stage{position:relative;border:2px solid var(--ink);border-radius:4px;overflow:hidden;background:#e8d3a3;line-height:0}
+.cr-stage canvas{display:block;margin:0 auto;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:manipulation}
+.cr-bubble{position:absolute;line-height:1.35;background:#fffaf0;border:2px solid var(--ink);border-radius:6px;padding:5px 10px;
+ font-size:13px;font-weight:800;white-space:nowrap;transform:translate(-50%,0);pointer-events:none;z-index:2;
+ box-shadow:2px 2px 0 rgba(42,32,19,.25);transition:opacity .25s}
+.cr-bubble::after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-6px;border:6px solid transparent;border-top-color:var(--ink);border-bottom:0}
+.cr-bubble.hidden{display:block;opacity:0}
+.cr-float{position:absolute;line-height:1;font-family:"VT323",ui-monospace,monospace;font-size:20px;white-space:nowrap;color:#fff4dc;background:var(--fill);
+ border:2px solid var(--ink);padding:2px 7px;border-radius:4px;pointer-events:none;z-index:3;transform:translate(-50%,0);
+ animation:crFloat 1.4s ease-out forwards}
+@keyframes crFloat{0%{opacity:0;margin-top:8px}15%{opacity:1;margin-top:0}75%{opacity:1}100%{opacity:0;margin-top:-26px}}
+.cr-panel{border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.55);padding:12px 14px;margin-top:10px}
+.cr-stats{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:10px 22px;align-items:center}
+.cr-lvrow{display:flex;align-items:center;gap:14px}
+.cr-lv{font-family:"VT323",ui-monospace,monospace;font-size:34px;line-height:1;white-space:nowrap}
+.cr-xpk{font-family:"VT323",ui-monospace,monospace;font-size:17px;letter-spacing:.05em;margin-bottom:3px}
+.cr-meters{display:grid;gap:6px}
+.cr-mrow{display:grid;grid-template-columns:62px minmax(0,1fr) 50px;align-items:center;gap:8px}
+.cr-k{font-family:"VT323",ui-monospace,monospace;font-size:17px;letter-spacing:.05em;line-height:1}
+.cr-k small{display:block;font-family:"Noto Sans Thai",system-ui,sans-serif;font-size:10.5px;color:var(--t-dim);letter-spacing:0}
+.cr-n{font-family:"VT323",ui-monospace,monospace;font-size:18px;text-align:right}
+.cr-n.cr-low{color:#a33224}
+.cr-m{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;height:14px;min-width:0}
+.cr-m i{border:1px solid rgba(42,32,19,.55);background:#f6ecd2}
+.cr-m i.on{background-color:#c77a14;background-image:radial-gradient(#8a4708 .8px,transparent 1.1px);background-size:3px 3px;border-color:#5a3208}
+.cr-acts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
+.cr-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:6px 10px;border:2px solid var(--ink);
+ border-radius:4px;background:var(--pap);color:var(--ink);font:800 16px/1.15 "Noto Sans Thai",system-ui,sans-serif;cursor:pointer;
+ text-align:center;transition:transform .12s}
+.cr-btn:active:not(:disabled){transform:translateY(1px)}
+.cr-btn svg{width:22px;height:22px;flex:none}
+.cr-acts .cr-btn{font-size:15px;padding:6px 8px}
+.cr-btn.pri{background:var(--fill);color:var(--fill-hi);border-color:#4a2a06}
+.cr-btn:disabled{background:#ddd0b2;color:#8e7c56;border-color:#a8977a;cursor:default}
+.cr-btn small{display:block;font-size:12px;font-weight:600;opacity:.9;white-space:nowrap}
+.cr-btn .cr-bl{display:flex;flex-direction:column;align-items:flex-start}
+.cr-say{display:flex;align-items:center;gap:12px;border:2px solid var(--ink);border-radius:4px;padding:7px 12px;margin-top:10px;
+ background:rgba(255,250,235,.62);font-size:14px;line-height:1.45}
+.cr-say canvas{width:40px;height:34px;image-rendering:pixelated;flex:none}
+.cr-say .t{flex:1;min-width:0}
+.cr-say .tm{font-family:"VT323",ui-monospace,monospace;font-size:16px;color:var(--t-dim);align-self:flex-start}
+.cr-boxbar{display:flex;align-items:center;gap:12px;border:2px dashed var(--ink);border-radius:4px;padding:8px 12px;margin-top:10px;background:rgba(224,149,31,.14)}
+.cr-boxbar canvas{width:44px;height:40px;image-rendering:pixelated;flex:none}
+.cr-boxbar .t{flex:1;font-weight:800;font-size:14px;line-height:1.35}
+.cr-boxbar .t small{display:block;font-weight:600;color:var(--t-dim)}
+.cr-boxbar .cr-btn{min-height:40px;font-size:14px}
+.cr-note{font-size:12px;color:var(--t-dim);margin-top:10px;line-height:1.5}
+.cr-note b{color:#a33224}
+/* house */
+.cr-hhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.cr-hhead b{font-size:22px}
+.cr-hhead .cnt{font-family:"VT323",ui-monospace,monospace;font-size:22px;text-align:right;line-height:1}
+.cr-hhead .cnt small{display:block;font-family:"Noto Sans Thai",system-ui,sans-serif;font-size:11px;color:var(--t-dim)}
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+.cr-card{border:2px solid var(--ink);border-radius:4px;background:#efdcae;cursor:pointer;overflow:hidden;position:relative;text-align:left;
+ padding:0;color:var(--ink);font:inherit}
+.cr-card .pic{position:relative;height:104px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;
+ background:linear-gradient(#e8d3a3 0 64%,#b8945c 64% 66%,#cfb07a 66%)}
+.cr-card .pic canvas{image-rendering:pixelated}
+.cr-card .inf{padding:6px 9px 8px;border-top:2px solid var(--ink);background:#f3e6c6;line-height:1.15}
+.cr-card .nm{font-family:"VT323",ui-monospace,monospace;font-size:19px;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr-card .ln{display:flex;justify-content:space-between;align-items:center;gap:6px;font-family:"VT323",ui-monospace,monospace;font-size:17px}
+.cr-tag{font-family:"VT323",ui-monospace,monospace;font-size:13px;letter-spacing:.05em;border:1px solid rgba(42,32,19,.35);
+ background:rgba(42,32,19,.08);padding:0 5px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:74px}
+.cr-card.on{box-shadow:0 0 0 3px #e0951f}
+.cr-card.sel{box-shadow:0 0 0 3px var(--ink)}
+.cr-card.on.sel{box-shadow:0 0 0 3px #e0951f,0 0 0 6px var(--ink)}
+.cr-card .flag{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:var(--fill);color:var(--fill-hi);
+ border:2px solid #4a2a06;border-radius:3px;font-size:11.5px;font-weight:800;padding:1px 8px;white-space:nowrap}
+.cr-card.lock{cursor:default;background:#5e5646}
+.cr-card.lock .pic{background:#6f6552}
+.cr-card.lock .inf{background:#d9ccad}
+.cr-card.lock .pic::after{content:"";position:absolute;left:50%;top:58%;width:16px;height:14px;margin-left:-8px;border-radius:2px;
+ background:#e9dcbe;box-shadow:0 -7px 0 -3px #6f6552,0 -9px 0 -2px #e9dcbe}
+.cr-hacts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.cr-hacts .cr-btn{flex:1 1 200px}
+/* laser */
+.cr-lstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.cr-lbox{border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:6px 10px;display:flex;align-items:center;gap:10px}
+.cr-lbox svg{width:24px;height:24px;flex:none}
+.cr-lbox .k{font-size:12px;color:var(--t-dim);line-height:1.2}
+.cr-lbox .v{font-family:"VT323",ui-monospace,monospace;font-size:34px;line-height:.9}
+.cr-lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:10px}
+.cr-tip{display:flex;align-items:center;gap:10px;border:2px solid var(--ink);border-radius:4px;padding:6px 12px;background:rgba(255,250,235,.62);
+ font-weight:800;font-size:14px}
+.cr-tip svg{width:22px;height:22px;flex:none}
+.cr-res{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(300px,86%);line-height:1.3;background:#fffaf0;
+ border:3px solid var(--ink);border-radius:5px;padding:12px 16px;text-align:center;z-index:3;box-shadow:4px 4px 0 rgba(42,32,19,.3)}
+.cr-res h4{margin:0 0 6px;font-size:22px}
+.cr-res .big{font-family:"VT323",ui-monospace,monospace;font-size:54px;line-height:.9}
+.cr-res .k{font-size:12px;color:var(--t-dim)}
+.cr-res .xp{font-family:"VT323",ui-monospace,monospace;font-size:28px}
+.cr-res .two{display:flex;justify-content:space-around;border-top:1px dashed var(--t-line);margin-top:8px;padding-top:8px}
+.cr-res .two b{font-family:"VT323",ui-monospace,monospace;font-size:22px;display:block}
+.cr-res .cr-btn{width:100%;margin-top:8px;min-height:40px}
+@container (max-width:720px){
+ .cr-tabs{width:100%}.cr-tabs button{flex:1;padding:3px 6px;font-size:18px}
+ .cr-stats{grid-template-columns:1fr}
+ .cr-acts{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cr-acts .cr-house{grid-column:1/-1}
+ .cr-title{font-size:32px}
+ .cr-lbox{padding:5px 8px;gap:6px}.cr-lbox svg{display:none}
+ .cr-lbox .v{font-size:28px}
+ .cr-lrow{grid-template-columns:1fr}
+}
+/* the popups share one frame */
+.modal.cm{max-width:430px;width:min(430px,94vw);background:#f3e6c6;border:3px solid #2a2013;border-radius:6px;padding:0;overflow:hidden;color:#2a2013}
+.cm-h{display:flex;align-items:center;background:#1a1208;color:#f4a12e;font-family:"VT323",ui-monospace,monospace;font-size:26px;
+ letter-spacing:.08em;padding:6px 8px 6px 16px}
+.cm-h span{flex:1}
+.cm-h button{background:none;border:0;color:#f4a12e;font-size:26px;line-height:1;cursor:pointer;padding:2px 8px}
+.cm-b{padding:16px 18px 18px;text-align:center}
+.cm-t{font-weight:900;font-size:24px;line-height:1.25}
+.cm-s{font-size:14px;color:#6d5b39;margin-top:4px;line-height:1.5}
+.cm-pic{display:flex;align-items:flex-end;justify-content:center;gap:14px;min-height:140px;margin:10px 0 4px;position:relative}
+.cm-pic canvas{image-rendering:pixelated;position:relative;z-index:1}
+.cm-pic .lbl{font-size:12px;font-weight:800;border:2px solid #2a2013;border-radius:4px;padding:1px 8px;background:#fffaf0;margin-bottom:6px;display:inline-block}
+.cm-pic .col{display:flex;flex-direction:column;align-items:center}
+.cm-arrow{font-family:"VT323",ui-monospace,monospace;font-size:30px;align-self:center}
+.cm-lvs{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0}
+.cm-lvs>div{border:2px solid #2a2013;border-radius:4px;padding:6px 10px;background:#fffaf0;min-width:120px}
+.cm-lvs b{font-family:"VT323",ui-monospace,monospace;font-size:26px;display:block;line-height:1}
+.cm-lvs small{font-family:"VT323",ui-monospace,monospace;font-size:14px}
+.cm-rw{border:2px solid #2a2013;border-radius:4px;background:#fffaf0;padding:8px 12px;margin:10px 0 2px;font-weight:800;font-size:14px}
+.cm-rw em{font-style:normal;display:inline-block;background:#b86b12;color:#fff4dc;border-radius:3px;padding:0 8px;margin-bottom:4px}
+.cm-box{padding:8px 12px;border:2px solid #2a2013;border-radius:4px;background:#fffaf0;font-size:14px;line-height:1.5;margin-top:8px}
+.cm-name{display:flex;gap:8px;align-items:center;margin-top:10px}
+.cm-name input{flex:1;min-width:0;font-family:"VT323",ui-monospace,monospace;font-size:22px;letter-spacing:.06em;text-transform:uppercase;
+ border:2px solid #2a2013;border-radius:4px;background:#fffaf0;padding:4px 10px;color:#2a2013}
+.cm-acts{display:grid;gap:8px;margin-top:12px}
+.cm .cr-btn{--ink:#2a2013;--fill:#b86b12;--fill-hi:#fff4dc;--pap:#f6ecd2}
+.cm-rays{position:absolute;inset:-10px;background:repeating-conic-gradient(from 0deg,rgba(224,149,31,.35) 0 8deg,transparent 8deg 22deg);
+ -webkit-mask:radial-gradient(circle,#000 20%,transparent 68%);mask:radial-gradient(circle,#000 20%,transparent 68%);animation:cmSpin 6s linear infinite}
+@keyframes cmSpin{to{transform:rotate(360deg)}}
+.cm-shake{animation:cmShake .18s linear infinite}
+@keyframes cmShake{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-3px,0) rotate(-4deg)}75%{transform:translate(3px,0) rotate(4deg)}}
+.cm-pop{animation:cmPop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes cmPop{0%{transform:scale(.2);opacity:0}100%{transform:scale(1);opacity:1}}
+/* dashboard widget */
+.cat-w{cursor:pointer}
+.cw-body{display:grid;grid-template-columns:86px minmax(0,1fr);gap:12px;align-items:center}
+.cw-pic{height:76px;border:2px solid var(--t-ink);border-radius:3px;display:flex;align-items:flex-end;justify-content:center;
+ background:linear-gradient(#e8d3a3 0 62%,#b8945c 62% 65%,#cfb07a 65%);padding-bottom:3px;overflow:hidden}
+.cw-pic canvas{image-rendering:pixelated}
+.cw-nm{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:"VT323",ui-monospace,monospace;font-size:22px;line-height:1;letter-spacing:.04em}
+.cw-nm .lv{margin-left:auto}
+.cw-row{display:grid;grid-template-columns:34px minmax(0,1fr) 36px;gap:6px;align-items:center;margin-top:6px;font-family:"VT323",ui-monospace,monospace;font-size:15px}
+.cw-row .cr-m{height:11px}
+.cw-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:10px;align-items:stretch}
+.cw-say{border:1px solid var(--t-line);border-radius:3px;padding:5px 9px;font-size:12.5px;line-height:1.4;background:rgba(255,250,235,.5)}
+.cw-foot .cr-btn{min-height:40px;font-size:14px;padding:4px 12px;--ink:#2a2013;--fill:#b86b12;--fill-hi:#fff4dc;--pap:#f6ecd2}
+.cw-go{background:none;border:0;color:var(--t-dim);font-size:12px;font-weight:800;cursor:pointer}
 </style>
 </head>
 <body>
@@ -1789,6 +1958,7 @@ body.dark .splash{background:#15120e}
   <button data-view="creative"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.2 16.8 6.5 7.4 15.9 3.2 16.8 4.1 12.6z"/><path d="M11.6 5.1 14.9 8.4"/></svg><span class="nav-lbl">Creative</span><span class="nav-badge hidden" id="navBadgeCv"></span></button>
   <div class="nav-rule"></div>
   <button data-view="archive"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.6l2.3 4.9 5.2.7-3.8 3.7.9 5.3-4.6-2.5-4.6 2.5.9-5.3L2.5 8.2l5.2-.7z"/></svg><span class="nav-lbl">Portfolio</span></button>
+  <button data-view="cat"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5V3.5l3.2 2.6h5.6L16 3.5v5"/><path d="M4 8.5c0 4.4 2.6 7.5 6 7.5s6-3.1 6-7.5"/><path d="M8 10.5h.01M12 10.5h.01M9 13h2"/></svg><span class="nav-lbl">Cat Room</span><span class="nav-badge hidden" id="navBadgeCat"></span></button>
   <div class="nav-minor">
    <button data-view="categories">หมวดหมู่</button>
    <button data-view="settings">ตั้งค่า</button>
@@ -1842,6 +2012,14 @@ body.dark .splash{background:#15120e}
        <div id="focusPanel" class="hidden"><div class="help" style="margin-top:12px">Top focus tasks</div><div id="focusTopList" class="focus-list"></div></div>
       </div>
       <div class="dash-rail">
+       <div class="dpanel cat-w" id="catWidget">
+        <div class="dpanel-h"><span class="dpanel-t">CAT ROOM</span><button class="cw-go" type="button">ไปห้องแมว &rsaquo;</button></div>
+        <div class="cw-body"><div class="cw-pic"><canvas id="cwCv"></canvas></div>
+         <div><div class="cw-nm"><span id="cwName">PORKCHOP</span><span class="cr-tag" id="cwBreed">MIX</span><span class="lv" id="cwLv">LV 1</span></div>
+          <div class="cw-row"><span>XP</span><div class="cr-m" id="cwXp"></div><span id="cwXpN"></span></div>
+          <div class="cw-row"><span>FULL</span><div class="cr-m" id="cwFull"></div><span id="cwFullN"></span></div></div></div>
+        <div class="cw-foot"><div class="cw-say" id="cwSay">กำลังเรียกแมว…</div><button class="cr-btn pri" id="cwFeed" type="button">ให้อาหาร</button></div>
+       </div>
        <div class="dpanel">
         <div class="dpanel-h"><span class="dpanel-t">CALENDAR</span>
          <span class="dcal-nav"><button data-dcal="-1" aria-label="เดือนก่อน">&lsaquo;</button><b id="dcalTitle"></b><button data-dcal="1" aria-label="เดือนถัดไป">&rsaquo;</button></span></div>
@@ -2034,6 +2212,69 @@ body.dark .splash{background:#15120e}
   </div>
  </section>
 
+
+ <section id="catView" class="hidden">
+  <div class="cr">
+   <div class="cr-top">
+    <div><div class="cr-title">CAT ROOM</div><div class="cr-sub" id="crSub">ห้องเล็ก ๆ ของแมวตัวใหญ่</div></div>
+    <div class="cr-tabs" id="crTabs">
+     <button data-crtab="room" class="on">ห้องแมว</button>
+     <button data-crtab="house">บ้านแมว<span class="cr-dot hidden" id="crHouseDot"></span></button>
+     <button data-crtab="laser">เลเซอร์</button>
+    </div>
+   </div>
+
+   <div id="crRoom">
+    <div class="cr-stage" id="crStage"><canvas id="crCv" aria-label="ห้องแมว"></canvas><div class="cr-bubble hidden" id="crBubble"></div></div>
+    <div class="cr-panel cr-stats">
+     <div class="cr-lvrow"><div class="cr-lv">LV <span id="crLv">1</span></div>
+      <div style="flex:1;min-width:0"><div class="cr-xpk">XP <span id="crXpT">0/80</span></div><div class="cr-m" id="crXpM"></div></div></div>
+     <div class="cr-meters">
+      <div class="cr-mrow"><div class="cr-k">FULL<small>อิ่ม</small></div><div class="cr-m" id="crFullM"></div><div class="cr-n" id="crFullN"></div></div>
+      <div class="cr-mrow"><div class="cr-k">HAPPY<small>ความสุข</small></div><div class="cr-m" id="crHapM"></div><div class="cr-n" id="crHapN"></div></div>
+      <div class="cr-mrow"><div class="cr-k">CLEAN<small>ความสะอาด</small></div><div class="cr-m" id="crClnM"></div><div class="cr-n" id="crClnN"></div></div>
+     </div>
+    </div>
+    <div class="cr-acts">
+     <button class="cr-btn pri" id="crFeed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11h18l-2 7H5z"/><path d="M7 11c1-3 9-3 10 0"/></svg><span class="cr-bl"><span>ให้อาหาร</span><small id="crFeedS"></small></span></button>
+     <button class="cr-btn" id="crPet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 11V4.5a1.5 1.5 0 0 1 3 0V12"/><path d="M14 11.5V6a1.5 1.5 0 0 1 3 0v8c0 4-2.5 7-6 7-2.6 0-4-1.3-5.3-3.4L4 14.4a1.4 1.4 0 0 1 2.3-1.6L8 15"/></svg><span class="cr-bl"><span>ลูบหัว</span><small id="crPetS"></small></span></button>
+     <button class="cr-btn" id="crLaserGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></svg><span class="cr-bl"><span>เล่นเลเซอร์</span><small id="crLaserS"></small></span></button>
+     <button class="cr-btn" id="crClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6"/><path d="M17 7l-6 6"/><path d="M11 13l-6 1-2 7 7-2 1-6z"/><path d="M6 17l2-2"/></svg><span class="cr-bl"><span>เก็บกระบะทราย</span><small id="crCleanS"></small></span></button>
+     <button class="cr-btn cr-house" id="crHouseGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>บ้านแมว</span></button>
+    </div>
+    <div class="cr-boxbar hidden" id="crBoxBar"><canvas id="crBoxCv"></canvas>
+     <div class="t">มีกล่องปริศนา <span id="crBoxN">1</span> กล่อง<small>เปิดแล้วจะได้น้องแมวพันธุ์ใหม่</small></div>
+     <button class="cr-btn pri" id="crBoxOpen">เปิดกล่อง</button></div>
+    <div class="cr-say"><canvas id="crSayCv"></canvas><div class="t" id="crSay"></div><div class="tm" id="crSayT"></div></div>
+    <div class="cr-note" id="crNote"></div>
+   </div>
+
+   <div id="crHouse" class="hidden">
+    <div class="cr-hhead"><b>บ้านแมว</b><div class="cnt"><span id="crOwnN">1/7</span><small>น้องแมวที่ปลดล็อก</small></div></div>
+    <div class="cr-grid" id="crGrid"></div>
+    <div class="cr-hacts">
+     <button class="cr-btn pri" id="crMakeActive">ตั้งน้องแมวตัวนี้เป็นตัวหลัก</button>
+     <button class="cr-btn" id="crRename">เปลี่ยนชื่อ</button>
+     <button class="cr-btn pri hidden" id="crHouseBox">เปิดกล่องปริศนา</button>
+    </div>
+    <div class="cr-note">ได้กล่องปริศนาทุก 5 เลเวล เปิดแล้วเจอน้องแมวพันธุ์ใหม่ แต่ละตัวเก็บเลเวลของตัวเอง ตัวที่ไม่ได้เลี้ยงอยู่จะหลับรอในบ้าน ไม่หิว ไม่งอน</div>
+   </div>
+
+   <div id="crLaser" class="hidden">
+    <div class="cr-lstats">
+     <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><div class="k">เวลาที่เหลือ</div><div class="v" id="crLTime">15</div></div></div>
+     <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><div><div class="k">คะแนน</div><div class="v" id="crLScore">0</div></div></div>
+     <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4M12 13v5M9.5 15.5h5"/></svg><div><div class="k">เล่นได้วันนี้</div><div class="v" id="crLPlays">3/3</div></div></div>
+    </div>
+    <div class="cr-stage" id="crLStage"><canvas id="crLCv" aria-label="เกมเลเซอร์"></canvas><div class="cr-res hidden" id="crLRes"></div></div>
+    <div class="cr-lrow">
+     <div class="cr-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span id="crLTip">แตะจุดแดงก่อนแมวจะพุ่ง!</span></div>
+     <button class="cr-btn pri" id="crLStart"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span>เริ่มเกม</span></button>
+    </div>
+    <div class="cr-note">15 วินาที · แตะโดนได้ 1 คะแนน โดนติดกัน 5 ครั้งขึ้นไปได้เพิ่ม · XP = คะแนน × 2 (สูงสุด 50) · เล่นได้วันละ 3 ครั้ง</div>
+   </div>
+  </div>
+ </section>
  <section id="settingsView" class="hidden">
   <div class="grid">
    <div>
@@ -2061,7 +2302,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.79</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.81</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2135,6 +2376,7 @@ body.dark .splash{background:#15120e}
  <div class="actions"><button class="btn secondary" data-close-layer="cvPickModal">ปิด</button></div>
 </div></div>
 
+<div id="catModal" class="modalbg hidden"><div class="modal cm" id="catModalBox"></div></div>
 <div id="factoryModal" class="modalbg hidden"><div class="modal fq-modal"><button class="modal-close" data-close-layer="factoryModal" aria-label="Close">×</button>
  <h3 id="fqTitle">ขอเอกสารจากโรงงาน</h3>
  <div class="help" id="fqFor" style="margin:-8px 0 14px"></div>
@@ -2730,6 +2972,7 @@ function dashChromeSync(on){
   if(!bannerCatStop)bannerCatStop=catPortrait("bannerCatCv","./icon-512.png",{cell:3,
    eyes:[{x:.17,y:.33,w:.26,h:.17},{x:.50,y:.35,w:.26,h:.17}]});
   if(!noteCatStop)noteCatStop=btCatWalk("noteCatCv",{scale:2,pal:NOTE_PAL,ground:"#b9a577"});
+  if(typeof crWidget==="function")crWidget().catch(()=>{});
  }else{
   if(bannerCatStop){bannerCatStop();bannerCatStop=null}
   if(noteCatStop){noteCatStop();noteCatStop=null}
@@ -4488,6 +4731,8 @@ async function backupPayload(){
   }
   out[b.t]=r.rows;
  }
+ // the cat room is one document of the exporter's own, not a table of rows
+ try{await crLoad();const room=window.crExport();if(room)out.cat_room=room}catch(_){}
  return out;
 }
 const bkSummary=d=>BK.filter(b=>Array.isArray(d[b.t])&&d[b.t].length).map(b=>`${b.label} ${d[b.t].length}`).join(" · ")||"ไม่มีข้อมูล";
@@ -4673,6 +4918,8 @@ async function restoreV6Backup(d){
  }
  await loadAll();
  const lines=present.map(b=>`${b.label}: ${rep.done[b.t]||0}${rep.orphan[b.t]?` (ข้าม ${rep.orphan[b.t]} ที่หาแม่ไม่เจอ)`:""}`);
+ if(d.cat_room&&d.exportedBy===user.id&&window.crImport&&await window.crImport(d.cat_room))
+  lines.push(`แมว: ${d.cat_room.cats.length} ตัว`);
  const drops=Object.entries(rep.dropped).filter(([,v])=>v.size).map(([t,v])=>`${t}: ${[...v].join(", ")}`);
  alert("กู้คืนเสร็จแล้ว\n\n"+lines.join("\n")
   +(skipped.length?`\n\nข้าม (ตารางยังไม่มีในฐานข้อมูล): ${skipped.join(", ")}`:"")
@@ -7000,7 +7247,8 @@ const VIEW_PLATE={
  proj:["PROJECTS","\u00b7 PLAN BOARD"],productlaunch:["PRODUCT LAUNCH","\u00b7 NPD"],
  pr:["PR / GRPO","\u00b7 PURCHASE"],creative:["CREATIVE","\u00b7 JOBS"],
  kol:["KOL","\u00b7 CAMPAIGN MONITOR"],archive:["PORTFOLIO",""],
- categories:["CATEGORIES",""],settings:["SETTINGS",""],admin:["TEAM",""]
+ categories:["CATEGORIES",""],settings:["SETTINGS",""],admin:["TEAM",""],
+ cat:["CAT ROOM","\u00b7 VIRTUAL PET"]
 };
 function tubeWrap(){
  Object.keys(VIEW_PLATE).forEach(v=>{
@@ -7020,7 +7268,7 @@ tubeWrap();
 function goView(view){
  if(view==="admin"&&!isAdmin())return;
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
- ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","creative","productlaunch","settings","admin"].forEach(v=>$(v+"View")?.classList.add("hidden"));
+ ["dashboard","calendar","weekly","tasks","categories","archive","matrix","pr","kol","proj","creative","productlaunch","settings","admin","cat"].forEach(v=>$(v+"View")?.classList.add("hidden"));
  const sec=$(view+"View");
  sec?.classList.remove("hidden");
  // channel change: restart the animation even when the class is already on
@@ -7044,6 +7292,7 @@ function goView(view){
  if(view==="dashboard"){Promise.resolve().then(loadWipProgress).then(renderDashGaps).catch(()=>{})}
  if(view==="proj"){renderWipPanels();Promise.resolve().then(loadWipProgress).then(renderWipPanels).catch(()=>{})}
  if(view==="productlaunch")renderProductLaunch();
+ if(view==="cat")crOpen();else if(typeof crClose==="function")crClose();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 $("cvModes").onclick=e=>{const b=e.target.closest("[data-cvmode]");if(!b)return;cvMode=b.dataset.cvmode;applyCvMode()};
@@ -7368,6 +7617,676 @@ function bootReport(){
  }).catch(()=>{});
 }
 
+
+
+/* ── CAT ROOM ────────────────────────────────────────────────────────────
+   A pet with no connection to work at all: it gets hungry on the clock, not
+   on the task list, so a day with nothing due is still a day to feed him.
+
+   Every stat is a function of time since the last thing that happened, so
+   nothing has to run while the app is closed: open it after a night away
+   and he is exactly as hungry as seven hours of not eating makes a cat.
+   The room is one JSON document per person -- in this browser always, and
+   in cat_rooms once V7.81 is run. Nobody else can see it.
+
+   The sprites are cut from the design sheets and quantised to the same four
+   amber levels as every other cat in the app (cat-sprites.png). Poses that
+   only exist for PORKCHOP are borrowed from his sitting pose on other
+   breeds until their own sheets arrive. */
+const CR_ATLAS={"stages":{"kitten":{"sit":[0,0,41,35],"sitB":[42,0,43,32],"eat":[86,0,48,38],"eat2":[135,0,47,38],"happy":[183,0,43,38],"sleep":[227,0,49,29],"sleep2":[277,0,46,27],"crouch":[324,0,51,29],"leap":[376,0,50,33]},"teen":{"sit":[427,0,46,48],"sitB":[0,49,45,48],"eat":[46,49,55,43],"eat2":[102,49,54,39],"happy":[157,49,56,49],"sleep":[214,49,68,34],"sleep2":[283,49,67,29],"crouch":[351,49,55,33],"leap":[407,49,58,34]},"adult":{"sit":[466,49,45,41],"sitB":[0,99,47,40],"eat":[48,99,52,38],"eat2":[101,99,53,42],"happy":[155,99,47,41],"sleep":[203,99,50,31],"sleep2":[254,99,52,30],"crouch":[307,99,56,32],"leap":[364,99,60,45]},"boss":{"sit":[425,99,60,48],"sitB":[0,148,53,45],"eat":[54,148,60,42],"eat2":[115,148,55,44],"happy":[171,148,53,49],"sleep":[225,148,82,40],"sleep2":[308,148,88,40],"crouch":[397,148,64,33],"leap":[0,198,71,43]}},"breeds":{"scottish":[72,198,47,41],"khaomanee":[120,198,40,41],"persian":[161,198,46,41],"american":[208,198,57,41],"bombay":[266,198,36,41],"siamese":[303,198,47,41]},"props":{"kibble":[351,198,30,21],"mackerel":[382,198,34,23],"canned":[417,198,23,20],"treat":[441,198,28,30],"box":[0,242,67,60]}};
+const CR_BREEDS=[
+ {k:"mix",      en:"MIX",        th:"ส้มลาย",          blurb:"ส้มลายเจ้าเดิม ขี้อ้อน กินเก่ง"},
+ {k:"scottish", en:"SCOTTISH",   th:"สก็อตติชโฟลด์",   blurb:"หูพับ น่ารัก ขี้อ้อน ชอบนั่งมองคุณเงียบ ๆ"},
+ {k:"khaomanee",en:"KHAO MANEE", th:"ขาวมณี",          blurb:"ขาวทั้งตัว ตาสองสี แมวนำโชค"},
+ {k:"persian",  en:"PERSIAN",    th:"เปอร์เซีย",        blurb:"ขนฟู หน้าแบน นอนกลางวันเก่งที่สุดในบ้าน"},
+ {k:"american", en:"AMERICAN SH",th:"อเมริกันช็อตแฮร์", blurb:"ลายเสือ แข็งแรง ขี้เล่น"},
+ {k:"bombay",   en:"BOMBAY",     th:"บอมเบย์",          blurb:"ดำสนิท ตาสีทอง เงียบแต่ติดคน"},
+ {k:"siamese",  en:"SIAMESE",    th:"วิเชียรมาศ",       blurb:"หน้าเข้ม ขาเข้ม ช่างพูดที่สุด"}
+];
+const CR_FOODS=[
+ {k:"kibble",  th:"อาหารเม็ด",   lv:1, xp:10},
+ {k:"mackerel",th:"ปลาทู",       lv:5, xp:16},
+ {k:"canned",  th:"อาหารกระป๋อง",lv:12,xp:22},
+ {k:"treat",   th:"ขนมแมวเลีย",  lv:20,xp:28}
+];
+const CR_STAGES=[
+ {k:"kitten",th:"ลูกแมว",   up:"",                         desc:"ตัวเล็ก กลม ขนฟู"},
+ {k:"teen",  th:"วัยรุ่น",   up:"โตเป็นวัยรุ่นแล้ว!",         desc:"เริ่มซนขึ้น มีพลังมากขึ้น และชอบสำรวจมากกว่าเดิม"},
+ {k:"adult", th:"โตเต็มวัย", up:"โตเป็นแมวโตเต็มวัยแล้ว!",    desc:"สัดส่วนลงตัว มั่นใจ ขี้อ้อน"},
+ {k:"boss",  th:"เจ้าถิ่น",   up:"กลายเป็นเจ้าถิ่นแล้ว!",       desc:"ตัวใหญ่ หนักแน่น ใจเย็น เจ้าแห่งละแวกนี้"}
+];
+const CR_NAMES=["MOCHI","LATTE","KOKO","MISO","TARO","TOFU","NORI","BUTTER","MANGO","KHANOM","PUDDING","SESAME","BIGGIE","MOMO"];
+const CR_HR=3600e3,CR_DRAIN=100/(7*CR_HR),CR_SAD=10/(12*CR_HR),CR_PET_CD=30*60e3,CR_DIRTY=24*CR_HR,CR_PLAYS=3,CR_GAME=15000;
+const crNeed=L=>L<5?80+20*(L-1):L<15?180+30*(L-5):L<30?500+40*(L-15):1100+50*(L-30);
+function crLevel(xp){let L=1,r=Math.max(0,Math.floor(xp||0));while(r>=crNeed(L)&&L<500){r-=crNeed(L);L++}return{L,into:r,need:crNeed(L)}}
+const crStageOf=L=>L>=30?3:L>=15?2:L>=5?1:0;
+const crFoodFor=L=>CR_FOODS.filter(f=>L>=f.lv).pop();
+const crBreed=k=>CR_BREEDS.find(b=>b.k===k)||CR_BREEDS[0];
+const crClamp=v=>Math.max(0,Math.min(100,v));
+
+let cr=null,crCloud="",crLoading=null,crSaveT=null,crEvents=[],crSel=null,crTab="room";
+const crKey=()=>"porkchop_cat_"+(user?.id||"anon");
+const crImg=new Image();crImg.src="./cat-sprites.png";
+
+function crNew(){
+ const now=Date.now();
+ return {v:1,updated:now,seq:1,active:1,cleanAt:now,ageDay:todayISO(),boxes:0,
+  laser:{day:"",n:0,best:0},say:{t:now,m:"สวัสดี! ฉันชื่อ PORKCHOP ฝากตัวด้วยนะ"},
+  cats:[{id:1,breed:"mix",name:"PORKCHOP",xp:0,h:70,p:80,t:now,petAt:0,boxLv:0,born:now}]};
+}
+function crValid(s){
+ if(!s||typeof s!=="object"||!Array.isArray(s.cats)||!s.cats.length)return null;
+ const now=Date.now();
+ s.cats=s.cats.filter(c=>c&&c.id!=null).map(c=>({breed:"mix",name:"CAT",xp:0,h:70,p:80,t:now,petAt:0,boxLv:0,born:now,...c}));
+ if(!s.cats.length)return null;
+ if(!s.cats.some(c=>c.id===s.active))s.active=s.cats[0].id;
+ s.seq=Math.max(s.seq||0,...s.cats.map(c=>c.id));
+ s.laser={day:"",n:0,best:0,...(s.laser||{})};
+ s.boxes=Math.max(0,s.boxes|0);s.cleanAt=s.cleanAt||now;s.ageDay=s.ageDay||todayISO();s.updated=s.updated||0;
+ return s;
+}
+const crCat=()=>cr.cats.find(c=>c.id===cr.active)||cr.cats[0];
+// Only the cat in the room lives on the clock; the rest are asleep in the house.
+function crVals(c,now=Date.now()){
+ const dt=c.id===cr.active?Math.max(0,now-c.t):0;
+ const h=crClamp(c.h-dt*CR_DRAIN),p=crClamp(c.p-dt*CR_SAD);
+ const clean=now-cr.cleanAt<CR_DIRTY?100:35;
+ return {h,p,clean,dirty:clean<100,sulk:h<20||p<25||clean<20};
+}
+function crSnap(c,now=Date.now()){const v=crVals(c,now);c.h=v.h;c.p=v.p;c.t=now;return v}
+
+function crGain(c,xp){
+ const a=crLevel(c.xp);c.xp=Math.floor((c.xp||0)+xp);const b=crLevel(c.xp);
+ if(b.L<=a.L)return;
+ const lv={type:"level",cat:c.id,from:a.L,to:b.L,box:0};
+ const five=Math.floor(b.L/5)*5,had=Math.max(c.boxLv||0,Math.floor(a.L/5)*5);
+ if(five>had){lv.box=(five-had)/5;cr.boxes+=lv.box;c.boxLv=five}
+ crEvents.push(lv);
+ if(crStageOf(b.L)>crStageOf(a.L))crEvents.push({type:"stage",cat:c.id,from:crStageOf(a.L),to:crStageOf(b.L)});
+}
+// +10 XP for every midnight he was not sulking at, however long the app was shut.
+function crTick(now=Date.now()){
+ const today=todayISO();
+ if(cr.laser.day!==today){cr.laser.day=today;cr.laser.n=0}
+ if(cr.ageDay>=today)return;
+ const c=crCat(),d=new Date(cr.ageDay+"T00:00:00");let n=0;
+ for(let i=0;i<400;i++){
+  d.setDate(d.getDate()+1);const ds=iso(d);if(ds>today)break;
+  if(!crVals(c,Math.max(d.getTime(),c.t)).sulk)n++;
+ }
+ cr.ageDay=today;
+ if(n){crGain(c,n*10);crSaveSoon()}
+}
+
+async function crLoad(){
+ if(cr)return cr;
+ if(crLoading)return crLoading;
+ crLoading=(async()=>{
+  let local=null,remote=null;
+  try{local=crValid(JSON.parse(localStorage.getItem(crKey())||"null"))}catch(_){}
+  try{
+   const {data,error}=await sb.from("cat_rooms").select("state").eq("user_id",user.id).maybeSingle();
+   if(error)crCloud=bkMissingTable(error)?"missing":"error";
+   else{crCloud="ok";remote=crValid(data?.state)}
+  }catch(_){crCloud="error"}
+  cr=(remote&&(!local||remote.updated>=local.updated))?remote:(local||crNew());
+  crTick();
+  if(crCloud==="ok"&&(!remote||cr!==remote))crSaveSoon(200);
+  else crSaveLocal();
+  return cr;
+ })();
+ try{return await crLoading}finally{crLoading=null}
+}
+function crSaveLocal(){try{localStorage.setItem(crKey(),JSON.stringify(cr))}catch(_){}}
+function crSaveSoon(ms=1200){
+ cr.updated=Date.now();crSaveLocal();
+ if(crCloud!=="ok")return;
+ clearTimeout(crSaveT);
+ crSaveT=setTimeout(async()=>{
+  let error=null;
+  try{({error}=await sb.from("cat_rooms").upsert({user_id:user.id,state:cr,updated_at:new Date().toISOString()},{onConflict:"user_id"}))}
+  catch(e){error={message:String(e?.message||e)}}
+  if(error){crCloud=bkMissingTable(error)?"missing":"error";crRenderNote()}
+ },ms);
+}
+
+/* ---- words ---- */
+const CR_IDLE=["นั่งมองคุณอยู่นะ","วันนี้อากาศดีเนอะ","ขอนอนตรงนี้แป๊บนึง","มีขนมไหม?","แดดเข้ามาพอดีเลย","อยากเล่นเลเซอร์จัง","ห้องนี้อุ่นดีจัง"];
+function crMood(){
+ const c=crCat(),v=crVals(c),hr=new Date().getHours();
+ if(v.sulk)return "งอนอยู่นะ... ขอนอนก่อน";
+ if(v.h<30)return "หิวแล้วน้า... ขออาหารหน่อยได้ไหม?";
+ if(v.dirty)return "กระบะทรายเริ่มเหม็นแล้วนะ...";
+ if(v.p<40)return "เหงาจัง มาลูบหัวหน่อยสิ";
+ if(hr>=23||hr<6)return "ง่วงแล้ว... ฝันดีนะ";
+ return CR_IDLE[Math.floor(Date.now()/(20*60e3))%CR_IDLE.length];
+}
+// what he said last, for a while -- unless hunger or a sulk has come up since
+function crLine(){
+ const v=crVals(crCat()),age=cr.say?Date.now()-cr.say.t:1e12;
+ const urgent=v.sulk||v.h<30||v.dirty;
+ return age<(urgent?90e3:20*60e3)?cr.say:{t:Date.now(),m:crMood()};
+}
+function crSay(m){cr.say={t:Date.now(),m};crRenderSay();crBubble(m)}
+const crHM=t=>new Date(t).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+
+/* ---- sprites ---- */
+function crFrame(c,pose){
+ const si=crStageOf(crLevel(c.xp).L),st=CR_STAGES[si].k;
+ if(c.breed==="mix"||!CR_ATLAS.breeds[c.breed]){
+  const f=CR_ATLAS.stages[st];return {r:f[pose]||f.sit,s:1,own:!!f[pose]};
+ }
+ return {r:CR_ATLAS.breeds[c.breed],s:[.64,.82,1,1.14][si],own:false};
+}
+function crDraw(g,r,s,x,yb,flip){
+ const [sx,sy,sw,sh]=r,w=Math.round(sw*s),h=Math.round(sh*s);
+ if(!crImg.complete||!crImg.naturalWidth)return {w,h};
+ x=Math.round(x);yb=Math.round(yb);
+ if(flip){g.save();g.translate(x,0);g.scale(-1,1);g.drawImage(crImg,sx,sy,sw,sh,-Math.round(w/2),yb-h,w,h);g.restore()}
+ else g.drawImage(crImg,sx,sy,sw,sh,x-Math.round(w/2),yb-h,w,h);
+ return {w,h};
+}
+// A single sprite onto its own small canvas, for cards, popups and the widget.
+function crPaint(cv,r,s=1,dark=false){
+ if(!cv)return;
+ const go=()=>{
+  const w=Math.round(r[2]*s),h=Math.round(r[3]*s);
+  cv.width=w;cv.height=h;const g=cv.getContext("2d");g.imageSmoothingEnabled=false;
+  g.drawImage(crImg,r[0],r[1],r[2],r[3],0,0,w,h);
+  if(dark){g.globalCompositeOperation="source-in";g.fillStyle="#1d160c";g.fillRect(0,0,w,h)}
+ };
+ if(crImg.complete&&crImg.naturalWidth)go();else crImg.addEventListener("load",go,{once:true});
+}
+function crPaintCat(cv,c,pose="sit",px=3,dark=false){
+ const f=crFrame(c,pose);crPaint(cv,f.r,f.s,dark);
+ if(cv)cv.style.width=Math.round(f.r[2]*f.s*px)+"px";
+}
+
+/* ---- the room, painted once per size ---- */
+const CR_R=["#2b1d0c","#5a3f1c","#8a6636","#b8945c","#d6b980","#e8d3a3","#f5e7c4"];
+function crRoom(W,H){
+ const c=document.createElement("canvas");c.width=W;c.height=H;
+ const g=c.getContext("2d"),img=g.createImageData(W,H),u=new Uint32Array(img.data.buffer);
+ const C=CR_R.map(h=>{const n=parseInt(h.slice(1),16);return (0xff000000|((n&255)<<16)|(n&0xff00)|(n>>16))>>>0});
+ const P=(x,y,k)=>{x|=0;y|=0;if(x>=0&&y>=0&&x<W&&y<H)u[y*W+x]=C[k]};
+ const bay=(x,y)=>(BAYER[y&3][x&3]+.5)/16;
+ const R=(x,y,w,h,k)=>{x|=0;y|=0;for(let j=0;j<(h|0);j++)for(let i=0;i<(w|0);i++)P(x+i,y+j,k)};
+ const D=(x,y,w,h,a,b,t)=>{x|=0;y|=0;for(let j=0;j<(h|0);j++)for(let i=0;i<(w|0);i++){const X=x+i,Y=y+j;P(X,Y,bay(X,Y)<t?b:a)}};
+ const E=(cx,cy,rx,ry,a,b,t)=>{for(let y=-ry;y<=ry;y++)for(let x=-rx;x<=rx;x++){if(x*x/(rx*rx)+y*y/(ry*ry)<=1){const X=(cx+x)|0,Y=(cy+y)|0;P(X,Y,b!=null&&bay(X,Y)<t?b:a)}}};
+ const O=(x,y,w,h,k)=>{R(x,y,w,1,k);R(x,y+h-1,w,1,k);R(x,y,1,h,k);R(x+w-1,y,1,h,k)};
+ let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ const F=Math.round(H*.62);
+ // wall, ceiling edge, wallpaper
+ D(0,0,W,F,5,4,.12);
+ for(let x=5;x<W;x+=13)D(x,2,1,F-2,5,4,.5);
+ R(0,0,W,2,3);
+ // floor boards
+ D(0,F,W,H-F,3,2,.28);
+ for(let y=F+4,row=0;y<H;y+=5,row++){R(0,y,W,1,2);for(let x=(row*17)%31;x<W;x+=31)R(x,y-4,1,4,2)}
+ R(0,F-3,W,3,2);R(0,F-3,W,1,1);R(0,F,W,1,1);
+ // window with the city in it
+ const wx0=Math.round(W*.27),wx1=Math.round(W*.57),wy0=Math.round(H*.1),wy1=Math.round(F-H*.14);
+ D(wx0,wy0,wx1-wx0,wy1-wy0,6,5,.22);
+ for(let x=wx0+2;x<wx1-2;){
+  const bw=4+Math.floor(rnd()*7),bh=Math.floor((wy1-wy0)*(.25+rnd()*.5));
+  D(x,wy1-bh,Math.min(bw,wx1-2-x),bh,4,3,.35);
+  for(let yy=wy1-bh+2;yy<wy1-2;yy+=3)for(let xx=x+1;xx<Math.min(x+bw,wx1-3);xx+=2)if(rnd()<.35)P(xx,yy,5);
+  x+=bw+1;
+ }
+ for(let i=0;i<5;i++)E(wx0+3+i*3,wy1-3-(i%2),3,3,3,2,.4);
+ for(let i=0;i<4;i++)E(wx1-4-i*3,wy1-3-(i%2),3,3,3,2,.4);
+ O(wx0-1,wy0-1,wx1-wx0+2,wy1-wy0+2,1);O(wx0-2,wy0-2,wx1-wx0+4,wy1-wy0+4,1);
+ R(((wx0+wx1)>>1)-1,wy0,2,wy1-wy0,1);R(wx0,Math.round(wy0+(wy1-wy0)*.42),wx1-wx0,1,1);
+ R(wx0-4,wy1+2,wx1-wx0+8,3,2);R(wx0-4,wy1+2,wx1-wx0+8,1,1);
+ // hanging plant
+ const px=Math.round(W*.2),py=Math.round(H*.13);
+ R(px,0,1,py-4,1);R(px-3,py-4,1,4,1);R(px+3,py-4,1,4,1);R(px-3,py-4,7,1,1);
+ E(px-4,py-1,4,3,2,3,.35);E(px+4,py-1,4,3,2,3,.35);E(px,py-3,4,3,3,2,.4);
+ R(px-4,py,9,6,1);R(px-3,py+1,7,4,2);R(px-4,py+2,9,1,3);
+ for(const [dx,n] of [[-5,6],[5,8]])for(let j=0;j<n;j++){P(px+dx,py+5+j,1);if(j%3===1){P(px+dx-1,py+5+j,2);P(px+dx+1,py+5+j,2)}}
+ // shelf and books
+ const sx0=Math.round(W*.62),sx1=Math.round(W*.77),sy=Math.round(H*.3);
+ R(sx0,sy,sx1-sx0,2,1);R(sx0+2,sy+2,1,3,1);R(sx1-3,sy+2,1,3,1);
+ for(let x=sx0+2,i=0;x<sx0+(sx1-sx0)*.55;i++){const bw=2+(i%2),bh=6+((i*5)%5);R(x,sy-bh,bw,bh,[1,2,3,1][i%4]);R(x,sy-bh,bw,1,0);x+=bw}
+ const fx=Math.round(sx1-7);E(fx,sy-3,3,3,1);P(fx-2,sy-6,1);P(fx+2,sy-6,1);R(fx-1,sy-2,3,1,3);
+ // poster
+ const qx0=Math.round(W*.8),qx1=Math.round(W*.93),qy0=Math.round(H*.08),qy1=Math.round(H*.43);
+ R(qx0,qy0,qx1-qx0,qy1-qy0,6);O(qx0,qy0,qx1-qx0,qy1-qy0,1);O(qx0+2,qy0+2,qx1-qx0-4,qy1-qy0-4,4);
+ for(let i=0;i<4;i++){const y=qy0+5+i*4;R(qx0+4,y,Math.round((qx1-qx0-8)*(i%2?.7:.9)),2,1)}
+ const cx=(qx0+qx1)>>1,cy=qy1-6;E(cx,cy,3,2,1);E(cx-4,cy-4,1,1,1);E(cx-1,cy-6,1,1,1);E(cx+2,cy-6,1,1,1);E(cx+5,cy-4,1,1,1);
+ // lamp
+ const lx=Math.round(W*.61),ly=Math.round(H*.12);
+ R(lx,0,1,ly,1);for(let i=0;i<5;i++)R(lx-2-i,ly+i,5+2*i,1,i?1:0);
+ E(lx,ly+6,3,1,6);
+ // dresser
+ const dx0=Math.round(W*.03),dx1=Math.round(W*.19),dy0=Math.round(F-H*.21);
+ D(dx0,dy0,dx1-dx0,F-dy0+3,2,1,.2);O(dx0,dy0,dx1-dx0,F-dy0+3,0);R(dx0-1,dy0,dx1-dx0+2,2,1);
+ for(let i=1;i<3;i++){const y=dy0+Math.round((F-dy0)*i/3);R(dx0+2,y,dx1-dx0-4,1,0);R(((dx0+dx1)>>1)-1,y-4,3,1,5)}
+ R(((dx0+dx1)>>1)-1,dy0+4,3,1,5);
+ R(dx0+3,dy0-5,5,5,1);E(dx0+5,dy0-7,3,2,2,1,.4);
+ // rug in perspective
+ const ry0=Math.round(H*.77),ry1=Math.round(H*.96);
+ for(let y=ry0;y<ry1;y++){
+  const f=(y-ry0)/(ry1-ry0),half=Math.round(W*(.2+.05*f)),x0=Math.round(W*.5)-half;
+  D(x0,y,half*2,1,4,5,.3);
+  const edge=y<ry0+2||y>=ry1-2;
+  for(let x=x0;x<x0+half*2;x++){if(edge||x<x0+2||x>=x0+half*2-2)P(x,y,((x>>1)+(y>>1))%2?2:3)}
+  if(y%3===0){P(x0-1,y,3);P(x0+half*2,y,3)}
+ }
+ // cushion bed
+ const bx=Math.round(W*.13),byy=Math.round(H*.87);
+ E(bx,byy,Math.round(W*.075),Math.round(H*.065),2,1,.3);E(bx,byy-1,Math.round(W*.06),Math.round(H*.045),4,5,.35);
+ // litter box
+ const lx0=Math.round(W*.8),lx1=Math.round(W*.96),ly0=Math.round(H*.63),ly1=Math.round(H*.84);
+ D(lx0-3,ly1-2,lx1-lx0+6,4,2,3,.5);
+ D(lx0,ly0+4,lx1-lx0,ly1-ly0-4,5,4,.3);O(lx0,ly0+4,lx1-lx0,ly1-ly0-4,1);
+ for(let x=lx0+1;x<lx1-1;x++){const t=(x-lx0)/(lx1-lx0),hh=Math.round(Math.sin(t*Math.PI)*5);R(x,ly0+4-hh,1,hh,5);P(x,ly0+4-hh,1)}
+ E(Math.round(lx0+(lx1-lx0)*.35),Math.round(ly0+(ly1-ly0)*.58),Math.round((lx1-lx0)*.14),Math.round((ly1-ly0)*.22),2,1,.5);
+ g.putImageData(img,0,0);
+ c.F=F;c.lit=[lx0,lx1,ly0,ly1];
+ return c;
+}
+
+/* ---- one stage engine, used by the room and by the laser game ---- */
+let crSc=null;
+function crStage(cvId,mode){
+ const cv=$(cvId);if(!cv)return null;
+ const host=cv.parentElement,g=cv.getContext("2d");
+ let W=0,H=0,S=2,room=null,raf=0,dead=false,last=0;
+ const P=[];                                   // particles
+ const A={pose:"sit",until:0,flip:false,nextIdle:0,x:0,bob:0};
+ const G={run:false,t0:0,score:0,streak:0,dot:null,cat:null,phase:"watch",pt:0,from:null,delay:1300,res:null};
+ function fit(){
+  const cw=host.clientWidth||600;
+  // whole-number scaling where there is room; a phone gets a few more
+  // logical pixels than it can show 1:2, so the room keeps its furniture
+  S=cw>=900?4:cw>=600?3:2;W=Math.max(176,Math.floor(cw/S));H=Math.round(W*(cw>=600?.46:.74));
+  S=Math.min(S,cw/W);
+  cv.width=W;cv.height=H;cv.style.width=Math.round(W*S)+"px";cv.style.height=Math.round(H*S)+"px";
+  g.imageSmoothingEnabled=false;room=crRoom(W,H);
+  A.x=W*.49;
+ }
+ const home=()=>{const v=crVals(crCat());return v.sulk?{x:W*.13,y:H*.9}:{x:W*.49,y:H*.9}};
+ function pose(kind,ms,extra){A.pose=kind;A.until=performance.now()+ms;Object.assign(A,extra||{})}
+ function spawn(kind,x,y,n=1){for(let i=0;i<n;i++)P.push({kind,x:x+(Math.random()-.5)*10,y:y-Math.random()*4,vx:(Math.random()-.5)*.012,vy:-.012-Math.random()*.01,t:performance.now(),life:1400+Math.random()*600})}
+ function pix(x,y,k){g.fillStyle=k;g.fillRect(Math.round(x),Math.round(y),1,1)}
+ function drawP(p,now){
+  const a=(now-p.t)/p.life;if(a>=1)return false;
+  const x=p.x+p.vx*(now-p.t),y=p.y+p.vy*(now-p.t);
+  g.globalAlpha=a>.7?(1-a)/.3:1;
+  if(p.kind==="heart"){const k="#8a4708";[[1,0],[3,0],[0,1],[1,1],[2,1],[3,1],[4,1],[1,2],[2,2],[3,2],[2,3]].forEach(([i,j])=>pix(x+i,y+j,k))}
+  else if(p.kind==="z"){const k="#5a3f1c";for(let i=0;i<3;i++){pix(x+i,y,k);pix(x+i,y+2,k)}pix(x+1,y+1,k)}
+  else if(p.kind==="spark"){const k="#fff4dc";pix(x,y,k);pix(x-1,y,k);pix(x+1,y,k);pix(x,y-1,k);pix(x,y+1,k)}
+  else if(p.kind==="crumb"){pix(x,y,"#8a4708")}
+  g.globalAlpha=1;return true;
+ }
+ function catPose(now){
+  const c=crCat(),v=crVals(c),hr=new Date().getHours();
+  if(now<A.until)return A.pose;
+  if(mode==="laser")return "sit";
+  if(v.sulk||hr>=23||hr<6)return "sleep";
+  if(now>A.nextIdle){A.nextIdle=now+3500+Math.random()*4500;
+   const r=Math.random();if(r<.3)A.flip=!A.flip;else if(r<.55)pose("sitB",1400);else if(r<.7&&v.p>60)pose("happy",1600);}
+  return A.pose==="sitB"&&now<A.until?"sitB":"sit";
+ }
+ function drawBowl(x,y,full){
+  for(let i=-7;i<=7;i++){const d=Math.round(Math.sqrt(49-i*i)*.35);g.fillStyle="#5a3f1c";g.fillRect(Math.round(x+i),Math.round(y-2),1,2+d)}
+  g.fillStyle="#d6b980";g.fillRect(Math.round(x-6),Math.round(y-3),13,2);
+  if(full){g.fillStyle="#8a4708";for(let i=-4;i<=4;i+=2)g.fillRect(Math.round(x+i),Math.round(y-4-(i%4?0:1)),2,2)}
+ }
+ function frame(now){
+  if(dead)return;raf=requestAnimationFrame(frame);
+  if(document.hidden||!room)return;
+  const dt=Math.min(60,now-(last||now));last=now;
+  g.drawImage(room,0,0);
+  const c=crCat(),v=crVals(c);
+  // stink over a dirty box
+  if(v.dirty&&mode==="room"){const [l0,l1,y0]=room.lit;for(let k=0;k<3;k++){const bx=l0+(l1-l0)*(.3+k*.2);for(let j=0;j<8;j++)pix(bx+Math.round(Math.sin(now/260+j*.8+k)*1.5),y0-4-j,"#8a6636")}}
+  let p=catPose(now),x,y;
+  if(mode==="laser"&&G.cat){x=G.cat.x;y=G.cat.y;p=G.phase==="leap"?"leap":G.phase==="crouch"||G.phase==="land"?"crouch":"sit"}
+  else{const h=home();A.x+=(h.x-A.x)*Math.min(1,dt/400);x=A.x;y=h.y}
+  const f0=crFrame(c,p==="sitB"&&!crFrame(c,"sitB").own?"sit":p);
+  // a phone room is only ~176px across; the cat gets a little bigger in it
+  const f={...f0,s:f0.s*(W<220?1.4:W<300?1.2:1)};
+  let yy=y;
+  if(!f.own){ // borrowed pose: say it with motion instead
+   if(p==="eat")yy+=((now/180)|0)%2;
+   if(p==="leap")yy-=2;if(p==="crouch")yy+=1;
+  }
+  // shadow
+  {const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x))}
+  g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1);
+  if(mode==="room"&&p!=="eat")drawBowl(W*.68,H*.93,false);
+  if(p==="eat"&&!f.own)drawBowl(x+(A.flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
+  const flip=mode==="laser"&&G.cat?G.cat.flip:A.flip;
+  const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x));
+  const d=crDraw(g,f.r,f.s,x,yy,flip);
+  A.top=y-d.h;A.cx=x;A.hw=d.w/2;
+  if(p==="sleep"&&Math.random()<dt/900)spawn("z",x+d.w*.3,y-d.h*.8);
+  if(p==="eat"&&Math.random()<dt/160)spawn("crumb",x+(Math.random()-.5)*10,y-3);
+  // laser dot
+  if(mode==="laser"&&G.dot&&G.run){
+   const on=((now/90)|0)%5!==0;
+   g.fillStyle="rgba(209,32,32,.35)";g.fillRect(Math.round(G.dot.x-2),Math.round(G.dot.y-1),5,3);g.fillRect(Math.round(G.dot.x-1),Math.round(G.dot.y-2),3,5);
+   if(on){g.fillStyle="#d12020";g.fillRect(Math.round(G.dot.x-1),Math.round(G.dot.y-1),3,3);g.fillStyle="#ffd0c0";g.fillRect(Math.round(G.dot.x),Math.round(G.dot.y),1,1)}
+  }
+  for(let i=P.length-1;i>=0;i--)if(!drawP(P[i],now))P.splice(i,1);
+  if(mode==="laser")laserStep(now);
+  crPlaceBubble();
+ }
+ /* laser */
+ function newDot(){
+  const F=room.F;let x,y,k=0;
+  do{x=W*(.2+Math.random()*.6);y=F+6+Math.random()*(H-F-10);k++}while(G.cat&&Math.hypot(x-G.cat.x,(y-G.cat.y)*1.6)<W*.2&&k<20);
+  G.dot={x,y};G.phase="watch";G.pt=performance.now();
+  if(G.cat)G.cat.flip=x<G.cat.x;
+ }
+ function laserStep(now){
+  if(!G.run)return;
+  const left=Math.max(0,CR_GAME-(now-G.t0));
+  $("crLTime").textContent=Math.ceil(left/1000);
+  if(left<=0){G.run=false;crLaserEnd(G.score);return}
+  const el=now-G.pt;
+  if(G.phase==="watch"&&el>380){G.phase="crouch";G.pt=now}
+  else if(G.phase==="crouch"&&el>G.delay){G.phase="leap";G.pt=now;G.from={x:G.cat.x,y:G.cat.y}}
+  else if(G.phase==="leap"){
+   const t=Math.min(1,el/320);
+   G.cat.x=G.from.x+(G.dot.x-G.from.x)*t;G.cat.y=G.from.y+(G.dot.y+4-G.from.y)*t-Math.sin(t*Math.PI)*H*.12;
+   if(t>=1){G.streak=0;G.phase="land";G.pt=now;spawn("spark",G.dot.x,G.dot.y,3)}
+  }else if(G.phase==="land"&&el>260)newDot();
+ }
+ function tap(ev){
+  const r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*W,y=(ev.clientY-r.top)/r.height*H;
+  if(mode==="laser"){
+   if(!G.run||!G.dot)return;
+   if(Math.hypot(x-G.dot.x,y-G.dot.y)<Math.max(7,W*.035)){
+    G.streak++;const pts=1+(G.streak>=5?1:0);G.score+=pts;$("crLScore").textContent=G.score;
+    crFloatAt(host,G.dot.x*S+(cv.offsetLeft||0),G.dot.y*S-18,"+"+pts);
+    G.delay=Math.max(520,1300-G.score*28);
+    if(G.phase==="leap"){G.phase="land";G.pt=performance.now()}
+    newDot();
+   }
+   return;
+  }
+  if(A.top!=null&&Math.abs(x-A.cx)<A.hw&&y>A.top-2)crPet();
+ }
+ cv.addEventListener("pointerdown",tap);
+ fit();
+ const onR=()=>{fit()};window.addEventListener("resize",onR);
+ raf=requestAnimationFrame(frame);
+ const api={
+  mode,get S(){return S},
+  stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);cv.removeEventListener("pointerdown",tap)},
+  act(kind){
+   const now=performance.now();
+   if(kind==="eat"){pose("eat",2600)}
+   else if(kind==="refuse"){pose("sit",1500,{flip:!A.flip})}
+   else if(kind==="pet"){pose("happy",1800);spawn("heart",A.cx,A.top+4,3)}
+   else if(kind==="clean"){pose("happy",1200);spawn("spark",W*.88,H*.7,5)}
+   else if(kind==="level"){pose("happy",2000);spawn("spark",A.cx,A.top+6,8)}
+   A.nextIdle=now+4000;
+  },
+  anchor(){return {x:(A.cx||W/2)*S+(cv.offsetLeft||0),y:(A.top||H/2)*S}},
+  startGame(){G.run=true;G.t0=performance.now();G.score=0;G.streak=0;G.delay=1300;G.cat={x:W*.5,y:H*.9,flip:false};$("crLScore").textContent="0";newDot()},
+  get running(){return G.run}
+ };
+ return api;
+}
+
+/* ---- overlay text ---- */
+let crBubbleT=null,crBubbleMsg="";
+function crBubble(m){const b=$("crBubble");if(!b)return;crBubbleMsg=m;b.textContent=m;b.classList.remove("hidden");clearTimeout(crBubbleT);crBubbleT=setTimeout(()=>b.classList.add("hidden"),3200);crPlaceBubble()}
+function crPlaceBubble(){
+ const b=$("crBubble");if(!b||b.classList.contains("hidden")||!crSc||crSc.mode!=="room")return;
+ const a=crSc.anchor();b.style.left=Math.max(70,Math.min(b.parentElement.clientWidth-70,a.x))+"px";b.style.top=Math.max(4,a.y-b.offsetHeight-12)+"px";
+}
+function crFloatAt(host,x,y,txt){const f=document.createElement("div");f.className="cr-float";f.textContent=txt;f.style.left=x+"px";f.style.top=y+"px";host.appendChild(f);setTimeout(()=>f.remove(),1500)}
+function crFloat(txt){if(!crSc||crSc.mode!=="room")return;const a=crSc.anchor();crFloatAt($("crStage"),a.x+60,Math.max(8,a.y-10),txt)}
+
+/* ---- actions ---- */
+function crAfter(){crSaveSoon();crRender();crWidget();setTimeout(crNextEvent,crSc?1700:200)}
+function crFeed(){
+ if(!cr)return;crTick();
+ const c=crCat(),now=Date.now(),v=crSnap(c,now);
+ if(v.h>=85){crSay("อิ่มแล้วล่ะ ไว้คราวหน้านะ");crSc?.act("refuse");crRender();crWidget();return "full"}
+ const L=crLevel(c.xp).L,f=crFoodFor(L),xp=Math.round(f.xp*(v.h<=30?1.5:1));
+ c.h=100;c.p=crClamp(c.p+5);
+ crGain(c,xp);crSc?.act("eat");crFloat("+"+xp+" XP");
+ crSay(v.h<=30?"อร่อยเลย! มื้อนี้ดีที่สุด ♡":`${f.th}อร่อยจัง ขอบคุณนะ`);
+ crAfter();return xp;
+}
+function crPet(){
+ if(!cr)return;crTick();
+ const c=crCat(),now=Date.now();
+ if(now-(c.petAt||0)<CR_PET_CD){crSay("เดี๋ยวก่อนนะ ขอพักแป๊บ");return}
+ crSnap(c,now);c.p=crClamp(c.p+15);c.petAt=now;crGain(c,6);
+ crSc?.act("pet");crFloat("+6 XP");crSay("ขอบนะ... รู้สึกดีจัง ♡");crAfter();
+}
+function crClean(){
+ if(!cr)return;crTick();
+ const c=crCat(),now=Date.now(),v=crVals(c,now);
+ if(!v.dirty){crSay("กระบะยังสะอาดอยู่เลย");return}
+ crSnap(c,now);cr.cleanAt=now;c.p=crClamp(c.p+5);crGain(c,12);
+ crSc?.act("clean");crFloat("+12 XP");crSay("หอมแล้ว ขอบคุณนะ");crAfter();
+}
+function crLaserStart(){
+ crTick();
+ if(cr.laser.n>=CR_PLAYS)return;
+ cr.laser.n++;crSaveSoon();
+ $("crLRes").classList.add("hidden");$("crLStart").disabled=true;
+ crRenderLaser();crSc?.startGame();
+}
+function crLaserEnd(score){
+ const c=crCat(),xp=Math.min(50,score*2),best=Math.max(cr.laser.best||0,score);
+ cr.laser.best=best;crSnap(c);c.p=crClamp(c.p+10);if(xp)crGain(c,xp);
+ cr.say={t:Date.now(),m:score?`เล่นสนุกมาก! ได้ ${score} คะแนน`:"จุดแดงหนีไวจัง..."};
+ const left=CR_PLAYS-cr.laser.n;
+ $("crLRes").innerHTML=`<h4>หมดเวลา!</h4><div class="k">คะแนนที่ได้</div><div class="big">${score}</div>`
+  +`<div class="k">ได้รับ XP</div><div class="xp">${xp} XP</div>`
+  +`<div class="two"><div><span class="k">เล่นในวันนี้</span><b>${cr.laser.n}/${CR_PLAYS}</b></div><div><span class="k">สถิติสูงสุด</span><b>${best}</b></div></div>`
+  +`<button class="cr-btn pri" id="crLAgain" ${left?"":"disabled"}>${left?"เล่นอีกครั้ง":"เล่นอีกครั้งพรุ่งนี้"}</button>`
+  +`<button class="cr-btn" id="crLBack">กลับห้องแมว</button>`;
+ $("crLRes").classList.remove("hidden");
+ $("crLAgain").onclick=crLaserStart;$("crLBack").onclick=()=>crShowTab("room");
+ crAfter();crRenderLaser();
+}
+
+/* ---- rendering ---- */
+function crMeter(el,v10){if(!el)return;el.innerHTML=Array.from({length:10},(_,i)=>`<i class="${i<v10?"on":""}"></i>`).join("")}
+const cr10=v=>Math.round(v/10);
+function crRenderSay(){
+ if(!$("crSay"))return;
+ const c=crCat(),s=crLine();
+ $("crSay").innerHTML=`<b>${esc(c.name)}:</b> ${esc(s.m)}`;$("crSayT").textContent=crHM(s.t);
+ crPaint($("crSayCv"),crFrame(c,"sit").r,crFrame(c,"sit").s);
+}
+function crRenderNote(){
+ const el=$("crNote");if(!el)return;
+ el.innerHTML=crCloud==="missing"?"<b>ยังไม่ได้รัน SQL V7.81</b> — แมวเก็บไว้ในเครื่องนี้เท่านั้น รันแล้วจะย้ายขึ้นระบบเองตอนเปิดครั้งถัดไป"
+  :crCloud==="error"?"<b>บันทึกขึ้นระบบไม่ได้ตอนนี้</b> — เก็บไว้ในเครื่องก่อน":"";
+}
+function crRender(){
+ if(!cr||!$("crLv"))return;
+ const c=crCat(),v=crVals(c),lv=crLevel(c.xp),b=crBreed(c.breed),now=Date.now();
+ $("crSub").textContent=`${c.name} · ${b.th} · ${CR_STAGES[crStageOf(lv.L)].th}`;
+ $("crLv").textContent=lv.L;$("crXpT").textContent=`${lv.into}/${lv.need}`;crMeter($("crXpM"),Math.floor(lv.into/lv.need*10));
+ [["Full",v.h],["Hap",v.p],["Cln",v.clean]].forEach(([k,x])=>{crMeter($("cr"+k+"M"),cr10(x));const n=$("cr"+k+"N");n.textContent=cr10(x)+"/10";n.classList.toggle("cr-low",x<30)});
+ const food=crFoodFor(lv.L),full=v.h>=85;
+ $("crFeedS").textContent=full?"อิ่มแล้ว":food.th;
+ $("crFeed").classList.toggle("pri",!full);
+ const cd=CR_PET_CD-(now-(c.petAt||0));
+ $("crPet").disabled=cd>0;$("crPetS").textContent=cd>0?`${String(Math.floor(cd/60000)).padStart(2,"0")}:${String(Math.floor(cd/1000)%60).padStart(2,"0")}`:"";
+ $("crClean").disabled=!v.dirty;$("crCleanS").textContent=v.dirty?"ต้องเก็บแล้ว":"สะอาดแล้ว";
+ $("crLaserS").textContent=`${CR_PLAYS-cr.laser.n}/${CR_PLAYS}`;
+ $("crBoxBar").classList.toggle("hidden",!cr.boxes);$("crBoxN").textContent=cr.boxes;
+ if(cr.boxes&&CR_ATLAS.props.box)crPaint($("crBoxCv"),CR_ATLAS.props.box,.66);
+ $("crHouseDot").classList.toggle("hidden",!cr.boxes);$("crHouseDot").textContent=cr.boxes;
+ crRenderSay();crRenderNote();crNavBadge();
+}
+function crNavBadge(){const el=$("navBadgeCat");if(!el||!cr)return;const v=crVals(crCat());const n=(v.h<30||v.sulk?1:0)+(cr.boxes?1:0);el.textContent=n?"!":"";el.classList.toggle("hidden",!n)}
+function crRenderHouse(){
+ if(!cr||!$("crGrid"))return;
+ const own=new Set(cr.cats.map(c=>c.breed));
+ if(crSel==null||!cr.cats.some(c=>c.id===crSel))crSel=cr.active;
+ const cards=cr.cats.map(c=>{const lv=crLevel(c.xp).L;
+  return `<button class="cr-card${c.id===cr.active?" on":""}${c.id===crSel?" sel":""}" data-crcat="${c.id}">`
+   +(c.id===cr.active?`<span class="flag">ใช้งานอยู่</span>`:"")
+   +`<div class="pic"><canvas data-crpic="${c.id}"></canvas></div><div class="inf"><div class="nm">${esc(c.name)}</div>`
+   +`<div class="ln"><span>LV ${lv}</span><span class="cr-tag">${esc(crBreed(c.breed).en)}</span></div></div></button>`});
+ CR_BREEDS.filter(b=>!own.has(b.k)).forEach(b=>cards.push(
+  `<div class="cr-card lock"><div class="pic"><canvas data-crlock="${b.k}"></canvas></div><div class="inf"><div class="nm">???</div><div class="ln"><span class="cr-tag">ยังไม่พบ</span></div></div></div>`));
+ $("crGrid").innerHTML=cards.join("");
+ $("crOwnN").textContent=`${own.size}/${CR_BREEDS.length}`;
+ cr.cats.forEach(c=>{const cv=document.querySelector(`[data-crpic="${c.id}"]`);crPaintCat(cv,c,"sit",1.6)});
+ CR_BREEDS.filter(b=>!own.has(b.k)).forEach(b=>{const cv=document.querySelector(`[data-crlock="${b.k}"]`);
+  const r=b.k==="mix"?CR_ATLAS.stages.adult.sit:CR_ATLAS.breeds[b.k];crPaint(cv,r,1,true);if(cv)cv.style.width=Math.round(r[2]*1.6)+"px"});
+ $("crMakeActive").disabled=crSel===cr.active;
+ $("crMakeActive").textContent=crSel===cr.active?"ตัวนี้เป็นตัวหลักอยู่แล้ว":"ตั้งน้องแมวตัวนี้เป็นตัวหลัก";
+ $("crHouseBox").classList.toggle("hidden",!cr.boxes);$("crHouseBox").textContent=`เปิดกล่องปริศนา (${cr.boxes})`;
+}
+function crRenderLaser(){
+ if(!cr||!$("crLPlays"))return;
+ crTick();
+ const left=CR_PLAYS-cr.laser.n,running=crSc?.running;
+ $("crLPlays").textContent=`${left}/${CR_PLAYS}`;
+ $("crLStart").disabled=!left||running;
+ $("crLStart").lastElementChild.textContent=running?"กำลังเล่น…":left?"เริ่มเกม":"เล่นอีกครั้งพรุ่งนี้";
+ $("crLTip").textContent=left||running?"แตะจุดแดงก่อนแมวจะพุ่ง!":`วันนี้ครบ ${CR_PLAYS} รอบแล้ว · สถิติสูงสุด ${cr.laser.best||0}`;
+ if(!running){$("crLTime").textContent=CR_GAME/1000}
+}
+function crShowTab(t){
+ if(crSc?.running&&t!=="laser")return;
+ crTab=t;
+ document.querySelectorAll("[data-crtab]").forEach(b=>b.classList.toggle("on",b.dataset.crtab===t));
+ ["room","house","laser"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.toggle("hidden",k!==t));
+ if(crSc){crSc.stop();crSc=null}
+ if(t==="room"){crSc=crStage("crCv","room");crRender()}
+ if(t==="laser"){$("crLRes").classList.add("hidden");crSc=crStage("crLCv","laser");crRenderLaser()}
+ if(t==="house")crRenderHouse();
+}
+let crTimer=null;
+async function crOpen(){
+ $("crSub").textContent="กำลังเรียกแมว…";
+ await crLoad();
+ crShowTab(crTab==="laser"&&!crSc?"room":crTab);
+ clearInterval(crTimer);
+ crTimer=setInterval(()=>{if(document.hidden)return;crTick();if(crTab==="room")crRender();if(crTab==="laser")crRenderLaser();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
+ setTimeout(crNextEvent,600);
+}
+function crClose(){clearInterval(crTimer);crTimer=null;if(crSc){crSc.stop();crSc=null}}
+
+/* ---- popups: level, stage, box ---- */
+function crModal(title,body,onClose){
+ $("catModalBox").innerHTML=`<div class="cm-h"><span>${title}</span><button type="button" aria-label="ปิด" id="cmX">×</button></div><div class="cm-b">${body}</div>`;
+ openLayer("catModal");
+ $("cmX").onclick=()=>{closeLayer("catModal");onClose&&onClose()};
+}
+function crNextEvent(){
+ if(!crEvents.length||!$("catModal").classList.contains("hidden"))return;
+ const e=crEvents.shift(),c=cr.cats.find(x=>x.id===e.cat)||crCat();
+ if(e.type==="level"){
+  const next=crNeed(e.to);
+  crModal("LEVEL UP",`<div class="cm-t">เลเวลอัปแล้ว!</div><div class="cm-s">${esc(c.name)} โตขึ้นอีกนิด</div>`
+   +`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmCat" class="cm-pop"></canvas></div>`
+   +`<div class="cm-lvs"><div><b>LV ${e.from}</b><div class="cr-m" id="cmM1"></div><small>XP ${crNeed(e.from)}/${crNeed(e.from)}</small></div><span class="cm-arrow">▶</span>`
+   +`<div><b>LV ${e.to}</b><div class="cr-m" id="cmM2"></div><small>XP 0/${next}</small></div></div>`
+   +(e.box?`<div class="cm-rw"><em>รางวัลเลเวล ${Math.floor(e.to/5)*5}!</em><br>ได้กล่องปริศนา x${e.box}</div>`:"")
+   +(e.to===5||e.to===12||e.to===20?`<div class="cm-box">ปลดล็อกอาหารใหม่: <b>${crFoodFor(e.to).th}</b></div>`:"")
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,()=>setTimeout(crNextEvent,200));
+  crPaintCat($("cmCat"),c,"happy",3);crMeter($("cmM1"),10);crMeter($("cmM2"),0);
+  $("cmOk").onclick=()=>$("cmX").click();crSc?.act("level");
+ }else if(e.type==="stage"){
+  const a=CR_STAGES[e.from],b=CR_STAGES[e.to];
+  crModal("GROWTH STAGE UP",`<div class="cm-t">${b.up}</div>`
+   +`<div class="cm-pic"><div class="col"><span class="lbl">${a.th}</span><canvas id="cmA"></canvas></div><span class="cm-arrow">▶▶</span>`
+   +`<div class="col"><span class="lbl">${b.th}</span><canvas id="cmB" class="cm-pop"></canvas></div></div>`
+   +`<div class="cm-box">${esc(c.name)} ${b.desc}<br>มาดูแลน้องกันต่อไปนะ!</div>`
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">เย้! เข้าใจแล้ว</button></div>`,()=>setTimeout(crNextEvent,200));
+  const pic=(id,si)=>{const cv=$(id);const f=c.breed==="mix"?{r:CR_ATLAS.stages[CR_STAGES[si].k].sit,s:1}:{r:CR_ATLAS.breeds[c.breed],s:[.64,.82,1,1.14][si]};crPaint(cv,f.r,f.s);cv.style.width=Math.round(f.r[2]*f.s*2.4)+"px"};
+  pic("cmA",e.from);pic("cmB",e.to);
+  $("cmOk").onclick=()=>$("cmX").click();
+ }
+}
+function crOpenBox(){
+ if(!cr||!cr.boxes)return;
+ crModal("MYSTERY BOX",`<div class="cm-t">ได้กล่องปริศนา!</div><div class="cm-s">เลี้ยงครบทุก 5 เลเวล รับกล่องปริศนา 1 กล่อง</div>`
+  +`<div class="cm-pic"><canvas id="cmBox"></canvas></div><div class="cm-acts"><button class="cr-btn pri" id="cmGo">เปิดกล่อง</button></div>`);
+ crPaint($("cmBox"),CR_ATLAS.props.box,1);$("cmBox").style.width=CR_ATLAS.props.box[2]*2.6+"px";
+ $("cmGo").onclick=()=>{
+  $("cmGo").disabled=true;$("cmBox").classList.add("cm-shake");
+  document.querySelector("#catModalBox .cm-h span").textContent="OPENING";
+  document.querySelector("#catModalBox .cm-t").textContent="เปิดกล่อง...";
+  document.querySelector("#catModalBox .cm-s").textContent="มาลุ้นกันว่าแมวอะไรจะออกมา!";
+  setTimeout(crRevealBox,1300);
+ };
+}
+function crRevealBox(){
+ const own=new Set(cr.cats.map(c=>c.breed)),left=CR_BREEDS.filter(b=>!own.has(b.k));
+ cr.boxes=Math.max(0,cr.boxes-1);
+ if(!left.length){
+  const c=crCat();crSnap(c);c.p=crClamp(c.p+20);crGain(c,80);
+  crModal("BONUS",`<div class="cm-t">ขนมพิเศษ!</div><div class="cm-s">ครบทุกพันธุ์แล้ว กล่องนี้เลยเป็นขนมให้ ${esc(c.name)}</div>`
+   +`<div class="cm-pic"><canvas id="cmT" class="cm-pop"></canvas></div><div class="cm-rw">+80 XP</div><div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,()=>setTimeout(crNextEvent,200));
+  crPaint($("cmT"),CR_ATLAS.props.treat,1);$("cmT").style.width=CR_ATLAS.props.treat[2]*3+"px";
+  $("cmOk").onclick=()=>$("cmX").click();crAfter();return;
+ }
+ const b=left[Math.floor(Math.random()*left.length)];
+ const used=new Set(cr.cats.map(c=>c.name));
+ const name=CR_NAMES.find(n=>!used.has(n))||"CAT"+(cr.seq+1);
+ const now=Date.now(),cat={id:++cr.seq,breed:b.k,name,xp:0,h:80,p:80,t:now,petAt:0,boxLv:0,born:now};
+ cr.cats.push(cat);crSaveSoon();
+ crModal("NEW CAT!",`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmNew" class="cm-pop"></canvas></div>`
+  +`<div class="cm-t">${esc(b.en)}</div><div class="cm-s"><b>เจอแมวใหม่!</b> ${esc(b.th)}<br>${esc(b.blurb)}</div>`
+  +`<div class="cm-name"><input id="cmName" maxlength="12" value="${esc(name)}" aria-label="ตั้งชื่อ"></div>`
+  +`<div class="cm-acts"><button class="cr-btn pri" id="cmKeep">เก็บเข้าบ้านแมว</button><button class="cr-btn" id="cmUse">ตั้งเป็นตัวหลักเลย</button></div>`,
+  ()=>{crSetName(cat);crAfter()});
+ crPaint($("cmNew"),CR_ATLAS.breeds[b.k],.64);$("cmNew").style.width=Math.round(CR_ATLAS.breeds[b.k][2]*.64*4)+"px";
+ $("cmKeep").onclick=()=>$("cmX").click();
+ $("cmUse").onclick=()=>{crSetName(cat);crSwitch(cat.id);$("cmX").click()};
+}
+function crSetName(cat){const i=$("cmName");if(!i)return;const n=i.value.trim().toUpperCase().slice(0,12);if(n)cat.name=n}
+function crSwitch(id){
+ const now=Date.now(),cur=crCat();crSnap(cur,now);
+ cr.active=id;const nx=crCat();nx.t=now;crSel=id;
+ crSay(`${nx.name} มาแล้ว!`);crSaveSoon();crRenderHouse();crRender();crWidget();
+}
+
+/* ---- the dashboard's little window onto him ---- */
+async function crWidget(){
+ const box=$("catWidget");if(!box||!user)return;
+ if(!cr){await crLoad().catch(()=>null);if(!cr)return}
+ crTick();
+ const c=crCat(),v=crVals(c),lv=crLevel(c.xp);
+ $("cwName").textContent=c.name;$("cwBreed").textContent=crBreed(c.breed).en;$("cwLv").textContent="LV "+lv.L;
+ crMeter($("cwXp"),Math.floor(lv.into/lv.need*10));$("cwXpN").textContent=Math.floor(lv.into/lv.need*100)+"%";
+ crMeter($("cwFull"),cr10(v.h));$("cwFullN").textContent=cr10(v.h)+"/10";
+ $("cwSay").innerHTML=`<b>${esc(c.name)}:</b> ${esc(crLine().m)}`;
+ crPaintCat($("cwCv"),c,v.sulk?"sleep":"sit",1.4);
+ const full=v.h>=85;$("cwFeed").textContent=full?"อิ่มแล้ว":"ให้อาหาร";$("cwFeed").classList.toggle("pri",!full);
+ crNavBadge();
+}
+$("catWidget").addEventListener("click",e=>{
+ if(e.target.closest("#cwFeed")){
+  const r=crFeed();
+  if(r==="full")toast("อิ่มแล้ว ไว้คราวหน้านะ");else if(r)toast(`อร่อยเลย! +${r} XP`);
+  return;
+ }
+ goView("cat");
+});
+document.querySelectorAll("[data-crtab]").forEach(b=>b.onclick=()=>crShowTab(b.dataset.crtab));
+$("crFeed").onclick=crFeed;$("crPet").onclick=crPet;$("crClean").onclick=crClean;
+$("crLaserGo").onclick=()=>crShowTab("laser");$("crHouseGo").onclick=()=>crShowTab("house");
+$("crBoxOpen").onclick=crOpenBox;$("crHouseBox").onclick=crOpenBox;$("crLStart").onclick=crLaserStart;
+$("crGrid").onclick=e=>{const b=e.target.closest("[data-crcat]");if(!b)return;crSel=+b.dataset.crcat;crRenderHouse()};
+$("crMakeActive").onclick=()=>{if(crSel!=null&&crSel!==cr.active)crSwitch(crSel)};
+$("crRename").onclick=()=>{
+ const c=cr.cats.find(x=>x.id===crSel);if(!c)return;
+ const n=prompt("ตั้งชื่อน้องแมว (ไม่เกิน 12 ตัวอักษร)",c.name);
+ if(n&&n.trim()){c.name=n.trim().toUpperCase().slice(0,12);crSaveSoon();crRenderHouse();crRender();crWidget()}
+};
+// the backup file carries the room too, so a level-30 cat is never lost
+window.crExport=()=>cr?JSON.parse(JSON.stringify(cr)):null;
+window.crImport=async s=>{const v=crValid(s);if(!v)return false;await crLoad().catch(()=>{});cr=v;crSaveSoon(100);crRender();crWidget();return true};
 
 bindLayerUX();
 /* Registering and walking away meant a deploy could sit on the server for
