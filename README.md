@@ -67,6 +67,8 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-15-kol-parallel.sql` per-stage status so campaign stages can run in parallel
 - `migration-v7-18-projects.sql` projects + the links that group existing work under them
 - `migration-v7-79-telegram.sql` Telegram linking tables
+- `migration-v7-81-cat-room.sql` Cat Room, one private document per person
+- `cat-sprites.png` Cat Room sprite sheet (four amber levels)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a PORKCHOP G account
@@ -434,6 +436,17 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.81 Cat Room
+- A virtual pet with **no connection to work**: he gets hungry on the clock, so a day with nothing due is still a day to feed him. New sidebar item **Cat Room** with three tabs — ห้องแมว, บ้านแมว, เลเซอร์ — plus a small CAT ROOM panel on the Dashboard with a feed button.
+- **Stats** (0–100, shown as 10-segment meters): FULL drains 100→0 in 7 hours; HAPPY loses 10 per 12 hours; CLEAN drops to 35 once the litter box is 24 hours old. He sulks (sleeps in the corner) when FULL < 20 or HAPPY < 25, and forgives the moment he is fed. He never dies.
+- **XP**: food by level (kibble 10 · mackerel 16 from Lv 5 · canned 22 from Lv 12 · lickable treat 28 from Lv 20), ×1.5 when fed at FULL ≤ 30, nothing when already full (he turns away). Petting +6 with a 30-minute cooldown (tap the cat too). Cleaning +12. Laser: score × 2, capped at 50, 3 games a day. +10 for every midnight he was not sulking at.
+- **Levels**: 80+20·(L−1) to Lv 5, 180+30·(L−5) to Lv 15, 500+40·(L−15) to Lv 30, 1100+50·(L−30) after. Growth stages: ลูกแมว 1–4, วัยรุ่น 5–14, โตเต็มวัย 15–29, เจ้าถิ่น 30+. Level-up and stage-up popups.
+- **Mystery box every 5 levels** hatches a breed you do not have yet (7 breeds: mix, Scottish Fold, Khao Manee, Persian, American Shorthair, Bombay, Siamese); name it, keep it or make it the active cat. Each cat keeps its own level; cats in the house sleep and do not get hungry. Once every breed is found, a box is a treat (+80 XP).
+- **Laser game**: 15 seconds, tap the red dot before the cat pounces on it.
+- Sprites are cut from the design sheets and quantised to the four amber levels (`cat-sprites.png`); the room is drawn in code so the bowl, litter box and cat can react. Poses only PORKCHOP has (eat, sleep, pounce) fall back to the sitting pose plus motion for the other breeds until their own sheets exist.
+- The whole room is one JSON document per person in `cat_rooms`, owner-only — the other member and the Super Admin cannot see it. Until the migration is run it lives in the browser only and moves up on the first visit afterwards. The backup file now carries it too (`cat_room`), and restoring your own backup puts it back.
+- Requires `migration-v7-81-cat-room.sql` for sync across devices.
 
 ## V7.80 Ask the bot what is pending
 - A **📋 งานค้าง** button sits under the Telegram message box (also `/today`). It answers with the same report the app opens with after sign-in, read live: date, weather, the priority matrix counts, the Q1 and Q3 tasks by name with how late or close each is, and the ads running today.
