@@ -1743,6 +1743,7 @@ body.dark .splash{background:#15120e}
 .cr-card .ln{display:flex;justify-content:space-between;align-items:center;gap:6px;font-family:"VT323",ui-monospace,monospace;font-size:17px}
 .cr-tag{font-family:"VT323",ui-monospace,monospace;font-size:13px;letter-spacing:.05em;border:1px solid rgba(42,32,19,.35);
  background:rgba(42,32,19,.08);padding:0 5px;border-radius:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:74px}
+.cr-card .cr-tag{max-width:100px}
 .cr-card.on{box-shadow:0 0 0 3px #e0951f}
 .cr-card.sel{box-shadow:0 0 0 3px var(--ink)}
 .cr-card.on.sel{box-shadow:0 0 0 3px #e0951f,0 0 0 6px var(--ink)}
@@ -1775,7 +1776,6 @@ body.dark .splash{background:#15120e}
 .cr-res .two b{font-family:"VT323",ui-monospace,monospace;font-size:22px;display:block}
 .cr-res .cr-btn{width:100%;margin-top:8px;min-height:40px}
 @container (max-width:720px){
- .cr-tabs{width:100%}.cr-tabs button{flex:1;padding:3px 6px;font-size:18px}
  .cr-stats{grid-template-columns:1fr}
  .cr-acts{grid-template-columns:repeat(2,minmax(0,1fr))}
  .cr-acts .cr-house{grid-column:1/-1}
@@ -1831,6 +1831,76 @@ body.dark .splash{background:#15120e}
 .cw-say{border:1px solid var(--t-line);border-radius:3px;padding:5px 9px;font-size:12.5px;line-height:1.4;background:rgba(255,250,235,.5)}
 .cw-foot .cr-btn{min-height:40px;font-size:14px;padding:4px 12px;--ink:#2a2013;--fill:#b86b12;--fill-hi:#fff4dc;--pap:#f6ecd2}
 .cw-go{background:none;border:0;color:var(--t-dim);font-size:12px;font-weight:800;cursor:pointer}
+/* V7.82: coins, quests, shop, more games */
+.cr-tabs{margin:-2px 0 12px;overflow-x:auto;scrollbar-width:none;padding:6px 6px 2px 0}
+.cr-tabs::-webkit-scrollbar{display:none}
+.cr-tabs button{flex:none;white-space:nowrap}
+.cr-coin{display:inline-flex;align-items:center;gap:7px;border:2px solid var(--ink,#2a2013);border-radius:999px;padding:3px 12px 3px 6px;
+ background:#fff4dc;font-family:"VT323",ui-monospace,monospace;font-size:22px;line-height:1;color:#2a2013;white-space:nowrap}
+.cr-coin i{width:18px;height:18px;border-radius:50%;background:#e0951f;border:2px solid #5a3208;box-shadow:inset -2px -2px 0 #b86b12,inset 2px 2px 0 #ffd9a0;flex:none}
+.cr-coin.sm{border:0;background:none;padding:0;font-size:18px;gap:5px;color:inherit}
+.cr-coin.sm i{width:13px;height:13px;border-width:1.5px}
+.cr-coin.big{font-size:26px}
+.cr-back{background:none;border:0;padding:0 0 8px;font:800 14px "Noto Sans Thai",system-ui,sans-serif;color:var(--t-dim);cursor:pointer}
+.cr-back:disabled{opacity:.4;cursor:default}
+.cr-sec{font-weight:900;font-size:16px;margin:16px 0 8px;display:flex;align-items:baseline;gap:8px}
+.cr-sec:first-child{margin-top:0}
+.cr-sec small{font-weight:600;font-size:12px;color:var(--t-dim)}
+.cr-ghub{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.cr-gcard{border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:12px 14px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.cr-gcard:hover{background:#fff4dc}
+.cr-gcard .nm{font-weight:900;font-size:18px}
+.cr-gcard .sub{font-size:13px;color:var(--t-dim);margin:3px 0 8px;line-height:1.45}
+.cr-gcard .ln{display:flex;justify-content:space-between;font-size:12.5px}
+.cr-gcard .ln b{font-family:"VT323",ui-monospace,monospace;font-size:18px}
+.cr-mstage{position:relative;border:2px solid var(--ink);border-radius:4px;background:#e8d3a3;padding:10px}
+.cr-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:520px;margin:0 auto}
+.cr-mc{position:relative;aspect-ratio:1/1;border:2px solid var(--ink);border-radius:4px;background:#f6ecd2;padding:0;cursor:pointer;perspective:400px;overflow:hidden}
+.cr-mc .back,.cr-mc .face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .28s,opacity .28s;backface-visibility:hidden}
+.cr-mc .back{background:#b86b12 radial-gradient(#8a4708 1px,transparent 1.3px) 0 0/5px 5px}
+.cr-mc .back::after{content:"";width:34%;height:34%;border-radius:50%;background:#fff4dc;opacity:.7;box-shadow:0 0 0 3px #5a3208}
+.cr-mc .face{transform:rotateY(180deg);opacity:0}
+.cr-mc .face canvas{image-rendering:pixelated;max-width:82%;max-height:82%}
+.cr-mc.up .back{transform:rotateY(180deg);opacity:0}.cr-mc.up .face{transform:rotateY(0);opacity:1}
+.cr-mc.ok{border-color:#b86b12;box-shadow:0 0 0 2px #e0951f}
+.cr-mc.idle{cursor:default}
+.cr-q{display:flex;align-items:center;gap:12px;border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:9px 12px;margin-bottom:8px}
+.cr-q .t{flex:1;min-width:0;line-height:1.35}
+.cr-q .t b{display:block;font-size:14.5px}
+.cr-q .t small{font-size:12px;color:var(--t-dim)}
+.cr-q .cr-btn{min-height:38px;min-width:78px;font-size:14px}
+.cr-q.got{opacity:.62}
+.cr-q.bonus{border-style:dashed;background:rgba(224,149,31,.12)}
+.cr-q.sp canvas{image-rendering:pixelated;width:52px;flex:none}
+.cr-qbar{height:8px;border:1px solid rgba(42,32,19,.5);background:#f6ecd2;margin:5px 0 3px;border-radius:1px;overflow:hidden}
+.cr-qbar i{display:block;height:100%;background-color:#c77a14;background-image:radial-gradient(#8a4708 .8px,transparent 1.1px);background-size:3px 3px}
+.cr-streak{display:flex;align-items:center;gap:14px;border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:10px 12px;flex-wrap:wrap}
+.cr-streak .dots{display:flex;gap:5px}
+.cr-streak .dots i{width:22px;height:22px;border:2px solid var(--ink);border-radius:3px;background:#f6ecd2}
+.cr-streak .dots i.on{background-color:#c77a14;background-image:radial-gradient(#8a4708 .8px,transparent 1.1px);background-size:3px 3px}
+.cr-streak .dots i.gift{border-style:dashed}
+.cr-streak .t{line-height:1.4}.cr-streak .t b{display:block}.cr-streak .t small{font-size:12px;color:var(--t-dim)}
+.cr-shopfor{display:flex;align-items:center;gap:12px;border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:8px 12px;margin-bottom:6px}
+.cr-shopfor canvas{image-rendering:pixelated;flex:none}
+.cr-shopfor .t{flex:1;line-height:1.4}.cr-shopfor .t small{display:block;font-size:12px;color:var(--t-dim)}
+.cr-shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.cr-item{border:2px solid var(--ink);border-radius:4px;background:#f3e6c6;padding:0 0 9px;display:flex;flex-direction:column;text-align:center;overflow:hidden}
+.cr-item .pic{height:96px;display:flex;align-items:flex-end;justify-content:center;padding:6px 0;border-bottom:2px solid var(--ink);
+ background:linear-gradient(#e8d3a3 0 64%,#b8945c 64% 66%,#cfb07a 66%)}
+.cr-item .pic canvas{image-rendering:pixelated;max-width:92%;max-height:100%}
+.cr-item .nm{font-weight:900;font-size:14.5px;margin:7px 8px 0}
+.cr-item .sub{font-size:11.5px;color:var(--t-dim);min-height:17px;margin:0 8px 6px;line-height:1.35}
+.cr-item .cr-btn,.cr-item .cr-tag{margin:auto 9px 0;min-height:36px;font-size:13.5px}
+.cr-item .cr-tag{display:flex;align-items:center;justify-content:center;max-width:none}
+.cr-slot{font-size:34px;letter-spacing:4px;color:#8a4708;line-height:1;align-self:center}
+.cr-slots{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;margin:-4px 0 10px;flex-wrap:wrap}
+.cw-q{font-weight:800;color:#a8640a}
+@container (max-width:720px){
+ .cr-tabs button{flex:none;font-size:17px;padding:3px 10px}
+ .cr-cards{gap:6px}
+ .cr-shop{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cr-ghub{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -2217,11 +2287,14 @@ body.dark .splash{background:#15120e}
   <div class="cr">
    <div class="cr-top">
     <div><div class="cr-title">CAT ROOM</div><div class="cr-sub" id="crSub">ห้องเล็ก ๆ ของแมวตัวใหญ่</div></div>
-    <div class="cr-tabs" id="crTabs">
-     <button data-crtab="room" class="on">ห้องแมว</button>
-     <button data-crtab="house">บ้านแมว<span class="cr-dot hidden" id="crHouseDot"></span></button>
-     <button data-crtab="laser">เลเซอร์</button>
-    </div>
+    <div class="cr-coin" id="crCoin" title="เหรียญปลา"><i></i><b id="crCoinN">0</b></div>
+   </div>
+   <div class="cr-tabs" id="crTabs">
+    <button data-crtab="room" class="on">ห้องแมว</button>
+    <button data-crtab="house">บ้านแมว<span class="cr-dot hidden" id="crHouseDot"></span></button>
+    <button data-crtab="games">มินิเกม</button>
+    <button data-crtab="quests">ภารกิจ<span class="cr-dot hidden" id="crQuestDot"></span></button>
+    <button data-crtab="shop">ร้านค้า</button>
    </div>
 
    <div id="crRoom">
@@ -2238,7 +2311,7 @@ body.dark .splash{background:#15120e}
     <div class="cr-acts">
      <button class="cr-btn pri" id="crFeed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11h18l-2 7H5z"/><path d="M7 11c1-3 9-3 10 0"/></svg><span class="cr-bl"><span>ให้อาหาร</span><small id="crFeedS"></small></span></button>
      <button class="cr-btn" id="crPet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 11V4.5a1.5 1.5 0 0 1 3 0V12"/><path d="M14 11.5V6a1.5 1.5 0 0 1 3 0v8c0 4-2.5 7-6 7-2.6 0-4-1.3-5.3-3.4L4 14.4a1.4 1.4 0 0 1 2.3-1.6L8 15"/></svg><span class="cr-bl"><span>ลูบหัว</span><small id="crPetS"></small></span></button>
-     <button class="cr-btn" id="crLaserGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></svg><span class="cr-bl"><span>เล่นเลเซอร์</span><small id="crLaserS"></small></span></button>
+     <button class="cr-btn" id="crGamesGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="11" rx="4"/><path d="M7 11v3M5.5 12.5h3M15 11.5h.01M17.5 13.5h.01"/></svg><span class="cr-bl"><span>มินิเกม</span><small id="crGamesS"></small></span></button>
      <button class="cr-btn" id="crClean"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6"/><path d="M17 7l-6 6"/><path d="M11 13l-6 1-2 7 7-2 1-6z"/><path d="M6 17l2-2"/></svg><span class="cr-bl"><span>เก็บกระบะทราย</span><small id="crCleanS"></small></span></button>
      <button class="cr-btn cr-house" id="crHouseGo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>บ้านแมว</span></button>
     </div>
@@ -2251,27 +2324,79 @@ body.dark .splash{background:#15120e}
 
    <div id="crHouse" class="hidden">
     <div class="cr-hhead"><b>บ้านแมว</b><div class="cnt"><span id="crOwnN">1/7</span><small>น้องแมวที่ปลดล็อก</small></div></div>
+    <div class="cr-slots" id="crSlots"></div>
     <div class="cr-grid" id="crGrid"></div>
-    <div class="cr-hacts">
-     <button class="cr-btn pri" id="crMakeActive">ตั้งน้องแมวตัวนี้เป็นตัวหลัก</button>
-     <button class="cr-btn" id="crRename">เปลี่ยนชื่อ</button>
-     <button class="cr-btn pri hidden" id="crHouseBox">เปิดกล่องปริศนา</button>
-    </div>
-    <div class="cr-note">ได้กล่องปริศนาทุก 5 เลเวล เปิดแล้วเจอน้องแมวพันธุ์ใหม่ แต่ละตัวเก็บเลเวลของตัวเอง ตัวที่ไม่ได้เลี้ยงอยู่จะหลับรอในบ้าน ไม่หิว ไม่งอน</div>
+    <div class="cr-hacts" id="crHActs"></div>
+    <div class="cr-note">ได้กล่องปริศนาทุก 5 เลเวล และทุกครั้งที่ดูแลครบ 7 วันติดกัน บางพันธุ์ได้จากภารกิจพิเศษเท่านั้น ตัวที่อยู่ในบ้าน (ไม่ได้อยู่ในห้อง) จะหลับรอ ไม่หิว ไม่งอน</div>
    </div>
 
-   <div id="crLaser" class="hidden">
-    <div class="cr-lstats">
-     <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><div class="k">เวลาที่เหลือ</div><div class="v" id="crLTime">15</div></div></div>
-     <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><div><div class="k">คะแนน</div><div class="v" id="crLScore">0</div></div></div>
-     <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4M12 13v5M9.5 15.5h5"/></svg><div><div class="k">เล่นได้วันนี้</div><div class="v" id="crLPlays">3/3</div></div></div>
+   <div id="crGames" class="hidden">
+    <div id="crGHub" class="cr-ghub"></div>
+
+    <div id="crLaser" class="hidden">
+     <button class="cr-back" data-crback>&lsaquo; มินิเกม</button>
+     <div class="cr-lstats">
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><div class="k">เวลาที่เหลือ</div><div class="v" id="crLTime">15</div></div></div>
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><div><div class="k">คะแนน</div><div class="v" id="crLScore">0</div></div></div>
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4M12 13v5M9.5 15.5h5"/></svg><div><div class="k">เล่นได้วันนี้</div><div class="v" id="crLPlays">3/3</div></div></div>
+     </div>
+     <div class="cr-stage" id="crLStage"><canvas id="crLCv" aria-label="เกมเลเซอร์"></canvas><div class="cr-res hidden" id="crLRes"></div></div>
+     <div class="cr-lrow">
+      <div class="cr-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span id="crLTip">แตะจุดแดงก่อนแมวจะพุ่ง!</span></div>
+      <button class="cr-btn pri" id="crLStart"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span>เริ่มเกม</span></button>
+     </div>
+     <div class="cr-note">15 วินาที · แตะโดนได้ 1 คะแนน โดนติดกัน 5 ครั้งขึ้นไปได้เพิ่ม · XP = คะแนน × 2 (สูงสุด 50) · เหรียญ = คะแนน (สูงสุด 30)</div>
     </div>
-    <div class="cr-stage" id="crLStage"><canvas id="crLCv" aria-label="เกมเลเซอร์"></canvas><div class="cr-res hidden" id="crLRes"></div></div>
-    <div class="cr-lrow">
-     <div class="cr-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span id="crLTip">แตะจุดแดงก่อนแมวจะพุ่ง!</span></div>
-     <button class="cr-btn pri" id="crLStart"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span>เริ่มเกม</span></button>
+
+    <div id="crMatch" class="hidden">
+     <button class="cr-back" data-crback>&lsaquo; มินิเกม</button>
+     <div class="cr-lstats">
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><div class="k">เวลา</div><div class="v" id="crMTime">0</div></div></div>
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="8" height="12" rx="1"/><rect x="13" y="7" width="8" height="12" rx="1"/></svg><div><div class="k">คู่ที่เจอ</div><div class="v" id="crMPairs">0/6</div></div></div>
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4M12 13v5M9.5 15.5h5"/></svg><div><div class="k">เล่นได้วันนี้</div><div class="v" id="crMPlays">3/3</div></div></div>
+     </div>
+     <div class="cr-mstage"><div class="cr-cards" id="crMCards"></div><div class="cr-res hidden" id="crMRes"></div></div>
+     <div class="cr-lrow">
+      <div class="cr-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span id="crMTip">เปิดการ์ดหาคู่หน้าแมวให้ครบ 6 คู่ ยิ่งไวยิ่งได้เยอะ</span></div>
+      <button class="cr-btn pri" id="crMStart"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span>เริ่มเกม</span></button>
+     </div>
+     <div class="cr-note">60 วินาที · คะแนน = 50 − วินาทีที่ใช้ (ต่ำสุด 5) · พลาดไม่เกิน 3 ครั้งได้โบนัส +10 · XP = คะแนน (สูงสุด 40) · เหรียญ สูงสุด 30</div>
     </div>
-    <div class="cr-note">15 วินาที · แตะโดนได้ 1 คะแนน โดนติดกัน 5 ครั้งขึ้นไปได้เพิ่ม · XP = คะแนน × 2 (สูงสุด 50) · เล่นได้วันละ 3 ครั้ง</div>
+
+    <div id="crJump" class="hidden">
+     <button class="cr-back" data-crback>&lsaquo; มินิเกม</button>
+     <div class="cr-lstats">
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg><div><div class="k">คะแนน</div><div class="v" id="crJScore">0</div></div></div>
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><div class="k">สถิติสูงสุด</div><div class="v" id="crJBest">0</div></div></div>
+      <div class="cr-lbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4M12 13v5M9.5 15.5h5"/></svg><div><div class="k">เล่นได้วันนี้</div><div class="v" id="crJPlays">3/3</div></div></div>
+     </div>
+     <div class="cr-stage" id="crJStage"><canvas id="crJCv" aria-label="เกมแมวกระโดด"></canvas><div class="cr-res hidden" id="crJRes"></div></div>
+     <div class="cr-lrow">
+      <div class="cr-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span id="crJTip">แตะจอ (หรือกด Space) ให้แมวกระโดดข้ามของ</span></div>
+      <button class="cr-btn pri" id="crJStart"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg><span>เริ่มเกม</span></button>
+     </div>
+     <div class="cr-note">ข้ามได้ 1 ชิ้น = 1 คะแนน ยิ่งนานยิ่งเร็ว · XP = คะแนน × 2 (สูงสุด 50) · เหรียญ = คะแนน (สูงสุด 30)</div>
+    </div>
+   </div>
+
+   <div id="crQuests" class="hidden">
+    <div class="cr-sec">ภารกิจวันนี้ <small id="crQDay"></small></div>
+    <div id="crQList"></div>
+    <div class="cr-sec">ดูแลต่อเนื่อง</div>
+    <div class="cr-streak" id="crStreak"></div>
+    <div class="cr-sec">ภารกิจพิเศษ · ปลดล็อกน้องแมว</div>
+    <div id="crSpecial"></div>
+   </div>
+
+   <div id="crShop" class="hidden">
+    <div class="cr-shopfor" id="crShopFor"></div>
+    <div class="cr-sec">กล่องและห้อง</div>
+    <div class="cr-shop" id="crShopMain"></div>
+    <div class="cr-sec">ชุดแต่งตัว</div>
+    <div class="cr-shop" id="crShopWear"></div>
+    <div class="cr-sec">ของแต่งห้อง</div>
+    <div class="cr-shop" id="crShopDecor"></div>
+    <div class="cr-note">เหรียญปลาได้จากภารกิจรายวัน มินิเกม เลเวลอัป (+50) และให้อาหารมื้อแรกของวัน (+5) ชุดที่ซื้อแล้วใส่ได้ทุกตัว</div>
    </div>
   </div>
  </section>
@@ -2302,7 +2427,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.81</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.82</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -7629,10 +7754,17 @@ function bootReport(){
    The room is one JSON document per person -- in this browser always, and
    in cat_rooms once V7.81 is run. Nobody else can see it.
 
+   V7.82 turns the pet into a small game with somewhere to go: fish coins
+   earned from daily quests, mini-games and levels, a shop for outfits,
+   furniture, boxes and more room, up to three cats in the room at once,
+   two more mini-games, a care streak, and three breeds that only come from
+   a special quest.
+
    The sprites are cut from the design sheets and quantised to the same four
    amber levels as every other cat in the app (cat-sprites.png). Poses that
    only exist for PORKCHOP are borrowed from his sitting pose on other
-   breeds until their own sheets arrive. */
+   breeds until their own sheets arrive. Outfits and furniture are drawn in
+   code in the same four levels. */
 const CR_ATLAS={"stages":{"kitten":{"sit":[0,0,41,35],"sitB":[42,0,43,32],"eat":[86,0,48,38],"eat2":[135,0,47,38],"happy":[183,0,43,38],"sleep":[227,0,49,29],"sleep2":[277,0,46,27],"crouch":[324,0,51,29],"leap":[376,0,50,33]},"teen":{"sit":[427,0,46,48],"sitB":[0,49,45,48],"eat":[46,49,55,43],"eat2":[102,49,54,39],"happy":[157,49,56,49],"sleep":[214,49,68,34],"sleep2":[283,49,67,29],"crouch":[351,49,55,33],"leap":[407,49,58,34]},"adult":{"sit":[466,49,45,41],"sitB":[0,99,47,40],"eat":[48,99,52,38],"eat2":[101,99,53,42],"happy":[155,99,47,41],"sleep":[203,99,50,31],"sleep2":[254,99,52,30],"crouch":[307,99,56,32],"leap":[364,99,60,45]},"boss":{"sit":[425,99,60,48],"sitB":[0,148,53,45],"eat":[54,148,60,42],"eat2":[115,148,55,44],"happy":[171,148,53,49],"sleep":[225,148,82,40],"sleep2":[308,148,88,40],"crouch":[397,148,64,33],"leap":[0,198,71,43]}},"breeds":{"scottish":[72,198,47,41],"khaomanee":[120,198,40,41],"persian":[161,198,46,41],"american":[208,198,57,41],"bombay":[266,198,36,41],"siamese":[303,198,47,41]},"props":{"kibble":[351,198,30,21],"mackerel":[382,198,34,23],"canned":[417,198,23,20],"treat":[441,198,28,30],"box":[0,242,67,60]}};
 const CR_BREEDS=[
  {k:"mix",      en:"MIX",        th:"ส้มลาย",          blurb:"ส้มลายเจ้าเดิม ขี้อ้อน กินเก่ง"},
@@ -7657,6 +7789,50 @@ const CR_STAGES=[
 ];
 const CR_NAMES=["MOCHI","LATTE","KOKO","MISO","TARO","TOFU","NORI","BUTTER","MANGO","KHANOM","PUDDING","SESAME","BIGGIE","MOMO"];
 const CR_HR=3600e3,CR_DRAIN=100/(7*CR_HR),CR_SAD=10/(12*CR_HR),CR_PET_CD=30*60e3,CR_DIRTY=24*CR_HR,CR_PLAYS=3,CR_GAME=15000;
+const CR_BOX_PRICE=500,CR_SLOT_PRICE=[0,600,1200];
+// daily quests: three a day, the same three on every device (seeded by date)
+const CR_Q=[
+ {k:"feedH", th:"ป้อนตอนน้องหิว (อิ่มไม่เกิน 3/10)",need:1, coin:30},
+ {k:"feed",  th:"ให้อาหาร 3 ครั้ง",                need:3, coin:20},
+ {k:"pet",   th:"ลูบหัว 3 ครั้ง",                  need:3, coin:25},
+ {k:"clean", th:"เก็บกระบะทราย",                   need:1, coin:20},
+ {k:"laser15",th:"เลเซอร์ได้ 15 คะแนนขึ้นไป",        need:1, coin:35},
+ {k:"match", th:"เล่นเกมจับคู่ให้จบ 1 รอบ",          need:1, coin:30},
+ {k:"jump10",th:"แมวกระโดดได้ 10 คะแนนขึ้นไป",       need:1, coin:35},
+ {k:"games", th:"เล่นมินิเกม 2 รอบ",                need:2, coin:30},
+ {k:"xp",    th:"ได้ XP รวม 60",                   need:60,coin:25}
+];
+const CR_Q_XP=15,CR_Q_BONUS=20;
+// three breeds never come out of a box: they are earned
+const CR_SPECIAL=[
+ {breed:"bombay",   th:"จับจุดเลเซอร์ได้รวม 100 ครั้ง",      need:100,prog:()=>cr.stats.laserHits},
+ {breed:"persian",  th:"ดูแลน้องติดกัน 14 วัน",             need:14, prog:()=>cr.streak.best},
+ {breed:"khaomanee",th:"เลี้ยงแมวตัวไหนก็ได้ให้ถึง Lv 30",   need:30, prog:()=>Math.max(...cr.cats.map(c=>crLevel(c.xp).L))}
+];
+const CR_EXCL=new Set(CR_SPECIAL.map(s=>s.breed));
+/* outfits: '0'-'3' are the four cat levels, '4' cream, '.' nothing.
+   Each is drawn at a whole-number multiple that follows the head width. */
+const CR_WEAR=[
+ {k:"beanie",fit:0.95, slot:"head",th:"หมวกไหมพรม",   price:150,px:["....000....","...03330...","..0000000..",".022222220.","02222222220","01313131310","00000000000"]},
+ {k:"bow",fit:0.5,    slot:"head",th:"โบว์",          price:120,side:1,px:["00.....00","0200.0020","022000220","022030220","022000220","0200.0020","00.....00"]},
+ {k:"flower",fit:0.34, slot:"head",th:"ดอกไม้",        price:100,side:1,px:["..0..",".040.","04140",".040.","..0.."]},
+ {k:"cap",fit:1.0,    slot:"head",th:"หมวกแก๊ป",      price:200,px:["...00000....","..0222220...",".022232220..",".022222220..","022222222000","000000000110","........000."]},
+ {k:"crown",fit:0.72,  slot:"head",th:"มงกุฎ",         price:400,px:["3...3...3","0...0...0","00.030.00","020222020","022222220","033333330","000000000"]},
+ {k:"bell",fit:0.8,   slot:"neck",th:"ปลอกคอกระดิ่ง", price:100,px:["0000000000000","0111111111110","0000003000000","....03330....","....02320....",".....000....."]},
+ {k:"scarf",fit:1.0,  slot:"neck",th:"ผ้าพันคอ",      price:180,px:["0000000000000","0212121212120","0121212121210","0000000022200",".......02220.",".......01210.",".......00000."]},
+ {k:"glasses",fit:0.85,slot:"face",th:"แว่นกลม",       price:200,px:[".000...000.","03330003330","03330.03330",".000...000."]},
+ {k:"shades",fit:0.85, slot:"face",th:"แว่นดำ",        price:250,px:["00000000000","01110001110",".000...000."]}
+];
+const CR_WPAL=["#0b0703","#8a4708","#d1841c","#ffd9a0","#fff4dc"];
+const CR_DECOR=[
+ {k:"curtain", th:"ผ้าม่าน",     price:300,box:[.19,.02,.65,.62]},
+ {k:"frames",  th:"กรอบรูป",     price:250,box:[.02,.06,.24,.42]},
+ {k:"lights",  th:"ไฟประดับ",    price:350,box:[.3,0,.7,.2]},
+ {k:"plant",   th:"ต้นไม้ใหญ่",   price:300,box:[.66,.3,.84,.72]},
+ {k:"rug",     th:"พรมลายใหม่",  price:400,box:[.25,.72,.75,1]},
+ {k:"fishtank",th:"ตู้ปลา",       price:500,box:[.02,.22,.22,.6]},
+ {k:"cattree", th:"คอนโดแมว",    price:700,box:[.17,.2,.33,.8]}
+];
 const crNeed=L=>L<5?80+20*(L-1):L<15?180+30*(L-5):L<30?500+40*(L-15):1100+50*(L-30);
 function crLevel(xp){let L=1,r=Math.max(0,Math.floor(xp||0));while(r>=crNeed(L)&&L<500){r-=crNeed(L);L++}return{L,into:r,need:crNeed(L)}}
 const crStageOf=L=>L>=30?3:L>=15?2:L>=5?1:0;
@@ -7664,31 +7840,47 @@ const crFoodFor=L=>CR_FOODS.filter(f=>L>=f.lv).pop();
 const crBreed=k=>CR_BREEDS.find(b=>b.k===k)||CR_BREEDS[0];
 const crClamp=v=>Math.max(0,Math.min(100,v));
 
-let cr=null,crCloud="",crLoading=null,crSaveT=null,crEvents=[],crSel=null,crTab="room";
+let cr=null,crCloud="",crLoading=null,crSaveT=null,crEvents=[],crSel=null,crTab="room",crGame="";
 const crKey=()=>"porkchop_cat_"+(user?.id||"anon");
 const crImg=new Image();crImg.src="./cat-sprites.png";
 
+function crNewCat(id,breed,name){const now=Date.now();return {id,breed,name,xp:0,h:80,p:80,t:now,petAt:0,boxLv:0,born:now,wear:{}}}
 function crNew(){
  const now=Date.now();
- return {v:1,updated:now,seq:1,active:1,cleanAt:now,ageDay:todayISO(),boxes:0,
-  laser:{day:"",n:0,best:0},say:{t:now,m:"สวัสดี! ฉันชื่อ PORKCHOP ฝากตัวด้วยนะ"},
-  cats:[{id:1,breed:"mix",name:"PORKCHOP",xp:0,h:70,p:80,t:now,petAt:0,boxLv:0,born:now}]};
+ return crValid({v:2,updated:now,seq:1,active:1,room:[1],slots:1,cleanAt:now,ageDay:todayISO(),boxes:0,coins:0,
+  say:{t:now,m:"สวัสดี! ฉันชื่อ PORKCHOP ฝากตัวด้วยนะ",id:1},
+  cats:[{...crNewCat(1,"mix","PORKCHOP"),h:70}]});
 }
+// Fills in whatever an older or partial room lacks, so every save ever made still loads.
 function crValid(s){
  if(!s||typeof s!=="object"||!Array.isArray(s.cats)||!s.cats.length)return null;
- const now=Date.now();
- s.cats=s.cats.filter(c=>c&&c.id!=null).map(c=>({breed:"mix",name:"CAT",xp:0,h:70,p:80,t:now,petAt:0,boxLv:0,born:now,...c}));
+ const now=Date.now(),day={day:"",n:0,best:0};
+ s.cats=s.cats.filter(c=>c&&c.id!=null).map(c=>({breed:"mix",name:"CAT",xp:0,h:70,p:80,t:now,petAt:0,boxLv:0,born:now,...c,wear:{...(c.wear||{})}}));
  if(!s.cats.length)return null;
- if(!s.cats.some(c=>c.id===s.active))s.active=s.cats[0].id;
+ const ids=new Set(s.cats.map(c=>c.id));
+ if(!ids.has(s.active))s.active=s.cats[0].id;
  s.seq=Math.max(s.seq||0,...s.cats.map(c=>c.id));
- s.laser={day:"",n:0,best:0,...(s.laser||{})};
- s.boxes=Math.max(0,s.boxes|0);s.cleanAt=s.cleanAt||now;s.ageDay=s.ageDay||todayISO();s.updated=s.updated||0;
+ s.slots=Math.max(1,Math.min(3,s.slots|0||1));
+ s.room=(Array.isArray(s.room)?s.room:[s.active]).filter((id,i,a)=>ids.has(id)&&a.indexOf(id)===i).slice(0,s.slots);
+ if(!s.room.length)s.room=[s.active];
+ if(!s.room.includes(s.active))s.active=s.room[0];
+ s.slots=Math.max(s.slots,s.room.length);
+ s.laser={...day,...(s.laser||{})};s.match={...day,...(s.match||{})};s.jump={...day,...(s.jump||{})};
+ s.daily={day:"",list:[],bonus:false,...(s.daily||{})};
+ s.streak={last:"",n:0,best:0,...(s.streak||{})};
+ s.stats={laserHits:0,feeds:0,pets:0,cleans:0,games:0,...(s.stats||{})};
+ s.wardrobe=Array.isArray(s.wardrobe)?s.wardrobe:[];
+ s.decor={own:[],on:[],...(s.decor||{})};
+ s.coins=Math.max(0,s.coins|0);s.boxes=Math.max(0,s.boxes|0);
+ s.cleanAt=s.cleanAt||now;s.ageDay=s.ageDay||todayISO();s.updated=s.updated||0;s.v=2;
  return s;
 }
 const crCat=()=>cr.cats.find(c=>c.id===cr.active)||cr.cats[0];
-// Only the cat in the room lives on the clock; the rest are asleep in the house.
+const crInRoom=c=>cr.room.includes(c.id);
+const crRoomCats=()=>cr.room.map(id=>cr.cats.find(c=>c.id===id)).filter(Boolean);
+// Only cats in the room live on the clock; the rest are asleep in the house.
 function crVals(c,now=Date.now()){
- const dt=c.id===cr.active?Math.max(0,now-c.t):0;
+ const dt=crInRoom(c)?Math.max(0,now-c.t):0;
  const h=crClamp(c.h-dt*CR_DRAIN),p=crClamp(c.p-dt*CR_SAD);
  const clean=now-cr.cleanAt<CR_DIRTY?100:35;
  return {h,p,clean,dirty:clean<100,sulk:h<20||p<25||clean<20};
@@ -7696,26 +7888,62 @@ function crVals(c,now=Date.now()){
 function crSnap(c,now=Date.now()){const v=crVals(c,now);c.h=v.h;c.p=v.p;c.t=now;return v}
 
 function crGain(c,xp){
+ xp=Math.round(xp);if(xp<=0)return;
+ crQ("xp",xp);
  const a=crLevel(c.xp);c.xp=Math.floor((c.xp||0)+xp);const b=crLevel(c.xp);
  if(b.L<=a.L)return;
- const lv={type:"level",cat:c.id,from:a.L,to:b.L,box:0};
+ const lv={type:"level",cat:c.id,from:a.L,to:b.L,box:0,coins:50*(b.L-a.L)};
+ cr.coins+=lv.coins;
  const five=Math.floor(b.L/5)*5,had=Math.max(c.boxLv||0,Math.floor(a.L/5)*5);
  if(five>had){lv.box=(five-had)/5;cr.boxes+=lv.box;c.boxLv=five}
  crEvents.push(lv);
  if(crStageOf(b.L)>crStageOf(a.L))crEvents.push({type:"stage",cat:c.id,from:crStageOf(a.L),to:crStageOf(b.L)});
 }
-// +10 XP for every midnight he was not sulking at, however long the app was shut.
+function crCoin(n){n=Math.round(n);if(n>0){cr.coins+=n;crRenderCoins()}return n}
+
+/* ---- quests and the care streak ---- */
+function crSeeded(day){let h=0;for(const ch of day+(user?.id||""))h=(h*31+ch.charCodeAt(0))|0;return()=>((h=(h*1103515245+12345)|0)>>>0)/4294967296}
+function crDaily(){
+ const today=todayISO();if(cr.daily.day===today)return;
+ // no litter quest on a day the box will not get dirty before midnight
+ const eod=new Date();eod.setHours(23,59,59,999);
+ const r=crSeeded(today),pool=CR_Q.filter(q=>q.k!=="clean"||cr.cleanAt+CR_DIRTY<=eod.getTime());const list=[];
+ while(list.length<3&&pool.length)list.push(pool.splice(Math.floor(r()*pool.length),1)[0]);
+ cr.daily={day:today,list:list.map(q=>({k:q.k,have:0,claimed:false})),bonus:false};
+}
+function crQ(k,n=1){
+ if(!cr)return;crDaily();
+ cr.daily.list.forEach(q=>{if(q.k===k&&!q.claimed){const d=CR_Q.find(x=>x.k===k);q.have=Math.min(d.need,q.have+n)}});
+}
+const crQDef=k=>CR_Q.find(x=>x.k===k);
+const crQReady=()=>cr?cr.daily.list.filter(q=>!q.claimed&&q.have>=crQDef(q.k).need).length
+ +(cr.daily.list.length&&cr.daily.list.every(q=>q.claimed)&&!cr.daily.bonus?1:0)
+ +CR_SPECIAL.filter(s=>!cr.cats.some(c=>c.breed===s.breed)&&s.prog()>=s.need).length:0;
+// A day counts once anything is done for him. Every seventh day in a row brings a box.
+function crCare(){
+ const today=todayISO(),st=cr.streak;if(st.last===today)return;
+ const y=new Date();y.setDate(y.getDate()-1);
+ st.n=st.last===iso(y)?st.n+1:1;st.last=today;st.best=Math.max(st.best||0,st.n);
+ if(st.n%7===0){cr.boxes++;crEvents.push({type:"streak",n:st.n})}
+}
+
+// +10 XP for every midnight each cat in the room was not sulking at, however
+// long the app was shut; and a new set of quests and games each day.
 function crTick(now=Date.now()){
  const today=todayISO();
- if(cr.laser.day!==today){cr.laser.day=today;cr.laser.n=0}
+ for(const g of [cr.laser,cr.match,cr.jump])if(g.day!==today){g.day=today;g.n=0}
+ crDaily();
  if(cr.ageDay>=today)return;
- const c=crCat(),d=new Date(cr.ageDay+"T00:00:00");let n=0;
- for(let i=0;i<400;i++){
-  d.setDate(d.getDate()+1);const ds=iso(d);if(ds>today)break;
-  if(!crVals(c,Math.max(d.getTime(),c.t)).sulk)n++;
+ const d0=new Date(cr.ageDay+"T00:00:00");
+ for(const c of crRoomCats()){
+  const d=new Date(d0);let n=0;
+  for(let i=0;i<400;i++){
+   d.setDate(d.getDate()+1);const ds=iso(d);if(ds>today)break;
+   if(!crVals(c,Math.max(d.getTime(),c.t)).sulk)n++;
+  }
+  if(n)crGain(c,n*10);
  }
- cr.ageDay=today;
- if(n){crGain(c,n*10);crSaveSoon()}
+ cr.ageDay=today;crSaveSoon();
 }
 
 async function crLoad(){
@@ -7752,22 +7980,23 @@ function crSaveSoon(ms=1200){
 
 /* ---- words ---- */
 const CR_IDLE=["นั่งมองคุณอยู่นะ","วันนี้อากาศดีเนอะ","ขอนอนตรงนี้แป๊บนึง","มีขนมไหม?","แดดเข้ามาพอดีเลย","อยากเล่นเลเซอร์จัง","ห้องนี้อุ่นดีจัง"];
-function crMood(){
- const c=crCat(),v=crVals(c),hr=new Date().getHours();
+function crMood(c=crCat()){
+ const v=crVals(c),hr=new Date().getHours();
  if(v.sulk)return "งอนอยู่นะ... ขอนอนก่อน";
  if(v.h<30)return "หิวแล้วน้า... ขออาหารหน่อยได้ไหม?";
  if(v.dirty)return "กระบะทรายเริ่มเหม็นแล้วนะ...";
  if(v.p<40)return "เหงาจัง มาลูบหัวหน่อยสิ";
  if(hr>=23||hr<6)return "ง่วงแล้ว... ฝันดีนะ";
- return CR_IDLE[Math.floor(Date.now()/(20*60e3))%CR_IDLE.length];
+ if(cr.room.length>1&&c.id%2)return "มีเพื่อนในห้องด้วย สนุกจัง";
+ return CR_IDLE[(Math.floor(Date.now()/(20*60e3))+c.id)%CR_IDLE.length];
 }
-// what he said last, for a while -- unless hunger or a sulk has come up since
-function crLine(){
- const v=crVals(crCat()),age=cr.say?Date.now()-cr.say.t:1e12;
+// what the cat said last, for a while -- unless hunger or a sulk has come up since
+function crLine(c=crCat()){
+ const v=crVals(c),s=cr.say&&(cr.say.id==null||cr.say.id===c.id)?cr.say:null,age=s?Date.now()-s.t:1e12;
  const urgent=v.sulk||v.h<30||v.dirty;
- return age<(urgent?90e3:20*60e3)?cr.say:{t:Date.now(),m:crMood()};
+ return age<(urgent?90e3:20*60e3)?s:{t:Date.now(),m:crMood(c)};
 }
-function crSay(m){cr.say={t:Date.now(),m};crRenderSay();crBubble(m)}
+function crSay(m){cr.say={t:Date.now(),m,id:cr.active};crRenderSay();crBubble(m)}
 const crHM=t=>new Date(t).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
 
 /* ---- sprites ---- */
@@ -7778,6 +8007,7 @@ function crFrame(c,pose){
  }
  return {r:CR_ATLAS.breeds[c.breed],s:[.64,.82,1,1.14][si],own:false};
 }
+const CR_DRESSED=new Set(["sit","sitB","happy"]);
 function crDraw(g,r,s,x,yb,flip){
  const [sx,sy,sw,sh]=r,w=Math.round(sw*s),h=Math.round(sh*s);
  if(!crImg.complete||!crImg.naturalWidth)return {w,h};
@@ -7786,25 +8016,75 @@ function crDraw(g,r,s,x,yb,flip){
  else g.drawImage(crImg,sx,sy,sw,sh,x-Math.round(w/2),yb-h,w,h);
  return {w,h};
 }
+/* Where the head is, read off the sprite itself: the top row, the ear span,
+   and the run of fur at eye height. Good enough to seat a hat on any pose
+   and breed without a hand-made table of points. */
+let crAtlasPx=null;const crAncC={};
+function crAtlasData(){
+ if(crAtlasPx)return crAtlasPx;
+ if(!crImg.complete||!crImg.naturalWidth)return null;
+ const c=document.createElement("canvas");c.width=crImg.naturalWidth;c.height=crImg.naturalHeight;
+ const g=c.getContext("2d",{willReadFrequently:true});g.drawImage(crImg,0,0);
+ try{crAtlasPx={w:c.width,d:g.getImageData(0,0,c.width,c.height).data}}catch(_){return null}
+ return crAtlasPx;
+}
+function crAnchor(r){
+ const key=r.join(",");if(crAncC[key])return crAncC[key];
+ const A=crAtlasData();if(!A)return null;
+ const [sx,sy,sw,sh]=r,op=(x,y)=>A.d[((sy+y)*A.w+sx+x)*4+3]>128;
+ let top=0;for(;top<sh;top++){let any=false;for(let x=0;x<sw;x++)if(op(x,top)){any=true;break}if(any)break}
+ const h=sh-top;let a=sw,b=-1;
+ for(let y=top;y<top+Math.max(3,Math.round(h*.1));y++)for(let x=0;x<sw;x++)if(op(x,y)){a=Math.min(a,x);b=Math.max(b,x)}
+ const ey=top+Math.round(h*.3);let l=Math.round((a+b)/2),rr=l;
+ while(l>0&&op(l-1,ey))l--;while(rr<sw-1&&op(rr+1,ey))rr++;
+ // ears wider than the head at eye height means we caught the tail; trust the ears
+ let cx=(l+rr)/2,hw=rr-l+1;if(hw>(b-a+1)*1.35){cx=(a+b)/2;hw=b-a+1}
+ return crAncC[key]={cx,hw,hat:top+Math.round(h*.13),eye:top+Math.round(h*.3),neck:top+Math.round(h*.47)};
+}
+function crWearDraw(g,c,r,s,x,yb,flip,wear){
+ wear=wear||c.wear||{};if(!Object.values(wear).some(Boolean))return;
+ const an=crAnchor(r);if(!an)return;
+ const [,,sw,sh]=r,w=Math.round(sw*s),h=Math.round(sh*s),left=Math.round(x)-Math.round(w/2),top=Math.round(yb)-h;
+ const order=["neck","face","head"];
+ for(const slot of order){
+  const it=CR_WEAR.find(i=>i.k===wear[slot]);if(!it)continue;
+  // each piece is sized to the head it sits on, in whole pixels
+  const P=it.px,ps=Math.max(1,Math.round(an.hw*it.fit*s/P[0].length)),iw=P[0].length*ps,ih=P.length*ps;
+  let cxs=flip?sw-an.cx:an.cx;
+  if(it.side)cxs+=(flip?-1:1)*an.hw*.24;
+  const X=Math.round(left+cxs*s-iw/2);
+  let Y=slot==="head"?Math.round(top+an.hat*s-ih+ps*(it.side?1:2)):slot==="face"?Math.round(top+an.eye*s-ih/2):Math.round(top+an.neck*s-ps);
+  if(it.side)Y-=Math.round(ps*1);
+  for(let j=0;j<P.length;j++)for(let i=0;i<P[j].length;i++){
+   const ch=P[j][flip?P[j].length-1-i:i];if(ch===".")continue;
+   g.fillStyle=CR_WPAL[+ch];g.fillRect(X+i*ps,Y+j*ps,ps,ps);
+  }
+ }
+}
 // A single sprite onto its own small canvas, for cards, popups and the widget.
-function crPaint(cv,r,s=1,dark=false){
+// room above the head for a hat, and at the sides for a bow
+const crPad=(r,s)=>Math.round(Math.max(8,r[3]*s*.4));
+function crPaint(cv,r,s=1,dark=false,after){
  if(!cv)return;
  const go=()=>{
-  const w=Math.round(r[2]*s),h=Math.round(r[3]*s);
-  cv.width=w;cv.height=h;const g=cv.getContext("2d");g.imageSmoothingEnabled=false;
-  g.drawImage(crImg,r[0],r[1],r[2],r[3],0,0,w,h);
-  if(dark){g.globalCompositeOperation="source-in";g.fillStyle="#1d160c";g.fillRect(0,0,w,h)}
+  const w=Math.round(r[2]*s),h=Math.round(r[3]*s),pad=after?crPad(r,s):0;
+  cv.width=w+pad*2;cv.height=h+pad;const g=cv.getContext("2d");g.imageSmoothingEnabled=false;
+  g.drawImage(crImg,r[0],r[1],r[2],r[3],pad,pad,w,h);
+  if(dark){g.globalCompositeOperation="source-in";g.fillStyle="#1d160c";g.fillRect(0,0,cv.width,cv.height)}
+  else if(after)after(g,pad+w/2,pad+h);
  };
  if(crImg.complete&&crImg.naturalWidth)go();else crImg.addEventListener("load",go,{once:true});
 }
-function crPaintCat(cv,c,pose="sit",px=3,dark=false){
- const f=crFrame(c,pose);crPaint(cv,f.r,f.s,dark);
- if(cv)cv.style.width=Math.round(f.r[2]*f.s*px)+"px";
+function crPaintCat(cv,c,pose="sit",px=3,dark=false,wear){
+ const f=crFrame(c,pose),dress=!dark&&CR_DRESSED.has(pose)&&Object.values(wear||c.wear||{}).some(Boolean);
+ crPaint(cv,f.r,f.s,dark,dress?(g,x,yb)=>crWearDraw(g,c,f.r,f.s,x,yb,false,wear):null);
+ if(cv)cv.style.width=Math.round((f.r[2]*f.s+(dress?crPad(f.r,f.s)*2:0))*px)+"px";
 }
 
 /* ---- the room, painted once per size ---- */
 const CR_R=["#2b1d0c","#5a3f1c","#8a6636","#b8945c","#d6b980","#e8d3a3","#f5e7c4"];
-function crRoom(W,H){
+function crRoom(W,H,dec){
+ const on=new Set(dec||[]);
  const c=document.createElement("canvas");c.width=W;c.height=H;
  const g=c.getContext("2d"),img=g.createImageData(W,H),u=new Uint32Array(img.data.buffer);
  const C=CR_R.map(h=>{const n=parseInt(h.slice(1),16);return (0xff000000|((n&255)<<16)|(n&0xff00)|(n>>16))>>>0});
@@ -7882,6 +8162,54 @@ function crRoom(W,H){
  D(lx0,ly0+4,lx1-lx0,ly1-ly0-4,5,4,.3);O(lx0,ly0+4,lx1-lx0,ly1-ly0-4,1);
  for(let x=lx0+1;x<lx1-1;x++){const t=(x-lx0)/(lx1-lx0),hh=Math.round(Math.sin(t*Math.PI)*5);R(x,ly0+4-hh,1,hh,5);P(x,ly0+4-hh,1)}
  E(Math.round(lx0+(lx1-lx0)*.35),Math.round(ly0+(ly1-ly0)*.58),Math.round((lx1-lx0)*.14),Math.round((ly1-ly0)*.22),2,1,.5);
+
+ /* furniture bought in the shop, drawn in the same six tones */
+ if(on.has("rug")){
+  for(let y=ry0+3;y<ry1-3;y++){const f=(y-ry0)/(ry1-ry0),half=Math.round(W*(.2+.05*f))-4,x0=Math.round(W*.5)-half;
+   for(let x=x0;x<x0+half*2;x++){const u=Math.abs(((x-W*.5)/3+(y-ry0))%8-4)+Math.abs((y-ry0)%6-3);if(u<2)P(x,y,2);else if(u<3)P(x,y,3)}}
+ }
+ if(on.has("curtain")){
+  R(wx0-12,wy0-6,wx1-wx0+24,2,0);E(wx0-12,wy0-5,1,1,1);E(wx1+11,wy0-5,1,1,1);
+  for(const [x0,w] of [[wx0-11,9],[wx1+2,9]]){
+   for(let y=wy0-4;y<wy1+6;y++){const sway=Math.round(Math.sin((y-wy0)/6)*.6);
+    for(let i=0;i<w;i++){const X=x0+i+sway;P(X,y,(i%3===0)?2:bay(X,y)<.3?3:4)}
+    P(x0+sway,y,1);P(x0+w-1+sway,y,1)}
+   R(x0,Math.round(wy0+(wy1-wy0)*.55),w,2,1);
+  }
+ }
+ if(on.has("frames")){
+  const f1x=Math.round(W*.05),f1y=Math.round(H*.12);
+  O(f1x,f1y,11,13,0);O(f1x+1,f1y+1,9,11,2);D(f1x+2,f1y+2,7,9,5,4,.3);E(f1x+5,f1y+8,2,2,1);P(f1x+4,f1y+5,1);P(f1x+6,f1y+5,1);
+  const f2x=Math.round(W*.13),f2y=Math.round(H*.17);
+  O(f2x,f2y,13,10,0);O(f2x+1,f2y+1,11,8,2);D(f2x+2,f2y+2,9,6,6,5,.3);for(let i=0;i<9;i++)P(f2x+2+i,f2y+6-Math.round(Math.abs(i-4)/2),3);
+  R(f1x+5,f1y-3,1,3,1);R(f2x+6,f2y-3,1,3,1);
+ }
+ if(on.has("lights")){
+  const y0=Math.round(H*.06);
+  for(let x=0;x<W;x++){const t=(x%36)/36,y=y0+Math.round(Math.sin(t*Math.PI)*5);P(x,y,1);
+   if(x%9===4){P(x,y+1,1);R(x-1,y+2,3,2,6);P(x,y+4,5)}}
+ }
+ if(on.has("plant")){
+  const px2=Math.round(W*.75),base=Math.round(F+4);
+  for(let i=0;i<8;i++)R(px2-4+Math.round(i/4),base-i,9-Math.round(i/2)*1,1,i?2:1);
+  R(px2-5,base-8,11,2,1);
+  for(const [dx,dy,rx,ry] of [[0,-22,4,6],[-5,-16,4,4],[5,-17,4,5],[-3,-28,3,4],[3,-30,3,5],[0,-12,5,3]])E(px2+dx,base+dy,rx,ry,2,1,.45);
+  for(let j=0;j<18;j++)P(px2,base-9-j,1);
+ }
+ if(on.has("fishtank")){
+  const tx0=dx0+10,tw=Math.max(14,dx1-dx0-12),ty=dy0-11;
+  R(tx0,ty,tw,11,0);D(tx0+1,ty+1,tw-2,9,5,6,.25);D(tx0+1,ty+4,tw-2,6,4,5,.35);
+  R(tx0+1,ty+9,tw-2,1,3);E(tx0+4,ty+6,1,1,1);P(tx0+2,ty+6,1);E(tx0+tw-6,ty+4,1,1,2);P(tx0+tw-4,ty+4,2);
+  for(let i=0;i<3;i++)P(tx0+tw-3,ty+8-i*2,6);R(tx0-1,ty-1,tw+2,1,1);
+ }
+ if(on.has("cattree")){
+  const cx2=Math.round(W*.25),base=Math.round(H*.8),top=Math.round(H*.22);
+  D(cx2-2,top+6,4,base-top-6,3,2,.5);for(let y=top+8;y<base;y+=3)R(cx2-2,y,4,1,4);
+  D(cx2-9,base-3,18,4,2,1,.3);O(cx2-9,base-3,18,4,0);
+  for(const [yy,w] of [[Math.round(top+(base-top)*.5),16],[top+5,18]]){D(cx2-w/2,yy,w,3,4,3,.3);O(Math.round(cx2-w/2),yy,w,3,1)}
+  E(cx2,top+3,8,3,4,5,.35);E(cx2,top+2,6,2,5,6,.35);
+  const bx2=cx2+7,by2=Math.round(top+(base-top)*.5)+3;for(let j=0;j<7;j++)P(bx2,by2+j,1);E(bx2,by2+9,2,2,3,2,.4);
+ }
  g.putImageData(img,0,0);
  c.F=F;c.lit=[lx0,lx1,ly0,ly1];
  return c;
@@ -7889,25 +8217,32 @@ function crRoom(W,H){
 
 /* ---- one stage engine, used by the room and by the laser game ---- */
 let crSc=null;
+const crDecKey=()=>cr.decor.on.slice().sort().join(",");
+function crStageFit(cv){
+ const cw=cv.parentElement.clientWidth||600;
+ // whole-number scaling where there is room; a phone gets a few more
+ // logical pixels than it can show 1:2, so the room keeps its furniture
+ let S=cw>=900?4:cw>=600?3:2;const W=Math.max(176,Math.floor(cw/S)),H=Math.round(W*(cw>=600?.46:.74));
+ S=Math.min(S,cw/W);
+ cv.width=W;cv.height=H;cv.style.width=Math.round(W*S)+"px";cv.style.height=Math.round(H*S)+"px";
+ return {W,H,S};
+}
+const crZoom=W=>W<220?1.4:W<300?1.2:1;   // a phone room is only ~176px across
 function crStage(cvId,mode){
  const cv=$(cvId);if(!cv)return null;
  const host=cv.parentElement,g=cv.getContext("2d");
- let W=0,H=0,S=2,room=null,raf=0,dead=false,last=0;
+ let W=0,H=0,S=2,room=null,roomKey="",raf=0,dead=false,last=0;
  const P=[];                                   // particles
- const A={pose:"sit",until:0,flip:false,nextIdle:0,x:0,bob:0};
- const G={run:false,t0:0,score:0,streak:0,dot:null,cat:null,phase:"watch",pt:0,from:null,delay:1300,res:null};
- function fit(){
-  const cw=host.clientWidth||600;
-  // whole-number scaling where there is room; a phone gets a few more
-  // logical pixels than it can show 1:2, so the room keeps its furniture
-  S=cw>=900?4:cw>=600?3:2;W=Math.max(176,Math.floor(cw/S));H=Math.round(W*(cw>=600?.46:.74));
-  S=Math.min(S,cw/W);
-  cv.width=W;cv.height=H;cv.style.width=Math.round(W*S)+"px";cv.style.height=Math.round(H*S)+"px";
-  g.imageSmoothingEnabled=false;room=crRoom(W,H);
-  A.x=W*.49;
+ const AS={};                                  // per-cat animation state
+ const G={run:false,t0:0,score:0,hits:0,streak:0,dot:null,cat:null,phase:"watch",pt:0,from:null,delay:1300};
+ const st=id=>AS[id]||(AS[id]={pose:"sit",until:0,flip:Math.random()<.5,nextIdle:performance.now()+1500+Math.random()*3000,x:null});
+ function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=null}
+ function slots(){
+  const cats=crRoomCats(),xs=cats.length===1?[.49]:cats.length===2?[.37,.62]:[.3,.5,.7];
+  let cushion=false;
+  return cats.map((c,i)=>{const v=crVals(c);let x=xs[i];if(v.sulk&&!cushion){cushion=true;x=.13}return {c,v,x:W*x,y:H*.9}});
  }
- const home=()=>{const v=crVals(crCat());return v.sulk?{x:W*.13,y:H*.9}:{x:W*.49,y:H*.9}};
- function pose(kind,ms,extra){A.pose=kind;A.until=performance.now()+ms;Object.assign(A,extra||{})}
+ function pose(id,kind,ms,extra){const a=st(id);a.pose=kind;a.until=performance.now()+ms;Object.assign(a,extra||{})}
  function spawn(kind,x,y,n=1){for(let i=0;i<n;i++)P.push({kind,x:x+(Math.random()-.5)*10,y:y-Math.random()*4,vx:(Math.random()-.5)*.012,vy:-.012-Math.random()*.01,t:performance.now(),life:1400+Math.random()*600})}
  function pix(x,y,k){g.fillStyle=k;g.fillRect(Math.round(x),Math.round(y),1,1)}
  function drawP(p,now){
@@ -7920,51 +8255,59 @@ function crStage(cvId,mode){
   else if(p.kind==="crumb"){pix(x,y,"#8a4708")}
   g.globalAlpha=1;return true;
  }
- function catPose(now){
-  const c=crCat(),v=crVals(c),hr=new Date().getHours();
-  if(now<A.until)return A.pose;
-  if(mode==="laser")return "sit";
+ function catPose(c,v,now,others){
+  const a=st(c.id),hr=new Date().getHours();
+  if(now<a.until)return a.pose;
   if(v.sulk||hr>=23||hr<6)return "sleep";
-  if(now>A.nextIdle){A.nextIdle=now+3500+Math.random()*4500;
-   const r=Math.random();if(r<.3)A.flip=!A.flip;else if(r<.55)pose("sitB",1400);else if(r<.7&&v.p>60)pose("happy",1600);}
-  return A.pose==="sitB"&&now<A.until?"sitB":"sit";
+  if(now>a.nextIdle){a.nextIdle=now+3500+Math.random()*4500;
+   const r=Math.random();
+   if(r<.3){const o=others.filter(s=>s.c.id!==c.id);a.flip=o.length&&Math.random()<.7?o[0].x<(a.x||0):!a.flip}
+   else if(r<.55)pose(c.id,"sitB",1400);else if(r<.7&&v.p>60)pose(c.id,"happy",1600);}
+  return "sit";
  }
  function drawBowl(x,y,full){
   for(let i=-7;i<=7;i++){const d=Math.round(Math.sqrt(49-i*i)*.35);g.fillStyle="#5a3f1c";g.fillRect(Math.round(x+i),Math.round(y-2),1,2+d)}
   g.fillStyle="#d6b980";g.fillRect(Math.round(x-6),Math.round(y-3),13,2);
   if(full){g.fillStyle="#8a4708";for(let i=-4;i<=4;i+=2)g.fillRect(Math.round(x+i),Math.round(y-4-(i%4?0:1)),2,2)}
  }
- function frame(now){
-  if(dead)return;raf=requestAnimationFrame(frame);
-  if(document.hidden||!room)return;
-  const dt=Math.min(60,now-(last||now));last=now;
-  g.drawImage(room,0,0);
-  const c=crCat(),v=crVals(c);
-  // stink over a dirty box
-  if(v.dirty&&mode==="room"){const [l0,l1,y0]=room.lit;for(let k=0;k<3;k++){const bx=l0+(l1-l0)*(.3+k*.2);for(let j=0;j<8;j++)pix(bx+Math.round(Math.sin(now/260+j*.8+k)*1.5),y0-4-j,"#8a6636")}}
-  let p=catPose(now),x,y;
-  if(mode==="laser"&&G.cat){x=G.cat.x;y=G.cat.y;p=G.phase==="leap"?"leap":G.phase==="crouch"||G.phase==="land"?"crouch":"sit"}
-  else{const h=home();A.x+=(h.x-A.x)*Math.min(1,dt/400);x=A.x;y=h.y}
+ function drawCat(c,p,x,y,flip,now,dt,marked){
   const f0=crFrame(c,p==="sitB"&&!crFrame(c,"sitB").own?"sit":p);
-  // a phone room is only ~176px across; the cat gets a little bigger in it
-  const f={...f0,s:f0.s*(W<220?1.4:W<300?1.2:1)};
+  const f={...f0,s:f0.s*crZoom(W)};
   let yy=y;
   if(!f.own){ // borrowed pose: say it with motion instead
    if(p==="eat")yy+=((now/180)|0)%2;
    if(p==="leap")yy-=2;if(p==="crouch")yy+=1;
   }
-  // shadow
-  {const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x))}
-  g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1);
-  if(mode==="room"&&p!=="eat")drawBowl(W*.68,H*.93,false);
-  if(p==="eat"&&!f.own)drawBowl(x+(A.flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
-  const flip=mode==="laser"&&G.cat?G.cat.flip:A.flip;
   const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x));
+  g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1);
+  if(p==="eat"&&!f.own)drawBowl(x+(flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
   const d=crDraw(g,f.r,f.s,x,yy,flip);
-  A.top=y-d.h;A.cx=x;A.hw=d.w/2;
+  if(CR_DRESSED.has(p))crWearDraw(g,c,f.r,f.s,x,yy,flip);
+  const a=st(c.id);a.top=y-d.h;a.cx=x;a.hw=d.w/2;a.x=x;
+  if(marked){const my=Math.round(a.top-7+Math.sin(now/260)*1.5);g.fillStyle="#8a4708";for(let i=0;i<3;i++)g.fillRect(Math.round(x)-2+i,my+i,5-2*i,1)}
   if(p==="sleep"&&Math.random()<dt/900)spawn("z",x+d.w*.3,y-d.h*.8);
   if(p==="eat"&&Math.random()<dt/160)spawn("crumb",x+(Math.random()-.5)*10,y-3);
-  // laser dot
+ }
+ function frame(now){
+  if(dead)return;raf=requestAnimationFrame(frame);
+  if(document.hidden||!cr)return;
+  if(!room||roomKey!==crDecKey()){roomKey=crDecKey();room=crRoom(W,H,cr.decor.on)}
+  const dt=Math.min(60,now-(last||now));last=now;
+  g.drawImage(room,0,0);
+  const sel=crCat(),v0=crVals(sel);
+  if(v0.dirty&&mode==="room"){const [l0,l1,y0]=room.lit;for(let k=0;k<3;k++){const bx=l0+(l1-l0)*(.3+k*.2);for(let j=0;j<8;j++)pix(bx+Math.round(Math.sin(now/260+j*.8+k)*1.5),y0-4-j,"#8a6636")}}
+  if(mode==="room"){
+   const sl=slots(),eating=sl.some(s=>st(s.c.id).pose==="eat"&&now<st(s.c.id).until&&crFrame(s.c,"eat").own);
+   if(!eating)drawBowl(W*.24,H*.95,false);
+   sl.sort((a,b)=>a.y-b.y).forEach(s=>{
+    const a=st(s.c.id);if(a.x==null)a.x=s.x;
+    a.x+=(s.x-a.x)*Math.min(1,dt/400);
+    drawCat(s.c,catPose(s.c,s.v,now,sl),a.x,s.y,a.flip,now,dt,sl.length>1&&s.c.id===sel.id);
+   });
+  }else if(G.cat){
+   const p=G.phase==="leap"?"leap":G.phase==="crouch"||G.phase==="land"?"crouch":"sit";
+   drawCat(sel,p,G.cat.x,G.cat.y,G.cat.flip,now,dt,false);
+  }else drawCat(sel,"sit",W*.5,H*.9,false,now,dt,false);
   if(mode==="laser"&&G.dot&&G.run){
    const on=((now/90)|0)%5!==0;
    g.fillStyle="rgba(209,32,32,.35)";g.fillRect(Math.round(G.dot.x-2),Math.round(G.dot.y-1),5,3);g.fillRect(Math.round(G.dot.x-1),Math.round(G.dot.y-2),3,5);
@@ -7976,7 +8319,7 @@ function crStage(cvId,mode){
  }
  /* laser */
  function newDot(){
-  const F=room.F;let x,y,k=0;
+  const F=room?room.F:Math.round(H*.62);let x,y,k=0;
   do{x=W*(.2+Math.random()*.6);y=F+6+Math.random()*(H-F-10);k++}while(G.cat&&Math.hypot(x-G.cat.x,(y-G.cat.y)*1.6)<W*.2&&k<20);
   G.dot={x,y};G.phase="watch";G.pt=performance.now();
   if(G.cat)G.cat.flip=x<G.cat.x;
@@ -7985,7 +8328,7 @@ function crStage(cvId,mode){
   if(!G.run)return;
   const left=Math.max(0,CR_GAME-(now-G.t0));
   $("crLTime").textContent=Math.ceil(left/1000);
-  if(left<=0){G.run=false;crLaserEnd(G.score);return}
+  if(left<=0){G.run=false;crLaserEnd(G.score,G.hits);return}
   const el=now-G.pt;
   if(G.phase==="watch"&&el>380){G.phase="crouch";G.pt=now}
   else if(G.phase==="crouch"&&el>G.delay){G.phase="leap";G.pt=now;G.from={x:G.cat.x,y:G.cat.y}}
@@ -8000,7 +8343,7 @@ function crStage(cvId,mode){
   if(mode==="laser"){
    if(!G.run||!G.dot)return;
    if(Math.hypot(x-G.dot.x,y-G.dot.y)<Math.max(7,W*.035)){
-    G.streak++;const pts=1+(G.streak>=5?1:0);G.score+=pts;$("crLScore").textContent=G.score;
+    G.streak++;G.hits++;const pts=1+(G.streak>=5?1:0);G.score+=pts;$("crLScore").textContent=G.score;
     crFloatAt(host,G.dot.x*S+(cv.offsetLeft||0),G.dot.y*S-18,"+"+pts);
     G.delay=Math.max(520,1300-G.score*28);
     if(G.phase==="leap"){G.phase="land";G.pt=performance.now()}
@@ -8008,50 +8351,118 @@ function crStage(cvId,mode){
    }
    return;
   }
-  if(A.top!=null&&Math.abs(x-A.cx)<A.hw&&y>A.top-2)crPet();
+  // tap a cat: the first tap picks him, the next one pets him
+  const hit=crRoomCats().map(c=>({c,a:AS[c.id]})).filter(o=>o.a&&o.a.top!=null&&Math.abs(x-o.a.cx)<o.a.hw&&y>o.a.top-2)
+   .sort((p,q)=>Math.abs(x-p.a.cx)-Math.abs(x-q.a.cx))[0];
+  if(!hit)return;
+  if(hit.c.id!==cr.active)crSelect(hit.c.id);else crPet();
  }
  cv.addEventListener("pointerdown",tap);
  fit();
  const onR=()=>{fit()};window.addEventListener("resize",onR);
  raf=requestAnimationFrame(frame);
- const api={
+ return {
   mode,get S(){return S},
   stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);cv.removeEventListener("pointerdown",tap)},
   act(kind){
-   const now=performance.now();
-   if(kind==="eat"){pose("eat",2600)}
-   else if(kind==="refuse"){pose("sit",1500,{flip:!A.flip})}
-   else if(kind==="pet"){pose("happy",1800);spawn("heart",A.cx,A.top+4,3)}
-   else if(kind==="clean"){pose("happy",1200);spawn("spark",W*.88,H*.7,5)}
-   else if(kind==="level"){pose("happy",2000);spawn("spark",A.cx,A.top+6,8)}
-   A.nextIdle=now+4000;
+   const now=performance.now(),id=cr.active,a=st(id);
+   if(kind==="eat")pose(id,"eat",2600);
+   else if(kind==="refuse")pose(id,"sit",1500,{flip:!a.flip});
+   else if(kind==="pet"){pose(id,"happy",1800);spawn("heart",a.cx,a.top+4,3)}
+   else if(kind==="clean"){pose(id,"happy",1200);spawn("spark",W*.88,H*.7,5)}
+   else if(kind==="level"){pose(id,"happy",2000);spawn("spark",a.cx,a.top+6,8)}
+   a.nextIdle=now+4000;
   },
-  anchor(){return {x:(A.cx||W/2)*S+(cv.offsetLeft||0),y:(A.top||H/2)*S}},
-  startGame(){G.run=true;G.t0=performance.now();G.score=0;G.streak=0;G.delay=1300;G.cat={x:W*.5,y:H*.9,flip:false};$("crLScore").textContent="0";newDot()},
+  anchor(){const a=AS[cr.active]||{};return {x:(a.cx||W/2)*S+(cv.offsetLeft||0),y:(a.top||H/2)*S}},
+  startGame(){G.run=true;G.t0=performance.now();G.score=0;G.hits=0;G.streak=0;G.delay=1300;G.cat={x:W*.5,y:H*.9,flip:false};$("crLScore").textContent="0";newDot()},
   get running(){return G.run}
  };
- return api;
+}
+
+/* ---- the jumping game: its own little engine on the same room ---- */
+let crJmp=null;
+function crJumpStage(){
+ const cv=$("crJCv");if(!cv)return null;
+ const g=cv.getContext("2d");
+ let W,H,S,room=null,raf=0,dead=false,last=0,run=false,score=0,speed=0,base=1,gap=0,obs=[],cat=null,t0=0,scroll=0;
+ function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=crRoom(W,H,cr.decor.on)}
+ const ground=()=>Math.round(H*.9);
+ function reset(){const c=crCat(),f=crFrame(c,"sit");cat={x:W*.18,y:ground(),vy:0,w:f.r[2]*f.s*crZoom(W),h:f.r[3]*f.s*crZoom(W)};obs=[];score=0;scroll=0;base=speed=W*.00045;gap=0}
+ function spawn(){
+  const kinds=["box","vase","yarn"],k=kinds[Math.floor(Math.random()*kinds.length)];
+  const sz=k==="box"?[16,13]:k==="vase"?[8,15]:[9,9];
+  obs.push({k,x:W+4,w:sz[0],h:sz[1],done:false});
+  gap=W*(.42+Math.random()*.4)*Math.pow(speed/base,.5);
+ }
+ function drawOb(o){
+  const x=Math.round(o.x),y=ground();
+  if(o.k==="box"&&CR_ATLAS.props.box){const r=CR_ATLAS.props.box;g.drawImage(crImg,r[0],r[1],r[2],r[3],x,y-o.h-1,o.w,o.h+1)}
+  else if(o.k==="vase"){g.fillStyle="#2b1d0c";g.fillRect(x+1,y-o.h,o.w-2,o.h);g.fillRect(x,y-o.h+4,o.w,o.h-6);g.fillStyle="#b8945c";g.fillRect(x+2,y-o.h+1,o.w-4,o.h-2);g.fillRect(x+1,y-o.h+5,o.w-2,o.h-8);g.fillStyle="#8a6636";g.fillRect(x+2,y-o.h+6,o.w-4,2)}
+  else{g.fillStyle="#5a3f1c";for(let j=0;j<9;j++)for(let i=0;i<9;i++){const d=(i-4)*(i-4)+(j-4)*(j-4);if(d<=17){g.fillStyle=d>12?"#2b1d0c":((i+j)%3?"#d1841c":"#8a4708");g.fillRect(x+i,y-9+j,1,1)}}}
+ }
+ function frame(now){
+  if(dead)return;raf=requestAnimationFrame(frame);
+  if(document.hidden||!room)return;
+  const dt=Math.min(40,now-(last||now));last=now;
+  g.drawImage(room,0,0);
+  const G0=ground();
+  if(run){
+   scroll+=speed*dt;speed+=W*2e-8*dt;
+   cat.vy+=.0009*dt;cat.y=Math.min(G0,cat.y+cat.vy*dt*(H/120));if(cat.y>=G0)cat.vy=0;
+   obs.forEach(o=>o.x-=speed*dt);
+   const lastX=obs.length?obs[obs.length-1].x:-1e9;
+   if(lastX<W-gap)spawn();
+   obs=obs.filter(o=>o.x+o.w>-4);
+   for(const o of obs){
+    const cx0=cat.x-cat.w*.26,cx1=cat.x+cat.w*.26,cy1=cat.y-2,cy0=cat.y-cat.h*.6;
+    if(cx1>o.x+2&&cx0<o.x+o.w-2&&cy1>G0-o.h+2&&cy0<G0){run=false;crJumpEnd(score);break}
+    if(!o.done&&o.x+o.w<cx0){o.done=true;score++;$("crJScore").textContent=score}
+   }
+  }
+  // the floor slides by
+  g.fillStyle="rgba(43,29,12,.35)";for(let x=-(scroll%12);x<W;x+=12)g.fillRect(Math.round(x),G0+2,5,1);
+  obs.forEach(drawOb);
+  const c=crCat(),air=cat&&cat.y<G0-1,p=!cat?"sit":air?"leap":run?(((now/140)|0)%2?"crouch":"sitB"):"sit";
+  const f0=crFrame(c,p==="sitB"&&!crFrame(c,"sitB").own?"sit":p),f={...f0,s:f0.s*crZoom(W)};
+  const x=cat?cat.x:W*.18,y=cat?cat.y:G0;
+  g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.35);g.fillRect(Math.round(x-sw),G0-1,sw*2,1);
+  crDraw(g,f.r,f.s,x,y-(!f.own&&run&&!air?((now/140)|0)%2:0),false);
+  if(CR_DRESSED.has(p))crWearDraw(g,c,f.r,f.s,x,y,false);
+ }
+ function jump(){if(!run||!cat)return;if(cat.y>=ground()-1)cat.vy=-.3}
+ const key=e=>{if((e.code==="Space"||e.key===" ")&&run){e.preventDefault();jump()}};
+ cv.addEventListener("pointerdown",jump);document.addEventListener("keydown",key);
+ fit();reset();const onR=()=>{fit();if(!run)reset()};window.addEventListener("resize",onR);
+ raf=requestAnimationFrame(frame);
+ return {
+  stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);cv.removeEventListener("pointerdown",jump);document.removeEventListener("keydown",key)},
+  start(){reset();run=true;t0=performance.now();$("crJScore").textContent="0"},
+  peek(){return {obs,cat,speed,W}},
+  get running(){return run}
+ };
 }
 
 /* ---- overlay text ---- */
-let crBubbleT=null,crBubbleMsg="";
-function crBubble(m){const b=$("crBubble");if(!b)return;crBubbleMsg=m;b.textContent=m;b.classList.remove("hidden");clearTimeout(crBubbleT);crBubbleT=setTimeout(()=>b.classList.add("hidden"),3200);crPlaceBubble()}
+let crBubbleT=null;
+function crBubble(m){const b=$("crBubble");if(!b)return;b.textContent=m;b.classList.remove("hidden");clearTimeout(crBubbleT);crBubbleT=setTimeout(()=>b.classList.add("hidden"),3200);crPlaceBubble()}
 function crPlaceBubble(){
  const b=$("crBubble");if(!b||b.classList.contains("hidden")||!crSc||crSc.mode!=="room")return;
- const a=crSc.anchor();b.style.left=Math.max(70,Math.min(b.parentElement.clientWidth-70,a.x))+"px";b.style.top=Math.max(4,a.y-b.offsetHeight-12)+"px";
+ const a=crSc.anchor();b.style.left=Math.max(70,Math.min(b.parentElement.clientWidth-70,a.x))+"px";b.style.top=Math.max(4,a.y-b.offsetHeight-14)+"px";
 }
 function crFloatAt(host,x,y,txt){const f=document.createElement("div");f.className="cr-float";f.textContent=txt;f.style.left=x+"px";f.style.top=y+"px";host.appendChild(f);setTimeout(()=>f.remove(),1500)}
 function crFloat(txt){if(!crSc||crSc.mode!=="room")return;const a=crSc.anchor();crFloatAt($("crStage"),a.x+60,Math.max(8,a.y-10),txt)}
 
-/* ---- actions ---- */
-function crAfter(){crSaveSoon();crRender();crWidget();setTimeout(crNextEvent,crSc?1700:200)}
+/* ---- caring for the cat in front of you ---- */
+function crAfter(){crSaveSoon();crRenderAll();crWidget();setTimeout(crNextEvent,crSc?1700:200)}
 function crFeed(){
  if(!cr)return;crTick();
  const c=crCat(),now=Date.now(),v=crSnap(c,now);
  if(v.h>=85){crSay("อิ่มแล้วล่ะ ไว้คราวหน้านะ");crSc?.act("refuse");crRender();crWidget();return "full"}
  const L=crLevel(c.xp).L,f=crFoodFor(L),xp=Math.round(f.xp*(v.h<=30?1.5:1));
  c.h=100;c.p=crClamp(c.p+5);
- crGain(c,xp);crSc?.act("eat");crFloat("+"+xp+" XP");
+ crCare();crQ("feed");if(v.h<=30)crQ("feedH");cr.stats.feeds++;
+ let extra="";if(cr.feedDay!==todayISO()){cr.feedDay=todayISO();crCoin(5);extra=" · +5 เหรียญ"}
+ crGain(c,xp);crSc?.act("eat");crFloat("+"+xp+" XP"+extra);
  crSay(v.h<=30?"อร่อยเลย! มื้อนี้ดีที่สุด ♡":`${f.th}อร่อยจัง ขอบคุณนะ`);
  crAfter();return xp;
 }
@@ -8059,56 +8470,135 @@ function crPet(){
  if(!cr)return;crTick();
  const c=crCat(),now=Date.now();
  if(now-(c.petAt||0)<CR_PET_CD){crSay("เดี๋ยวก่อนนะ ขอพักแป๊บ");return}
- crSnap(c,now);c.p=crClamp(c.p+15);c.petAt=now;crGain(c,6);
+ crSnap(c,now);c.p=crClamp(c.p+15);c.petAt=now;
+ crCare();crQ("pet");cr.stats.pets++;crGain(c,6);
  crSc?.act("pet");crFloat("+6 XP");crSay("ขอบนะ... รู้สึกดีจัง ♡");crAfter();
 }
 function crClean(){
  if(!cr)return;crTick();
  const c=crCat(),now=Date.now(),v=crVals(c,now);
  if(!v.dirty){crSay("กระบะยังสะอาดอยู่เลย");return}
- crSnap(c,now);cr.cleanAt=now;c.p=crClamp(c.p+5);crGain(c,12);
+ crRoomCats().forEach(x=>crSnap(x,now));cr.cleanAt=now;c.p=crClamp(c.p+5);
+ crCare();crQ("clean");cr.stats.cleans++;crGain(c,12);
  crSc?.act("clean");crFloat("+12 XP");crSay("หอมแล้ว ขอบคุณนะ");crAfter();
 }
-function crLaserStart(){
- crTick();
- if(cr.laser.n>=CR_PLAYS)return;
- cr.laser.n++;crSaveSoon();
- $("crLRes").classList.add("hidden");$("crLStart").disabled=true;
- crRenderLaser();crSc?.startGame();
+function crSelect(id){
+ if(!cr.room.includes(id))return;
+ cr.active=id;crSel=id;const c=crCat();
+ crSay(crMood(c));crSaveSoon();crRenderAll();crWidget();
 }
-function crLaserEnd(score){
- const c=crCat(),xp=Math.min(50,score*2),best=Math.max(cr.laser.best||0,score);
- cr.laser.best=best;crSnap(c);c.p=crClamp(c.p+10);if(xp)crGain(c,xp);
- cr.say={t:Date.now(),m:score?`เล่นสนุกมาก! ได้ ${score} คะแนน`:"จุดแดงหนีไวจัง..."};
- const left=CR_PLAYS-cr.laser.n;
- $("crLRes").innerHTML=`<h4>หมดเวลา!</h4><div class="k">คะแนนที่ได้</div><div class="big">${score}</div>`
-  +`<div class="k">ได้รับ XP</div><div class="xp">${xp} XP</div>`
-  +`<div class="two"><div><span class="k">เล่นในวันนี้</span><b>${cr.laser.n}/${CR_PLAYS}</b></div><div><span class="k">สถิติสูงสุด</span><b>${best}</b></div></div>`
-  +`<button class="cr-btn pri" id="crLAgain" ${left?"":"disabled"}>${left?"เล่นอีกครั้ง":"เล่นอีกครั้งพรุ่งนี้"}</button>`
-  +`<button class="cr-btn" id="crLBack">กลับห้องแมว</button>`;
- $("crLRes").classList.remove("hidden");
- $("crLAgain").onclick=crLaserStart;$("crLBack").onclick=()=>crShowTab("room");
- crAfter();crRenderLaser();
+
+/* ---- mini-games ---- */
+const CR_GAMES=[
+ {k:"laser",th:"เลเซอร์",   desc:"แตะจุดแดงก่อนแมวจะพุ่งใส่ 15 วินาที",   st:()=>cr.laser},
+ {k:"match",th:"จับคู่หน้าแมว",desc:"เปิดการ์ดหาคู่ให้ครบ 6 คู่ ยิ่งไวยิ่งได้เยอะ",st:()=>cr.match},
+ {k:"jump", th:"แมวกระโดด", desc:"แตะให้แมวกระโดดข้ามกล่อง แจกัน ไหมพรม",   st:()=>cr.jump}
+];
+const crPlaysLeft=()=>CR_GAMES.reduce((n,g)=>n+Math.max(0,CR_PLAYS-g.st().n),0);
+const crBusy=()=>!!(crSc?.running||crJmp?.running||crMatchS?.run);
+function crResult(boxId,title,score,xp,coins,st,again,label){
+ const left=CR_PLAYS-st.n;
+ $(boxId).innerHTML=`<h4>${title}</h4><div class="k">คะแนนที่ได้</div><div class="big">${score}</div>`
+  +`<div class="xp">+${xp} XP · +${coins} เหรียญ</div>`
+  +`<div class="two"><div><span class="k">เล่นแล้ววันนี้</span><b>${st.n}/${CR_PLAYS}</b></div><div><span class="k">สถิติสูงสุด</span><b>${st.best||0}</b></div></div>`
+  +`<button class="cr-btn pri" data-again ${left?"":"disabled"}>${left?"เล่นอีกครั้ง":"เล่นอีกครั้งพรุ่งนี้"}</button>`
+  +`<button class="cr-btn" data-crback>กลับไปเลือกเกม</button>`;
+ $(boxId).classList.remove("hidden");
+ $(boxId).querySelector("[data-again]").onclick=again;
+}
+function crGameReward(k,score,xp,coins){
+ const c=crCat(),st=cr[k];st.best=Math.max(st.best||0,score);
+ crSnap(c);c.p=crClamp(c.p+10);crCare();cr.stats.games++;crQ("games");
+ crGain(c,xp);crCoin(coins);
+ cr.say={t:Date.now(),m:score?`เล่นสนุกมาก! ได้ ${score} คะแนน`:"เกือบแล้ว ไว้ลองใหม่นะ",id:c.id};
+}
+function crStartPlay(k){crTick();const st=cr[k];if(st.n>=CR_PLAYS)return false;st.n++;crSaveSoon();return true}
+// laser
+function crLaserStart(){if(!crStartPlay("laser"))return;$("crLRes").classList.add("hidden");crRenderGame();crSc?.startGame();crRenderGame()}
+function crLaserEnd(score,hits){
+ const xp=Math.min(50,score*2),coins=Math.min(30,score);
+ cr.stats.laserHits+=hits||0;if(score>=15)crQ("laser15");
+ crGameReward("laser",score,xp,coins);
+ crResult("crLRes","หมดเวลา!",score,xp,coins,cr.laser,crLaserStart);
+ crAfter();crRenderGame();
+}
+// match
+let crMatchS=null,crMatchT=null;
+function crMatchStart(){
+ if(!crStartPlay("match"))return;
+ const faces=[{r:CR_ATLAS.stages.adult.sit,s:1},...CR_BREEDS.slice(1).map(b=>({r:CR_ATLAS.breeds[b.k],s:1})),{r:CR_ATLAS.props.mackerel,s:1},{r:CR_ATLAS.props.box,s:.6}]
+  .sort(()=>Math.random()-.5).slice(0,6);
+ const deck=[...faces.keys(),...faces.keys()].sort(()=>Math.random()-.5);
+ crMatchS={run:true,t0:Date.now(),deck,faces,open:[],done:new Set(),miss:0,lock:false};
+ $("crMRes").classList.add("hidden");
+ $("crMCards").innerHTML=deck.map((f,i)=>`<button class="cr-mc" data-mc="${i}"><span class="back"></span><span class="face"><canvas data-mcf="${i}"></canvas></span></button>`).join("");
+ deck.forEach((f,i)=>{const cv=document.querySelector(`[data-mcf="${i}"]`);crPaint(cv,faces[f].r,faces[f].s)});
+ clearInterval(crMatchT);crMatchT=setInterval(()=>{if(!crMatchS?.run)return;const t=Math.floor((Date.now()-crMatchS.t0)/1000);$("crMTime").textContent=t;if(t>=60)crMatchEnd(true)},250);
+ crRenderGame();
+}
+function crMatchFlip(i){
+ const M=crMatchS;if(!M||!M.run||M.lock||M.done.has(i)||M.open.includes(i))return;
+ const el=document.querySelector(`[data-mc="${i}"]`);el.classList.add("up");M.open.push(i);
+ if(M.open.length<2)return;
+ const [a,b]=M.open;
+ if(M.deck[a]===M.deck[b]){M.done.add(a);M.done.add(b);M.open=[];
+  [a,b].forEach(j=>document.querySelector(`[data-mc="${j}"]`).classList.add("ok"));
+  $("crMPairs").textContent=`${M.done.size/2}/6`;
+  if(M.done.size===12)setTimeout(()=>crMatchEnd(false),350);
+ }else{M.miss++;M.lock=true;setTimeout(()=>{[a,b].forEach(j=>document.querySelector(`[data-mc="${j}"]`)?.classList.remove("up"));M.open=[];M.lock=false},700)}
+}
+function crMatchEnd(timeout){
+ const M=crMatchS;if(!M||!M.run)return;M.run=false;clearInterval(crMatchT);
+ const t=Math.floor((Date.now()-M.t0)/1000),pairs=M.done.size/2;
+ const score=timeout?pairs*3:Math.max(5,50-t)+(M.miss<=3?10:0);
+ const xp=Math.min(40,score),coins=Math.min(30,Math.round(score*.6));
+ if(!timeout)crQ("match");
+ crGameReward("match",score,xp,coins);
+ crResult("crMRes",timeout?"หมดเวลา!":"ครบทุกคู่!",score,xp,coins,cr.match,crMatchStart);
+ crAfter();crRenderGame();
+}
+// jump
+function crJumpStart(){if(!crStartPlay("jump"))return;$("crJRes").classList.add("hidden");crJmp?.start();crRenderGame()}
+function crJumpEnd(score){
+ const xp=Math.min(50,score*2),coins=Math.min(30,score);
+ if(score>=10)crQ("jump10");
+ crGameReward("jump",score,xp,coins);
+ crResult("crJRes","ชนแล้ว!",score,xp,coins,cr.jump,crJumpStart);
+ crAfter();crRenderGame();
+}
+function crGameOpen(k){
+ if(crBusy())return;
+ crGame=k;
+ $("crGHub").classList.toggle("hidden",!!k);
+ ["laser","match","jump"].forEach(x=>$("cr"+x[0].toUpperCase()+x.slice(1)).classList.toggle("hidden",x!==k));
+ if(crSc){crSc.stop();crSc=null}
+ if(crJmp){crJmp.stop();crJmp=null}
+ if(k==="laser"){$("crLRes").classList.add("hidden");crSc=crStage("crLCv","laser")}
+ if(k==="jump"){$("crJRes").classList.add("hidden");crJmp=crJumpStage()}
+ if(k==="match"&&!crMatchS?.run){$("crMRes").classList.add("hidden");$("crMCards").innerHTML=Array.from({length:12},()=>`<span class="cr-mc idle"><span class="back"></span></span>`).join("");$("crMTime").textContent="0";$("crMPairs").textContent="0/6"}
+ crRenderGame();
 }
 
 /* ---- rendering ---- */
 function crMeter(el,v10){if(!el)return;el.innerHTML=Array.from({length:10},(_,i)=>`<i class="${i<v10?"on":""}"></i>`).join("")}
 const cr10=v=>Math.round(v/10);
+function crRenderCoins(){if($("crCoinN"))$("crCoinN").textContent=cr.coins.toLocaleString("en-US")}
 function crRenderSay(){
  if(!$("crSay"))return;
- const c=crCat(),s=crLine();
+ const c=crCat(),s=crLine(c);
  $("crSay").innerHTML=`<b>${esc(c.name)}:</b> ${esc(s.m)}`;$("crSayT").textContent=crHM(s.t);
  crPaint($("crSayCv"),crFrame(c,"sit").r,crFrame(c,"sit").s);
 }
 function crRenderNote(){
  const el=$("crNote");if(!el)return;
  el.innerHTML=crCloud==="missing"?"<b>ยังไม่ได้รัน SQL V7.81</b> — แมวเก็บไว้ในเครื่องนี้เท่านั้น รันแล้วจะย้ายขึ้นระบบเองตอนเปิดครั้งถัดไป"
-  :crCloud==="error"?"<b>บันทึกขึ้นระบบไม่ได้ตอนนี้</b> — เก็บไว้ในเครื่องก่อน":"";
+  :crCloud==="error"?"<b>บันทึกขึ้นระบบไม่ได้ตอนนี้</b> — เก็บไว้ในเครื่องก่อน"
+  :cr.room.length>1?"แตะที่ตัวแมวเพื่อเลือกตัวที่จะดูแล แตะซ้ำเพื่อลูบหัว":"";
 }
 function crRender(){
  if(!cr||!$("crLv"))return;
  const c=crCat(),v=crVals(c),lv=crLevel(c.xp),b=crBreed(c.breed),now=Date.now();
- $("crSub").textContent=`${c.name} · ${b.th} · ${CR_STAGES[crStageOf(lv.L)].th}`;
+ $("crSub").textContent=`${c.name} · ${b.th} · ${CR_STAGES[crStageOf(lv.L)].th}`+(cr.room.length>1?` · ในห้อง ${cr.room.length} ตัว`:"");
  $("crLv").textContent=lv.L;$("crXpT").textContent=`${lv.into}/${lv.need}`;crMeter($("crXpM"),Math.floor(lv.into/lv.need*10));
  [["Full",v.h],["Hap",v.p],["Cln",v.clean]].forEach(([k,x])=>{crMeter($("cr"+k+"M"),cr10(x));const n=$("cr"+k+"N");n.textContent=cr10(x)+"/10";n.classList.toggle("cr-low",x<30)});
  const food=crFoodFor(lv.L),full=v.h>=85;
@@ -8117,65 +8607,163 @@ function crRender(){
  const cd=CR_PET_CD-(now-(c.petAt||0));
  $("crPet").disabled=cd>0;$("crPetS").textContent=cd>0?`${String(Math.floor(cd/60000)).padStart(2,"0")}:${String(Math.floor(cd/1000)%60).padStart(2,"0")}`:"";
  $("crClean").disabled=!v.dirty;$("crCleanS").textContent=v.dirty?"ต้องเก็บแล้ว":"สะอาดแล้ว";
- $("crLaserS").textContent=`${CR_PLAYS-cr.laser.n}/${CR_PLAYS}`;
+ $("crGamesS").textContent=`เหลือ ${crPlaysLeft()} รอบ`;
  $("crBoxBar").classList.toggle("hidden",!cr.boxes);$("crBoxN").textContent=cr.boxes;
  if(cr.boxes&&CR_ATLAS.props.box)crPaint($("crBoxCv"),CR_ATLAS.props.box,.66);
- $("crHouseDot").classList.toggle("hidden",!cr.boxes);$("crHouseDot").textContent=cr.boxes;
- crRenderSay();crRenderNote();crNavBadge();
+ crRenderSay();crRenderNote();crBadges();
 }
-function crNavBadge(){const el=$("navBadgeCat");if(!el||!cr)return;const v=crVals(crCat());const n=(v.h<30||v.sulk?1:0)+(cr.boxes?1:0);el.textContent=n?"!":"";el.classList.toggle("hidden",!n)}
+function crBadges(){
+ if(!cr)return;crRenderCoins();
+ const q=crQReady();
+ const hd=$("crHouseDot");if(hd){hd.classList.toggle("hidden",!cr.boxes);hd.textContent=cr.boxes}
+ const qd=$("crQuestDot");if(qd){qd.classList.toggle("hidden",!q);qd.textContent=q}
+ const el=$("navBadgeCat");if(!el)return;
+ const hungry=crRoomCats().some(c=>{const v=crVals(c);return v.h<30||v.sulk});
+ const n=(hungry?1:0)+(cr.boxes?1:0)+(q?1:0);el.textContent=n?"!":"";el.classList.toggle("hidden",!n);
+}
 function crRenderHouse(){
  if(!cr||!$("crGrid"))return;
  const own=new Set(cr.cats.map(c=>c.breed));
  if(crSel==null||!cr.cats.some(c=>c.id===crSel))crSel=cr.active;
- const cards=cr.cats.map(c=>{const lv=crLevel(c.xp).L;
-  return `<button class="cr-card${c.id===cr.active?" on":""}${c.id===crSel?" sel":""}" data-crcat="${c.id}">`
-   +(c.id===cr.active?`<span class="flag">ใช้งานอยู่</span>`:"")
+ $("crSlots").innerHTML=`<span>ในห้องตอนนี้ ${cr.room.length}/${cr.slots} ตัว</span>`+(cr.slots<3?`<button class="cw-go" data-crtab-go="shop">ซื้อช่องเพิ่มที่ร้านค้า &rsaquo;</button>`:"");
+ const cards=cr.cats.map(c=>{const lv=crLevel(c.xp).L,inR=crInRoom(c);
+  return `<button class="cr-card${inR?" on":""}${c.id===crSel?" sel":""}" data-crcat="${c.id}">`
+   +(inR?`<span class="flag">${c.id===cr.active?"กำลังดูแล":"อยู่ในห้อง"}</span>`:"")
    +`<div class="pic"><canvas data-crpic="${c.id}"></canvas></div><div class="inf"><div class="nm">${esc(c.name)}</div>`
    +`<div class="ln"><span>LV ${lv}</span><span class="cr-tag">${esc(crBreed(c.breed).en)}</span></div></div></button>`});
  CR_BREEDS.filter(b=>!own.has(b.k)).forEach(b=>cards.push(
-  `<div class="cr-card lock"><div class="pic"><canvas data-crlock="${b.k}"></canvas></div><div class="inf"><div class="nm">???</div><div class="ln"><span class="cr-tag">ยังไม่พบ</span></div></div></div>`));
+  `<div class="cr-card lock"><div class="pic"><canvas data-crlock="${b.k}"></canvas></div><div class="inf"><div class="nm">???</div><div class="ln"><span class="cr-tag">${CR_EXCL.has(b.k)?"ภารกิจพิเศษ":"ยังไม่พบ"}</span></div></div></div>`));
  $("crGrid").innerHTML=cards.join("");
  $("crOwnN").textContent=`${own.size}/${CR_BREEDS.length}`;
- cr.cats.forEach(c=>{const cv=document.querySelector(`[data-crpic="${c.id}"]`);crPaintCat(cv,c,"sit",1.6)});
+ cr.cats.forEach(c=>crPaintCat(document.querySelector(`[data-crpic="${c.id}"]`),c,"sit",1.6));
  CR_BREEDS.filter(b=>!own.has(b.k)).forEach(b=>{const cv=document.querySelector(`[data-crlock="${b.k}"]`);
   const r=b.k==="mix"?CR_ATLAS.stages.adult.sit:CR_ATLAS.breeds[b.k];crPaint(cv,r,1,true);if(cv)cv.style.width=Math.round(r[2]*1.6)+"px"});
- $("crMakeActive").disabled=crSel===cr.active;
- $("crMakeActive").textContent=crSel===cr.active?"ตัวนี้เป็นตัวหลักอยู่แล้ว":"ตั้งน้องแมวตัวนี้เป็นตัวหลัก";
- $("crHouseBox").classList.toggle("hidden",!cr.boxes);$("crHouseBox").textContent=`เปิดกล่องปริศนา (${cr.boxes})`;
+ const c=cr.cats.find(x=>x.id===crSel),inR=crInRoom(c),full=cr.room.length>=cr.slots;
+ const acts=[];
+ if(inR&&c.id!==cr.active)acts.push(`<button class="cr-btn pri" data-ha="select">ดูแลตัวนี้</button>`);
+ if(!inR)acts.push(full?`<button class="cr-btn pri" data-ha="swap">พาเข้าห้องแทน ${esc(crCat().name)}</button>`:`<button class="cr-btn pri" data-ha="in">พาเข้าห้อง</button>`);
+ if(inR&&cr.room.length>1)acts.push(`<button class="cr-btn" data-ha="out">พากลับบ้าน</button>`);
+ acts.push(`<button class="cr-btn" data-ha="rename">เปลี่ยนชื่อ ${esc(c.name)}</button>`);
+ if(cr.boxes)acts.push(`<button class="cr-btn pri" data-ha="box">เปิดกล่องปริศนา (${cr.boxes})</button>`);
+ $("crHActs").innerHTML=acts.join("");
 }
-function crRenderLaser(){
- if(!cr||!$("crLPlays"))return;
- crTick();
- const left=CR_PLAYS-cr.laser.n,running=crSc?.running;
- $("crLPlays").textContent=`${left}/${CR_PLAYS}`;
- $("crLStart").disabled=!left||running;
- $("crLStart").lastElementChild.textContent=running?"กำลังเล่น…":left?"เริ่มเกม":"เล่นอีกครั้งพรุ่งนี้";
- $("crLTip").textContent=left||running?"แตะจุดแดงก่อนแมวจะพุ่ง!":`วันนี้ครบ ${CR_PLAYS} รอบแล้ว · สถิติสูงสุด ${cr.laser.best||0}`;
- if(!running){$("crLTime").textContent=CR_GAME/1000}
+function crHouseAct(a){
+ const c=cr.cats.find(x=>x.id===crSel);if(!c)return;const now=Date.now();
+ if(a==="select")crSelect(c.id);
+ else if(a==="in"){c.t=now;cr.room.push(c.id);crSelect(c.id)}
+ else if(a==="swap"){const out=crCat();crSnap(out,now);c.t=now;cr.room[cr.room.indexOf(out.id)]=c.id;crSelect(c.id)}
+ else if(a==="out"){crSnap(c,now);cr.room=cr.room.filter(id=>id!==c.id);if(cr.active===c.id)cr.active=cr.room[0];crSaveSoon();crRenderAll()}
+ else if(a==="rename"){const n=prompt("ตั้งชื่อน้องแมว (ไม่เกิน 12 ตัวอักษร)",c.name);if(n&&n.trim()){c.name=n.trim().toUpperCase().slice(0,12);crSaveSoon();crRenderAll();crWidget()}}
+ else if(a==="box")crOpenBox();
+}
+function crRenderQuests(){
+ if(!cr||!$("crQList"))return;crDaily();
+ $("crQDay").textContent=new Date().toLocaleDateString("th-TH",{day:"numeric",month:"short"});
+ const rows=cr.daily.list.map((q,i)=>{const d=crQDef(q.k),done=q.have>=d.need;
+  return `<div class="cr-q${q.claimed?" got":""}"><div class="t"><b>${esc(d.th)}</b><div class="cr-qbar"><i style="width:${Math.round(q.have/d.need*100)}%"></i></div>`
+   +`<small>${q.have}/${d.need} · +${d.coin} เหรียญ · +${CR_Q_XP} XP</small></div>`
+   +(q.claimed?`<span class="cr-tag">รับแล้ว</span>`:`<button class="cr-btn${done?" pri":""}" data-qc="${i}" ${done?"":"disabled"}>รับ</button>`)+`</div>`});
+ const all=cr.daily.list.every(q=>q.claimed);
+ rows.push(`<div class="cr-q bonus${cr.daily.bonus?" got":""}"><div class="t"><b>ทำครบทั้ง 3 ข้อ</b><small>โบนัส +${CR_Q_BONUS} เหรียญ</small></div>`
+  +(cr.daily.bonus?`<span class="cr-tag">รับแล้ว</span>`:`<button class="cr-btn${all?" pri":""}" data-qb ${all?"":"disabled"}>รับ</button>`)+`</div>`);
+ $("crQList").innerHTML=rows.join("");
+ const n=cr.streak.last===todayISO()||cr.streak.last===iso(new Date(Date.now()-864e5))?cr.streak.n:0,inWeek=n%7||(n?7:0);
+ $("crStreak").innerHTML=`<div class="dots">${Array.from({length:7},(_,i)=>`<i class="${i<inWeek?"on":""}${i===6?" gift":""}"></i>`).join("")}</div>`
+  +`<div class="t"><b>ดูแลติดกัน ${n} วัน</b><small>ครบทุก 7 วันได้กล่องปริศนา · สถิติ ${cr.streak.best||0} วัน${cr.streak.last===todayISO()?" · วันนี้นับแล้ว":" · วันนี้ยังไม่ได้ดูแล"}</small></div>`;
+ $("crSpecial").innerHTML=CR_SPECIAL.map(s=>{const b=crBreed(s.breed),own=cr.cats.some(c=>c.breed===s.breed),p=Math.min(s.need,s.prog()),ok=p>=s.need;
+  return `<div class="cr-q sp${own?" got":""}"><canvas data-spc="${s.breed}"></canvas><div class="t"><b>${own?esc(b.th):"???"}</b><small>${esc(s.th)}</small>`
+   +`<div class="cr-qbar"><i style="width:${Math.round(p/s.need*100)}%"></i></div><small>${p}/${s.need}</small></div>`
+   +(own?`<span class="cr-tag">ได้แล้ว</span>`:`<button class="cr-btn${ok?" pri":""}" data-sp="${s.breed}" ${ok?"":"disabled"}>รับน้องแมว</button>`)+`</div>`}).join("");
+ CR_SPECIAL.forEach(s=>{const own=cr.cats.some(c=>c.breed===s.breed);crPaint(document.querySelector(`[data-spc="${s.breed}"]`),CR_ATLAS.breeds[s.breed],.8,!own)});
+}
+function crClaim(i){
+ const q=cr.daily.list[i],d=q&&crQDef(q.k);if(!q||q.claimed||q.have<d.need)return;
+ q.claimed=true;crCoin(d.coin);crGain(crCat(),CR_Q_XP);toast(`+${d.coin} เหรียญ · +${CR_Q_XP} XP`);crAfter();
+}
+function crClaimBonus(){if(cr.daily.bonus||!cr.daily.list.every(q=>q.claimed))return;cr.daily.bonus=true;crCoin(CR_Q_BONUS);toast(`โบนัส +${CR_Q_BONUS} เหรียญ`);crAfter()}
+function crRenderShop(){
+ if(!cr||!$("crShopMain"))return;
+ const c=crCat(),pool=crBoxPool();
+ $("crShopFor").innerHTML=`<canvas id="crShopCat"></canvas><div class="t">แต่งตัวให้ <b>${esc(c.name)}</b><small>เปลี่ยนตัวได้ที่บ้านแมว (เลือก "ดูแลตัวนี้")</small></div><div class="cr-coin big"><i></i><b>${cr.coins.toLocaleString("en-US")}</b></div>`;
+ crPaintCat($("crShopCat"),c,"sit",1.3);
+ const card=(pic,name,sub,btn)=>`<div class="cr-item"><div class="pic">${pic}</div><div class="nm">${name}</div><div class="sub">${sub}</div>${btn}</div>`;
+ const buy=(id,price,ok=true)=>`<button class="cr-btn${cr.coins>=price&&ok?" pri":""}" data-buy="${id}" ${cr.coins>=price&&ok?"":"disabled"}><span class="cr-coin sm"><i></i>${price}</span></button>`;
+ const main=[card(`<canvas data-sp-box></canvas>`,"กล่องปริศนา",pool.length?`เหลือ ${pool.length} พันธุ์ในกล่อง`:"ในกล่องครบแล้ว (ได้เป็นขนม)",buy("box",CR_BOX_PRICE))];
+ for(let n=2;n<=3;n++)main.push(card(`<span class="cr-slot">${"▮".repeat(n)}</span>`,`ช่องแมวในห้อง ${n} ตัว`,cr.slots>=n?"มีแล้ว":cr.slots===n-1?"เลี้ยงพร้อมกันได้อีก 1 ตัว":"ต้องซื้อช่องก่อนหน้าก่อน",
+  cr.slots>=n?`<span class="cr-tag">มีแล้ว</span>`:buy("slot"+n,CR_SLOT_PRICE[n-1],cr.slots===n-1)));
+ $("crShopMain").innerHTML=main.join("");
+ crPaint(document.querySelector("[data-sp-box]"),CR_ATLAS.props.box,.6);
+ $("crShopWear").innerHTML=CR_WEAR.map(w=>{const own=cr.wardrobe.includes(w.k),worn=c.wear[w.slot]===w.k;
+  return card(`<canvas data-wp="${w.k}"></canvas>`,w.th,{head:"หัว",neck:"คอ",face:"หน้า"}[w.slot]+(own?" · มีแล้ว":""),
+   !own?buy("w:"+w.k,w.price):worn?`<button class="cr-btn" data-wear="${w.k}">ถอดออก</button>`:`<button class="cr-btn pri" data-wear="${w.k}">ใส่ให้ ${esc(c.name)}</button>`)}).join("");
+ CR_WEAR.forEach(w=>crPaintCat(document.querySelector(`[data-wp="${w.k}"]`),c,"sit",1.7,false,{[w.slot]:w.k}));
+ $("crShopDecor").innerHTML=CR_DECOR.map(d=>{const own=cr.decor.own.includes(d.k),onn=cr.decor.on.includes(d.k);
+  return card(`<canvas data-dp="${d.k}"></canvas>`,d.th,own?(onn?"จัดวางอยู่":"เก็บไว้"):"",
+   !own?buy("d:"+d.k,d.price):`<button class="cr-btn${onn?"":" pri"}" data-decor="${d.k}">${onn?"เก็บ":"จัดวาง"}</button>`)}).join("");
+ const pv=crRoom(240,110,CR_DECOR.map(d=>d.k));
+ CR_DECOR.forEach(d=>{const cv=document.querySelector(`[data-dp="${d.k}"]`);if(!cv)return;const [x0,y0,x1,y1]=d.box;
+  const sx=Math.round(x0*240),sy=Math.round(y0*110),sw=Math.round((x1-x0)*240),sh=Math.round((y1-y0)*110);
+  cv.width=sw;cv.height=sh;const g=cv.getContext("2d");g.imageSmoothingEnabled=false;g.drawImage(pv,sx,sy,sw,sh,0,0,sw,sh);
+  cv.style.width=Math.min(150,sw*(sh>60?1.6:2.2))+"px"});
+}
+const crBoxPool=()=>{const own=new Set(cr.cats.map(c=>c.breed));return CR_BREEDS.filter(b=>!own.has(b.k)&&!CR_EXCL.has(b.k))};
+function crBuy(id){
+ const price=id==="box"?CR_BOX_PRICE:id.startsWith("slot")?CR_SLOT_PRICE[+id.slice(4)-1]:id.startsWith("w:")?CR_WEAR.find(w=>w.k===id.slice(2)).price:CR_DECOR.find(d=>d.k===id.slice(2)).price;
+ if(cr.coins<price)return toast("เหรียญยังไม่พอ","bad");
+ cr.coins-=price;
+ if(id==="box"){cr.boxes++;toast("ได้กล่องปริศนา! เปิดได้ที่ห้องแมวหรือบ้านแมว")}
+ else if(id.startsWith("slot")){cr.slots=Math.max(cr.slots,+id.slice(4));toast("เลี้ยงในห้องพร้อมกันได้ "+cr.slots+" ตัวแล้ว — พาเข้าห้องได้ที่บ้านแมว")}
+ else if(id.startsWith("w:")){const w=CR_WEAR.find(x=>x.k===id.slice(2));cr.wardrobe.push(w.k);crCat().wear[w.slot]=w.k;toast(`ใส่${w.th}ให้ ${crCat().name} แล้ว`)}
+ else{const k=id.slice(2);cr.decor.own.push(k);cr.decor.on.push(k);toast("จัดวางในห้องแล้ว")}
+ crSaveSoon();crRenderAll();crWidget();
+}
+
+function crRenderGame(){
+ if(!cr||!$("crGHub"))return;crTick();
+ $("crGHub").innerHTML=CR_GAMES.map(gm=>{const st=gm.st(),left=CR_PLAYS-st.n;
+  return `<button class="cr-gcard" data-gopen="${gm.k}"><div class="nm">${gm.th}</div><div class="sub">${gm.desc}</div>`
+   +`<div class="ln"><span>เหลือวันนี้ <b>${left}/${CR_PLAYS}</b></span><span>สถิติ <b>${st.best||0}</b></span></div></button>`}).join("");
+ const run=crBusy();
+ document.querySelectorAll("#crGames [data-crback]").forEach(b=>b.disabled=run);
+ const set=(k,pre)=>{const st=cr[k],left=CR_PLAYS-st.n,btn=$("cr"+pre+"Start"),running=k==="laser"?crSc?.running:k==="jump"?crJmp?.running:crMatchS?.run;
+  $("cr"+pre+"Plays").textContent=`${left}/${CR_PLAYS}`;btn.disabled=!left||running;
+  btn.lastElementChild.textContent=running?"กำลังเล่น…":left?"เริ่มเกม":"เล่นอีกครั้งพรุ่งนี้"};
+ set("laser","L");set("match","M");set("jump","J");
+ if(!crSc?.running)$("crLTime").textContent=CR_GAME/1000;
+ $("crJBest").textContent=cr.jump.best||0;
+}
+function crRenderAll(){
+ if(!cr)return;
+ crBadges();
+ if(crTab==="room")crRender();
+ if(crTab==="house")crRenderHouse();
+ if(crTab==="games")crRenderGame();
+ if(crTab==="quests")crRenderQuests();
+ if(crTab==="shop")crRenderShop();
 }
 function crShowTab(t){
- if(crSc?.running&&t!=="laser")return;
+ if(crBusy())return;
  crTab=t;
  document.querySelectorAll("[data-crtab]").forEach(b=>b.classList.toggle("on",b.dataset.crtab===t));
- ["room","house","laser"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.toggle("hidden",k!==t));
+ ["room","house","games","quests","shop"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.toggle("hidden",k!==t));
  if(crSc){crSc.stop();crSc=null}
- if(t==="room"){crSc=crStage("crCv","room");crRender()}
- if(t==="laser"){$("crLRes").classList.add("hidden");crSc=crStage("crLCv","laser");crRenderLaser()}
- if(t==="house")crRenderHouse();
+ if(crJmp){crJmp.stop();crJmp=null}
+ if(t==="room")crSc=crStage("crCv","room");
+ if(t==="games")crGameOpen("");
+ crRenderAll();
 }
 let crTimer=null;
 async function crOpen(){
  $("crSub").textContent="กำลังเรียกแมว…";
  await crLoad();
- crShowTab(crTab==="laser"&&!crSc?"room":crTab);
+ crShowTab(crTab==="games"?"games":crTab);
  clearInterval(crTimer);
- crTimer=setInterval(()=>{if(document.hidden)return;crTick();if(crTab==="room")crRender();if(crTab==="laser")crRenderLaser();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
+ crTimer=setInterval(()=>{if(document.hidden)return;crTick();if(crTab==="room")crRender();else crBadges();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
  setTimeout(crNextEvent,600);
 }
-function crClose(){clearInterval(crTimer);crTimer=null;if(crSc){crSc.stop();crSc=null}}
+function crClose(){clearInterval(crTimer);crTimer=null;if(crSc){crSc.stop();crSc=null}if(crJmp){crJmp.stop();crJmp=null}if(crMatchS)crMatchS.run=false;clearInterval(crMatchT)}
 
-/* ---- popups: level, stage, box ---- */
+/* ---- popups: level, stage, streak, box ---- */
 function crModal(title,body,onClose){
  $("catModalBox").innerHTML=`<div class="cm-h"><span>${title}</span><button type="button" aria-label="ปิด" id="cmX">×</button></div><div class="cm-b">${body}</div>`;
  openLayer("catModal");
@@ -8183,16 +8771,15 @@ function crModal(title,body,onClose){
 }
 function crNextEvent(){
  if(!crEvents.length||!$("catModal").classList.contains("hidden"))return;
- const e=crEvents.shift(),c=cr.cats.find(x=>x.id===e.cat)||crCat();
+ const e=crEvents.shift(),c=cr.cats.find(x=>x.id===e.cat)||crCat(),next=()=>setTimeout(crNextEvent,200);
  if(e.type==="level"){
-  const next=crNeed(e.to);
   crModal("LEVEL UP",`<div class="cm-t">เลเวลอัปแล้ว!</div><div class="cm-s">${esc(c.name)} โตขึ้นอีกนิด</div>`
    +`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmCat" class="cm-pop"></canvas></div>`
    +`<div class="cm-lvs"><div><b>LV ${e.from}</b><div class="cr-m" id="cmM1"></div><small>XP ${crNeed(e.from)}/${crNeed(e.from)}</small></div><span class="cm-arrow">▶</span>`
-   +`<div><b>LV ${e.to}</b><div class="cr-m" id="cmM2"></div><small>XP 0/${next}</small></div></div>`
-   +(e.box?`<div class="cm-rw"><em>รางวัลเลเวล ${Math.floor(e.to/5)*5}!</em><br>ได้กล่องปริศนา x${e.box}</div>`:"")
+   +`<div><b>LV ${e.to}</b><div class="cr-m" id="cmM2"></div><small>XP 0/${crNeed(e.to)}</small></div></div>`
+   +`<div class="cm-rw"><em>รางวัลเลเวลอัป</em><br>+${e.coins} เหรียญปลา${e.box?` · กล่องปริศนา x${e.box}`:""}</div>`
    +(e.to===5||e.to===12||e.to===20?`<div class="cm-box">ปลดล็อกอาหารใหม่: <b>${crFoodFor(e.to).th}</b></div>`:"")
-   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,()=>setTimeout(crNextEvent,200));
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,next);
   crPaintCat($("cmCat"),c,"happy",3);crMeter($("cmM1"),10);crMeter($("cmM2"),0);
   $("cmOk").onclick=()=>$("cmX").click();crSc?.act("level");
  }else if(e.type==="stage"){
@@ -8201,15 +8788,21 @@ function crNextEvent(){
    +`<div class="cm-pic"><div class="col"><span class="lbl">${a.th}</span><canvas id="cmA"></canvas></div><span class="cm-arrow">▶▶</span>`
    +`<div class="col"><span class="lbl">${b.th}</span><canvas id="cmB" class="cm-pop"></canvas></div></div>`
    +`<div class="cm-box">${esc(c.name)} ${b.desc}<br>มาดูแลน้องกันต่อไปนะ!</div>`
-   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">เย้! เข้าใจแล้ว</button></div>`,()=>setTimeout(crNextEvent,200));
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">เย้! เข้าใจแล้ว</button></div>`,next);
   const pic=(id,si)=>{const cv=$(id);const f=c.breed==="mix"?{r:CR_ATLAS.stages[CR_STAGES[si].k].sit,s:1}:{r:CR_ATLAS.breeds[c.breed],s:[.64,.82,1,1.14][si]};crPaint(cv,f.r,f.s);cv.style.width=Math.round(f.r[2]*f.s*2.4)+"px"};
   pic("cmA",e.from);pic("cmB",e.to);
+  $("cmOk").onclick=()=>$("cmX").click();
+ }else if(e.type==="streak"){
+  crModal("CARE STREAK",`<div class="cm-t">ดูแลติดกัน ${e.n} วัน!</div><div class="cm-s">ขอบคุณที่มาหาทุกวันนะ</div>`
+   +`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmBox" class="cm-pop"></canvas></div><div class="cm-rw">ได้กล่องปริศนา x1</div>`
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,next);
+  crPaint($("cmBox"),CR_ATLAS.props.box,1);$("cmBox").style.width=CR_ATLAS.props.box[2]*2+"px";
   $("cmOk").onclick=()=>$("cmX").click();
  }
 }
 function crOpenBox(){
  if(!cr||!cr.boxes)return;
- crModal("MYSTERY BOX",`<div class="cm-t">ได้กล่องปริศนา!</div><div class="cm-s">เลี้ยงครบทุก 5 เลเวล รับกล่องปริศนา 1 กล่อง</div>`
+ crModal("MYSTERY BOX",`<div class="cm-t">ได้กล่องปริศนา!</div><div class="cm-s">เปิดแล้วจะได้น้องแมวพันธุ์ใหม่</div>`
   +`<div class="cm-pic"><canvas id="cmBox"></canvas></div><div class="cm-acts"><button class="cr-btn pri" id="cmGo">เปิดกล่อง</button></div>`);
  crPaint($("cmBox"),CR_ATLAS.props.box,1);$("cmBox").style.width=CR_ATLAS.props.box[2]*2.6+"px";
  $("cmGo").onclick=()=>{
@@ -8221,35 +8814,33 @@ function crOpenBox(){
  };
 }
 function crRevealBox(){
- const own=new Set(cr.cats.map(c=>c.breed)),left=CR_BREEDS.filter(b=>!own.has(b.k));
+ const left=crBoxPool();
  cr.boxes=Math.max(0,cr.boxes-1);
  if(!left.length){
-  const c=crCat();crSnap(c);c.p=crClamp(c.p+20);crGain(c,80);
-  crModal("BONUS",`<div class="cm-t">ขนมพิเศษ!</div><div class="cm-s">ครบทุกพันธุ์แล้ว กล่องนี้เลยเป็นขนมให้ ${esc(c.name)}</div>`
-   +`<div class="cm-pic"><canvas id="cmT" class="cm-pop"></canvas></div><div class="cm-rw">+80 XP</div><div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,()=>setTimeout(crNextEvent,200));
+  const c=crCat();crSnap(c);c.p=crClamp(c.p+20);crGain(c,80);crCoin(50);
+  crModal("BONUS",`<div class="cm-t">ขนมพิเศษ!</div><div class="cm-s">ในกล่องครบทุกพันธุ์แล้ว กล่องนี้เลยเป็นขนมให้ ${esc(c.name)}</div>`
+   +`<div class="cm-pic"><canvas id="cmT" class="cm-pop"></canvas></div><div class="cm-rw">+80 XP · +50 เหรียญ</div><div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,()=>setTimeout(crNextEvent,200));
   crPaint($("cmT"),CR_ATLAS.props.treat,1);$("cmT").style.width=CR_ATLAS.props.treat[2]*3+"px";
   $("cmOk").onclick=()=>$("cmX").click();crAfter();return;
  }
- const b=left[Math.floor(Math.random()*left.length)];
- const used=new Set(cr.cats.map(c=>c.name));
+ crHatch(left[Math.floor(Math.random()*left.length)].k,"เจอแมวใหม่!");
+}
+function crHatch(breed,head){
+ const b=crBreed(breed),used=new Set(cr.cats.map(c=>c.name));
  const name=CR_NAMES.find(n=>!used.has(n))||"CAT"+(cr.seq+1);
- const now=Date.now(),cat={id:++cr.seq,breed:b.k,name,xp:0,h:80,p:80,t:now,petAt:0,boxLv:0,born:now};
+ const cat=crNewCat(++cr.seq,b.k,name);
  cr.cats.push(cat);crSaveSoon();
+ const canRoom=cr.room.length<cr.slots;
  crModal("NEW CAT!",`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmNew" class="cm-pop"></canvas></div>`
-  +`<div class="cm-t">${esc(b.en)}</div><div class="cm-s"><b>เจอแมวใหม่!</b> ${esc(b.th)}<br>${esc(b.blurb)}</div>`
+  +`<div class="cm-t">${esc(b.en)}</div><div class="cm-s"><b>${head}</b> ${esc(b.th)}<br>${esc(b.blurb)}</div>`
   +`<div class="cm-name"><input id="cmName" maxlength="12" value="${esc(name)}" aria-label="ตั้งชื่อ"></div>`
-  +`<div class="cm-acts"><button class="cr-btn pri" id="cmKeep">เก็บเข้าบ้านแมว</button><button class="cr-btn" id="cmUse">ตั้งเป็นตัวหลักเลย</button></div>`,
+  +`<div class="cm-acts"><button class="cr-btn pri" id="cmKeep">เก็บเข้าบ้านแมว</button><button class="cr-btn" id="cmUse">${canRoom?"พาเข้าห้องเลย":"พาเข้าห้องแทน "+esc(crCat().name)}</button></div>`,
   ()=>{crSetName(cat);crAfter()});
  crPaint($("cmNew"),CR_ATLAS.breeds[b.k],.64);$("cmNew").style.width=Math.round(CR_ATLAS.breeds[b.k][2]*.64*4)+"px";
  $("cmKeep").onclick=()=>$("cmX").click();
- $("cmUse").onclick=()=>{crSetName(cat);crSwitch(cat.id);$("cmX").click()};
+ $("cmUse").onclick=()=>{crSetName(cat);crSel=cat.id;crHouseAct(canRoom?"in":"swap");$("cmX").click()};
 }
 function crSetName(cat){const i=$("cmName");if(!i)return;const n=i.value.trim().toUpperCase().slice(0,12);if(n)cat.name=n}
-function crSwitch(id){
- const now=Date.now(),cur=crCat();crSnap(cur,now);
- cr.active=id;const nx=crCat();nx.t=now;crSel=id;
- crSay(`${nx.name} มาแล้ว!`);crSaveSoon();crRenderHouse();crRender();crWidget();
-}
 
 /* ---- the dashboard's little window onto him ---- */
 async function crWidget(){
@@ -8260,10 +8851,11 @@ async function crWidget(){
  $("cwName").textContent=c.name;$("cwBreed").textContent=crBreed(c.breed).en;$("cwLv").textContent="LV "+lv.L;
  crMeter($("cwXp"),Math.floor(lv.into/lv.need*10));$("cwXpN").textContent=Math.floor(lv.into/lv.need*100)+"%";
  crMeter($("cwFull"),cr10(v.h));$("cwFullN").textContent=cr10(v.h)+"/10";
- $("cwSay").innerHTML=`<b>${esc(c.name)}:</b> ${esc(crLine().m)}`;
+ const q=crQReady();
+ $("cwSay").innerHTML=`<b>${esc(c.name)}:</b> ${esc(crLine(c).m)}`+(q?`<br><span class="cw-q">ภารกิจรอรับรางวัล ${q} ข้อ</span>`:"");
  crPaintCat($("cwCv"),c,v.sulk?"sleep":"sit",1.4);
  const full=v.h>=85;$("cwFeed").textContent=full?"อิ่มแล้ว":"ให้อาหาร";$("cwFeed").classList.toggle("pri",!full);
- crNavBadge();
+ crBadges();
 }
 $("catWidget").addEventListener("click",e=>{
  if(e.target.closest("#cwFeed")){
@@ -8275,18 +8867,27 @@ $("catWidget").addEventListener("click",e=>{
 });
 document.querySelectorAll("[data-crtab]").forEach(b=>b.onclick=()=>crShowTab(b.dataset.crtab));
 $("crFeed").onclick=crFeed;$("crPet").onclick=crPet;$("crClean").onclick=crClean;
-$("crLaserGo").onclick=()=>crShowTab("laser");$("crHouseGo").onclick=()=>crShowTab("house");
-$("crBoxOpen").onclick=crOpenBox;$("crHouseBox").onclick=crOpenBox;$("crLStart").onclick=crLaserStart;
-$("crGrid").onclick=e=>{const b=e.target.closest("[data-crcat]");if(!b)return;crSel=+b.dataset.crcat;crRenderHouse()};
-$("crMakeActive").onclick=()=>{if(crSel!=null&&crSel!==cr.active)crSwitch(crSel)};
-$("crRename").onclick=()=>{
- const c=cr.cats.find(x=>x.id===crSel);if(!c)return;
- const n=prompt("ตั้งชื่อน้องแมว (ไม่เกิน 12 ตัวอักษร)",c.name);
- if(n&&n.trim()){c.name=n.trim().toUpperCase().slice(0,12);crSaveSoon();crRenderHouse();crRender();crWidget()}
-};
+$("crGamesGo").onclick=()=>crShowTab("games");$("crHouseGo").onclick=()=>crShowTab("house");
+$("crBoxOpen").onclick=crOpenBox;
+$("crLStart").onclick=crLaserStart;$("crMStart").onclick=crMatchStart;$("crJStart").onclick=crJumpStart;
+$("catView").addEventListener("click",e=>{
+ const t=e.target;let el;
+ if((el=t.closest("[data-crcat]"))){crSel=+el.dataset.crcat;crRenderHouse();return}
+ if((el=t.closest("[data-ha]"))){crHouseAct(el.dataset.ha);return}
+ if((el=t.closest("[data-crback]"))){if(!crBusy())crGameOpen("");return}
+ if((el=t.closest("[data-gopen]"))){crGameOpen(el.dataset.gopen);return}
+ if((el=t.closest("[data-mc]"))){crMatchFlip(+el.dataset.mc);return}
+ if((el=t.closest("[data-qc]"))){crClaim(+el.dataset.qc);return}
+ if(t.closest("[data-qb]")){crClaimBonus();return}
+ if((el=t.closest("[data-sp]"))){const s=CR_SPECIAL.find(x=>x.breed===el.dataset.sp);if(s&&s.prog()>=s.need&&!cr.cats.some(c=>c.breed===s.breed))crHatch(s.breed,"ภารกิจพิเศษสำเร็จ!");return}
+ if((el=t.closest("[data-buy]"))){crBuy(el.dataset.buy);return}
+ if((el=t.closest("[data-wear]"))){const w=CR_WEAR.find(x=>x.k===el.dataset.wear),c=crCat();c.wear[w.slot]=c.wear[w.slot]===w.k?null:w.k;crSaveSoon();crRenderShop();crWidget();return}
+ if((el=t.closest("[data-decor]"))){const k=el.dataset.decor,on=cr.decor.on;cr.decor.on=on.includes(k)?on.filter(x=>x!==k):[...on,k];crSaveSoon();crRenderShop();return}
+ if((el=t.closest("[data-crtab-go]"))){crShowTab(el.dataset.crtabGo);return}
+});
 // the backup file carries the room too, so a level-30 cat is never lost
 window.crExport=()=>cr?JSON.parse(JSON.stringify(cr)):null;
-window.crImport=async s=>{const v=crValid(s);if(!v)return false;await crLoad().catch(()=>{});cr=v;crSaveSoon(100);crRender();crWidget();return true};
+window.crImport=async s=>{const v=crValid(s);if(!v)return false;await crLoad().catch(()=>{});cr=v;crSaveSoon(100);crRenderAll();crWidget();return true};
 
 bindLayerUX();
 /* Registering and walking away meant a deploy could sit on the server for

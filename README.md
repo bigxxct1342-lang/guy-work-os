@@ -437,6 +437,16 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.82 Cat Room: coins, quests, shop, more cats, more games
+- **Fish coins** (เหรียญปลา): daily quests, mini-games (up to 30 a game), +50 per level-up, +5 for the first meal of the day. Balance sits top-right of the Cat Room.
+- **Daily quests**: three a day, picked by date so every device shows the same three (no litter quest on a day the box cannot get dirty). Each pays coins + 15 XP; all three pay a +20 bonus. **Care streak**: any care counts the day; every 7 days in a row brings a mystery box.
+- **Special quests** unlock three breeds that never come out of a box: Bombay (100 laser hits in total), Persian (14-day streak), Khao Manee (any cat to Lv 30). The box now draws only from the other breeds, then becomes a treat (+80 XP, +50 coins).
+- **Shop**: mystery box 500 · room slots for a 2nd and 3rd cat (600 / 1,200) · 9 outfits (hats, bow, flower, crown, bell collar, scarf, glasses, shades; 100–400) · 7 furniture pieces (curtains, frames, string lights, big plant, patterned rug, fish tank, cat tree; 250–700), each can be put away and brought back.
+- **Several cats in the room**: up to three live on the clock at once. Tap a cat to pick who you are caring for, tap again to pet. Cats in the house sleep and do not get hungry. The house moves cats in and out.
+- **Outfits** are drawn in code in the four amber levels and seated on the head, eyes or neck by reading the sprite itself, so they fit every breed and stage. They show on sitting/happy poses, the house, the shop and the dashboard widget.
+- **Two new mini-games**, three plays a day each alongside the laser: **จับคู่หน้าแมว** (6 pairs, 60 s, faster = more) and **แมวกระโดด** (tap/Space to jump boxes, vases and yarn; it speeds up).
+- No SQL: everything lives in the same `cat_rooms` document; older saves upgrade on load.
+
 ## V7.81 Cat Room
 - A virtual pet with **no connection to work**: he gets hungry on the clock, so a day with nothing due is still a day to feed him. New sidebar item **Cat Room** with three tabs — ห้องแมว, บ้านแมว, เลเซอร์ — plus a small CAT ROOM panel on the Dashboard with a feed button.
 - **Stats** (0–100, shown as 10-segment meters): FULL drains 100→0 in 7 hours; HAPPY loses 10 per 12 hours; CLEAN drops to 35 once the litter box is 24 hours old. He sulks (sleeps in the corner) when FULL < 20 or HAPPY < 25, and forgives the moment he is fed. He never dies.
