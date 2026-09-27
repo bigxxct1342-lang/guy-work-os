@@ -68,6 +68,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-18-projects.sql` projects + the links that group existing work under them
 - `migration-v7-79-telegram.sql` Telegram linking tables
 - `migration-v7-81-cat-room.sql` Cat Room, one private document per person
+- `migration-v7-84-cat-friends.sql` Cat Room visits, gifts and photo album
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
@@ -436,6 +437,18 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.84 Cat Room: a room that lives, friends, album, sound
+- **Day, night and weather**: the window follows the real clock (dusk goes orange, night goes dark with stars, the lamp lights a cone of the room) and the real Bangkok sky from open-meteo (rain streaks the glass, storms flash).
+- **While you were away**: the first visit of the day, and one more after four hours, finds something waiting in the room — a present on the floor (coins, or rarely an item you cannot buy), a knocked-over vase to tap clean, a bird on the sill.
+- **Sound**, off by default and remembered per device: purring, meows, crunching, brushing, running water, splashes, coins, level-ups. All synthesised; no audio files.
+- **Traits**: every cat is born with one — ตะกละ, ขี้เล่น, ขี้อ้อน, เกลียดน้ำ (wriggles in the tub), ขี้เซา, รักสะอาด — each changing what pays and how fast he needs you. Older cats get one on load.
+- **Album**: a camera button on the room; each cat's growth into a new body and first day home are photographed on their own. Kept in `cat_photos` (or this browser until V7.84 is run); up to 60; in the backup.
+- **Friends**: visit a teammate's cat room (cats, outfits, furniture — nothing else of theirs) and send one gift a day: a fish treat, coins or a game ticket. Gifts pop up for the other person on their next visit.
+- **Shop**: consumables that keep coins useful (special treat 60, extra-game ticket 80) and three rare outfits that rotate every Monday (chef hat, witch hat, sunflower, heart glasses, bandana).
+- **Balance**: level curve is now 70 + 14·(L−1) — first new body in about ten active days, adult in about five weeks. Mini-games give at most 20 XP a round; care pays more (pet 8, brush 20, bath 35, scoop 15, daily age 15, quests 20).
+- **First-time tips** on each tab and each care scene, dismissed once.
+- Requires `migration-v7-84-cat-friends.sql` for visits, gifts and a synced album.
 
 ## V7.83 Cat Room: hands-on care, and a new body every 20 levels
 - **Growth**: kitten Lv 1–19, teen Lv 20–39, adult from Lv 40 — and adult is the last stage (the "boss" stage is gone).
