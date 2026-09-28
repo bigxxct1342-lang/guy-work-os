@@ -69,6 +69,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-79-telegram.sql` Telegram linking tables
 - `migration-v7-81-cat-room.sql` Cat Room, one private document per person
 - `migration-v7-84-cat-friends.sql` Cat Room visits, gifts and photo album
+- `migration-v7-86-cat-together.sql` playdates, weekly team goal, family cat
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
@@ -437,6 +438,22 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.86 Cat Room: cats that live in the room, and cats that visit
+- **Cats move on their own**: they hop between spots — the floor (each in its own lane), the window sill or balcony rail, the cat tree, the cushion to sleep — go and sit with each other and groom, and sleep where there is room at night.
+- **Name tags** over every cat whenever there is more than one, and "LUNA · ของ FON" over a visitor, so identical-looking cats can be told apart. Tags that would overlap are stacked.
+- **A ball of yarn** on the floor: drag it and let go to throw it; the cats chase and bat it for a while, then lose interest. A few XP a play, up to 30 a day.
+- **Cats ask for things**: every few hours one wants something in particular — food, a pet, brushing, yarn, a laser game, a treat, a photo — shown as a bubble over his head and in the sidebar. Done within three hours: +20 XP +20 coins.
+- **Diary**: a line a day, written from what actually happened (meals, pets, baths, games, gifts, level-ups, new cats, visits), last seven days in บ้านแมว.
+- **Badge book**: 34 badges for things done over time, each with coins and a title to wear; the title shows over the Cat Room and on your friends' list.
+- **Arrange the room**: the pencil button lets you drag the cat tree, the big plant and the picture frames sideways. **Wallpaper and floors** in the shop (dots, check, wood, panelled; tiles, carpet).
+- **Balcony**: a second place, bought in the shop — mostly sky, so day, night and rain are the point; cats sit on the rail. Switch with the button on the room.
+- **New เพื่อน tab**:
+  - **Family cat**: one cat the whole team looks after (feed, pet, name, hat). Written only through `cat_family_act()`, one locked row, so two people feeding at once cannot overwrite each other.
+  - **Weekly team goal**: 80 care actions between everyone; each person's share shown; reward 150 coins and a rare scarf.
+  - **Playdates**: send one of your cats to a friend's room for an hour (once a day); he appears there with a name tag, then comes home with +40 XP +20 coins; the host gets +15.
+  - Friends' rooms, gifts and visits move here from บ้านแมว.
+- Requires `migration-v7-86-cat-together.sql`.
 
 ## V7.85 The sidebar portrait watches the Cat Room
 - The square at the top of the sidebar is no longer a still of PORKCHOP: it is a live little window onto the Cat Room — the same room, sky, weather and outfits, the cat you are looking after in his current pose (sitting, sulking in the corner, asleep at night).

@@ -1975,6 +1975,44 @@ body.dark .splash{background:#15120e}
 .cr-card .ln.tr{margin-top:3px}
 .cr-trait{flex:1 1 100%;font-size:13px;line-height:1.5;border:2px dashed rgba(42,32,19,.35);border-radius:4px;padding:6px 10px;background:rgba(255,250,235,.5)}
 .cm-photo img{width:100%;image-rendering:pixelated;border:2px solid #2a2013;border-radius:3px;display:block}
+/* V7.86: name tags, arranging, diary, badges, pals */
+.cr-labels{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none;z-index:2}
+.cr-labels span{position:absolute;left:0;top:0;white-space:nowrap;font-family:"VT323",ui-monospace,monospace;font-size:15px;letter-spacing:.05em;line-height:1;
+ padding:2px 6px 1px;border:1.5px solid #2a2013;border-radius:3px;background:rgba(255,244,220,.92);color:#2a2013}
+.cr-labels span.on{background:#b86b12;color:#fff4dc;border-color:#4a2a06}
+.cr-labels span.g{background:#2a2013;color:#ffd9a0}
+.cr-edit{right:52px}.cr-scn{right:96px}
+.cr-cam.on{background:#b86b12;color:#fff4dc}
+.cr-editbar{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #2a2013;border-radius:4px;padding:5px 6px 5px 12px;font-size:13px;font-weight:800;z-index:3;line-height:1.3}
+.cr-editbar button{border:2px solid #2a2013;border-radius:3px;background:#b86b12;color:#fff4dc;font:800 13px "Noto Sans Thai",system-ui,sans-serif;padding:3px 12px;cursor:pointer}
+.cr-dy{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;border-bottom:1px dashed var(--t-line);padding:6px 2px;font-size:13px;line-height:1.5}
+.cr-dy b{font-size:12.5px}
+.cr-badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.cr-bdg{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid rgba(42,32,19,.4);border-radius:4px;background:rgba(255,250,235,.45);padding:7px 10px;color:var(--ink);font:inherit;cursor:default}
+.cr-bdg canvas{image-rendering:pixelated;flex:none}
+.cr-bdg .t{flex:1;min-width:0;line-height:1.35}.cr-bdg .t b{display:block;font-size:13.5px}.cr-bdg .t small{display:block;font-size:11.5px;color:var(--t-dim)}
+.cr-bdg .t small.c{color:#a8640a;font-weight:800}
+.cr-bdg.got{border-color:var(--ink);background:#fff4dc;cursor:pointer}
+.cr-bdg.worn{box-shadow:0 0 0 3px #e0951f}
+.cr-bdg .cr-qbar{display:block;margin-top:4px}
+.cr-fam{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px;align-items:center;border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:10px}
+.cr-famst{border-width:2px}
+.cr-fam .t{display:grid;gap:4px;line-height:1.4}.cr-fam .cw-row{grid-template-columns:52px minmax(0,1fr) 40px}.cr-fam .t small{font-size:12px;color:var(--t-dim)}
+.cr-famacts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}.cr-famacts .cr-btn{min-height:38px;font-size:13.5px}
+.cr-coop{display:flex;gap:12px;align-items:center;border:2px solid var(--ink);border-radius:4px;background:rgba(255,250,235,.62);padding:10px 12px}
+.cr-coop .t{flex:1;min-width:0;line-height:1.4}.cr-coop .t b{display:block}.cr-coop .t small{font-size:12px;color:var(--t-dim)}
+.cr-qbar.big{height:12px;margin:7px 0 5px}
+.cr-coopwho{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12.5px}.cr-coopwho b{font-family:"VT323",ui-monospace,monospace;font-size:18px}
+.cr-coopwho .tot{margin-left:auto}
+.cr-fbtns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@container (max-width:720px){
+ .cr-fam{grid-template-columns:1fr}
+ .cr-coop{flex-direction:column;align-items:stretch}
+ .cr-dy{grid-template-columns:70px minmax(0,1fr)}
+ .cr-friend{flex-wrap:wrap}.cr-fbtns{width:100%}.cr-fbtns .cr-btn{flex:1}
+ .cr-labels span{font-size:13px}
+ .cr-sec{display:block}.cr-sec small{display:block;margin-top:2px}
+}
 </style>
 </head>
 <body>
@@ -2379,11 +2417,12 @@ body.dark .splash{background:#15120e}
     <button data-crtab="games">มินิเกม</button>
     <button data-crtab="quests">ภารกิจ<span class="cr-dot hidden" id="crQuestDot"></span></button>
     <button data-crtab="shop">ร้านค้า</button>
+    <button data-crtab="pals">เพื่อน<span class="cr-dot hidden" id="crPalsDot"></span></button>
    </div>
    <div class="cr-coach hidden" id="crCoach"><span id="crCoachT"></span><button type="button" id="crCoachOk">เข้าใจแล้ว</button></div>
 
    <div id="crRoom">
-    <div class="cr-stage" id="crStage"><canvas id="crCv" aria-label="ห้องแมว"></canvas><div class="cr-bubble hidden" id="crBubble"></div><button class="cr-cam" id="crCam" type="button" title="ถ่ายรูปเก็บในอัลบั้ม"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg></button></div>
+    <div class="cr-stage" id="crStage"><canvas id="crCv" aria-label="ห้องแมว"></canvas><div class="cr-bubble hidden" id="crBubble"></div><button class="cr-cam" id="crCam" type="button" title="ถ่ายรูปเก็บในอัลบั้ม"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg></button><button class="cr-cam cr-scn hidden" id="crScene" type="button" title="ไประเบียง"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20h18"/><path d="M5 20v-6h14v6M8 14v6M12 14v6M16 14v6"/><circle cx="17" cy="6" r="2.5"/></svg></button><button class="cr-cam cr-edit" id="crEdit" type="button" title="จัดห้อง"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg></button><div class="cr-editbar hidden" id="crEditBar"><span>ลากของแต่งห้องไปซ้าย–ขวาได้</span><button type="button" id="crEditDone">เสร็จ</button></div></div>
     <div class="cr-panel cr-stats">
      <div class="cr-lvrow"><div class="cr-lv">LV <span id="crLv">1</span></div>
       <div style="flex:1;min-width:0"><div class="cr-xpk">XP <span id="crXpT">0/80</span></div><div class="cr-m" id="crXpM"></div></div></div>
@@ -2433,8 +2472,8 @@ body.dark .splash{background:#15120e}
     <div class="cr-hacts" id="crHActs"></div>
     <div class="cr-sec"><span id="crAlbumT">อัลบั้ม</span><small id="crAlbumNote"></small></div>
     <div class="cr-album" id="crAlbum"></div>
-    <div class="cr-sec">บ้านเพื่อน <small>ไปเยี่ยมและส่งของขวัญได้วันละครั้ง</small></div>
-    <div id="crFriends"></div>
+    <div class="cr-sec">ไดอารี่ <small>เขียนเองจากที่เกิดขึ้นจริงในแต่ละวัน</small></div>
+    <div id="crDiary"></div>
     <div class="cr-note">ได้กล่องปริศนาทุก 5 เลเวล และทุกครั้งที่ดูแลครบ 7 วันติดกัน บางพันธุ์ได้จากภารกิจพิเศษเท่านั้น ตัวที่อยู่ในบ้าน (ไม่ได้อยู่ในห้อง) จะหลับรอ ไม่หิว ไม่งอน</div>
    </div>
 
@@ -2494,6 +2533,17 @@ body.dark .splash{background:#15120e}
     <div class="cr-streak" id="crStreak"></div>
     <div class="cr-sec">ภารกิจพิเศษ · ปลดล็อกน้องแมว</div>
     <div id="crSpecial"></div>
+    <div class="cr-sec">สมุดตรา <small id="crBadgeN"></small></div>
+    <div class="cr-badges" id="crBadges"></div>
+   </div>
+
+   <div id="crPals" class="hidden">
+    <div class="cr-sec">แมวของบ้าน <small>แมวตัวเดียวที่ทุกคนในทีมเลี้ยงด้วยกัน</small></div>
+    <div id="crFam"></div>
+    <div class="cr-sec">ภารกิจคู่ประจำสัปดาห์ <small>การดูแลของทุกคนรวมกัน</small></div>
+    <div id="crCoop"></div>
+    <div class="cr-sec">บ้านเพื่อน <small>ไปเยี่ยม ส่งของขวัญ และพาแมวไปเที่ยวได้วันละครั้ง</small></div>
+    <div id="crFriends"></div>
    </div>
 
    <div id="crShop" class="hidden">
@@ -2504,7 +2554,9 @@ body.dark .splash{background:#15120e}
     <div class="cr-shop" id="crShopRare"></div>
     <div class="cr-sec">ชุดแต่งตัว</div>
     <div class="cr-shop" id="crShopWear"></div>
-    <div class="cr-sec">ของแต่งห้อง</div>
+    <div class="cr-sec">ผนัง พื้น และระเบียง</div>
+    <div class="cr-shop" id="crShopLook"></div>
+    <div class="cr-sec">ของแต่งห้อง <small>คอนโดแมว ต้นไม้ กรอบรูป ลากย้ายที่ได้ด้วยปุ่มดินสอในห้อง</small></div>
     <div class="cr-shop" id="crShopDecor"></div>
     <div class="cr-note">เหรียญปลาได้จากภารกิจรายวัน มินิเกม เลเวลอัป (+50) และให้อาหารมื้อแรกของวัน (+5) ชุดที่ซื้อแล้วใส่ได้ทุกตัว</div>
    </div>
@@ -2537,7 +2589,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.85</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.86</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -7951,6 +8003,7 @@ const CR_WEAR=[
  {k:"sunflower",fit:.45,slot:"head",th:"ทานตะวัน",   price:380,rare:1,side:1,px:["..00000..",".0333330.","033111330","031121130","033111330",".0333330.","..00000.."]},
  {k:"hearts", fit:.95,slot:"face",th:"แว่นหัวใจ",    price:500,rare:1,px:[".00.00.00.00.","0220220220220","0222220222220",".02220.02220.","..020...020..","...0.....0..."]},
  {k:"bandana",fit:1,  slot:"neck",th:"ผ้าโพกคอ",     price:420,rare:1,px:["0000000000000","0232323232320",".02323232320.","..023232320..","...0232320...","....02320....",".....000....."]},
+ {k:"duo",    fit:1,  slot:"neck",th:"ผ้าพันคอคู่",   price:0,  rare:1,away:1,px:["0000000000000","0313131313130","0131313131310","0000000031300",".......03130.",".......01310.",".......00000."]},
  {k:"leaf",   fit:.32,slot:"head",th:"ใบไม้ติดหัว",   price:0,  rare:1,away:1,side:1,px:["....00","..0220",".02220","02220.","0220..","10...."]},
  {k:"shades",fit:0.85, slot:"face",th:"แว่นดำ",        price:250,px:["00000000000","01110001110",".000...000."]}
 ];
@@ -8008,15 +8061,17 @@ function crValid(s){
  s.streak={last:"",n:0,best:0,...(s.streak||{})};
  s.stats={laserHits:0,feeds:0,pets:0,cleans:0,games:0,...(s.stats||{})};
  s.wardrobe=Array.isArray(s.wardrobe)?s.wardrobe:[];
- s.decor={own:[],on:[],...(s.decor||{})};
+ s.decor={own:[],on:[],...(s.decor||{})};s.decor.pos={...(s.decor.pos||{})};
  s.away={day:"",n:0,cur:null,...(s.away||{})};s.sent={...(s.sent||{})};
+ s.look={wall:"stripe",floor:"boards",...(s.look||{})};s.looksOwn=Array.isArray(s.looksOwn)?s.looksOwn:[];s.scene=s.scene==="balcony"?"balcony":"room";
+ s.badges={...(s.badges||{})};s.diary={...(s.diary||{})};
  s.coins=Math.max(0,s.coins|0);s.boxes=Math.max(0,s.boxes|0);
  s.cleanAt=s.cleanAt||now;s.ageDay=s.ageDay||todayISO();s.updated=s.updated||0;s.v=2;
  return s;
 }
 const crCat=()=>cr.cats.find(c=>c.id===cr.active)||cr.cats[0];
 const crInRoom=c=>cr.room.includes(c.id);
-const crRoomCats=()=>cr.room.map(id=>cr.cats.find(c=>c.id===id)).filter(Boolean);
+const crRoomCats=()=>cr.room.map(id=>cr.cats.find(c=>c.id===id)).filter(c=>c&&!c.out);
 // Only cats in the room live on the clock; the rest are asleep in the house.
 function crVals(c,now=Date.now()){
  const dt=crInRoom(c)?Math.max(0,now-c.t):0;
@@ -8032,13 +8087,13 @@ function crGain(c,xp){
  const a=crLevel(c.xp);c.xp=Math.floor((c.xp||0)+xp);const b=crLevel(c.xp);
  if(b.L<=a.L)return;
  const lv={type:"level",cat:c.id,from:a.L,to:b.L,box:0,coins:50*(b.L-a.L)};
- cr.coins+=lv.coins;
+ cr.coins+=lv.coins;cr.stats.earned=(cr.stats.earned||0)+lv.coins;crLog("lv",`${c.name} เลเวลอัปเป็น ${b.L}`);
  const five=Math.floor(b.L/5)*5,had=Math.max(c.boxLv||0,Math.floor(a.L/5)*5);
  if(five>had){lv.box=(five-had)/5;cr.boxes+=lv.box;c.boxLv=five}
  crEvents.push(lv);
  if(crStageOf(b.L)>crStageOf(a.L))crEvents.push({type:"stage",cat:c.id,from:crStageOf(a.L),to:crStageOf(b.L)});
 }
-function crCoin(n){n=Math.round(n);if(n>0){cr.coins+=n;crRenderCoins()}return n}
+function crCoin(n){n=Math.round(n);if(n>0){cr.coins+=n;cr.stats.earned=(cr.stats.earned||0)+n;crRenderCoins()}return n}
 
 /* ---- quests and the care streak ---- */
 function crSeeded(day){let h=0;for(const ch of day+(user?.id||""))h=(h*31+ch.charCodeAt(0))|0;return()=>((h=(h*1103515245+12345)|0)>>>0)/4294967296}
@@ -8072,7 +8127,8 @@ function crCare(){
 function crTick(now=Date.now()){
  const today=todayISO();
  for(const g of [cr.laser,cr.match,cr.jump])if(g.day!==today){g.day=today;g.n=0}
- crDaily();
+ crDaily();crWantRoll();
+ cr.cats.forEach(c=>{if(c.out&&Date.now()>c.out.until+10*60e3){c.out=null;c.t=Date.now();if(!cr.room.includes(c.id)&&cr.room.length<cr.slots)cr.room.push(c.id)}});
  if(cr.ageDay>=today)return;
  const d0=new Date(cr.ageDay+"T00:00:00");
  for(const c of crRoomCats()){
@@ -8225,12 +8281,14 @@ function crPaintCat(cv,c,pose="sit",px=3,dark=false,wear){
 
 /* ---- the room, painted once per size ---- */
 const CR_R=["#2b1d0c","#5a3f1c","#8a6636","#b8945c","#d6b980","#e8d3a3","#f5e7c4"];
-function crRoom(W,H,dec){
- const on=new Set(dec||[]);
+// look: wallpaper and floor; pos: how far each movable piece was dragged (fraction of W)
+function crRoom(W,H,dec,look,pos){
+ const on=new Set(dec||[]);look={wall:"stripe",floor:"boards",...(look||{})};pos=pos||{};
  const c=document.createElement("canvas");c.width=W;c.height=H;
  const g=c.getContext("2d"),img=g.createImageData(W,H),u=new Uint32Array(img.data.buffer);
  const C=CR_R.map(h=>{const n=parseInt(h.slice(1),16);return (0xff000000|((n&255)<<16)|(n&0xff00)|(n>>16))>>>0});
- const P=(x,y,k)=>{x|=0;y|=0;if(x>=0&&y>=0&&x<W&&y<H)u[y*W+x]=C[k]};
+ let ox=0;   // horizontal offset for the piece being drawn (dragged furniture)
+ const P=(x,y,k)=>{x=(x|0)+ox;y|=0;if(x>=0&&y>=0&&x<W&&y<H)u[y*W+x]=C[k]};
  const bay=(x,y)=>(BAYER[y&3][x&3]+.5)/16;
  const R=(x,y,w,h,k)=>{x|=0;y|=0;for(let j=0;j<(h|0);j++)for(let i=0;i<(w|0);i++)P(x+i,y+j,k)};
  const D=(x,y,w,h,a,b,t)=>{x|=0;y|=0;for(let j=0;j<(h|0);j++)for(let i=0;i<(w|0);i++){const X=x+i,Y=y+j;P(X,Y,bay(X,Y)<t?b:a)}};
@@ -8240,11 +8298,16 @@ function crRoom(W,H,dec){
  const F=Math.round(H*.62);
  // wall, ceiling edge, wallpaper
  D(0,0,W,F,5,4,.12);
- for(let x=5;x<W;x+=13)D(x,2,1,F-2,5,4,.5);
+ if(look.wall==="stripe")for(let x=5;x<W;x+=13)D(x,2,1,F-2,5,4,.5);
+ else if(look.wall==="dots")for(let y=5;y<F-2;y+=7)for(let x=((y/7)|0)%2?7:3;x<W;x+=9){P(x,y,3);P(x+1,y,4);P(x,y+1,4)}
+ else if(look.wall==="check")for(let y=2;y<F;y+=8)for(let x=((y/8)|0)%2*8;x<W;x+=16)D(x,y,8,8,5,4,.45);
+ else if(look.wall==="wood"){D(0,0,W,F,4,3,.25);for(let x=0;x<W;x+=9){R(x,2,1,F-2,2);if((x/9)%3===1)R(x+4,Math.round(F*.3),1,2,2)}}
+ else if(look.wall==="panel"){const py=Math.round(F*.58);D(0,py,W,F-py,4,3,.3);R(0,py,W,2,2);R(0,py,W,1,1);for(let x=6;x<W;x+=18)for(const [a,b] of [[py+4,F-3]])R(x,a,1,b-a,2)}
  R(0,0,W,2,3);
- // floor boards
- D(0,F,W,H-F,3,2,.28);
- for(let y=F+4,row=0;y<H;y+=5,row++){R(0,y,W,1,2);for(let x=(row*17)%31;x<W;x+=31)R(x,y-4,1,4,2)}
+ // floor
+ if(look.floor==="tiles"){D(0,F,W,H-F,4,5,.2);for(let y=F;y<H;y+=6)R(0,y,W,1,3);for(let y=F,r=0;y<H;y+=6,r++)for(let x=(r%2)*5;x<W;x+=10)R(x,y,1,6,3)}
+ else if(look.floor==="carpet"){D(0,F,W,H-F,3,4,.35);for(let y=F+2;y<H;y+=3)for(let x=(y*7)%5;x<W;x+=5)P(x,y,2)}
+ else{D(0,F,W,H-F,3,2,.28);for(let y=F+4,row=0;y<H;y+=5,row++){R(0,y,W,1,2);for(let x=(row*17)%31;x<W;x+=31)R(x,y-4,1,4,2)}}
  R(0,F-3,W,3,2);R(0,F-3,W,1,1);R(0,F,W,1,1);
  // window with the city in it
  const wx0=Math.round(W*.27),wx1=Math.round(W*.57),wy0=Math.round(H*.1),wy1=Math.round(F-H*.14);
@@ -8319,47 +8382,100 @@ function crRoom(W,H,dec){
    R(x0,Math.round(wy0+(wy1-wy0)*.55),w,2,1);
   }
  }
- if(on.has("frames")){
+ if(on.has("frames")){ox=Math.round((pos.frames||0)*W);
   const f1x=Math.round(W*.05),f1y=Math.round(H*.12);
   O(f1x,f1y,11,13,0);O(f1x+1,f1y+1,9,11,2);D(f1x+2,f1y+2,7,9,5,4,.3);E(f1x+5,f1y+8,2,2,1);P(f1x+4,f1y+5,1);P(f1x+6,f1y+5,1);
   const f2x=Math.round(W*.13),f2y=Math.round(H*.17);
   O(f2x,f2y,13,10,0);O(f2x+1,f2y+1,11,8,2);D(f2x+2,f2y+2,9,6,6,5,.3);for(let i=0;i<9;i++)P(f2x+2+i,f2y+6-Math.round(Math.abs(i-4)/2),3);
   R(f1x+5,f1y-3,1,3,1);R(f2x+6,f2y-3,1,3,1);
  }
+ ox=0;
  if(on.has("lights")){
   const y0=Math.round(H*.06);
   for(let x=0;x<W;x++){const t=(x%36)/36,y=y0+Math.round(Math.sin(t*Math.PI)*5);P(x,y,1);
    if(x%9===4){P(x,y+1,1);R(x-1,y+2,3,2,6);P(x,y+4,5)}}
  }
- if(on.has("plant")){
+ ox=0;
+ if(on.has("plant")){ox=Math.round((pos.plant||0)*W);
   const px2=Math.round(W*.75),base=Math.round(F+4);
   for(let i=0;i<8;i++)R(px2-4+Math.round(i/4),base-i,9-Math.round(i/2)*1,1,i?2:1);
   R(px2-5,base-8,11,2,1);
   for(const [dx,dy,rx,ry] of [[0,-22,4,6],[-5,-16,4,4],[5,-17,4,5],[-3,-28,3,4],[3,-30,3,5],[0,-12,5,3]])E(px2+dx,base+dy,rx,ry,2,1,.45);
   for(let j=0;j<18;j++)P(px2,base-9-j,1);
  }
+ ox=0;
  if(on.has("fishtank")){
   const tx0=dx0+10,tw=Math.max(14,dx1-dx0-12),ty=dy0-11;
   R(tx0,ty,tw,11,0);D(tx0+1,ty+1,tw-2,9,5,6,.25);D(tx0+1,ty+4,tw-2,6,4,5,.35);
   R(tx0+1,ty+9,tw-2,1,3);E(tx0+4,ty+6,1,1,1);P(tx0+2,ty+6,1);E(tx0+tw-6,ty+4,1,1,2);P(tx0+tw-4,ty+4,2);
   for(let i=0;i<3;i++)P(tx0+tw-3,ty+8-i*2,6);R(tx0-1,ty-1,tw+2,1,1);
  }
- if(on.has("cattree")){
+ ox=0;
+ if(on.has("cattree")){ox=Math.round((pos.cattree||0)*W);
   const cx2=Math.round(W*.25),base=Math.round(H*.8),top=Math.round(H*.22);
   D(cx2-2,top+6,4,base-top-6,3,2,.5);for(let y=top+8;y<base;y+=3)R(cx2-2,y,4,1,4);
   D(cx2-9,base-3,18,4,2,1,.3);O(cx2-9,base-3,18,4,0);
   for(const [yy,w] of [[Math.round(top+(base-top)*.5),16],[top+5,18]]){D(cx2-w/2,yy,w,3,4,3,.3);O(Math.round(cx2-w/2),yy,w,3,1)}
   E(cx2,top+3,8,3,4,5,.35);E(cx2,top+2,6,2,5,6,.35);
   const bx2=cx2+7,by2=Math.round(top+(base-top)*.5)+3;for(let j=0;j<7;j++)P(bx2,by2+j,1);E(bx2,by2+9,2,2,3,2,.4);
+  c.tree={x:cx2+ox,y:top+4,mid:Math.round(top+(base-top)*.5)};
  }
+ ox=0;
  g.putImageData(img,0,0);
  c.F=F;c.lit=[lx0,lx1,ly0,ly1];c.win=[wx0,wy0,wx1,wy1];c.lamp=[lx,ly];
  return c;
 }
 
+
+/* ---- the balcony: a second place for the cats, bought in the shop ------
+   Same six tones as the room; almost all of it is sky, so the day, night
+   and rain drawn over it by crSky are the point. Cats can sit on the rail. */
+function crBalcony(W,H){
+ const c=document.createElement("canvas");c.width=W;c.height=H;
+ const g=c.getContext("2d"),img=g.createImageData(W,H),u=new Uint32Array(img.data.buffer);
+ const C=CR_R.map(h=>{const n=parseInt(h.slice(1),16);return (0xff000000|((n&255)<<16)|(n&0xff00)|(n>>16))>>>0});
+ const P=(x,y,k)=>{x|=0;y|=0;if(x>=0&&y>=0&&x<W&&y<H)u[y*W+x]=C[k]};
+ const bay=(x,y)=>(BAYER[y&3][x&3]+.5)/16;
+ const R=(x,y,w,h,k)=>{x|=0;y|=0;for(let j=0;j<(h|0);j++)for(let i=0;i<(w|0);i++)P(x+i,y+j,k)};
+ const D=(x,y,w,h,a,b,t)=>{x|=0;y|=0;for(let j=0;j<(h|0);j++)for(let i=0;i<(w|0);i++){const X=x+i,Y=y+j;P(X,Y,bay(X,Y)<t?b:a)}};
+ const E=(cx,cy,rx,ry,a,b,t)=>{for(let y=-ry;y<=ry;y++)for(let x=-rx;x<=rx;x++){if(x*x/(rx*rx)+y*y/(ry*ry)<=1){const X=(cx+x)|0,Y=(cy+y)|0;P(X,Y,b!=null&&bay(X,Y)<t?b:a)}}};
+ let seed=19;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+ const F=Math.round(H*.7),rail=Math.round(F-H*.16);
+ // sky, fading toward the horizon
+ for(let y=0;y<F;y++)for(let x=0;x<W;x++)P(x,y,bay(x,y)<y/F*.55?5:6);
+ // two clouds
+ for(const [cx,cy,s] of [[W*.22,H*.14,1],[W*.7,H*.09,.8]])for(let i=0;i<4;i++)E(cx+(i-1.5)*6*s,cy+(i%2),Math.round(6*s),Math.round(3*s),6,5,.2);
+ // far city, then nearer blocks with windows
+ for(let x=0;x<W;){const bw=5+Math.floor(rnd()*9),bh=Math.floor(H*(.12+rnd()*.2));D(x,rail-bh,bw,bh,5,4,.35);x+=bw}
+ for(let x=2;x<W;){const bw=7+Math.floor(rnd()*10),bh=Math.floor(H*(.08+rnd()*.16));D(x,rail-bh,bw,bh,4,3,.3);
+  for(let yy=rail-bh+2;yy<rail-2;yy+=3)for(let xx=x+1;xx<x+bw-1;xx+=2)if(rnd()<.3)P(xx,yy,5);x+=bw+2+Math.floor(rnd()*6)}
+ // floor tiles
+ D(0,F,W,H-F,4,3,.25);for(let y=F;y<H;y+=6)R(0,y,W,1,3);for(let y=F,r=0;y<H;y+=6,r++)for(let x=(r%2)*6;x<W;x+=12)R(x,y,1,6,3);
+ R(0,F,W,2,2);
+ // railing
+ R(0,rail,W,3,1);R(0,rail,W,1,0);for(let x=3;x<W;x+=7)R(x,rail+3,2,F-rail-3,1);R(0,F-3,W,2,1);
+ // pots
+ for(const [px,big] of [[Math.round(W*.08),1],[Math.round(W*.9),0]]){const pw=big?12:9,ph=big?9:7,py=H-6;
+  R(px-pw/2,py-ph,pw,ph,1);R(px-pw/2+1,py-ph+1,pw-2,ph-2,2);R(px-pw/2-1,py-ph,pw+2,2,0);
+  for(const [dx,dy,rx,ry] of big?[[0,-16,6,7],[-5,-10,4,4],[5,-11,4,5]]:[[0,-12,4,5],[-3,-8,3,3],[3,-9,3,3]])E(px+dx,py-ph+dy,rx,ry,2,1,.45)}
+ // hanging lantern
+ const lx=Math.round(W*.52),ly=Math.round(H*.1);R(lx,0,1,ly,1);R(lx-3,ly,7,6,1);R(lx-2,ly+1,5,4,5);R(lx-4,ly-1,9,1,0);
+ g.putImageData(img,0,0);
+ c.F=F;c.lit=null;c.win=[0,0,W,rail];c.lamp=[lx,ly];c.bars=false;c.rail=rail;c.balcony=true;
+ return c;
+}
+// which place to draw for a room state: the balcony if bought and chosen
+function crScene(W,H,st){
+ st=st||cr;
+ const d=st.decor||{};
+ if(st.scene==="balcony"&&(d.own||[]).includes("balcony"))return crBalcony(W,H);
+ return crRoom(W,H,d.on||[],st.look,d.pos);
+}
+const CR_MOVABLE={frames:[.02,.06,.24,.42],plant:[.66,.3,.84,.72],cattree:[.17,.2,.33,.8]};
+
 /* ---- one stage engine, used by the room and by the laser game ---- */
 let crSc=null;
-const crDecKey=()=>cr.decor.on.slice().sort().join(",");
+const crDecKey=()=>JSON.stringify([cr.decor.on.slice().sort(),cr.look,cr.decor.pos,cr.scene,cr.decor.own.includes("balcony")]);
 function crStageFit(cv){
  const cw=cv.parentElement.clientWidth||600;
  // whole-number scaling where there is room; a phone gets a few more
@@ -8377,12 +8493,17 @@ function crStage(cvId,mode){
  const P=[];                                   // particles
  const AS={};                                  // per-cat animation state
  const G={run:false,t0:0,score:0,hits:0,streak:0,dot:null,cat:null,phase:"watch",pt:0,from:null,delay:1300};
- const st=id=>AS[id]||(AS[id]={pose:"sit",until:0,flip:Math.random()<.5,nextIdle:performance.now()+1500+Math.random()*3000,x:null});
- function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=null}
- function slots(){
-  const cats=crRoomCats(),xs=cats.length===1?[.49]:cats.length===2?[.37,.62]:[.3,.5,.7];
-  let cushion=false;
-  return cats.map((c,i)=>{const v=crVals(c);let x=xs[i];if(v.sulk&&!cushion){cushion=true;x=.13}return {c,v,x:W*x,y:H*.9}});
+ const Y={x:0,y:0,vx:0,vy:0,drag:false,hist:[],at:0};          // the ball of yarn
+ const ED={on:false,drag:null};                                  // arranging furniture
+ let labels=null;
+ const st=id=>AS[id]||(AS[id]={pose:"sit",until:0,flip:Math.random()<.5,nextIdle:performance.now()+1200+Math.random()*2500,x:null,y:null,hop:null});
+ function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=null;if(!Y.x){Y.x=W*.64;Y.y=H*.93}}
+ const floorY=()=>room?room.F:Math.round(H*.62);
+ const fy=id=>H*(.86+((String(id).charCodeAt(0)*7+String(id).length*3)%7)/100); // each cat keeps a lane
+ function actors(){
+  const own=crRoomCats().map(c=>({c,id:c.id,guest:false}));
+  const gs=(crGuests||[]).map(p=>({c:p.cat,id:"g"+p.id,guest:true,owner:p.owner_name}));
+  return own.concat(gs);
  }
  function pose(id,kind,ms,extra){const a=st(id);a.pose=kind;a.until=performance.now()+ms;Object.assign(a,extra||{})}
  function spawn(kind,x,y,n=1){for(let i=0;i<n;i++)P.push({kind,x:x+(Math.random()-.5)*10,y:y-Math.random()*4,vx:(Math.random()-.5)*.012,vy:-.012-Math.random()*.01,t:performance.now(),life:1400+Math.random()*600})}
@@ -8397,22 +8518,79 @@ function crStage(cvId,mode){
   else if(p.kind==="crumb"){pix(x,y,"#8a4708")}
   g.globalAlpha=1;return true;
  }
- function catPose(c,v,now,others){
-  const a=st(c.id),hr=new Date().getHours();
-  if(now<a.until)return a.pose;
-  if(v.sulk||hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8)))return "sleep";
-  if(now>a.nextIdle){a.nextIdle=now+3500+Math.random()*4500;
-   const r=Math.random();
-   if(r<.3){const o=others.filter(s=>s.c.id!==c.id);a.flip=o.length&&Math.random()<.7?o[0].x<(a.x||0):!a.flip}
-   else if(r<.55)pose(c.id,"sitB",1400);else if(r<.7&&v.p>60)pose(c.id,"happy",1600);}
-  return "sit";
+ /* where a cat can be: the floor (in his own lane), the sill or rail,
+    the cat tree, the cushion */
+ function spot(kind,A){
+  if(kind==="sill"){const w=room.win;return room.balcony?{x:W*(.2+Math.random()*.6),y:room.rail+1,k:"sill"}:{x:w[0]+10+Math.random()*(w[2]-w[0]-20),y:w[3]+2,k:"sill"}}
+  // the middle platform: the top one would put a grown cat through the ceiling
+  if(kind==="tree"&&room.tree)return {x:room.tree.x,y:room.tree.mid+1,k:"tree"};
+  if(kind==="bed"&&!room.balcony)return {x:W*.13,y:H*.9,k:"bed"};
+  const lo=room.balcony?.14:.2,hi=room.balcony?.86:.76;
+  return {x:W*(lo+Math.random()*(hi-lo)),y:fy(A.id),k:"floor"};
+ }
+ function hop(A,to,now){
+  const a=st(A.id),x0=a.x,y0=a.y,d=Math.hypot(to.x-x0,to.y-y0);
+  if(d<3){a.x=to.x;a.y=to.y;a.spot=to.k;return}
+  a.hop={x0,y0,x1:to.x,y1:to.y,t0:now,dur:Math.max(380,Math.min(900,380+d*4)),h:8+Math.max(0,y0-to.y)*.9+d*.06,k:to.k};
+  a.flip=to.x<x0;a.until=0;
+ }
+ const asleepNow=(c,v)=>{const hr=crHour();return v.sulk||hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8))};
+ const yarnSpeed=()=>Math.hypot(Y.vx,Y.vy);
+ function think(A,all,now){
+  const a=st(A.id),c=A.c,v=A.guest?{h:80,p:80,g:80,sulk:false}:crVals(c);
+  if(a.hop||now<a.until)return;
+  if(!A.guest&&asleepNow(c,v)){
+   if(a.spot!=="bed"&&a.spot!=="tree"&&now>a.nextIdle){const bedTaken=all.some(o=>o.id!==A.id&&st(o.id).spot==="bed");
+    hop(A,bedTaken?(room.tree&&!all.some(o=>o.id!==A.id&&st(o.id).spot==="tree")?spot("tree",A):spot("floor",A)):spot("bed",A),now);a.nextIdle=now+4e4}
+   return;
+  }
+  // a moving ball of yarn is irresistible to someone
+  // a thrown ball holds their interest for a few bats, then they lose it
+  if(!Y.drag&&now-Y.at<5000&&Y.chain<4&&!A.guest&&now-(a.batAt||0)>1800&&now-(Y.batAt||0)>700){
+   const d=Math.hypot(Y.x-a.x,Y.y-a.y);
+   if(d>9){if(Math.random()<(crT(c,"playful")?.1:.05)){hop(A,{x:Y.x+(a.x<Y.x?-6:6),y:Math.max(floorY()+6,Math.min(H-2,Y.y+2)),k:"floor"},now);return}}
+   else{batYarn(A,now);return}
+  }
+  if(now<a.nextIdle)return;
+  a.nextIdle=now+5000+Math.random()*8000;
+  const r=Math.random(),others=all.filter(o=>o.id!==A.id&&!st(o.id).hop);
+  const taken=k=>all.filter(o=>o.id!==A.id&&(st(o.id).spot===k||st(o.id).hop?.k===k)).length;
+  if(a.spot==="bed"||a.spot==="tree"&&r<.5){hop(A,spot("floor",A),now);return}
+  if(r<.3){const r2=Math.random();if(r2<.5)pose(A.id,"sitB",1600);else if(v.p>60)pose(A.id,"happy",1800);else a.flip=!a.flip}
+  else if(r<.62)hop(A,spot("floor",A),now);
+  else if(r<.75&&taken("sill")<2)hop(A,spot("sill",A),now);
+  else if(r<.83&&room.tree&&!taken("tree"))hop(A,spot("tree",A),now);
+  else if(others.length){ // go and sit with someone, and groom them
+   const o=others[Math.floor(Math.random()*others.length)],oa=st(o.id),side=a.x<oa.x?-1:1;
+   hop(A,{x:oa.x+side*Math.max(12,(oa.hw||10)+6),y:oa.y,k:oa.spot||"floor"},now);a.social={id:o.id,at:now};
+  }
+ }
+ function batYarn(A,now){
+  const a=st(A.id),dir=Y.x>=a.x?1:-1;
+  Y.vx=dir*(.05+Math.random()*.06);Y.vy=(Math.random()-.5)*.03;Y.at=now;Y.batAt=now;Y.chain=(Y.chain||0)+1;a.batAt=now;
+  a.flip=dir<0;pose(A.id,Math.random()<.5?"crouch":"happy",700);
+  spawn("spark",Y.x,Y.y-4,2);crSnd("pop");
+  if(A.id===cr.active||!A.guest)crYarnPlay(A.c);
+ }
+ function stepHop(A,now){
+  const a=st(A.id),h=a.hop;if(!h)return;
+  const t=Math.min(1,(now-h.t0)/h.dur);
+  a.x=h.x0+(h.x1-h.x0)*t;a.y=h.y0+(h.y1-h.y0)*t-Math.sin(t*Math.PI)*h.h;
+  if(t>=1){a.x=h.x1;a.y=h.y1;a.spot=h.k;a.hop=null;pose(A.id,"crouch",200);
+   if(a.social&&now-a.social.at<3000){pose(A.id,"happy",2000);pose(a.social.id,"happy",2000);spawn("heart",a.x,a.y-(a.hw||10)*1.6,2);a.social=null}}
  }
  function drawBowl(x,y,full){
   for(let i=-7;i<=7;i++){const d=Math.round(Math.sqrt(49-i*i)*.35);g.fillStyle="#5a3f1c";g.fillRect(Math.round(x+i),Math.round(y-2),1,2+d)}
   g.fillStyle="#d6b980";g.fillRect(Math.round(x-6),Math.round(y-3),13,2);
   if(full){g.fillStyle="#8a4708";for(let i=-4;i<=4;i+=2)g.fillRect(Math.round(x+i),Math.round(y-4-(i%4?0:1)),2,2)}
  }
- function drawCat(c,p,x,y,flip,now,dt,marked){
+ function drawYarn(now){
+  const x=Math.round(Y.x),y=Math.round(Y.y);
+  // a little thread trailing behind the way it rolled
+  const sp=yarnSpeed();if(sp>.004){g.fillStyle="#8a4708";for(let i=1;i<6;i++)g.fillRect(Math.round(x-Y.vx/sp*i*2),Math.round(y-2-Y.vy/sp*i*2+Math.sin(i+now/90)),1,1)}
+  for(let j=0;j<7;j++)for(let i=0;i<7;i++){const d=(i-3)*(i-3)+(j-3)*(j-3);if(d>10)continue;g.fillStyle=d>7?"#2b1d0c":((i+j+((now/120)|0)*(sp>.004?1:0))%3?"#d1841c":"#8a4708");g.fillRect(x-3+i,y-7+j,1,1)}
+ }
+ function drawCat(c,p,x,y,flip,now,dt,marked,id,guest){
   const f0=crFrame(c,p==="sitB"&&!crFrame(c,"sitB").own?"sit":p);
   const f={...f0,s:f0.s*crZoom(W)};
   let yy=y;
@@ -8421,50 +8599,99 @@ function crStage(cvId,mode){
    if(p==="leap")yy-=2;if(p==="crouch")yy+=1;
   }
   const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x));
-  g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1);
+  const onFloor=!AS[id]||!AS[id].hop;
+  if(onFloor){g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1)}
   if(p==="eat"&&!f.own)drawBowl(x+(flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
   const d=crDraw(g,f.r,f.s,x,yy,flip);
   // an unbrushed coat shows: stray tufts around the outline
-  const vg=crVals(c).g;
+  const vg=guest?80:crVals(c).g;
   if(vg<45&&p!=="leap"){const n=vg<20?9:vg<32?6:4;g.fillStyle="#8a4708";
    for(let k=0;k<n;k++){const a=Math.PI*(.08+.84*((k*37+c.id*11)%n)/n),px=x+Math.cos(a)*d.w*.42,py=yy-d.h*.45-Math.sin(a)*d.h*.47;
     g.fillRect(Math.round(px),Math.round(py),1,2);g.fillRect(Math.round(px+Math.cos(a)*1.5),Math.round(py-1),1,1)}}
   if(CR_DRESSED.has(p))crWearDraw(g,c,f.r,f.s,x,yy,flip);
-  const a=st(c.id);a.top=y-d.h;a.cx=x;a.hw=d.w/2;a.x=x;
+  const a=st(id);a.top=yy-d.h;a.cx=x;a.hw=d.w/2;
   if(marked){const my=Math.round(a.top-7+Math.sin(now/260)*1.5);g.fillStyle="#8a4708";for(let i=0;i<3;i++)g.fillRect(Math.round(x)-2+i,my+i,5-2*i,1)}
   if(p==="sleep"&&Math.random()<dt/900)spawn("z",x+d.w*.3,y-d.h*.8);
   if(p==="eat"&&Math.random()<dt/160)spawn("crumb",x+(Math.random()-.5)*10,y-3);
  }
+ function catPose(A,now){
+  const a=st(A.id);
+  if(a.hop)return "leap";
+  if(now<a.until)return a.pose;
+  if(!A.guest&&asleepNow(A.c,crVals(A.c)))return "sleep";
+  return "sit";
+ }
+ // name tags over each cat, so two tabbies can be told apart
+ function tags(list){
+  const want=list.length>1||list.some(A=>A.guest);
+  if(!want){if(labels){labels.remove();labels=null}return}
+  if(!labels){labels=document.createElement("div");labels.className="cr-labels";host.appendChild(labels)}
+  const seen=new Set(),placed=[];
+  list.slice().sort((p,q)=>(st(q.id).y||0)-(st(p.id).y||0)).forEach(A=>{
+   const a=st(A.id);if(a.top==null)return;
+   let el=labels.querySelector(`[data-l="${A.id}"]`);
+   if(!el){el=document.createElement("span");el.dataset.l=A.id;labels.appendChild(el)}
+   const txt=A.guest?`${A.c.name} · ของ ${A.owner||"เพื่อน"}`:A.c.name;
+   if(el.textContent!==txt)el.textContent=txt;
+   el.classList.toggle("g",A.guest);el.classList.toggle("on",!A.guest&&A.id===cr.active);
+   // tags that would sit on top of each other are stacked instead
+   let lx=a.cx*S+(cv.offsetLeft||0),ly=(a.top-3)*S;const w=(el.offsetWidth||80)+6;
+   for(const q of placed)if(Math.abs(q.x-lx)<(q.w+w)/2&&Math.abs(q.y-ly)<18)ly=q.y-19;
+   placed.push({x:lx,y:ly,w});
+   el.style.transform=`translate(${Math.round(lx)}px,${Math.round(Math.max(18,ly))}px) translate(-50%,-100%)`;
+   seen.add(String(A.id));
+  });
+  [...labels.children].forEach(el=>{if(!seen.has(el.dataset.l))el.remove()});
+ }
  function frame(now){
   if(dead)return;raf=requestAnimationFrame(frame);
   if(document.hidden||!cr)return;
-  if(!room||roomKey!==crDecKey()){roomKey=crDecKey();room=crRoom(W,H,cr.decor.on)}
+  const key=mode==="room"?crDecKey():"laser"+cr.decor.on.join();
+  if(!room||roomKey!==key){roomKey=key;room=mode==="room"?crScene(W,H,cr):crRoom(W,H,cr.decor.on,cr.look,cr.decor.pos)}
   const dt=Math.min(60,now-(last||now));last=now;
   g.drawImage(room,0,0);crSky(g,room,W,H,now);
   const sel=crCat(),v0=crVals(sel);
-  if(v0.dirty&&mode==="room"){const [l0,l1,y0]=room.lit;for(let k=0;k<3;k++){const bx=l0+(l1-l0)*(.3+k*.2);for(let j=0;j<8;j++)pix(bx+Math.round(Math.sin(now/260+j*.8+k)*1.5),y0-4-j,"#8a6636")}}
+  if(v0.dirty&&mode==="room"&&room.lit){const [l0,l1,y0]=room.lit;for(let k=0;k<3;k++){const bx=l0+(l1-l0)*(.3+k*.2);for(let j=0;j<8;j++)pix(bx+Math.round(Math.sin(now/260+j*.8+k)*1.5),y0-4-j,"#8a6636")}}
   if(mode==="room"){
-   const sl=slots(),eating=sl.some(s=>st(s.c.id).pose==="eat"&&now<st(s.c.id).until&&crFrame(s.c,"eat").own);
-   if(!eating)drawBowl(W*.24,H*.95,false);
+   const list=actors();
+   list.forEach(A=>{const a=st(A.id);if(a.x==null){const sp=spot("floor",A);a.x=sp.x;a.y=sp.y;a.spot="floor"}});
+   const eating=list.some(A=>st(A.id).pose==="eat"&&now<st(A.id).until&&crFrame(A.c,"eat").own);
+   if(!eating&&!room.balcony)drawBowl(W*.24,H*.95,false);
    crAwayDraw(g,W,H,room,now);
-   sl.sort((a,b)=>a.y-b.y).forEach(s=>{
-    const a=st(s.c.id);if(a.x==null)a.x=s.x;
-    a.x+=(s.x-a.x)*Math.min(1,dt/400);
-    drawCat(s.c,catPose(s.c,s.v,now,sl),a.x,s.y,a.flip,now,dt,sl.length>1&&s.c.id===sel.id);
-   });
+   // yarn physics
+   if(!Y.drag){Y.x+=Y.vx*dt;Y.y+=Y.vy*dt;const fr=Math.pow(.9965,dt);Y.vx*=fr;Y.vy*=fr;
+    const fl=floorY()+7;if(Y.x<5){Y.x=5;Y.vx=Math.abs(Y.vx)}if(Y.x>W-5){Y.x=W-5;Y.vx=-Math.abs(Y.vx)}
+    if(Y.y<fl){Y.y=fl;Y.vy=Math.abs(Y.vy)}if(Y.y>H-2){Y.y=H-2;Y.vy=-Math.abs(Y.vy)}
+    if(yarnSpeed()<.002){Y.vx=Y.vy=0}}
+   if(!ED.on){list.forEach(A=>{stepHop(A,now);think(A,list,now)})}
+   const drawn=[...list,{yarn:1,y:Y.y}].sort((p,q)=>(p.yarn?p.y:st(p.id).y)-(q.yarn?q.y:st(q.id).y));
+   drawn.forEach(A=>{if(A.yarn){drawYarn(now);return}const a=st(A.id);drawCat(A.c,catPose(A,now),a.x,a.y,a.flip,now,dt,list.length>1&&A.id===sel.id,A.id,A.guest)});
+   // what the cat wants, over his head
+   const w=cr.want;if(w&&!ED.on){const A=list.find(o=>o.id===w.cat)||list.find(o=>o.id===cr.active);const a=A&&st(A.id);if(a&&a.top!=null&&!a.hop)crNeedBubble(g,a.cx,a.top,CR_WANT[w.k].icon,W,now,true)}
+   tags(list);
   }else if(G.cat){
    const p=G.phase==="leap"?"leap":G.phase==="crouch"||G.phase==="land"?"crouch":"sit";
-   drawCat(sel,p,G.cat.x,G.cat.y,G.cat.flip,now,dt,false);
-  }else drawCat(sel,"sit",W*.5,H*.9,false,now,dt,false);
+   drawCat(sel,p,G.cat.x,G.cat.y,G.cat.flip,now,dt,false,sel.id,false);
+  }else drawCat(sel,"sit",W*.5,H*.9,false,now,dt,false,sel.id,false);
   if(mode==="laser"&&G.dot&&G.run){
    const on=((now/90)|0)%5!==0;
    g.fillStyle="rgba(209,32,32,.35)";g.fillRect(Math.round(G.dot.x-2),Math.round(G.dot.y-1),5,3);g.fillRect(Math.round(G.dot.x-1),Math.round(G.dot.y-2),3,5);
    if(on){g.fillStyle="#d12020";g.fillRect(Math.round(G.dot.x-1),Math.round(G.dot.y-1),3,3);g.fillStyle="#ffd0c0";g.fillRect(Math.round(G.dot.x),Math.round(G.dot.y),1,1)}
   }
   crShade(g,room,W,H);
+  if(ED.on)editOverlay(now);
   for(let i=P.length-1;i>=0;i--)if(!drawP(P[i],now))P.splice(i,1);
   if(mode==="laser")laserStep(now);
   crPlaceBubble();
+ }
+ /* arranging furniture: drag a piece sideways */
+ const movable=()=>Object.keys(CR_MOVABLE).filter(k=>cr.decor.on.includes(k));
+ function boxOf(k){const b=CR_MOVABLE[k],o=(cr.decor.pos||{})[k]||0;return [(b[0]+o)*W,b[1]*H,(b[2]+o)*W,b[3]*H]}
+ function editOverlay(now){
+  const dash=((now/150)|0)%2;
+  movable().forEach(k=>{const [x0,y0,x1,y1]=boxOf(k);g.fillStyle=ED.drag&&ED.drag.k===k?"rgba(224,149,31,.25)":"rgba(255,244,220,.12)";g.fillRect(x0,y0,x1-x0,y1-y0);
+   g.fillStyle="#b86b12";for(let x=x0;x<x1;x+=2)if(((x-x0)/2+dash)%2<1){g.fillRect(Math.round(x),Math.round(y0),1,1);g.fillRect(Math.round(x),Math.round(y1-1),1,1)}
+   for(let y=y0;y<y1;y+=2)if(((y-y0)/2+dash)%2<1){g.fillRect(Math.round(x0),Math.round(y),1,1);g.fillRect(Math.round(x1-1),Math.round(y),1,1)}});
  }
  /* laser */
  function newDot(){
@@ -8487,8 +8714,9 @@ function crStage(cvId,mode){
    if(t>=1){G.streak=0;G.phase="land";G.pt=now;spawn("spark",G.dot.x,G.dot.y,3)}
   }else if(G.phase==="land"&&el>260)newDot();
  }
+ const xy=ev=>{const r=cv.getBoundingClientRect();return [(ev.clientX-r.left)/r.width*W,(ev.clientY-r.top)/r.height*H]};
  function tap(ev){
-  const r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*W,y=(ev.clientY-r.top)/r.height*H;
+  const [x,y]=xy(ev);
   if(mode==="laser"){
    if(!G.run||!G.dot)return;
    if(Math.hypot(x-G.dot.x,y-G.dot.y)<Math.max(7,W*.035)){
@@ -8500,24 +8728,33 @@ function crStage(cvId,mode){
    }
    return;
   }
+  if(ED.on){const k=movable().find(k=>{const [x0,y0,x1,y1]=boxOf(k);return x>=x0&&x<=x1&&y>=y0&&y<=y1});
+   if(k){ED.drag={k,x0:x,pos0:(cr.decor.pos||{})[k]||0};try{cv.setPointerCapture(ev.pointerId)}catch(_){}}return}
   const aw=room&&crAwayHit(x,y,W,H,room);if(aw){crAwayTap(aw,(k,x2,y2,n)=>spawn(k,x2,y2,n));return}
+  if(Math.hypot(x-Y.x,y-(Y.y-3))<Math.max(8,W*.035)){Y.drag=true;Y.vx=Y.vy=0;Y.hist=[[x,y,performance.now()]];try{cv.setPointerCapture(ev.pointerId)}catch(_){}ev.preventDefault();return}
   // press on a cat: a tap picks him (or pets the one already picked);
   // rubbing back and forth pets him, with hearts along the way
   const hit=catAt(x,y);
-  if(hit)rub={id:hit.c.id,x,y,dist:0,heart:0,done:false};
+  if(hit)rub={id:hit.id,guest:hit.guest,x,y,dist:0,heart:0,done:false};
  }
  let rub=null;
- const catAt=(x,y)=>crRoomCats().map(c=>({c,a:AS[c.id]})).filter(o=>o.a&&o.a.top!=null&&Math.abs(x-o.a.cx)<o.a.hw&&y>o.a.top-2)
+ const catAt=(x,y)=>actors().map(A=>({...A,a:AS[A.id]})).filter(o=>o.a&&o.a.top!=null&&Math.abs(x-o.a.cx)<o.a.hw&&y>o.a.top-2&&y<o.a.y+3)
    .sort((p,q)=>Math.abs(x-p.a.cx)-Math.abs(x-q.a.cx))[0];
  function rubMove(ev){
+  const [x,y]=xy(ev);
+  if(ED.drag){const b=CR_MOVABLE[ED.drag.k],np=Math.max(-b[0]+.01,Math.min(1-b[2]-.01,ED.drag.pos0+(x-ED.drag.x0)/W));cr.decor.pos={...(cr.decor.pos||{}),[ED.drag.k]:Math.round(np*1000)/1000};return}
+  if(Y.drag){Y.x=Math.max(5,Math.min(W-5,x));Y.y=Math.max(floorY()+7,Math.min(H-2,y+3));Y.hist.push([x,y,performance.now()]);if(Y.hist.length>6)Y.hist.shift();return}
   if(!rub||mode!=="room")return;
-  const r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*W,y=(ev.clientY-r.top)/r.height*H;
   rub.dist+=Math.hypot(x-rub.x,y-rub.y);rub.x=x;rub.y=y;
   if(rub.dist-rub.heart>16&&catAt(x,y)){rub.heart=rub.dist;spawn("heart",x-2,y-4)}
-  if(!rub.done&&rub.dist>=90){rub.done=true;if(rub.id!==cr.active)crSelect(rub.id);crPet()}
+  if(!rub.done&&rub.dist>=90){rub.done=true;if(rub.guest){crSnd("purr");return}if(rub.id!==cr.active)crSelect(rub.id);crPet()}
  }
  function rubUp(){
-  if(rub&&!rub.done&&rub.dist<6){if(rub.id!==cr.active)crSelect(rub.id);else crPet()}
+  if(ED.drag){ED.drag=null;crSaveSoon();return}
+  if(Y.drag){Y.drag=false;const h=Y.hist,a=h[0],b=h[h.length-1],dt=Math.max(16,b[2]-a[2]);
+   Y.vx=Math.max(-.25,Math.min(.25,(b[0]-a[0])/dt));Y.vy=Math.max(-.12,Math.min(.12,(b[1]-a[1])/dt));Y.at=performance.now();Y.chain=0;
+   Object.values(AS).forEach(s=>s.nextIdle=Math.min(s.nextIdle,performance.now()+300));return}
+  if(rub&&!rub.done&&rub.dist<6){if(rub.guest){spawn("heart",rub.x-2,rub.y-4,2);crSnd("purr")}else if(rub.id!==cr.active)crSelect(rub.id);else crPet()}
   rub=null;
  }
  cv.addEventListener("pointerdown",tap);cv.addEventListener("pointermove",rubMove);cv.addEventListener("pointerup",rubUp);cv.addEventListener("pointerleave",rubUp);cv.addEventListener("pointercancel",rubUp);
@@ -8527,17 +8764,21 @@ function crStage(cvId,mode){
  return {
   mode,get S(){return S},
   stop(){dead=true;cancelAnimationFrame(raf);window.removeEventListener("resize",onR);cv.removeEventListener("pointerdown",tap);
-   cv.removeEventListener("pointermove",rubMove);cv.removeEventListener("pointerup",rubUp);cv.removeEventListener("pointerleave",rubUp);cv.removeEventListener("pointercancel",rubUp)},
+   cv.removeEventListener("pointermove",rubMove);cv.removeEventListener("pointerup",rubUp);cv.removeEventListener("pointerleave",rubUp);cv.removeEventListener("pointercancel",rubUp);
+   if(labels)labels.remove()},
   act(kind){
    const now=performance.now(),id=cr.active,a=st(id);
-   if(kind==="eat")pose(id,"eat",2600);
+   if(kind==="eat"){pose(id,"eat",2600);a.hop=null}
    else if(kind==="refuse")pose(id,"sit",1500,{flip:!a.flip});
    else if(kind==="pet"){pose(id,"happy",1800);spawn("heart",a.cx,a.top+4,3)}
    else if(kind==="clean"){pose(id,"happy",1200);spawn("spark",W*.88,H*.7,5)}
    else if(kind==="level"){pose(id,"happy",2000);spawn("spark",a.cx,a.top+6,8)}
    a.nextIdle=now+4000;
   },
+  edit(on){ED.on=on;ED.drag=null;cv.style.cursor=on?"ew-resize":""},
+  get editing(){return ED.on},
   anchor(){const a=AS[cr.active]||{};return {x:(a.cx||W/2)*S+(cv.offsetLeft||0),y:(a.top||H/2)*S}},
+  peek(){return {W,H,Y,AS,room}},
   startGame(){G.run=true;G.t0=performance.now();G.score=0;G.hits=0;G.streak=0;G.delay=1300;G.cat={x:W*.5,y:H*.9,flip:false};$("crLScore").textContent="0";newDot()},
   get running(){return G.run}
  };
@@ -8549,7 +8790,7 @@ function crJumpStage(){
  const cv=$("crJCv");if(!cv)return null;
  const g=cv.getContext("2d");
  let W,H,S,room=null,raf=0,dead=false,last=0,run=false,score=0,speed=0,base=1,gap=0,obs=[],cat=null,t0=0,scroll=0;
- function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=crRoom(W,H,cr.decor.on)}
+ function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=crRoom(W,H,cr.decor.on,cr.look,cr.decor.pos)}
  const ground=()=>Math.round(H*.9);
  function reset(){const c=crCat(),f=crFrame(c,"sit");cat={x:W*.18,y:ground(),vy:0,w:f.r[2]*f.s*crZoom(W),h:f.r[3]*f.s*crZoom(W)};obs=[];score=0;scroll=0;base=speed=W*.00045;gap=0}
  function spawn(){
@@ -8704,6 +8945,7 @@ function crSky(g,room,W,H,now){
   if(crStorm()&&(now%7000)<90){g.fillStyle="rgba(255,244,220,.7)";g.fillRect(x0,y0,ww,wh)}}
  g.restore();
  // the frame bars sit on top of whatever the sky is doing
+ if(room.bars===false)return;
  g.fillStyle=CR_R[1];g.fillRect(((x0+x1)>>1)-1,y0,2,wh);g.fillRect(x0,Math.round(y0+wh*.42),ww,1);
 }
 function crShade(g,room,W,H){
@@ -8761,12 +9003,12 @@ function crAwayTap(hit,spawn){
   const own=new Set(cr.wardrobe),rare=CR_WEAR.find(w=>w.k==="leaf");
   if(rare&&!own.has("leaf")&&Math.random()<.12){cr.wardrobe.push("leaf");crSay("เก็บใบไม้สวย ๆ มาฝาก! ใส่ได้นะ");toast("ได้ของหายาก: ใบไม้ติดหัว (ใส่ได้ที่ร้านค้า)")}
   else{const n=15+Math.floor(Math.random()*26);crCoin(n);crSay("เอามาฝาก! ชอบไหม?");crFloat("+"+n+" เหรียญ")}
-  crSnd("coin");spawn("spark",hit.ax,hit.ay-4,6);cr.away.cur=null;
+  crSnd("coin");spawn("spark",hit.ax,hit.ay-4,6);cr.away.cur=null;cr.stats.away=(cr.stats.away||0)+1;crLog("away","gift");
  }else if(a.k==="mess"){
   a.hits++;crSnd("scoop");spawn("crumb",hit.ax,hit.ay-2,4);
-  if(a.hits>=3){cr.away.cur=null;crGain(c,10);crSay("ขอโทษน้า... ไม่ได้ตั้งใจ");crFloat("+10 XP")}
+  if(a.hits>=3){cr.away.cur=null;cr.stats.away=(cr.stats.away||0)+1;crLog("away","mess");crGain(c,10);crSay("ขอโทษน้า... ไม่ได้ตั้งใจ");crFloat("+10 XP")}
  }else if(a.k==="bird"){
-  cr.away.cur=null;crSnap(c);c.p=crClamp(c.p+5);crGain(c,8);crSnd("meow");crSay("นกน้อย! อยากจับจัง");crFloat("+8 XP");
+  cr.away.cur=null;cr.stats.away=(cr.stats.away||0)+1;crLog("away","bird");crSnap(c);c.p=crClamp(c.p+5);crGain(c,8);crSnd("meow");crSay("นกน้อย! อยากจับจัง");crFloat("+8 XP");
   spawn("spark",hit.ax,hit.ay-3,4);crSc?.act("pet");
  }
  crAfter();
@@ -8802,7 +9044,7 @@ function crWeekly(){
 }
 function crUseConsumable(k){
  const c=crCat();
- if(k==="treat"){crSnap(c);c.h=crClamp(c.h+20);c.p=crClamp(c.p+15);crGain(c,40*(crT(c,"glutton")?1.4:1));crSay("ขนมอร่อยสุด ๆ!");crSnd("eat")}
+ if(k==="treat"){crWantHit("treat",c);crSnap(c);c.h=crClamp(c.h+20);c.p=crClamp(c.p+15);crGain(c,40*(crT(c,"glutton")?1.4:1));crSay("ขนมอร่อยสุด ๆ!");crSnd("eat")}
  if(k==="ticket"){cr.inv.ticket=(cr.inv.ticket||0)+1}
 }
 
@@ -8839,7 +9081,7 @@ async function crPhotoDel(id){
 // a posed portrait: his own room, him sitting in the middle, dressed
 function crSnapshot(c){
  const W=200,H=112,cv=document.createElement("canvas");cv.width=W;cv.height=H;const g=cv.getContext("2d");g.imageSmoothingEnabled=false;
- const room=crRoom(W,H,cr.decor.on);g.drawImage(room,0,0);crSky(g,room,W,H,performance.now());
+ const room=crScene(W,H,cr);g.drawImage(room,0,0);crSky(g,room,W,H,performance.now());
  const f0=crFrame(c,"sit"),f={...f0,s:f0.s*1.3},x=W*.5,y=H*.93;
  crDraw(g,f.r,f.s,x,y,false);crWearDraw(g,c,f.r,f.s,x,y,false);crShade(g,room,W,H);
  return cv.toDataURL("image/png");
@@ -8849,6 +9091,7 @@ async function crCamera(){
  const c=crCat(),img=cv.toDataURL("image/png");
  const fl=document.createElement("div");fl.className="cr-flash";$("crStage").appendChild(fl);setTimeout(()=>fl.remove(),500);
  crSnd("click");
+ cr.stats.photos=(cr.stats.photos||0)+1;crLog("ph");crWantHit("photo",c);crSaveSoon();
  if(await crPhotoAdd(c.id,img,`${c.name} · LV ${crLevel(c.xp).L}`))toast("เก็บรูปเข้าอัลบั้มแล้ว — ดูได้ที่บ้านแมว");
 }
 async function crRenderAlbum(){
@@ -8891,20 +9134,24 @@ async function crRenderFriends(){
  if(crFriendsState==="missing"){host.innerHTML=`<div class="cr-empty">ยังไม่ได้รัน SQL V7.84 — รันแล้วจะเห็นบ้านแมวของเพื่อนในทีมตรงนี้</div>`;return}
  if(!crFriends.length){host.innerHTML=`<div class="cr-empty">ยังไม่มีเพื่อนในทีมที่เลี้ยงแมว</div>`;return}
  host.innerHTML=crFriends.map(f=>{const cats=f.room.cats||[],act=cats.find(c=>c.id===f.room.active)||cats[0],sent=cr.sent?.[f.user_id]===todayISO();
-  return `<div class="cr-friend"><canvas data-fr="${f.user_id}"></canvas><div class="t"><b>บ้านของ ${esc(f.full_name||"เพื่อน")}</b><small>แมว ${cats.length} ตัว${act?` · ${esc(act.name)} LV ${crLevel(act.xp).L}`:""}${sent?" · วันนี้ส่งของขวัญแล้ว":""}</small></div>`
-   +`<button class="cr-btn pri" data-visit="${f.user_id}">ไปเยี่ยม</button></div>`}).join("");
+  return `<div class="cr-friend"><canvas data-fr="${f.user_id}"></canvas><div class="t"><b>บ้านของ ${esc(f.full_name||"เพื่อน")}${crTitle(f.room)?` <span class="cr-tag">${esc(crTitle(f.room))}</span>`:""}</b><small>แมว ${cats.length} ตัว${act?` · ${esc(act.name)} LV ${crLevel(act.xp).L}`:""}${sent?" · วันนี้ส่งของขวัญแล้ว":""}</small></div>`
+   +`<div class="cr-fbtns"><button class="cr-btn pri" data-visit="${f.user_id}">ไปเยี่ยม</button>`
+   +(crOut?"":`<button class="cr-btn" data-play="${f.user_id}" ${cr.playDay===todayISO()?"disabled":""}>${cr.playDay===todayISO()?"พาไปเที่ยวแล้ววันนี้":`พา ${esc(crCat().name)} ไปเที่ยว`}</button>`)+`</div></div>`}).join("")
+  +(crOut?`<div class="cr-empty">${esc(crOut.cat?.name||"")} กำลังเที่ยวบ้านเพื่อน · กลับในอีก ${Math.max(1,Math.ceil((Date.parse(crOut.ends_at)-Date.now())/60e3))} นาที (ได้ +40 XP +20 เหรียญตอนกลับ)</div>`:"");
  crFriends.forEach(f=>{const cats=f.room.cats||[],act=cats.find(c=>c.id===f.room.active)||cats[0];if(act)crPaintCat(document.querySelector(`[data-fr="${f.user_id}"]`),act,"sit",1)});
 }
 function crVisitOpen(uid){
  const f=crFriends?.find(x=>x.user_id===uid);if(!f)return;
  if(crSc){crSc.stop();crSc=null}
- ["room","house","games","quests","shop"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.add("hidden"));
+ ["room","house","games","quests","shop","pals"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.add("hidden"));
  $("crVisit").classList.remove("hidden");crCoach("");
  $("crVTitle").textContent=`บ้านของ ${f.full_name||"เพื่อน"}`;
  const cats=(f.room.room||[]).map(id=>(f.room.cats||[]).find(c=>c.id===id)).filter(Boolean);
  $("crVCats").innerHTML=cats.map(c=>`<span class="cr-tag">${esc(c.name)} · LV ${crLevel(c.xp).L} · ${esc(crBreed(c.breed).en)}</span>`).join(" ");
  crVisitGifts(f);
- if(crVisitS)crVisitS.stop();crVisitS=crVisitScene(f.room,cats);
+ // my own cat, if he is the one visiting them right now
+ const mine=crOut&&crOut.host_id===uid?[{wear:{},...crOut.cat,_mine:1}]:[];
+ if(crVisitS)crVisitS.stop();crVisitS=crVisitScene(f.room,cats.concat(mine),f.full_name||"เพื่อน");
 }
 function crVisitGifts(f){
  const sent=cr.sent?.[f.user_id]===todayISO();
@@ -8915,16 +9162,18 @@ async function crSendGift(to,kind){
  const f=crFriends?.find(x=>x.user_id===to);if(!f)return;
  const {error}=await sb.from("cat_gifts").insert({to_id:to,kind,day:todayISO(),from_name:(profile?.full_name||user?.email||"").split("@")[0].slice(0,40)});
  if(error&&error.code!=="23505")return toast(bkMissingTable(error)?"ยังไม่ได้รัน SQL V7.84":"ส่งไม่สำเร็จ: "+error.message,"bad");
- cr.sent={...(cr.sent||{}),[to]:todayISO()};crCare();crSaveSoon();crSnd("coin");
+ cr.sent={...(cr.sent||{}),[to]:todayISO()};cr.stats.giftsSent=(cr.stats.giftsSent||0)+1;crLog("sent",f.full_name||"เพื่อน");crCare();crSaveSoon();crSnd("coin");
  toast(error?"วันนี้ส่งให้แล้ว":`ส่ง${CR_GIFTS.find(g=>g.k===kind).th}ให้ ${f.full_name||"เพื่อน"} แล้ว`);
  crVisitGifts(f);
 }
-function crVisitClose(){if(crVisitS){crVisitS.stop();crVisitS=null}$("crVisit").classList.add("hidden");crShowTab("house")}
-function crVisitScene(state,cats){
+function crVisitClose(){if(crVisitS){crVisitS.stop();crVisitS=null}$("crVisit").classList.add("hidden");crShowTab("pals")}
+function crVisitScene(state,cats,owner){
  const cv=$("crVCv");if(!cv)return null;const g=cv.getContext("2d");
  let W,H,S,room,raf=0,dead=false;const P=[];
- function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=crRoom(W,H,state.decor?.on||[])}
- const xs=cats.length===1?[.49]:cats.length===2?[.37,.62]:[.3,.5,.7];
+ const host=cv.parentElement,labels=document.createElement("div");labels.className="cr-labels";host.appendChild(labels);
+ labels.innerHTML=cats.map((c,i)=>`<span data-l="${i}" class="${c._mine?"on":"g"}">${esc(c.name)} · ${c._mine?"ของคุณ":"ของ "+esc(owner)}</span>`).join("");
+ function fit(){({W,H,S}=crStageFit(cv));g.imageSmoothingEnabled=false;room=crScene(W,H,state)}
+ const xs=cats.length===1?[.49]:cats.length===2?[.37,.62]:cats.length===3?[.3,.5,.7]:[.2,.4,.6,.8];
  const hitbox=[];
  function frame(now){
   if(dead)return;raf=requestAnimationFrame(frame);if(document.hidden||!room)return;
@@ -8932,7 +9181,8 @@ function crVisitScene(state,cats){
   cats.forEach((c,i)=>{const pose=((now/1400+i*.7)|0)%3===1&&crFrame(c,"sitB").own?"sitB":"sit",f0=crFrame(c,pose),f={...f0,s:f0.s*crZoom(W)};
    const x=W*xs[i],y=H*.9,flip=i%2===1;
    g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);
-   const d=crDraw(g,f.r,f.s,x,y,flip);crWearDraw(g,c,f.r,f.s,x,y,flip);hitbox.push({x,top:y-d.h,hw:d.w/2})});
+   const d=crDraw(g,f.r,f.s,x,y,flip);crWearDraw(g,c,f.r,f.s,x,y,flip);hitbox.push({x,top:y-d.h,hw:d.w/2});
+   const el=labels.children[i];if(el)el.style.transform=`translate(${Math.round(x*S+(cv.offsetLeft||0))}px,${Math.round((y-d.h-3)*S)}px) translate(-50%,-100%)`});
   crShade(g,room,W,H);
   for(let i=P.length-1;i>=0;i--){const p=P[i],a=(now-p.t)/1400;if(a>=1){P.splice(i,1);continue}g.globalAlpha=a>.7?(1-a)/.3:1;g.fillStyle="#8a4708";
    const x=p.x,y=p.y-a*14;[[1,0],[3,0],[0,1],[1,1],[2,1],[3,1],[4,1],[1,2],[2,2],[3,2],[2,3]].forEach(([i2,j])=>g.fillRect(Math.round(x+i2),Math.round(y+j),1,1));g.globalAlpha=1}
@@ -8940,7 +9190,7 @@ function crVisitScene(state,cats){
  function tap(ev){const r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*W,y=(ev.clientY-r.top)/r.height*H;
   if(hitbox.some(b=>Math.abs(x-b.x)<b.hw&&y>b.top)){P.push({x:x-2,y:y-4,t:performance.now()});crSnd("purr")}}
  cv.addEventListener("pointerdown",tap);fit();const onR=()=>fit();window.addEventListener("resize",onR);raf=requestAnimationFrame(frame);
- return {stop(){dead=true;cancelAnimationFrame(raf);cv.removeEventListener("pointerdown",tap);window.removeEventListener("resize",onR)}};
+ return {stop(){dead=true;cancelAnimationFrame(raf);cv.removeEventListener("pointerdown",tap);window.removeEventListener("resize",onR);labels.remove()}};
 }
 // gifts waiting for me: claimed (deleted) first, applied only once that worked
 async function crGiftsCheck(){
@@ -8952,6 +9202,7 @@ async function crGiftsCheck(){
    if(gft.kind==="treat"){crSnap(c);c.p=crClamp(c.p+10);crGain(c,30)}
    else if(gft.kind==="coins")cr.coins+=30;
    else if(gft.kind==="ticket")cr.inv.ticket=(cr.inv.ticket||0)+1;
+   crLog("gift",gft.from_name||"เพื่อน");
    crEvents.push({type:"gift",from:gft.from_name||"เพื่อน",kind:gft.kind,cat:c.id});
   }
   crSaveSoon();crBadges();
@@ -8977,6 +9228,8 @@ const SP_ICON={
 // what he is doing right now, in words
 function crDoing(c,v){
  const hr=crHour(),a=cr.away?.cur;
+ if(c.out)return `ไปเที่ยวบ้าน ${c.out.hostName||"เพื่อน"} · กลับในอีก ${Math.max(1,Math.ceil((c.out.until-Date.now())/60e3))} นาที`;
+ if(cr.want&&cr.want.cat===c.id)return CR_WANT[cr.want.k].th+"!";
  if(v.sulk)return "งอนอยู่ นอนขดตรงมุมห้อง";
  if(hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8)))return "หลับปุ๋ยอยู่";
  if(a)return a.k==="gift"?"คาบของขวัญมาวางไว้ให้":a.k==="mess"?"เพิ่งทำแจกันล้มแตก!":"จ้องนกที่หน้าต่างตาแป๋ว";
@@ -8989,6 +9242,8 @@ function crDoing(c,v){
 // what he wants, most pressing first
 function crNeeds(c,v){
  const n=[];
+ if(cr.want){const W=CR_WANT[cr.want.k],wc=cr.cats.find(x=>x.id===cr.want.cat);n.push({k:W.icon,th:`${wc?wc.name+" ":""}${W.th}`})}
+ if(crGuests.length)n.push({k:"heart",th:`${crGuests[0].cat.name} ของ ${crGuests[0].owner_name||"เพื่อน"} มาเที่ยว`});
  if(v.h<30)n.push({k:"bowl",th:"หิวแล้ว"});
  if(v.dirty)n.push({k:"stink",th:"กระบะทรายสกปรก"});
  if(v.g<30)n.push({k:"comb",th:"ขนพันกัน อยากให้หวี"});
@@ -9005,9 +9260,9 @@ function sidePetDraw(){
  g.imageSmoothingEnabled=false;
  crTick();
  const c=crCat(),v=crVals(c),key=W+"x"+H+crDecKey();
- if(!spRoom||spKey!==key){spKey=key;spRoom=crRoom(W,H,cr.decor.on)}
+ if(!spRoom||spKey!==key){spKey=key;spRoom=crScene(W,H,cr)}
  g.drawImage(spRoom,0,0);crSky(g,spRoom,W,H,now);
- if(v.dirty){const [l0,l1,y0]=spRoom.lit;g.fillStyle="#8a6636";for(let k=0;k<2;k++){const bx=l0+(l1-l0)*(.35+k*.3);for(let j=0;j<5;j++)g.fillRect(Math.round(bx+Math.sin(now/260+j*.8+k)),y0-3-j,1,1)}}
+ if(v.dirty&&spRoom.lit){const [l0,l1,y0]=spRoom.lit;g.fillStyle="#8a6636";for(let k=0;k<2;k++){const bx=l0+(l1-l0)*(.35+k*.3);for(let j=0;j<5;j++)g.fillRect(Math.round(bx+Math.sin(now/260+j*.8+k)),y0-3-j,1,1)}}
  crAwayDraw(g,W,H,spRoom,now);
  const hr=crHour(),asleep=v.sulk||hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8));
  const tick=Math.floor(now/1300);
@@ -9044,11 +9299,343 @@ function sidePetSync(on){
  if(on&&!spT){
   if(!user)return;
   crLoad().then(()=>{if(!spT)return;crWxLoad();sidePetDraw()}).catch(()=>{});
-  spT=setInterval(()=>{if(!document.hidden&&cr)sidePetDraw()},250);
+  spT=setInterval(()=>{if(!document.hidden&&cr){sidePetDraw();if(Date.now()-crGuestT>90e3)crPlaydatesLoad()}},250);
  }else if(!on&&spT){clearInterval(spT);spT=null}
 }
 $("sidePet").addEventListener("click",()=>goView("cat"));
 $("sidePet").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();goView("cat")}});
+
+/* ---- a bubble over a cat's head (shared by the room, the sidebar) ----- */
+Object.assign(SP_ICON,{
+ yarn: ["..000..",".02120.","0212120","0121210","0212120",".02120.","..000.0"],
+ laser:["...0...","..030..",".03330.","..030..","...0..."],
+ fish: [".......","..000.0","0022200",".02223.","0022200","..000.0"],
+ cam:  [".000...","0000000","0303330","0333030","0000000"]
+});
+function crNeedBubble(g,x,top,icon,W,now,hot){
+ const P=SP_ICON[icon]||SP_ICON.excl,iw=P[0].length,ih=P.length,bw=iw+6,bh=ih+5,bob=Math.round(Math.sin(now/380));
+ const bx=Math.round(Math.max(2,Math.min(W-bw-2,x+4))),by=Math.max(2,Math.round(top-bh-4+bob));
+ g.fillStyle="#2b1d0c";g.fillRect(bx-1,by,bw+2,bh);g.fillRect(bx,by-1,bw,bh+2);
+ const fill=hot?"#fff4dc":"#f5e7c4";g.fillStyle=fill;g.fillRect(bx,by,bw,bh);
+ g.fillStyle="#2b1d0c";g.fillRect(bx+2,by+bh+1,2,1);g.fillRect(bx+1,by+bh+2,1,1);g.fillStyle=fill;g.fillRect(bx+2,by+bh,2,1);
+ P.forEach((row,j)=>{for(let i=0;i<row.length;i++){const ch=row[i];if(ch===".")continue;g.fillStyle=CR_WPAL[+ch];g.fillRect(bx+3+i,by+3+j,1,1)}});
+}
+
+/* ---- what a cat asks for ----------------------------------------------
+   Every few hours one of them wants something in particular. Doing it in
+   time pays more than doing the same thing unasked. */
+const CR_WANT={
+ food:  {th:"อยากกินข้าว",       icon:"bowl", tip:"ให้อาหาร"},
+ pet:   {th:"อยากให้ลูบหัว",      icon:"heart",tip:"ถูที่ตัวน้อง"},
+ brush: {th:"อยากให้หวีขน",      icon:"comb", tip:"หวีขน"},
+ yarn:  {th:"อยากเล่นไหมพรม",    icon:"yarn", tip:"ลากลูกไหมพรมบนพื้นแล้วปล่อย (3 ครั้ง)"},
+ laser: {th:"อยากเล่นเลเซอร์",     icon:"laser",tip:"เล่นเกมเลเซอร์ 1 รอบ"},
+ treat: {th:"อยากกินขนมพิเศษ",   icon:"fish", tip:"ซื้อขนมพิเศษที่ร้านค้า"},
+ photo: {th:"อยากถ่ายรูปสวย ๆ",  icon:"cam",  tip:"กดปุ่มกล้องในห้อง"}
+};
+function crWantRoll(now=Date.now()){
+ if(!cr)return;
+ const w=cr.want;
+ if(w&&now>w.until){cr.want=null;cr.wantNext=now+45*60e3}
+ if(cr.want||now<(cr.wantNext||0))return;
+ const cats=crRoomCats();if(!cats.length)return;
+ const c=cats[Math.floor(Math.random()*cats.length)],v=crVals(c),hr=crHour();
+ if(v.sulk||hr>=23||hr<7)return;
+ const pool=Object.keys(CR_WANT).filter(k=>(k!=="food"||v.h<70)&&(k!=="brush"||v.g<85)&&(k!=="laser"||crCanPlay("laser"))&&(k!=="treat"||cr.coins>=60));
+ const k=pool[Math.floor(Math.random()*pool.length)];
+ cr.want={k,cat:c.id,until:now+3*CR_HR,need:k==="yarn"?3:1,have:0};
+ cr.wantNext=now+(2+Math.random()*2)*CR_HR;crSaveSoon();
+}
+function crWantHit(k,c){
+ const w=cr?.want;if(!w||w.k!==k)return;
+ if(c&&w.cat!==c.id&&k!=="laser"&&k!=="treat"&&k!=="photo")return;
+ w.have=(w.have||0)+1;if(w.have<(w.need||1))return;
+ const cat=cr.cats.find(x=>x.id===w.cat)||crCat();
+ cr.want=null;cr.stats.wants=(cr.stats.wants||0)+1;
+ crSnap(cat);cat.p=crClamp(cat.p+10);crGain(cat,20);crCoin(20);crLog("want");
+ cr.say={t:Date.now(),m:"เย้! ได้แล้ว ขอบคุณน้า ♡",id:cat.id};
+ crFloat("+20 XP · +20 เหรียญ");crSnd("win");
+}
+function crYarnPlay(c){
+ const today=todayISO();cr.yarn=cr.yarn&&cr.yarn.day===today?cr.yarn:{day:today,xp:0};
+ cr.stats.yarn=(cr.stats.yarn||0)+1;crLog("y");crWantHit("yarn",c);
+ if(cr.yarn.xp<30){cr.yarn.xp+=2;crGain(c,2)}
+ crSnap(c);c.p=crClamp(c.p+2);crSaveSoon();
+}
+
+/* ---- the diary: a line a day, written from what actually happened ----- */
+function crLog(k,extra){
+ if(!cr)return;const d=todayISO();cr.diary=cr.diary||{};
+ const e=cr.diary[d]=cr.diary[d]||{};
+ if(extra!=null){(e[k]=e[k]||[]).push(extra);if(e[k].length>6)e[k].shift()}else e[k]=(e[k]||0)+1;
+ const days=Object.keys(cr.diary).sort();while(days.length>14)delete cr.diary[days.shift()];
+ if(["f","p","b","w","s","g","y"].includes(k))crCoopAdd(1);
+}
+function crDiaryLine(e,name){
+ const bits=[];
+ if(e.f)bits.push(`กินข้าว ${e.f} มื้อ`);
+ if(e.p)bits.push(`โดนลูบหัว ${e.p} ครั้ง`);
+ if(e.b)bits.push("ได้หวีขน");
+ if(e.w)bits.push("ได้อาบน้ำ (หอมมาก)");
+ if(e.s)bits.push("กระบะทรายสะอาด");
+ if(e.y)bits.push(`ตะปบไหมพรม ${e.y} ที`);
+ if(e.g)bits.push(`เล่นมินิเกม ${e.g} รอบ`);
+ (e.away||[]).forEach(a=>bits.push({gift:"คาบของขวัญมาให้",mess:"ทำแจกันแตก",bird:"ได้ดูนกที่หน้าต่าง"}[a]||""));
+ (e.gift||[]).forEach(n=>bits.push(`ได้ของขวัญจาก ${n}`));
+ (e.sent||[]).forEach(n=>bits.push(`ส่งของขวัญให้ ${n}`));
+ (e.lv||[]).forEach(t=>bits.push(t));
+ (e.cat||[]).forEach(n=>bits.push(`ได้เพื่อนใหม่ชื่อ ${n}`));
+ (e.play||[]).forEach(t=>bits.push(t));
+ if(e.want)bits.push(`ได้สิ่งที่อยากได้ ${e.want} ครั้ง`);
+ if(e.ph)bits.push(`ถ่ายรูป ${e.ph} รูป`);
+ const b=bits.filter(Boolean);
+ return b.length?`${name} ${b.slice(0,6).join(" · ")}`:`${name} นอนเล่นเงียบ ๆ ทั้งวัน`;
+}
+function crRenderDiary(){
+ const host=$("crDiary");if(!host||!cr)return;
+ const name=crCat().name,days=Object.keys(cr.diary||{}).sort().reverse().slice(0,7);
+ host.innerHTML=days.length?days.map(d=>`<div class="cr-dy"><b>${d===todayISO()?"วันนี้":new Date(d+"T00:00:00").toLocaleDateString("th-TH",{weekday:"short",day:"numeric",month:"short"})}</b><span>${esc(crDiaryLine(cr.diary[d],name))}</span></div>`).join("")
+  :`<div class="cr-empty">ยังไม่มีบันทึก · ดูแลน้องแล้วไดอารี่จะเขียนเอง</div>`;
+}
+
+/* ---- badges: a book of things done, each a title to wear -------------- */
+const crS=k=>cr.stats[k]||0;
+const CR_BADGES=[
+ ["feed1","ทาสแมวฝึกหัด","ให้อาหาร 10 ครั้ง","bowl",()=>crS("feeds"),10,30],
+ ["feed2","พ่อครัวประจำบ้าน","ให้อาหาร 100 ครั้ง","bowl",()=>crS("feeds"),100,150],
+ ["feed3","เชฟแมวระดับตำนาน","ให้อาหาร 500 ครั้ง","bowl",()=>crS("feeds"),500,500],
+ ["pet1","มือนุ่ม","ลูบหัว 10 ครั้ง","heart",()=>crS("pets"),10,30],
+ ["pet2","นักนวดแมว","ลูบหัว 100 ครั้ง","heart",()=>crS("pets"),100,150],
+ ["pet3","มือเทวดา","ลูบหัว 500 ครั้ง","heart",()=>crS("pets"),500,500],
+ ["brush1","ช่างตัดขนมือใหม่","หวีขน 10 ครั้ง","comb",()=>crS("brush"),10,60],
+ ["brush2","สไตลิสต์แมว","หวีขน 50 ครั้ง","comb",()=>crS("brush"),50,250],
+ ["bath1","ไม่กลัวเปียก","อาบน้ำ 5 ครั้ง","fish",()=>crS("bath"),5,60],
+ ["bath2","สปาแมว","อาบน้ำ 30 ครั้ง","fish",()=>crS("bath"),30,300],
+ ["scoop1","นักตักทราย","เก็บกระบะ 10 ครั้ง","stink",()=>crS("cleans"),10,50],
+ ["scoop2","พนักงานสุขาดีเด่น","เก็บกระบะ 50 ครั้ง","stink",()=>crS("cleans"),50,250],
+ ["game1","เกมเมอร์","เล่นมินิเกม 10 รอบ","laser",()=>crS("games"),10,50],
+ ["game2","โปรเพลเยอร์","เล่นมินิเกม 100 รอบ","laser",()=>crS("games"),100,300],
+ ["laser1","มือไวกว่าแมว","จับจุดเลเซอร์ 500 ครั้ง","laser",()=>crS("laserHits"),500,300],
+ ["yarn1","นักม้วนไหมพรม","เล่นไหมพรม 50 ครั้ง","yarn",()=>crS("yarn"),50,100],
+ ["streak1","มาทุกวัน","ดูแลติดกัน 7 วัน","heart",()=>cr.streak.best,7,100],
+ ["streak2","คู่หูตลอดกาล","ดูแลติดกัน 30 วัน","heart",()=>cr.streak.best,30,500],
+ ["streak3","ร้อยวันไม่ทิ้งกัน","ดูแลติดกัน 100 วัน","heart",()=>cr.streak.best,100,1500],
+ ["cats3","บ้านนี้มีแมวสาม","มีแมว 3 ตัว","gift",()=>cr.cats.length,3,150],
+ ["cats7","นักสะสมครบชุด","มีแมวครบทุกพันธุ์","gift",()=>new Set(cr.cats.map(c=>c.breed)).size,CR_BREEDS.length,1000],
+ ["lv10","พี่เลี้ยงมืออาชีพ","แมวตัวไหนก็ได้ถึง Lv 10","excl",()=>Math.max(...cr.cats.map(c=>crLevel(c.xp).L)),10,100],
+ ["lv20","ได้เห็นโตเป็นวัยรุ่น","แมวตัวไหนก็ได้ถึง Lv 20","excl",()=>Math.max(...cr.cats.map(c=>crLevel(c.xp).L)),20,300],
+ ["lv40","เลี้ยงจนโตเต็มวัย","แมวตัวไหนก็ได้ถึง Lv 40","excl",()=>Math.max(...cr.cats.map(c=>crLevel(c.xp).L)),40,1000],
+ ["rich1","กระปุกปลาเต็ม","ได้เหรียญรวม 2,000","fish",()=>crS("earned"),2000,100],
+ ["rich2","เศรษฐีปลาทู","ได้เหรียญรวม 20,000","fish",()=>crS("earned"),20000,500],
+ ["gift1","ใจดี","ส่งของขวัญให้เพื่อน 1 ครั้ง","gift",()=>crS("giftsSent"),1,30],
+ ["gift2","ซานตาแมว","ส่งของขวัญให้เพื่อน 20 ครั้ง","gift",()=>crS("giftsSent"),20,300],
+ ["photo1","ช่างภาพแมว","ถ่ายรูป 10 รูป","cam",()=>crS("photos"),10,80],
+ ["away1","นักสืบในบ้าน","เจอเรื่องระหว่างไม่อยู่ 10 ครั้ง","excl",()=>crS("away"),10,100],
+ ["want1","รู้ใจแมว","ทำตามที่น้องอยากได้ 10 ครั้ง","heart",()=>crS("wants"),10,150],
+ ["play1","พาเที่ยว","พาแมวไปเที่ยวบ้านเพื่อน 5 ครั้ง","gift",()=>crS("playdates"),5,150],
+ ["coop1","ทีมเวิร์ก","ภารกิจคู่สำเร็จ 1 สัปดาห์","heart",()=>crS("coopWeeks"),1,100],
+ ["coop2","คู่หูแมวแห่งปี","ภารกิจคู่สำเร็จ 10 สัปดาห์","heart",()=>crS("coopWeeks"),10,600]
+].map(([k,th,desc,icon,prog,need,coins])=>({k,th,desc,icon,prog,need,coins}));
+function crBadgeCheck(){
+ if(!cr)return;cr.badges=cr.badges||{};let n=0;
+ for(const b of CR_BADGES){if(cr.badges[b.k])continue;let v=0;try{v=b.prog()}catch(_){}
+  if(v>=b.need){cr.badges[b.k]=Date.now();cr.coins+=b.coins;crEvents.push({type:"badge",k:b.k});n++}}
+ if(n)crSaveSoon();
+}
+function crMedal(cv,b,got,px=3){
+ if(!cv)return;const P=SP_ICON[b.icon]||SP_ICON.excl,w=13,h=15;cv.width=w;cv.height=h;const g=cv.getContext("2d");
+ const C=got?["#2b1d0c","#8a4708","#e0951f","#ffd9a0"]:["#2b1d0c","#3a2a14","#5a3f1c","#6f5a35"];
+ g.fillStyle=C[1];g.fillRect(3,0,3,4);g.fillStyle=C[2];g.fillRect(7,0,3,4);
+ for(let y=0;y<11;y++)for(let x=0;x<13;x++){const d=(x-6)*(x-6)+(y-5)*(y-5);if(d>30)continue;g.fillStyle=d>24?C[0]:d>16?C[1]:C[2];g.fillRect(x,y+4,1,1)}
+ P.forEach((row,j)=>{for(let i=0;i<row.length;i++){if(row[i]===".")continue;g.fillStyle=row[i]==="0"?C[0]:C[3];g.fillRect(3+i+Math.floor((7-row.length)/2),6+j,1,1)}});
+ cv.style.width=w*px+"px";
+}
+function crRenderBadges(){
+ const host=$("crBadges");if(!host||!cr)return;cr.badges=cr.badges||{};
+ const got=CR_BADGES.filter(b=>cr.badges[b.k]).length;
+ $("crBadgeN").textContent=`${got}/${CR_BADGES.length}`;
+ host.innerHTML=CR_BADGES.map(b=>{const has=!!cr.badges[b.k];let v=0;try{v=Math.min(b.need,b.prog())}catch(_){}
+  return `<button class="cr-bdg${has?" got":""}${cr.title===b.k?" worn":""}" data-bdg="${b.k}" ${has?"":"disabled"}><canvas data-md="${b.k}"></canvas><span class="t"><b>${has?esc(b.th):"???"}</b><small>${esc(b.desc)}</small>`
+   +(has?`<small class="c">${cr.title===b.k?"ใช้เป็นฉายาอยู่":"แตะเพื่อใช้เป็นฉายา"}</small>`:`<span class="cr-qbar"><i style="width:${Math.round(v/b.need*100)}%"></i></span>`)+`</span></button>`}).join("");
+ CR_BADGES.forEach(b=>crMedal(document.querySelector(`[data-md="${b.k}"]`),b,!!cr.badges[b.k],2.4));
+}
+const crTitle=st=>{const b=CR_BADGES.find(x=>x.k===(st||cr)?.title);return b?b.th:""};
+
+/* ---- playing together (V7.86) ------------------------------------------
+   Playdates: one of your cats spends an hour in a teammate's room.
+   The shared weekly goal: everyone's care adds up.
+   The family cat: one cat the whole team looks after. */
+let crGuests=[],crGuestT=0,crOut=null,crCoopRows=null,crCoopState="",crFamily=null,crFamState="",crCoopT=null;
+const crTeam=()=>profile?.team_id||null;
+const crMyName=()=>(profile?.full_name||user?.email||"").split("@")[0].slice(0,40);
+async function crPlaydatesLoad(force){
+ if(!force&&Date.now()-crGuestT<60e3)return;crGuestT=Date.now();
+ try{const {data,error}=await sb.from("cat_playdates").select("id,guest_id,host_id,owner_name,cat,ends_at");
+  if(error)return;const now=Date.now();
+  crGuests=(data||[]).filter(r=>r.host_id===user.id&&Date.parse(r.ends_at)>now).map(r=>({...r,cat:{wear:{},...r.cat}}));
+  crOut=(data||[]).find(r=>r.guest_id===user.id)||null;
+  // a host is thanked once per visitor
+  cr.hosted=cr.hosted||{};
+  crGuests.forEach(r=>{if(!cr.hosted[r.id]){cr.hosted[r.id]=1;crCoin(15);crLog("play",`${r.cat.name} ของ ${r.owner_name||"เพื่อน"} มาเที่ยว`);toast(`${r.cat.name} ของ ${r.owner_name||"เพื่อน"} มาเที่ยวบ้าน! +15 เหรียญ`);crSaveSoon()}});
+  // my cat's visit is over: bring him home with what he got out of it
+  if(crOut&&Date.parse(crOut.ends_at)<=now){const id=crOut.cat?.id,c=cr.cats.find(x=>x.id===id);
+   await sb.from("cat_playdates").delete().eq("id",crOut.id);
+   if(c){c.out=null;c.t=Date.now();crGain(c,40);crCoin(20);cr.stats.playdates=(cr.stats.playdates||0)+1;crLog("play",`${c.name} กลับจากบ้าน ${crOut.hostName||"เพื่อน"}`);
+    crEvents.push({type:"home",cat:c.id});crSaveSoon()}
+   crOut=null}
+ }catch(_){}
+}
+async function crPlaydateStart(host){
+ const f=crFriends?.find(x=>x.user_id===host),c=crCat();if(!f||!c)return;
+ if(cr.room.length<=1&&false)return;
+ if(c.out)return toast(`${c.name} ไปเที่ยวอยู่แล้ว`,"bad");
+ if(cr.playDay===todayISO())return toast("วันนี้พาไปเที่ยวแล้ว พรุ่งนี้ค่อยไปใหม่นะ","bad");
+ const ends=new Date(Date.now()+60*60e3).toISOString();
+ const snap={id:c.id,name:c.name,breed:c.breed,xp:c.xp,wear:c.wear||{},trait:c.trait};
+ await sb.from("cat_playdates").delete().eq("guest_id",user.id);
+ const {error}=await sb.from("cat_playdates").insert({host_id:host,owner_name:crMyName(),cat:snap,ends_at:ends});
+ if(error)return toast(bkMissingTable(error)?"ยังไม่ได้รัน SQL V7.86":"ไปไม่สำเร็จ: "+error.message,"bad");
+ crSnap(c);c.out={host,hostName:f.full_name,until:Date.parse(ends)};cr.playDay=todayISO();
+ crOut={host_id:host,guest_id:user.id,cat:snap,ends_at:ends,hostName:f.full_name};
+ if(cr.want&&cr.want.cat===c.id)cr.want=null;
+ if(cr.room.length>1){cr.room=cr.room.filter(id=>id!==c.id);cr.active=cr.room[0]}
+ crSaveSoon();crSnd("meow");toast(`${c.name} ไปเที่ยวบ้าน ${f.full_name} แล้ว · กลับมาใน 1 ชั่วโมง`);crRenderAll();
+}
+// weekly goal
+const CR_COOP_GOAL=80;
+function crCoopAdd(n){
+ if(!cr)return;const wk=crWeek();if(cr.coop?.week!==wk)cr.coop={week:wk,n:0,claimed:false};cr.coop.n+=n;
+ clearTimeout(crCoopT);crCoopT=setTimeout(crCoopPush,2500);
+}
+async function crCoopPush(){
+ const t=crTeam();if(!t||!cr?.coop)return;
+ try{const {error}=await sb.from("cat_coop").upsert({team_id:t,week:cr.coop.week,user_id:user.id,name:crMyName(),n:cr.coop.n,updated_at:new Date().toISOString()},{onConflict:"team_id,week,user_id"});
+  if(error)crCoopState=bkMissingTable(error)?"missing":"error"}catch(_){}
+}
+async function crCoopLoad(){
+ const t=crTeam();if(!t)return;
+ try{const {data,error}=await sb.from("cat_coop").select("user_id,name,n").eq("team_id",t).eq("week",crWeek());
+  if(error){crCoopState=bkMissingTable(error)?"missing":"error";crCoopRows=[];return}
+  crCoopState="ok";crCoopRows=data||[];
+  const me=crCoopRows.find(r=>r.user_id===user.id);if(me&&cr.coop?.week===crWeek()&&me.n>cr.coop.n)cr.coop.n=me.n;
+ }catch(_){crCoopState="error";crCoopRows=[]}
+}
+// the family cat
+async function crFamilyLoad(){
+ try{const {data,error}=await sb.rpc("cat_family_get");
+  if(error){crFamState=/cat_family|PGRST202|does not exist|Could not find/i.test((error.code||"")+error.message)?"missing":"error";return}
+  crFamState="ok";crFamily={wear:{},...data};
+ }catch(_){crFamState="error"}
+}
+async function crFamilyAct(act,arg){
+ const {data,error}=await sb.rpc("cat_family_act",{p_act:act,p_arg:arg??null});
+ if(error)return toast("ไม่สำเร็จ: "+error.message,"bad");
+ crFamily={wear:{},...data};
+ if(data.msg==="full")toast(`${data.name} อิ่มแล้ว`);
+ else if(data.msg==="cooldown")toast(`${data.name} ขอพักก่อน ลูบได้อีกใน 20 นาที`);
+ else{crSnd(act==="feed"?"eat":"purr");crLog(act==="feed"?"f":"p");crCare();crSaveSoon()}
+ crRenderFriendsTab();
+}
+function crFamilyVals(f){
+ const hrs=Math.max(0,(Date.now()-Date.parse(f.t))/CR_HR);
+ return {h:Math.max(0,f.h-hrs*100/9),p:Math.max(0,f.p-hrs*10/12)};
+}
+
+/* ---- the pals tab: the family cat, the weekly goal, friends' rooms ---- */
+const CR_LOOKS=[
+ {k:"wall:stripe",th:"ผนังลายเส้น",price:0},{k:"wall:dots",th:"ผนังลายจุด",price:150},{k:"wall:check",th:"ผนังลายตาราง",price:200},
+ {k:"wall:wood",th:"ผนังไม้",price:250},{k:"wall:panel",th:"ผนังบัวไม้",price:250},
+ {k:"floor:boards",th:"พื้นไม้",price:0},{k:"floor:tiles",th:"พื้นกระเบื้อง",price:200},{k:"floor:carpet",th:"พรมเต็มห้อง",price:250},
+ {k:"balcony",th:"ระเบียง",price:1500}
+];
+function crRenderLooks(){
+ const host=$("crShopLook");if(!host)return;
+ const card=(pic,name,sub,btn)=>`<div class="cr-item"><div class="pic">${pic}</div><div class="nm">${name}</div><div class="sub">${sub}</div>${btn}</div>`;
+ host.innerHTML=CR_LOOKS.map(L=>{
+  const own=L.price===0||cr.looksOwn.includes(L.k)||(L.k==="balcony"&&cr.decor.own.includes("balcony"));
+  const [part,val]=L.k.split(":"),using=L.k==="balcony"?cr.scene==="balcony":cr.look[part]===val;
+  const btn=!own?`<button class="cr-btn${cr.coins>=L.price?" pri":""}" data-look-buy="${L.k}" ${cr.coins>=L.price?"":"disabled"}><span class="cr-coin sm"><i></i>${L.price}</span></button>`
+   :using?`<span class="cr-tag">${L.k==="balcony"?"อยู่ระเบียง":"ใช้อยู่"}</span>`:`<button class="cr-btn pri" data-look-use="${L.k}">${L.k==="balcony"?"ไประเบียง":"ใช้"}</button>`;
+  return card(`<canvas data-lk="${L.k}"></canvas>`,L.th,L.k==="balcony"?"ห้องที่สอง แมวนั่งบนราวได้":own?"มีแล้ว":"",btn)}).join("");
+ CR_LOOKS.forEach(L=>{const cv=document.querySelector(`[data-lk="${L.k}"]`);if(!cv)return;
+  const [part,val]=L.k.split(":"),room=L.k==="balcony"?crBalcony(150,90):crRoom(150,90,[],{...cr.look,[part]:val});
+  cv.width=150;cv.height=90;const g=cv.getContext("2d");g.drawImage(room,0,0);cv.style.width="140px"});
+}
+function crLookBuy(k){
+ const L=CR_LOOKS.find(x=>x.k===k);if(!L||cr.coins<L.price)return toast("เหรียญยังไม่พอ","bad");
+ cr.coins-=L.price;crSnd("coin");
+ if(k==="balcony"){cr.decor.own.push("balcony");cr.scene="balcony";toast("ได้ระเบียงแล้ว! สลับไปมาได้ที่ปุ่มมุมห้อง")}
+ else{cr.looksOwn.push(k);crLookUse(k,true)}
+ crSaveSoon();crRenderAll();
+}
+function crLookUse(k,quiet){
+ if(k==="balcony"){cr.scene="balcony"}else{const [part,val]=k.split(":");cr.look={...cr.look,[part]:val}}
+ if(!quiet)toast("เปลี่ยนแล้ว");crSaveSoon();crRenderAll();
+}
+function crSceneToggle(){
+ if(!cr.decor.own.includes("balcony"))return;
+ cr.scene=cr.scene==="balcony"?"room":"balcony";crSaveSoon();crRender();crSnd("click");
+}
+function crEditToggle(on){
+ if(on&&!Object.keys(CR_MOVABLE).some(k=>cr.decor.on.includes(k))){toast("ยังไม่มีของที่ย้ายได้ · ซื้อคอนโดแมว ต้นไม้ หรือกรอบรูปที่ร้านค้า");return}
+ if(on&&cr.scene==="balcony"){cr.scene="room"}
+ crSc?.edit(on);$("crEditBar").classList.toggle("hidden",!on);$("crEdit").classList.toggle("on",on);
+ if(!on)crSaveSoon();
+}
+
+async function crRenderPals(){
+ if(!cr||!$("crPals"))return;
+ await Promise.all([crFamilyLoad(),crCoopLoad(),crFriendsLoad(true),crPlaydatesLoad(true)]);
+ crRenderFriendsTab();
+}
+function crRenderFriendsTab(){
+ // family cat
+ const fam=$("crFam");
+ if(crFamState==="missing")fam.innerHTML=`<div class="cr-empty">ยังไม่ได้รัน SQL V7.86 — รันแล้วจะมีแมวของบ้านให้เลี้ยงด้วยกัน</div>`;
+ else if(!crFamily)fam.innerHTML=`<div class="cr-empty">${crTeam()?"กำลังเรียกแมวของบ้าน…":"ยังไม่ได้อยู่ในทีม"}</div>`;
+ else{
+  const f=crFamily,v=crFamilyVals(f),lv=crLevel(f.xp||0),mine=(f.fed||{})[user.id]||0;
+  const petAt=Date.parse((f.petAt||{})[user.id]||0)||0,cd=20*60e3-(Date.now()-petAt);
+  fam.innerHTML=`<div class="cr-fam"><div class="cr-stage cr-famst"><canvas id="crFamCv"></canvas></div><div class="t">`
+   +`<div class="cw-nm"><span>${esc(f.name)}</span><span class="cr-tag">${esc(crBreed(f.breed).en)}</span><span class="lv">LV ${lv.L}</span></div>`
+   +`<div class="cw-row"><span>FULL</span><div class="cr-m" id="crFamH"></div><span>${cr10(v.h)}/10</span></div>`
+   +`<div class="cw-row"><span>HAPPY</span><div class="cr-m" id="crFamP"></div><span>${cr10(v.p)}/10</span></div>`
+   +`<small>${f.by?`ล่าสุด: ${esc(f.by)} ${f.act==="feed"?"ให้อาหาร":f.act==="pet"?"ลูบหัว":"แต่งตัวให้"} ${crHM(Date.parse(f.at))}`:"ยังไม่มีใครดูแลเลย"} · คุณให้อาหารไปแล้ว ${mine} ครั้ง</small>`
+   +`<div class="cr-famacts"><button class="cr-btn${v.h<85?" pri":""}" data-fam="feed">${v.h<85?"ให้อาหาร":"อิ่มแล้ว"}</button><button class="cr-btn" data-fam="pet" ${cd>0?"disabled":""}>${cd>0?`ลูบได้อีก ${Math.ceil(cd/60e3)} นาที`:"ลูบหัว"}</button>`
+   +`<button class="cr-btn" data-fam="rename">ตั้งชื่อ</button><button class="cr-btn" data-fam="wear">ใส่หมวก</button></div></div></div>`;
+  crMeter($("crFamH"),cr10(v.h));crMeter($("crFamP"),cr10(v.p));
+  const cv=$("crFamCv");const {W,H}=crStageFit(cv);const g=cv.getContext("2d");g.imageSmoothingEnabled=false;
+  const room=crRoom(W,H,[],{wall:"check",floor:"tiles"});g.drawImage(room,0,0);crSky(g,room,W,H,performance.now());
+  const cat={id:0,breed:f.breed,xp:f.xp||0,wear:f.wear||{}},fr0=crFrame(cat,v.h<20?"sleep":"sit"),fr={...fr0,s:fr0.s*crZoom(W)*1.1};
+  crDraw(g,fr.r,fr.s,W*.5,H*.92,false);crWearDraw(g,cat,fr.r,fr.s,W*.5,H*.92,false);crShade(g,room,W,H);
+ }
+ // weekly goal
+ const co=$("crCoop");
+ if(crCoopState==="missing")co.innerHTML=`<div class="cr-empty">ยังไม่ได้รัน SQL V7.86</div>`;
+ else{
+  const rows=(crCoopRows||[]).slice();const me=rows.find(r=>r.user_id===user.id);
+  if(!me&&cr.coop?.week===crWeek())rows.push({user_id:user.id,name:crMyName(),n:cr.coop.n});else if(me&&cr.coop?.week===crWeek())me.n=Math.max(me.n,cr.coop.n);
+  const tot=rows.reduce((a,r)=>a+(r.n||0),0),done=tot>=CR_COOP_GOAL,claimed=cr.coop?.week===crWeek()&&cr.coop.claimed;
+  co.innerHTML=`<div class="cr-coop"><div class="t"><b>ดูแลแมวรวมกันให้ครบ ${CR_COOP_GOAL} ครั้งในสัปดาห์นี้</b><small>ให้อาหาร ลูบหัว หวีขน อาบน้ำ เก็บกระบะ เล่นเกม เล่นไหมพรม นับหมด · รางวัล: 150 เหรียญ + ผ้าพันคอคู่ (ของหายาก)</small>`
+   +`<div class="cr-qbar big"><i style="width:${Math.min(100,Math.round(tot/CR_COOP_GOAL*100))}%"></i></div>`
+   +`<div class="cr-coopwho">${rows.map(r=>`<span>${esc(r.name||"เพื่อน")}${r.user_id===user.id?" (คุณ)":""} <b>${r.n}</b></span>`).join("")}<span class="tot">รวม <b>${tot}/${CR_COOP_GOAL}</b></span></div></div>`
+   +(claimed?`<span class="cr-tag">รับแล้ว</span>`:`<button class="cr-btn${done?" pri":""}" data-coop ${done?"":"disabled"}>รับรางวัล</button>`)+`</div>`;
+ }
+ crRenderFriends();
+ const pd=$("crPalsDot");if(pd){const n=(crGuests.length?1:0);pd.classList.toggle("hidden",!n);pd.textContent=n}
+}
+function crCoopClaim(){
+ if(!cr.coop||cr.coop.week!==crWeek()||cr.coop.claimed)return;
+ cr.coop.claimed=true;crCoin(150);cr.stats.coopWeeks=(cr.stats.coopWeeks||0)+1;
+ if(!cr.wardrobe.includes("duo"))cr.wardrobe.push("duo");
+ toast("ภารกิจคู่สำเร็จ! +150 เหรียญ · ได้ผ้าพันคอคู่");crSnd("level");crAfter();crRenderFriendsTab();
+}
+async function crFamilyWear(){
+ const heads=CR_WEAR.filter(w=>w.slot==="head"&&cr.wardrobe.includes(w.k));
+ if(!heads.length)return toast("ยังไม่มีหมวก · ซื้อที่ร้านค้าก่อนนะ","bad");
+ const cur=crFamily?.wear?.head||"",i=heads.findIndex(w=>w.k===cur),next=i+1<heads.length?heads[i+1].k:"";
+ await crFamilyAct("wear_head",next);
+}
 
 /* ---- overlay text ---- */
 let crBubbleT=null;
@@ -9061,26 +9648,27 @@ function crFloatAt(host,x,y,txt){const f=document.createElement("div");f.classNa
 function crFloat(txt){if(!crSc||crSc.mode!=="room")return;const a=crSc.anchor();crFloatAt($("crStage"),a.x+60,Math.max(8,a.y-10),txt)}
 
 /* ---- caring for the cat in front of you ---- */
-function crAfter(){crSaveSoon();crRenderAll();crWidget();setTimeout(crNextEvent,crSc?1700:200)}
+function crAfter(){crBadgeCheck();crSaveSoon();crRenderAll();crWidget();setTimeout(crNextEvent,crSc?1700:200)}
+const crOutMsg=c=>c.out?(toast(`${c.name} ไปเที่ยวบ้าน ${c.out.hostName||"เพื่อน"} อยู่ กลับมาเร็ว ๆ นี้`),true):false;
 function crFeed(){
- if(!cr)return;crTick();
+ if(!cr)return;crTick();if(crOutMsg(crCat()))return;
  const c=crCat(),now=Date.now(),v=crSnap(c,now);
  if(v.h>=85){crSay("อิ่มแล้วล่ะ ไว้คราวหน้านะ");crSc?.act("refuse");crRender();crWidget();return "full"}
  const L=crLevel(c.xp).L,f=crFoodFor(L),xp=Math.round(f.xp*(v.h<=30?1.5:1)*(crT(c,"glutton")?1.4:1));
  c.h=100;c.p=crClamp(c.p+5);
- crCare();crQ("feed");if(v.h<=30)crQ("feedH");cr.stats.feeds++;
+ crCare();crQ("feed");if(v.h<=30)crQ("feedH");cr.stats.feeds++;crLog("f");crWantHit("food",c);
  let extra="";if(cr.feedDay!==todayISO()){cr.feedDay=todayISO();crCoin(5);extra=" · +5 เหรียญ"}
  crGain(c,xp);crSc?.act("eat");crSnd("eat");crFloat("+"+xp+" XP"+extra);
  crSay(v.h<=30?"อร่อยเลย! มื้อนี้ดีที่สุด ♡":`${f.th}อร่อยจัง ขอบคุณนะ`);
  crAfter();return xp;
 }
 function crPet(){
- if(!cr)return;crTick();
+ if(!cr)return;crTick();if(crOutMsg(crCat()))return;
  const c=crCat(),now=Date.now();
  if(now-(c.petAt||0)<CR_PET_CD){crSay("เดี๋ยวก่อนนะ ขอพักแป๊บ");return}
  crSnap(c,now);c.p=crClamp(c.p+15);c.petAt=now;
  const px=crT(c,"cuddly")?16:8;
- crCare();crQ("pet");cr.stats.pets++;crGain(c,px);crSnd("purr");
+ crCare();crQ("pet");cr.stats.pets++;crLog("p");crWantHit("pet",c);crGain(c,px);crSnd("purr");
  crSc?.act("pet");crFloat("+"+px+" XP");crSay("ขอบนะ... รู้สึกดีจัง ♡");crAfter();
 }
 function crClean(){
@@ -9118,7 +9706,7 @@ function crResult(boxId,title,score,xp,coins,st,again,label){
 function crGameReward(k,score,xp,coins){
  const c=crCat(),st=cr[k];st.best=Math.max(st.best||0,score);
  crSnap(c);c.p=crClamp(c.p+10);crCare();cr.stats.games++;crQ("games");
- crGain(c,xp);crCoin(coins);crSnd(score?"win":"lose");
+ crGain(c,xp);crCoin(coins);crSnd(score?"win":"lose");crLog("g");
  cr.say={t:Date.now(),m:score?`เล่นสนุกมาก! ได้ ${score} คะแนน`:"เกือบแล้ว ไว้ลองใหม่นะ",id:c.id};
 }
 const crGameXp=x=>Math.round(x*(crT(crCat(),"playful")?1.35:1));
@@ -9133,7 +9721,7 @@ const crCanPlay=k=>CR_PLAYS-cr[k].n>0||cr.inv.ticket>0;
 function crLaserStart(){if(!crStartPlay("laser"))return;$("crLRes").classList.add("hidden");crRenderGame();crSc?.startGame();crRenderGame()}
 function crLaserEnd(score,hits){
  const xp=crGameXp(Math.min(20,score)),coins=Math.min(25,score);
- cr.stats.laserHits+=hits||0;if(score>=15)crQ("laser15");
+ cr.stats.laserHits+=hits||0;if(score>=15)crQ("laser15");crWantHit("laser");
  crGameReward("laser",score,xp,coins);
  crResult("crLRes","หมดเวลา!",score,xp,coins,cr.laser,crLaserStart);
  crAfter();crRenderGame();
@@ -9214,7 +9802,7 @@ function crRenderNote(){
 function crRender(){
  if(!cr||!$("crLv"))return;
  const c=crCat(),v=crVals(c),lv=crLevel(c.xp),b=crBreed(c.breed),now=Date.now();
- $("crSub").textContent=`${c.name} · ${b.th} · ${CR_STAGES[crStageOf(lv.L)].th} · นิสัย${crTrait(c).th}`+(cr.room.length>1?` · ในห้อง ${cr.room.length} ตัว`:"");
+ $("crSub").textContent=(crTitle()?`「${crTitle()}」 `:"")+`${c.name} · ${b.th} · ${CR_STAGES[crStageOf(lv.L)].th} · นิสัย${crTrait(c).th}`+(cr.room.length>1?` · ในห้อง ${cr.room.length} ตัว`:"");
  $("crLv").textContent=lv.L;$("crXpT").textContent=`${lv.into}/${lv.need}`;crMeter($("crXpM"),Math.floor(lv.into/lv.need*10));
  [["Full",v.h],["Hap",v.p],["Cln",v.clean],["Grm",v.g]].forEach(([k,x])=>{crMeter($("cr"+k+"M"),cr10(x));const n=$("cr"+k+"N");n.textContent=cr10(x)+"/10";n.classList.toggle("cr-low",x<30)});
  const food=crFoodFor(lv.L),full=v.h>=85;
@@ -9230,6 +9818,8 @@ function crRender(){
  $("crBoxBar").classList.toggle("hidden",!cr.boxes);$("crBoxN").textContent=cr.boxes;
  if(cr.boxes&&CR_ATLAS.props.box)crPaint($("crBoxCv"),CR_ATLAS.props.box,.66);
  crRenderSay();crRenderNote();crBadges();
+ $("crScene").classList.toggle("hidden",!cr.decor.own.includes("balcony"));$("crScene").title=cr.scene==="balcony"?"กลับเข้าห้อง":"ไประเบียง";$("crScene").classList.toggle("on",cr.scene==="balcony");
+ if(cr.want){const W=CR_WANT[cr.want.k];$("crNote").innerHTML=`<b>${esc((cr.cats.find(x=>x.id===cr.want.cat)||c).name)} ${W.th}</b> — ${W.tip} ภายใน ${Math.max(1,Math.ceil((cr.want.until-Date.now())/60e3))} นาที ได้ +20 XP +20 เหรียญ`}
 }
 function crBadges(){
  if(!cr)return;crRenderCoins();
@@ -9368,7 +9958,8 @@ function crRenderAll(){
  if(crTab==="house")crRenderHouse();
  if(crTab==="games")crRenderGame();
  if(crTab==="quests")crRenderQuests();
- if(crTab==="shop")crRenderShop();
+ if(crTab==="shop"){crRenderShop();crRenderLooks()}
+ if(crTab==="quests")crRenderBadges();
 }
 function crShowTab(t){
  if(crBusy())return;
@@ -9376,22 +9967,25 @@ function crShowTab(t){
  if(crVisitS){crVisitS.stop();crVisitS=null}$("crVisit").classList.add("hidden");
  crTab=t;crCoach(t);
  document.querySelectorAll("[data-crtab]").forEach(b=>b.classList.toggle("on",b.dataset.crtab===t));
- ["room","house","games","quests","shop"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.toggle("hidden",k!==t));
+ ["room","house","games","quests","shop","pals"].forEach(k=>$("cr"+k[0].toUpperCase()+k.slice(1)).classList.toggle("hidden",k!==t));
+ if(t!=="room")crEditToggle(false);
  if(crSc){crSc.stop();crSc=null}
  if(crJmp){crJmp.stop();crJmp=null}
  if(t==="room")crSc=crStage("crCv","room");
  if(t==="games")crGameOpen("");
  crRenderAll();
- if(t==="house"){crRenderAlbum();crRenderFriends()}
+ if(t==="house"){crRenderAlbum();crRenderDiary()}
+ if(t==="pals")crRenderPals();
 }
 let crTimer=null;
 async function crOpen(){
  $("crSub").textContent="กำลังเรียกแมว…";
  await crLoad();
  crSndBtn();crWxLoad();crAwayRoll();crGiftsCheck().then(()=>setTimeout(crNextEvent,300));
+ crPlaydatesLoad(true).then(()=>{crBadges();setTimeout(crNextEvent,400)});crBadgeCheck();
  crShowTab(crTab==="games"?"games":crTab);
  clearInterval(crTimer);
- crTimer=setInterval(()=>{if(document.hidden)return;crTick();if(crTab==="room"&&!crCareS)crRender();else crBadges();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
+ crTimer=setInterval(()=>{if(document.hidden)return;crTick();crPlaydatesLoad();if(crTab==="room"&&!crCareS)crRender();else crBadges();if(!$("catModal").classList.contains("hidden"))return;crNextEvent()},1000);
  setTimeout(crNextEvent,600);
 }
 function crClose(){clearInterval(crTimer);crTimer=null;crSndLoop(false);if(crVisitS){crVisitS.stop();crVisitS=null}if(crCareS){crCareS.stop();crCareS=null;crCareKind="";$("crCare").classList.add("hidden");$("crRoom").classList.remove("hidden")}if(crSc){crSc.stop();crSc=null}if(crJmp){crJmp.stop();crJmp=null}if(crMatchS)crMatchS.run=false;clearInterval(crMatchT)}
@@ -9433,6 +10027,18 @@ function crNextEvent(){
    +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">ตกลง</button></div>`,next);
   crPaint($("cmBox"),CR_ATLAS.props.box,1);$("cmBox").style.width=CR_ATLAS.props.box[2]*2+"px";
   $("cmOk").onclick=()=>$("cmX").click();
+ }else if(e.type==="badge"){
+  const B=CR_BADGES.find(x=>x.k===e.k);
+  crModal("NEW BADGE",`<div class="cm-t">ได้ตราใหม่!</div><div class="cm-s">${esc(B.desc)}</div>`
+   +`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmMd" class="cm-pop"></canvas></div><div class="cm-rw"><em>${esc(B.th)}</em><br>+${B.coins} เหรียญ</div>`
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmTitle">ใช้เป็นฉายา</button><button class="cr-btn" id="cmOk">เก็บไว้ก่อน</button></div>`,next);
+  crMedal($("cmMd"),B,true,7);crSnd("level");
+  $("cmOk").onclick=()=>$("cmX").click();$("cmTitle").onclick=()=>{cr.title=B.k;crSaveSoon();crRender();$("cmX").click()};
+ }else if(e.type==="home"){
+  crModal("HOME!",`<div class="cm-t">${esc(c.name)} กลับมาแล้ว!</div><div class="cm-s">เที่ยวบ้านเพื่อนสนุกมาก</div>`
+   +`<div class="cm-pic"><canvas id="cmHm" class="cm-pop"></canvas></div><div class="cm-rw">+40 XP · +20 เหรียญ</div>`
+   +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">ยินดีต้อนรับกลับบ้าน</button></div>`,next);
+  crPaintCat($("cmHm"),c,"happy",3);crSnd("meow");$("cmOk").onclick=()=>$("cmX").click();
  }else if(e.type==="away"){
   const A=CR_AWAY[e.k];
   crModal("WHILE YOU WERE AWAY",`<div class="cm-t">ระหว่างที่ไม่อยู่...</div><div class="cm-s">${esc(c.name)} ${A.th}</div>`
@@ -9478,7 +10084,7 @@ function crHatch(breed,head){
  const b=crBreed(breed),used=new Set(cr.cats.map(c=>c.name));
  const name=CR_NAMES.find(n=>!used.has(n))||"CAT"+(cr.seq+1);
  const cat=crNewCat(++cr.seq,b.k,name);
- cr.cats.push(cat);crSaveSoon();crSnd("level");
+ cr.cats.push(cat);crSaveSoon();crSnd("level");crLog("cat",cat.name);
  const canRoom=cr.room.length<cr.slots;
  crModal("NEW CAT!",`<div class="cm-pic"><div class="cm-rays"></div><canvas id="cmNew" class="cm-pop"></canvas></div>`
   +`<div class="cm-t">${esc(b.en)}</div><div class="cm-s"><b>${head}</b> ${esc(b.th)}<br>${esc(b.blurb)}</div>`
@@ -9522,7 +10128,7 @@ function crToolPaint(cv,k,ps=3){
 }
 let crCareS=null,crCareKind="";
 function crCareOpen(kind){
- if(!cr)return;crTick();
+ if(!cr)return;crTick();if(crOutMsg(crCat()))return;
  const c=crCat(),v=crVals(c),now=Date.now();
  if(kind==="brush"&&v.g>=90){crSay("ขนสวยอยู่แล้ว ไว้ค่อยหวีนะ");return}
  if(kind==="bath"&&now-(c.bathAt||0)<CR_BATH_CD){crSay("เพิ่งอาบไปเอง ขอพักก่อนนะ");return}
@@ -9546,9 +10152,10 @@ function crCareDone(kind){
  const c=crCat(),now=Date.now();let xp=0,coins=0,say="";
  crRoomCats().forEach(x=>crSnap(x,now));crCare();
  const tidy=crT(c,"tidy")?1.3:1;
- if(kind==="brush"){c.g=crClamp(c.g+45);c.p=crClamp(c.p+8);crQ("brush");xp=20*tidy;coins=8;say="ขนนุ่มฟูเลย ขอบคุณนะ ♡"}
+ if(kind==="brush"){cr.stats.brush=(cr.stats.brush||0)+1;crLog("b");crWantHit("brush",c);c.g=crClamp(c.g+45);c.p=crClamp(c.p+8);crQ("brush");xp=20*tidy;coins=8;say="ขนนุ่มฟูเลย ขอบคุณนะ ♡"}
+ if(kind==="bath"){cr.stats.bath=(cr.stats.bath||0)+1;crLog("w");}
  if(kind==="bath"){const aq=crT(c,"aqua")?1.6:1;c.g=100;c.p=crClamp(c.p+10);c.bathAt=now;crQ("bath");xp=35*aq;coins=15*aq;say=aq>1?"ไม่ชอบน้ำเลย... แต่หอมจริงแหละ":"หอมฟุ้งเลย! ขนนุ่มสุด ๆ"}
- if(kind==="scoop"){cr.cleanAt=now;c.p=crClamp(c.p+5);crQ("clean");cr.stats.cleans++;xp=15*tidy;coins=5;say="หอมแล้ว ขอบคุณนะ"}
+ if(kind==="scoop"){crLog("s");cr.cleanAt=now;c.p=crClamp(c.p+5);crQ("clean");cr.stats.cleans++;xp=15*tidy;coins=5;say="หอมแล้ว ขอบคุณนะ"}
  xp=Math.round(xp);coins=Math.round(coins);
  crGain(c,xp);crCoin(coins);cr.say={t:now,m:say,id:c.id};
  $("crCareRes").innerHTML=`<h4>${{brush:"หวีขนเสร็จแล้ว!",bath:"อาบน้ำเสร็จแล้ว!",scoop:"สะอาดเอี่ยม!"}[kind]}</h4>`
@@ -9760,7 +10367,7 @@ function crCareScene(kind,c){
 }
 // backdrops for the close-ups, in the room's six tones
 function crCareBg(kind,W,H,tub,sand){
- if(kind==="brush")return crRoom(W,H,cr.decor.on);
+ if(kind==="brush")return crRoom(W,H,cr.decor.on,cr.look,cr.decor.pos);
  const c=document.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");
  const R=(x,y,w,h,k)=>{g.fillStyle=CR_R[k];g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
  if(kind==="bath"){
@@ -9813,7 +10420,8 @@ document.querySelectorAll("[data-crtab]").forEach(b=>b.onclick=()=>crShowTab(b.d
 $("crFeed").onclick=crFeed;$("crPet").onclick=crPet;
 $("crClean").onclick=()=>crCareOpen("scoop");$("crBrush").onclick=()=>crCareOpen("brush");$("crBath").onclick=()=>crCareOpen("bath");
 $("crCareBack").onclick=crCareClose;
-$("crSndBtn").onclick=crSndToggle;$("crCam").onclick=crCamera;$("crVBack").onclick=crVisitClose;
+$("crSndBtn").onclick=crSndToggle;
+$("crScene").onclick=crSceneToggle;$("crEdit").onclick=()=>crEditToggle(!crSc?.editing);$("crEditDone").onclick=()=>crEditToggle(false);$("crCam").onclick=crCamera;$("crVBack").onclick=crVisitClose;
 $("crCoachOk").onclick=()=>{if(crCoachKey&&cr){cr.seen[crCoachKey]=1;crSaveSoon()}crCoach("")};
 $("crGamesGo").onclick=()=>crShowTab("games");$("crHouseGo").onclick=()=>crShowTab("house");
 $("crBoxOpen").onclick=crOpenBox;
@@ -9834,6 +10442,12 @@ $("catView").addEventListener("click",e=>{
  if((el=t.closest("[data-crtab-go]"))){crShowTab(el.dataset.crtabGo);return}
  if((el=t.closest("[data-ph]"))){crPhotoOpen(el.dataset.ph);return}
  if((el=t.closest("[data-visit]"))){crVisitOpen(el.dataset.visit);return}
+ if((el=t.closest("[data-play]"))){crPlaydateStart(el.dataset.play).then(()=>crRenderFriendsTab());return}
+ if((el=t.closest("[data-fam]"))){const a=el.dataset.fam;if(a==="rename"){const n=prompt("ตั้งชื่อแมวของบ้าน (A–Z, ไม่เกิน 12 ตัว)",crFamily?.name||"");if(n&&n.trim())crFamilyAct("rename",n.trim().slice(0,12))}else if(a==="wear")crFamilyWear();else crFamilyAct(a);return}
+ if(t.closest("[data-coop]")){crCoopClaim();return}
+ if((el=t.closest("[data-bdg]"))){cr.title=cr.title===el.dataset.bdg?null:el.dataset.bdg;crSaveSoon();crRenderBadges();crRender();return}
+ if((el=t.closest("[data-look-buy]"))){crLookBuy(el.dataset.lookBuy);return}
+ if((el=t.closest("[data-look-use]"))){crLookUse(el.dataset.lookUse);return}
  if((el=t.closest("[data-gift]"))){el.disabled=true;crSendGift(el.dataset.to,el.dataset.gift);return}
 });
 // the backup file carries the room too, so a level-30 cat is never lost
