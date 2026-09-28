@@ -440,6 +440,21 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.89 Product Launch: a root map of the whole process
+- The top card of Process & Timeline now shows the launch as roots.
+  - The product sits on the left and one root grows per phase: formula & FDA, 7-11, label and carton.
+  - Each milestone is a knot on its root, and every root runs into the finish on the right: "ขึ้นชั้น 7-11", or "พร้อมขึ้นห้าง" when there is no 7-11 phase, with its date.
+- Knot styles:
+  - Filled with ✓: done.
+  - Ringed and pulsing, with a "ตอนนี้" tag: where that root is now.
+  - Hollow: still ahead.
+  - Red: late, or Product Selection did not pass.
+- The 7-11 root grows out of the confirmed formula. A dotted line shows QA 7-11 waiting on the label.
+- A row of chips above the map lists where every phase is right now.
+- Clicking a chip or a knot opens that milestone in the list below and scrolls to it.
+- On a phone the roots hang down one under the other, as a tree.
+- No SQL.
+
 ## V7.88 Product Launch: the 7-11 process, and a plan you can type dates into
 - **เข้า 7-11**, a fourth phase next to formula, label and carton, in three milestones:
   - **นำเสนอสินค้า 7-11**: the presentation file plus a mock-up to show first.
