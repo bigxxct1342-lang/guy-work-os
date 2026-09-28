@@ -70,6 +70,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-81-cat-room.sql` Cat Room, one private document per person
 - `migration-v7-84-cat-friends.sql` Cat Room visits, gifts and photo album
 - `migration-v7-86-cat-together.sql` playdates, weekly team goal, family cat
+- `migration-v7-88-launch-711.sql` Product Launch: 7-11 phase, real start dates, "failed" step status
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
@@ -438,6 +439,27 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.88 Product Launch: the 7-11 process, and a plan you can type dates into
+- **เข้า 7-11**, a fourth phase next to formula, label and carton, in three milestones:
+  - **นำเสนอสินค้า 7-11**: the presentation file plus a mock-up to show first.
+  - **Product Selection**: the product-offer form from MT, a mock-up holding the confirmed formula (10 packs per SKU), tasting cups and spoons, and the messenger run. It has its own ✓ ผ่าน / ✗ ไม่ผ่าน buttons, and "ส่งเข้า Selection รอบใหม่" restarts it and counts the round.
+  - **ส่งเอกสาร QA 7-11**: the 7-11 document set, which shows how many papers are ready and how many are still with the factory, plus the real mock-up.
+- The plan knows 7-11's rules:
+  - The phase starts once the formula is confirmed (CF).
+  - Product Selection ends on the Tuesday the results come out.
+  - QA waits for the label to be finished.
+  - The finish box gives the date the product can be on the 7-11 shelf.
+- New products get the phase automatically. Existing products have a "+ ใส่ขั้นตอน 7-11" button.
+- **ตารางงาน & วันที่คาดการณ์** replaces the Gantt. It has two views:
+  - **ปฏิทิน**: a month calendar in the same style as the Creative post calendar. Each piece of work is one bar across its days, coloured by phase; weekends and Thai holidays are shaded.
+    - Click a bar to edit it. Click an empty weekday to add work starting that day.
+  - **ตาราง**: one row per milestone showing start date, number of business days (with − / + buttons) and finish date, plus a "+ เพิ่มงาน" button for each phase. This is the default view on a phone.
+- A milestone can be given a real start date. With none, it follows the one before it, as before. The first step set to Working or Done fills the start date in automatically, so dates stop sliding forward every morning.
+- New milestones are added at the end of their phase. Before this they could land in the middle, because the position was taken from a count rather than from the last position used.
+- Requires `migration-v7-88-launch-711.sql`. Until it is run:
+  - everything else works;
+  - the 7-11 phase, the start dates and "ไม่ผ่าน" say that the SQL is needed.
 
 ## V7.87 Cat Room: Scottish Folds get their own poses
 - The Scottish Fold now has its own pose sheet: sit, eyes-closed sit, happy, eating (with his own bowl), sleeping curled, crouch, leap and walk. The other breeds still borrow the sit pose and move it, until their sheets arrive.
