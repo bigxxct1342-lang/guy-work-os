@@ -2589,7 +2589,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.86</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.87</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -7929,7 +7929,7 @@ function bootReport(){
    only exist for PORKCHOP are borrowed from his sitting pose on other
    breeds until their own sheets arrive. Outfits and furniture are drawn in
    code in the same four levels. */
-const CR_ATLAS={"stages":{"kitten":{"sit":[0,0,41,35],"sitB":[42,0,43,32],"eat":[86,0,48,38],"eat2":[135,0,47,38],"happy":[183,0,43,38],"sleep":[227,0,49,29],"sleep2":[277,0,46,27],"crouch":[324,0,51,29],"leap":[376,0,50,33]},"teen":{"sit":[427,0,46,48],"sitB":[0,49,45,48],"eat":[46,49,55,43],"eat2":[102,49,54,39],"happy":[157,49,56,49],"sleep":[214,49,68,34],"sleep2":[283,49,67,29],"crouch":[351,49,55,33],"leap":[407,49,58,34]},"adult":{"sit":[466,49,45,41],"sitB":[0,99,47,40],"eat":[48,99,52,38],"eat2":[101,99,53,42],"happy":[155,99,47,41],"sleep":[203,99,50,31],"sleep2":[254,99,52,30],"crouch":[307,99,56,32],"leap":[364,99,60,45]},"boss":{"sit":[425,99,60,48],"sitB":[0,148,53,45],"eat":[54,148,60,42],"eat2":[115,148,55,44],"happy":[171,148,53,49],"sleep":[225,148,82,40],"sleep2":[308,148,88,40],"crouch":[397,148,64,33],"leap":[0,198,71,43]}},"breeds":{"scottish":[72,198,47,41],"khaomanee":[120,198,40,41],"persian":[161,198,46,41],"american":[208,198,57,41],"bombay":[266,198,36,41],"siamese":[303,198,47,41]},"props":{"kibble":[351,198,30,21],"mackerel":[382,198,34,23],"canned":[417,198,23,20],"treat":[441,198,28,30],"box":[0,242,67,60]}};
+const CR_ATLAS={"stages":{"kitten":{"sit":[0,0,41,35],"sitB":[42,0,43,32],"eat":[86,0,48,38],"eat2":[135,0,47,38],"happy":[183,0,43,38],"sleep":[227,0,49,29],"sleep2":[277,0,46,27],"crouch":[324,0,51,29],"leap":[376,0,50,33]},"teen":{"sit":[427,0,46,48],"sitB":[0,49,45,48],"eat":[46,49,55,43],"eat2":[102,49,54,39],"happy":[157,49,56,49],"sleep":[214,49,68,34],"sleep2":[283,49,67,29],"crouch":[351,49,55,33],"leap":[407,49,58,34]},"adult":{"sit":[466,49,45,41],"sitB":[0,99,47,40],"eat":[48,99,52,38],"eat2":[101,99,53,42],"happy":[155,99,47,41],"sleep":[203,99,50,31],"sleep2":[254,99,52,30],"crouch":[307,99,56,32],"leap":[364,99,60,45]},"boss":{"sit":[425,99,60,48],"sitB":[0,148,53,45],"eat":[54,148,60,42],"eat2":[115,148,55,44],"happy":[171,148,53,49],"sleep":[225,148,82,40],"sleep2":[308,148,88,40],"crouch":[397,148,64,33],"leap":[0,198,71,43]}},"breeds":{"scottish":[0,303,42,41],"khaomanee":[120,198,40,41],"persian":[161,198,46,41],"american":[208,198,57,41],"bombay":[266,198,36,41],"siamese":[303,198,47,41]},"props":{"kibble":[351,198,30,21],"mackerel":[382,198,34,23],"canned":[417,198,23,20],"treat":[441,198,28,30],"box":[0,242,67,60]},"poses":{"scottish":{"sit":[0,303,42,41],"sitB":[43,303,41,41],"happy":[85,303,42,41],"eat":[128,303,47,29],"eat2":[176,303,46,29],"sleep":[223,303,44,27],"crouch":[268,303,46,31],"leap":[315,303,49,29],"walk":[365,303,46,35]}}};
 const CR_BREEDS=[
  {k:"mix",      en:"MIX",        th:"ส้มลาย",          blurb:"ส้มลายเจ้าเดิม ขี้อ้อน กินเก่ง"},
  {k:"scottish", en:"SCOTTISH",   th:"สก็อตติชโฟลด์",   blurb:"หูพับ น่ารัก ขี้อ้อน ชอบนั่งมองคุณเงียบ ๆ"},
@@ -8030,7 +8030,7 @@ const crClamp=v=>Math.max(0,Math.min(100,v));
 
 let cr=null,crCloud="",crLoading=null,crSaveT=null,crEvents=[],crSel=null,crTab="room",crGame="";
 const crKey=()=>"porkchop_cat_"+(user?.id||"anon");
-const crImg=new Image();crImg.src="./cat-sprites.png";
+const crImg=new Image();crImg.src="./cat-sprites.png?v=787";
 
 function crNewCat(id,breed,name){const now=Date.now();return {id,breed,name,xp:0,h:80,p:80,g:80,t:now,petAt:0,bathAt:0,boxLv:0,born:now,wear:{},trait:CR_TRAITS[Math.floor(Math.random()*CR_TRAITS.length)].k}}
 function crNew(){
@@ -8203,6 +8203,9 @@ function crFrame(c,pose){
  if(c.breed==="mix"||!CR_ATLAS.breeds[c.breed]){
   const f=CR_ATLAS.stages[st];return {r:f[pose]||f.sit,s:1,own:!!f[pose]};
  }
+ // a breed with its own pose sheet; the rest borrow the sit and move it
+ const bp=CR_ATLAS.poses&&CR_ATLAS.poses[c.breed];
+ if(bp){const r=bp[pose]||(pose==="sleep2"?bp.sleep:null);return {r:r||bp.sit,s:crBScale(si),own:!!r}}
  return {r:CR_ATLAS.breeds[c.breed],s:crBScale(si),own:false};
 }
 const CR_DRESSED=new Set(["sit","sitB","happy"]);
@@ -8531,7 +8534,10 @@ function crStage(cvId,mode){
  function hop(A,to,now){
   const a=st(A.id),x0=a.x,y0=a.y,d=Math.hypot(to.x-x0,to.y-y0);
   if(d<3){a.x=to.x;a.y=to.y;a.spot=to.k;return}
-  a.hop={x0,y0,x1:to.x,y1:to.y,t0:now,dur:Math.max(380,Math.min(900,380+d*4)),h:8+Math.max(0,y0-to.y)*.9+d*.06,k:to.k};
+  // along the floor, a cat that has a walk frame walks instead of hopping
+  const walk=to.k==="floor"&&(a.spot||"floor")==="floor"&&Math.abs(to.y-y0)<8&&crFrame(A.c,"walk").own;
+  a.hop=walk?{x0,y0,x1:to.x,y1:to.y,t0:now,dur:Math.max(600,Math.min(2400,d*16)),h:0,k:to.k,walk:1}
+   :{x0,y0,x1:to.x,y1:to.y,t0:now,dur:Math.max(380,Math.min(900,380+d*4)),h:8+Math.max(0,y0-to.y)*.9+d*.06,k:to.k};
   a.flip=to.x<x0;a.until=0;
  }
  const asleepNow=(c,v)=>{const hr=crHour();return v.sulk||hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8))};
@@ -8576,7 +8582,7 @@ function crStage(cvId,mode){
   const a=st(A.id),h=a.hop;if(!h)return;
   const t=Math.min(1,(now-h.t0)/h.dur);
   a.x=h.x0+(h.x1-h.x0)*t;a.y=h.y0+(h.y1-h.y0)*t-Math.sin(t*Math.PI)*h.h;
-  if(t>=1){a.x=h.x1;a.y=h.y1;a.spot=h.k;a.hop=null;pose(A.id,"crouch",200);
+  if(t>=1){a.x=h.x1;a.y=h.y1;a.spot=h.k;a.hop=null;if(!h.walk)pose(A.id,"crouch",200);
    if(a.social&&now-a.social.at<3000){pose(A.id,"happy",2000);pose(a.social.id,"happy",2000);spawn("heart",a.x,a.y-(a.hw||10)*1.6,2);a.social=null}}
  }
  function drawBowl(x,y,full){
@@ -8591,15 +8597,17 @@ function crStage(cvId,mode){
   for(let j=0;j<7;j++)for(let i=0;i<7;i++){const d=(i-3)*(i-3)+(j-3)*(j-3);if(d>10)continue;g.fillStyle=d>7?"#2b1d0c":((i+j+((now/120)|0)*(sp>.004?1:0))%3?"#d1841c":"#8a4708");g.fillRect(x-3+i,y-7+j,1,1)}
  }
  function drawCat(c,p,x,y,flip,now,dt,marked,id,guest){
-  const f0=crFrame(c,p==="sitB"&&!crFrame(c,"sitB").own?"sit":p);
+  // chewing and breathing: alternate with the second frame when there is one
+  const p2=p==="eat"&&((now/320)|0)%2?"eat2":p==="sleep"&&((now/1300)|0)%2?"sleep2":null;
+  const f0=crFrame(c,p2&&crFrame(c,p2).r!==crFrame(c,p).r&&crFrame(c,p2).own?p2:p==="sitB"&&!crFrame(c,"sitB").own?"sit":p);
   const f={...f0,s:f0.s*crZoom(W)};
   let yy=y;
   if(!f.own){ // borrowed pose: say it with motion instead
    if(p==="eat")yy+=((now/180)|0)%2;
    if(p==="leap")yy-=2;if(p==="crouch")yy+=1;
-  }
+  }else if(p==="walk")yy-=((now/160)|0)%2;
   const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x));
-  const onFloor=!AS[id]||!AS[id].hop;
+  const onFloor=!AS[id]||!AS[id].hop||AS[id].hop.walk;
   if(onFloor){g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1)}
   if(p==="eat"&&!f.own)drawBowl(x+(flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
   const d=crDraw(g,f.r,f.s,x,yy,flip);
@@ -8616,7 +8624,7 @@ function crStage(cvId,mode){
  }
  function catPose(A,now){
   const a=st(A.id);
-  if(a.hop)return "leap";
+  if(a.hop)return a.hop.walk?"walk":"leap";
   if(now<a.until)return a.pose;
   if(!A.guest&&asleepNow(A.c,crVals(A.c)))return "sleep";
   return "sit";
@@ -8827,11 +8835,11 @@ function crJumpStage(){
   // the floor slides by
   g.fillStyle="rgba(43,29,12,.35)";for(let x=-(scroll%12);x<W;x+=12)g.fillRect(Math.round(x),G0+2,5,1);
   obs.forEach(drawOb);
-  const c=crCat(),air=cat&&cat.y<G0-1,p=!cat?"sit":air?"leap":run?(((now/140)|0)%2?"crouch":"sitB"):"sit";
+  const c=crCat(),air=cat&&cat.y<G0-1,p=!cat?"sit":air?"leap":run?(crFrame(c,"walk").own?"walk":((now/140)|0)%2?"crouch":"sitB"):"sit";
   const f0=crFrame(c,p==="sitB"&&!crFrame(c,"sitB").own?"sit":p),f={...f0,s:f0.s*crZoom(W)};
   const x=cat?cat.x:W*.18,y=cat?cat.y:G0;
   g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.35);g.fillRect(Math.round(x-sw),G0-1,sw*2,1);
-  crDraw(g,f.r,f.s,x,y-(!f.own&&run&&!air?((now/140)|0)%2:0),false);
+  crDraw(g,f.r,f.s,x,y-((!f.own||p==="walk")&&run&&!air?((now/140)|0)%2:0),false);
   if(CR_DRESSED.has(p))crWearDraw(g,c,f.r,f.s,x,y,false);
  }
  function jump(){if(!run||!cat)return;if(cat.y>=ground()-1){cat.vy=-.3;crSnd("jump")}}

@@ -439,6 +439,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.87 Cat Room: Scottish Folds get their own poses
+- The Scottish Fold now has its own pose sheet: sit, eyes-closed sit, happy, eating (with his own bowl), sleeping curled, crouch, leap and walk. The other breeds still borrow the sit pose and move it, until their sheets arrive.
+- Cats with a walk frame walk along the floor instead of hopping; hops up to the sill, the rail and the cat tree still leap. In the jump game they run on the walk frame.
+- Eating and sleeping alternate with a second frame where the breed has one (chewing, breathing).
+- `cat-sprites.png` grew a row; `CR_ATLAS.poses.<breed>` holds a breed's own frames. The image is loaded as `cat-sprites.png?v=787` so no browser keeps the old one.
+- No SQL.
+
 ## V7.86 Cat Room: cats that live in the room, and cats that visit
 - **Cats move on their own**: they hop between spots — the floor (each in its own lane), the window sill or balcony rail, the cat tree, the cushion to sleep — go and sit with each other and groom, and sleep where there is room at night.
 - **Name tags** over every cat whenever there is more than one, and "LUNA · ของ FON" over a visitor, so identical-looking cats can be told apart. Tags that would overlap are stacked.
