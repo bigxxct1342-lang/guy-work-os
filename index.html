@@ -1018,6 +1018,75 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr .icon-btn{background:transparent;border:1px solid var(--t-line);border-radius:6px;
  color:var(--t-dim);cursor:pointer;padding:3px 5px;display:inline-flex;align-items:center}
 .scr .icon-btn:hover{border-color:var(--t-line-on);color:var(--t-amb)}
+/* V7.89 root map */
+.npd-now{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px}
+.npd-now-l{font-size:12px;font-weight:800;color:var(--t-dim)}
+.npd-now-c{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--c) 55%,transparent);
+ background:color-mix(in srgb,var(--c) 12%,transparent);color:color-mix(in srgb,var(--c) 75%,#000);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.npd-now-c i{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 25%,transparent)}
+.npd-now-c.bad{border-color:rgba(163,50,36,.6);color:#a33224}
+.npd-map{margin-top:14px}
+.nm{position:relative}
+.nm-svg{position:absolute;inset:0;overflow:visible}
+.nm-ln{fill:none;stroke:color-mix(in srgb,var(--c) 38%,transparent);stroke-width:3;stroke-dasharray:5 5;stroke-linecap:round}
+.nm-ln.on{stroke:var(--c);stroke-dasharray:none;stroke-width:4}
+.nm-ln.soft{stroke-dasharray:2 6}
+.nm-dep{fill:none;stroke:rgba(123,92,196,.45);stroke-width:1.5;stroke-dasharray:2 4}
+.nm-root,.nm-end{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;z-index:2}
+.nm-root i{width:26px;height:26px;border-radius:50%;background:var(--t-amb,#8a4708);box-shadow:0 0 0 5px rgba(138,71,8,.15)}
+.nm-root b{position:absolute;top:34px;width:78px;font-size:11px;line-height:1.25;color:var(--t-ink)}
+.nm-end i{font-style:normal;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;
+ background:var(--card);border:2px dashed var(--t-line-on,#a8640a)}
+.nm-end.is-done i{border-style:solid;background:rgba(47,138,88,.18)}
+.nm-end b,.nm-end small{position:absolute;width:96px;left:50%;transform:translateX(-50%);font-size:11.5px;color:var(--t-ink)}
+.nm-end b{top:42px}.nm-end small{top:58px;font-weight:800;color:var(--t-amb,#8a4708)}
+.nm-br{position:absolute;transform:translate(-50%,-150%);font-size:10.5px;font-weight:900;letter-spacing:.02em;color:color-mix(in srgb,var(--c) 80%,#000);
+ background:var(--card);padding:0 5px;border-radius:5px;white-space:nowrap;z-index:1}
+.nm-n{position:absolute;transform:translate(-50%,-11px);display:flex;flex-direction:column;align-items:center;gap:3px;padding:0;border:0;background:none;
+ font:inherit;cursor:pointer;text-align:center;z-index:2}
+.nm-n i{font-style:normal;width:22px;height:22px;flex:none;border-radius:50%;box-sizing:border-box;border:3px solid color-mix(in srgb,var(--c) 55%,transparent);
+ background:var(--card);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff}
+.nm-n b{font-size:11.5px;line-height:1.25;color:var(--t-ink);font-weight:750;overflow-wrap:anywhere}
+.nm-n small{font-size:10.5px;color:var(--t-dim);font-weight:700;white-space:nowrap}
+.nm-n.s-done i{background:var(--c);border-color:var(--c)}
+.nm-n.s-done b{color:var(--t-dim);font-weight:650}
+.nm-n.s-now i{border-color:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent);animation:nmPulse 1.8s ease-in-out infinite}
+.nm-n.s-now b{font-weight:900}
+.nm-n.s-now small{color:color-mix(in srgb,var(--c) 80%,#000)}
+.nm-n em{position:absolute;bottom:100%;margin-bottom:4px;font-style:normal;font-size:9.5px;font-weight:900;color:#fff;background:var(--c);padding:1px 6px;border-radius:5px;white-space:nowrap}
+.nm-n.s-late i,.nm-n.s-fail i{border-color:#a33224}
+.nm-n.s-late small,.nm-n.s-fail small{color:#a33224}
+.nm-n.s-fail i{background:#a33224}
+.nm-n.s-late em,.nm-n.s-fail em{background:#a33224}
+.nm-n:hover b{color:var(--t-amb,#8a4708)}
+@keyframes nmPulse{50%{box-shadow:0 0 0 9px color-mix(in srgb,var(--c) 8%,transparent)}}
+@media (prefers-reduced-motion:reduce){.nm-n.s-now i{animation:none}}
+.nmv{position:relative;padding-left:4px}
+.nmv-root,.nmv-end{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:900;color:var(--t-ink)}
+.nmv-root i{width:16px;height:16px;border-radius:50%;background:var(--t-amb,#8a4708);flex:none}
+.nmv-end{margin-top:2px;padding-top:8px}
+.nmv-end i::before{content:"🏁"}.nmv-end i{font-style:normal}
+.nmv-end b{color:var(--t-amb,#8a4708)}
+.nmv-br{position:relative;margin-left:7px;padding:8px 0 4px 18px;border-left:2px solid var(--t-line)}
+.nmv-br::before{content:"";position:absolute;left:-2px;top:0;width:14px;height:17px;border-left:2px solid var(--t-line);border-bottom:2px solid var(--t-line);border-bottom-left-radius:10px}
+.nmv-bh{font-size:12px;font-weight:900;color:color-mix(in srgb,var(--c) 80%,#000);margin-bottom:4px;display:flex;gap:8px;align-items:baseline}
+.nmv-bh small{font-size:10.5px;font-weight:700;color:var(--t-dim)}
+.nmv-n{position:relative;display:grid;grid-template-columns:18px 1fr auto;grid-template-areas:"dot t tag" "dot s tag";column-gap:8px;align-items:center;width:100%;
+ padding:5px 0 5px 4px;border:0;background:none;font:inherit;text-align:left;cursor:pointer;margin-left:4px;border-left:3px dashed color-mix(in srgb,var(--c) 35%,transparent)}
+.nmv-n.s-done{border-left-style:solid;border-left-color:var(--c)}
+.nmv-n i{grid-area:dot;width:14px;height:14px;border-radius:50%;margin-left:-13px;box-sizing:border-box;border:3px solid color-mix(in srgb,var(--c) 55%,transparent);background:var(--card)}
+.nmv-n.s-done i{background:var(--c);border-color:var(--c)}
+.nmv-n.s-now i{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 22%,transparent)}
+.nmv-n.s-late i,.nmv-n.s-fail i{border-color:#a33224}
+.nmv-n b{grid-area:t;font-size:12.5px;color:var(--t-ink);font-weight:750}
+.nmv-n.s-done b{color:var(--t-dim);font-weight:650}
+.nmv-n.s-now b{font-weight:900}
+.nmv-n small{grid-area:s;font-size:11px;color:var(--t-dim);font-weight:700}
+.nmv-n.s-late small,.nmv-n.s-fail small{color:#a33224}
+.nmv-n em{grid-area:tag;font-style:normal;font-size:10px;font-weight:900;color:#fff;background:var(--c);padding:1px 6px;border-radius:5px}
+.nmv-n.s-late em,.nmv-n.s-fail em{background:#a33224}
+.pl-milestone.flash{animation:plFlash 1.4s ease-out}
+@keyframes plFlash{0%,30%{box-shadow:inset 0 0 0 2px var(--t-accent,#c9761a);background:rgba(224,149,31,.14)}}
 /* V7.88 launch plan: a calendar like the post schedule, and a table to type dates into */
 #productlaunchView .scr-in{container-type:inline-size}
 .npd-plan-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
@@ -2438,6 +2507,8 @@ body.dark .splash{background:#15120e}
      <div class="progress-line"><strong>Overall Completion</strong><strong id="npdOverallPct">0%</strong></div>
      <div class="progress-wrap"><div id="npdOverallBar" class="progress-bar" style="width:0%"></div></div>
      <div id="npdFinishText" class="help" style="margin-top:10px"></div>
+     <div id="npdNow" class="npd-now"></div>
+     <div id="npdMap" class="npd-map"></div>
     </div>
 
     <div class="card section npd-plan" style="margin-bottom:18px">
@@ -2680,7 +2751,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.88</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.89</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4457,7 +4528,7 @@ function renderNpdMilestone(m){
  const doneN=steps.filter(s=>s.status==="done").length,totalN=steps.filter(s=>s.status!=="skipped").length,skippedN=steps.filter(s=>s.status==="skipped").length;
  const isDone=totalN>0&&doneN===totalN;
  const collapsed=npdIsCollapsed(m,isDone);
- return `<div class="pl-milestone ${collapsed?"collapsed":""}">
+ return `<div class="pl-milestone ${collapsed?"collapsed":""}" data-mid="${m.id}">
   <div class="pl-milestone-head" onclick="npdToggleMilestone(${m.id})">
    <div class="collapse-chevron"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></div>
    <div class="milestone-num">${m.seq+1}</div>
@@ -4500,7 +4571,102 @@ function renderNpdPhases(){
   </div>`;
  }).join("");
 }
-function renderNpdTimelinePane(){renderNpdOverall();renderNpdPlan();renderNpdPhases()}
+function renderNpdTimelinePane(){renderNpdOverall();renderNpdPlan();renderNpdPhases();renderNpdMap()}
+/* ---- the root map --------------------------------------------------------
+   The whole launch on one screen: the product on the left, one root per
+   phase, one knot per milestone, all of them running into the day it can be
+   sold. 7-11 grows out of the confirmed formula, and its QA knot waits on the
+   label. Filled = done, ringed = where each root is now, hollow = still ahead. */
+function npdMapModel(){
+ const P=npdPlan(),byId=Object.fromEntries(P.all.map(x=>[x.m.id,x]));
+ // 7-11 sits right under the formula it grows out of, so its root stays short
+ const order=["formula_fda","seven","label","carton"];
+ const branches=[...NPD_PHASES].sort((a,b)=>order.indexOf(a.key)-order.indexOf(b.key)).map(ph=>{
+  const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);
+  let cur=false;
+  const nodes=ms.map(m=>{
+   const steps=npdSteps.filter(s=>s.milestone_id===m.id),x=byId[m.id],done=npdMilestoneDone(steps);
+   const dn=steps.filter(s=>s.status==="done").length,tot=steps.filter(s=>s.status!=="skipped").length;
+   let st=done?"done":"next";
+   if(!done&&!cur){cur=true;st="now"}
+   const failed=steps.some(s=>s.status==="failed"),late=!!(x&&x.late);
+   return {m,st,failed,late,x,dn,tot,tmpl:msTmpl(m)};
+  });
+  return {ph,nodes,done:nodes.length>0&&nodes.every(n=>n.st==="done")};
+ }).filter(b=>b.nodes.length);
+ const ready=[P.lastEnd(P.formula_fda),P.lastEnd(P.label)].filter(Boolean).sort((a,b)=>b-a)[0];
+ const shelf=npdMilestones.some(m=>m.phase==="seven")?P.lastEnd(P.seven):null;
+ return {branches,end:shelf||ready,endLabel:shelf?"ขึ้นชั้น 7-11":"พร้อมขึ้นห้าง",allDone:branches.every(b=>b.done)};
+}
+function npdNodeNote(n){
+ if(n.st==="done")return "✓ เสร็จ";
+ if(n.failed)return "✗ ไม่ผ่าน";
+ if(n.late&&n.x)return `เลย ${Math.round((npdD0()-n.x.end)/864e5)} วัน`;
+ const d=n.x?npdFmt(n.x.end):"";
+ return n.st==="now"?`${n.dn}/${n.tot} · เสร็จ ~${d}`:`~${d}`;
+}
+const npdNodeCls=n=>`s-${n.st}${n.failed?" s-fail":n.late?" s-late":""}`;
+function renderNpdMap(){
+ const el=$("npdMap");if(!el)return;
+ const W=el.clientWidth;if(!W)return;
+ const M=npdMapModel();
+ const now=M.branches.flatMap(b=>b.nodes.filter(n=>n.st==="now").map(n=>({b,n})));
+ $("npdNow").innerHTML=now.length?`<span class="npd-now-l">ตอนนี้อยู่ที่</span>`+now.map(({b,n})=>`<button class="npd-now-c${n.failed||n.late?" bad":""}" style="--c:${b.ph.hue}" onclick="npdMapGo(${n.m.id})"><i></i>${esc(b.ph.short)} · <b>${esc(n.m.title)}</b></button>`).join("")
+  :`<span class="npd-now-l">ทุกขั้นตอนเสร็จแล้ว 🎉</span>`;
+ const prod=npdProducts.find(p=>p.id===npdCurrentProductId);
+ if(W<640){ // phone: the roots hang down, one under the other
+  el.innerHTML=`<div class="nmv"><div class="nmv-root"><i></i>${esc(prod?prod.name:"สินค้า")}</div>`
+   +M.branches.map(b=>`<div class="nmv-br${b.done?" is-done":""}" style="--c:${b.ph.hue}"><div class="nmv-bh">${esc(b.ph.short)}${b.ph.key==="seven"?'<small>แตกจาก CF สูตร</small>':""}</div>`
+    +b.nodes.map(n=>`<button class="nmv-n ${npdNodeCls(n)}" onclick="npdMapGo(${n.m.id})"><i></i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}${n.tmpl==="711_qa"?" · รอฉลากเสร็จ":""}</small>${n.st==="now"?'<em>ตอนนี้</em>':""}</button>`).join("")+`</div>`).join("")
+   +`<div class="nmv-end${M.allDone?" is-done":""}"><i></i>${M.endLabel}${M.end?` <b>~${npdFmt(M.end)}</b>`:""}</div></div>`;
+  return;
+ }
+ // desktop: left to right, every root converging on the finish
+ const B=M.branches,fi=B.findIndex(b=>b.ph.key==="formula_fda");
+ const cfIdx=fi<0?-1:B[fi].nodes.findIndex(n=>n.tmpl==="formula_cf");
+ B.forEach(b=>b.col0=b.ph.key==="seven"&&cfIdx>=0?cfIdx+2:1);
+ const nCols=Math.max(...B.map(b=>b.col0+b.nodes.length-1))+1;
+ const RH=100,H=B.length*RH+14,L=52,R=62,cw=(W-L-R)/nCols;
+ const X=c=>L+c*cw,Y=i=>14+i*RH+RH/2-16,midY=14+(B.length*RH)/2-16;
+ const pos={};B.forEach((b,i)=>b.nodes.forEach((n,k)=>pos[n.m.id]={x:X(b.col0+k),y:Y(i)}));
+ const curve=(x1,y1,x2,y2)=>{const mx=(x1+x2)/2;return `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`};
+ let paths="",nodes="",tags="";
+ B.forEach((b,i)=>{
+  const c=b.ph.hue,first=b.nodes[0],p0=pos[first.m.id];
+  // where the root starts: the product, or for 7-11 the confirmed formula
+  let from={x:X(0),y:midY};
+  if(b.ph.key==="seven"&&cfIdx>=0)from=pos[B[fi].nodes[cfIdx].m.id];
+  const on0=first.st!=="next"||b.ph.key!=="seven"||(cfIdx>=0&&B[fi].nodes[cfIdx].st==="done");
+  paths+=`<path d="${curve(from.x,from.y,p0.x,p0.y)}" class="nm-ln${on0?" on":""}" style="--c:${c}"/>`;
+  b.nodes.forEach((n,k)=>{if(!k)return;const a=pos[b.nodes[k-1].m.id],z=pos[n.m.id];
+   paths+=`<path d="M${a.x},${a.y} L${z.x},${z.y}" class="nm-ln${b.nodes[k-1].st==="done"?" on":""}" style="--c:${c}"/>`});
+  const last=pos[b.nodes[b.nodes.length-1].m.id];
+  paths+=`<path d="${curve(last.x,last.y,X(nCols),midY)}" class="nm-ln${b.done?" on":""}${b.ph.key==="carton"?" soft":""}" style="--c:${c}"/>`;
+  tags+=`<span class="nm-br" style="--c:${c};left:${p0.x-Math.min(44,cw*.4)}px;top:${p0.y}px">${esc(b.ph.short)}</span>`;
+  b.nodes.forEach(n=>{const p=pos[n.m.id];
+   nodes+=`<button class="nm-n ${npdNodeCls(n)}" style="--c:${c};left:${p.x}px;top:${p.y}px;width:${Math.min(128,cw-6)}px" onclick="npdMapGo(${n.m.id})" title="${esc(n.x?npdBarTip(n.x):n.m.title)}">${n.st==="now"?'<em>ตอนนี้</em>':""}<i>${n.st==="done"?"✓":n.failed?"✗":""}</i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}</small></button>`});
+ });
+ // QA waits on the label
+ const lb=B.find(b=>b.ph.key==="label"),qa=B.flatMap(b=>b.nodes).find(n=>n.tmpl==="711_qa");
+ if(lb&&qa){const a=pos[lb.nodes[lb.nodes.length-1].m.id],z=pos[qa.m.id];paths+=`<path d="${curve(a.x,a.y,z.x,z.y)}" class="nm-dep"/>`}
+ el.innerHTML=`<div class="nm" style="height:${H}px">
+  <svg class="nm-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${paths}</svg>
+  <div class="nm-root" style="left:${X(0)}px;top:${midY}px"><i></i><b>${esc(prod?prod.name:"สินค้า")}</b></div>
+  ${tags}${nodes}
+  <div class="nm-end${M.allDone?" is-done":""}" style="left:${X(nCols)}px;top:${midY}px"><i>🏁</i><b>${M.endLabel}</b><small>${M.end?"~"+npdFmt(M.end):"เสร็จแล้ว"}</small></div>
+ </div>`;
+}
+// a knot on the map opens that milestone in the list below
+window.npdMapGo=id=>{
+ const m=npdMilestones.find(x=>x.id===id);if(!m)return;
+ const steps=npdSteps.filter(s=>s.milestone_id===id),tot=steps.filter(s=>s.status!=="skipped").length,dn=steps.filter(s=>s.status==="done").length;
+ if(npdIsCollapsed(m,tot>0&&dn===tot))npdToggleMilestone(id);
+ const el=document.querySelector(`.pl-milestone[data-mid="${id}"]`);if(!el)return;
+ el.scrollIntoView({behavior:"smooth",block:"center"});el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash");
+};
+let npdMapRT=0;
+window.addEventListener("resize",()=>{clearTimeout(npdMapRT);npdMapRT=setTimeout(()=>{if(!$("productlaunchView")?.classList.contains("hidden"))renderNpdMap()},150)});
+
 /* ---- the plan: real dates for every piece of work ----------------------
    Each milestone runs for its business days, starting on the day it was
    pinned to (start_on) or, if none, the day after the one before it. Done
@@ -4945,6 +5111,7 @@ document.querySelectorAll("#npdSubtabs .tab").forEach(b=>b.onclick=()=>{
  b.classList.add("active");
  $("npdTimelinePane").classList.toggle("hidden",npdView!=="timeline");
  $("npdChecklistPane").classList.toggle("hidden",npdView!=="checklist");
+ if(npdView==="timeline")renderNpdMap();
 });
 $("npdAddDocBtn").onclick=()=>window.npdAddDoc(null);
 
