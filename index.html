@@ -1018,6 +1018,71 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr .icon-btn{background:transparent;border:1px solid var(--t-line);border-radius:6px;
  color:var(--t-dim);cursor:pointer;padding:3px 5px;display:inline-flex;align-items:center}
 .scr .icon-btn:hover{border-color:var(--t-line-on);color:var(--t-amb)}
+/* V7.90 main road + tasting log */
+.nst{display:flex;flex-wrap:nowrap;align-items:flex-start;row-gap:10px;margin-top:14px}
+.nst-s{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 1 66px;min-width:54px;padding:0;border:0;background:none;font:inherit;cursor:pointer;text-align:center}
+.nst-s:disabled{cursor:default}
+.nst-s i{font-style:normal;width:26px;height:26px;box-sizing:border-box;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;
+ color:#fff;background:var(--card);border:3px solid color-mix(in srgb,var(--c) 40%,transparent)}
+.nst-s b{font-size:12px;font-weight:800;line-height:1.2;color:var(--t-ink)}
+.nst-s small{font-size:10px;font-weight:700;color:var(--t-dim);line-height:1.2}
+.nst-s.st-done i{background:var(--c);border-color:var(--c)}
+.nst-s.st-done b{color:var(--t-dim)}
+.nst-s.st-now i{border-color:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent);animation:nmPulse 1.8s ease-in-out infinite}
+.nst-s.st-now b{font-weight:900}
+.nst-s.st-now small{color:color-mix(in srgb,var(--c) 80%,#000);font-weight:800}
+.nst-s.st-next b{color:var(--t-dim);font-weight:700}
+.nst-s.st-missing i{border:2px dashed var(--t-line-on,#a8640a);color:var(--t-dim);background:transparent}
+.nst-s.st-missing b{color:var(--t-dim);font-weight:700}
+.nst-s.is-end i{background:var(--card);border:2px dashed var(--t-line-on,#a8640a);font-size:14px}
+.nst-s.is-end.st-done i{border-style:solid;background:rgba(47,138,88,.18)}
+.nst-s.is-bad i{border-color:#a33224}.nst-s.is-bad small{color:#a33224}
+.nst-s:not(:disabled):hover b{color:var(--t-amb,#8a4708)}
+.nst-j{flex:1 1 4px;min-width:3px;max-width:48px;height:3px;margin-top:11.5px;border-radius:2px;background:var(--t-line)}
+.nst-j.on{background:var(--c)}
+@media (prefers-reduced-motion:reduce){.nst-s.st-now i{animation:none}}
+.tl-box{margin:6px 0 10px;padding:12px;border:1px solid var(--t-line);border-radius:12px;background:color-mix(in srgb,var(--card) 70%,transparent)}
+.tl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.tl-head b{font-size:14px;margin-right:8px}.tl-head span{font-size:12px;color:var(--t-dim);font-weight:700}
+.tl-none{font-size:12.5px;color:var(--t-dim);padding:6px 2px}
+.tl-r{border:1px solid var(--t-line);border-left:4px solid #c9761a;border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--card)}
+.tl-r.is-final{border-left-color:#2f8a58;box-shadow:inset 0 0 0 1px rgba(47,138,88,.35)}
+.tl-rh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-rh b{font-size:13.5px}
+.tl-cf{font-size:11px;font-weight:900;color:#2f6b3c;background:rgba(47,138,88,.14);border-radius:999px;padding:2px 8px}
+.tl-d{font-size:12px;font-weight:800;color:var(--t-amb,#8a4708)}
+.tl-sample{font-size:12px;color:var(--t-dim);font-weight:700}
+.tl-sum{font-size:12px;font-weight:800;color:var(--t-ink)}
+.tl-edit{margin-left:auto}
+.tl-cms{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.tl-c{display:grid;grid-template-columns:minmax(70px,max-content) 22px 1fr 22px;gap:8px;align-items:start;font-size:12.5px;padding:4px 6px;border-radius:7px}
+.tl-c:nth-child(odd){background:rgba(74,52,16,.04)}
+.tl-who{font-weight:800;color:var(--t-ink)}
+.tl-sc{text-align:center}
+.tl-t{color:var(--t-ink);overflow-wrap:anywhere}
+.tl-x{border:0;background:none;color:var(--t-dim);cursor:pointer;font-size:15px;line-height:1;padding:0}
+.tl-x:hover{color:#a33224}
+.tl-add{display:grid;grid-template-columns:130px 110px 1fr auto;gap:6px;margin-top:4px}
+.tl-add input,.tl-add select{padding:5px 8px;font-size:12.5px;border-radius:7px;min-width:0}
+.tl-chg{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(201,118,26,.09);font-size:12.5px;display:flex;gap:10px;align-items:baseline}
+.tl-chg b{flex:none;color:#8a4708}.tl-chg em{color:var(--t-dim)}
+.tl-foot{margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--t-dim)}
+.tl-foot b{color:var(--t-ink)}.tl-foot a{font-weight:800;color:#2a5c92}
+.tl-mx{margin-top:12px}
+.tl-mx-h{font-size:12px;font-weight:900;color:var(--t-dim);margin-bottom:6px}
+.tl-mx-w{overflow-x:auto}
+.tl-mx table{border-collapse:collapse;font-size:12.5px}
+.tl-mx th,.tl-mx td{padding:5px 10px;border-bottom:1px solid var(--t-line);text-align:center;white-space:nowrap}
+.tl-mx th:first-child{text-align:left;font-weight:800}
+.tl-mx tr:first-child th{font-size:11px;color:var(--t-dim)}
+.tl-mx td i{color:var(--t-dim);font-style:normal}
+@container (max-width:620px){
+ .nst{flex-wrap:wrap}
+ .tl-add{grid-template-columns:1fr 1fr}.tl-add input[id^="tlTx"]{grid-column:1/-1}.tl-add .btn{grid-column:1/-1}
+ .tl-c{grid-template-columns:1fr 20px 20px;grid-template-areas:"who sc x" "t t t";row-gap:2px}
+ .tl-who{grid-area:who}.tl-sc{grid-area:sc}.tl-x{grid-area:x}.tl-t{grid-area:t}
+ .tl-chg{flex-direction:column;gap:3px}
+}
 /* V7.89 root map */
 .npd-now{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px}
 .npd-now-l{font-size:12px;font-weight:800;color:var(--t-dim)}
@@ -1047,6 +1112,8 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .nm-n i{font-style:normal;width:22px;height:22px;flex:none;border-radius:50%;box-sizing:border-box;border:3px solid color-mix(in srgb,var(--c) 55%,transparent);
  background:var(--card);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff}
 .nm-n b{font-size:11.5px;line-height:1.25;color:var(--t-ink);font-weight:750;overflow-wrap:anywhere}
+/* roots converge under some knots; the words sit on a scrap of paper above them */
+.nm-n b,.nm-n small{background:color-mix(in srgb,var(--card) 82%,transparent);border-radius:4px;padding:0 3px}
 .nm-n small{font-size:10.5px;color:var(--t-dim);font-weight:700;white-space:nowrap}
 .nm-n.s-done i{background:var(--c);border-color:var(--c)}
 .nm-n.s-done b{color:var(--t-dim);font-weight:650}
@@ -2751,7 +2818,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.89</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.90</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -2849,6 +2916,20 @@ body.dark .splash{background:#15120e}
   <div class="field full"><div id="ntEnd" class="nt-end"></div></div>
  </div>
  <div class="actions"><button id="ntDelete" class="btn danger hidden">ลบงานนี้</button><button class="btn secondary" data-close-layer="npdTaskModal">ยกเลิก</button><button id="ntSave" class="btn primary">บันทึก</button></div>
+</div></div>
+
+<div id="tasteModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="tasteModal" aria-label="Close">×</button><h3 id="tlTitle">รอบชิมใหม่</h3>
+ <div class="formgrid">
+  <div class="field"><label>รอบที่</label><input id="tlRound" type="number" min="1"></div>
+  <div class="field"><label>วันที่ชิม</label><input id="tlDate" type="date"></div>
+  <div class="field full"><label>ตัวอย่าง / สูตรที่ชิม</label><input id="tlSample" placeholder="เช่น Test Step 2 · ลดเกลือ 10%"></div>
+  <div class="field full"><label>รอบนี้ปรับอะไร (ส่งกลับไปให้โรงงาน)</label><textarea id="tlChanges" rows="3" placeholder="เช่น ลดเค็มลงอีก · เพิ่มกลิ่นเนย · กระเทียมเจียวกรอบขึ้น"></textarea></div>
+  <div class="field"><label>ส่งโรงงานวันที่</label><input id="tlSent" type="date"></div>
+  <div class="field"><label>ลิงก์ไฟล์ Presentation</label><input id="tlFile" placeholder="https://…"></div>
+  <div class="field full"><label class="cbline"><input id="tlFinal" type="checkbox"> รอบนี้คือสูตรที่ CF แล้ว</label></div>
+ </div>
+ <div class="help" style="margin-top:4px">ความเห็นของแต่ละคน ใส่ที่การ์ดรอบชิมได้เลย ไม่ต้องเปิดหน้านี้</div>
+ <div class="actions"><button id="tlDelete" class="btn danger hidden">ลบรอบนี้</button><button class="btn secondary" data-close-layer="tasteModal">ยกเลิก</button><button id="tlSave" class="btn primary">บันทึก</button></div>
 </div></div>
 
 <div id="postModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="postModal" aria-label="Close">×</button><h3 id="postModalTitle">โพสต์ใหม่</h3>
@@ -4351,7 +4432,7 @@ document.querySelectorAll(".pm-tab").forEach(b=>b.onclick=()=>{
  renderMatrix();
 });
 
-const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process",short:"สูตร & อย.",hue:"#c9761a"},{key:"label",name:"ฉลาก (Label)",short:"ฉลาก",hue:"#7b5cc4"},{key:"carton",name:"ลัง (Carton)",short:"ลัง",hue:"#4f86b8"},{key:"seven",name:"เข้า 7-11",short:"7-11",hue:"#2f8a58"}];
+const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process",short:"สูตร & อย.",hue:"#c9761a"},{key:"label",name:"ฉลาก (Label)",short:"ฉลาก",hue:"#7b5cc4"},{key:"carton",name:"ลัง (Carton)",short:"ลัง",hue:"#4f86b8"},{key:"seven",name:"เข้า 7-11",short:"7-11",hue:"#2f8a58"},{key:"retail",name:"ห้างอื่น",short:"ห้างอื่น",hue:"#b0506e"}];
 const NPD_PHASE=Object.fromEntries(NPD_PHASES.map(p=>[p.key,p]));
 const NPD_STATUS_LABEL={done:"Done",working:"Working",wait:"Wait",next:"Next Step",skipped:"Skipped",failed:"ไม่ผ่าน"};
 const NPD_TEMPLATE=[
@@ -4363,8 +4444,18 @@ const NPD_TEMPLATE=[
  {phase:"label",title:"AW Label Design",duration_days:10,steps:[["Brief _ Label","next","MKT & Creative"],["1st Draft Design","next","Creative"],["2nd Draft Design","next","Creative"],["3rd Draft Design","next","Creative"],["AW with Real Nutrition Info.","next","MKT & Creative"]]},
  {phase:"label",title:"Label Production",duration_days:33,steps:[["Internal Approval by mail (5 วัน)","next","เลขา/RD/QC/Inter/Creative/MKT"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Black & White Film Shrink (8 วัน)","next","Supplier"],["Master Print (Digital Proof) (3 วัน)","next","เลขา/RD/QC/Inter/MKT"],["Proof Print 1-4 (3 วัน)","next","Supplier"],["Mold Production (5 วัน)","next","Supplier"],["On-Site Proof 3-4 (7 วัน)","next","Supplier"]]},
  {phase:"carton",title:"Carton Production",duration_days:19,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]},
- ...NPD_711_TEMPLATE()
+ ...NPD_711_TEMPLATE(),
+ ...NPD_RETAIL_TEMPLATE()
 ];
+// other retailers come after 7-11 and ask for far less paper
+function NPD_RETAIL_TEMPLATE(){return [
+ {phase:"retail",tmpl:"retail",title:"เข้าห้างอื่น",duration_days:15,steps:[["เลือกห้างที่จะเข้า (Makro / Lotus's / Big C …)","next","MKT"],["นำเสนอ + ส่งเอกสารห้าง","next","MKT"],["ห้างอนุมัติ / ได้รหัสสินค้า","next","ห้าง"]]}
+]}
+// phases a product can live without, added on demand, each behind its own SQL
+const NPD_OPTIONAL={
+ seven:{tpl:()=>NPD_711_TEMPLATE(),sql:"V7.88",what:"นำเสนอ → Product Selection (ผลออกวันอังคาร) → ส่งเอกสาร QA 7-11",add:"+ ใส่ขั้นตอน 7-11 (3 Milestone มาตรฐาน)",done:"ใส่ขั้นตอน 7-11 แล้ว"},
+ retail:{tpl:()=>NPD_RETAIL_TEMPLATE(),sql:"V7.90",what:"หลัง 7-11 · Makro / Lotus's / Big C … เอกสารไม่เยอะเท่า 7-11",add:"+ ใส่ขั้นตอนห้างอื่น",done:"ใส่ขั้นตอนห้างอื่นแล้ว"}
+};
 /* Getting the product into 7-11, the channel that carries most of the sales
    and most of the paperwork. It cannot start before the formula is confirmed
    (the mock-up holds the real product), Product Selection results come out on
@@ -4412,27 +4503,28 @@ const NPD_DOC_TEMPLATE=[
  {key:"4",parent:null,label:"Mock up สินค้า",state:"not_yet"}
 ];
 
-let npdProducts=[],npdCurrentProductId=null,npdMilestones=[],npdSteps=[],npdDocs=[],npdHolidays=[],npdView="timeline",npdToggledMilestones=new Set();
+let npdProducts=[],npdCurrentProductId=null,npdMilestones=[],npdSteps=[],npdDocs=[],npdTastings=[],npdTasteOK=true,npdHolidays=[],npdView="timeline",npdToggledMilestones=new Set();
 
 async function seedNpdTemplate(productId){
  for(let i=0;i<NPD_TEMPLATE.length;i++){
   const m=NPD_TEMPLATE[i];
   const {data:ms,error}=await npdInsertMilestone({product_id:productId,phase:m.phase,seq:i,title:m.title,duration_days:m.duration_days,tmpl:m.tmpl||null});
-  if(error){if(m.phase!=="seven")toast(error.message,"bad");continue}
+  if(error){if(!NPD_OPTIONAL[m.phase])toast(error.message,"bad");continue}
   await sb.from("product_steps").insert(m.steps.map((s,si)=>({milestone_id:ms.id,seq:si,name:s[0],status:s[1],owners:s[2]})));
  }
- if(!npdSevenOK)toast("ขั้นตอน 7-11 ยังใส่ไม่ได้ — รัน SQL V7.88 แล้วกด \"+ ใส่ขั้นตอน 7-11\"","bad");
+ const miss=Object.keys(NPD_OPTIONAL).filter(k=>npdPhaseBad[k]);
+ if(miss.length)toast(`ขั้นตอน ${miss.map(k=>NPD_PHASE[k].short).join(" / ")} ยังใส่ไม่ได้ — รัน SQL ${NPD_OPTIONAL[miss[miss.length-1]].sql} แล้วกดปุ่ม "+ ใส่ขั้นตอน…" ในหมวดนั้น`,"bad");
  await insertDocTree(productId,NPD_DOC_TEMPLATE,null);
 }
 /* start_on / tmpl and the 'seven' phase arrive with V7.88. Before it is run a
    milestone still goes in, just without them, and the 7-11 rows say why. */
-let msColsOK=true,npdSevenOK=true;
+let msColsOK=true;const npdPhaseBad={};
 const npdErrTxt=e=>((e&&e.message)||"")+" "+((e&&e.code)||"");
 async function npdInsertMilestone(row){
  const lean=({tmpl,start_on,...r})=>r;
  let r=await sb.from("product_milestones").insert(msColsOK?row:lean(row)).select().single();
  if(r.error&&msColsOK&&/column|schema cache|PGRST204/i.test(npdErrTxt(r.error))){msColsOK=false;r=await sb.from("product_milestones").insert(lean(row)).select().single()}
- if(r.error&&row.phase==="seven")npdSevenOK=false;
+ if(r.error&&NPD_OPTIONAL[row.phase])npdPhaseBad[row.phase]=true;
  return r;
 }
 async function npdPatchMilestone(id,patch){
@@ -4488,7 +4580,10 @@ async function loadNpdProducts(){
  $("npdBody").classList.toggle("hidden",npdProducts.length===0);
 }
 async function loadNpdProductData(){
- if(!npdCurrentProductId){npdMilestones=[];npdSteps=[];npdDocs=[];return}
+ if(!npdCurrentProductId){npdMilestones=[];npdSteps=[];npdDocs=[];npdTastings=[];return}
+ // tasting rounds live in their own table from V7.90; before it, the panel says so
+ const tr=await sb.from("product_tastings").select("*").eq("product_id",npdCurrentProductId).order("round");
+ npdTasteOK=!(tr.error&&bkMissingTable(tr.error));npdTastings=tr.error?[]:(tr.data||[]);
  const [{data:ms,error:e1},{data:docs,error:e2}]=await Promise.all([
   sb.from("product_milestones").select("*").eq("product_id",npdCurrentProductId).order("seq"),
   sb.from("product_docs").select("*").eq("product_id",npdCurrentProductId).order("seq")
@@ -4562,10 +4657,10 @@ function renderNpdPhases(){
   const doneN=allSteps.filter(s=>s.status==="done").length,totalN=allSteps.filter(s=>s.status!=="skipped").length;
   const pct=totalN?Math.round(doneN/totalN*100):0;
   const badge=ph.key==="label"?'<span class="badge badge-sync">ต้องเสร็จพร้อมสูตร</span>':ph.key==="carton"?'<span class="badge badge-flex">เสร็จทีหลังได้</span>':ph.key==="seven"?'<span class="badge badge-711">ช่องทางหลัก</span>':"";
-  if(ph.key==="seven"&&!ms.length)return `<div class="phase-block"><div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">นำเสนอ → Product Selection (ผลออกวันอังคาร) → ส่งเอกสาร QA 7-11</div></div></div>
-   <button class="ghost-row ghost-milestone" onclick="npdAdd711Process()">+ ใส่ขั้นตอน 7-11 (3 Milestone มาตรฐาน)</button></div>`;
+  if(NPD_OPTIONAL[ph.key]&&!ms.length)return `<div class="phase-block"><div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">${NPD_OPTIONAL[ph.key].what}</div></div></div>
+   <button class="ghost-row ghost-milestone" onclick="npdAddPhaseTemplate('${ph.key}')">${NPD_OPTIONAL[ph.key].add}</button></div>`;
   return `<div class="phase-block">
-   <div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">${doneN} / ${totalN} ขั้นตอนเสร็จแล้ว${ph.key==="seven"?" · เริ่มหลัง CF สูตร · ส่ง QA หลังฉลากเสร็จ":""}</div><div class="phase-progress"><i style="width:${pct}%"></i></div></div></div>
+   <div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">${doneN} / ${totalN} ขั้นตอนเสร็จแล้ว${ph.key==="seven"?" · เริ่มหลัง CF สูตร · ส่ง QA หลังฉลากเสร็จ":ph.key==="retail"?" · เริ่มหลัง 7-11":""}</div><div class="phase-progress"><i style="width:${pct}%"></i></div></div></div>
    ${ms.map(m=>renderNpdMilestone(m)).join("")}
    <button class="ghost-row ghost-milestone" onclick="npdAddMilestone('${ph.key}')">+ Add Milestone</button>
   </div>`;
@@ -4580,7 +4675,7 @@ function renderNpdTimelinePane(){renderNpdOverall();renderNpdPlan();renderNpdPha
 function npdMapModel(){
  const P=npdPlan(),byId=Object.fromEntries(P.all.map(x=>[x.m.id,x]));
  // 7-11 sits right under the formula it grows out of, so its root stays short
- const order=["formula_fda","seven","label","carton"];
+ const order=["formula_fda","seven","retail","label","carton"];
  const branches=[...NPD_PHASES].sort((a,b)=>order.indexOf(a.key)-order.indexOf(b.key)).map(ph=>{
   const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);
   let cur=false;
@@ -4595,8 +4690,10 @@ function npdMapModel(){
   return {ph,nodes,done:nodes.length>0&&nodes.every(n=>n.st==="done")};
  }).filter(b=>b.nodes.length);
  const ready=[P.lastEnd(P.formula_fda),P.lastEnd(P.label)].filter(Boolean).sort((a,b)=>b-a)[0];
- const shelf=npdMilestones.some(m=>m.phase==="seven")?P.lastEnd(P.seven):null;
- return {branches,end:shelf||ready,endLabel:shelf?"ขึ้นชั้น 7-11":"พร้อมขึ้นห้าง",allDone:branches.every(b=>b.done)};
+ // on sale everywhere = the last of 7-11 and the other retailers
+ const chan=[P.lastEnd(P.seven),P.lastEnd(P.retail)].filter(Boolean).sort((a,b)=>b-a)[0];
+ const hasChan=npdMilestones.some(m=>m.phase==="seven"||m.phase==="retail");
+ return {branches,end:chan||ready,endLabel:hasChan?"วางขาย":"พร้อมขึ้นห้าง",allDone:branches.every(b=>b.done)};
 }
 function npdNodeNote(n){
  if(n.st==="done")return "✓ เสร็จ";
@@ -4606,17 +4703,69 @@ function npdNodeNote(n){
  return n.st==="now"?`${n.dn}/${n.tot} · เสร็จ ~${d}`:`~${d}`;
 }
 const npdNodeCls=n=>`s-${n.st}${n.failed?" s-fail":n.late?" s-late":""}`;
+/* ---- the main road ------------------------------------------------------
+   Every main stage of a launch in one line, from formula to on sale,
+   including the ones not reached yet -- and the optional ones not even added
+   yet, so nothing ahead is out of sight. */
+function npdStageName(m){
+ const t=msTmpl(m);
+ if(t==="formula_cf")return "สูตร";
+ if(/product name/i.test(m.title))return "ตั้งชื่อ";
+ if(/nutrition/i.test(m.title))return "โภชนาการ";
+ if(/^fda|อย\./i.test(m.title))return "อย.";
+ if(/halal/i.test(m.title))return "ฮาลาล";
+ return m.title;
+}
+function npdStages(){
+ const P=npdPlan(),byId=Object.fromEntries(P.all.map(x=>[x.m.id,x])),today=npdD0();
+ const stepsOf=id=>npdSteps.filter(s=>s.milestone_id===id),isDone=m=>npdMilestoneDone(stepsOf(m.id));
+ const bad=m=>!!(byId[m.id]&&byId[m.id].late)||stepsOf(m.id).some(s=>s.status==="failed");
+ // what is wrong, said plainly: a failed round, or how many days over
+ const badTxt=ms=>{const f=ms.find(m=>stepsOf(m.id).some(s=>s.status==="failed"));if(f)return "ไม่ผ่าน";
+  const l=ms.map(m=>byId[m.id]).filter(x=>x&&x.late).sort((a,b)=>a.end-b.end)[0];return l?`เลย ${Math.round((today-l.end)/864e5)} วัน`:""};
+ const out=[];let cur=false;
+ npdMilestones.filter(m=>m.phase==="formula_fda").sort((a,b)=>a.seq-b.seq).forEach(m=>{
+  const d=isDone(m),st=d?"done":cur?"next":"now";if(!d)cur=true;
+  out.push({k:"formula_fda",label:npdStageName(m),st,bad:!d&&bad(m),badTxt:badTxt([m]),end:byId[m.id]?.end,go:m.id,taste:msTmpl(m)==="formula_cf"});
+ });
+ ["label","carton","seven","retail"].forEach(k=>{
+  const ms=npdMilestones.filter(m=>m.phase===k).sort((a,b)=>a.seq-b.seq);
+  if(!ms.length){if(NPD_OPTIONAL[k])out.push({k,label:NPD_PHASE[k].short,st:"missing"});return}
+  const open=ms.filter(m=>!isDone(m)),first=open[0];
+  const begun=ms.some(m=>stepsOf(m.id).some(s=>s.status==="working"||s.status==="done"))||(first&&byId[first.id]&&byId[first.id].start<=today);
+  out.push({k,label:NPD_PHASE[k].short,st:!open.length?"done":begun?"now":"next",bad:open.some(bad),badTxt:badTxt(open),end:P.lastEnd(P[k]),go:(first||ms[0]).id});
+ });
+ const M=npdMapModel();
+ out.push({k:"end",label:"วางขาย",st:M.allDone?"done":"end",end:M.end});
+ return out;
+}
+function renderNpdStages(){
+ const el=$("npdNow");if(!el)return;
+ const S=npdStages(),nT=npdTastings.length;
+ const sub=s=>{
+  if(s.st==="missing")return "ยังไม่ใส่";
+  if(s.st==="done")return s.taste&&nT?`✓ ชิม ${nT} รอบ`:"✓ เสร็จ";
+  if(s.bad&&s.badTxt)return s.badTxt;
+  if(s.st==="now")return s.end?`ตอนนี้ · ~${npdFmt(s.end)}`:"ตอนนี้";
+  return s.end?`~${npdFmt(s.end)}`:"";
+ };
+ const icon=s=>s.k==="end"?"🏁":s.st==="done"?"✓":s.st==="missing"?"+":"";
+ el.innerHTML=`<div class="nst">`+S.map((s,i)=>{
+  const hue=s.k==="end"?"var(--t-amb,#8a4708)":NPD_PHASE[s.k].hue,prevDone=i>0&&S[i-1].st==="done";
+  const click=s.st==="missing"?`npdAddPhaseTemplate('${s.k}')`:s.go?`npdMapGo(${s.go})`:"";
+  return (i?`<span class="nst-j${prevDone?" on":""}" style="--c:${i?NPD_PHASE[S[i-1].k]?.hue||hue:hue}"></span>`:"")
+   +`<button class="nst-s st-${s.st}${s.bad?" is-bad":""}${s.k==="end"?" is-end":""}" style="--c:${hue}" ${click?`onclick="${click}"`:"disabled"} title="${s.st==="missing"?"กดเพื่อใส่ขั้นตอน "+esc(s.label):esc(s.label)}"><i>${icon(s)}</i><b>${esc(s.label)}</b><small>${sub(s)}</small></button>`;
+ }).join("")+`</div>`;
+}
 function renderNpdMap(){
  const el=$("npdMap");if(!el)return;
  const W=el.clientWidth;if(!W)return;
  const M=npdMapModel();
- const now=M.branches.flatMap(b=>b.nodes.filter(n=>n.st==="now").map(n=>({b,n})));
- $("npdNow").innerHTML=now.length?`<span class="npd-now-l">ตอนนี้อยู่ที่</span>`+now.map(({b,n})=>`<button class="npd-now-c${n.failed||n.late?" bad":""}" style="--c:${b.ph.hue}" onclick="npdMapGo(${n.m.id})"><i></i>${esc(b.ph.short)} · <b>${esc(n.m.title)}</b></button>`).join("")
-  :`<span class="npd-now-l">ทุกขั้นตอนเสร็จแล้ว 🎉</span>`;
+ renderNpdStages();
  const prod=npdProducts.find(p=>p.id===npdCurrentProductId);
  if(W<640){ // phone: the roots hang down, one under the other
   el.innerHTML=`<div class="nmv"><div class="nmv-root"><i></i>${esc(prod?prod.name:"สินค้า")}</div>`
-   +M.branches.map(b=>`<div class="nmv-br${b.done?" is-done":""}" style="--c:${b.ph.hue}"><div class="nmv-bh">${esc(b.ph.short)}${b.ph.key==="seven"?'<small>แตกจาก CF สูตร</small>':""}</div>`
+   +M.branches.map(b=>`<div class="nmv-br${b.done?" is-done":""}" style="--c:${b.ph.hue}"><div class="nmv-bh">${esc(b.ph.short)}${b.ph.key==="seven"?'<small>แตกจาก CF สูตร</small>':b.ph.key==="retail"?'<small>ต่อจาก 7-11</small>':""}</div>`
     +b.nodes.map(n=>`<button class="nmv-n ${npdNodeCls(n)}" onclick="npdMapGo(${n.m.id})"><i></i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}${n.tmpl==="711_qa"?" · รอฉลากเสร็จ":""}</small>${n.st==="now"?'<em>ตอนนี้</em>':""}</button>`).join("")+`</div>`).join("")
    +`<div class="nmv-end${M.allDone?" is-done":""}"><i></i>${M.endLabel}${M.end?` <b>~${npdFmt(M.end)}</b>`:""}</div></div>`;
   return;
@@ -4625,6 +4774,9 @@ function renderNpdMap(){
  const B=M.branches,fi=B.findIndex(b=>b.ph.key==="formula_fda");
  const cfIdx=fi<0?-1:B[fi].nodes.findIndex(n=>n.tmpl==="formula_cf");
  B.forEach(b=>b.col0=b.ph.key==="seven"&&cfIdx>=0?cfIdx+2:1);
+ // other retailers grow out of the end of 7-11
+ const sv=B.find(b=>b.ph.key==="seven"),rt=B.find(b=>b.ph.key==="retail");
+ if(rt&&sv)rt.col0=sv.col0+sv.nodes.length;
  const nCols=Math.max(...B.map(b=>b.col0+b.nodes.length-1))+1;
  const RH=100,H=B.length*RH+14,L=52,R=62,cw=(W-L-R)/nCols;
  const X=c=>L+c*cw,Y=i=>14+i*RH+RH/2-16,midY=14+(B.length*RH)/2-16;
@@ -4636,12 +4788,13 @@ function renderNpdMap(){
   // where the root starts: the product, or for 7-11 the confirmed formula
   let from={x:X(0),y:midY};
   if(b.ph.key==="seven"&&cfIdx>=0)from=pos[B[fi].nodes[cfIdx].m.id];
-  const on0=first.st!=="next"||b.ph.key!=="seven"||(cfIdx>=0&&B[fi].nodes[cfIdx].st==="done");
+  if(b.ph.key==="retail"&&sv)from=pos[sv.nodes[sv.nodes.length-1].m.id];
+  const on0=first.st!=="next"||(b.ph.key==="seven"?cfIdx>=0&&B[fi].nodes[cfIdx].st==="done":b.ph.key==="retail"?!!sv&&sv.done:true);
   paths+=`<path d="${curve(from.x,from.y,p0.x,p0.y)}" class="nm-ln${on0?" on":""}" style="--c:${c}"/>`;
   b.nodes.forEach((n,k)=>{if(!k)return;const a=pos[b.nodes[k-1].m.id],z=pos[n.m.id];
    paths+=`<path d="M${a.x},${a.y} L${z.x},${z.y}" class="nm-ln${b.nodes[k-1].st==="done"?" on":""}" style="--c:${c}"/>`});
   const last=pos[b.nodes[b.nodes.length-1].m.id];
-  paths+=`<path d="${curve(last.x,last.y,X(nCols),midY)}" class="nm-ln${b.done?" on":""}${b.ph.key==="carton"?" soft":""}" style="--c:${c}"/>`;
+  paths+=`<path d="${curve(last.x,last.y,X(nCols),midY)}" class="nm-ln${b.done?" on":""}${b.ph.key==="carton"||b.ph.key==="retail"?" soft":""}" style="--c:${c}"/>`;
   tags+=`<span class="nm-br" style="--c:${c};left:${p0.x-Math.min(44,cw*.4)}px;top:${p0.y}px">${esc(b.ph.short)}</span>`;
   b.nodes.forEach(n=>{const p=pos[n.m.id];
    nodes+=`<button class="nm-n ${npdNodeCls(n)}" style="--c:${c};left:${p.x}px;top:${p.y}px;width:${Math.min(128,cw-6)}px" onclick="npdMapGo(${n.m.id})" title="${esc(n.x?npdBarTip(n.x):n.m.title)}">${n.st==="now"?'<em>ตอนนี้</em>':""}<i>${n.st==="done"?"✓":n.failed?"✗":""}</i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}</small></button>`});
@@ -4701,7 +4854,9 @@ function npdPlan(){
  const formula_fda=npdPlanPhase("formula_fda"),label=npdPlanPhase("label"),carton=npdPlanPhase("carton");
  const cf=formula_fda.find(x=>x.tmpl==="formula_cf"&&!x.done);
  const seven=npdPlanPhase("seven",cf?npdNextBizDay(cf.end):null,{labelEnd:lastEnd(label)});
- return {formula_fda,label,carton,seven,all:[...formula_fda,...label,...carton,...seven],lastEnd};
+ const after=lastEnd(seven)||[lastEnd(formula_fda),lastEnd(label)].filter(Boolean).sort((a,b)=>b-a)[0];
+ const retail=npdPlanPhase("retail",after?npdNextBizDay(after):null);
+ return {formula_fda,label,carton,seven,retail,all:[...formula_fda,...label,...carton,...seven,...retail],lastEnd};
 }
 const npdFmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
 const npdFmtTH=d=>d.toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"});
@@ -4720,6 +4875,7 @@ function renderNpdPlan(){
   ready?`<div><strong>${npdFmtTH(ready)}</strong> — คาดว่าสูตร + ฉลากพร้อมกัน (Product พร้อมขึ้นห้าง)</div>`:'<div>สูตร/ฉลากเสร็จหมดแล้ว</div>',
   hasSeven?(seven?`<div><strong>${npdFmtTH(seven)}</strong> — ผ่าน QA 7-11 พร้อมขึ้นชั้น 7-11</div>`:"<div>ขั้นตอน 7-11 เสร็จหมดแล้ว</div>"):"",
   carton?`<div><strong>${npdFmtTH(carton)}</strong> — ลังเสร็จ (แยกจากวันขึ้นห้างหลัก)</div>`:"",
+  P.lastEnd(P.retail)?`<div><strong>${npdFmtTH(P.lastEnd(P.retail))}</strong> — เข้าห้างอื่นครบ</div>`:"",
   late.length?`<div class="npd-late-note">เลยกำหนดอยู่ ${late.length} งาน: ${late.map(x=>esc(x.m.title)).join(", ")} — แก้วันหรือจำนวนวันในตารางได้เลย</div>`:""
  ].join("");
 }
@@ -4730,7 +4886,7 @@ function npdBarTip(x){
 function renderNpdPlanCal(P){
  const y=npdCalCursor.getFullYear(),mo=npdCalCursor.getMonth();
  $("npdMonthTitle").textContent=npdCalCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
- $("npdLegend").innerHTML=NPD_PHASES.filter(p=>p.key!=="seven"||npdMilestones.some(m=>m.phase==="seven"))
+ $("npdLegend").innerHTML=NPD_PHASES.filter(p=>!NPD_OPTIONAL[p.key]||npdMilestones.some(m=>m.phase===p.key))
   .map(p=>`<span class="lg npd-lg" style="--c:${p.hue}">${p.short}</span>`).join("")
   +`<span class="lg npd-lg npd-lg-done">เสร็จแล้ว</span><span class="lg npd-lg npd-lg-late">เลยกำหนด</span><span class="lg-note">คลิกแถบเพื่อแก้ · คลิกวันว่างเพื่อเพิ่มงาน</span>`;
  const first=new Date(y,mo,1),offset=(first.getDay()+6)%7,start=new Date(y,mo,1-offset);
@@ -4769,8 +4925,8 @@ function renderNpdPlanTable(P){
   <div class="npt-row npt-hd"><span></span><span>งาน</span><span>เริ่ม</span><span>กี่วัน (วันทำการ)</span><span>เสร็จ</span><span>สถานะ</span></div>
   ${NPD_PHASES.map(ph=>{
    const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);
-   if(!ms.length&&ph.key!=="seven")return "";
-   return `<div class="npt-phase" style="--c:${ph.hue}"><i></i><b>${esc(ph.name)}</b>${ph.key==="seven"?'<span class="npt-rule">เริ่มหลัง CF สูตร · ผลออกวันอังคาร · QA หลังฉลากเสร็จ</span>':""}</div>`
+   if(!ms.length&&!NPD_OPTIONAL[ph.key])return "";
+   return `<div class="npt-phase" style="--c:${ph.hue}"><i></i><b>${esc(ph.name)}</b>${ph.key==="seven"?'<span class="npt-rule">เริ่มหลัง CF สูตร · ผลออกวันอังคาร · QA หลังฉลากเสร็จ</span>':ph.key==="retail"?'<span class="npt-rule">เริ่มหลัง 7-11</span>':""}</div>`
     +(ms.length?ms.map(m=>{
      const x=byId[m.id],steps=npdSteps.filter(s=>s.milestone_id===m.id),dn=steps.filter(s=>s.status==="done").length,tot=steps.filter(s=>s.status!=="skipped").length;
      return `<div class="npt-row${x?(x.done?" is-done":x.late||x.failed?" is-late":""):" is-done"}" style="--c:${ph.hue}">
@@ -4780,7 +4936,7 @@ function renderNpdPlanTable(P){
       <span class="npt-days"><button onclick="npdBumpDays(${m.id},-1)" aria-label="ลดวัน">−</button><input type="number" min="1" value="${m.duration_days||1}" onchange="npdSetDuration(${m.id},this.value)" aria-label="จำนวนวัน"><button onclick="npdBumpDays(${m.id},1)" aria-label="เพิ่มวัน">+</button></span>
       <span class="npt-end">${x?npdFmt(x.end)+(x.tmpl==="711_select"?" <i>อังคาร</i>":""):"—"}</span>
       <span class="npt-st">${npdStateChip(x)}</span>
-     </div>`}).join(""):`<div class="npt-empty">ยังไม่มีขั้นตอน 7-11 ในสินค้านี้ <button class="btn secondary small" onclick="npdAdd711Process()">+ ใส่ขั้นตอน 7-11</button></div>`)
+     </div>`}).join(""):`<div class="npt-empty">ยังไม่มีขั้นตอน${esc(ph.short)}ในสินค้านี้ <button class="btn secondary small" onclick="npdAddPhaseTemplate('${ph.key}')">${NPD_OPTIONAL[ph.key]?.add||"+ ใส่ขั้นตอน"}</button></div>`)
     +`<button class="ghost-row npt-add" onclick="npdTaskNew(null,'${ph.key}')">+ เพิ่มงานใน${esc(ph.short)}</button>`;
   }).join("")}
  </div>`;
@@ -4836,7 +4992,7 @@ $("ntSave").onclick=async()=>{
   }else{
    const seq=npdNextSeq(phase);
    const {data,error}=await npdInsertMilestone({product_id:npdCurrentProductId,phase,seq,title,duration_days,start_on});
-   if(error)return toast(phase==="seven"&&!npdSevenOK?"หมวด 7-11 ต้องรัน SQL V7.88 ก่อน":error.message,"bad");
+   if(error)return toast(NPD_OPTIONAL[phase]&&npdPhaseBad[phase]?`หมวด${NPD_PHASE[phase].short}ต้องรัน SQL ${NPD_OPTIONAL[phase].sql} ก่อน`:error.message,"bad");
    await sb.from("product_steps").insert({milestone_id:data.id,seq:0,name:title,owners:$("ntOwners").value.trim()||null,status:"next"});
    if(start_on&&!msColsOK)toast("เพิ่มแล้ว แต่วันเริ่มยังเซฟไม่ได้ — ต้องรัน SQL V7.88","bad");else toast("เพิ่มงานแล้ว");
   }
@@ -4849,19 +5005,21 @@ $("npdPrevMonth").onclick=()=>{npdCalCursor=new Date(npdCalCursor.getFullYear(),
 $("npdNextMonth").onclick=()=>{npdCalCursor=new Date(npdCalCursor.getFullYear(),npdCalCursor.getMonth()+1,1);renderNpdPlan()};
 $("npdTodayMonth").onclick=()=>{npdCalCursor=new Date();renderNpdPlan()};
 $("npdAddTaskBtn").onclick=()=>npdTaskNew(null);
-// existing products get the 7-11 process on demand
-window.npdAdd711Process=async()=>{
- if(!npdCurrentProductId||npdMilestones.some(m=>m.phase==="seven"))return;
- const T=NPD_711_TEMPLATE();
+// existing products get the optional phases on demand
+window.npdAddPhaseTemplate=async phase=>{
+ const O=NPD_OPTIONAL[phase];
+ if(!O||!npdCurrentProductId||npdMilestones.some(m=>m.phase===phase))return;
+ const T=O.tpl();
  for(let i=0;i<T.length;i++){
   const m=T[i];
-  const {data,error}=await npdInsertMilestone({product_id:npdCurrentProductId,phase:"seven",seq:i,title:m.title,duration_days:m.duration_days,tmpl:m.tmpl});
-  if(error){toast(!npdSevenOK?"ต้องรัน SQL V7.88 ใน Supabase ก่อน แล้วค่อยกดอีกที":error.message,"bad");break}
+  const {data,error}=await npdInsertMilestone({product_id:npdCurrentProductId,phase,seq:i,title:m.title,duration_days:m.duration_days,tmpl:m.tmpl});
+  if(error){toast(npdPhaseBad[phase]?`ต้องรัน SQL ${O.sql} ใน Supabase ก่อน แล้วค่อยกดอีกที`:error.message,"bad");break}
   await sb.from("product_steps").insert(m.steps.map((s,si)=>({milestone_id:data.id,seq:si,name:s[0],status:s[1],owners:s[2]})));
  }
  await loadNpdProductData();renderNpdTimelinePane();
- if(npdMilestones.some(m=>m.phase==="seven"))toast("ใส่ขั้นตอน 7-11 แล้ว");
+ if(npdMilestones.some(m=>m.phase===phase))toast(O.done);
 };
+window.npdAdd711Process=()=>npdAddPhaseTemplate("seven");
 /* Product Selection: the result is the last step. Pass closes the round,
    fail marks it, and a new round starts the same steps again from today. */
 const npdSelResult=steps=>steps.find(s=>/ผล/.test(s.name))||steps[steps.length-1];
@@ -4886,9 +5044,122 @@ window.npdSelRetry=async mid=>{
  if(msColsOK)await npdPatchMilestone(mid,{start_on:todayISO()});
  toast(`เริ่ม Product Selection รอบ ${n}`);await loadNpdProductData();renderNpdTimelinePane();
 };
+/* ---- tasting rounds ------------------------------------------------------
+   The formula is tasted many times before it is confirmed: people in the
+   company taste, say what they think, it goes into a presentation and back
+   to the factory. Each round keeps who said what, what is being changed
+   because of it, when it went back, and which round became the formula. */
+const TASTE_SCORE={3:["👍","ชอบ"],2:["😐","เฉยๆ"],1:["👎","ไม่ชอบ"]};
+const tlUrl=u=>/^https?:\/\//i.test(u||"")?u:"";
+const tlComments=r=>Array.isArray(r.comments)?r.comments:[];
+function npdTastePanel(){
+ if(!npdTasteOK)return `<div class="tl-box"><div class="tl-head"><b>บันทึกการชิม</b></div><div class="tl-none">ต้องรัน SQL V7.90 ก่อน ถึงจะเริ่มจดรอบชิมได้</div></div>`;
+ const R=[...npdTastings].sort((a,b)=>a.round-b.round),last=R[R.length-1];
+ const people=[...new Set(R.flatMap(r=>tlComments(r).map(c=>c.who).filter(Boolean)))];
+ const names=[...new Set([...people,...(profiles||[]).map(p=>p.full_name).filter(Boolean)])];
+ const fin=R.find(r=>r.is_final);
+ return `<div class="tl-box">
+  <div class="tl-head"><div><b>บันทึกการชิม</b><span>${R.length?`ชิมแล้ว ${R.length} รอบ${last.tasted_on?" · ล่าสุด "+fmtD(last.tasted_on):""}${fin?` · CF ที่รอบ ${fin.round}`:""}`:"ยังไม่มีรอบชิม"}</span></div>
+   <button class="btn primary small" onclick="npdTasteEdit(null)">+ รอบชิมใหม่</button></div>
+  ${R.length?R.map(tlRound).join(""):'<div class="tl-none">กด "+ รอบชิมใหม่" แล้วจดว่าใครชิม คิดยังไง รอบนี้ปรับอะไร ส่งโรงงานวันไหน</div>'}
+  ${R.length>1&&people.length?tlMatrix(R,people):""}
+  <datalist id="tlPeople">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
+ </div>`;
+}
+function tlRound(r){
+ const cm=tlComments(r),n=s=>cm.filter(c=>c.score===s).length,url=tlUrl(r.file_url);
+ return `<div class="tl-r${r.is_final?" is-final":""}">
+  <div class="tl-rh"><b>รอบ ${r.round}</b>${r.is_final?'<span class="tl-cf">✓ สูตรที่ CF</span>':""}
+   <span class="tl-d">${r.tasted_on?"ชิม "+fmtD(r.tasted_on):"ยังไม่ใส่วันชิม"}</span>
+   ${r.sample?`<span class="tl-sample">${esc(r.sample)}</span>`:""}
+   ${cm.length?`<span class="tl-sum" title="ชอบ / เฉยๆ / ไม่ชอบ">👍 ${n(3)} · 😐 ${n(2)} · 👎 ${n(1)}</span>`:""}
+   <button class="btn secondary small tl-edit" onclick="npdTasteEdit(${r.id})">แก้รอบนี้</button></div>
+  <div class="tl-cms">
+   ${cm.map((c,i)=>`<div class="tl-c tl-s${c.score||0}"><span class="tl-who">${esc(c.who||"—")}</span><span class="tl-sc" title="${c.score?TASTE_SCORE[c.score][1]:"ไม่ได้ให้คะแนน"}">${c.score?TASTE_SCORE[c.score][0]:"·"}</span><span class="tl-t">${esc(c.text||"")}</span><button class="tl-x" onclick="npdTasteDelComment(${r.id},${i})" aria-label="ลบความเห็นนี้">×</button></div>`).join("")||'<div class="tl-none">ยังไม่มีความเห็น</div>'}
+   <div class="tl-add"><input id="tlWho${r.id}" list="tlPeople" placeholder="ใครชิม" aria-label="ใครชิม"><select id="tlSc${r.id}" aria-label="ชอบไหม"><option value="">ความชอบ</option><option value="3">👍 ชอบ</option><option value="2">😐 เฉยๆ</option><option value="1">👎 ไม่ชอบ</option></select><input id="tlTx${r.id}" placeholder="ความเห็น เช่น เค็มไป กลิ่นเนยน้อย" aria-label="ความเห็น" onkeydown="if(event.key==='Enter')npdTasteAddComment(${r.id})"><button class="btn secondary small" onclick="npdTasteAddComment(${r.id})">+ เพิ่ม</button></div>
+  </div>
+  <div class="tl-chg"><b>ปรับรอบนี้</b>${r.changes?`<span>${esc(r.changes).replace(/\n/g,"<br>")}</span>`:'<em>ยังไม่ได้ใส่ว่าปรับอะไร — กด "แก้รอบนี้"</em>'}</div>
+  <div class="tl-foot"><span>${r.sent_on?`ส่งโรงงาน <b>${fmtD(r.sent_on)}</b>`:"<em>ยังไม่ส่งโรงงาน</em>"}${url?` · <a href="${esc(url)}" target="_blank" rel="noopener">ไฟล์ Presentation</a>`:""}</span><button class="btn secondary small" onclick="npdTasteCopy(${r.id})">คัดลอกสรุปรอบนี้</button></div>
+ </div>`;
+}
+// the same person across rounds: did they come round to it?
+function tlMatrix(R,people){
+ return `<div class="tl-mx"><div class="tl-mx-h">แต่ละคนคิดยังไง ในแต่ละรอบ</div><div class="tl-mx-w"><table>
+  <tr><th></th>${R.map(r=>`<th>รอบ ${r.round}</th>`).join("")}</tr>
+  ${people.map(p=>`<tr><th>${esc(p)}</th>${R.map(r=>{const c=tlComments(r).find(c=>c.who===p);return `<td title="${esc(c?(c.text||""):"ไม่ได้ชิมรอบนี้")}">${c?(c.score?TASTE_SCORE[c.score][0]:"💬"):"<i>·</i>"}</td>`}).join("")}</tr>`).join("")}
+ </table></div></div>`;
+}
+async function npdTastePatch(id,patch){
+ const {error}=await sb.from("product_tastings").update(patch).eq("id",id);
+ if(error){toast(error.message,"bad");return false}
+ return true;
+}
+async function npdTasteReload(focus){
+ await loadNpdProductData();renderNpdTimelinePane();
+ if(focus)$(focus)?.focus();
+}
+window.npdTasteAddComment=async id=>{
+ const r=npdTastings.find(x=>x.id===id);if(!r)return;
+ const who=$("tlWho"+id).value.trim(),text=$("tlTx"+id).value.trim(),score=Number($("tlSc"+id).value)||null;
+ if(!who&&!text)return toast("ใส่ชื่อคนชิมหรือความเห็นก่อน","bad");
+ if(await npdTastePatch(id,{comments:[...tlComments(r),{who,score,text}]}))await npdTasteReload("tlWho"+id);
+};
+window.npdTasteDelComment=async(id,i)=>{
+ const r=npdTastings.find(x=>x.id===id);if(!r)return;
+ const cm=tlComments(r);if(!confirm(`ลบความเห็นของ ${cm[i]?.who||"คนนี้"}?`))return;
+ if(await npdTastePatch(id,{comments:cm.filter((_,k)=>k!==i)}))await npdTasteReload();
+};
+window.npdTasteCopy=async id=>{
+ const r=npdTastings.find(x=>x.id===id);if(!r)return;
+ const prod=npdProducts.find(p=>p.id===npdCurrentProductId);
+ const txt=[`${prod?prod.name+" · ":""}ชิมรอบ ${r.round}${r.tasted_on?" · "+fmtD(r.tasted_on):""}${r.sample?" · "+r.sample:""}`,
+  "ความเห็น:",...tlComments(r).map(c=>`- ${c.who||"—"}${c.score?` (${TASTE_SCORE[c.score][1]})`:""}: ${c.text||""}`),
+  `ปรับรอบนี้: ${r.changes||"-"}`].join("\n");
+ try{await navigator.clipboard.writeText(txt);toast("คัดลอกแล้ว — วางลงไฟล์ Presentation หรือเมลถึงโรงงานได้เลย")}
+ catch(_){prompt("คัดลอกข้อความนี้:",txt)}
+};
+let tlEditing=null;
+window.npdTasteEdit=id=>{
+ if(!npdTasteOK)return toast("ต้องรัน SQL V7.90 ก่อน","bad");
+ const r=id?npdTastings.find(x=>x.id===id):null;tlEditing=r?r.id:null;
+ const next=npdTastings.reduce((n,x)=>Math.max(n,x.round),0)+1;
+ $("tlTitle").textContent=r?`แก้รอบชิมที่ ${r.round}`:"รอบชิมใหม่";
+ $("tlRound").value=r?r.round:next;$("tlDate").value=r?r.tasted_on||"":todayISO();
+ $("tlSample").value=r?r.sample||"":"";$("tlChanges").value=r?r.changes||"":"";
+ $("tlSent").value=r?r.sent_on||"":"";$("tlFile").value=r?r.file_url||"":"";$("tlFinal").checked=!!(r&&r.is_final);
+ $("tlDelete").classList.toggle("hidden",!r);
+ openLayer("tasteModal");
+};
+$("tlSave").onclick=async()=>{
+ const row={round:Math.max(1,Number($("tlRound").value)||1),tasted_on:$("tlDate").value||null,sample:$("tlSample").value.trim()||null,
+  changes:$("tlChanges").value.trim()||null,sent_on:$("tlSent").value||null,file_url:$("tlFile").value.trim()||null,is_final:$("tlFinal").checked};
+ if(row.file_url&&!tlUrl(row.file_url))return toast("ลิงก์ไฟล์ต้องขึ้นต้นด้วย http:// หรือ https://","bad");
+ const btn=$("tlSave");btn.disabled=true;
+ try{
+  let id=tlEditing;
+  if(id){if(!await npdTastePatch(id,row))return}
+  else{const {data,error}=await sb.from("product_tastings").insert({...row,product_id:npdCurrentProductId,comments:[]}).select().single();
+   if(error)return toast(bkMissingTable(error)?"ต้องรัน SQL V7.90 ก่อน":error.message,"bad");id=data.id}
+  // one confirmed formula per product; confirming it ticks the CF step too
+  if(row.is_final){
+   const others=npdTastings.filter(x=>x.id!==id&&x.is_final).map(x=>x.id);
+   if(others.length)await sb.from("product_tastings").update({is_final:false}).in("id",others);
+   const cf=npdMilestones.find(m=>msTmpl(m)==="formula_cf"),st=cf&&npdSteps.find(s=>s.milestone_id===cf.id&&/CF/i.test(s.name)&&s.status!=="done");
+   if(st){await sb.from("product_steps").update({status:"done"}).eq("id",st.id);toast(`CF สูตรรอบ ${row.round} แล้ว — ติ๊ก "${st.name}" ให้ด้วย`)}
+  }
+  closeLayer("tasteModal");await npdTasteReload();
+ }finally{btn.disabled=false}
+};
+$("tlDelete").onclick=async()=>{
+ if(!tlEditing||!confirm("ลบรอบชิมนี้ทั้งรอบ (รวมความเห็นทั้งหมด)?"))return;
+ const {error}=await sb.from("product_tastings").delete().eq("id",tlEditing);
+ if(error)return toast(error.message,"bad");
+ closeLayer("tasteModal");await npdTasteReload();
+};
 window.npdGoDocs=()=>document.querySelector('#npdSubtabs [data-plview="checklist"]')?.click();
 function npdMilestoneExtra(m){
  const t=msTmpl(m),steps=npdSteps.filter(s=>s.milestone_id===m.id);
+ if(t==="formula_cf")return npdTastePanel();
  if(t==="711_select"){
   const x=npdPlan().seven.find(p=>p.m.id===m.id),done=npdMilestoneDone(steps),failed=steps.some(s=>s.status==="failed");
   const r=npdSelResult([...steps].sort((a,b)=>a.seq-b.seq));
@@ -5490,6 +5761,7 @@ const BK=[
  {t:"product_milestones",fk:{product_id:"products"},key:"title",label:"Milestones"},
  {t:"product_steps",    fk:{milestone_id:"product_milestones"},key:"name",label:"ขั้นตอน NPD"},
  {t:"product_docs",     fk:{product_id:"products"},self:"parent_id",key:"label",label:"เอกสาร NPD"},
+ {t:"product_tastings", fk:{product_id:"products"},key:"round",label:"รอบชิมสูตร"},
  {t:"cat_photos",       owner:"user_id",   key:"taken_at",label:"รูปแมว"}
 ];
 const bkMissingTable=e=>e&&(e.code==="42P01"||e.code==="PGRST205"||/does not exist|Could not find the table/i.test(e.message||""));

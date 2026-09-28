@@ -71,6 +71,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-84-cat-friends.sql` Cat Room visits, gifts and photo album
 - `migration-v7-86-cat-together.sql` playdates, weekly team goal, family cat
 - `migration-v7-88-launch-711.sql` Product Launch: 7-11 phase, real start dates, "failed" step status
+- `migration-v7-90-tasting-retail.sql` Product Launch: tasting rounds (`product_tastings`), "ห้างอื่น" phase
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
@@ -439,6 +440,28 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.90 Product Launch: the main road, other retailers, and a tasting log
+- **Main road**: a single row at the top of Process & Timeline listing every main stage in order:
+  - สูตร → ตั้งชื่อ → โภชนาการ → อย. → ฮาลาล → ฉลาก → ลัง → 7-11 → ห้างอื่น → 🏁 วางขาย
+- It includes the stages not reached yet, with their expected dates, and optional phases the product does not have yet, shown dashed with "+". Clicking a "+" adds that phase; clicking any other stage opens it below.
+- Stage states:
+  - Done: ✓.
+  - Where the work is now: ringed.
+  - Late: red, with how many days over.
+- **ห้างอื่น**: a new phase after 7-11 for Makro, Lotus's, Big C and the like. It has one milestone: choose the stores, present and send documents, store approval. It shows on the plan, the calendar and table, and the root map, where it grows out of the end of 7-11.
+- The finish date is the last of 7-11 and the other retailers.
+- **บันทึกการชิม**: a tasting log inside Final Formulation, reached from the "สูตร" stage.
+- Each tasting round records:
+  - date and sample tasted;
+  - each person's comment, with 👍 / 😐 / 👎;
+  - what is changed for the next round;
+  - when it went back to the factory and a link to the presentation;
+  - whether this round is the confirmed formula (CF), which also ticks the CF step.
+- Comments are added right on the round card, and names are remembered.
+- "คัดลอกสรุปรอบนี้" copies the round as text to paste into the presentation.
+- A table shows each person's verdict across rounds.
+- Requires `migration-v7-90-tasting-retail.sql`, run after V7.88. Until then, the tasting log and ห้างอื่น say the SQL is needed; everything else works.
 
 ## V7.89 Product Launch: a root map of the whole process
 - The top card of Process & Timeline now shows the launch as roots.
