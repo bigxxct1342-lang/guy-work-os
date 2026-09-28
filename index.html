@@ -176,6 +176,24 @@ aside .sidefoot .btn:hover{filter:brightness(1.04)}
 .side-portrait{flex:none;margin:2px 6px 10px;border:1px solid var(--t-line);border-radius:6px;
  overflow:hidden;background:#070501;aspect-ratio:1/.96}
 .side-portrait canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+/* the sidebar monitor onto the Cat Room */
+.side-pet{aspect-ratio:auto;cursor:pointer;background:#0c0803;display:flex;flex-direction:column}
+.side-pet canvas{height:auto;aspect-ratio:112/84;border-bottom:1px solid var(--t-line)}
+.side-pet:hover{border-color:var(--t-line-on,#a8640a)}
+.side-pet:focus-visible{outline:2px solid #e0951f;outline-offset:2px}
+.side-pet.need{border-color:#e0951f;box-shadow:0 0 0 1px rgba(224,149,31,.45)}
+.sp-info{padding:6px 8px 8px;display:grid;gap:3px;color:#f4a12e;font-size:11.5px;line-height:1.35}
+.sp-nm{display:flex;justify-content:space-between;align-items:baseline;font-family:"VT323",ui-monospace,monospace;font-size:17px;letter-spacing:.06em;line-height:1}
+.sp-nm b{font-weight:400;color:#ffd9a0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-do{color:#d9b27a;min-height:15px}
+.sp-full{display:grid;grid-template-columns:30px 1fr;align-items:center;gap:6px;font-family:"VT323",ui-monospace,monospace;font-size:13px;color:#a8762c}
+.sp-m{display:grid;grid-template-columns:repeat(10,1fr);gap:1px;height:7px}
+.sp-m i{background:#2a1c0a}.sp-m i.on{background:#e0951f}
+.sp-need{color:#a8762c;font-weight:700}
+.sp-need.hot{color:#ffd9a0;animation:spHot 1.6s ease-in-out infinite}
+@keyframes spHot{50%{color:#e0951f}}
+.sp-more{font-family:"VT323",ui-monospace,monospace;font-size:13px;color:#6f5a35;min-height:0}
+.sp-more:empty{display:none}
 @media(max-width:820px){.side-portrait{display:none}}
 .side-cat{flex:none;height:32px;margin:0 6px 8px}
 .side-cat canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
@@ -2061,7 +2079,16 @@ body.dark .splash{background:#15120e}
   <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
   <div class="identity"><div class="brand"><img src="./favicon-32.png" alt=""><span>PORKCHOP&nbsp;G</span></div></div>
   <div class="scr side-scr">
-   <div class="side-portrait"><canvas id="sidePortraitCv" aria-label="PORKCHOP"></canvas></div>
+   <div class="side-portrait side-pet" id="sidePet" role="button" tabindex="0" title="ไปห้องแมว">
+    <canvas id="sidePetCv" width="112" height="84" aria-hidden="true"></canvas>
+    <div class="sp-info">
+     <div class="sp-nm"><b id="spName">CAT</b><span id="spLv"></span></div>
+     <div class="sp-do" id="spDo">กำลังเรียกแมว…</div>
+     <div class="sp-full"><span>FULL</span><span class="sp-m" id="spFull"></span></div>
+     <div class="sp-need" id="spNeed"></div>
+     <div class="sp-more" id="spMore"></div>
+    </div>
+   </div>
    <div class="side-id">
     <div class="bar-row"><span class="bar-k">USER</span><div id="whoText" class="who"></div></div>
     <div class="bar-row"><span class="bar-k">LIVE</span><div id="liveText" class="role">—</div></div>
@@ -2510,7 +2537,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.84</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.85</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3059,7 +3086,8 @@ function dashCatSync(on){
 function sideCatSync(){
  const wide=window.matchMedia("(min-width:821px)").matches;
  if(wide&&!sideCatStop){
-  sideCatStop=catPortrait("sidePortraitCv","./icon-512.png");
+  // the portrait is the Cat Room now: whichever cat is being looked after
+  sidePetSync(true);sideCatStop=()=>sidePetSync(false);
  }else if(!wide&&sideCatStop){sideCatStop();sideCatStop=null}
 }
 
@@ -8929,6 +8957,98 @@ async function crGiftsCheck(){
   crSaveSoon();crBadges();
  }catch(_){}
 }
+
+/* ---- the sidebar monitor: what the cat is doing, and what he wants ----
+   A small live window onto the Cat Room -- the same room, sky and cat,
+   at a few frames a second -- with a bubble over his head for the most
+   pressing need and a line underneath saying what he is up to. It is the
+   one piece of the game that is on screen while working, so it only ever
+   shows, never interrupts: clicking it is how you go and see to him. */
+const SP_ICON={
+ bowl: [".......","0.....0","0333330",".03330.","..000.."],
+ heart:[".00.00.","0220220","0222220",".02220.","..020..","...0..."],
+ comb: ["0000000","0222220","0000000","0.0.0.0","0.0.0.0"],
+ stink:["..0..0.",".0..0..","..0..0.","0000000","0333330","0000000"],
+ zzz:  ["00000","...0.","..0..",".0...","00000"],
+ gift: ["00.00..",".030...","0000000","0313130","0313130","0000000"],
+ excl: ["..00..","..00..","..00..","..00..","......","..00.."],
+ happy:[".00.00.","0330330","0333330",".03330.","..030..","...0..."]
+};
+// what he is doing right now, in words
+function crDoing(c,v){
+ const hr=crHour(),a=cr.away?.cur;
+ if(v.sulk)return "งอนอยู่ นอนขดตรงมุมห้อง";
+ if(hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8)))return "หลับปุ๋ยอยู่";
+ if(a)return a.k==="gift"?"คาบของขวัญมาวางไว้ให้":a.k==="mess"?"เพิ่งทำแจกันล้มแตก!":"จ้องนกที่หน้าต่างตาแป๋ว";
+ if(v.h<30)return "นั่งรออยู่ข้างชามข้าว";
+ if(crRain())return "นั่งดูฝนริมหน้าต่าง";
+ if(cr.say&&Date.now()-cr.say.t<3*60e3&&cr.say.id===c.id)return cr.say.m;
+ const idle=["นั่งเลียขนอยู่","มองออกไปนอกหน้าต่าง","นอนกลิ้งบนพรม","ตะปบลูกไหมพรมเล่น","นั่งมองคุณทำงาน","ยืดตัวบิดขี้เกียจ","งีบบนเบาะแป๊บนึง"];
+ return idle[(Math.floor(Date.now()/(10*60e3))+c.id)%idle.length];
+}
+// what he wants, most pressing first
+function crNeeds(c,v){
+ const n=[];
+ if(v.h<30)n.push({k:"bowl",th:"หิวแล้ว"});
+ if(v.dirty)n.push({k:"stink",th:"กระบะทรายสกปรก"});
+ if(v.g<30)n.push({k:"comb",th:"ขนพันกัน อยากให้หวี"});
+ if(v.p<40)n.push({k:"heart",th:"เหงา อยากให้ลูบหัว"});
+ if(cr.away?.cur)n.push({k:"excl",th:"มีอะไรรออยู่ในห้อง"});
+ if(cr.boxes)n.push({k:"gift",th:`มีกล่องปริศนา ${cr.boxes} กล่อง`});
+ const q=crQReady();if(q)n.push({k:"excl",th:`ภารกิจรอรับรางวัล ${q} ข้อ`});
+ return n;
+}
+let spT=null,spRoom=null,spKey="",spLast={};
+function sidePetDraw(){
+ const cv=$("sidePetCv");if(!cv||!cr)return;
+ const g=cv.getContext("2d"),W=cv.width,H=cv.height,now=performance.now();
+ g.imageSmoothingEnabled=false;
+ crTick();
+ const c=crCat(),v=crVals(c),key=W+"x"+H+crDecKey();
+ if(!spRoom||spKey!==key){spKey=key;spRoom=crRoom(W,H,cr.decor.on)}
+ g.drawImage(spRoom,0,0);crSky(g,spRoom,W,H,now);
+ if(v.dirty){const [l0,l1,y0]=spRoom.lit;g.fillStyle="#8a6636";for(let k=0;k<2;k++){const bx=l0+(l1-l0)*(.35+k*.3);for(let j=0;j<5;j++)g.fillRect(Math.round(bx+Math.sin(now/260+j*.8+k)),y0-3-j,1,1)}}
+ crAwayDraw(g,W,H,spRoom,now);
+ const hr=crHour(),asleep=v.sulk||hr>=23||hr<6||(crT(c,"sleepy")&&(hr>=21||hr<8));
+ const tick=Math.floor(now/1300);
+ let pose=asleep?"sleep":v.p>80&&tick%5===3?"happy":tick%2&&crFrame(c,"sitB").own?"sitB":"sit";
+ // sized to the window, not the atlas: a sleeping boss is wide, a kitten small
+ const f0=crFrame(c,pose),fit=Math.min(1.1,(H*.44)/(f0.r[3]*f0.s),(W*.5)/(f0.r[2]*f0.s)),f={...f0,s:f0.s*fit};
+ const hw=f.r[2]*f.s/2+2,x=Math.max(hw,Math.min(W-hw,v.sulk?W*.24:W*.5)),y=H*.93;
+ g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);
+ const d=crDraw(g,f.r,f.s,x,y,tick%7===4);
+ if(CR_DRESSED.has(pose))crWearDraw(g,c,f.r,f.s,x,y,tick%7===4);
+ crShade(g,spRoom,W,H);
+ // the bubble: the most pressing need, or sleep, or content
+ const needs=crNeeds(c,v),icon=needs[0]?.k||(asleep?"zzz":"happy"),P=SP_ICON[icon];
+ const iw=P[0].length,ih=P.length,bw=iw+6,bh=ih+5,bob=Math.round(Math.sin(now/380)),bx=Math.round(Math.min(W-bw-2,x+d.w*.22)),by=Math.max(2,Math.round(y-d.h-bh-2+bob));
+ g.fillStyle="#2b1d0c";g.fillRect(bx-1,by,bw+2,bh);g.fillRect(bx,by-1,bw,bh+2);
+ g.fillStyle=needs.length?"#fff4dc":"#f5e7c4";g.fillRect(bx,by,bw,bh);
+ g.fillStyle="#2b1d0c";g.fillRect(bx+2,by+bh+1,2,1);g.fillRect(bx+1,by+bh+2,1,1);g.fillStyle=needs.length?"#fff4dc":"#f5e7c4";g.fillRect(bx+2,by+bh,2,1);
+ if(!(needs.length&&tick%2&&icon==="excl"))P.forEach((row,j)=>{for(let i=0;i<row.length;i++){const ch=row[i];if(ch===".")continue;g.fillStyle=CR_WPAL[+ch];g.fillRect(bx+3+i,by+3+j,1,1)}});
+ // words underneath, only rewritten when they change
+ const lv=crLevel(c.xp).L,txt={
+  nm:c.name,lv:"LV "+lv,doing:crDoing(c,v),
+  need:needs.length?needs.slice(0,2).map(n=>n.th).join(" · "):asleep?"ไม่ต้องการอะไร หลับสบาย":"อิ่ม สบายดี ♡",
+  full:cr10(v.h),hot:!!needs.length,room:cr.room.length};
+ const set=(id,k,fn)=>{if(spLast[k]!==txt[k]){spLast[k]=txt[k];fn($(id))}};
+ set("spName","nm",e=>e.textContent=txt.nm);
+ set("spLv","lv",e=>e.textContent=txt.lv);
+ set("spDo","doing",e=>e.textContent=txt.doing);
+ set("spNeed","need",e=>{e.textContent=txt.need;e.classList.toggle("hot",txt.hot)});
+ set("spFull","full",e=>e.innerHTML=Array.from({length:10},(_,i)=>`<i class="${i<txt.full?"on":""}"></i>`).join(""));
+ set("spMore","room",e=>{e.textContent=txt.room>1?`+${txt.room-1} ตัวในห้อง`:"";});
+ $("sidePet").classList.toggle("need",txt.hot);
+}
+function sidePetSync(on){
+ if(on&&!spT){
+  if(!user)return;
+  crLoad().then(()=>{if(!spT)return;crWxLoad();sidePetDraw()}).catch(()=>{});
+  spT=setInterval(()=>{if(!document.hidden&&cr)sidePetDraw()},250);
+ }else if(!on&&spT){clearInterval(spT);spT=null}
+}
+$("sidePet").addEventListener("click",()=>goView("cat"));
+$("sidePet").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();goView("cat")}});
 
 /* ---- overlay text ---- */
 let crBubbleT=null;
