@@ -1,4 +1,4 @@
-const CACHE="porkchop-g-v7-85-side-pet";
+const CACHE="porkchop-g-v7-86-cat-together";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./icon-maskable-512.png","./apple-touch-icon.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp","./cat-sprites.png"];
 // addAll rejects the whole install if a single asset 404s, which leaves the
 // new worker stuck and the deploy unable to land. Each asset is allowed to
