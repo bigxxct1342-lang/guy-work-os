@@ -438,6 +438,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.85 The sidebar portrait watches the Cat Room
+- The square at the top of the sidebar is no longer a still of PORKCHOP: it is a live little window onto the Cat Room — the same room, sky, weather and outfits, the cat you are looking after in his current pose (sitting, sulking in the corner, asleep at night).
+- A speech bubble over his head shows the most pressing need (hungry, dirty litter, knotted fur, lonely, something waiting in the room, a mystery box, a quest to claim) — or zzz / a heart when he wants nothing.
+- Underneath: name and level, what he is doing right now, a FULL meter, and his needs in words. The frame glows while he wants something; clicking it opens the Cat Room.
+- Four frames a second, paused when the tab is hidden; hidden on phones as before (the Dashboard panel covers them).
+- No SQL.
+
 ## V7.84 Cat Room: a room that lives, friends, album, sound
 - **Day, night and weather**: the window follows the real clock (dusk goes orange, night goes dark with stars, the lamp lights a cone of the room) and the real Bangkok sky from open-meteo (rain streaks the glass, storms flash).
 - **While you were away**: the first visit of the day, and one more after four hours, finds something waiting in the room — a present on the floor (coins, or rarely an item you cannot buy), a knocked-over vase to tap clean, a bird on the sill.
