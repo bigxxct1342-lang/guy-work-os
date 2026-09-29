@@ -2548,9 +2548,10 @@ body.private .nmz-bar input,body.private #pmGrid input{filter:none}
  .lx .lx-pinform .btn{min-height:48px}
 }
 /* the way in looks the same whatever theme is saved for the inside */
-.lx .btn.primary{background:var(--lxp)!important;color:#fff!important;border-color:var(--lxi)!important}
-.lx .btn.secondary{background:#fffdf7!important;color:var(--lxi)!important;border-color:var(--lxi)!important}
-body.dark .lx .authcard,body.arcade .lx .authcard{background:var(--lxc);color:var(--lxi)}
+body .lx .btn.primary{background:var(--lxp)!important;color:#fff!important;border-color:var(--lxi)!important}
+body .lx .btn.secondary{background:#fffdf7!important;color:var(--lxi)!important;border-color:var(--lxi)!important}
+body.dark .lx .authcard:not(.lx-pinform),body.arcade .lx .authcard:not(.lx-pinform){background:var(--lxc);color:var(--lxi)}
+body.dark .lx .lx-pinform,body.arcade .lx .lx-pinform,.lx .authcard.lx-pinform{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
 body.dark .lx input,body.arcade .lx input{background:#fffdf7;color:var(--lxi);border-color:var(--lxi)}
 </style>
 </head>
@@ -3152,7 +3153,7 @@ body.dark .lx input,body.arcade .lx input{background:#fffdf7;color:var(--lxi);bo
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.98</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.99</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4078,9 +4079,25 @@ $("joinTeamBtn").onclick=async()=>{
  await loadIdentityAndGate();
 };
 
+/* Every call to verify_my_pin counts toward the five-strike lock, so one
+   typed PIN is sent exactly once: nothing new goes out while a check is in
+   flight, and a wrong PIN is wiped from the boxes instead of sitting there
+   waiting to be sent again by the next tap. */
+let pinBusy=false;
+// the server says the time in UTC; say it in the time on the phone
+function pinLockMsg(msg){
+ const m=/Try again after (\d{1,2}):(\d{2})/.exec(msg||"");if(!m)return msg;
+ const d=new Date();d.setUTCHours(+m[1],+m[2],0,0);if(d<new Date(Date.now()-12*36e5))d.setUTCDate(d.getUTCDate()+1);
+ const t=d.toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"}),left=Math.max(1,Math.ceil((d-Date.now())/6e4));
+ return `ใส่ PIN ผิดครบ 5 ครั้ง ระบบล็อกไว้ 15 นาที — ลองใหม่ได้หลัง ${t} น. (อีกประมาณ ${left} นาที)`;
+}
+function pinClear(){["pinInput","pinConfirmInput"].forEach(id=>{const e=$(id);if(e)e.value=""});pin4Sync();setTimeout(()=>$("pinInput")?.focus(),30)}
 $("pinSubmitBtn").onclick=async()=>{
+ if(pinBusy)return;
  const pin=$("pinInput").value.trim();
  if(!/^\d{4}$/.test(pin))return $("pinGateError").textContent="PIN ต้องเป็นตัวเลข 4 หลัก";
+ pinBusy=true;const btn=$("pinSubmitBtn");btn.disabled=true;
+ try{
  if(pinNeedsSetup){
    const confirmPin=$("pinConfirmInput").value.trim();
    if(pin!==confirmPin)return $("pinGateError").textContent="PIN ทั้งสองช่องไม่ตรงกัน";
@@ -4090,11 +4107,12 @@ $("pinSubmitBtn").onclick=async()=>{
  }else{
    $("pinGateError").textContent="Checking…";
    const {data,error}=await sb.rpc("verify_my_pin",{p_pin:pin});
-   if(error){$("pinGateError").textContent=error.message;return}
-   if(!data){$("pinGateError").textContent="PIN ไม่ถูกต้อง";return}
+   if(error){$("pinGateError").textContent=pinLockMsg(error.message);pinClear();return}
+   if(!data){$("pinGateError").textContent="PIN ไม่ถูกต้อง — ผิดครบ 5 ครั้งระบบจะล็อก 15 นาที";pinClear();return}
  }
  sessionStorage.setItem("guy_pin_unlocked_"+user.id,"1");
  showApp();await loadAll();bootReport();splashRelease();
+ }finally{pinBusy=false;btn.disabled=false}
 };
 
 
@@ -4104,10 +4122,12 @@ function pin4Sync(){document.querySelectorAll(".pin4").forEach(w=>{const inp=w.q
  w.querySelectorAll("span").forEach((b,i)=>{b.classList.toggle("on",i<n);b.classList.toggle("cur",f&&i===Math.min(n,3))})})}
 document.querySelectorAll(".pin4 input").forEach(inp=>{
  ["input","focus","blur"].forEach(ev=>inp.addEventListener(ev,()=>{if(ev==="input")inp.value=inp.value.replace(/\D/g,"").slice(0,4);pin4Sync()}));
- inp.addEventListener("keydown",e=>{if(e.key==="Enter")$("pinSubmitBtn").click()});
+ inp.addEventListener("keydown",e=>{if(e.key==="Enter"&&!(inp.id==="pinInput"&&!pinNeedsSetup&&inp.value===pinAutoSent))$("pinSubmitBtn").click()});
 });
 // four digits in unlock mode go straight in; setting a PIN still needs the confirm box
-$("pinInput").addEventListener("input",()=>{if(!pinNeedsSetup&&$("pinInput").value.length===4)$("pinSubmitBtn").click()});
+let pinAutoSent="";
+$("pinInput").addEventListener("input",()=>{const v=$("pinInput").value;if(v.length<4){pinAutoSent="";return}
+ if(!pinNeedsSetup&&v!==pinAutoSent&&!pinBusy){pinAutoSent=v;$("pinSubmitBtn").click()}});
 setInterval(()=>{if(!$("pinGate").classList.contains("hidden"))pin4Sync()},250);
 $("changePinBtn").onclick=()=>{$("newPin").value="";$("newPinConfirm").value="";$("changePinError").textContent="";openLayer("changePinModal")};
 $("cancelChangePin").onclick=()=>closeLayer("changePinModal");
@@ -5938,7 +5958,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.98";
+const APP_VERSION="V7.99";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
