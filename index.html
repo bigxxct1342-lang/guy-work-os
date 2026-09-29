@@ -3008,7 +3008,7 @@ body.private .nmz-bar input,body.private #pmGrid input{filter:none}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.96</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.97</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4344,26 +4344,29 @@ let privOn=false;try{privOn=localStorage.getItem("porkchop_private")==="1"}catch
 const PRIV_SKIP="script,style,.priv-keep,.help:not(.tl-head .help),.flow,h2,.nav,.nav-minor,.hw-plate,.dpanel-t,.tab-map-h b,.bar-row,.nmz-bar,.cv-legend,.calendar-weekdays";
 const PRIV_TXT=new Map(),PRIV_ATTR=new Map();let privRe=null,privKey="",privObs=null,privBusy=false;
 function privStrings(){
+ // runs as early as the first paint, before the rest of the script has set
+ // up every list -- a list that does not exist yet is simply not read
+ const safe=f=>{try{f()}catch(_){}};
  const out=new Set(),add=v=>{if(v==null)return;v=String(v).trim();if(v.length>=3)out.add(v)},
   addNum=v=>{const n=Number(v);if(!n||!isFinite(n)||n<100)return;add(n.toLocaleString("en-US",{maximumFractionDigits:2}));add(String(n))};
- const T=[...(tasks||[]),...(typeof teamTasks!=="undefined"?teamTasks:[])];
- T.forEach(t=>{add(t.task);add(t.note);add(t.category);add(t.sub);add(t.pr_number);add(t.po_number);add(t.cv_brief_url);add(t.portfolio_title);add(t.portfolio_result);
-  const n=String(t.note||"");if(n.length>60)add(n.slice(0,60))});
- (categories||[]).forEach(c=>{add(c.name);(c.subs||[]).forEach(add)});
- [...(projects||[]),...(typeof teamProjects!=="undefined"?teamProjects:[])].forEach(p=>{add(p.name);add(p.note);add(p.portfolio_title);add(p.portfolio_result);String(p.products||"").split(",").forEach(add)});
- [...(kolItems||[]),...(typeof teamKol!=="undefined"?teamKol:[])].forEach(c=>{add(c.name);add(c.agency);add(c.note);add(c.cancel_reason);add(c.portfolio_title);add(c.portfolio_result);
+ safe(()=>{const T=[...(tasks||[]),...(typeof teamTasks!=="undefined"?teamTasks:[])];
+  T.forEach(t=>{add(t.task);add(t.note);add(t.category);add(t.sub);add(t.pr_number);add(t.po_number);add(t.cv_brief_url);add(t.portfolio_title);add(t.portfolio_result);
+  const n=String(t.note||"");if(n.length>60)add(n.slice(0,60))});});
+ safe(()=>{(categories||[]).forEach(c=>{add(c.name);(c.subs||[]).forEach(add)});});
+ safe(()=>{[...(projects||[]),...(typeof teamProjects!=="undefined"?teamProjects:[])].forEach(p=>{add(p.name);add(p.note);add(p.portfolio_title);add(p.portfolio_result);String(p.products||"").split(",").forEach(add)});});
+ safe(()=>{[...(kolItems||[]),...(typeof teamKol!=="undefined"?teamKol:[])].forEach(c=>{add(c.name);add(c.agency);add(c.note);add(c.cancel_reason);add(c.portfolio_title);add(c.portfolio_result);
   addNum(c.budget);Object.values(c.remarks||{}).forEach(add);
-  const d=(c.run&&c.run.deal)||{};["kol","boost","basketFee"].forEach(k=>addNum(d[k]));try{addNum(kolDealTotal(c))}catch(_){}});
- [...(prItems||[]),...(typeof teamPr!=="undefined"?teamPr:[])].forEach(p=>{add(p.title);add(p.pr_number);add(p.po_number);add(p.vendor);add(p.note);addNum(p.amount)});
- [...(npdProducts||[]),...(typeof teamProducts!=="undefined"?teamProducts:[])].forEach(p=>{add(p.name);add(p.factory);add(p.portfolio_title);add(p.portfolio_result)});
- (npdTastings||[]).forEach(r=>{add(r.sample);add(r.changes);add(r.file_url);(Array.isArray(r.comments)?r.comments:[]).forEach(c=>{add(c.who);add(c.text)})});
+  const d=(c.run&&c.run.deal)||{};["kol","boost","basketFee"].forEach(k=>addNum(d[k]));try{addNum(kolDealTotal(c))}catch(_){}});});
+ safe(()=>{[...(prItems||[]),...(typeof teamPr!=="undefined"?teamPr:[])].forEach(p=>{add(p.title);add(p.pr_number);add(p.po_number);add(p.vendor);add(p.note);addNum(p.amount)});});
+ safe(()=>{[...(npdProducts||[]),...(typeof teamProducts!=="undefined"?teamProducts:[])].forEach(p=>{add(p.name);add(p.factory);add(p.portfolio_title);add(p.portfolio_result)});});
  // steps and milestones the person wrote themselves; the template's own words stay
- const tpl=new Set(NPD_TEMPLATE.flatMap(m=>[m.title,...m.steps.map(s=>s[0])]));
- (npdMilestones||[]).forEach(m=>{if(!tpl.has(m.title))add(m.title)});
- (npdSteps||[]).forEach(s=>{if(!tpl.has(s.name))add(s.name);add(s.deadline_note)});
- (profiles||[]).forEach(p=>{add(p.full_name);add(p.email);add(String(p.email||"").split("@")[0])});
- if(user&&user.email){add(user.email);add(user.email.split("@")[0])}
- if(team&&team.name)add(team.name);
+ safe(()=>{(npdTastings||[]).forEach(r=>{add(r.sample);add(r.changes);add(r.file_url);(Array.isArray(r.comments)?r.comments:[]).forEach(c=>{add(c.who);add(c.text)})});});
+ safe(()=>{const tpl=new Set(NPD_TEMPLATE.flatMap(m=>[m.title,...m.steps.map(s=>s[0])]));
+  (npdMilestones||[]).forEach(m=>{if(!tpl.has(m.title))add(m.title)});
+  (npdSteps||[]).forEach(s=>{if(!tpl.has(s.name))add(s.name);add(s.deadline_note)})});
+ safe(()=>{(profiles||[]).forEach(p=>{add(p.full_name);add(p.email);add(String(p.email||"").split("@")[0])});});
+ safe(()=>{if(user&&user.email){add(user.email);add(user.email.split("@")[0])}});
+ safe(()=>{if(team&&team.name)add(team.name);});
  return [...out].sort((a,b)=>b.length-a.length);
 }
 const privEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
@@ -4392,7 +4395,7 @@ function privMaskNode(n,re){
 }
 function privRun(nodes){
  if(!privOn||privBusy)return;privBusy=true;
- try{const re=privRegex();(nodes||[document.body]).forEach(n=>privMaskNode(n,re))}finally{privBusy=false}
+ try{const re=privRegex();(nodes||[document.body]).forEach(n=>privMaskNode(n,re))}catch(e){console.warn("show-off mask skipped",e)}finally{privBusy=false}
 }
 function privRestore(){
  privBusy=true;
@@ -4413,7 +4416,7 @@ function privSet(on){
   privRun();
  }else{privObs&&privObs.disconnect();privRestore()}
 }
-if(privOn)privSet(true);
+if(privOn)setTimeout(()=>{try{privSet(true)}catch(e){console.warn(e)}},0);
 $("privBtn").onclick=()=>{privSet(!privOn);toast(privOn?"ซ่อนรายละเอียดงานแล้ว — เอาไปโชว์ได้เลย":"แสดงรายละเอียดครบแล้ว")};
 
 
@@ -5779,7 +5782,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.96";
+const APP_VERSION="V7.97";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},

@@ -441,6 +441,14 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.97 Fix: app stuck at the start with show-off mode on
+- With show-off mode left on, reloading the app ran the masking before the app's lists existed. The error stopped the rest of start-up, so "เข้าสู่แอป" did nothing.
+- The fix:
+  - masking now waits until start-up has finished;
+  - each data list is read on its own, and a list that isn't ready is skipped;
+  - masking can never throw into the page.
+- Checked on a real page load with show-off mode and Arcade in all four on/off combinations: no errors, and the button goes on to sign-in.
+
 ## V7.96 Show-off mode, and plans above work in the menu
 - A button at the top right (👁️ โชว์ทั้งหมด / 🙈 โหมดอวด) hides every piece of real work as XXXX. The app itself stays readable, so it can be shown to anyone.
   - Hidden: task names, notes, categories, projects, products, factories, campaigns, agencies, remarks, PR/PO numbers, vendors, amounts, tasting comments, custom steps, and people and team names.
