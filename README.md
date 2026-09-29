@@ -71,6 +71,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `migration-v7-84-cat-friends.sql` Cat Room visits, gifts and photo album
 - `migration-v7-86-cat-together.sql` playdates, weekly team goal, family cat
 - `migration-v7-88-launch-711.sql` Product Launch: 7-11 phase, real start dates, "failed" step status
+- `unlock-pin.sql` clears a PIN lock after five wrong tries (the PIN is unchanged)
 - `migration-v7-90-tasting-retail.sql` Product Launch: tasting rounds (`product_tastings`), "ห้างอื่น" phase
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
@@ -440,6 +441,16 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V7.99 PIN: each PIN is sent once, and the lock message tells the right time
+- Every PIN check counts toward the five-strike lock. In V7.98 a PIN could be sent more than once: by the fourth-digit auto-submit, by Enter, or by tapping Unlock while a check was still running. Wrong attempts added up faster than they were typed.
+  - Now one typed PIN is sent exactly once.
+  - The button stays disabled while a check runs.
+  - A wrong PIN is cleared from the boxes, so it can't be resent.
+- A wrong PIN now says that five wrong tries lock the PIN for 15 minutes.
+- The lock message showed the server's UTC time (09:32 instead of 16:32). It now shows the phone's time and the minutes left, in Thai.
+- The PIN boxes no longer sit inside a cream card under dark or Arcade, and the Unlock text stays white in every theme.
+- `unlock-pin.sql` clears a PIN lock straight away without changing the PIN.
 
 ## V7.98 The way in: new first page, sign-in and PIN card
 - The four screens before the app share one night room: navy with stars, a glowing floor grid, and the chubby Scottish Fold on his CRT, all from the ChatGPT designs.
