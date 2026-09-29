@@ -442,6 +442,26 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.00 Fuller design: the Daily Report joins, display type, motion, richer Arcade
+- **Daily Report** (the screen after unlocking) now lives in the new room:
+  - a cream card with a pink title strip, and the cat peeking over its top edge;
+  - Priority Matrix rows as sticker rows with count badges (Q1 pink, the rest mint);
+  - section labels as ink tags, running ads in a yellow box with a candy-stripe bar;
+  - a big pink "รับทราบ · เข้าสู่แอป" button.
+- **Display type**: Bungee for the big English titles and Mitr for Thai headings and buttons, loaded from Google Fonts. If they can't load, the old fonts are used.
+- **Motion** on every screen of the new design:
+  - the floor grid runs toward you and the pixel sparkles blink;
+  - the cat bobs gently and the PIN lanyard sways;
+  - the main button pulses, and "▶ PRESS START" blinks on the first page.
+  - All of it is turned off when the phone asks for reduced motion.
+- **Arcade inside the app**:
+  - The Dashboard banner shows the illustrated cat on his monitor.
+  - Panel headers are coloured strips: Tasks yellow, Cat Room pink, Calendar sky, Note mint.
+  - Page headings wear yellow label stickers, and the plate over each page is an ink tag.
+  - Stat numbers use the display type.
+  - Main buttons are white on pink like the entry screens, and the selected menu item is a pink sticker.
+- No SQL.
+
 ## V7.99 PIN: each PIN is sent once, and the lock message tells the right time
 - Every PIN check counts toward the five-strike lock. In V7.98 a PIN could be sent more than once: by the fourth-digit auto-submit, by Enter, or by tapping Unlock while a check was still running. Wrong attempts added up faster than they were typed.
   - Now one typed PIN is sent exactly once.
