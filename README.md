@@ -441,6 +441,27 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.93 Icons on every busy page
+- One set of emoji icons, so the same thing wears the same picture everywhere. Emoji need no download and look like the phone's own.
+- **Product Launch**:
+  - The main road is now a row of cards, one per stage: a big icon, the name, the date, and a badge on top (✓ done, ring = now, ! = late, + = not added yet). Stages not reached yet are greyed.
+  - Phase and milestone headings carry icons, picked from the milestone's own words (formula 🧪, label 🏷️, proof 🖨️, 7-11 🏪 …).
+- **Root maps**: every knot not yet done shows its icon inside the circle, on Product Launch, KOL, Creative and PR alike.
+- **KOL**:
+  - The 14 stages have icons in the steps list and on the "ต้องทำตอนนี้" chips.
+  - The flow in the page help is a row of icon steps.
+- **PR / GRPO**: stage headers and the chip row have icons, and the flow in the help is shown as icon steps.
+- **Creative**:
+  - Each group heading has an icon (👀 รอเราตรวจ, ⏳ รอ Creative …).
+  - The flow in the help is shown as icon steps.
+- **Dashboard**:
+  - The filter chips have icons (🔥 เลยกำหนด, 📌 วันนี้ …).
+  - Each task row starts with an icon for what it is.
+  - The panel titles have icons, and so does each "ยังขาดอะไรอยู่ตรงไหน" group.
+- **Settings**: every card and setting has an icon, and so does each system-check row.
+- Other page headings (Tasks, Categories, Weekly Review, Portfolio, Team) have icons too.
+- No SQL.
+
 ## V7.92 System check, root maps for KOL / Creative / PR, cleanup
 - **Settings → เช็คระบบ**: one read-only pass that reports:
   - every SQL file, ✓ run or ✗ missing; each missing one has "คัดลอก SQL" (the file is fetched from the site) and a link to the SQL editor;
