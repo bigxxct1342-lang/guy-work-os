@@ -441,6 +441,31 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.92 System check, root maps for KOL / Creative / PR, cleanup
+- **Settings → เช็คระบบ**: one read-only pass that reports:
+  - every SQL file, ✓ run or ✗ missing; each missing one has "คัดลอก SQL" (the file is fetched from the site) and a link to the SQL editor;
+  - whether this app is the latest version;
+  - the Supabase connection and its speed;
+  - team, Telegram link, notification permission, how far the Thai holiday calendar reaches, and local storage.
+  - "คัดลอกผลตรวจส่งให้ Dev" copies the whole report as text.
+- **Root maps on KOL, Creative and PR**: the Product Launch map is now one shared component, and each page grows its own roots from its own data:
+  - KOL: one branch per running campaign, with the 14 stages in three stretches (เตรียม / ผลิตคอนเทนต์ / ลง + ปิดงาน).
+    - Details under each stage: start date, the agency's frame, Storyline / Draft counts, posting days, Boost, PR, remarks.
+    - The card can start, finish or reopen a stage.
+  - Creative: บรีฟ → every draft round (sent, back, days, outcome) → อนุมัติ → โพสต์ → บูท.
+    - The card can send the brief, mark a draft received, approve or ask for changes.
+  - PR / GRPO: เปิด PR → รอ PO → ทำงาน → GRPO → ส่งบัญชี, with PR and PO numbers, vendor and amount.
+    - The card moves the PR to its next stage.
+- On every map:
+  - done and cancelled items are hidden unless "รวมที่ปิดแล้ว" is ticked;
+  - "ซ่อน" folds the map away, and the choice is remembered;
+  - maps open at 55% or larger, starting from the root, so words are readable;
+  - "ไปที่… ›" jumps to the item in the page's own list.
+- **Cleanup**: 124 CSS rules for classes nothing uses any more were removed (old Gantt, old mini-calendar, old KOL run and posts pieces), along with 7 unused functions.
+  - The file is about 11 KB smaller.
+  - Every page was screenshotted before and after at desktop and phone width and compared pixel by pixel: identical.
+- No SQL.
+
 ## V7.91 Product Launch: the root map shows every sub-step, and zooms
 - Each knot trails its sub-steps as rootlets hanging below it: the label's drafts, every proof in Label Production, and so on.
   - Upcoming steps are grey, done steps are filled with the phase colour, and a step in progress is ringed.
