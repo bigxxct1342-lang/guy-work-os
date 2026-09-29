@@ -3242,10 +3242,10 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.01</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.02</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>หน้าตาแอป</strong><span>ใช้ธีม Arcade เป็นหลัก · อยากกลับไปหน้าตาเดิม (Classic) กดปุ่มนี้ กดอีกครั้งเพื่อกลับมา Arcade</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">ใช้หน้าตาแบบเดิม (Classic)</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>หน้าตาแอป</strong><span>ใช้ธีม Arcade เป็นหลัก · อยากกลับไปหน้าตาเดิม (Classic) กดปุ่มนี้ กดอีกครั้งเพื่อกลับมา Arcade</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">ใช้หน้าตาแบบเดิม (Classic)</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
@@ -3477,6 +3477,16 @@ body.arcade .ticker{overflow:hidden}
 </div>
 
 
+<div id="changePwModal" class="modalbg hidden">
+ <div class="modal"><button class="modal-close" data-close-layer="changePwModal" aria-label="Close">×</button>
+  <h3>เปลี่ยนรหัสผ่าน</h3>
+  <p id="changePwNote" class="hidden" style="margin:0 0 12px;font-size:13px;line-height:1.6;color:var(--muted)"></p>
+  <div class="field"><label>รหัสใหม่ (อย่างน้อย 10 ตัว)</label><input id="newPw" type="password" autocomplete="new-password"></div>
+  <div class="field"><label>ใส่รหัสใหม่อีกครั้ง</label><input id="newPwConfirm" type="password" autocomplete="new-password"></div>
+  <div id="changePwError" class="error"></div>
+  <div class="actions"><button id="cancelChangePw" class="btn secondary">Cancel</button><button id="saveNewPw" class="btn primary">บันทึกรหัสใหม่</button></div>
+ </div>
+</div>
 <div id="changePinModal" class="modalbg hidden">
  <div class="modal"><button class="modal-close" data-close-layer="changePinModal" aria-label="Close">×</button>
   <h3>Change Personal PIN</h3>
@@ -3501,11 +3511,27 @@ body.arcade .ticker{overflow:hidden}
 const CFG=window.GUY_CONFIG||{};
 /* Read at parse time, on purpose. The Supabase client strips the recovery
    token out of the address bar as it initialises, so by the time boot() has
-   awaited it there is nothing left to look at. */
-let authRecovery=/\btype=recovery\b/.test(location.hash||"")||/\btype=recovery\b/.test(location.search||"");
+   awaited it there is nothing left to look at.
+
+   What is in the address bar is only a hint. Anyone holding a signed-in phone
+   can type "#type=recovery" after the address, and the old code believed it:
+   up came "Set new password" on the existing session, in front of the PIN.
+   authRecovery is now set by one thing only -- Supabase's own
+   PASSWORD_RECOVERY event, which it fires after it has checked the token.
+
+   A link that has already been used or has run out (a second reset email
+   makes the first one dead; some mail apps open links to scan them) comes
+   back as "#error=...". Supabase keeps whatever session the phone already
+   had, so the app used to open as if nothing had happened, and the password
+   was never changed. authLinkErr remembers that it happened. */
+const authUrl=(location.hash||"")+"&"+(location.search||"");
+const authRecoveryHint=/\btype=recovery\b/.test(authUrl);
+const authLinkErr=/[#?&]error(_code|_description)?=/.test(authUrl);
+let authRecovery=false,recoveryHeard=()=>{};
+const recoveryHeardP=new Promise(r=>recoveryHeard=r);
 let sb=null,user=null,profile=null,team=null,pinNeedsSetup=false,tasks=[],categories=[],profiles=[],teamTasks=[],teamCategories=[],teamProjects=[],teamKol=[],teamPr=[],teamProducts=[],editingTaskId=null,editingCategoryId=null,focusMode="today",authMode="signin",calendarCursor=new Date(),calendarMode="month",focusEnabled=false;
 const $=id=>document.getElementById(id);
-const layerIds=["dayDrawer","memberSummaryDrawer","taskModal","categoryModal","deleteCategoryModal","changePinModal","kolPasteModal","commandPalette"];
+const layerIds=["dayDrawer","memberSummaryDrawer","taskModal","categoryModal","deleteCategoryModal","changePwModal","changePinModal","kolPasteModal","commandPalette"];
 function refreshLayerLock(){document.body.classList.toggle("layer-open",layerIds.some(id=>$(id)&&!$(id).classList.contains("hidden")))}
 function openLayer(id){const el=$(id);if(!el)return;el.classList.remove("hidden");refreshLayerLock()}
 function closeLayer(id){const el=$(id);if(!el)return;el.classList.add("hidden");if(id==="dayDrawer")drawerDate=null;if(id==="memberSummaryDrawer")summaryMemberId=null;refreshLayerLock()}
@@ -3551,6 +3577,10 @@ async function ensureSupabaseClient(){
  for(let i=0;i<30;i++){
    if(window.supabase?.createClient){
      sb=window.supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);
+     // Straight away, before the client has finished reading the address
+     // bar: PASSWORD_RECOVERY is sent once, and a listener added after
+     // boot's first await can arrive too late to hear it.
+     sb.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY"){authRecovery=true;recoveryHeard()}});
      return sb;
    }
    await new Promise(r=>setTimeout(r,100));
@@ -3563,9 +3593,22 @@ async function boot(){
    await ensureSupabaseClient();
    const {data,error}=await sb.auth.getSession();
    if(error) throw error;
+   // The event goes out just after the client settles; give it a moment.
+   if(authRecoveryHint&&!authRecovery)await Promise.race([recoveryHeardP,new Promise(r=>setTimeout(r,2500))]);
+   const deadLink=!authRecovery&&(authLinkErr||authRecoveryHint);
+   if(deadLink)authUrlClear();
    if(authRecovery){enterRecovery()}
-   else if(data.session){user=data.session.user;await enterApp()}
-   else showAuth();
+   else if(data.session){
+     user=data.session.user;
+     // Still signed in here, so the new password can be set inside the app
+     // -- but only after the PIN, like everything else in it.
+     if(deadLink)pwNudgeDue=true;
+     await enterApp();
+   }
+   else{
+     showAuth();
+     if(deadLink){authGo("reset");$("authError").textContent=LINK_DEAD}
+   }
    sb.auth.onAuthStateChange((event,session)=>{
      setTimeout(async()=>{
        try{
@@ -3659,8 +3702,10 @@ function renderLive(){
    not look like a second recovery and the token is not left on screen. */
 function enterRecovery(){
  showAuth();authGo("recover");
- try{history.replaceState(null,"",location.origin+location.pathname)}catch(_){}
+ authUrlClear();
 }
+function authUrlClear(){try{history.replaceState(null,"",location.origin+location.pathname)}catch(_){}}
+const LINK_DEAD="ลิงก์ในเมลนี้ใช้ไม่ได้แล้ว (หมดอายุ หรือถูกเปิดไปก่อนแล้ว) — กดส่งลิงก์ใหม่ แล้วเปิดจากเมลฉบับล่าสุดเท่านั้น";
 function hideAllScreens(){["authScreen","teamGate","pinGate","app"].forEach(id=>$(id)?.classList.add("hidden"))}
 /* The cat used to come down the moment it was tapped, which meant whatever
    boot had managed so far -- often the sign-in form, then the app, then the
@@ -4043,6 +4088,7 @@ async function loadIdentityAndGate(){
  syncState("Checking access…");
  const pr=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();
  if(pr.error){showApp();splashRelease();syncState("Run V6 migration SQL",false);alert("Profile migration has not been applied yet.");return}
+ if(authRecovery)return;           // a recovery link landed while this was loading
  profile=pr.data;if(!profile){showAuth();return}
  if(!profile.team_id){showTeamGate();return}
  const tr=await sb.from("teams").select("id,name").eq("id",profile.team_id).maybeSingle();
@@ -4050,6 +4096,7 @@ async function loadIdentityAndGate(){
  team=tr.data;
  const {data:hasPin,error:pinErr}=await sb.rpc("has_my_pin");
  if(pinErr){showApp();splashRelease();syncState("Run V6.8 migration SQL",false);alert("V6.8 Team/PIN migration has not been applied yet.");return}
+ if(authRecovery)return;
  const unlocked=sessionStorage.getItem("guy_pin_unlocked_"+user.id)==="1";
  if(!hasPin){showPinGate(true);return}
  if(!unlocked){showPinGate(false);return}
@@ -4083,7 +4130,17 @@ function authRender(){
  $("authPassword").setAttribute("autocomplete",authMode==="signin"?"current-password":"new-password");
  $("authSig").textContent=authMode==="recover"?"RECOVERY":"LINK IDLE";
 }
-function authGo(mode){authMode=mode;$("authError").textContent="";authRender()}
+function authGo(mode){authMode=mode;$("authError").textContent="";clearInterval(authHoldT);$("authSubmit").disabled=false;authRender()}
+let authHoldT=0;
+function authResetHold(sec){
+ const b=$("authSubmit");b.disabled=true;clearInterval(authHoldT);
+ const tick=()=>{
+  if(authMode!=="reset"){clearInterval(authHoldT);b.disabled=false;return}
+  if(sec<=0){clearInterval(authHoldT);b.disabled=false;b.textContent=AUTH_UI.reset.go;return}
+  b.textContent="ส่งอีกครั้งได้ใน "+sec--+" วิ";
+ };
+ tick();authHoldT=setInterval(tick,1000);
+}
 $("authSwitch").onclick=()=>authGo(authMode==="signin"?"signup":"signin");
 $("authForgot").onclick=()=>{
  // carry whatever they already typed across, it is the same field
@@ -4103,9 +4160,13 @@ $("authSubmit").onclick=async()=>{
      // Never say whether the address exists -- that turns this box into a
      // way to find out who has an account.
      $("authError").textContent=error?(error.message||"ส่งไม่สำเร็จ ลองใหม่อีกครั้ง")
-       :"ถ้าเมลนี้มีบัญชีอยู่ ลิงก์รีเซ็ตถูกส่งไปแล้ว — เช็คกล่องจดหมายและ Junk ด้วย";
+       :"ถ้าเมลนี้มีบัญชีอยู่ ลิงก์รีเซ็ตถูกส่งไปแล้ว — เปิดจากเมลฉบับล่าสุดเท่านั้น (ฉบับเก่าจะใช้ไม่ได้) เช็ค Junk ด้วย";
+     // Every send kills the link before it, so a second tap while the first
+     // email is on its way leaves the user holding a dead one. Hold the
+     // button for a minute (Supabase will not send sooner anyway).
+     if(!error){authResetHold(60);return}
    }catch(err){$("authError").textContent=err?.message||"ส่งไม่สำเร็จ"}
-   finally{$("authSubmit").disabled=false}
+   $("authSubmit").disabled=false;
    return;
  }
 
@@ -4220,6 +4281,42 @@ $("pinInput").addEventListener("input",()=>{const v=$("pinInput").value;if(v.len
 setInterval(()=>{if(!$("pinGate").classList.contains("hidden"))pin4Sync()},250);
 $("changePinBtn").onclick=()=>{$("newPin").value="";$("newPinConfirm").value="";$("changePinError").textContent="";openLayer("changePinModal")};
 $("cancelChangePin").onclick=()=>closeLayer("changePinModal");
+/* The password, from inside the app. Only reachable past the PIN, which is
+   what makes it safe to skip asking for the old one -- the usual reason to
+   be here is that the old one is forgotten. */
+function openChangePw(note){
+ $("newPw").value="";$("newPwConfirm").value="";$("changePwError").textContent="";
+ $("changePwNote").textContent=note||"";$("changePwNote").classList.toggle("hidden",!note);
+ openLayer("changePwModal");setTimeout(()=>$("newPw").focus(),50);
+}
+$("changePwBtn").onclick=()=>openChangePw("");
+$("cancelChangePw").onclick=()=>closeLayer("changePwModal");
+$("saveNewPw").onclick=async()=>{
+ const a=$("newPw").value,b=$("newPwConfirm").value,btn=$("saveNewPw");
+ if(a.length<10)return $("changePwError").textContent="รหัสใหม่อย่างน้อย 10 ตัว";
+ if(a!==b)return $("changePwError").textContent="รหัสสองช่องไม่ตรงกัน";
+ $("changePwError").textContent="กำลังบันทึก…";btn.disabled=true;
+ try{
+  const {error}=await sb.auth.updateUser({password:a});
+  if(error){
+   // "Secure password change" in Supabase wants a fresh sign-in first.
+   $("changePwError").textContent=/reauth/i.test(error.message||"")
+    ?"Supabase ขอให้ Login ใหม่ก่อนเปลี่ยนรหัส — Sign out แล้วเข้าใหม่ หรือใช้ Forgot password"
+    :/different from the old|same/i.test(error.message||"")?"รหัสใหม่ต้องไม่ซ้ำกับรหัสเดิม":error.message;
+   return;
+  }
+  $("newPw").value="";$("newPwConfirm").value="";
+  closeLayer("changePwModal");toast("เปลี่ยนรหัสผ่านแล้ว");
+ }catch(err){$("changePwError").textContent=err?.message||"บันทึกไม่สำเร็จ"}
+ finally{btn.disabled=false}
+};
+/* Came in on a dead reset link while still signed in: once the PIN is done
+   and the morning report is closed, open the box they were looking for. */
+let pwNudgeDue=false;
+function pwNudge(){
+ if(!pwNudgeDue)return;pwNudgeDue=false;
+ openChangePw("ลิงก์ในเมลใช้ไม่ได้แล้ว (หมดอายุ หรือถูกเปิดไปก่อนแล้ว) แต่เครื่องนี้ยัง Login อยู่ — ตั้งรหัสใหม่ตรงนี้ได้เลย");
+}
 $("saveNewPin").onclick=async()=>{
  const a=$("newPin").value.trim(),b=$("newPinConfirm").value.trim();
  if(!/^\d{4}$/.test(a))return $("changePinError").textContent="PIN ต้องเป็นตัวเลข 4 หลัก";
@@ -6051,7 +6148,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.01";
+const APP_VERSION="V8.02";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -9595,7 +9692,7 @@ function btLines(){
 }
 let btTimer=null;
 function bootReport(){
- const sc=$("bootScreen");if(!sc)return;
+ const sc=$("bootScreen");if(!sc){pwNudge();return}
  const out=$("btOut"),spec=btLines();
  out.innerHTML="";
  let box=null;const nodes=[],plan=[];
@@ -9649,7 +9746,7 @@ function bootReport(){
  sc.classList.remove("hidden");
  const stopCat=btCatWalk("btCatCv"); // needs a laid-out canvas, so after unhiding
  const finish=()=>{clearTimeout(btTimer);atEnd=true;total=totalOf();paint(total)};
- const close=()=>{clearTimeout(btTimer);stopCat();sc.classList.add("hidden")};
+ const close=()=>{clearTimeout(btTimer);stopCat();sc.classList.add("hidden");pwNudge()};
  sc.onclick=e=>{
   if(e.target.closest(".bt-ok"))return close();
   finish();                       // a tap anywhere else just skips the typing
