@@ -934,6 +934,17 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .nmz-pop .nmp-x{position:absolute;top:8px;right:8px}
 .nmz-pop .nmp-h{padding-right:26px}
 .nmz-tools{display:inline-flex;gap:6px;align-items:center;margin-left:4px}
+/* V7.93 icons */
+.row span.ic,.help span.ic,h2 span.ic,b span.ic{display:inline-block;margin-top:0}
+.dash-ico{flex:none;width:22px;text-align:center;font-size:15px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.ic{display:inline-block;margin-right:.35em;font-style:normal;line-height:1;vertical-align:-.08em;letter-spacing:0;text-transform:none;
+ font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 2px;margin:8px 0}
+.flow span{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;border:1px solid var(--t-line,var(--line));
+ background:var(--card);font-size:12px;font-weight:750;color:var(--t-ink,var(--text));white-space:nowrap}
+.flow i{font-style:normal;font-weight:900;color:var(--t-dim,var(--muted));padding:0 2px}
+.nm-n i.has-ic{font-size:12px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.nm-n.s-next i.has-ic{filter:grayscale(.7);opacity:.75}
 /* V7.92 tab root maps */
 .tab-map{margin-bottom:16px}
 .tab-map-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
@@ -1031,28 +1042,35 @@ body.nmz-lock{overflow:hidden}
 .nmv-s.ss-failed{color:#a33224}.nmv-s.ss-failed i{background:#a33224;border-color:#a33224}
 .nmv-s.ss-skipped span{text-decoration:line-through;opacity:.6}
 /* V7.90 main road + tasting log */
-.nst{display:flex;flex-wrap:nowrap;align-items:flex-start;row-gap:10px;margin-top:14px}
-.nst-s{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 1 66px;min-width:54px;padding:0;border:0;background:none;font:inherit;cursor:pointer;text-align:center}
+.nst{display:flex;flex-wrap:nowrap;align-items:stretch;gap:0;margin-top:18px}
+.nst-s{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;flex:1 1 0;min-width:0;
+ padding:16px 2px 9px;border:1px solid var(--t-line);border-radius:12px;background:var(--card);font:inherit;cursor:pointer;text-align:center;transition:transform .12s,box-shadow .12s}
+.nst-s.st-now{flex-grow:1.3}
 .nst-s:disabled{cursor:default}
-.nst-s i{font-style:normal;width:26px;height:26px;box-sizing:border-box;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;
- color:#fff;background:var(--card);border:3px solid color-mix(in srgb,var(--c) 40%,transparent)}
-.nst-s b{font-size:12px;font-weight:800;line-height:1.2;color:var(--t-ink)}
-.nst-s small{font-size:10px;font-weight:700;color:var(--t-dim);line-height:1.2}
-.nst-s.st-done i{background:var(--c);border-color:var(--c)}
-.nst-s.st-done b{color:var(--t-dim)}
-.nst-s.st-now i{border-color:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent);animation:nmPulse 1.8s ease-in-out infinite}
+.nst-s:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(60,40,10,.12)}
+.nst-ic{font-size:24px;line-height:1.1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.nst-s b{font-size:11.5px;letter-spacing:-.02em;font-weight:800;line-height:1.2;color:var(--t-ink);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nst-s small{font-size:10px;font-weight:700;color:var(--t-dim);line-height:1.25}
+.nst-bd{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:20px;height:20px;box-sizing:border-box;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;background:var(--card);border:2px solid rgba(74,52,16,.28)}
+.nst-s.st-done .nst-bd{background:#2f8a58;border-color:#2f8a58}
+.nst-s.st-done small{color:#2f6b3c}
+.nst-s.st-now{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c)}
+.nst-s.st-now .nst-bd{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 22%,transparent);animation:nmPulse 1.8s ease-in-out infinite}
 .nst-s.st-now b{font-weight:900}
 .nst-s.st-now small{color:color-mix(in srgb,var(--c) 80%,#000);font-weight:800}
-.nst-s.st-next b{color:var(--t-dim);font-weight:700}
-.nst-s.st-missing i{border:2px dashed var(--t-line-on,#a8640a);color:var(--t-dim);background:transparent}
-.nst-s.st-missing b{color:var(--t-dim);font-weight:700}
-.nst-s.is-end i{background:var(--card);border:2px dashed var(--t-line-on,#a8640a);font-size:14px}
-.nst-s.is-end.st-done i{border-style:solid;background:rgba(47,138,88,.18)}
-.nst-s.is-bad i{border-color:#a33224}.nst-s.is-bad small{color:#a33224}
-.nst-s:not(:disabled):hover b{color:var(--t-amb,#8a4708)}
-.nst-j{flex:1 1 4px;min-width:3px;max-width:48px;height:3px;margin-top:11.5px;border-radius:2px;background:var(--t-line)}
-.nst-j.on{background:var(--c)}
-@media (prefers-reduced-motion:reduce){.nst-s.st-now i{animation:none}}
+.nst-s.st-next .nst-ic,.nst-s.st-missing .nst-ic{filter:grayscale(.75);opacity:.6}
+.nst-s.st-next b,.nst-s.st-missing b{color:var(--t-dim);font-weight:700}
+.nst-s.st-missing{border-style:dashed;background:transparent}
+.nst-s.st-missing .nst-bd{border-style:dashed;color:var(--t-dim);border-color:var(--t-line-on,#a8640a)}
+.nst-s.is-end .nst-bd{border-style:dashed}
+.nst-s.is-end.st-done .nst-bd{border-style:solid}
+.nst-s.is-bad{border-color:rgba(163,50,36,.55)}
+.nst-s.is-bad .nst-bd{background:#a33224;border-color:#a33224}
+.nst-s.is-bad small{color:#a33224}
+.nst-j{flex:0 1 6px;min-width:2px;align-self:center;height:0;border-top:2px dotted rgba(74,52,16,.3)}
+.nst-j.on{border-top-style:solid;border-color:#2f8a58}
+@media (prefers-reduced-motion:reduce){.nst-s.st-now .nst-bd{animation:none}}
 .tl-box{margin:6px 0 10px;padding:12px;border:1px solid var(--t-line);border-radius:12px;background:color-mix(in srgb,var(--card) 70%,transparent)}
 .tl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .tl-head b{font-size:14px;margin-right:8px}.tl-head span{font-size:12px;color:var(--t-dim);font-weight:700}
@@ -1089,7 +1107,7 @@ body.nmz-lock{overflow:hidden}
 .tl-mx tr:first-child th{font-size:11px;color:var(--t-dim)}
 .tl-mx td i{color:var(--t-dim);font-style:normal}
 @container (max-width:620px){
- .nst{flex-wrap:wrap}
+ .nst{flex-wrap:wrap;gap:16px 6px}.nst-j{display:none}.nst-s{flex:0 0 calc(33.3% - 4px)}
  .tl-add{grid-template-columns:1fr 1fr}.tl-add input[id^="tlTx"]{grid-column:1/-1}.tl-add .btn{grid-column:1/-1}
  .tl-c{grid-template-columns:1fr 20px 20px;grid-template-areas:"who sc x" "t t t";row-gap:2px}
  .tl-who{grid-area:who}.tl-sc{grid-area:sc}.tl-x{grid-area:x}.tl-t{grid-area:t}
@@ -2398,7 +2416,7 @@ body.dark .splash{background:#15120e}
 
      <div class="dash-grid">
       <div class="dpanel">
-       <div class="dpanel-h"><span class="dpanel-t">TASKS</span>
+       <div class="dpanel-h"><span class="dpanel-t"><span class="ic" aria-hidden="true">📋</span>TASKS</span>
         <button id="toggleFocusBtn" class="btn secondary small">Focus Mode</button></div>
        <div id="dashChips" class="dash-chips"></div>
        <div id="dashList"></div>
@@ -2407,7 +2425,7 @@ body.dark .splash{background:#15120e}
       </div>
       <div class="dash-rail">
        <div class="dpanel cat-w" id="catWidget">
-        <div class="dpanel-h"><span class="dpanel-t">CAT ROOM</span><button class="cw-go" type="button">ไปห้องแมว &rsaquo;</button></div>
+        <div class="dpanel-h"><span class="dpanel-t"><span class="ic" aria-hidden="true">🐱</span>CAT ROOM</span><button class="cw-go" type="button">ไปห้องแมว &rsaquo;</button></div>
         <div class="cw-body"><div class="cw-pic"><canvas id="cwCv"></canvas></div>
          <div><div class="cw-nm"><span id="cwName">PORKCHOP</span><span class="cr-tag" id="cwBreed">MIX</span><span class="lv" id="cwLv">LV 1</span></div>
           <div class="cw-row"><span>XP</span><div class="cr-m" id="cwXp"></div><span id="cwXpN"></span></div>
@@ -2415,12 +2433,12 @@ body.dark .splash{background:#15120e}
         <div class="cw-foot"><div class="cw-say" id="cwSay">กำลังเรียกแมว…</div><button class="cr-btn pri" id="cwFeed" type="button">ให้อาหาร</button></div>
        </div>
        <div class="dpanel">
-        <div class="dpanel-h"><span class="dpanel-t">CALENDAR</span>
+        <div class="dpanel-h"><span class="dpanel-t"><span class="ic" aria-hidden="true">📅</span>CALENDAR</span>
          <span class="dcal-nav"><button data-dcal="-1" aria-label="เดือนก่อน">&lsaquo;</button><b id="dcalTitle"></b><button data-dcal="1" aria-label="เดือนถัดไป">&rsaquo;</button></span></div>
         <div id="dashMiniCal"></div>
        </div>
        <div class="dpanel">
-        <div class="dpanel-h"><span class="dpanel-t">MY NOTE</span><span id="noteSaved" class="dnote-saved"></span></div>
+        <div class="dpanel-h"><span class="dpanel-t"><span class="ic" aria-hidden="true">📝</span>MY NOTE</span><span id="noteSaved" class="dnote-saved"></span></div>
         <textarea id="dashNote" rows="4" placeholder="Write something...&#10;Ideas, reminders, or just a thought for today."></textarea>
         <div class="dnote-foot"><span>BETTER WORK<br>BRIGHTER DAYS.</span><canvas id="noteCatCv" aria-hidden="true"></canvas></div>
        </div>
@@ -2428,7 +2446,7 @@ body.dark .splash{background:#15120e}
      </div>
 
      <div class="dpanel">
-      <div class="dpanel-h"><span class="dpanel-t">ยังขาดอะไรอยู่ตรงไหน</span>
+      <div class="dpanel-h"><span class="dpanel-t"><span class="ic" aria-hidden="true">🧩</span>ยังขาดอะไรอยู่ตรงไหน</span>
        <span class="dpanel-note">กดหัวข้อเพื่อดูรายละเอียด</span></div>
       <div id="dashGaps"></div>
      </div>
@@ -2453,8 +2471,8 @@ body.dark .splash{background:#15120e}
   </div>
  </section>
 
- <section id="tasksView" class="hidden"><div class="card section"><h2>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
- <section id="categoriesView" class="hidden"><div class="card section"><h2>Manage Categories</h2><div id="manageCategories"></div></div></section>
+ <section id="tasksView" class="hidden"><div class="card section"><h2><span class="ic" aria-hidden="true">📋</span>All Tasks</h2><div class="toolbar"><input id="searchTask" class="search" placeholder="Search task, note, category…"><select id="filterCategory"><option value="">All Categories</option></select><select id="filterSub"><option value="">All Subcategories</option></select><select id="filterStatus"><option value="">All Status</option><option>To Do</option><option>In Progress</option><option>Waiting</option><option>Done</option></select><select id="filterMember" class="hidden"><option value="">All Members</option></select></div><div id="allTasks" class="task-list"></div></div></section>
+ <section id="categoriesView" class="hidden"><div class="card section"><h2><span class="ic" aria-hidden="true">🗂️</span>Manage Categories</h2><div id="manageCategories"></div></div></section>
  <section id="projView" class="hidden">
   <div class="pr-top">
    <div class="help">รวมงานของแผนหนึ่งๆ ไว้ที่เดียว — Media Plan, Year Plan หรืออื่นๆ<br>งานที่ดึงเข้ามายังอยู่ที่เดิมทุกชิ้น โปรเจกต์แค่ผูกป้ายว่าเป็นเรื่องเดียวกัน · 1 งานอยู่ได้โปรเจกต์เดียว</div>
@@ -2468,10 +2486,10 @@ body.dark .splash{background:#15120e}
 
  <section id="creativeView" class="hidden">
   <div class="pr-top">
-   <div class="help">งานที่ทำกับ Creative — เขียนบรีฟ → ส่ง → รอดราฟต์ → ตรวจ → ขอแก้หรืออนุมัติ<br>ขอแก้ได้ไม่จำกัดรอบ ระบบนับให้เองว่าอยู่ดราฟต์ที่เท่าไหร่และแต่ละรอบใช้เวลากี่วัน</div>
+   <div class="help">งานที่ทำกับ Creative<div class="flow"><span>📝 เขียนบรีฟ</span><i>›</i><span>📤 ส่ง</span><i>›</i><span>⏳ รอดราฟต์</span><i>›</i><span>👀 ตรวจ</span><i>›</i><span>✅ ขอแก้ / อนุมัติ</span></div>ขอแก้ได้ไม่จำกัดรอบ ระบบนับให้เองว่าอยู่ดราฟต์ที่เท่าไหร่และแต่ละรอบใช้เวลากี่วัน</div>
    <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="cvPickBtn" class="btn secondary">+ เลือกงานที่มีอยู่</button><button id="addCvBtn" class="btn primary">+ งาน Creative</button></div>
   </div>
-  <div class="card section tab-map" id="cvMapCard"><div class="tab-map-h"><div><b>ภาพรวมรากไม้</b><span class="help">งานที่ค้างอยู่ · บรีฟ → ดราฟต์ทุกรอบ → อนุมัติ → โพสต์ → บูท</span></div><button class="btn secondary small" data-tmap="cv">ซ่อน</button></div><div id="cvMap"></div></div>
+  <div class="card section tab-map" id="cvMapCard"><div class="tab-map-h"><div><b><span class="ic" aria-hidden="true">🌳</span>ภาพรวมรากไม้</b><span class="help">งานที่ค้างอยู่ · บรีฟ → ดราฟต์ทุกรอบ → อนุมัติ → โพสต์ → บูท</span></div><button class="btn secondary small" data-tmap="cv">ซ่อน</button></div><div id="cvMap"></div></div>
   <div class="cv-modes" id="cvModes">
    <button class="tab active" data-cvmode="list">รายการงาน</button>
    <button class="tab" data-cvmode="cal">ปฏิทินโพสต์</button>
@@ -2494,23 +2512,23 @@ body.dark .splash{background:#15120e}
  <section id="kolView" class="hidden">
   <div id="kolBackWrap" class="hidden" style="margin-bottom:12px"><button id="kolBackBtn" class="btn secondary small">← กลับไป Projects</button></div>
   <div class="pr-top">
-   <div class="help">งานจ้าง KOL รีวิวสินค้า — เก็บเป็นจำนวนคน ไม่เก็บรายชื่อ (ตารางรายคน Agency ทำให้อยู่แล้ว)<br>บรีฟ Agency → เลือก KOL → เปิด PR → ตรวจ Storyline / Content → ยิง Ads → Report → ปิดจบ<br>เวลาที่คาดของแต่ละขั้นพิมพ์แก้ได้เองในแต่ละแคมเปญ ค้างเกินที่ตั้งไว้จะขึ้นแดงและเตือนบน Dashboard</div>
+   <div class="help">งานจ้าง KOL รีวิวสินค้า — เก็บเป็นจำนวนคน ไม่เก็บรายชื่อ (ตารางรายคน Agency ทำให้อยู่แล้ว)<div class="flow"><span>📝 บรีฟ Agency</span><i>›</i><span>🤝 เลือก KOL</span><i>›</i><span>✍️ เปิด PR</span><i>›</i><span>🎬 ตรวจ Storyline / Content</span><i>›</i><span>🎯 ยิง Ads</span><i>›</i><span>📈 Report</span><i>›</i><span>🏁 ปิดจบ</span></div>เวลาที่คาดของแต่ละขั้นพิมพ์แก้ได้เองในแต่ละแคมเปญ ค้างเกินที่ตั้งไว้จะขึ้นแดงและเตือนบน Dashboard</div>
    <button id="addKolBtn" class="btn primary">+ แคมเปญใหม่</button>
   </div>
   <div id="kolSetupHint" class="pr-hint hidden">ยังไม่ได้สร้างตารางในฐานข้อมูล — รัน <code>migration-v7-13-kol-campaign.sql</code> ใน Supabase SQL Editor ก่อน</div>
   <div id="kolRunHint" class="pr-hint hidden">ตัวเลขของรอบ (จำนวน KOL / Storyline / Draft / Boost) ยังเซฟไม่ได้ — รัน <code>migration-v7-53-kol-run.sql</code> ใน Supabase SQL Editor ก่อน</div>
-  <div class="card section tab-map" id="kolMapCard"><div class="tab-map-h"><div><b>ภาพรวมรากไม้</b><span class="help">ทุกแคมเปญที่วิ่งอยู่ · 14 ขั้นของ KOL แบ่งเป็น เตรียม / ผลิต / ลง + ปิดงาน · คลิกจุดเพื่อดูรายละเอียดและเปลี่ยนสถานะ</span></div><button class="btn secondary small" data-tmap="kol">ซ่อน</button></div><div id="kolMap"></div></div>
-  <div class="grp"><span class="grp-l">ต้องทำตอนนี้</span><div id="kolQueue"></div></div>
+  <div class="card section tab-map" id="kolMapCard"><div class="tab-map-h"><div><b><span class="ic" aria-hidden="true">🌳</span>ภาพรวมรากไม้</b><span class="help">ทุกแคมเปญที่วิ่งอยู่ · 14 ขั้นของ KOL แบ่งเป็น เตรียม / ผลิต / ลง + ปิดงาน · คลิกจุดเพื่อดูรายละเอียดและเปลี่ยนสถานะ</span></div><button class="btn secondary small" data-tmap="kol">ซ่อน</button></div><div id="kolMap"></div></div>
+  <div class="grp"><span class="grp-l"><span class="ic" aria-hidden="true">⚡</span>ต้องทำตอนนี้</span><div id="kolQueue"></div></div>
   <div id="kolList"></div>
  </section>
 
  <section id="prView" class="hidden">
   <div class="pr-top">
-   <div class="help">งานจัดซื้อที่วิ่งคู่กับงานหลัก — เปิด PR ใน SAP → รอ PO จากจัดซื้อ → ทำงาน → รับ GRPO → ส่งเอกสารให้บัญชี<br>ตั้งสถานะ PR ได้ที่ตัวงานเลย (ในฟอร์มแก้ไขงาน) แล้วจะมาโผล่ที่นี่เอง — ปุ่ม "+ เปิด PR ใหม่" ไว้ใช้กับ PR ที่ไม่มีงานรองรับ</div>
+   <div class="help">งานจัดซื้อที่วิ่งคู่กับงานหลัก<div class="flow"><span>📝 เปิด PR ใน SAP</span><i>›</i><span>⏳ รอ PO จากจัดซื้อ</span><i>›</i><span>🔧 ทำงาน</span><i>›</i><span>📥 รับ GRPO</span><i>›</i><span>📤 ส่งเอกสารให้บัญชี</span></div>ตั้งสถานะ PR ได้ที่ตัวงานเลย (ในฟอร์มแก้ไขงาน) แล้วจะมาโผล่ที่นี่เอง — ปุ่ม "+ เปิด PR ใหม่" ไว้ใช้กับ PR ที่ไม่มีงานรองรับ</div>
    <button id="addPrBtn" class="btn primary">+ เปิด PR ใหม่</button>
   </div>
   <div id="prSetupHint" class="pr-hint hidden">สถานะ PR ในงานใช้ได้แล้ว แต่ถ้าอยากเปิด PR เดี่ยวๆ ที่ไม่ผูกกับงาน ต้องรัน <code>migration-v7-10-pr-grpo.sql</code> ใน Supabase SQL Editor ก่อน</div>
-  <div class="card section tab-map" id="prMapCard"><div class="tab-map-h"><div><b>ภาพรวมรากไม้</b><span class="help">PR ที่ค้างอยู่ · เปิด PR → PO → ทำงาน → GRPO → ส่งบัญชี</span></div><button class="btn secondary small" data-tmap="pr">ซ่อน</button></div><div id="prMap"></div></div>
+  <div class="card section tab-map" id="prMapCard"><div class="tab-map-h"><div><b><span class="ic" aria-hidden="true">🌳</span>ภาพรวมรากไม้</b><span class="help">PR ที่ค้างอยู่ · เปิด PR → PO → ทำงาน → GRPO → ส่งบัญชี</span></div><button class="btn secondary small" data-tmap="pr">ซ่อน</button></div><div id="prMap"></div></div>
   <div id="prChips" class="dash-chips"></div>
   <div id="prBoard"></div>
  </section>
@@ -2537,11 +2555,11 @@ body.dark .splash{background:#15120e}
 
  <section id="archiveView" class="hidden">
   <div class="card section">
-   <div class="pf-top"><h2 style="margin:0">ผลงานเด่น</h2><div class="pf-sub">โปรเจกต์ แคมเปญ และสินค้าที่ปิดจบแล้ว เข้ามาเองอัตโนมัติ · งานเดี่ยวกดดาวเพื่อเลื่อนขึ้นมา</div><button id="pfCopyBtn" class="btn primary small">คัดลอกเป็น Bullet</button></div>
+   <div class="pf-top"><h2 style="margin:0"><span class="ic" aria-hidden="true">⭐</span>ผลงานเด่น</h2><div class="pf-sub">โปรเจกต์ แคมเปญ และสินค้าที่ปิดจบแล้ว เข้ามาเองอัตโนมัติ · งานเดี่ยวกดดาวเพื่อเลื่อนขึ้นมา</div><button id="pfCopyBtn" class="btn primary small">คัดลอกเป็น Bullet</button></div>
    <div id="pfHighlights"></div>
   </div>
   <div class="card section">
-   <h2>งานประจำ</h2>
+   <h2><span class="ic" aria-hidden="true">🔁</span>งานประจำ</h2>
    <div id="pfTally" class="pf-tally"></div>
    <div class="archive-toolbar"><input id="archiveSearch" placeholder="ค้นหางานที่เสร็จแล้ว…"><select id="archiveCategory"><option value="">All Categories</option></select></div>
    <div id="archiveList"></div>
@@ -2574,7 +2592,7 @@ body.dark .splash{background:#15120e}
 
     <div class="card section npd-plan" style="margin-bottom:18px">
      <div class="npd-plan-top">
-      <div><h2>ตารางงาน &amp; วันที่คาดการณ์</h2>
+      <div><h2><span class="ic" aria-hidden="true">📅</span>ตารางงาน &amp; วันที่คาดการณ์</h2>
        <div class="help">นับเป็นวันทำการ ข้ามเสาร์-อาทิตย์และวันหยุดราชการให้เอง · ใส่วันเริ่มจริงได้ ไม่ใส่ = ต่อจากงานก่อนหน้า · คลิกวันว่างในปฏิทินเพื่อเพิ่มงาน</div></div>
       <button id="npdAddTaskBtn" class="btn primary small">+ เพิ่มงาน</button>
      </div>
@@ -2608,7 +2626,7 @@ body.dark .splash{background:#15120e}
      <div class="help" style="margin-top:10px">เช็คว่าเอกสาร/ใบรับรองที่ต้องใช้ก่อนขึ้นห้าง มีของจริงในมือหรือยัง — คนละคำถามกับ Timeline ด้านบน</div>
     </div>
     <div class="card section">
-     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2>NPD Status</h2><button id="npdAddDocBtn" class="btn secondary small">+ Add Item</button></div>
+     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2><span class="ic" aria-hidden="true">📄</span>NPD Status</h2><button id="npdAddDocBtn" class="btn secondary small">+ Add Item</button></div>
      <div id="npdDocList" class="check-list"></div>
     </div>
    </div>
@@ -2617,12 +2635,12 @@ body.dark .splash{background:#15120e}
 
  <section id="weeklyView" class="hidden">
   <div class="card section" style="margin-bottom:18px">
-   <h2>Weekly Review</h2>
+   <h2><span class="ic" aria-hidden="true">📊</span>Weekly Review</h2>
    <div id="weeklyStats" class="brief-grid"></div>
   </div>
   <div class="grid">
-   <div class="card section"><h2>Completed This Week</h2><div id="weeklyCompleted" class="task-list"></div></div>
-   <div class="card section"><h2>Carry Forward / Needs Attention</h2><div id="weeklyCarry" class="task-list"></div></div>
+   <div class="card section"><h2><span class="ic" aria-hidden="true">✅</span>Completed This Week</h2><div id="weeklyCompleted" class="task-list"></div></div>
+   <div class="card section"><h2><span class="ic" aria-hidden="true">⚠️</span>Carry Forward / Needs Attention</h2><div id="weeklyCarry" class="task-list"></div></div>
   </div>
  </section>
 
@@ -2789,20 +2807,20 @@ body.dark .splash{background:#15120e}
   <div class="grid">
    <div>
     <div class="card section" style="margin-bottom:18px">
-     <h2>Backup & Restore</h2>
+     <h2><span class="ic" aria-hidden="true">💾</span>Backup & Restore</h2>
      <div class="row">
-      <strong>Export Cloud Backup</strong>
+      <strong><span class="ic" aria-hidden="true">☁️</span>Export Cloud Backup</strong>
       <span id="backupScopeText">สำรองทุกอย่าง — Tasks, Categories, Projects, KOL, PR / GRPO, Product Launch และเอกสาร NPD ครบทุกช่อง</span>
       <button id="exportBtn" class="btn secondary" style="margin-top:9px">Export Backup</button>
      </div>
      <div class="row">
-      <strong>Restore Backup</strong>
+      <strong><span class="ic" aria-hidden="true">♻️</span>Restore Backup</strong>
       <span>ใช้ไฟล์ Backup จาก PORKCHOP G (เดิมชื่อ GUY WORK OS) เพื่อคืนข้อมูลกลับ ระบบจะดาวน์โหลด Pre-Restore Backup ให้อัตโนมัติก่อนแทนข้อมูล</span>
       <button id="restoreBtn" class="btn secondary" style="margin-top:9px">Restore Backup</button>
       <input id="restoreFile" type="file" accept=".json,application/json" class="hidden">
      </div>
      <div class="row">
-      <strong>Import Old Dashboard JSON</strong>
+      <strong><span class="ic" aria-hidden="true">📥</span>Import Old Dashboard JSON</strong>
       <span>ใช้ไฟล์ GUY_OLD_DASHBOARD_DATA.json จาก Dashboard รุ่นเก่า ข้อมูลจะถูกเพิ่มเข้า Account ปัจจุบันโดยไม่ลบของเดิม</span>
       <button id="importBtn" class="btn secondary" style="margin-top:9px">Import Old JSON</button>
       <input id="importFile" type="file" accept=".json,application/json" class="hidden">
@@ -2811,16 +2829,16 @@ body.dark .splash{background:#15120e}
    </div>
    <div>
     <div class="card section">
-     <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span id="appVersionText">PORKCHOP G · V7.92</span></div>
-     <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
-     <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.93</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
   <div class="card section sys-card">
-   <div class="sys-top"><div><h2>เช็คระบบ</h2><div class="help">ตรวจว่ารัน SQL ครบไหม · แอปเป็นเวอร์ชันล่าสุดไหม · Telegram / แจ้งเตือน / วันหยุดราชการ — ไม่แก้ไขอะไร แค่อ่าน</div></div>
+   <div class="sys-top"><div><h2><span class="ic" aria-hidden="true">🩺</span>เช็คระบบ</h2><div class="help">ตรวจว่ารัน SQL ครบไหม · แอปเป็นเวอร์ชันล่าสุดไหม · Telegram / แจ้งเตือน / วันหยุดราชการ — ไม่แก้ไขอะไร แค่อ่าน</div></div>
     <button id="sysRunBtn" class="btn primary">ตรวจเลย</button></div>
    <div id="sysOut"></div>
   </div>
@@ -2842,7 +2860,7 @@ body.dark .splash{background:#15120e}
    </div>
    <div id="adminMembers" class="admin-grid" style="margin-top:16px"></div>
    <div class="card section" style="margin-top:18px">
-    <h2>Team Settings</h2>
+    <h2><span class="ic" aria-hidden="true">👥</span>Team Settings</h2>
     <div class="field"><label>Team Name</label><input id="adminTeamName" value="Marketing"></div>
     <div class="field"><label>New Team Code</label><input id="adminTeamCode" autocomplete="off" placeholder="Set / replace team code"></div>
     <div class="help">Team Code จะไม่แสดงย้อนกลับหลังบันทึก หากต้องการเปลี่ยน ให้ตั้งรหัสใหม่</div>
@@ -2851,7 +2869,7 @@ body.dark .splash{background:#15120e}
 
   </div>
   <div class="card section">
-   <h2>Team Needs Attention</h2>
+   <h2><span class="ic" aria-hidden="true">🚨</span>Team Needs Attention</h2>
    <div id="attentionList"></div>
   </div>
  </section>
@@ -3040,8 +3058,8 @@ body.dark .splash{background:#15120e}
       <button id="closeMemberSummary" class="btn secondary small">Close</button>
     </div>
     <div id="memberSummaryStats" class="metrics" style="grid-template-columns:repeat(2,1fr);margin:14px 0"></div>
-    <div class="card section" style="margin-bottom:12px"><h2>Needs Attention</h2><div id="memberSummaryAttention"></div></div>
-    <div class="card section"><h2>Upcoming / Active Tasks</h2><div id="memberSummaryTasks" class="task-list"></div></div>
+    <div class="card section" style="margin-bottom:12px"><h2><span class="ic" aria-hidden="true">🚨</span>Needs Attention</h2><div id="memberSummaryAttention"></div></div>
+    <div class="card section"><h2><span class="ic" aria-hidden="true">📆</span>Upcoming / Active Tasks</h2><div id="memberSummaryTasks" class="task-list"></div></div>
     <button id="openMemberTasksBtn" class="btn primary" style="margin-top:14px">Open Full Task List</button>
   </div>
 </div>
@@ -4428,7 +4446,29 @@ document.querySelectorAll(".pm-tab").forEach(b=>b.onclick=()=>{
  renderMatrix();
 });
 
-const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process",short:"สูตร & อย.",hue:"#c9761a"},{key:"label",name:"ฉลาก (Label)",short:"ฉลาก",hue:"#7b5cc4"},{key:"carton",name:"ลัง (Carton)",short:"ลัง",hue:"#4f86b8"},{key:"seven",name:"เข้า 7-11",short:"7-11",hue:"#2f8a58"},{key:"retail",name:"ห้างอื่น",short:"ห้างอื่น",hue:"#b0506e"}];
+/* ---- icons ----------------------------------------------------------------
+   Pages with a lot of words get a picture in front of the main ones, so a
+   stage or a heading is found by its shape before it is read. Emoji: no
+   download, and they look like the phone's own. One place decides which
+   picture means what, so the same stage wears the same icon everywhere. */
+const ic=(e,cls)=>e?`<span class="ic${cls?" "+cls:""}" aria-hidden="true">${e}</span>`:"";
+const IC_WORDS=[
+ [/ชิม|tasting/i,"😋"],[/nutrition|โภชนาการ|lab analysis|pilot/i,"🔬"],[/\bfda\b|อย\./i,"📜"],[/halal|ฮาลาล/i,"📋"],
+ [/product name|ตั้งชื่อ|ชื่อสินค้า/i,"✏️"],[/selection/i,"🗳️"],[/\bqa\b/i,"🔍"],[/7-11/,"🏪"],[/ห้าง|makro|lotus|big ?c/i,"🏬"],
+ [/mock ?up/i,"🎁"],[/pack ?shot|ถ่าย/i,"📸"],[/carton|ลัง/i,"📦"],[/proof|print|พิมพ์|film/i,"🖨️"],[/mold/i,"🧱"],
+ [/label|ฉลาก|\baw\b|art ?work/i,"🏷️"],[/approv|อนุมัติ/i,"✅"],[/supplier|โรงงาน|factory|mass production/i,"🏭"],
+ [/นำเสนอ|present/i,"📊"],[/brief|บรีฟ/i,"📝"],[/design|draft|ออกแบบ/i,"🎨"],[/formul|สูตร|test_?step|feedback|\bcf\b/i,"🧪"],
+ [/messenger|แมส|delivery|ส่งของ/i,"🚚"],[/เอกสาร|document/i,"📄"]
+];
+function icFor(t){t=String(t||"");for(const [re,e] of IC_WORDS)if(re.test(t))return e;return ""}
+const KOL_IC={brief:"📝",proposal:"📊",review:"🔍",quotation:"🤝",qt:"🧾",pr_sign:"✍️",kol_brief:"📋",storyline:"🎬",content:"🎥",ads_set:"🎯",live:"📣",report:"📈",closing:"💰",done:"🏁"};
+const PR_IC={draft:"📝",wait_po:"⏳",working:"🔧",wait_grpo:"📥",wait_docs:"📤",done:"✅"};
+const CV_GIC={reviewing:"👀",briefing:"✍️",waiting:"⏳",running:"📣",queued:"🗓️",done:"✅"};
+const DASH_IC={overdue:"🔥",today:"📌",pr:"🧾",waiting:"⌛",nodate:"❔",soon:"⏰"};
+const GAP_IC={creative:"🎨",pr:"🧾",proj:"🗂️",productlaunch:"🚀",kol:"📣"};
+const SYS_IC={"แอป":"📱","ฐานข้อมูล":"🗄️","ทีม":"👥","Telegram":"✈️","แจ้งเตือน":"🔔","วันหยุด":"📅","เครื่องนี้":"💻"};
+const STAGE_IC={"สูตร":"🧪","ตั้งชื่อ":"✏️","โภชนาการ":"🔬","อย.":"📜","ฮาลาล":"📋"};
+const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process",short:"สูตร & อย.",hue:"#c9761a",ic:"🧪"},{key:"label",name:"ฉลาก (Label)",short:"ฉลาก",hue:"#7b5cc4",ic:"🏷️"},{key:"carton",name:"ลัง (Carton)",short:"ลัง",hue:"#4f86b8",ic:"📦"},{key:"seven",name:"เข้า 7-11",short:"7-11",hue:"#2f8a58",ic:"🏪"},{key:"retail",name:"ห้างอื่น",short:"ห้างอื่น",hue:"#b0506e",ic:"🏬"}];
 const NPD_PHASE=Object.fromEntries(NPD_PHASES.map(p=>[p.key,p]));
 const NPD_STATUS_LABEL={done:"Done",working:"Working",wait:"Wait",next:"Next Step",skipped:"Skipped",failed:"ไม่ผ่าน"};
 const NPD_TEMPLATE=[
@@ -4623,7 +4663,7 @@ function renderNpdMilestone(m){
   <div class="pl-milestone-head" onclick="npdToggleMilestone(${m.id})">
    <div class="collapse-chevron"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></div>
    <div class="milestone-num">${m.seq+1}</div>
-   <div class="milestone-title">${esc(m.title)}</div>
+   <div class="milestone-title">${ic(icFor(m.title)||NPD_PHASE[m.phase]?.ic)}${esc(m.title)}</div>
    <div class="milestone-meta" onclick="event.stopPropagation()">
     <span class="dur-field"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.5V8l3 1.8"/></svg><input class="dur-input" value="${m.duration_days||""}" onchange="npdSetDuration(${m.id},this.value)">วัน</span>
     <button class="icon-btn" onclick="npdRenameMilestone(${m.id})" aria-label="Rename"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l3 3-8 8H3v-3z"/></svg></button>
@@ -4653,10 +4693,10 @@ function renderNpdPhases(){
   const doneN=allSteps.filter(s=>s.status==="done").length,totalN=allSteps.filter(s=>s.status!=="skipped").length;
   const pct=totalN?Math.round(doneN/totalN*100):0;
   const badge=ph.key==="label"?'<span class="badge badge-sync">ต้องเสร็จพร้อมสูตร</span>':ph.key==="carton"?'<span class="badge badge-flex">เสร็จทีหลังได้</span>':ph.key==="seven"?'<span class="badge badge-711">ช่องทางหลัก</span>':"";
-  if(NPD_OPTIONAL[ph.key]&&!ms.length)return `<div class="phase-block"><div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">${NPD_OPTIONAL[ph.key].what}</div></div></div>
+  if(NPD_OPTIONAL[ph.key]&&!ms.length)return `<div class="phase-block"><div class="phase-head"><div><div class="phase-name">${ic(ph.ic)}${esc(ph.name)}${badge}</div><div class="phase-meta">${NPD_OPTIONAL[ph.key].what}</div></div></div>
    <button class="ghost-row ghost-milestone" onclick="npdAddPhaseTemplate('${ph.key}')">${NPD_OPTIONAL[ph.key].add}</button></div>`;
   return `<div class="phase-block">
-   <div class="phase-head"><div><div class="phase-name">${esc(ph.name)}${badge}</div><div class="phase-meta">${doneN} / ${totalN} ขั้นตอนเสร็จแล้ว${ph.key==="seven"?" · เริ่มหลัง CF สูตร · ส่ง QA หลังฉลากเสร็จ":ph.key==="retail"?" · เริ่มหลัง 7-11":""}</div><div class="phase-progress"><i style="width:${pct}%"></i></div></div></div>
+   <div class="phase-head"><div><div class="phase-name">${ic(ph.ic)}${esc(ph.name)}${badge}</div><div class="phase-meta">${doneN} / ${totalN} ขั้นตอนเสร็จแล้ว${ph.key==="seven"?" · เริ่มหลัง CF สูตร · ส่ง QA หลังฉลากเสร็จ":ph.key==="retail"?" · เริ่มหลัง 7-11":""}</div><div class="phase-progress"><i style="width:${pct}%"></i></div></div></div>
    ${ms.map(m=>renderNpdMilestone(m)).join("")}
    <button class="ghost-row ghost-milestone" onclick="npdAddMilestone('${ph.key}')">+ Add Milestone</button>
   </div>`;
@@ -4742,15 +4782,17 @@ function renderNpdStages(){
   if(s.st==="missing")return "ยังไม่ใส่";
   if(s.st==="done")return s.taste&&nT?`✓ ชิม ${nT} รอบ`:"✓ เสร็จ";
   if(s.bad&&s.badTxt)return s.badTxt;
-  if(s.st==="now")return s.end?`ตอนนี้ · ~${npdFmt(s.end)}`:"ตอนนี้";
+  if(s.st==="now")return s.end?`ตอนนี้ ~${npdFmt(s.end)}`:"ตอนนี้";
   return s.end?`~${npdFmt(s.end)}`:"";
  };
- const icon=s=>s.k==="end"?"🏁":s.st==="done"?"✓":s.st==="missing"?"+":"";
+ // a card per stage: its picture, a badge on top for where it stands
+ const badge=s=>s.bad?"!":s.st==="done"?"✓":s.st==="missing"?"+":"";
+ const pic=s=>s.k==="end"?"🛒":s.k==="formula_fda"?(STAGE_IC[s.label]||icFor(s.label)||"🧪"):NPD_PHASE[s.k].ic;
  el.innerHTML=`<div class="nst">`+S.map((s,i)=>{
   const hue=s.k==="end"?"var(--t-amb,#8a4708)":NPD_PHASE[s.k].hue,prevDone=i>0&&S[i-1].st==="done";
   const click=s.st==="missing"?`npdAddPhaseTemplate('${s.k}')`:s.go?`npdMapGo(${s.go})`:"";
-  return (i?`<span class="nst-j${prevDone?" on":""}" style="--c:${i?NPD_PHASE[S[i-1].k]?.hue||hue:hue}"></span>`:"")
-   +`<button class="nst-s st-${s.st}${s.bad?" is-bad":""}${s.k==="end"?" is-end":""}" style="--c:${hue}" ${click?`onclick="${click}"`:"disabled"} title="${s.st==="missing"?"กดเพื่อใส่ขั้นตอน "+esc(s.label):esc(s.label)}"><i>${icon(s)}</i><b>${esc(s.label)}</b><small>${sub(s)}</small></button>`;
+  return (i?`<span class="nst-j${prevDone?" on":""}"></span>`:"")
+   +`<button class="nst-s st-${s.st}${s.bad?" is-bad":""}${s.k==="end"?" is-end":""}" style="--c:${hue}" ${click?`onclick="${click}"`:"disabled"} title="${s.st==="missing"?"กดเพื่อใส่ขั้นตอน "+esc(s.label):esc(s.label)}"><span class="nst-bd">${badge(s)}</span><span class="nst-ic" aria-hidden="true">${pic(s)}</span><b>${esc(s.label)}</b><small>${sub(s)}</small></button>`;
  }).join("")+`</div>`;
 }
 /* ---- root maps ------------------------------------------------------------
@@ -4811,7 +4853,7 @@ function rmDraw(key){
  if(phone){ // the roots hang down, one under the other, steps under each knot
   el.innerHTML=rmToolbar(key,true,M)+`<div class="nmv"><div class="nmv-root"><i></i>${esc(M.root)}</div>`
    +M.branches.map(b=>`<div class="nmv-br" style="--c:${b.hue}"><div class="nmv-bh">${esc(b.label)}${b.sub?`<small>${esc(b.sub)}</small>`:""}</div>`
-    +b.nodes.map(n=>`<button class="nmv-n ${rmCls(n)}" data-go="${esc(String(n.id))}"><i></i><b>${esc(n.title)}</b><small>${esc(n.note||"")}</small>${n.st==="now"?'<em>ตอนนี้</em>':""}</button>`
+    +b.nodes.map(n=>`<button class="nmv-n ${rmCls(n)}" data-go="${esc(String(n.id))}"><i></i><b>${n.ic?ic(n.ic):""}${esc(n.title)}</b><small>${esc(n.note||"")}</small>${n.st==="now"?'<em>ตอนนี้</em>':""}</button>`
      +(rmSteps&&n.steps&&n.steps.length?`<div class="nmv-steps">${n.steps.map(s=>`<div class="nmv-s ss-${s.status}"><i>${RM_STEP_ICON[s.status]||""}</i><span>${esc(s.name)}</span></div>`).join("")}</div>`:"")).join("")+`</div>`).join("")
    +(M.end?`<div class="nmv-end${M.end.done?" is-done":""}"><i></i>${esc(M.end.label)}${M.end.sub?` <b>${esc(M.end.sub)}</b>`:""}</div>`:"")+`</div>`;
   el.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>M.go&&M.go(b.dataset.go));
@@ -4842,7 +4884,7 @@ function rmDraw(key){
    tags+=`<span class="nm-grp" style="--c:${c};left:${a.x-CW*.42}px;width:${z.x-a.x+CW*.84}px;top:${b.y+2}px">${esc(g.label)}</span>`});
   b.nodes.forEach(n=>{
    const p=pos[n.id],steps=n.steps||[],id=esc(String(n.id));
-   nodes+=`<button class="nm-n ${rmCls(n)}" data-mid="${id}" style="--c:${c};left:${p.x}px;top:${p.y}px;width:${CW-26}px" title="${esc(n.tip||n.title)}">${n.st==="now"?'<em>ตอนนี้</em>':""}<i>${n.st==="done"?"✓":n.fail?"✗":n.st==="skip"?"–":""}</i><b>${esc(n.title)}</b><small>${esc(n.note||"")}</small></button>`;
+   nodes+=`<button class="nm-n ${rmCls(n)}" data-mid="${id}" style="--c:${c};left:${p.x}px;top:${p.y}px;width:${CW-26}px" title="${esc(n.tip||n.title)}">${n.st==="now"?'<em>ตอนนี้</em>':""}<i${n.ic&&n.st!=="done"&&!n.fail&&n.st!=="skip"?' class="has-ic"':""}>${n.st==="done"?"✓":n.fail?"✗":n.st==="skip"?"–":(n.ic||"")}</i><b>${esc(n.title)}</b><small>${esc(n.note||"")}</small></button>`;
    if(!rmSteps||!steps.length)return;
    // hangs straight under the knot, so roots coming in from the left never cross it
    const rx=p.x-14,ry0=p.y+74,ryN=ry0+(steps.length-1)*SP,on=n.st!=="next";
@@ -4935,9 +4977,9 @@ function rmStepsHTML(steps,sid,sel){
    formula, other retailers out of 7-11, QA waits on the label. */
 function npdRootModel(){
  const M=npdMapModel(),prod=npdProducts.find(p=>p.id===npdCurrentProductId);
- const B=M.branches.map(b=>({id:b.ph.key,label:b.ph.short,hue:b.ph.hue,soft:b.ph.key==="carton"||b.ph.key==="retail",
+ const B=M.branches.map(b=>({id:b.ph.key,label:`${b.ph.ic} ${b.ph.short}`,hue:b.ph.hue,soft:b.ph.key==="carton"||b.ph.key==="retail",
   sub:b.ph.key==="seven"?"แตกจาก CF สูตร":b.ph.key==="retail"?"ต่อจาก 7-11":"",
-  nodes:b.nodes.map(n=>({id:String(n.m.id),title:n.m.title,note:npdNodeNote(n)+(n.tmpl==="711_qa"&&n.st!=="done"?" · รอฉลาก":""),
+  nodes:b.nodes.map(n=>({id:String(n.m.id),title:n.m.title,ic:icFor(n.m.title)||b.ph.ic,note:npdNodeNote(n)+(n.tmpl==="711_qa"&&n.st!=="done"?" · รอฉลาก":""),
    st:n.st,bad:n.late,fail:n.failed,tip:n.x?npdBarTip(n.x):n.m.title,steps:npdStepsOf(n.m.id).map(s=>({id:s.id,name:s.name,status:s.status}))}))}));
  const fm=B.find(b=>b.id==="formula_fda"),cf=fm?M.branches.find(b=>b.ph.key==="formula_fda").nodes.findIndex(n=>n.tmpl==="formula_cf"):-1;
  const sv=B.find(b=>b.id==="seven");
@@ -5017,7 +5059,7 @@ function kolRootModel(){
  return {root:"KOL",empty:"ไม่มีแคมเปญที่กำลังวิ่ง — ติ๊ก \"รวมที่ปิดแล้ว\" เพื่อดูทั้งหมด",...rmAllTool("kol","รวมที่ปิดแล้ว"),
   branches:list.map((c,i)=>({id:"k"+c.id,label:c.name,sub:c.agency||"",hue:RM_HUES[i%RM_HUES.length],
    groups:[{label:"เตรียม",a:0,b:5},{label:"ผลิตคอนเทนต์",a:6,b:9},{label:"ลง + ปิดงาน",a:10,b:13}],
-   nodes:KOL_STAGES.map(s=>({id:`${c.id}:${s.k}`,title:KOL_SHORT[s.k]||s.n,st:c.stage==="cancelled"&&kolStatus(c,s.k)!=="done"?"skip":KOL_RM_ST[kolStatus(c,s.k)],
+   nodes:KOL_STAGES.map(s=>({id:`${c.id}:${s.k}`,title:KOL_SHORT[s.k]||s.n,ic:KOL_IC[s.k],st:c.stage==="cancelled"&&kolStatus(c,s.k)!=="done"?"skip":KOL_RM_ST[kolStatus(c,s.k)],
     bad:kolStatus(c,s.k)==="doing"&&kolLate(c,s.k)>0,note:kolRootNote(c,s),tip:s.n,steps:kolRootSteps(c,s)}))})),
   go:id=>{const cid=Number(String(id).split(":")[0]);kolOpenId=cid;kolStepsOpen.add(cid);renderKol();rmFlash(document.querySelector(`[data-kolcard="${cid}"]`))},
   card:(id,sid)=>{
@@ -5038,25 +5080,25 @@ function cvRootModel(){
  const jobs=cvJobs().filter(t=>rmAll.cv||(cvGroupOf(t)!=="done"&&cvStatus(t)!=="cancelled"));
  const rmOf=t=>{
   const st=cvStatus(t),rs=cvRounds(t),N=[];
-  N.push({id:`${t.id}:brief`,title:"บรีฟ",st:st==="briefing"?"now":"done",note:t.cv_brief_sent_on?`ส่ง ${fmtD(t.cv_brief_sent_on)}`:st==="briefing"?"ยังไม่ส่งบรีฟ":"✓",
+  N.push({id:`${t.id}:brief`,title:"บรีฟ",ic:"📝",st:st==="briefing"?"now":"done",note:t.cv_brief_sent_on?`ส่ง ${fmtD(t.cv_brief_sent_on)}`:st==="briefing"?"ยังไม่ส่งบรีฟ":"✓",
    steps:[t.cv_brief_url?{name:"มีลิงก์บรีฟ",status:"done"}:null,t.cv_note?{name:t.cv_note.slice(0,60),status:"done"}:null].filter(Boolean).map((x,i)=>({...x,id:i}))});
   rs.forEach((r,i)=>{
    const days=r.sent&&r.back?Math.round((new Date(r.back+"T00:00:00")-new Date(r.sent+"T00:00:00"))/864e5):null;
-   N.push({id:`${t.id}:r${i}`,title:`ดราฟต์ ${r.n||i+1}`,st:r.outcome?"done":"now",
+   N.push({id:`${t.id}:r${i}`,title:`ดราฟต์ ${r.n||i+1}`,ic:"🎨",st:r.outcome?"done":"now",
     note:!r.back?`รอดราฟต์ · ส่ง ${fmtD(r.sent)}`:!r.outcome?`รอเราตรวจ · กลับ ${fmtD(r.back)}`:r.outcome==="revise"?"ขอแก้":"อนุมัติ",
     steps:[{name:`ส่งให้ Creative ${fmtD(r.sent)}`,status:"done"},r.back?{name:`ได้กลับ ${fmtD(r.back)}${days!=null?` · ${days} วัน`:""}`,status:"done"}:{name:"ยังไม่กลับ",status:"working"},
      r.outcome?{name:r.outcome==="revise"?"ขอแก้ → รอบถัดไป":"อนุมัติ",status:r.outcome==="revise"?"wait":"done"}:{name:"รอตรวจ",status:"next"}].map((x,k)=>({...x,id:k}))});
   });
-  if(!rs.length&&st!=="done")N.push({id:`${t.id}:r0`,title:"ดราฟต์ 1",st:"next",note:"",steps:[]});
-  N.push({id:`${t.id}:ok`,title:"อนุมัติ",st:st==="done"?"done":"next",bad:cvLate(t),
+  if(!rs.length&&st!=="done")N.push({id:`${t.id}:r0`,title:"ดราฟต์ 1",ic:"🎨",st:"next",note:"",steps:[]});
+  N.push({id:`${t.id}:ok`,title:"อนุมัติ",ic:"✅",st:st==="done"?"done":"next",bad:cvLate(t),
    note:st==="done"?(t.cv_approved_on?`✓ ${fmtD(t.cv_approved_on)}`:"✓"):cvDue(t)?`${cvLate(t)?"เลย":"ต้องได้"} ${fmtD(cvDue(t))}`:"",steps:[]});
   if(t.post_on){
    const ev=t.post_kind==="event"&&(t.post_days||1)>1;
-   N.push({id:`${t.id}:post`,title:ev?`กิจกรรม ${t.post_days} วัน`:"โพสต์",st:!t.post_date?"next":postEnd(t)<today?"done":t.post_date<=today?"now":"next",
+   N.push({id:`${t.id}:post`,title:ev?`กิจกรรม ${t.post_days} วัน`:"โพสต์",ic:"📣",st:!t.post_date?"next":postEnd(t)<today?"done":t.post_date<=today?"now":"next",
     note:t.post_date?fmtD(t.post_date)+(ev?` – ${fmtD(postEnd(t))}`:""):"ยังไม่มีวัน",
     steps:[t.post_channel?{name:t.post_channel,status:"done"}:null,{name:t.post_caption?"มี Caption แล้ว":"ยังไม่มี Caption",status:t.post_caption?"done":"next"}].filter(Boolean).map((x,i)=>({...x,id:i}))});
   }
-  if(t.post_boost)N.push({id:`${t.id}:boost`,title:"บูท",st:!t.post_boost_from?"next":t.post_boost_to<today?"done":t.post_boost_from<=today?"now":"next",
+  if(t.post_boost)N.push({id:`${t.id}:boost`,title:"บูท",ic:"🚀",st:!t.post_boost_from?"next":t.post_boost_to<today?"done":t.post_boost_from<=today?"now":"next",
    note:t.post_boost_from?`${fmtD(t.post_boost_from)} – ${fmtD(t.post_boost_to)}`:"ยังไม่ใส่วัน",steps:[]});
   if(st==="cancelled")N.forEach(n=>{if(n.st!=="done")n.st="skip"});
   return N;
@@ -5094,7 +5136,7 @@ function prRootSteps(it,k){
 function prRootModel(){
  const items=prAllItems().filter(it=>rmAll.pr||it.stage!=="done");
  const nodesOf=it=>{const cur=PR_STAGES.findIndex(s=>s.k===it.stage);
-  return PR_STAGES.map((s,k)=>({id:`${it.kind}:${it.id}:${s.k}`,title:PR_SHORT[s.k]||s.name,tip:s.name,
+  return PR_STAGES.map((s,k)=>({id:`${it.kind}:${it.id}:${s.k}`,title:PR_SHORT[s.k]||s.name,tip:s.name,ic:PR_IC[s.k],
    st:it.stage==="done"||k<cur?"done":k===cur?"now":"next",bad:k===cur&&!!prNeedsYou(it),
    note:it.stage!=="done"&&k===cur?`${prDays(it)} วัน${s.warn!=null?` · ควรไม่เกิน ${s.warn}`:""}`:it.stage==="done"||k<cur?"✓":"",steps:prRootSteps(it,s.k)}))};
  return {root:"PR / GRPO",empty:"ไม่มี PR ที่ค้างอยู่ — ติ๊ก \"รวมที่เสร็จแล้ว\" เพื่อดูทั้งหมด",...rmAllTool("pr","รวมที่เสร็จแล้ว"),
@@ -5231,7 +5273,7 @@ function renderNpdPlanTable(P){
   ${NPD_PHASES.map(ph=>{
    const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);
    if(!ms.length&&!NPD_OPTIONAL[ph.key])return "";
-   return `<div class="npt-phase" style="--c:${ph.hue}"><i></i><b>${esc(ph.name)}</b>${ph.key==="seven"?'<span class="npt-rule">เริ่มหลัง CF สูตร · ผลออกวันอังคาร · QA หลังฉลากเสร็จ</span>':ph.key==="retail"?'<span class="npt-rule">เริ่มหลัง 7-11</span>':""}</div>`
+   return `<div class="npt-phase" style="--c:${ph.hue}"><i></i><b>${ic(ph.ic)}${esc(ph.name)}</b>${ph.key==="seven"?'<span class="npt-rule">เริ่มหลัง CF สูตร · ผลออกวันอังคาร · QA หลังฉลากเสร็จ</span>':ph.key==="retail"?'<span class="npt-rule">เริ่มหลัง 7-11</span>':""}</div>`
     +(ms.length?ms.map(m=>{
      const x=byId[m.id],steps=npdSteps.filter(s=>s.milestone_id===m.id),dn=steps.filter(s=>s.status==="done").length,tot=steps.filter(s=>s.status!=="skipped").length;
      return `<div class="npt-row${x?(x.done?" is-done":x.late||x.failed?" is-late":""):" is-done"}" style="--c:${ph.hue}">
@@ -5364,7 +5406,7 @@ function npdTastePanel(){
  const names=[...new Set([...people,...(profiles||[]).map(p=>p.full_name).filter(Boolean)])];
  const fin=R.find(r=>r.is_final);
  return `<div class="tl-box">
-  <div class="tl-head"><div><b>บันทึกการชิม</b><span>${R.length?`ชิมแล้ว ${R.length} รอบ${last.tasted_on?" · ล่าสุด "+fmtD(last.tasted_on):""}${fin?` · CF ที่รอบ ${fin.round}`:""}`:"ยังไม่มีรอบชิม"}</span></div>
+  <div class="tl-head"><div><b>${ic("😋")}บันทึกการชิม</b><span>${R.length?`ชิมแล้ว ${R.length} รอบ${last.tasted_on?" · ล่าสุด "+fmtD(last.tasted_on):""}${fin?` · CF ที่รอบ ${fin.round}`:""}`:"ยังไม่มีรอบชิม"}</span></div>
    <button class="btn primary small" onclick="npdTasteEdit(null)">+ รอบชิมใหม่</button></div>
   ${R.length?R.map(tlRound).join(""):'<div class="tl-none">กด "+ รอบชิมใหม่" แล้วจดว่าใครชิม คิดยังไง รอบนี้ปรับอะไร ส่งโรงงานวันไหน</div>'}
   ${R.length>1&&people.length?tlMatrix(R,people):""}
@@ -5467,7 +5509,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.92";
+const APP_VERSION="V7.93";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -5546,7 +5588,7 @@ function sysRender(){
  const {rows,mig}=sysLast,miss=mig.filter(m=>m.st==="missing"&&!m.opt),bad=mig.filter(m=>m.st==="err");
  const ico={ok:"✓",warn:"!",bad:"✗",missing:"✗",na:"–",err:"?"};
  $("sysOut").innerHTML=`<div class="sys-sum${miss.length?" bad":""}">${miss.length?`ยังไม่ได้รัน SQL ${miss.length} ไฟล์: <b>${miss.map(m=>m.v).join(", ")}</b> — รันตามลำดับจากบนลงล่าง`:`SQL ครบทุกไฟล์ที่ต้องใช้ ✓`}</div>
-  <div class="sys-list">${rows.map(r=>`<div class="sys-r s-${r.s}"><i>${ico[r.s]}</i><b>${esc(r.k)}</b><span>${esc(r.t)}${r.d?`<small>${esc(r.d)}</small>`:""}</span>${r.act||""}</div>`).join("")}</div>
+  <div class="sys-list">${rows.map(r=>`<div class="sys-r s-${r.s}"><i>${ico[r.s]}</i><b>${ic(SYS_IC[r.k])}${esc(r.k)}</b><span>${esc(r.t)}${r.d?`<small>${esc(r.d)}</small>`:""}</span>${r.act||""}</div>`).join("")}</div>
   <div class="sys-h">SQL ที่รันใน Supabase</div>
   <div class="sys-list">${mig.map(m=>{const s=m.st==="missing"?(m.opt?"na":"bad"):m.st==="ok"?"ok":m.st==="err"?"warn":"na";
    return `<div class="sys-r s-${s}"><i>${m.st==="missing"&&m.opt?"–":ico[m.st]}</i><b>${m.v}</b><span>${esc(m.what)}<small>${m.st==="ok"?"รันแล้ว":m.st==="missing"?(m.opt?"ยังไม่ได้รัน — ไม่จำเป็น":"ยังไม่ได้รัน"):m.st==="na"?"ตรวจจากแอปไม่ได้ (เป็นเรื่องสิทธิ์) — ถ้าเคยรันแล้วก็ข้ามได้":"ตรวจไม่ผ่าน ลองกดตรวจอีกครั้ง"} · ${esc(m.f)}</small></span>${m.st==="missing"&&!m.opt?`<span class="sys-a"><button class="btn primary small" onclick="sysCopySql('${m.f}')">คัดลอก SQL</button><a class="btn secondary small" href="${SQL_EDITOR}" target="_blank" rel="noopener">เปิด SQL Editor</a></span>`:""}</div>`}).join("")}</div>
@@ -6537,13 +6579,13 @@ function renderPr(){
  const all=prAllItems(),flagged=all.filter(prNeedsYou).length;
  $("prChips").innerHTML=PR_STAGES.filter(s=>s.k!=="done").map(s=>{
   const n=all.filter(i=>i.stage===s.k).length;
-  return `<span class="dash-chip${n?"":" empty"}" style="cursor:default"><span class="dot dot-${s.tone}"></span>${esc(s.name)}<span class="n">${n}</span></span>`;
- }).join("")+`<span class="dash-chip${flagged?"":" empty"}" style="cursor:default"><span class="dot dot-bad"></span>ต้องจัดการ<span class="n">${flagged}</span></span>`;
+  return `<span class="dash-chip${n?"":" empty"}" style="cursor:default">${ic(PR_IC[s.k])}${esc(s.name)}<span class="n">${n}</span></span>`;
+ }).join("")+`<span class="dash-chip${flagged?"":" empty"}" style="cursor:default">${ic("🚨")}ต้องจัดการ<span class="n">${flagged}</span></span>`;
  $("prBoard").innerHTML=PR_STAGES.map(s=>{
   const rows=all.filter(i=>i.stage===s.k).sort((a,b)=>prDays(b)-prDays(a));
   if(s.k==="done"&&!rows.length)return"";
   // an empty stage still belongs in the pipeline, but collapses to its header
-  return `<div class="pr-stage s-${s.tone}${rows.length?"":" is-empty"}"><div class="pr-shead"><b>${esc(s.name)}</b><span class="pr-scount">${rows.length}</span></div>${rows.map(prRowHTML).join("")}</div>`;
+  return `<div class="pr-stage s-${s.tone}${rows.length?"":" is-empty"}"><div class="pr-shead"><b>${ic(PR_IC[s.k])}${esc(s.name)}</b><span class="pr-scount">${rows.length}</span></div>${rows.map(prRowHTML).join("")}</div>`;
  }).join("")||'<div class="empty">ยังไม่มี PR — ติ๊กสถานะ PR ในงาน หรือกด "+ เปิด PR ใหม่"</div>';
  renderTabMap("pr");
 }
@@ -6683,7 +6725,7 @@ function kolStepHTML(c,s){
   :B("todo","secondary","เอากลับมาใช้");
  const sub=[s.who?(doing?kolStageWhoLabel(c,s.k):st==="done"?s.who:"รอ "+s.who):"",
             kolStart(c,s.k)?`เริ่ม ${kolDM(kolStart(c,s.k))}`:""].filter(Boolean).join(" · ");
- return `<div class="kol-step st-${st}"><span class="kol-dot">${KOL_ST[st]}</span><div class="kol-sname">${esc(s.n)}${sub?`<div class="kol-who">${esc(sub)}</div>`:""}${doing||rm?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}<span class="kol-btns">${acts}${doing?waitChip("kol",s.k):""}</span><span class="kol-actual${late>0?" late":""}">${txt}</span></div>`;
+ return `<div class="kol-step st-${st}"><span class="kol-dot">${KOL_ST[st]}</span><div class="kol-sname">${ic(KOL_IC[s.k])}${esc(s.n)}${sub?`<div class="kol-who">${esc(sub)}</div>`:""}${doing||rm?`<input class="kol-remark" placeholder="Remark…" value="${esc(rm)}" data-kol-remark="${c.id}:${s.k}">`:""}</div>${rev?`<span class="kol-rev">แก้ ${rev} รอบ</span>`:""}<span class="kol-btns">${acts}${doing?waitChip("kol",s.k):""}</span><span class="kol-actual${late>0?" late":""}">${txt}</span></div>`;
 }
 // ── ตัวเลขจริงของรอบ ─────────────────────────────────────
 // รอบหนึ่งมี KOL ได้ถึง 50-60 คน และ Agency ทำตารางรายคนมาให้อยู่แล้ว
@@ -6947,7 +6989,8 @@ function kolNext(c){
 // the page does not have to be opened card by card to find out.
 function kolQueueHTML(){
  const live=kolLiveItems().filter(c=>c.stage!=="done");
- const chip=(id,t,tone)=>`<button class="kq-chip tone-${tone}" data-kolq="${id}">${t}</button>`;
+ const kqIc=t=>/storyline/i.test(t)?"🎬":/draft/i.test(t)?"🎥":/proposal/i.test(t)?"📊":/เลยกรอบ/.test(t)?"🔥":/เกินกำหนด/.test(t)?"⏰":/agency/i.test(t)?"⏳":/boost/i.test(t)?"🚀":"";
+ const chip=(id,t,tone)=>`<button class="kq-chip tone-${tone}" data-kolq="${id}">${ic(kqIc(t))}${t}</button>`;
  const bits=[];
  KR_ROWS.forEach(r=>{
   const hit=live.filter(c=>kolSubN(c,r.k,"resub")>0);
@@ -8155,7 +8198,7 @@ function renderCreative(){
   if(!rows.length)return "";
   const cap=rows.filter(r=>r.post_on&&!r.post_caption).length;
   const open=CV_OPEN.has(g.k);
-  return `<div class="cv-group${open?" is-open":""}"><div class="cv-ghead" data-cv-group="${g.k}"><span class="cv-gcaret">▶</span><b>${g.t}</b><span class="cv-gcnt">${rows.length}</span>${cap?`<span class="cv-gnote">ยังไม่มี Caption ${cap}</span>`:""}</div>${open?rows.map(cvCardHTML).join(""):""}</div>`;
+  return `<div class="cv-group${open?" is-open":""}"><div class="cv-ghead" data-cv-group="${g.k}"><span class="cv-gcaret">▶</span><b>${ic(CV_GIC[g.k])}${g.t}</b><span class="cv-gcnt">${rows.length}</span>${cap?`<span class="cv-gnote">ยังไม่มี Caption ${cap}</span>`:""}</div>${open?rows.map(cvCardHTML).join(""):""}</div>`;
  }).join("")||'<div class="empty">ไม่มีงานค้าง</div>';
 }
 /* ---- creative work ------------------------------------------------------
@@ -8533,7 +8576,7 @@ function renderDashGaps(){
    return `<div class="gap-row" data-gap-go="${c.view}"><span class="gap-n tone-${x.tone}">${x.n}</span><span class="gap-t">${esc(x.t)}${ex?`<span class="gap-ex">${esc(ex)}${x.n>3?" …":""}</span>`:""}</span><span class="gap-arrow">›</span></div>`;
   }).join(""):`<div class="gap-ok">${esc(c.ok)}</div>`;
   return `<div class="gap-card${open?" is-open":""}">
-   <div class="gap-head" data-gap-toggle="${c.view}"><span class="gap-caret">▶</span><b>${esc(c.title)}</b>
+   <div class="gap-head" data-gap-toggle="${c.view}"><span class="gap-caret">▶</span><b>${ic(GAP_IC[c.view])}${esc(c.title)}</b>
     <span class="gap-cnt${n?" has":""}">${n?`ขาด ${n}`:"ครบ"}</span>
     <span class="gap-total">${c.total} รายการ</span></div>
    ${open?`<div class="gap-body">${body}</div>`:""}
@@ -8573,7 +8616,9 @@ function dashRowHTML(x){
  const attr=x.p?(x.p.kind==="task"?`data-edit="${x.p.id}"`:x.p.kind==="kol"?`data-kol-jump="${x.p.id}"`:`data-pr-jump="${x.p.id}"`):`data-edit="${x.t.id}"`;
  const title=x.p?x.p.title:x.t.task;
  const sub=x.p?((x.p.kind==="kol"?"KOL Campaign":"PR / GRPO")+(x.p.pr_number?` · ${x.p.pr_number}`:"")):(esc(x.t.category||"")+(isAdmin()?" · "+esc(profileName(x.t.user_id)):""));
- return `<div class="dash-row" ${attr}><span class="dash-dot dot-${r.tone}"></span><div class="dash-main"><div class="dash-t">${esc(title)}</div><div class="dash-c">${x.p?esc(sub):sub}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
+ // the row's picture says what kind of thing it is; the tag on the right still says why
+ const pic=x.p?(x.p.kind==="kol"?"📣":"🧾"):(DASH_IC[r.k]||"📌");
+ return `<div class="dash-row" ${attr}><span class="dash-ico" aria-hidden="true">${pic}</span><div class="dash-main"><div class="dash-t">${esc(title)}</div><div class="dash-c">${x.p?esc(sub):sub}</div></div><span class="dash-why tone-${r.tone}">${esc(r.why)}</span></div>`;
 }
 /* ── dashboard chrome ────────────────────────────────────────────────────
    The gauges, the clock, the month and the note. None of it holds state the
@@ -8670,7 +8715,7 @@ function renderDashboardFocus(active,done){
  flagged.sort((a,b)=>DASH_ORDER[a.r.k]-DASH_ORDER[b.r.k]||a.due.localeCompare(b.due));
  const counts={};DASH_REASONS.forEach(r=>counts[r.k]=0);flagged.forEach(x=>counts[x.r.k]++);
  if(dashFilter&&!counts[dashFilter]){dashFilter="";dashExpanded=false}
- $("dashChips").innerHTML=DASH_REASONS.map(r=>`<button class="dash-chip${dashFilter===r.k?" active":""}${counts[r.k]?"":" empty"}" data-dash="${r.k}"><span class="dot dot-${r.tone}"></span>${r.label}<span class="n">${counts[r.k]}</span></button>`).join("");
+ $("dashChips").innerHTML=DASH_REASONS.map(r=>`<button class="dash-chip${dashFilter===r.k?" active":""}${counts[r.k]?"":" empty"}" data-dash="${r.k}">${ic(DASH_IC[r.k])}${r.label}<span class="n">${counts[r.k]}</span></button>`).join("");
  const shown=dashFilter?flagged.filter(x=>x.r.k===dashFilter):flagged;
  const cap=(dashFilter||dashExpanded)?shown.length:6;
  $("dashList").innerHTML=shown.length
