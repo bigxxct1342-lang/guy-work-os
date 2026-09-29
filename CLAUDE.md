@@ -56,6 +56,13 @@ is there before trusting a clean sweep.
 
 Run `parse.sh` after every edit to `index.html`.
 
+## Bumping the version
+
+`APP_VERSION` in `index.html` and `CACHE` in `sw.js` must move together
+(`V7.92` ↔ `porkchop-g-v7-92-…`). Settings → เช็คระบบ compares the two to tell
+the user their app is stale, so a mismatch reports a false "เวอร์ชันเก่า".
+A new migration also needs a row in `SYS_MIG` so the check can see it.
+
 ## Shape of the app
 
 - One file, `index.html`, ~6k lines. No framework, no build.
