@@ -2234,6 +2234,103 @@ body.dark .splash{background:#15120e}
  .cr-labels span{font-size:13px}
  .cr-sec{display:block}.cr-sec small{display:block;margin-top:2px}
 }
+/* ══ V7.94 ARCADE THEME (opt-in) ═══════════════════════════════════════════
+   Retro-tech poster: a night-navy room with a perspective grid and pixel
+   sparkles, machines outlined in thick ink with a hard offset shadow like a
+   sticker, and cream paper inside them so every word stays dark on light.
+   Everything is scoped to body.arcade; the classic look is untouched. */
+body.arcade{--ink:#0b0b14;--navy:#0f1a33;--navy2:#172a52;--pink:#ff5c8a;--pinkD:#c7245a;--mint:#3fd9a8;--yel:#ffcf4a;--sky:#5ab8ff;--cream:#fbf3df;
+ background:var(--navy);
+ background-image:
+  radial-gradient(circle at 12% 18%,#fff 0 1.5px,transparent 2.5px),radial-gradient(circle at 78% 9%,#fff 0 1.2px,transparent 2.2px),
+  radial-gradient(circle at 62% 42%,#ffd9e6 0 1.4px,transparent 2.4px),radial-gradient(circle at 30% 66%,#fff 0 1px,transparent 2px),
+  radial-gradient(circle at 90% 70%,#bff5e6 0 1.6px,transparent 2.6px),radial-gradient(circle at 45% 88%,#fff 0 1.1px,transparent 2px);
+ background-size:520px 520px;background-attachment:fixed}
+/* the floor: a grid running away into the dark */
+body.arcade::before{content:"";position:fixed;left:-20%;right:-20%;bottom:-8vh;height:46vh;z-index:0;pointer-events:none;
+ background:linear-gradient(transparent 0 calc(100% - 1.5px),rgba(90,184,255,.35) 0) 0 0/100% 46px,
+            linear-gradient(90deg,transparent 0 calc(100% - 1.5px),rgba(90,184,255,.35) 0) 0 0/46px 100%;
+ transform:perspective(420px) rotateX(62deg);transform-origin:50% 100%;
+ -webkit-mask-image:linear-gradient(to top,#000 20%,transparent 95%);mask-image:linear-gradient(to top,#000 20%,transparent 95%)}
+/* a few pixel sparkles fixed in the room */
+body.arcade::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+ background:
+  linear-gradient(var(--mint),var(--mint)) 6% 34%/8px 8px no-repeat,
+  linear-gradient(var(--pink),var(--pink)) 96% 22%/10px 10px no-repeat,
+  linear-gradient(var(--yel),var(--yel)) 93% 84%/7px 7px no-repeat,
+  linear-gradient(#fff,#fff) 3% 78%/6px 6px no-repeat,
+  linear-gradient(var(--sky),var(--sky)) 52% 3%/7px 7px no-repeat}
+body.arcade .app{position:relative;z-index:1}
+
+/* machines: flat colour, thick ink outline, hard offset shadow */
+body.arcade .hw{--case:var(--pink);--plate:var(--ink);background:var(--pink);border:3px solid var(--ink);border-radius:26px;
+ box-shadow:7px 7px 0 var(--ink)}
+body.arcade .hw-side{--case:var(--navy2);background:var(--navy2)}
+body.arcade .hw-bar{background:var(--yel)}
+body.arcade .screw{background:var(--ink);border-radius:2px;width:8px;height:8px;box-shadow:none}
+body.arcade .hw-plate{color:var(--ink);font-weight:900;opacity:.85}
+
+/* the paper inside: cream, ink border, no scanlines */
+body.arcade .scr{--t-ink:#15131f;--t-hi:#0b0b14;--t-amb:var(--pinkD);--t-dim:#5d5870;--t-mut:#8a8499;--t-line:rgba(11,11,20,.2);
+ --t-line-on:var(--ink);--t-accent:var(--pink);--t-tint:rgba(255,92,138,.12);
+ --panel:#fffaf0;--card:#fffaf0;--soft:rgba(11,11,20,.05);--line:rgba(11,11,20,.2);--text:#15131f;--muted:#5d5870;--dark:var(--pinkD);
+ background:var(--cream);border:3px solid var(--ink);border-radius:18px;box-shadow:none}
+body.arcade .scr::before{background:radial-gradient(rgba(11,11,20,.07) 1px,transparent 1.4px) 0 0/14px 14px}
+body.arcade .scr::after{background:none}
+
+/* the two dark screens: sidebar and the view readout */
+body.arcade .scr.side-scr,body.arcade .hw-bar .scr{
+ --panel:rgba(255,255,255,.05);--card:rgba(255,255,255,.04);--soft:rgba(255,255,255,.07);--line:rgba(63,217,168,.3);
+ --text:#f4f0ff;--muted:#a9a3c4;--dark:var(--mint);--t-ink:#f4f0ff;--t-hi:#fff;--t-amb:var(--mint);--t-dim:#b8b2d6;--t-mut:#8781a8;
+ --t-line:rgba(255,255,255,.14);--t-line-on:var(--mint);--t-accent:var(--pink);--t-tint:rgba(63,217,168,.14);
+ background:#0b1326;border:3px solid var(--ink)}
+body.arcade .nav button.active{box-shadow:inset 4px 0 0 var(--pink);background:rgba(255,92,138,.16)}
+
+/* cards and panels are stickers */
+body.arcade .card,body.arcade .dpanel,body.arcade .grp{background:#fffdf7;border:2.5px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink)}
+body.arcade .dpanel-t{font-family:inherit;font-weight:900;font-size:15px;letter-spacing:.08em;color:var(--ink)}
+body.arcade .dpanel-h{border-bottom:2px solid var(--ink)}
+
+/* buttons: press-down stickers */
+body.arcade .btn{border:2.5px solid var(--ink)!important;border-radius:12px;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+body.arcade .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+body.arcade .btn.primary{background:var(--pink)!important;color:var(--ink)!important}
+body.arcade .btn.secondary{background:#fffdf7!important;color:var(--ink)!important}
+body.arcade .btn.danger{background:#ff6b5b!important;color:var(--ink)!important}
+body.arcade aside .sidefoot .btn{background:var(--yel);color:var(--ink);font-weight:900}
+
+/* dashboard poster */
+body.arcade .banner{background:var(--navy);border:3px solid var(--ink);border-radius:16px;overflow:hidden;position:relative;box-shadow:4px 4px 0 var(--ink);
+ background-image:linear-gradient(transparent 0 calc(100% - 1px),rgba(90,184,255,.28) 0),linear-gradient(90deg,transparent 0 calc(100% - 1px),rgba(90,184,255,.28) 0);
+ background-size:100% 28px,28px 100%}
+body.arcade .banner-id{border-right:2px dashed rgba(255,255,255,.25)}
+body.arcade .banner-name{color:var(--yel);text-shadow:3px 3px 0 var(--pinkD),5px 5px 0 var(--ink)}
+body.arcade .banner-sub{color:var(--mint)}
+body.arcade .banner-date,body.arcade .banner-quote #morningTitle{color:#f4f0ff}
+body.arcade .banner-line{color:#b8b2d6}
+body.arcade .banner-caret{color:var(--pink)}
+body.arcade .banner-cat{background:var(--pink);border-left:3px solid var(--ink)}
+body.arcade .term-top{color:var(--ink);font-weight:800}
+body.arcade .ticker{background:var(--ink);color:#f4f0ff;border:2.5px solid var(--ink);border-radius:12px}
+body.arcade .ticker-msg{color:#f4f0ff}.body.arcade .ticker-sep{color:var(--pink)}
+body.arcade .ticker-led{background:var(--pink);color:var(--ink);font-weight:900}
+body.arcade .statbox{background:#fffdf7;border:2.5px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink)}
+body.arcade .statbox:nth-child(1) .stat-ico{background:var(--yel)}
+body.arcade .statbox:nth-child(2) .stat-ico,body.arcade .statbox:nth-child(2) .donut{background:conic-gradient(var(--pink) calc(var(--p)*1%),rgba(11,11,20,.12) 0)}
+body.arcade .statbox:nth-child(3) .stat-ico{background:var(--sky)}
+body.arcade .statbox:nth-child(4) .stat-ico{background:var(--mint)}
+body.arcade .statbox:nth-child(5) .stat-ico{background:#ffb4c9}
+body.arcade .stat-ico{border:2px solid var(--ink);border-radius:10px;color:var(--ink);width:34px;height:34px}
+body.arcade .donut::after{background:#fffdf7}
+body.arcade .stat-k{color:#4a4560}
+body.arcade .stat-v{color:var(--ink)}
+body.arcade .dash-chip{border:2px solid var(--ink);background:#fffdf7;color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+body.arcade .dash-chip.active{background:var(--yel);color:var(--ink);border-color:var(--ink)}
+body.arcade .dash-chip.empty{opacity:.45;box-shadow:none}
+body.arcade .cr-btn.pri,body.arcade .cr-btn{--fill:var(--pink);--fill-hi:var(--ink);border-color:var(--ink);box-shadow:3px 3px 0 var(--ink);border-radius:12px}
+body.arcade .dash-why{border-radius:8px;border-width:2px}
+body.arcade .identity .brand{color:var(--yel)}
+body.arcade .today-day,body.arcade .dcal-today{background:var(--yel)!important}
 </style>
 </head>
 <body>
@@ -2830,10 +2927,10 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.93</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.94</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade (ทดลอง)</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
@@ -4146,6 +4243,11 @@ window.calendarEdit=(id,e)=>{e.stopPropagation();editTask(id)}
 $("toggleFocusBtn").onclick=()=>{focusEnabled=!focusEnabled;render();$("toggleFocusBtn").textContent=focusEnabled?"Exit Focus Mode":"Focus Mode"};
 $("darkModeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("guy_theme",document.body.classList.contains("dark")?"dark":"light");if(sideCatStop){sideCatStop();sideCatStop=null}sideCatSync()};
 if(localStorage.getItem("guy_theme")==="dark")document.body.classList.add("dark");
+// the Arcade look is a class on <body>; the classic look stays underneath it
+function arcadeSync(){const on=document.body.classList.contains("arcade");const b=$("arcadeBtn");if(b)b.textContent=on?"กลับหน้าตาเดิม":"เปิดธีม Arcade"}
+try{if(localStorage.getItem("porkchop_arcade")==="1")document.body.classList.add("arcade")}catch(_){}
+$("arcadeBtn").onclick=()=>{const on=document.body.classList.toggle("arcade");try{localStorage.setItem("porkchop_arcade",on?"1":"0")}catch(_){}arcadeSync()};
+arcadeSync();
 
 function urlBase64ToUint8Array(base64String){
  const padding="=".repeat((4-base64String.length%4)%4);
@@ -5509,7 +5611,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.93";
+const APP_VERSION="V7.94";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
