@@ -441,6 +441,16 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.94 Arcade theme (preview, off by default)
+- Settings → "ธีม Arcade (ทดลอง)" turns on a retro-tech poster look; the same button turns it off. The choice is remembered on this device.
+  - The room is night navy, with a perspective grid on the floor and pixel sparkles.
+  - Every machine is flat colour with a thick ink outline and a hard offset shadow, like a sticker: the page is pink, the title bar yellow, the sidebar navy.
+  - The paper inside stays cream, so text is always dark on light.
+  - Cards, stat tiles, chips and buttons are stickers too, and buttons press down when clicked.
+  - The Dashboard banner becomes a grid poster with a yellow outlined title.
+- All of it is scoped to `body.arcade`, so the classic look is untouched.
+- No SQL.
+
 ## V7.93 Icons on every busy page
 - One set of emoji icons, so the same thing wears the same picture everywhere. Emoji need no download and look like the phone's own.
 - **Product Launch**:
