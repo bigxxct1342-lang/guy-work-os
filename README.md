@@ -442,6 +442,11 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.01 Arcade is the look
+- The app opens in the Arcade theme on every device, including devices that had switched the old preview off.
+- Settings → หน้าตาแอป has a button to go back to Classic, and the same button returns to Arcade. The choice is saved per device as `porkchop_look`.
+- No SQL.
+
 ## V8.00 Fuller design: the Daily Report joins, display type, motion, richer Arcade
 - **Daily Report** (the screen after unlocking) now lives in the new room:
   - a cream card with a pink title strip, and the cat peeking over its top edge;

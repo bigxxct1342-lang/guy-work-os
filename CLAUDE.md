@@ -56,6 +56,10 @@ is there before trusting a clean sweep.
 
 Run `parse.sh` after every edit to `index.html`.
 
+Arcade (`body.arcade`) is the default look since V8.01; Classic is only what
+someone picks in Settings (`porkchop_look=classic`). Screenshot changes in
+Arcade first, and check Classic did not move.
+
 ## Bumping the version
 
 `APP_VERSION` in `index.html` and `CACHE` in `sw.js` must move together
