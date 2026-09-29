@@ -441,6 +441,18 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.95 Arcade theme on every page
+- The Arcade look now reaches every page:
+  - cards, groups, rows, stage cards, root maps and their detail cards;
+  - inputs and dropdowns: cream with an ink outline and a sky-blue focus ring;
+  - tabs and chips, progress bars (pink candy stripe), the calendar's ink header row;
+  - dialogs, drawers and toasts, and the sign-in card.
+- Cat Room keeps its pixel game on purpose; only its tabs and buttons match the theme.
+- On a phone the frames get thinner borders and less padding, so content keeps its width.
+- Works together with dark mode.
+- The classic look was checked pixel by pixel against the previous version on all 14 pages: identical.
+- No SQL.
+
 ## V7.94 Arcade theme (preview, off by default)
 - Settings → "ธีม Arcade (ทดลอง)" turns on a retro-tech poster look; the same button turns it off. The choice is remembered on this device.
   - The room is night navy, with a perspective grid on the floor and pixel sparkles.

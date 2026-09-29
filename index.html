@@ -2331,6 +2331,81 @@ body.arcade .cr-btn.pri,body.arcade .cr-btn{--fill:var(--pink);--fill-hi:var(--i
 body.arcade .dash-why{border-radius:8px;border-width:2px}
 body.arcade .identity .brand{color:var(--yel)}
 body.arcade .today-day,body.arcade .dcal-today{background:var(--yel)!important}
+/* ── Arcade, every page ─────────────────────────────────────────────────
+   Selectors carry body.arcade .scr so they outrank the paper rules
+   (".scr .card.section" and friends) without reaching for !important. */
+/* big pieces on the paper: stickers */
+body.arcade .scr .card,body.arcade .scr .card.section,body.arcade .scr .category-block,body.arcade .scr .gap-card,
+body.arcade .scr .kol-card,body.arcade .scr .cv-card,body.arcade .scr .pr-stage,body.arcade .scr .phase-block,
+body.arcade .scr .pj-card,body.arcade .scr .metric,body.arcade .scr .pm-q,body.arcade .scr .week-col{
+ background:#fffdf7;border:2.5px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink)}
+body.arcade .scr .card .card,body.arcade .scr .card .card.section{box-shadow:3px 3px 0 var(--ink);border-width:2px}
+/* rows inside them: outlined, no shadow */
+body.arcade .scr .task,body.arcade .scr .pl-milestone,body.arcade .scr .pl-step,body.arcade .scr .tl-r,body.arcade .scr .sys-r,
+body.arcade .scr .npt-row:not(.npt-hd),body.arcade .scr .pr-row,body.arcade .scr .kol-step,body.arcade .scr .pm-item,body.arcade .scr .check-row{
+ border:2px solid var(--ink);border-radius:12px;background:#fffdf7}
+body.arcade .scr .pl-milestone{border-width:0 0 2px;border-radius:0}
+body.arcade .scr .pr-shead,body.arcade .scr .cv-ghead,body.arcade .scr .gap-head{background:var(--yel);color:var(--ink);border-bottom:2px solid var(--ink)}
+body.arcade .scr .cv-ghead,body.arcade .scr .gap-head{border:2px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink)}
+body.arcade .scr .gap-head b,body.arcade .scr .cv-ghead b,body.arcade .scr .gap-caret,body.arcade .scr .cv-gcaret{color:var(--ink)}
+body.arcade .scr h2{font-weight:900;letter-spacing:.01em;color:var(--ink)}
+body.arcade .scr .metric .value{color:var(--pinkD)}
+body.arcade .scr .pm-q.q1{background:#ffe3ea}body.arcade .scr .pm-q.q2{background:#fff3d1}
+body.arcade .scr .pm-q.q3{background:#e4f1ff}body.arcade .scr .pm-q.q4{background:#dff7ee}
+/* fields */
+body.arcade input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),body.arcade select,body.arcade textarea{
+ background:#fffdf7;color:var(--ink);border:2px solid var(--ink);border-radius:10px}
+body.arcade input::placeholder,body.arcade textarea::placeholder{color:#8a8499}
+body.arcade input:focus,body.arcade select:focus,body.arcade textarea:focus{outline:3px solid var(--sky);outline-offset:1px}
+body.arcade input[type=checkbox],body.arcade input[type=radio]{accent-color:var(--pinkD)}
+/* small controls */
+body.arcade .btn.small{border-width:2px!important;box-shadow:2px 2px 0 var(--ink);border-radius:10px}
+body.arcade .btn.small:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+body.arcade .scr .tab,body.arcade .scr .pm-tab,body.arcade .scr .nmz-b,body.arcade .scr .kq-chip{border:2px solid var(--ink);background:#fffdf7;color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+body.arcade .scr .tab.active,body.arcade .scr .pm-tab.active{background:var(--pink);color:var(--ink);border-color:var(--ink)}
+body.arcade .scr .pill{border:1.5px solid var(--ink)}
+body.arcade .scr .status-select{border:2px solid var(--ink)}
+body.arcade .scr .progress-wrap,body.arcade .scr .phase-progress{background:#fffdf7;border:2px solid var(--ink);border-radius:999px;height:14px}
+body.arcade .scr .progress-bar,body.arcade .scr .phase-progress i{background:repeating-linear-gradient(45deg,var(--pink) 0 8px,#ff85a8 8px 16px);border-radius:999px}
+body.arcade .scr .nst-s{border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#fffdf7}
+body.arcade .scr .nst-s.st-missing{box-shadow:none;border-style:dashed}
+body.arcade .scr .nmz-vp{border:2.5px solid var(--ink);background:#fff9ec}
+body.arcade .scr .nmz-pop{border:2.5px solid var(--ink);border-top:6px solid var(--c);box-shadow:5px 5px 0 var(--ink)}
+/* calendars */
+body.arcade .scr .calendar-weekdays{background:var(--ink)}
+body.arcade .scr .calendar-weekdays div{color:var(--yel)}
+body.arcade .scr .day{border-color:rgba(11,11,20,.18)}
+/* layers that float above the page */
+body.arcade .modalbg{background:rgba(9,14,30,.72)}
+body.arcade .modal,body.arcade .drawer{--text:#15131f;--muted:#5d5870;--line:rgba(11,11,20,.2);--soft:rgba(11,11,20,.05);--panel:#fffdf7;--card:#fffdf7;
+ background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink)}
+body.arcade .drawer{border-radius:22px 0 0 22px}
+body.arcade .modal h3{font-weight:900}
+body.arcade .modal-close{background:var(--yel);color:var(--ink);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+body.arcade .toast{background:var(--ink);color:#fbf3df;border:2px solid var(--pink);box-shadow:4px 4px 0 var(--pink);border-radius:12px}
+body.arcade .toast.bad{border-color:#ff6b5b;box-shadow:4px 4px 0 #ff6b5b}
+/* sign-in and boot */
+body.arcade .authcard{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--pink)}
+body.arcade .scr input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),body.arcade .scr select,body.arcade .scr textarea,
+body.arcade .scr .search,body.arcade .scr .toolbar select{background:#fffdf7;color:var(--ink);border:2px solid var(--ink);border-radius:10px}
+body.arcade .scr.side-scr input,body.arcade .scr.side-scr select,body.arcade .hw-bar .scr input,body.arcade .hw-bar .scr select{background:#0b1326;color:#f4f0ff;border-color:var(--mint)}
+body.arcade .scr .category-block{background:#fffdf7}
+body.arcade .scr .brief-box{background:#fffdf7;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+body.arcade .scr .brief-box b{color:var(--pinkD);font-size:24px}
+body.arcade .scr .brief-box:nth-child(1){background:#fff3d1}body.arcade .scr .brief-box:nth-child(2){background:#ffe3ea}
+body.arcade .scr .brief-box:nth-child(3){background:#dff7ee}body.arcade .scr .brief-box:nth-child(4){background:#e4f1ff}
+/* Cat Room keeps its pixel game; only the controls around it change */
+body.arcade .cr-tabs button{border-color:var(--ink);box-shadow:2px 2px 0 var(--ink);border-radius:8px;background:#fffdf7;color:var(--ink)}
+body.arcade .cr-tabs button.on{background:var(--pink);color:var(--ink)}
+/* phones: the frames nest three deep, so each one gives back its width */
+@media(max-width:700px){
+ body.arcade .hw{border-width:2.5px;border-radius:18px;box-shadow:4px 4px 0 var(--ink);padding:12px 8px 14px}
+ body.arcade .scr{border-width:2.5px;border-radius:14px}
+ body.arcade .scr-in{padding:14px 10px 16px}
+ body.arcade .scr .card,body.arcade .scr .card.section,body.arcade .scr .dpanel{box-shadow:3px 3px 0 var(--ink);border-width:2px}
+ body.arcade .scr .card .card,body.arcade .scr .card .card.section{box-shadow:none}
+ body.arcade .scr .section{padding:14px 12px}
+}
 </style>
 </head>
 <body>
@@ -2927,10 +3002,10 @@ body.arcade .today-day,body.arcade .dcal-today{background:var(--yel)!important}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.94</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.95</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
-     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade (ทดลอง)</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
     </div>
    </div>
   </div>
@@ -5611,7 +5686,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.94";
+const APP_VERSION="V7.95";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
