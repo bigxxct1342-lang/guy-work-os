@@ -441,6 +441,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.96 Show-off mode, and plans above work in the menu
+- A button at the top right (👁️ โชว์ทั้งหมด / 🙈 โหมดอวด) hides every piece of real work as XXXX. The app itself stays readable, so it can be shown to anyone.
+  - Hidden: task names, notes, categories, projects, products, factories, campaigns, agencies, remarks, PR/PO numbers, vendors, amounts, tasting comments, custom steps, and people and team names.
+  - Still readable: pages, stages, template steps, buttons, help text and the cat.
+  - Tooltips are masked too, and typed-in fields are blurred.
+- How it works: nothing changes in the data or the pages. Text on screen is checked against strings collected from the data, whenever a page draws. Turning it off restores every text exactly, and the choice is remembered on this device.
+- Sidebar: the แผนงาน group (Projects, Product Launch, KOL, PR, Creative) now sits above งาน (Tasks, Calendar, Matrix, Weekly).
+- No SQL.
+
 ## V7.95 Arcade theme on every page
 - The Arcade look now reaches every page:
   - cards, groups, rows, stage cards, root maps and their detail cards;

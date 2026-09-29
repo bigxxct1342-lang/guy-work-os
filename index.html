@@ -2406,6 +2406,12 @@ body.arcade .cr-tabs button.on{background:var(--pink);color:var(--ink)}
  body.arcade .scr .card .card,body.arcade .scr .card .card.section{box-shadow:none}
  body.arcade .scr .section{padding:14px 12px}
 }
+/* V7.96 show-off mode */
+.priv-btn.on{background:#1b1b22!important;color:#ffd24a!important}
+body.arcade .priv-btn.on{background:var(--ink)!important;color:var(--yel)!important}
+/* typed-in text cannot be swapped for XXXX, so it is blurred instead */
+body.private textarea:not(:placeholder-shown),body.private input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=date]):not(.priv-keep):not(:placeholder-shown){filter:blur(5px)}
+body.private .nmz-bar input,body.private #pmGrid input{filter:none}
 </style>
 </head>
 <body>
@@ -2529,17 +2535,17 @@ body.arcade .cr-tabs button.on{background:var(--pink);color:var(--ink)}
    </div>
    <div class="nav">
   <button class="active" data-view="dashboard"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 10 3l7 6.5"/><path d="M5 8.5V17h10V8.5"/></svg><span class="nav-lbl">Dashboard</span><span class="nav-badge hidden" id="navBadgeDash"></span></button>
-  <div class="nav-group">งาน</div>
-  <button data-view="tasks"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M4 10h12M4 14h7"/></svg><span class="nav-lbl">Tasks</span></button>
-  <button data-view="calendar"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2v4M13 2v4"/></svg><span class="nav-lbl">Calendar</span></button>
-  <button data-view="matrix"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6.5" height="6.5" rx="1"/><rect x="10.5" y="3" width="6.5" height="6.5" rx="1"/><rect x="3" y="10.5" width="6.5" height="6.5" rx="1"/><rect x="10.5" y="10.5" width="6.5" height="6.5" rx="1"/></svg><span class="nav-lbl">Priority Matrix</span></button>
-  <button data-view="weekly"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6a7 7 0 1 0 1 5"/><path d="M17 2v5h-5"/></svg><span class="nav-lbl">Weekly Review</span></button>
   <div class="nav-group">แผนงาน</div>
   <button data-view="proj"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.5 17.5 7 10 11.5 2.5 7z"/><path d="M2.5 11 10 15.5 17.5 11"/></svg><span class="nav-lbl">Projects</span><span class="nav-badge hidden" id="navBadgeProj"></span></button>
   <button data-view="productlaunch"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"/><path d="M3 6.5 10 10l7-3.5M10 10v7"/></svg><span class="nav-lbl">Product Launch</span></button>
   <button data-view="kol"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="6.5" r="2.8"/><path d="M2.5 16.5c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5"/><path d="M14 4.5v5M16.5 7h-5"/></svg><span class="nav-lbl">KOL</span><span class="nav-badge hidden" id="navBadgeKol"></span></button>
   <button data-view="pr"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2.5h6l4 4v11H5z"/><path d="M11 2.5v4h4M7.5 10h5M7.5 13h5"/></svg><span class="nav-lbl">PR / GRPO</span><span class="nav-badge hidden" id="navBadgePr"></span></button>
   <button data-view="creative"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.2 16.8 6.5 7.4 15.9 3.2 16.8 4.1 12.6z"/><path d="M11.6 5.1 14.9 8.4"/></svg><span class="nav-lbl">Creative</span><span class="nav-badge hidden" id="navBadgeCv"></span></button>
+  <div class="nav-group">งาน</div>
+  <button data-view="tasks"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M4 10h12M4 14h7"/></svg><span class="nav-lbl">Tasks</span></button>
+  <button data-view="calendar"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2v4M13 2v4"/></svg><span class="nav-lbl">Calendar</span></button>
+  <button data-view="matrix"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6.5" height="6.5" rx="1"/><rect x="10.5" y="3" width="6.5" height="6.5" rx="1"/><rect x="3" y="10.5" width="6.5" height="6.5" rx="1"/><rect x="10.5" y="10.5" width="6.5" height="6.5" rx="1"/></svg><span class="nav-lbl">Priority Matrix</span></button>
+  <button data-view="weekly"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6a7 7 0 1 0 1 5"/><path d="M17 2v5h-5"/></svg><span class="nav-lbl">Weekly Review</span></button>
   <div class="nav-rule"></div>
   <button data-view="archive"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2.6l2.3 4.9 5.2.7-3.8 3.7.9 5.3-4.6-2.5-4.6 2.5.9-5.3L2.5 8.2l5.2-.7z"/></svg><span class="nav-lbl">Portfolio</span></button>
   <button data-view="cat"><svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5V3.5l3.2 2.6h5.6L16 3.5v5"/><path d="M4 8.5c0 4.4 2.6 7.5 6 7.5s6-3.1 6-7.5"/><path d="M8 10.5h.01M12 10.5h.01M9 13h2"/></svg><span class="nav-lbl">Cat Room</span><span class="nav-badge hidden" id="navBadgeCat"></span></button>
@@ -2561,7 +2567,7 @@ body.arcade .cr-tabs button.on{background:var(--pink);color:var(--ink)}
    <div class="bar-row"><span class="bar-k">VIEW</span><h1 id="pageTitle">Dashboard</h1></div>
    <div class="bar-row"><span class="bar-k">DATE</span><div id="todayText"></div></div>
   </div>
-  <div class="hw-btns"><button id="addCategoryBtn" class="btn secondary">+ Category</button><button id="addTaskBtn" class="btn primary">+ Task</button></div>
+  <div class="hw-btns"><button id="privBtn" class="btn secondary priv-btn priv-keep" type="button"><span class="ic">👁️</span>โชว์ทั้งหมด</button><button id="addCategoryBtn" class="btn secondary">+ Category</button><button id="addTaskBtn" class="btn primary">+ Task</button></div>
   <div class="cat-win"><canvas id="catFaceCv"></canvas></div>
  </div>
 
@@ -3002,7 +3008,7 @@ body.arcade .cr-tabs button.on{background:var(--pink);color:var(--ink)}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.95</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.96</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4323,6 +4329,93 @@ function arcadeSync(){const on=document.body.classList.contains("arcade");const 
 try{if(localStorage.getItem("porkchop_arcade")==="1")document.body.classList.add("arcade")}catch(_){}
 $("arcadeBtn").onclick=()=>{const on=document.body.classList.toggle("arcade");try{localStorage.setItem("porkchop_arcade",on?"1":"0")}catch(_){}arcadeSync()};
 arcadeSync();
+/* ---- show-off mode ---------------------------------------------------------
+   One switch at the top right hides everything that is actually work --
+   task names, products, campaigns, agencies, PR numbers, amounts, people,
+   notes -- as XXXX, while the app itself (pages, stages, buttons, the cat)
+   stays readable, so it can be shown to anyone.
+
+   It never changes data or templates. The strings worth hiding are collected
+   from the data itself, and every piece of text on screen is checked against
+   them: as it is drawn, and again whenever a page redraws. Turning it off puts
+   each piece of text back exactly as it was. */
+let privOn=false;try{privOn=localStorage.getItem("porkchop_private")==="1"}catch(_){}
+// the app's own words: page help, headings, menus, stage names in flows
+const PRIV_SKIP="script,style,.priv-keep,.help:not(.tl-head .help),.flow,h2,.nav,.nav-minor,.hw-plate,.dpanel-t,.tab-map-h b,.bar-row,.nmz-bar,.cv-legend,.calendar-weekdays";
+const PRIV_TXT=new Map(),PRIV_ATTR=new Map();let privRe=null,privKey="",privObs=null,privBusy=false;
+function privStrings(){
+ const out=new Set(),add=v=>{if(v==null)return;v=String(v).trim();if(v.length>=3)out.add(v)},
+  addNum=v=>{const n=Number(v);if(!n||!isFinite(n)||n<100)return;add(n.toLocaleString("en-US",{maximumFractionDigits:2}));add(String(n))};
+ const T=[...(tasks||[]),...(typeof teamTasks!=="undefined"?teamTasks:[])];
+ T.forEach(t=>{add(t.task);add(t.note);add(t.category);add(t.sub);add(t.pr_number);add(t.po_number);add(t.cv_brief_url);add(t.portfolio_title);add(t.portfolio_result);
+  const n=String(t.note||"");if(n.length>60)add(n.slice(0,60))});
+ (categories||[]).forEach(c=>{add(c.name);(c.subs||[]).forEach(add)});
+ [...(projects||[]),...(typeof teamProjects!=="undefined"?teamProjects:[])].forEach(p=>{add(p.name);add(p.note);add(p.portfolio_title);add(p.portfolio_result);String(p.products||"").split(",").forEach(add)});
+ [...(kolItems||[]),...(typeof teamKol!=="undefined"?teamKol:[])].forEach(c=>{add(c.name);add(c.agency);add(c.note);add(c.cancel_reason);add(c.portfolio_title);add(c.portfolio_result);
+  addNum(c.budget);Object.values(c.remarks||{}).forEach(add);
+  const d=(c.run&&c.run.deal)||{};["kol","boost","basketFee"].forEach(k=>addNum(d[k]));try{addNum(kolDealTotal(c))}catch(_){}});
+ [...(prItems||[]),...(typeof teamPr!=="undefined"?teamPr:[])].forEach(p=>{add(p.title);add(p.pr_number);add(p.po_number);add(p.vendor);add(p.note);addNum(p.amount)});
+ [...(npdProducts||[]),...(typeof teamProducts!=="undefined"?teamProducts:[])].forEach(p=>{add(p.name);add(p.factory);add(p.portfolio_title);add(p.portfolio_result)});
+ (npdTastings||[]).forEach(r=>{add(r.sample);add(r.changes);add(r.file_url);(Array.isArray(r.comments)?r.comments:[]).forEach(c=>{add(c.who);add(c.text)})});
+ // steps and milestones the person wrote themselves; the template's own words stay
+ const tpl=new Set(NPD_TEMPLATE.flatMap(m=>[m.title,...m.steps.map(s=>s[0])]));
+ (npdMilestones||[]).forEach(m=>{if(!tpl.has(m.title))add(m.title)});
+ (npdSteps||[]).forEach(s=>{if(!tpl.has(s.name))add(s.name);add(s.deadline_note)});
+ (profiles||[]).forEach(p=>{add(p.full_name);add(p.email);add(String(p.email||"").split("@")[0])});
+ if(user&&user.email){add(user.email);add(user.email.split("@")[0])}
+ if(team&&team.name)add(team.name);
+ return [...out].sort((a,b)=>b.length-a.length);
+}
+const privEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+function privRegex(){
+ const list=privStrings(),key=list.join("\u0001");
+ if(key!==privKey){privKey=key;
+  // amounts written with thousands separators are hidden whether or not they came from a record
+  const money="\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?";
+  privRe=new RegExp((list.length?list.map(privEsc).join("|")+"|":"")+money,"gi")}
+ return privRe;
+}
+// XXXX of about the same width; Thai marks that sit on a letter do not count
+const privX=m=>m.split(/(\s+)/).map(w=>/^\s+$/.test(w)?w:"X".repeat(Math.max(2,Math.min(10,w.replace(/[ัิ-ฺ็-๎]/g,"").length)))).join("");
+function privMaskNode(n,re){
+ if(n.nodeType===3){
+  const p=n.parentElement;if(!p||p.closest(PRIV_SKIP))return;
+  const orig=PRIV_TXT.has(n)?PRIV_TXT.get(n).orig:n.nodeValue;
+  re.lastIndex=0;const out=orig.replace(re,privX);
+  if(out!==orig){PRIV_TXT.set(n,{orig,masked:out});if(n.nodeValue!==out)n.nodeValue=out}
+  return;
+ }
+ if(n.nodeType!==1)return;
+ if(n.hasAttribute&&n.hasAttribute("title")){const o=PRIV_ATTR.has(n)?PRIV_ATTR.get(n):n.getAttribute("title");re.lastIndex=0;const m=o.replace(re,privX);if(m!==o){PRIV_ATTR.set(n,o);n.setAttribute("title",m)}}
+ const w=document.createTreeWalker(n,NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT);let x;
+ while((x=w.nextNode())){if(x.nodeType===3)privMaskNode(x,re);else if(x.hasAttribute("title")){const o=PRIV_ATTR.has(x)?PRIV_ATTR.get(x):x.getAttribute("title");re.lastIndex=0;const m=o.replace(re,privX);if(m!==o){PRIV_ATTR.set(x,o);x.setAttribute("title",m)}}}
+}
+function privRun(nodes){
+ if(!privOn||privBusy)return;privBusy=true;
+ try{const re=privRegex();(nodes||[document.body]).forEach(n=>privMaskNode(n,re))}finally{privBusy=false}
+}
+function privRestore(){
+ privBusy=true;
+ PRIV_TXT.forEach((v,n)=>{if(n.isConnected&&n.nodeValue===v.masked)n.nodeValue=v.orig});PRIV_TXT.clear();
+ PRIV_ATTR.forEach((o,el)=>{if(el.isConnected)el.setAttribute("title",o)});PRIV_ATTR.clear();
+ privBusy=false;
+}
+function privSet(on){
+ privOn=on;try{localStorage.setItem("porkchop_private",on?"1":"0")}catch(_){}
+ document.body.classList.toggle("private",on);
+ const b=$("privBtn");if(b){b.classList.toggle("on",on);b.innerHTML=on?'<span class="ic">🙈</span>โหมดอวด':'<span class="ic">👁️</span>โชว์ทั้งหมด';b.title=on?"กำลังซ่อนรายละเอียดงาน — กดเพื่อแสดง":"กดเพื่อซ่อนรายละเอียดงานเป็น XXXX ก่อนเอาไปโชว์คนอื่น"}
+ if(on){
+  if(!privObs){privObs=new MutationObserver(recs=>{if(!privOn||privBusy)return;const set=new Set();
+   recs.forEach(r=>{if(r.type==="characterData"){if(!(PRIV_TXT.has(r.target)&&PRIV_TXT.get(r.target).masked===r.target.nodeValue)){PRIV_TXT.delete(r.target);set.add(r.target)}}
+    else r.addedNodes.forEach(n=>set.add(n))});
+   if(set.size)privRun([...set])})}
+  privObs.observe(document.body,{childList:true,subtree:true,characterData:true});
+  privRun();
+ }else{privObs&&privObs.disconnect();privRestore()}
+}
+if(privOn)privSet(true);
+$("privBtn").onclick=()=>{privSet(!privOn);toast(privOn?"ซ่อนรายละเอียดงานแล้ว — เอาไปโชว์ได้เลย":"แสดงรายละเอียดครบแล้ว")};
+
 
 function urlBase64ToUint8Array(base64String){
  const padding="=".repeat((4-base64String.length%4)%4);
@@ -5686,7 +5779,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.95";
+const APP_VERSION="V7.96";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -8900,7 +8993,7 @@ function renderDashboardFocus(active,done){
   :`<div class="dash-clear">${active.length?"ไม่มีอะไรค้างตอนนี้ — เคลียร์หมดแล้ว":"ยังไม่มีงานในระบบ"}</div>`;
  $("dashSummary").innerHTML=[["ทำงานอยู่",active.length],["กำลังทำ",active.filter(t=>t.status==="In Progress").length],["รอคนอื่น",active.filter(t=>t.status==="Waiting").length],["เสร็จสัปดาห์นี้",done.filter(doneThisWeek).length]].map(x=>`<span><b>${x[1]}</b> ${x[0]}</span>`).join("");
 }
-function render(){populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();renderDashGaps();const scope=tasks,active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
+function render(){if(privOn)queueMicrotask(()=>privRun());populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();renderDashGaps();const scope=tasks,active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
 const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=peopleScope(fm).filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>!t.is_highlight&&(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
