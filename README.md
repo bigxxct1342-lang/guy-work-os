@@ -441,6 +441,20 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.98 The way in: new first page, sign-in and PIN card
+- The four screens before the app share one night room: navy with stars, a glowing floor grid, and the chubby Scottish Fold on his CRT, all from the ChatGPT designs.
+  - **First page**: the full hero picture, a big outlined "PORKCHOP G / WORK MONITOR" title and a big pink "เข้าสู่แอป" button.
+  - **Sign in**: the cat on his monitor with a cream sign-in card below. Create account and password reset are unchanged.
+  - **Team code**: the same style.
+  - **PIN**: an operator ID card. A pink lanyard hangs from the top and the cat peeks over the top edge. The card shows the photo (the cat until you add one) and OPERATOR / UNIT / CLEARANCE, plus a barcode.
+- The PIN is entered in four boxes.
+  - When unlocking, the fourth digit submits by itself; Enter works too.
+  - When setting a PIN, it still waits for the confirm boxes.
+- On a desktop the picture sits on the left and the form on the right. On a phone everything fits on one screen.
+- These screens look the same in every theme (classic, dark, Arcade).
+- New files, cached by the service worker: `login-hero.webp`, `login-cat.webp`, `pin-cat.webp` (about 300 KB in all).
+- No SQL.
+
 ## V7.97 Fix: app stuck at the start with show-off mode on
 - With show-off mode left on, reloading the app ran the masking before the app's lists existed. The error stopped the rest of start-up, so "เข้าสู่แอป" did nothing.
 - The fix:

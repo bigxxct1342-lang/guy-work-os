@@ -2412,23 +2412,159 @@ body.arcade .priv-btn.on{background:var(--ink)!important;color:var(--yel)!import
 /* typed-in text cannot be swapped for XXXX, so it is blurred instead */
 body.private textarea:not(:placeholder-shown),body.private input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=date]):not(.priv-keep):not(:placeholder-shown){filter:blur(5px)}
 body.private .nmz-bar input,body.private #pmGrid input{filter:none}
+/* ══ V7.98 the way in: first page, sign-in, team code, PIN card ════════════
+   The four screens before the app share one night room: navy, stars, a
+   glowing floor grid, the chubby Fold on his monitor. Cards are cream with
+   an ink outline and a hard shadow, so every field is dark on light. */
+.lx{--lxn:#04193d;--lxi:#0b0b14;--lxp:#ff5c8a;--lxpd:#e0306a;--lxm:#3fd9a8;--lxy:#ffd23f;--lxb:#4aa8ff;--lxc:#fbf3df;
+ position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0;min-height:0;
+ background:var(--lxn);color:var(--lxc);font-family:Inter,"Noto Sans Thai",system-ui,sans-serif;
+ background-image:radial-gradient(circle at 12% 10%,#fff 0 1.3px,transparent 2.3px),radial-gradient(circle at 82% 6%,#fff 0 1.1px,transparent 2px),
+  radial-gradient(circle at 64% 22%,#ffd3e1 0 1.3px,transparent 2.3px),radial-gradient(circle at 30% 30%,#fff 0 1px,transparent 1.8px),
+  radial-gradient(circle at 92% 38%,#c3f6e6 0 1.4px,transparent 2.4px),radial-gradient(circle at 6% 46%,#fff 0 1px,transparent 1.8px);
+ background-size:420px 520px}
+.lx.hidden{display:none!important}
+.lx::before{content:"";position:fixed;left:-30%;right:-30%;bottom:-6vh;height:52vh;pointer-events:none;z-index:0;
+ background:linear-gradient(transparent 0 calc(100% - 2px),rgba(74,168,255,.55) 0) 0 0/100% 44px,
+            linear-gradient(90deg,transparent 0 calc(100% - 2px),rgba(74,168,255,.55) 0) 0 0/44px 100%;
+ transform:perspective(380px) rotateX(64deg);transform-origin:50% 100%;
+ -webkit-mask-image:linear-gradient(to top,#000 25%,transparent 96%);mask-image:linear-gradient(to top,#000 25%,transparent 96%);
+ filter:drop-shadow(0 0 4px rgba(74,168,255,.6))}
+.lx>*{position:relative;z-index:1}
+.lx-bar{display:flex;align-items:center;gap:10px;padding:14px 18px 0;font-family:"VT323",ui-monospace,monospace;font-size:20px;letter-spacing:.16em;color:#fff}
+.lx-bar b{font-weight:400}.lx-bar .sp,.lx-idh .sp{flex:1}
+.lx-sig{font-family:"VT323",ui-monospace,monospace;font-size:14px;letter-spacing:.14em;color:var(--lxm)}
+.lx-bars{display:inline-flex;align-items:flex-end;gap:2px;height:14px}
+.lx-bars i{width:3px;background:currentColor;display:block}
+.lx-bars i:nth-child(1){height:5px}.lx-bars i:nth-child(2){height:8px}.lx-bars i:nth-child(3){height:11px}.lx-bars i:nth-child(4){height:14px}
+.lx-batt{display:inline-flex;gap:2px;padding:2px;border:2px solid var(--lxy);border-radius:3px;position:relative;margin-right:4px}
+.lx-batt::after{content:"";position:absolute;right:-5px;top:4px;width:3px;height:6px;background:var(--lxy)}
+.lx-batt i{width:4px;height:8px;background:var(--lxy);display:block}
+.lx-wrap{flex:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:520px;margin:0 auto;padding:6px 18px 10px}
+.lx-hero{width:100%;display:flex;justify-content:center}
+.lx-hero img{display:block;width:100%;height:auto;max-height:46vh;object-fit:contain;filter:drop-shadow(0 8px 0 rgba(0,0,0,.25))}
+.lx-splash .lx-hero img{max-height:52vh;object-fit:cover;object-position:50% 0;
+ -webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent);filter:none}
+.lx-hero-cat img{max-height:34vh}
+.lx-side{width:100%;display:flex;flex-direction:column;align-items:stretch}
+.lx-title{display:flex;flex-direction:column;align-items:center;margin:4px 0 14px;text-align:center}
+.lx-name{font-family:"Arial Black","Inter",system-ui,sans-serif;font-weight:900;font-size:clamp(34px,10.4vw,62px);line-height:1.05;letter-spacing:0;
+ color:var(--lxy);text-shadow:-2px -2px 0 var(--lxi),2px -2px 0 var(--lxi),-2px 2px 0 var(--lxi),2px 2px 0 var(--lxi),0 -3px 0 var(--lxi),0 3px 0 var(--lxi),-3px 0 0 var(--lxi),3px 0 0 var(--lxi),0 6px 0 var(--lxp),2px 8px 0 var(--lxi),-2px 8px 0 var(--lxi),0 10px 0 var(--lxi);display:inline-flex;align-items:center;gap:.06em;white-space:nowrap}
+.lx-name em{font-style:normal;font-size:.6em;text-shadow:none;transform:translateY(-.04em)}
+.lx-name-s{font-size:clamp(30px,9vw,44px)}
+.lx-sub{margin-top:12px;font-family:"VT323",ui-monospace,monospace;font-size:26px;letter-spacing:.2em;color:var(--lxm);text-shadow:2px 2px 0 var(--lxi)}
+.lx-foot{text-align:center;padding:8px 16px 16px;margin-top:auto;font-family:"VT323",ui-monospace,monospace;font-size:clamp(12px,3.4vw,15px);letter-spacing:.12em;color:#7fb4ff}
+/* the cream card */
+.lx .lx-card,.lx .lx-pinform{background:var(--lxc);color:var(--lxi);border:3px solid var(--lxi);border-radius:20px;padding:20px 18px 16px;
+ box-shadow:7px 7px 0 var(--lxp),7px 7px 0 3px var(--lxi);margin:0 6px 10px 0}
+.lx .lx-card h2{text-transform:none;margin:0 0 12px;font-family:"Arial Black","Inter",system-ui,sans-serif;font-weight:900;font-size:30px;color:var(--lxi);letter-spacing:.01em}
+.lx .field{margin-bottom:12px}
+.lx .field label{display:block;font-family:inherit;font-size:14px;font-weight:800;letter-spacing:.02em;color:var(--lxi);text-transform:none;margin-bottom:6px}
+.lx input:not([type=file]){width:100%;background:#fffdf7;color:var(--lxi);border:2.5px solid var(--lxi);border-radius:12px;padding:12px 14px;font-size:16px;font-family:inherit}
+.lx input:focus{outline:3px solid var(--lxb);outline-offset:1px;background:#fff}
+.lx .help{font-family:inherit;font-size:12.5px;letter-spacing:0;color:#5d5870;line-height:1.5}
+.lx .error{font-family:inherit;font-size:13px;font-weight:800;letter-spacing:0;color:#c62a3c;min-height:18px}
+.lx .btn{font-family:inherit;font-weight:900;font-size:17px;letter-spacing:.02em;border-radius:14px;border:3px solid var(--lxi);min-height:52px;
+ display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:4px 4px 0 var(--lxi);transition:transform .08s,box-shadow .08s;text-transform:none}
+.lx .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--lxi)}
+.lx .btn.primary{background:var(--lxp);color:#fff;border-color:var(--lxi);text-shadow:0 2px 0 rgba(11,11,20,.35)}
+.lx .btn.secondary{background:#fffdf7;color:var(--lxi);border-color:var(--lxi)}
+.lx .btn svg{width:20px;height:20px}
+.lx .btn:disabled{filter:saturate(.6);cursor:default}
+.lx .idc-link{display:block;margin:12px auto 0;background:none;border:0;color:#2a6fd1;font-weight:800;font-size:14px;text-decoration:underline;cursor:pointer;font-family:inherit}
+/* first page */
+.lx-splash .splash-ctl{display:flex;align-items:center;gap:12px;margin:6px 6px 14px 0}
+.lx-splash .splash-ctl .btn{flex:1;font-size:20px;min-height:60px;font-family:inherit;letter-spacing:.02em}
+.lx-splash .splash-led{width:12px;height:12px;border-radius:50%;background:var(--lxm);box-shadow:0 0 10px var(--lxm);flex:none}
+/* PIN: the operator's ID card */
+.lx-pin .lx-wrap{padding-top:0}
+.lx-idwrap{--pt:170px;position:relative;width:100%;padding-top:var(--pt);margin-bottom:22px}
+.lx-strap{position:absolute;left:24%;top:-40px;width:42px;height:calc(var(--pt) + 46px);background:var(--lxp);border:3px solid var(--lxi);border-top:0;
+ background-image:radial-gradient(circle,var(--lxy) 0 5px,transparent 6px);background-size:100% 40px;background-position:50% 10px}
+.lx-strap i{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);width:28px;height:30px;border:3px solid var(--lxi);border-radius:6px;
+ background:linear-gradient(#e7e7ee,#9d9fae)}
+/* his flat bottom edge sits on the card's top edge, whatever the width */
+.lx-pincat{position:absolute;right:-6px;top:auto;bottom:calc(100% - var(--pt) - 6px);width:62%;max-width:290px;height:auto;z-index:2;pointer-events:none}
+.lx-id{position:relative;z-index:1;background:var(--lxc);color:var(--lxi);border:3px solid var(--lxi);border-radius:22px;overflow:hidden;
+ box-shadow:7px 7px 0 var(--lxp),7px 7px 0 3px var(--lxi)}
+.lx-id::before{content:"";position:absolute;left:50%;top:10px;transform:translateX(-50%);width:62px;height:12px;border:3px solid var(--lxi);border-radius:8px;background:var(--lxn);z-index:3}
+.lx-idh{display:flex;align-items:center;gap:8px;padding:30px 16px 12px;background:var(--lxp);border-bottom:3px solid var(--lxi);color:var(--lxi)}
+.lx-idh b{font-family:"Arial Black","Inter",system-ui,sans-serif;font-weight:900;font-size:clamp(21px,6vw,30px);color:var(--lxy);white-space:nowrap;
+ text-shadow:-2px -2px 0 var(--lxi),2px -2px 0 var(--lxi),-2px 2px 0 var(--lxi),2px 2px 0 var(--lxi),0 4px 0 var(--lxi)}
+.lx-idh .lx-sig{color:var(--lxi);font-size:13px;white-space:nowrap}
+@media(max-width:420px){.lx-idh .lx-sig{display:none}}
+.lx-idh .lx-bars{color:var(--lxy)}.lx-idh .lx-batt{border-color:var(--lxi);background:var(--lxy)}.lx-idh .lx-batt i{background:var(--lxi)}.lx-idh .lx-batt::after{background:var(--lxi)}
+.lx-idb{display:grid;grid-template-columns:40% 1fr;gap:12px;padding:14px 14px 8px}
+.lx .idc-photo{display:flex;flex-direction:column;gap:10px}
+.lx .idc-frame{position:relative;aspect-ratio:1;border:3px solid var(--lxi);border-radius:12px;overflow:hidden;background:var(--lxn)}
+.lx .idc-frame canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+.lx .idc-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"VT323",ui-monospace,monospace;
+ font-size:16px;letter-spacing:.1em;color:#7fb4ff;background:var(--lxn) url('./pin-cat.webp') 50% 100%/120% auto no-repeat}
+.lx .idc-empty{color:transparent}
+.lx .idc-up{border:2.5px solid var(--lxi);border-radius:12px;background:#fffdf7;color:var(--lxi);font-weight:900;font-size:15px;padding:9px 6px;cursor:pointer;
+ box-shadow:3px 3px 0 var(--lxi);font-family:inherit}
+.lx-idf{display:flex;flex-direction:column;min-width:0}
+.lx-idf label{font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.12em;color:var(--lxi);margin:0 0 3px}
+.lx-v{border:2.5px solid var(--lxi);border-radius:10px;padding:6px 9px;margin-bottom:8px;font-family:"VT323",ui-monospace,monospace;font-size:clamp(16px,4.6vw,21px);
+ letter-spacing:.08em;line-height:1.05;color:var(--lxi);background:#fffdf7;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lx-v b{font-weight:400}.lx-v small{display:block;font-family:"Noto Sans Thai",Inter,sans-serif;font-size:12px;letter-spacing:0;color:#5d5870;margin-top:2px;white-space:normal}
+.lx-mark{display:flex;align-items:center;gap:10px;margin:4px 14px 8px;padding:6px 12px;border:2.5px solid var(--lxi);border-radius:10px;align-self:center;width:fit-content;
+ font-family:"VT323",ui-monospace,monospace;font-size:17px;letter-spacing:.1em;background:#fffdf7;white-space:nowrap}
+.lx-mark em{font-style:normal;padding-right:10px;border-right:2.5px solid var(--lxi)}
+.lx-legal{margin:0 16px 10px;font-family:"VT323",ui-monospace,monospace;font-size:15px;line-height:1.2;letter-spacing:.04em;color:#3b3647}
+.lx-code{height:44px;margin:0 14px 14px;border:2.5px solid var(--lxi);border-radius:6px;
+ background:repeating-linear-gradient(90deg,var(--lxi) 0 3px,transparent 3px 5px,var(--lxi) 5px 6px,transparent 6px 9px,var(--lxi) 9px 13px,transparent 13px 15px,var(--lxi) 15px 16px,transparent 16px 20px) 6px 6px/calc(100% - 12px) calc(100% - 12px) no-repeat,#fffdf7}
+.lx .lx-pinform{background:transparent;border:0;box-shadow:none;padding:0;margin:0;color:var(--lxc)}
+.lx .lx-pinform .help{color:#fbf3df;font-size:15px;font-weight:800;text-align:center}
+.lx .lx-pinform .field label{color:#fbf3df;text-align:center;font-family:"VT323",ui-monospace,monospace;font-size:16px;letter-spacing:.14em}
+.lx .lx-pinform .error{color:#ff8fa8;text-align:center}
+.pin4{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pin4 span{aspect-ratio:1/.95;border:3px solid var(--lxi);border-radius:14px;background:#fffdf7;box-shadow:4px 4px 0 var(--lxi);position:relative}
+.pin4 span.on::after{content:"";position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;border-radius:50%;background:var(--lxp);transform:translate(-50%,-50%)}
+.pin4 span.cur{outline:3px solid var(--lxb);outline-offset:2px}
+.lx .pin4 input{position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;border:0;padding:0;font-size:16px;cursor:pointer}
+/* wide screens: picture on the left, the form on the right */
+@media(min-width:900px){
+ .lx-wrap{flex-direction:row;align-items:center;max-width:1100px;gap:48px;padding:10px 40px}
+ .lx-wrap.lx-one{flex-direction:column;max-width:520px}
+ .lx-hero{flex:1.1}.lx-side{flex:1;max-width:460px}
+ .lx-hero img,.lx-hero-cat img{max-height:74vh}
+ .lx-splash .lx-hero img{max-height:78vh}
+}
+/* phones: the whole card and the PIN boxes fit on one screen */
+.lx .lx-pinform .field>label{display:none}
+@media(max-width:600px){
+ .lx-idwrap{--pt:118px;margin-bottom:18px}
+ .lx-pincat{width:56%}
+ .lx-idh{padding:24px 14px 9px}
+ .lx-idb{padding:10px 12px 4px;gap:10px}
+ .lx-v{margin-bottom:5px;padding:4px 8px}
+ .lx-idf label{font-size:14px;margin-bottom:2px}
+ .lx-legal{font-size:13px;margin-bottom:8px}
+ .lx-mark{margin-bottom:6px;font-size:15px;padding:4px 10px}
+ .lx-code{height:32px;margin-bottom:12px}
+ .lx .lx-pinform .help{margin-bottom:8px!important;font-size:14px}
+ .pin4 span{aspect-ratio:1/.8}
+ .lx .lx-pinform .btn{min-height:48px}
+}
+/* the way in looks the same whatever theme is saved for the inside */
+.lx .btn.primary{background:var(--lxp)!important;color:#fff!important;border-color:var(--lxi)!important}
+.lx .btn.secondary{background:#fffdf7!important;color:var(--lxi)!important;border-color:var(--lxi)!important}
+body.dark .lx .authcard,body.arcade .lx .authcard{background:var(--lxc);color:var(--lxi)}
+body.dark .lx input,body.arcade .lx input{background:#fffdf7;color:var(--lxi);border-color:var(--lxi)}
 </style>
 </head>
 <body>
-<section id="splashScreen" class="splash">
- <div class="hw splash-hw">
-  <b class="screw s1"></b><b class="screw s2"></b><b class="screw s3"></b><b class="screw s4"></b>
-  <div class="hw-plate">PORKCHOP G <span>· WORK MONITOR</span></div>
-  <div class="scr splash-scr">
-   <div class="splash-bg"></div>
-   <div class="splash-overlay"></div>
-   <div class="splash-tint"></div>
-  </div>
-  <div class="splash-ctl">
-   <span class="splash-led"></span>
-   <button id="splashEnterBtn" class="btn primary">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button>
+<section id="splashScreen" class="splash lx lx-splash">
+ <div class="lx-bar"><b>PORKCHOP&nbsp;G</b><span class="sp"></span><span class="lx-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lx-batt" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+ <div class="lx-wrap">
+  <div class="lx-hero"><img src="./login-hero.webp" alt="" width="1030" height="1526"></div>
+  <div class="lx-side">
+   <div class="lx-title"><span class="lx-name">PORKCHOP<em aria-hidden="true">🐱</em>G</span><span class="lx-sub">WORK MONITOR</span></div>
+   <div class="splash-ctl"><span class="splash-led"></span><button id="splashEnterBtn" class="btn primary">เข้าสู่แอป<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h9M8 4l4 4-4 4"/></svg></button></div>
   </div>
  </div>
+ <div class="lx-foot">PROPERTY OF PORKCHOP G · WORK MONITOR</div>
 </section>
 
 <section id="bootScreen" class="boot hidden">
@@ -2439,13 +2575,13 @@ body.private .nmz-bar input,body.private #pmGrid input{filter:none}
  </div></div>
 </section>
 
-<section id="authScreen" class="auth hidden">
- <div class="authbox"><div class="idc">
-  <div class="idc-bar"><span>PORKCHOP&nbsp;G</span><span class="sp"></span>
-   <span class="idc-sig" id="authSig">LINK IDLE</span><span class="idc-batt"></span></div>
-  <div class="idc-who"><div><span class="idc-k">TERMINAL</span><span class="idc-v">WORK&nbsp;MONITOR</span></div>
-   <div class="r"><span class="idc-k">ACCESS</span><span class="idc-v">********</span></div></div>
-  <div class="idc-form"><div class="authcard"><h2 id="authTitle">Sign in</h2>
+<section id="authScreen" class="auth lx hidden">
+ <div class="lx-bar"><b>PORKCHOP&nbsp;G</b><span class="sp"></span><span class="lx-sig" id="authSig">LINK IDLE</span><span class="lx-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lx-batt" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+ <div class="lx-wrap">
+  <div class="lx-hero lx-hero-cat"><img src="./login-cat.webp" alt="" width="760" height="950"></div>
+  <div class="lx-side">
+   <div class="lx-title"><span class="lx-name">PORKCHOP<em aria-hidden="true">🐱</em>G</span><span class="lx-sub">WORK MONITOR</span></div>
+   <div class="authcard lx-card"><h2 id="authTitle">Sign in</h2>
    <div id="nameField" class="field hidden"><label>Name</label><input id="authName" autocomplete="name"></div>
    <div id="emailField" class="field"><label>Email</label><input id="authEmail" type="email" autocomplete="username"></div>
    <div id="passField" class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password"></div>
@@ -2454,60 +2590,68 @@ body.private .nmz-bar input,body.private #pmGrid input{filter:none}
    <button id="authSubmit" class="btn primary" style="width:100%">Sign in</button>
    <button id="authSwitch" class="btn secondary" style="width:100%;margin-top:8px">Create account</button>
    <button id="authForgot" class="idc-link">ลืมรหัสผ่าน? ส่งลิงก์รีเซ็ตเข้าเมล</button>
-  </div></div>
-  <div class="idc-legal">Access to this terminal is granted to named operators of the
-   marketing team only. Every task, project, campaign and purchase request opened here
-   is recorded against the account that opened it.</div>
-  <div class="idc-foot"><i></i><span>PROPERTY OF PORKCHOP G<br>WORK MONITOR / OPERATIONS UNIT</span></div>
- </div></div>
+  </div>
+  </div>
+ </div>
+ <div class="lx-foot">PROPERTY OF PORKCHOP G · WORK MONITOR</div>
 </section>
 
 
-<section id="teamGate" class="auth hidden">
- <div class="authbox"><div class="authname">JOIN YOUR TEAM</div><div class="authsub">One-time workspace access</div>
-  <div class="authcard"><h2>Enter Team Code</h2>
+<section id="teamGate" class="auth lx hidden">
+ <div class="lx-bar"><b>PORKCHOP&nbsp;G</b><span class="sp"></span><span class="lx-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lx-batt" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+ <div class="lx-wrap lx-one">
+  <div class="lx-side">
+   <div class="lx-title"><span class="lx-name lx-name-s">JOIN YOUR TEAM</span><span class="lx-sub">ONE-TIME WORKSPACE ACCESS</span></div>
+   <div class="authcard lx-card"><h2>Enter Team Code</h2>
    <div class="help" style="margin-bottom:14px">บัญชีสร้างแล้ว แต่ยังเข้า Dashboard ไม่ได้จนกว่าจะกรอกรหัสทีมที่ Super Admin ตั้งไว้</div>
    <div class="field"><label>Team Code</label><input id="teamCodeInput" autocomplete="off" maxlength="64"></div>
    <div id="teamGateError" class="error"></div>
    <button id="joinTeamBtn" class="btn primary" style="width:100%">Join Team</button>
    <button id="teamGateSignOut" class="btn secondary" style="width:100%;margin-top:8px">Sign out</button>
   </div>
+ 
+  </div>
  </div>
+ <div class="lx-foot">PROPERTY OF PORKCHOP G · WORK MONITOR</div>
 </section>
 
-<section id="pinGate" class="auth hidden">
- <div class="authbox"><div class="idc">
-  <div class="idc-bar"><span>PORKCHOP&nbsp;G</span><span class="sp"></span>
-   <span class="idc-sig" id="pinSig">LINK IDLE</span><span class="idc-batt"></span></div>
-  <div class="idc-who"><div><span class="idc-k">OPERATOR</span><span class="idc-v" id="pinWho">—</span></div>
-   <div class="r"><span class="idc-k">ACCESS</span><span class="idc-v">********</span></div></div>
-  <div class="idc-body">
-   <div class="idc-photo">
+<section id="pinGate" class="auth lx lx-pin hidden">
+ <div class="lx-wrap lx-one">
+  <div class="lx-idwrap">
+   <div class="lx-strap" aria-hidden="true"><i></i></div>
+   <img class="lx-pincat" src="./pin-cat.webp" alt="" width="560" height="340">
+   <div class="lx-id">
+    <div class="lx-idh"><b>PORKCHOP&nbsp;G</b><span class="sp"></span><span class="lx-sig" id="pinSig">LINK IDLE</span><span class="lx-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="lx-batt" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+    <div class="lx-idb">
+     <div class="idc-photo">
     <div class="idc-frame"><canvas id="pinPhotoCv"></canvas>
      <div class="idc-empty" id="pinPhotoEmpty">NO PHOTO<br>ON FILE</div></div>
     <button type="button" class="idc-up" id="pinPhotoBtn">+ ใส่รูป</button>
     <input type="file" id="pinPhotoFile" accept="image/*" hidden>
    </div>
-   <div class="idc-meta">
-    <div class="idc-row"><span class="idc-k">UNIT</span><b id="pinTeam">—</b></div>
-    <div class="idc-row"><span class="idc-k">CLEARANCE</span><b id="pinRole">—</b>
-     <div class="idc-th" id="pinRoleTh"></div></div>
-    <div class="idc-mark"><i></i><span>PORKCHOP&nbsp;G<small>WORK OS</small></span></div>
+     <div class="lx-idf">
+      <label>OPERATOR</label><div class="lx-v" id="pinWho">—</div>
+      <label>UNIT</label><div class="lx-v" id="pinTeam">—</div>
+      <label>CLEARANCE</label><div class="lx-v"><b id="pinRole">—</b><small id="pinRoleTh"></small></div>
+     </div>
+    </div>
+    <div class="lx-mark"><em aria-hidden="true">🐱</em><span>PORKCHOP G · WORK OS</span></div>
+    <div class="lx-legal" id="pinLegal">Authorization granted to the above operator to plan,
+     assign and close any task, project, campaign or purchase request held by this account.</div>
+    <div class="lx-code" aria-hidden="true"></div>
    </div>
   </div>
-  <div class="idc-legal" id="pinLegal">Authorization granted to the above operator to plan,
-   assign and close any task, project, campaign or purchase request held by this account.</div>
-  <div class="idc-form"><div class="authcard">
+  <div class="authcard lx-pinform">
    <div id="pinGateHelp" class="help" style="margin-bottom:10px">ใส่ PIN 4 หลักของคุณเพื่อเปิด Dashboard</div>
    <div class="hidden"><span id="pinGateTitle"></span><span id="pinGateTeam"></span></div>
-   <div class="field"><label>4-digit PIN</label><input id="pinInput" class="idc-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
-   <div id="pinConfirmField" class="field hidden"><label>Confirm PIN</label><input id="pinConfirmInput" class="idc-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"></div>
+   <div class="field"><label>4-digit PIN</label><div class="pin4"><input id="pinInput" class="idc-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="PIN 4 หลัก"><span></span><span></span><span></span><span></span></div></div>
+   <div id="pinConfirmField" class="field hidden"><label>Confirm PIN</label><div class="pin4"><input id="pinConfirmInput" class="idc-pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="ยืนยัน PIN"><span></span><span></span><span></span><span></span></div></div>
    <div id="pinGateError" class="error"></div>
    <button id="pinSubmitBtn" class="btn primary" style="width:100%">Unlock</button>
    <button id="pinGateSignOut" class="btn secondary" style="width:100%;margin-top:8px">Sign out</button>
-  </div></div>
-  <div class="idc-foot"><i></i><span>PROPERTY OF PORKCHOP G<br>WORK MONITOR / OPERATIONS UNIT</span></div>
- </div></div>
+  </div>
+ </div>
+ <div class="lx-foot">PROPERTY OF PORKCHOP G · WORK MONITOR</div>
 </section>
 
 <div id="app" class="app hidden">
@@ -3008,7 +3152,7 @@ body.private .nmz-bar input,body.private #pmGrid input{filter:none}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.97</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V7.98</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>ธีม Arcade</strong><span>หน้าตาแบบ retro-tech: ห้องอวกาศ + กรอบขอบดำแบบสติกเกอร์ · กดอีกครั้งเพื่อกลับหน้าตาเดิม</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">เปิดธีม Arcade</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3953,6 +4097,18 @@ $("pinSubmitBtn").onclick=async()=>{
  showApp();await loadAll();bootReport();splashRelease();
 };
 
+
+/* PIN boxes: one real input under four drawn boxes. The boxes follow the
+   input whenever it changes, however it was changed. */
+function pin4Sync(){document.querySelectorAll(".pin4").forEach(w=>{const inp=w.querySelector("input"),n=(inp.value||"").replace(/\D/g,"").length,f=document.activeElement===inp;
+ w.querySelectorAll("span").forEach((b,i)=>{b.classList.toggle("on",i<n);b.classList.toggle("cur",f&&i===Math.min(n,3))})})}
+document.querySelectorAll(".pin4 input").forEach(inp=>{
+ ["input","focus","blur"].forEach(ev=>inp.addEventListener(ev,()=>{if(ev==="input")inp.value=inp.value.replace(/\D/g,"").slice(0,4);pin4Sync()}));
+ inp.addEventListener("keydown",e=>{if(e.key==="Enter")$("pinSubmitBtn").click()});
+});
+// four digits in unlock mode go straight in; setting a PIN still needs the confirm box
+$("pinInput").addEventListener("input",()=>{if(!pinNeedsSetup&&$("pinInput").value.length===4)$("pinSubmitBtn").click()});
+setInterval(()=>{if(!$("pinGate").classList.contains("hidden"))pin4Sync()},250);
 $("changePinBtn").onclick=()=>{$("newPin").value="";$("newPinConfirm").value="";$("changePinError").textContent="";openLayer("changePinModal")};
 $("cancelChangePin").onclick=()=>closeLayer("changePinModal");
 $("saveNewPin").onclick=async()=>{
@@ -5782,7 +5938,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V7.97";
+const APP_VERSION="V7.98";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
