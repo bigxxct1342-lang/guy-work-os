@@ -442,6 +442,17 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.02 Forgot password lands on "Set new password"
+- **What was wrong**: a reset link that no longer works (a second reset email makes the first one dead; some mail apps open links to scan them; links expire) comes back as `#error=…otp_expired`. Supabase keeps the session the phone already had, so the app opened as if nothing happened and the password never changed.
+  - Signed in: the app opens normally, through the PIN. Once the Daily Report is closed, the new "เปลี่ยนรหัสผ่าน" box opens and says why.
+  - Not signed in: the Reset password card says the link is dead and to use the newest email.
+- **Settings → รหัสผ่าน (Password)**: change the login password from inside the app, no email needed. You only reach it after the PIN.
+- **Security**: typing `#type=recovery` into the address bar no longer brings up "Set new password" on a signed-in phone. Only Supabase's own `PASSWORD_RECOVERY` event, sent after it has checked the token, does.
+- The listener for that event is attached as soon as the client is created, so it can't be missed.
+- After a reset email is sent, the send button waits one minute and the message says to open the newest email only.
+- Supabase → Authentication → URL Configuration must list the app's address under Redirect URLs.
+- No SQL.
+
 ## V8.01 Arcade is the look
 - The app opens in the Arcade theme on every device, including devices that had switched the old preview off.
 - Settings → หน้าตาแอป has a button to go back to Classic, and the same button returns to Arcade. The choice is saved per device as `porkchop_look`.
