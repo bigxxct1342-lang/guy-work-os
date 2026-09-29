@@ -441,6 +441,25 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V7.91 Product Launch: the root map shows every sub-step, and zooms
+- Each knot trails its sub-steps as rootlets hanging below it: the label's drafts, every proof in Label Production, and so on.
+  - Upcoming steps are grey, done steps are filled with the phase colour, and a step in progress is ringed.
+  - Knots not reached yet are grey too.
+  - A "ขั้นย่อย" switch turns the rootlets off, and the choice is remembered.
+- The map is a window onto a larger sheet:
+  - Drag to pan.
+  - Ctrl + scroll, a trackpad pinch or a two-finger pinch zooms around the pointer.
+  - − / + buttons, a zoom percentage, and "พอดีกรอบ" to fit.
+  - Double-click zooms in.
+  - Step names hide when zoomed far out, leaving only the beads.
+- **เต็มจอ** opens the map on its own full-screen paper; Esc closes it.
+- Clicking a knot or a step opens a card showing:
+  - dates and business days;
+  - every sub-step with its owner and a status menu, so status can be changed right there;
+  - buttons for "เปิดในรายการ ›" (jump to it in the list) and "แก้วัน / จำนวนวัน".
+- On a phone the vertical tree lists each knot's sub-steps under it the same way.
+- No SQL.
+
 ## V7.90 Product Launch: the main road, other retailers, and a tasting log
 - **Main road**: a single row at the top of Process & Timeline listing every main stage in order:
   - สูตร → ตั้งชื่อ → โภชนาการ → อย. → ฮาลาล → ฉลาก → ลัง → 7-11 → ห้างอื่น → 🏁 วางขาย

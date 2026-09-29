@@ -1018,6 +1018,75 @@ body.dark .kfield.todo{border-color:#6b5628;background:#2c2618}
 .scr .icon-btn{background:transparent;border:1px solid var(--t-line);border-radius:6px;
  color:var(--t-dim);cursor:pointer;padding:3px 5px;display:inline-flex;align-items:center}
 .scr .icon-btn:hover{border-color:var(--t-line-on);color:var(--t-amb)}
+/* V7.91 zoomable root map with rootlets */
+.nmz-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.nmz-b{min-width:30px;height:28px;padding:0 8px;border-radius:8px;border:1px solid var(--t-line);background:var(--card);color:var(--t-ink);font:inherit;font-weight:900;cursor:pointer}
+.nmz-b.wide{font-size:12px;font-weight:800}
+.nmz-b:hover{border-color:var(--t-line-on,#a8640a);color:var(--t-amb,#8a4708)}
+.nmz-pct{min-width:42px;text-align:center;font-size:12px;font-weight:800;color:var(--t-dim)}
+.nmz-tg{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:var(--t-ink);cursor:pointer;margin-left:4px}
+.nmz-tg input{width:15px;height:15px;margin:0;accent-color:#c9761a}
+.nmz-hint{margin-left:auto;font-size:11px;color:var(--t-dim);font-weight:700}
+.nmz-vp{position:relative;overflow:hidden;border:1px solid var(--t-line);border-radius:12px;background:color-mix(in srgb,var(--card) 55%,transparent);
+ touch-action:none;cursor:grab;user-select:none}
+.nmz-vp.dragging{cursor:grabbing}
+.nmz-w{position:absolute;left:0;top:0;transform-origin:0 0}
+.nmz-host{position:fixed;inset:0;z-index:5000;border-radius:0}
+.nmz-host-in{position:relative;z-index:2;height:100%;box-sizing:border-box;padding:14px 16px}
+.nmz.is-full{height:100%;display:flex;flex-direction:column}
+.nmz.is-full .nmz-vp{flex:1;height:auto!important}
+.nmz-away{padding:14px;border:1px dashed var(--t-line);border-radius:12px;font-size:12.5px;color:var(--t-dim);text-align:center}
+body.nmz-lock{overflow:hidden}
+.nm-ln.off{stroke:rgba(74,52,16,.22)}
+.nm-conv{stroke-width:2.5}
+.nm-conv.off{stroke:rgba(74,52,16,.14)}
+.nm-rl{fill:none;stroke:rgba(74,52,16,.2);stroke-width:2}
+.nm-rl.on{stroke:color-mix(in srgb,var(--c) 55%,transparent)}
+.nm-n.s-next i{border-color:rgba(74,52,16,.28);background:var(--card)}
+.nm-n.s-next b{color:var(--t-dim)}
+.nm-s{position:absolute;transform:translate(-8px,-8px);display:flex;align-items:center;gap:6px;padding:0;border:0;background:none;font:inherit;cursor:pointer;text-align:left;z-index:2}
+.nm-s i{font-style:normal;flex:none;width:16px;height:16px;box-sizing:border-box;border-radius:50%;border:2px solid rgba(74,52,16,.28);background:var(--card);
+ display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff}
+.nm-s span{font-size:11px;line-height:1.2;color:var(--t-dim);font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ background:color-mix(in srgb,var(--card) 82%,transparent);border-radius:4px;padding:0 3px}
+.nm-s.ss-done i{background:var(--c);border-color:var(--c)}
+.nm-s.ss-done span{color:var(--t-ink)}
+.nm-s.ss-working i{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 22%,transparent)}
+.nm-s.ss-working span{color:var(--t-ink);font-weight:800}
+.nm-s.ss-wait i{border-color:#c39a4a;background:#f3e3bd}
+.nm-s.ss-failed i{background:#a33224;border-color:#a33224}
+.nm-s.ss-failed span{color:#a33224}
+.nm-s.ss-skipped span{text-decoration:line-through;opacity:.6}
+.nm-s.ss-skipped i{color:var(--t-dim)}
+.nm-s:hover span{color:var(--t-amb,#8a4708)}
+.nmz-vp.lod-lo .nm-s span{display:none}
+.nmz-pop{position:absolute;top:10px;right:10px;width:310px;max-width:calc(100% - 20px);max-height:calc(100% - 20px);overflow:auto;z-index:5;cursor:default;
+ background:#fbf5e6;border:1px solid var(--t-line);border-top:4px solid var(--c);border-radius:12px;box-shadow:0 12px 30px rgba(40,26,8,.22);padding:12px;user-select:text}
+.nmp-h{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.nmp-h small{display:block;font-size:11px;font-weight:900;color:color-mix(in srgb,var(--c) 80%,#000)}
+.nmp-h b{font-size:14.5px;color:var(--t-ink)}
+.nmp-x{border:0;background:none;font-size:20px;line-height:1;color:var(--t-dim);cursor:pointer;padding:0 2px}
+.nmp-m{font-size:12px;color:var(--t-dim);font-weight:700;margin:6px 0 8px;line-height:1.5}
+.nmp-m .bad{color:#a33224}
+.nmp-steps{display:flex;flex-direction:column;gap:4px}
+.nmp-s{display:grid;grid-template-columns:18px 1fr auto;gap:7px;align-items:center;padding:4px 5px;border-radius:7px;font-size:12.5px}
+.nmp-s.is-hit{background:color-mix(in srgb,var(--c) 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 50%,transparent)}
+.nmp-s i{font-style:normal;width:16px;height:16px;box-sizing:border-box;border-radius:50%;border:2px solid rgba(74,52,16,.28);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff}
+.nmp-s.ss-done i{background:var(--c);border-color:var(--c)}
+.nmp-s.ss-working i{border-color:var(--c)}
+.nmp-s.ss-failed i{background:#a33224;border-color:#a33224}
+.nmp-s span{color:var(--t-ink);font-weight:650;overflow-wrap:anywhere}
+.nmp-s small{display:block;font-size:10.5px;color:var(--t-dim);font-weight:700}
+.nmp-s .status-select{font-size:11px;padding:3px 6px}
+.nmp-none{font-size:12px;color:var(--t-dim)}
+.nmp-a{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.nmv-steps{margin:0 0 4px 4px;padding:2px 0 4px 16px;border-left:3px dashed rgba(74,52,16,.18)}
+.nmv-s{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--t-dim);font-weight:650;padding:2px 0}
+.nmv-s i{font-style:normal;flex:none;width:12px;height:12px;box-sizing:border-box;border-radius:50%;border:2px solid rgba(74,52,16,.28);font-size:8px;color:#fff;display:flex;align-items:center;justify-content:center}
+.nmv-s.ss-done{color:var(--t-ink)}.nmv-s.ss-done i{background:var(--c);border-color:var(--c)}
+.nmv-s.ss-working{color:var(--t-ink);font-weight:800}.nmv-s.ss-working i{border-color:var(--c)}
+.nmv-s.ss-failed{color:#a33224}.nmv-s.ss-failed i{background:#a33224;border-color:#a33224}
+.nmv-s.ss-skipped span{text-decoration:line-through;opacity:.6}
 /* V7.90 main road + tasting log */
 .nst{display:flex;flex-wrap:nowrap;align-items:flex-start;row-gap:10px;margin-top:14px}
 .nst-s{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 1 66px;min-width:54px;padding:0;border:0;background:none;font:inherit;cursor:pointer;text-align:center}
@@ -2818,7 +2887,7 @@ body.dark .splash{background:#15120e}
    <div>
     <div class="card section">
      <h2>System</h2>
-     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.90</span></div>
+     <div class="row"><strong>App Version</strong><span>PORKCHOP G · V7.91</span></div>
      <div class="row"><strong>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4757,58 +4826,170 @@ function renderNpdStages(){
    +`<button class="nst-s st-${s.st}${s.bad?" is-bad":""}${s.k==="end"?" is-end":""}" style="--c:${hue}" ${click?`onclick="${click}"`:"disabled"} title="${s.st==="missing"?"กดเพื่อใส่ขั้นตอน "+esc(s.label):esc(s.label)}"><i>${icon(s)}</i><b>${esc(s.label)}</b><small>${sub(s)}</small></button>`;
  }).join("")+`</div>`;
 }
+// sub-steps on the map: shown unless the viewer turned them off
+let npdMapSteps=true;try{npdMapSteps=localStorage.getItem("porkchop_npd_steps")!=="0"}catch(_){}
+let npdMapView=null,npdMapPopId=null,npdMapFull=false;
+/* full screen lives on <body>: inside the page the map sits in a stacking
+   context the header paints over. The host is its own paper screen (.scr),
+   so every token the map uses is still defined there. */
+function npdMapHost(){
+ let h=$("nmzHost");
+ if(!h){h=document.createElement("div");h.id="nmzHost";h.className="scr nmz-host";h.innerHTML='<div class="nmz-host-in" id="nmzHostIn"></div>';document.body.appendChild(h)}
+ return $("nmzHostIn");
+}
+function npdMapSetFull(on){
+ npdMapFull=on;npdMapView=null;document.body.classList.toggle("nmz-lock",on);
+ if(!on)$("nmzHost")?.remove();
+ renderNpdMap();
+}
+const NPD_STEP_ICON={done:"✓",failed:"✗",skipped:"–"};
+function npdStepsOf(id){return npdSteps.filter(s=>s.milestone_id===id).sort((a,b)=>a.seq-b.seq)}
+function npdMapToolbar(phone){
+ return `<div class="nmz-bar">${phone?"":`<button class="nmz-b" data-z="out" title="ย่อ" aria-label="ย่อ">−</button><span class="nmz-pct" id="nmzPct">100%</span><button class="nmz-b" data-z="in" title="ขยาย" aria-label="ขยาย">+</button><button class="nmz-b wide" data-z="fit" title="ให้พอดีกรอบ">⤢ พอดีกรอบ</button><button class="nmz-b wide" data-z="full" title="${npdMapFull?"ออกจากเต็มจอ (Esc)":"ดูเต็มจอ"}">${npdMapFull?"✕ ออกจากเต็มจอ":"⛶ เต็มจอ"}</button>`}
+  <label class="nmz-tg"><input type="checkbox" id="nmzSteps" ${npdMapSteps?"checked":""}> ขั้นย่อย</label>
+  ${phone?"":`<span class="nmz-hint">ลากเพื่อเลื่อน · Ctrl + ลูกกลิ้ง / บีบนิ้ว เพื่อซูม · คลิกจุดเพื่อดูรายละเอียด</span>`}</div>`;
+}
 function renderNpdMap(){
- const el=$("npdMap");if(!el)return;
- const W=el.clientWidth;if(!W)return;
+ const inline=$("npdMap");if(!inline)return;
+ if(!npdMapFull&&!inline.clientWidth)return;
  const M=npdMapModel();
  renderNpdStages();
+ if(npdMapFull)inline.innerHTML='<div class="nmz-away">แผนผังเปิดเต็มจออยู่ — กด Esc หรือ "ออกจากเต็มจอ" เพื่อกลับมา</div>';
+ const el=npdMapFull?npdMapHost():inline,W0=el.clientWidth;
  const prod=npdProducts.find(p=>p.id===npdCurrentProductId);
- if(W<640){ // phone: the roots hang down, one under the other
-  el.innerHTML=`<div class="nmv"><div class="nmv-root"><i></i>${esc(prod?prod.name:"สินค้า")}</div>`
+ const phone=!npdMapFull&&W0<640;
+ if(phone){ // phone: the roots hang down, one under the other, sub-steps under each knot
+  el.innerHTML=npdMapToolbar(true)+`<div class="nmv"><div class="nmv-root"><i></i>${esc(prod?prod.name:"สินค้า")}</div>`
    +M.branches.map(b=>`<div class="nmv-br${b.done?" is-done":""}" style="--c:${b.ph.hue}"><div class="nmv-bh">${esc(b.ph.short)}${b.ph.key==="seven"?'<small>แตกจาก CF สูตร</small>':b.ph.key==="retail"?'<small>ต่อจาก 7-11</small>':""}</div>`
-    +b.nodes.map(n=>`<button class="nmv-n ${npdNodeCls(n)}" onclick="npdMapGo(${n.m.id})"><i></i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}${n.tmpl==="711_qa"?" · รอฉลากเสร็จ":""}</small>${n.st==="now"?'<em>ตอนนี้</em>':""}</button>`).join("")+`</div>`).join("")
+    +b.nodes.map(n=>`<button class="nmv-n ${npdNodeCls(n)}" onclick="npdMapGo(${n.m.id})"><i></i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}${n.tmpl==="711_qa"?" · รอฉลากเสร็จ":""}</small>${n.st==="now"?'<em>ตอนนี้</em>':""}</button>`
+     +(npdMapSteps?`<div class="nmv-steps">${npdStepsOf(n.m.id).map(s=>`<div class="nmv-s ss-${s.status}"><i>${NPD_STEP_ICON[s.status]||""}</i><span>${esc(s.name)}</span></div>`).join("")}</div>`:"")).join("")+`</div>`).join("")
    +`<div class="nmv-end${M.allDone?" is-done":""}"><i></i>${M.endLabel}${M.end?` <b>~${npdFmt(M.end)}</b>`:""}</div></div>`;
+  $("nmzSteps").onchange=e=>{npdMapSteps=e.target.checked;try{localStorage.setItem("porkchop_npd_steps",npdMapSteps?"1":"0")}catch(_){}renderNpdMap()};
   return;
  }
- // desktop: left to right, every root converging on the finish
+ /* desktop: a world of fixed size, left to right, every root converging on
+    the finish; each knot trails its sub-steps as rootlets below it. The world
+    is panned and zoomed inside a window, so detail never has to be squeezed
+    to fit. */
  const B=M.branches,fi=B.findIndex(b=>b.ph.key==="formula_fda");
  const cfIdx=fi<0?-1:B[fi].nodes.findIndex(n=>n.tmpl==="formula_cf");
  B.forEach(b=>b.col0=b.ph.key==="seven"&&cfIdx>=0?cfIdx+2:1);
- // other retailers grow out of the end of 7-11
  const sv=B.find(b=>b.ph.key==="seven"),rt=B.find(b=>b.ph.key==="retail");
  if(rt&&sv)rt.col0=sv.col0+sv.nodes.length;
  const nCols=Math.max(...B.map(b=>b.col0+b.nodes.length-1))+1;
- const RH=100,H=B.length*RH+14,L=52,R=62,cw=(W-L-R)/nCols;
- const X=c=>L+c*cw,Y=i=>14+i*RH+RH/2-16,midY=14+(B.length*RH)/2-16;
- const pos={};B.forEach((b,i)=>b.nodes.forEach((n,k)=>pos[n.m.id]={x:X(b.col0+k),y:Y(i)}));
+ const CW=190,L=70,R=90,TOP=40,SP=24,W=L+nCols*CW+R;
+ B.forEach(b=>{const most=Math.max(0,...b.nodes.map(n=>npdStepsOf(n.m.id).length));b.h=npdMapSteps?86+most*SP+24:112});
+ let yy=TOP;B.forEach(b=>{b.y=yy;yy+=b.h});
+ const H=yy+10,midY=TOP+(H-TOP-10)/2;
+ const X=c=>L+c*CW;
+ const pos={};B.forEach(b=>b.nodes.forEach((n,k)=>pos[n.m.id]={x:X(b.col0+k),y:b.y+16}));
  const curve=(x1,y1,x2,y2)=>{const mx=(x1+x2)/2;return `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`};
  let paths="",nodes="",tags="";
- B.forEach((b,i)=>{
+ B.forEach(b=>{
   const c=b.ph.hue,first=b.nodes[0],p0=pos[first.m.id];
-  // where the root starts: the product, or for 7-11 the confirmed formula
   let from={x:X(0),y:midY};
   if(b.ph.key==="seven"&&cfIdx>=0)from=pos[B[fi].nodes[cfIdx].m.id];
   if(b.ph.key==="retail"&&sv)from=pos[sv.nodes[sv.nodes.length-1].m.id];
   const on0=first.st!=="next"||(b.ph.key==="seven"?cfIdx>=0&&B[fi].nodes[cfIdx].st==="done":b.ph.key==="retail"?!!sv&&sv.done:true);
-  paths+=`<path d="${curve(from.x,from.y,p0.x,p0.y)}" class="nm-ln${on0?" on":""}" style="--c:${c}"/>`;
+  paths+=`<path d="${curve(from.x,from.y,p0.x,p0.y)}" class="nm-ln${on0?" on":" off"}" style="--c:${c}"/>`;
   b.nodes.forEach((n,k)=>{if(!k)return;const a=pos[b.nodes[k-1].m.id],z=pos[n.m.id];
-   paths+=`<path d="M${a.x},${a.y} L${z.x},${z.y}" class="nm-ln${b.nodes[k-1].st==="done"?" on":""}" style="--c:${c}"/>`});
+   paths+=`<path d="M${a.x},${a.y} L${z.x},${z.y}" class="nm-ln${b.nodes[k-1].st==="done"?" on":" off"}" style="--c:${c}"/>`});
   const last=pos[b.nodes[b.nodes.length-1].m.id];
-  paths+=`<path d="${curve(last.x,last.y,X(nCols),midY)}" class="nm-ln${b.done?" on":""}${b.ph.key==="carton"||b.ph.key==="retail"?" soft":""}" style="--c:${c}"/>`;
-  tags+=`<span class="nm-br" style="--c:${c};left:${p0.x-Math.min(44,cw*.4)}px;top:${p0.y}px">${esc(b.ph.short)}</span>`;
-  b.nodes.forEach(n=>{const p=pos[n.m.id];
-   nodes+=`<button class="nm-n ${npdNodeCls(n)}" style="--c:${c};left:${p.x}px;top:${p.y}px;width:${Math.min(128,cw-6)}px" onclick="npdMapGo(${n.m.id})" title="${esc(n.x?npdBarTip(n.x):n.m.title)}">${n.st==="now"?'<em>ตอนนี้</em>':""}<i>${n.st==="done"?"✓":n.failed?"✗":""}</i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}</small></button>`});
+  paths+=`<path d="${curve(last.x,last.y,X(nCols),midY)}" class="nm-ln nm-conv${b.done?" on":" off"}" style="--c:${c}"/>`;
+  tags+=`<span class="nm-br" style="--c:${c};left:${p0.x-62}px;top:${p0.y}px">${esc(b.ph.short)}</span>`;
+  b.nodes.forEach(n=>{
+   const p=pos[n.m.id],steps=npdStepsOf(n.m.id);
+   nodes+=`<button class="nm-n ${npdNodeCls(n)}" data-mid="${n.m.id}" style="--c:${c};left:${p.x}px;top:${p.y}px;width:${CW-26}px" title="${esc(n.x?npdBarTip(n.x):n.m.title)}">${n.st==="now"?'<em>ตอนนี้</em>':""}<i>${n.st==="done"?"✓":n.failed?"✗":""}</i><b>${esc(n.m.title)}</b><small>${npdNodeNote(n)}</small></button>`;
+   if(!npdMapSteps||!steps.length)return;
+   // the rootlet: a thin line down the left of the knot's column, one bead per step
+   // hangs straight under the knot, so the roots coming in from the left never cross it
+   const rx=p.x-14,ry0=p.y+74,ryN=ry0+(steps.length-1)*SP;
+   paths+=`<path d="M${p.x},${p.y+12} C${p.x},${p.y+40} ${rx},${p.y+44} ${rx},${ry0}" class="nm-rl${n.st==="next"?"":" on"}" style="--c:${c}"/>`;
+   if(steps.length>1)paths+=`<path d="M${rx},${ry0} L${rx},${ryN}" class="nm-rl${n.st==="next"?"":" on"}" style="--c:${c}"/>`;
+   steps.forEach((s,k)=>{nodes+=`<button class="nm-s ss-${s.status}" data-mid="${n.m.id}" data-sid="${s.id}" style="--c:${c};left:${rx}px;top:${ry0+k*SP}px;width:${CW-4}px" title="${esc(s.name+" · "+(NPD_STATUS_LABEL[s.status]||s.status)+(s.owners?" · "+s.owners:""))}"><i>${NPD_STEP_ICON[s.status]||""}</i><span>${esc(s.name)}</span></button>`});
+  });
  });
- // QA waits on the label
  const lb=B.find(b=>b.ph.key==="label"),qa=B.flatMap(b=>b.nodes).find(n=>n.tmpl==="711_qa");
  if(lb&&qa){const a=pos[lb.nodes[lb.nodes.length-1].m.id],z=pos[qa.m.id];paths+=`<path d="${curve(a.x,a.y,z.x,z.y)}" class="nm-dep"/>`}
- el.innerHTML=`<div class="nm" style="height:${H}px">
-  <svg class="nm-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${paths}</svg>
-  <div class="nm-root" style="left:${X(0)}px;top:${midY}px"><i></i><b>${esc(prod?prod.name:"สินค้า")}</b></div>
-  ${tags}${nodes}
-  <div class="nm-end${M.allDone?" is-done":""}" style="left:${X(nCols)}px;top:${midY}px"><i>🏁</i><b>${M.endLabel}</b><small>${M.end?"~"+npdFmt(M.end):"เสร็จแล้ว"}</small></div>
- </div>`;
+ el.innerHTML=`<div class="nmz${npdMapFull?" is-full":""}" id="nmz">${npdMapToolbar(false)}
+  <div class="nmz-vp" id="nmzVp"><div class="nmz-w nm" id="nmzW" style="width:${W}px;height:${H}px">
+   <svg class="nm-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${paths}</svg>
+   <div class="nm-root" style="left:${X(0)}px;top:${midY}px"><i></i><b>${esc(prod?prod.name:"สินค้า")}</b></div>
+   ${tags}${nodes}
+   <div class="nm-end${M.allDone?" is-done":""}" style="left:${X(nCols)}px;top:${midY}px"><i>🏁</i><b>${M.endLabel}</b><small>${M.end?"~"+npdFmt(M.end):"เสร็จแล้ว"}</small></div>
+  </div><div class="nmz-pop hidden" id="nmzPop"></div></div></div>`;
+ npdMapWire(W,H);
 }
+/* pan and zoom: drag moves, Ctrl+wheel or a pinch zooms around the pointer,
+   the buttons step it. A click that did not move opens the knot's card. */
+function npdMapWire(W,H){
+ const vp=$("nmzVp"),w=$("nmzW"),box=$("nmz");
+ const full=box.classList.contains("is-full");
+ const vw=vp.clientWidth,fitW=Math.min(1,(vw-16)/W);
+ const vh=full?vp.clientHeight:Math.round(Math.max(300,Math.min(620,H*fitW+16)));
+ if(!full)vp.style.height=vh+"px";
+ const fit=()=>{const k=Math.min(1,(vp.clientWidth-16)/W,(vp.clientHeight-16)/H);return {k,tx:(vp.clientWidth-W*k)/2,ty:Math.max(8,(vp.clientHeight-H*k)/2)}};
+ const V=npdMapView&&npdMapView.pid===npdCurrentProductId&&npdMapView.W===W?npdMapView:{...fit(),pid:npdCurrentProductId,W};
+ npdMapView=V;
+ const apply=()=>{w.style.transform=`translate(${V.tx}px,${V.ty}px) scale(${V.k})`;$("nmzPct").textContent=Math.round(V.k*100)+"%";vp.classList.toggle("lod-lo",V.k<.6)};
+ const zoomAt=(f,cx,cy)=>{const k2=Math.max(.25,Math.min(2.5,V.k*f));V.tx=cx-(cx-V.tx)*(k2/V.k);V.ty=cy-(cy-V.ty)*(k2/V.k);V.k=k2;apply()};
+ apply();
+ box.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{
+  const z=b.dataset.z,cx=vp.clientWidth/2,cy=vp.clientHeight/2;
+  if(z==="in")zoomAt(1.25,cx,cy);else if(z==="out")zoomAt(.8,cx,cy);
+  else if(z==="fit"){Object.assign(V,fit());apply()}
+  else if(z==="full")npdMapSetFull(!npdMapFull);
+ });
+ $("nmzSteps").onchange=e=>{npdMapSteps=e.target.checked;try{localStorage.setItem("porkchop_npd_steps",npdMapSteps?"1":"0")}catch(_){}npdMapView=null;renderNpdMap()};
+ vp.addEventListener("wheel",e=>{if(!(e.ctrlKey||e.metaKey))return;e.preventDefault();const r=vp.getBoundingClientRect();zoomAt(Math.exp(-e.deltaY*.0025),e.clientX-r.left,e.clientY-r.top)},{passive:false});
+ vp.addEventListener("dblclick",e=>{if(e.target.closest(".nmz-pop"))return;const r=vp.getBoundingClientRect();zoomAt(1.5,e.clientX-r.left,e.clientY-r.top)});
+ const pts=new Map();let drag=null,pinch=null;
+ vp.onpointerdown=e=>{
+  if(e.target.closest(".nmz-pop"))return;
+  pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pts.size===2){const [a,b]=[...pts.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y)};drag=null;return}
+  drag={x:e.clientX,y:e.clientY,tx:V.tx,ty:V.ty,moved:false,hit:e.target.closest("[data-mid]"),id:e.pointerId};
+ };
+ vp.onpointermove=e=>{
+  if(!pts.has(e.pointerId))return;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch&&pts.size===2){const [a,b]=[...pts.values()],d=Math.hypot(a.x-b.x,a.y-b.y),r=vp.getBoundingClientRect();zoomAt(d/pinch.d,(a.x+b.x)/2-r.left,(a.y+b.y)/2-r.top);pinch.d=d;return}
+  if(!drag)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.moved&&Math.hypot(dx,dy)>4){drag.moved=true;vp.classList.add("dragging");try{vp.setPointerCapture(e.pointerId)}catch(_){}}
+  if(drag.moved){V.tx=drag.tx+dx;V.ty=drag.ty+dy;apply()}
+ };
+ const up=e=>{
+  pts.delete(e.pointerId);if(pts.size<2)pinch=null;
+  if(!drag||drag.id!==e.pointerId)return;
+  vp.classList.remove("dragging");
+  if(!drag.moved&&drag.hit)npdMapPop(+drag.hit.dataset.mid,drag.hit.dataset.sid?+drag.hit.dataset.sid:null);
+  else if(!drag.moved&&!e.target.closest(".nmz-pop"))npdMapPop(null);
+  drag=null;
+ };
+ vp.onpointerup=up;vp.onpointercancel=up;
+ if(npdMapPopId&&npdMilestones.some(m=>m.id===npdMapPopId))npdMapPop(npdMapPopId);
+}
+// the card for one knot: dates, every sub-step with its status, and a way in
+function npdMapPop(mid,sid){
+ const pop=$("nmzPop");if(!pop)return;
+ npdMapPopId=mid;
+ if(!mid){pop.classList.add("hidden");return}
+ const m=npdMilestones.find(x=>x.id===mid);if(!m){pop.classList.add("hidden");return}
+ const x=npdPlan().all.find(p=>p.m.id===mid),steps=npdStepsOf(mid),ph=NPD_PHASE[m.phase]||{},t=msTmpl(m);
+ const dn=steps.filter(s=>s.status==="done").length,tot=steps.filter(s=>s.status!=="skipped").length;
+ const when=x?`${npdFmt(x.start)} → ${npdFmt(x.end)} · ${m.duration_days||1} วันทำการ${x.pinned?" · ปักวันเริ่ม":""}`:(npdMilestoneDone(steps)?"เสร็จแล้ว":"");
+ pop.style.setProperty("--c",ph.hue||"#8a4708");
+ pop.innerHTML=`<div class="nmp-h"><div><small>${esc(ph.short||"")}</small><b>${esc(m.title)}</b></div><button class="nmp-x" onclick="npdMapPop(null)" aria-label="ปิด">×</button></div>
+  <div class="nmp-m">${when}${x&&x.late?' · <span class="bad">เลยกำหนด</span>':""}<br>${dn}/${tot} ขั้นตอนเสร็จ${t==="formula_cf"&&npdTastings.length?` · ชิม ${npdTastings.length} รอบ`:""}</div>
+  <div class="nmp-steps">${steps.map(s=>`<div class="nmp-s ss-${s.status}${s.id===sid?" is-hit":""}"><i>${NPD_STEP_ICON[s.status]||""}</i><span>${esc(s.name)}${s.owners?`<small>${esc(s.owners)}</small>`:""}</span>
+   <select class="status-select st-${s.status}" onchange="npdSetStepStatus(${s.id},this.value)" aria-label="สถานะ">${Object.entries(NPD_STATUS_LABEL).map(([k,l])=>`<option value="${k}"${s.status===k?" selected":""}>${l}</option>`).join("")}</select></div>`).join("")||'<div class="nmp-none">ยังไม่มีขั้นย่อย</div>'}</div>
+  <div class="nmp-a"><button class="btn primary small" onclick="npdMapOpen(${mid})">เปิดในรายการ ›</button><button class="btn secondary small" onclick="npdTaskEdit(${mid})">แก้วัน / จำนวนวัน</button></div>`;
+ pop.classList.remove("hidden");
+ pop.querySelector(".is-hit")?.scrollIntoView({block:"nearest"});
+}
+window.npdMapPop=npdMapPop;
+window.npdMapOpen=id=>{if(npdMapFull){npdMapPopId=null;npdMapSetFull(false)}npdMapGo(id)};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&npdMapFull)npdMapSetFull(false)});
 // a knot on the map opens that milestone in the list below
 window.npdMapGo=id=>{
  const m=npdMilestones.find(x=>x.id===id);if(!m)return;
