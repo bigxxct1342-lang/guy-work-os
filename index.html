@@ -2439,6 +2439,94 @@ body.arcade .cr-coach{border:2.5px dashed var(--ink);border-radius:12px;backgrou
  body.arcade .cr .cr-m{height:16px}
 }
 @container (max-width:300px){body.arcade .cr-tabs .ti{display:none}body.arcade .cr-title{font-size:21px}}
+/* V8.04: the other Cat Room tabs, after the user's ChatGPT mockups (Arcade only) */
+.cr-art,.cr-hbar,.cr-gscr,.cr-gplay{display:none}
+.cr-gbody{display:contents}
+body.arcade .cr-sec{font-family:"VT323",ui-monospace,monospace;font-size:25px;font-weight:400;letter-spacing:.04em;border-bottom:2.5px dashed rgba(11,11,20,.3);padding-bottom:4px;margin:20px 0 12px}
+body.arcade .cr-sec small{font-family:"Noto Sans Thai",system-ui,sans-serif;font-size:12px;letter-spacing:0}
+body.arcade .cr-tag{border:2px solid var(--ink);border-radius:999px;background:#fbf3df;color:var(--ink);padding:0 8px;font-size:14px}
+/* house */
+body.arcade .cr-hhead{flex-wrap:wrap;align-items:flex-end;gap:4px 14px;justify-content:flex-start;min-height:84px;padding:4px min(46%,330px) 14px 0;margin-bottom:16px;
+ border-bottom:2.5px dashed rgba(11,11,20,.3);background:url(art/deco-shelf.webp) right 0 bottom 12px/auto 72px no-repeat}
+body.arcade .cr-hhead b{font-family:"VT323",ui-monospace,monospace;font-size:36px;font-weight:400;letter-spacing:.04em;line-height:1}
+body.arcade .cr-hhead .cnt{text-align:left;font-size:30px}
+body.arcade .cr-hbar{display:block;flex-basis:100%;max-width:420px;height:16px;border:2.5px solid var(--ink);border-radius:9px;background:#fffdf7;overflow:hidden}
+body.arcade .cr-hbar i{display:block;height:100%;background:var(--pink);border-right:2.5px solid var(--ink)}
+body.arcade .cr-grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+body.arcade .cr-card,body.arcade .cr-item{--cbg:#ffc2d4}
+body.arcade .cr-card:nth-child(5n+2),body.arcade .cr-item:nth-child(5n+2){--cbg:#d6d0f5}
+body.arcade .cr-card:nth-child(5n+3),body.arcade .cr-item:nth-child(5n+3){--cbg:#aeeedb}
+body.arcade .cr-card:nth-child(5n+4),body.arcade .cr-item:nth-child(5n+4){--cbg:#ffe49e}
+body.arcade .cr-card:nth-child(5n+5),body.arcade .cr-item:nth-child(5n+5){--cbg:#bfe0ff}
+body.arcade .cr-card{border:3px solid var(--ink);border-radius:14px;background:#fffdf7;box-shadow:3px 3px 0 var(--ink)}
+body.arcade .cr-card .pic,body.arcade .cr-card.lock .pic{background:var(--cbg)}
+body.arcade .cr-card .inf{background:#fffdf7;border-top:3px solid var(--ink)}
+body.arcade .cr-card.lock{background:#fffdf7}
+body.arcade .cr-card.lock .inf{background:#f1ede4}
+body.arcade .cr-card.lock .pic::after{width:22px;height:24px;margin-left:-11px;top:46%;border-radius:0;box-shadow:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 24'%3E%3Cpath d='M6 10V7a5 5 0 0 1 10 0v3' fill='none' stroke='%230b0b14' stroke-width='3'/%3E%3Crect x='2.5' y='10' width='17' height='12.5' rx='2.5' fill='%23fffdf7' stroke='%230b0b14' stroke-width='2.5'/%3E%3Crect x='10' y='14' width='2' height='4' fill='%230b0b14'/%3E%3C/svg%3E") center/contain no-repeat}
+body.arcade .cr-card.on{box-shadow:3px 3px 0 var(--ink)}
+body.arcade .cr-card.sel{outline:3px solid var(--pink);outline-offset:3px}
+body.arcade .cr-card .flag{background:var(--pink);color:var(--ink);border:2px solid var(--ink);border-radius:999px}
+body.arcade .cr-ph{background:#fff;border:3px solid var(--ink);border-radius:6px;padding:8px 8px 0;box-shadow:3px 3px 0 var(--ink);transform:rotate(-1.5deg)}
+body.arcade .cr-ph:nth-child(even){transform:rotate(1.5deg)}
+body.arcade .cr-ph img{border:2px solid var(--ink)}
+body.arcade .cr-ph span{padding:7px 2px 9px}
+body.arcade .cr-dy{grid-template-columns:auto minmax(0,1fr);align-items:center;border:2px solid var(--ink);border-radius:10px;background:#fffdf7;margin-bottom:7px;padding:7px 10px}
+body.arcade .cr-dy b{background:#fbf3df;border:2px solid var(--ink);border-radius:7px;padding:1px 9px;white-space:nowrap}
+body.arcade .cr-empty{border:2.5px dashed var(--ink);border-radius:12px;background:#fffdf7;color:var(--ink)}
+/* shop */
+body.arcade .cr-shopfor{background:#fffdf7;border:3px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:10px 14px;margin-bottom:8px}
+body.arcade .cr-coin.big{background:var(--yel);font-size:28px;padding:4px 14px 4px 8px}
+body.arcade .cr-shop{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+body.arcade .cr-item{border:3px solid var(--ink);border-radius:14px;background:#fffdf7;box-shadow:3px 3px 0 var(--ink);padding-bottom:10px}
+body.arcade .cr-item .pic{height:108px;align-items:center;background:var(--cbg);border-bottom:3px solid var(--ink)}
+body.arcade .cr-item .pic:has(.cr-art)>canvas,body.arcade .cr-item .pic:has(.cr-art)>.cr-slot{display:none}
+body.arcade .cr-art{display:block;max-width:78%;max-height:90px;object-fit:contain}
+body.arcade .cr-item .cr-tag{background:var(--mint);border:2.5px solid var(--ink);border-radius:10px;box-shadow:2px 2px 0 var(--ink);font:800 13.5px "Noto Sans Thai",system-ui,sans-serif}
+/* games */
+body.arcade .cr-ghub{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+body.arcade .cr-gcard{--gc:var(--pink);display:flex;flex-direction:column;gap:8px;text-align:center;background:var(--gc);border:3px solid var(--ink);border-radius:18px 18px 14px 14px;box-shadow:4px 4px 0 var(--ink);padding:12px 10px 10px}
+body.arcade .cr-gcard:nth-child(2){--gc:var(--yel)}
+body.arcade .cr-gcard:nth-child(3){--gc:var(--sky)}
+body.arcade .cr-gcard:hover{background:var(--gc);transform:translateY(-1px)}
+body.arcade .cr-gscr{display:block;aspect-ratio:188/172;border:3px solid var(--ink);border-radius:12px;background:#0b0b14 center/cover no-repeat}
+body.arcade .cr-gscr[data-g=laser]{background-image:url(art/game-laser.webp)}
+body.arcade .cr-gscr[data-g=match]{background-image:url(art/game-match.webp)}
+body.arcade .cr-gscr[data-g=jump]{background-image:url(art/game-jump.webp)}
+body.arcade .cr-gbody{display:block;background:#fffdf7;border:3px solid var(--ink);border-radius:12px;padding:8px 10px}
+body.arcade .cr-gcard .nm{font-family:"VT323",ui-monospace,monospace;font-size:24px;font-weight:400;letter-spacing:.04em}
+body.arcade .cr-gcard .ln{justify-content:space-around}
+body.arcade .cr-gplay{display:block;background:var(--pink);color:var(--ink);border:3px solid var(--ink);border-radius:12px;box-shadow:2px 2px 0 var(--ink);font-weight:900;font-size:16px;padding:7px 0}
+/* quests */
+body.arcade .cr-q{border:3px solid var(--ink);border-radius:14px;background:#fffdf7;box-shadow:3px 3px 0 var(--ink);padding:10px 14px;margin-bottom:10px}
+body.arcade .cr-q.bonus{border-style:dashed;background:#fff0f4}
+body.arcade .cr-q.got{opacity:.7}
+body.arcade .cr-qbar{height:16px;border:2.5px solid var(--ink);border-radius:6px;background:#fffdf7}
+body.arcade .cr-qbar i{background:var(--pink);background-image:none;border-right:2px solid var(--ink)}
+body.arcade .cr-streak{background:#fffdf7;border:3px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:12px 14px}
+body.arcade .cr-streak .dots{gap:7px}
+body.arcade .cr-streak .dots i{width:36px;height:36px;border:2.5px solid var(--ink);border-radius:9px;background:#f3f0ea url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9c4d6'%3E%3Cellipse cx='12' cy='16' rx='5' ry='4'/%3E%3Ccircle cx='5.5' cy='10' r='2.3'/%3E%3Ccircle cx='9.5' cy='6' r='2.3'/%3E%3Ccircle cx='14.5' cy='6' r='2.3'/%3E%3Ccircle cx='18.5' cy='10' r='2.3'/%3E%3C/svg%3E") center/22px no-repeat}
+body.arcade .cr-streak .dots i.on{background:#ffe3ec url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff5c8a'%3E%3Cellipse cx='12' cy='16' rx='5' ry='4'/%3E%3Ccircle cx='5.5' cy='10' r='2.3'/%3E%3Ccircle cx='9.5' cy='6' r='2.3'/%3E%3Ccircle cx='14.5' cy='6' r='2.3'/%3E%3Ccircle cx='18.5' cy='10' r='2.3'/%3E%3C/svg%3E") center/22px no-repeat}
+body.arcade .cr-streak .dots i.gift{border-style:dashed}
+body.arcade .cr-bdg{border:2.5px solid rgba(11,11,20,.35);border-radius:12px;background:#fbf8f2}
+body.arcade .cr-bdg.got{border-color:var(--ink);background:#fff6d8;box-shadow:2px 2px 0 var(--ink)}
+body.arcade .cr-bdg.worn{box-shadow:2px 2px 0 var(--ink),0 0 0 3px var(--pink)}
+/* V8.04: PORKCHOP keeps empty pages company -- waving where there is
+   nothing yet, asleep where the day is clear, cheering where everything is
+   done, and searching where a filter found nothing (Arcade only) */
+body.arcade .scr div.empty::before{content:"";display:block;width:96px;height:84px;margin:0 auto 8px;background:url(art/cat-wave.webp) center/contain no-repeat}
+body.arcade .scr div.empty.sleep::before{background-image:url(art/cat-sleep.webp);width:110px}
+body.arcade .scr div.empty.yay::before{background-image:url(art/cat-yay.webp)}
+body.arcade .scr div.empty.look::before{background-image:url(art/cat-look.webp)}
+@container (max-width:560px){
+ body.arcade .cr-hhead{background:none;padding-right:0;min-height:0}
+ body.arcade .cr-shop{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ body.arcade .cr-item .pic{height:88px}
+ body.arcade .cr-art{max-height:74px}
+ body.arcade .cr-gscr{aspect-ratio:auto;height:132px}
+ body.arcade .cr-streak .dots{gap:5px}
+ body.arcade .cr-streak .dots i{width:29px;height:29px;background-size:17px}
+}
 /* phones: the frames nest three deep, so each one gives back its width */
 @media(max-width:700px){
  body.arcade .hw{border-width:2.5px;border-radius:18px;box-shadow:4px 4px 0 var(--ink);padding:12px 8px 14px}
@@ -3161,7 +3249,7 @@ body.arcade .ticker{overflow:hidden}
    </div>
 
    <div id="crHouse" class="hidden">
-    <div class="cr-hhead"><b>บ้านแมว</b><div class="cnt"><span id="crOwnN">1/7</span><small>น้องแมวที่ปลดล็อก</small></div></div>
+    <div class="cr-hhead"><b>บ้านแมว</b><div class="cnt"><span id="crOwnN">1/7</span><small>น้องแมวที่ปลดล็อก</small></div><div class="cr-hbar"><i id="crOwnBar"></i></div></div>
     <div class="cr-slots" id="crSlots"></div>
     <div class="cr-grid" id="crGrid"></div>
     <div class="cr-hacts" id="crHActs"></div>
@@ -3284,7 +3372,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.03</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.04</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>หน้าตาแอป</strong><span>ใช้ธีม Arcade เป็นหลัก · อยากกลับไปหน้าตาเดิม (Classic) กดปุ่มนี้ กดอีกครั้งเพื่อกลับมา Arcade</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">ใช้หน้าตาแบบเดิม (Classic)</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -4533,7 +4621,7 @@ function pfTally(rows,year){
   .map(([k,n])=>`${PF_KIND[k]} ${n}`).join(" · ");
 }
 function archiveHTML(list){
- if(!list.length)return '<div class="empty">No completed tasks.</div>';
+ if(!list.length)return '<div class="empty sleep">No completed tasks.</div>';
  const showOwner=isAdmin()&&new Set(list.map(t=>t.user_id)).size>1;
  const groups=new Map();
  list.forEach(t=>{const k=t.category||"Uncategorized";(groups.get(k)||groups.set(k,[]).get(k)).push(t)});
@@ -4698,7 +4786,7 @@ function renderWeekCalendar(selected=""){
    const mins=taskMinutes(list.filter(t=>t.status!=="Done"));
    out+=`<div class="week-col ${ds===todayISO()?"today-col":""}" onclick="openDay('${ds}',event)">
      <div class="week-head"><b>${d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric"})}</b><span>${list.length} tasks · ${fmtMinutes(mins)||"0m"}</span></div>
-     ${list.map(t=>`<div class="week-task" onclick="calendarEdit(${t.id},event)"><b>${esc(t.task)}</b><span>${esc(t.status)}${t.estimate_minutes?` · ${fmtMinutes(t.estimate_minutes)}`:""}</span></div>`).join("")||'<div class="empty">No tasks</div>'}
+     ${list.map(t=>`<div class="week-task" onclick="calendarEdit(${t.id},event)"><b>${esc(t.task)}</b><span>${esc(t.status)}${t.estimate_minutes?` · ${fmtMinutes(t.estimate_minutes)}`:""}</span></div>`).join("")||'<div class="empty sleep">No tasks</div>'}
    </div>`;
  }
  $("weekGrid").innerHTML=out;
@@ -4712,7 +4800,7 @@ window.openDay=(ds,e)=>{
  const list=peopleScope(selected).filter(t=>t.due===ds).sort((a,b)=>a.status.localeCompare(b.status));
  $("dayDrawerTitle").textContent=new Date(ds+"T00:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
  $("dayDrawerDate").textContent=`${list.length} task${list.length===1?"":"s"}`;
- $("dayDrawerList").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty">No tasks this day.</div>';
+ $("dayDrawerList").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty sleep">No tasks this day.</div>';
  openLayer("dayDrawer");
 };
 
@@ -6190,7 +6278,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.03";
+const APP_VERSION="V8.04";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6811,7 +6899,7 @@ function renderAdmin(){
    if(lw)attention.push(`${p.full_name||p.email}: ${lw} waiting ≥ 4 days`);
    if(nd)attention.push(`${p.full_name||p.email}: ${nd} high priority without due date`);
  });
- $("attentionList").innerHTML=attention.length?attention.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty">No urgent team signals.</div>';
+ $("attentionList").innerHTML=attention.length?attention.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty yay">No urgent team signals.</div>';
 }
 
 let summaryMemberId=null;
@@ -6861,9 +6949,9 @@ window.viewMemberSummary=uid=>{
  if(over.length)att.push(`${over.length} overdue task${over.length>1?"s":""}`);
  if(longWait.length)att.push(`${longWait.length} waiting ≥ 4 days`);
  if(highNoDue.length)att.push(`${highNoDue.length} high priority without due date`);
- $("memberSummaryAttention").innerHTML=att.length?att.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty">Nothing urgent.</div>';
+ $("memberSummaryAttention").innerHTML=att.length?att.map(x=>`<div class="row"><strong>${esc(x)}</strong></div>`).join(""):'<div class="empty yay">Nothing urgent.</div>';
  const upcoming=[...active].sort((a,b)=>(a.due||"9999").localeCompare(b.due||"9999")).slice(0,8);
- $("memberSummaryTasks").innerHTML=upcoming.length?upcoming.map(taskHTML).join(""):'<div class="empty">No active tasks.</div>';
+ $("memberSummaryTasks").innerHTML=upcoming.length?upcoming.map(taskHTML).join(""):'<div class="empty sleep">No active tasks.</div>';
  openLayer("memberSummaryDrawer");
 };
 window.viewMember=uid=>viewMemberSummary(uid);
@@ -8604,7 +8692,7 @@ function renderPick(){
  $("pickList").innerHTML=rows.length?rows.map(r=>{
   const owner=projTakenBy(r.kind,r.id);
   return `<div class="pick-row${owner?" taken":""}${r.done?" is-done":""}"${owner?"":` data-pick="${r.kind}:${r.id}"`}><span class="pj-itype">${PROJ_LABEL[r.kind]}</span><div class="pick-main"><div class="pick-t">${esc(r.title)}</div><div class="pick-s">${esc(r.sub)}${owner?` · อยู่ในโปรเจกต์ "${esc(owner.name)}" แล้ว`:""}</div></div></div>`;
- }).join(""):'<div class="empty">ไม่พบงาน</div>';
+ }).join(""):'<div class="empty look">ไม่พบงาน</div>';
 }
 function projOpenPick(projectId,channel){
  pickCtx={projectId,channel};
@@ -8679,7 +8767,7 @@ function renderCvPick(){
  $("cvPickList").innerHTML=rows.length?rows.map(t=>{
   const done=t.status==="Done";
   return `<div class="pick-row${done?" is-done":""}" data-cv-pick="${t.id}"><span class="pj-itype">งาน</span><div class="pick-main"><div class="pick-t">${esc(t.task)}</div><div class="pick-s">${esc(t.category||"")}${t.due?" · ครบกำหนด "+t.due:" · ไม่มีวันจบ"}${done?" · เสร็จแล้ว":""}</div></div></div>`;
- }).join(""):'<div class="empty">ไม่พบงาน</div>';
+ }).join(""):'<div class="empty look">ไม่พบงาน</div>';
 }
 $("cvList").onclick=e=>{
  const h=e.target.closest("[data-cv-group]");if(!h)return;
@@ -8880,7 +8968,7 @@ function renderCreative(){
   const cap=rows.filter(r=>r.post_on&&!r.post_caption).length;
   const open=CV_OPEN.has(g.k);
   return `<div class="cv-group${open?" is-open":""}"><div class="cv-ghead" data-cv-group="${g.k}"><span class="cv-gcaret">▶</span><b>${ic(CV_GIC[g.k])}${g.t}</b><span class="cv-gcnt">${rows.length}</span>${cap?`<span class="cv-gnote">ยังไม่มี Caption ${cap}</span>`:""}</div>${open?rows.map(cvCardHTML).join(""):""}</div>`;
- }).join("")||'<div class="empty">ไม่มีงานค้าง</div>';
+ }).join("")||'<div class="empty yay">ไม่มีงานค้าง</div>';
 }
 /* ---- creative work ------------------------------------------------------
    A creative job is a TASK with a creative track on it, not a record beside
@@ -9171,7 +9259,7 @@ async function renderWipPanels(){
  $("wipBlocked").innerHTML=groups.size?[...groups.entries()]
   .sort((a,b)=>Math.max(...b[1].map(x=>x.days))-Math.max(...a[1].map(x=>x.days)))
   .map(([who,rows])=>`<div class="wip-grp"><div class="wip-ghead"><b>รอ ${esc(who)}</b><span class="pr-age${rows.some(r=>r.late)?" late":""}">${rows.length} รายการ · นานสุด ${Math.max(...rows.map(r=>r.days))} วัน</span></div>${rows.sort((a,b)=>b.days-a.days).map(wipRowHTML).join("")}</div>`).join("")
-  :'<div class="empty">ไม่มีงานที่ค้างรอฝ่ายอื่น</div>';
+  :'<div class="empty yay">ไม่มีงานที่ค้างรอฝ่ายอื่น</div>';
  renderWaitTable();
 }
 /* ---- what is missing, per system ----------------------------------------
@@ -9405,7 +9493,7 @@ function renderDashboardFocus(active,done){
  $("dashSummary").innerHTML=[["ทำงานอยู่",active.length],["กำลังทำ",active.filter(t=>t.status==="In Progress").length],["รอคนอื่น",active.filter(t=>t.status==="Waiting").length],["เสร็จสัปดาห์นี้",done.filter(doneThisWeek).length]].map(x=>`<span><b>${x[1]}</b> ${x[0]}</span>`).join("");
 }
 function render(){if(privOn)queueMicrotask(()=>privRun());populateFilters();renderCategories();updateLastBackup();renderNavBadges();renderCreative();renderDashGaps();const scope=tasks,active=scope.filter(t=>t.status!=="Done"),done=scope.filter(t=>t.status==="Done");renderDashboardFocus(active,done);
-const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=peopleScope(fm).filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
+const q=$("searchTask").value.trim().toLowerCase(),fc=$("filterCategory").value,fs=$("filterSub").value,st=$("filterStatus").value,fm=isAdmin()?$("filterMember").value:"";const filtered=peopleScope(fm).filter(t=>(!q||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(q))&&(!fc||t.category===fc)&&(!fs||t.sub===fs)&&(!st||t.status===st));$("allTasks").innerHTML=filtered.length?filtered.map(taskHTML).join(""):'<div class="empty look">No matching tasks.</div>';const aq=($("archiveSearch")?.value||"").trim().toLowerCase(),ac=$("archiveCategory")?.value||"";
 if($("archiveCategory")){const prev=ac;$("archiveCategory").innerHTML='<option value="">All Categories</option>'+[...new Set(done.map(t=>t.category))].map(x=>`<option>${esc(x)}</option>`).join("");$("archiveCategory").value=prev}
 const archived=done.filter(t=>!t.is_highlight&&(!aq||[t.task,t.category,t.sub,t.note].join(" ").toLowerCase().includes(aq))&&(!ac||t.category===ac));
 $("archiveList").innerHTML=archiveHTML(archived);
@@ -9414,7 +9502,7 @@ $("morningTitle").textContent=`${todayGreeting()}, ${(profile?.full_name||"").sp
 $("morningDate").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
 renderDashChrome(active,done);
 const focusTop=[...active].sort((a,b)=>(isOverdue(b)-isOverdue(a))||((b.priority==="High")-(a.priority==="High"))||((a.due||"9999").localeCompare(b.due||"9999"))).slice(0,3);
-$("focusTopList").innerHTML=focusTop.length?focusTop.map(taskHTML).join(""):'<div class="empty">No focus tasks.</div>';
+$("focusTopList").innerHTML=focusTop.length?focusTop.map(taskHTML).join(""):'<div class="empty sleep">No focus tasks.</div>';
 $("focusPanel").classList.toggle("hidden",!focusEnabled);
 
 const weekDone=done.filter(doneThisWeek),weekCarry=active.filter(t=>isOverdue(t)||isThisWeek(t));
@@ -9422,8 +9510,8 @@ const weekTotal=weekDone.length+weekCarry.length,weekPct=weekTotal?Math.round(we
 $("weeklyStats").innerHTML=[
  ["Completed",weekDone.length],["Carry Forward",weekCarry.length],["Completion",weekPct+"%"],["Estimated Active",fmtMinutes(taskMinutes(weekCarry))||"0m"]
 ].map(x=>`<div class="brief-box"><b>${esc(String(x[1]))}</b><span>${esc(String(x[0]))}</span></div>`).join("");
-$("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty">Nothing completed this week.</div>';
-$("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty">Nothing to carry forward.</div>';
+$("weeklyCompleted").innerHTML=weekDone.length?weekDone.map(taskHTML).join(""):'<div class="empty sleep">Nothing completed this week.</div>';
+$("weeklyCarry").innerHTML=weekCarry.length?weekCarry.map(taskHTML).join(""):'<div class="empty yay">Nothing to carry forward.</div>';
 
 renderCalendar();renderAdmin();renderMatrix();renderPr();renderKol();renderProj()}
 ["filterCategory","filterSub","filterStatus","filterMember"].forEach(id=>$(id).onchange=render);$("searchTask").oninput=render;
@@ -11445,7 +11533,8 @@ function crBadgeCheck(){
 }
 function crMedal(cv,b,got,px=3){
  if(!cv)return;const P=SP_ICON[b.icon]||SP_ICON.excl,w=13,h=15;cv.width=w;cv.height=h;const g=cv.getContext("2d");
- const C=got?["#2b1d0c","#8a4708","#e0951f","#ffd9a0"]:["#2b1d0c","#3a2a14","#5a3f1c","#6f5a35"];
+ const C=crArc()?(got?["#0b0b14","#ff5c8a","#ffcf4a","#fff6d8"]:["#0b0b14","#8d88a3","#b9b4c9","#e3e0ea"])
+  :got?["#2b1d0c","#8a4708","#e0951f","#ffd9a0"]:["#2b1d0c","#3a2a14","#5a3f1c","#6f5a35"];
  g.fillStyle=C[1];g.fillRect(3,0,3,4);g.fillStyle=C[2];g.fillRect(7,0,3,4);
  for(let y=0;y<11;y++)for(let x=0;x<13;x++){const d=(x-6)*(x-6)+(y-5)*(y-5);if(d>30)continue;g.fillStyle=d>24?C[0]:d>16?C[1]:C[2];g.fillRect(x,y+4,1,1)}
  P.forEach((row,j)=>{for(let i=0;i<row.length;i++){if(row[i]===".")continue;g.fillStyle=row[i]==="0"?C[0]:C[3];g.fillRect(3+i+Math.floor((7-row.length)/2),6+j,1,1)}});
@@ -11557,7 +11646,7 @@ function crRenderLooks(){
   const [part,val]=L.k.split(":"),using=L.k==="balcony"?cr.scene==="balcony":cr.look[part]===val;
   const btn=!own?`<button class="cr-btn${cr.coins>=L.price?" pri":""}" data-look-buy="${L.k}" ${cr.coins>=L.price?"":"disabled"}><span class="cr-coin sm"><i></i>${L.price}</span></button>`
    :using?`<span class="cr-tag">${L.k==="balcony"?"อยู่ระเบียง":"ใช้อยู่"}</span>`:`<button class="cr-btn pri" data-look-use="${L.k}">${L.k==="balcony"?"ไประเบียง":"ใช้"}</button>`;
-  return card(`<canvas data-lk="${L.k}"></canvas>`,L.th,L.k==="balcony"?"ห้องที่สอง แมวนั่งบนราวได้":own?"มีแล้ว":"",btn)}).join("");
+  return card((L.k==="balcony"?crArt("balcony"):"")+`<canvas data-lk="${L.k}"></canvas>`,L.th,L.k==="balcony"?"ห้องที่สอง แมวนั่งบนราวได้":own?"มีแล้ว":"",btn)}).join("");
  CR_LOOKS.forEach(L=>{const cv=document.querySelector(`[data-lk="${L.k}"]`);if(!cv)return;
   const [part,val]=L.k.split(":"),room=L.k==="balcony"?crBalcony(150,90):crRoom(150,90,[],{...cr.look,[part]:val});
   cv.width=150;cv.height=90;const g=cv.getContext("2d");g.drawImage(room,0,0);cv.style.width="140px"});
@@ -11845,6 +11934,7 @@ function crRenderHouse(){
   `<div class="cr-card lock"><div class="pic"><canvas data-crlock="${b.k}"></canvas></div><div class="inf"><div class="nm">???</div><div class="ln"><span class="cr-tag">${CR_EXCL.has(b.k)?"ภารกิจพิเศษ":"ยังไม่พบ"}</span></div></div></div>`));
  $("crGrid").innerHTML=cards.join("");
  $("crOwnN").textContent=`${own.size}/${CR_BREEDS.length}`;
+ $("crOwnBar").style.width=Math.round(own.size/CR_BREEDS.length*100)+"%";
  cr.cats.forEach(c=>crPaintCat(document.querySelector(`[data-crpic="${c.id}"]`),c,"sit",1.6));
  CR_BREEDS.filter(b=>!own.has(b.k)).forEach(b=>{const cv=document.querySelector(`[data-crlock="${b.k}"]`);
   const r=b.k==="mix"?CR_ATLAS.stages.adult.sit:CR_ATLAS.breeds[b.k];crPaint(cv,r,1,true);if(cv)cv.style.width=Math.round(r[2]*1.6)+"px"});
@@ -11892,6 +11982,9 @@ function crClaim(i){
  q.claimed=true;crCoin(d.coin);crGain(crCat(),CR_Q_XP);toast(`+${d.coin} เหรียญ · +${CR_Q_XP} XP`);crAfter();
 }
 function crClaimBonus(){if(cr.daily.bonus||!cr.daily.list.every(q=>q.claimed))return;cr.daily.bonus=true;crCoin(CR_Q_BONUS);toast(`โบนัส +${CR_Q_BONUS} เหรียญ`);crAfter()}
+// the shop pictures drawn with ChatGPT; Arcade shows them in place of the canvas
+const crArt=k=>`<img class="cr-art" src="art/shop-${k}.webp" alt="" loading="lazy" decoding="async">`;
+const CR_ART=new Set(["box","bed","treat","rug","curtain","lights","frames","plant","fishtank","cattree","balcony"]);
 function crRenderShop(){
  if(!cr||!$("crShopMain"))return;
  const c=crCat(),pool=crBoxPool();
@@ -11899,10 +11992,10 @@ function crRenderShop(){
  crPaintCat($("crShopCat"),c,"sit",1.3);
  const card=(pic,name,sub,btn)=>`<div class="cr-item"><div class="pic">${pic}</div><div class="nm">${name}</div><div class="sub">${sub}</div>${btn}</div>`;
  const buy=(id,price,ok=true)=>`<button class="cr-btn${cr.coins>=price&&ok?" pri":""}" data-buy="${id}" ${cr.coins>=price&&ok?"":"disabled"}><span class="cr-coin sm"><i></i>${price}</span></button>`;
- const main=[card(`<canvas data-sp-box></canvas>`,"กล่องปริศนา",pool.length?`เหลือ ${pool.length} พันธุ์ในกล่อง`:"ในกล่องครบแล้ว (ได้เป็นขนม)",buy("box",CR_BOX_PRICE))];
- for(let n=2;n<=3;n++)main.push(card(`<span class="cr-slot">${"▮".repeat(n)}</span>`,`ช่องแมวในห้อง ${n} ตัว`,cr.slots>=n?"มีแล้ว":cr.slots===n-1?"เลี้ยงพร้อมกันได้อีก 1 ตัว":"ต้องซื้อช่องก่อนหน้าก่อน",
+ const main=[card(crArt("box")+`<canvas data-sp-box></canvas>`,"กล่องปริศนา",pool.length?`เหลือ ${pool.length} พันธุ์ในกล่อง`:"ในกล่องครบแล้ว (ได้เป็นขนม)",buy("box",CR_BOX_PRICE))];
+ for(let n=2;n<=3;n++)main.push(card(crArt("bed")+`<span class="cr-slot">${"▮".repeat(n)}</span>`,`ช่องแมวในห้อง ${n} ตัว`,cr.slots>=n?"มีแล้ว":cr.slots===n-1?"เลี้ยงพร้อมกันได้อีก 1 ตัว":"ต้องซื้อช่องก่อนหน้าก่อน",
   cr.slots>=n?`<span class="cr-tag">มีแล้ว</span>`:buy("slot"+n,CR_SLOT_PRICE[n-1],cr.slots===n-1)));
- CR_CONSUME.forEach(x=>main.push(card(`<canvas data-cs="${x.k}"></canvas>`,x.th,x.k==="ticket"&&cr.inv.ticket?`${x.desc} · มี ${cr.inv.ticket} ใบ`:x.desc,buy("c:"+x.k,x.price))));
+ CR_CONSUME.forEach(x=>main.push(card((CR_ART.has(x.k)?crArt(x.k):"")+`<canvas data-cs="${x.k}"></canvas>`,x.th,x.k==="ticket"&&cr.inv.ticket?`${x.desc} · มี ${cr.inv.ticket} ใบ`:x.desc,buy("c:"+x.k,x.price))));
  $("crShopMain").innerHTML=main.join("");
  crPaint(document.querySelector('[data-cs="treat"]'),CR_ATLAS.props.treat,1.4);crPaint(document.querySelector('[data-cs="ticket"]'),CR_ATLAS.props.canned,1.6);
  const wk=crWeekly(),left=7-((new Date().getDay()+6)%7);
@@ -11916,7 +12009,7 @@ function crRenderShop(){
    !own?buy("w:"+w.k,w.price):worn?`<button class="cr-btn" data-wear="${w.k}">ถอดออก</button>`:`<button class="cr-btn pri" data-wear="${w.k}">ใส่ให้ ${esc(c.name)}</button>`)}).join("");
  wearList.forEach(w=>crPaintCat(document.querySelector(`[data-wp="${w.k}"]`),c,"sit",1.7,false,{[w.slot]:w.k}));
  $("crShopDecor").innerHTML=CR_DECOR.map(d=>{const own=cr.decor.own.includes(d.k),onn=cr.decor.on.includes(d.k);
-  return card(`<canvas data-dp="${d.k}"></canvas>`,d.th,own?(onn?"จัดวางอยู่":"เก็บไว้"):"",
+  return card((CR_ART.has(d.k)?crArt(d.k):"")+`<canvas data-dp="${d.k}"></canvas>`,d.th,own?(onn?"จัดวางอยู่":"เก็บไว้"):"",
    !own?buy("d:"+d.k,d.price):`<button class="cr-btn${onn?"":" pri"}" data-decor="${d.k}">${onn?"เก็บ":"จัดวาง"}</button>`)}).join("");
  const pv=crRoom(240,110,CR_DECOR.map(d=>d.k));
  CR_DECOR.forEach(d=>{const cv=document.querySelector(`[data-dp="${d.k}"]`);if(!cv)return;const [x0,y0,x1,y1]=d.box;
@@ -11941,8 +12034,8 @@ function crBuy(id){
 function crRenderGame(){
  if(!cr||!$("crGHub"))return;crTick();
  $("crGHub").innerHTML=CR_GAMES.map(gm=>{const st=gm.st(),left=CR_PLAYS-st.n;
-  return `<button class="cr-gcard" data-gopen="${gm.k}"><div class="nm">${gm.th}</div><div class="sub">${gm.desc}</div>`
-   +`<div class="ln"><span>เหลือวันนี้ <b>${left}/${CR_PLAYS}</b></span><span>สถิติ <b>${st.best||0}</b></span></div></button>`}).join("");
+  return `<button class="cr-gcard" data-gopen="${gm.k}"><span class="cr-gscr" data-g="${gm.k}"></span><span class="cr-gbody"><div class="nm">${gm.th}</div><div class="sub">${gm.desc}</div>`
+   +`<div class="ln"><span>เหลือวันนี้ <b>${left}/${CR_PLAYS}</b></span><span>สถิติ <b>${st.best||0}</b></span></div></span><span class="cr-gplay">${left?"เล่นเลย":"พรุ่งนี้เล่นใหม่"}</span></button>`}).join("");
  const run=crBusy();
  document.querySelectorAll("#crGames [data-crback]").forEach(b=>b.disabled=run);
  const set=(k,pre)=>{const st=cr[k],left=CR_PLAYS-st.n,btn=$("cr"+pre+"Start"),running=k==="laser"?crSc?.running:k==="jump"?crJmp?.running:crMatchS?.run;
