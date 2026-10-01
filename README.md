@@ -74,6 +74,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `unlock-pin.sql` clears a PIN lock after five wrong tries (the PIN is unchanged)
 - `migration-v7-90-tasting-retail.sql` Product Launch: tasting rounds (`product_tastings`), "ห้างอื่น" phase
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
+- `art/` pictures cut from the ChatGPT designs: shop icons, PORKCHOP for empty pages, mini-game screens, shelf (Arcade only)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a PORKCHOP G account
@@ -441,6 +442,29 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V8.04 Cat Room tabs and empty pages, from the ChatGPT mockups
+- **บ้านแมว (cat house):**
+  - a big "1/7" count with a pink progress bar, and a shelf with a cat and plants;
+  - cat cards in rotating pastel colours, with a lock on the cats not found yet;
+  - the album as tilted polaroids, and each diary day as its own row with a date pill.
+- **ร้านค้า (shop):**
+  - items are cards with pastel backgrounds and the pixel-art pictures from the icon sheet: mystery box, cat bed for the extra slots, treat, and every room decoration including the balcony;
+  - owned items show a mint tag;
+  - two cards per row on a phone.
+- **มินิเกม (mini games):** each game is a small arcade cabinet (pink, yellow, blue) with a picture screen, plays left, best score and a "เล่นเลย" bar.
+- **ภารกิจ (quests):**
+  - quest cards with thick pink progress bars;
+  - the 7-day streak as paw stamps;
+  - badges in gold and pink.
+- **Empty pages:** where a list has nothing in it, PORKCHOP sits above the message:
+  - waving where nothing has been added yet;
+  - asleep where there are no tasks for the day or week;
+  - cheering where nothing is left to do;
+  - searching where a filter found nothing.
+- New `art/` folder holds the pictures cut from the ChatGPT images (the 12 shop icons, 4 cat poses, 3 game screens and the shelf). They load only in Arcade and are not part of the offline cache.
+- **Classic is unchanged.** Classic screenshots of every Cat Room tab and of the empty pages match before and after, and all 96 room renders are identical.
+- No SQL.
 
 ## V8.03 Cat Room in colour
 - In Arcade the Cat Room now looks like the picture made with ChatGPT.
