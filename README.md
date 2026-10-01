@@ -442,6 +442,21 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.03 Cat Room in colour
+- In Arcade the Cat Room now looks like the picture made with ChatGPT.
+- **The room is drawn in full colour**, with the same furniture in the same places:
+  - a purple wall with sunlight across it, and blue sky and clouds over a blue city in the window;
+  - green plants, a yellow poster, colourful books, a pink cushion, a cream rug with pink flecks, and a litter box with a pink stripe;
+  - a pink yarn ball and bowl, and pink hearts;
+  - a clock on the dresser showing the real time (only where there is room for it).
+- **Also in colour:** dusk, night and rain in the window, the balcony, and the bath and litter close-ups.
+- **The Cat Room is a pink game window:**
+  - a pink title bar with the sound and coin buttons;
+  - tabs with icons, in one row on desktop and two rows of three on a phone;
+  - bars coloured per meter: XP and FULL pink, HAPPY yellow, CLEAN blue, GROOM green.
+- **Classic is unchanged.** Every piece of the room still names one of the same seven tones, and Classic reads them from the old sepia palette. 96 Classic room renders were checked pixel for pixel before and after.
+- No SQL.
+
 ## V8.02 Forgot password lands on "Set new password"
 - **What was wrong**: a reset link that no longer works (a second reset email makes the first one dead; some mail apps open links to scan them; links expire) comes back as `#error=…otp_expired`. Supabase keeps the session the phone already had, so the app opened as if nothing happened and the password never changed.
   - Signed in: the app opens normally, through the PIN. Once the Daily Report is closed, the new "เปลี่ยนรหัสผ่าน" box opens and says why.
