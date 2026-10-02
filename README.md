@@ -74,7 +74,7 @@ Create the repository as **Private**. The Supabase publishable key is intended f
 - `unlock-pin.sql` clears a PIN lock after five wrong tries (the PIN is unchanged)
 - `migration-v7-90-tasting-retail.sql` Product Launch: tasting rounds (`product_tastings`), "ห้างอื่น" phase
 - `cat-sprites.png` Cat Room sprite sheet (four amber levels)
-- `art/` pictures cut from the ChatGPT designs: shop icons, PORKCHOP for empty pages, mini-game screens, shelf (Arcade only)
+- `art/` pictures cut from the ChatGPT designs: shop icons, PORKCHOP for empty pages, mini-game screens, shelf, and `cat-mix.webp`, the new PORKCHOP pose atlas (Arcade only)
 - `supabase/functions/daily-brief` Edge Function that sends the daily reminder (Telegram, LINE or push)
 - `supabase/functions/telegram-webhook` Edge Function that links a Telegram chat to a PORKCHOP G account
 - `supabase/functions/line-webhook` Edge Function that links a LINE account to a PORKCHOP G account
@@ -442,6 +442,20 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
+
+## V8.05 New PORKCHOP, and cats keep their own spot
+- **PORKCHOP redrawn** from the user's ChatGPT pose sheet: a chubby orange tabby with folded ears, in full colour, with eleven poses (sit, look up, happy, eat ×2, sleep ×2, crouch, leap, walk ×2).
+  - Walking now has two real steps, and eating and sleeping use their own second frame.
+- **Drawn at full detail in Arcade.** The room is still painted in big square pixels, but the canvas now has as many pixels as the screen, so the cat is sharp instead of being blown up from a few pixels.
+  - Sized to the room as in the picture: about a quarter of the room's height.
+- **Everywhere he appears:** the room, the balcony, the brushing and bath close-ups, the mini games, the cat house cards, the shop outfits (hats and glasses sit on the new head), the grow-up popup, the sidebar and the dashboard widget.
+- **Other breeds** keep their current look until their pose sheets arrive. Add one by cutting the sheet into `art/cat-<breed>.webp` and adding its rects to `CR_NEW`.
+- **Cats no longer stand on top of each other.**
+  - When a cat picks a place on the floor, sill or cat tree, it skips any spot another cat is in or heading to, keeping both widths plus a little air between them.
+  - Going to sit with a friend means sitting beside them, and only if that place is free.
+  - In a one-minute test with three cats, the old code had cats overlapping in 97% of samples; the new code in 0%.
+- **Classic is unchanged:** the same old cats, canvas size and room renders.
+- No SQL.
 
 ## V8.04 Cat Room tabs and empty pages, from the ChatGPT mockups
 - **บ้านแมว (cat house):**
