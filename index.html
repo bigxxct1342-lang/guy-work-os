@@ -3372,7 +3372,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.04</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.05</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>หน้าตาแอป</strong><span>ใช้ธีม Arcade เป็นหลัก · อยากกลับไปหน้าตาเดิม (Classic) กดปุ่มนี้ กดอีกครั้งเพื่อกลับมา Arcade</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">ใช้หน้าตาแบบเดิม (Classic)</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -6278,7 +6278,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.04";
+const APP_VERSION="V8.05";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -10019,6 +10019,18 @@ const crClamp=v=>Math.max(0,Math.min(100,v));
 let cr=null,crCloud="",crLoading=null,crSaveT=null,crEvents=[],crSel=null,crTab="room",crGame="";
 const crKey=()=>"porkchop_cat_"+(user?.id||"anon");
 const crImg=new Image();crImg.src="./cat-sprites.png?v=787";
+/* V8.05: PORKCHOP redrawn after the user's ChatGPT pose sheet -- full colour,
+   eleven poses, drawn at full detail instead of the four amber levels. Arcade
+   only (Classic keeps the old sheet). Each rect carries the image it comes
+   from, so crDraw, crPaint and the hat anchors work on either sheet. Other
+   breeds keep their old sprites until their sheets arrive. */
+const crArtImg={};
+const crArtRect=(k,r)=>{const im=crArtImg[k]||(crArtImg[k]=Object.assign(new Image(),{src:`./art/cat-${k}.webp?v=805`}));const a=r.slice();a.img=im;return a};
+const CR_NEW={mix:Object.fromEntries(Object.entries({"sit":[3,3,138,139],"sitB":[144,3,151,147],"happy":[298,3,160,143],"eat":[461,3,181,87],"eat2":[645,3,179,103],"sleep":[3,153,145,96],"sleep2":[151,153,160,108],"crouch":[314,153,163,141],"leap":[480,153,188,123],"walk":[671,153,165,124],"walk2":[3,297,167,122]}).map(([p,r])=>[p,crArtRect("mix",r)]))};
+// sheet pixels to room pixels (a sitting PORKCHOP is ~27 room pixels tall,
+// about a quarter of the room's height as in the picture), and growth by stage
+const CR_NEW_S=27/139,CR_NEW_STAGE=[.84,.93,1];
+const crNewArt=c=>crArc()&&CR_NEW[c.breed]?CR_NEW[c.breed]:null;
 
 function crNewCat(id,breed,name){const now=Date.now();return {id,breed,name,xp:0,h:80,p:80,g:80,t:now,petAt:0,bathAt:0,boxLv:0,born:now,wear:{},trait:CR_TRAITS[Math.floor(Math.random()*CR_TRAITS.length)].k}}
 function crNew(){
@@ -10188,6 +10200,8 @@ const crHM=t=>new Date(t).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-d
 /* ---- sprites ---- */
 function crFrame(c,pose){
  const si=crStageOf(crLevel(c.xp).L),st=CR_STAGES[si].k;
+ const na=crNewArt(c);
+ if(na)return {r:na[pose]||na.sit,s:CR_NEW_S*CR_NEW_STAGE[Math.min(si,2)],own:!!na[pose]};
  if(c.breed==="mix"||!CR_ATLAS.breeds[c.breed]){
   const f=CR_ATLAS.stages[st];return {r:f[pose]||f.sit,s:1,own:!!f[pose]};
  }
@@ -10198,28 +10212,30 @@ function crFrame(c,pose){
 }
 const CR_DRESSED=new Set(["sit","sitB","happy"]);
 function crDraw(g,r,s,x,yb,flip){
- const [sx,sy,sw,sh]=r,w=Math.round(sw*s),h=Math.round(sh*s);
- if(!crImg.complete||!crImg.naturalWidth)return {w,h};
+ const [sx,sy,sw,sh]=r,w=Math.round(sw*s),h=Math.round(sh*s),im=r.img||crImg;
+ if(!im.complete||!im.naturalWidth)return {w,h};
  x=Math.round(x);yb=Math.round(yb);
- if(flip){g.save();g.translate(x,0);g.scale(-1,1);g.drawImage(crImg,sx,sy,sw,sh,-Math.round(w/2),yb-h,w,h);g.restore()}
- else g.drawImage(crImg,sx,sy,sw,sh,x-Math.round(w/2),yb-h,w,h);
+ const sm=g.imageSmoothingEnabled;if(r.img){g.imageSmoothingEnabled=true;g.imageSmoothingQuality="high"}
+ if(flip){g.save();g.translate(x,0);g.scale(-1,1);g.drawImage(im,sx,sy,sw,sh,-Math.round(w/2),yb-h,w,h);g.restore()}
+ else g.drawImage(im,sx,sy,sw,sh,x-Math.round(w/2),yb-h,w,h);
+ g.imageSmoothingEnabled=sm;
  return {w,h};
 }
 /* Where the head is, read off the sprite itself: the top row, the ear span,
    and the run of fur at eye height. Good enough to seat a hat on any pose
    and breed without a hand-made table of points. */
-let crAtlasPx=null;const crAncC={};
-function crAtlasData(){
- if(crAtlasPx)return crAtlasPx;
- if(!crImg.complete||!crImg.naturalWidth)return null;
- const c=document.createElement("canvas");c.width=crImg.naturalWidth;c.height=crImg.naturalHeight;
- const g=c.getContext("2d",{willReadFrequently:true});g.drawImage(crImg,0,0);
- try{crAtlasPx={w:c.width,d:g.getImageData(0,0,c.width,c.height).data}}catch(_){return null}
- return crAtlasPx;
+const crAtlasPx=new Map(),crAncC={};
+function crAtlasData(im=crImg){
+ if(crAtlasPx.has(im))return crAtlasPx.get(im);
+ if(!im.complete||!im.naturalWidth)return null;
+ const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;
+ const g=c.getContext("2d",{willReadFrequently:true});g.drawImage(im,0,0);
+ let A=null;try{A={w:c.width,d:g.getImageData(0,0,c.width,c.height).data}}catch(_){return null}
+ crAtlasPx.set(im,A);return A;
 }
 function crAnchor(r){
- const key=r.join(",");if(crAncC[key])return crAncC[key];
- const A=crAtlasData();if(!A)return null;
+ const key=(r.img?r.img.src:"")+r.join(",");if(crAncC[key])return crAncC[key];
+ const A=crAtlasData(r.img||crImg);if(!A)return null;
  const [sx,sy,sw,sh]=r,op=(x,y)=>A.d[((sy+y)*A.w+sx+x)*4+3]>128;
  let top=0;for(;top<sh;top++){let any=false;for(let x=0;x<sw;x++)if(op(x,top)){any=true;break}if(any)break}
  const h=sh-top;let a=sw,b=-1;
@@ -10255,19 +10271,24 @@ function crWearDraw(g,c,r,s,x,yb,flip,wear){
 const crPad=(r,s)=>Math.round(Math.max(8,r[3]*s*.4));
 function crPaint(cv,r,s=1,dark=false,after){
  if(!cv)return;
+ const im=r.img||crImg,K=r.img?6:1;
  const go=()=>{
   const w=Math.round(r[2]*s),h=Math.round(r[3]*s),pad=after?crPad(r,s):0;
-  cv.width=w+pad*2;cv.height=h+pad;const g=cv.getContext("2d");g.imageSmoothingEnabled=false;
-  g.drawImage(crImg,r[0],r[1],r[2],r[3],pad,pad,w,h);
-  if(dark){g.globalCompositeOperation="source-in";g.fillStyle="#1d160c";g.fillRect(0,0,cv.width,cv.height)}
+  cv.width=(w+pad*2)*K;cv.height=(h+pad)*K;const g=cv.getContext("2d");g.setTransform(K,0,0,K,0,0);
+  g.imageSmoothingEnabled=!!r.img;if(r.img)g.imageSmoothingQuality="high";
+  if(r.img&&!cv.style.width)cv.style.width=(w+pad*2)+"px";
+  g.drawImage(im,r[0],r[1],r[2],r[3],pad,pad,w,h);
+  g.imageSmoothingEnabled=false;
+  if(dark){g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation="source-in";g.fillStyle="#1d160c";g.fillRect(0,0,cv.width,cv.height)}
   else if(after)after(g,pad+w/2,pad+h);
  };
- if(crImg.complete&&crImg.naturalWidth)go();else crImg.addEventListener("load",go,{once:true});
+ if(im.complete&&im.naturalWidth)go();else im.addEventListener("load",go,{once:true});
 }
 function crPaintCat(cv,c,pose="sit",px=3,dark=false,wear){
  const f=crFrame(c,pose),dress=!dark&&CR_DRESSED.has(pose)&&Object.values(wear||c.wear||{}).some(Boolean);
  crPaint(cv,f.r,f.s,dark,dress?(g,x,yb)=>crWearDraw(g,c,f.r,f.s,x,yb,false,wear):null);
- if(cv)cv.style.width=Math.round((f.r[2]*f.s+(dress?crPad(f.r,f.s)*2:0))*px)+"px";
+ // the new sheet is cropped tight to the cat, so it is shown a little larger to fill the same card
+ if(cv)cv.style.width=Math.round((f.r[2]*f.s+(dress?crPad(f.r,f.s)*2:0))*px*(f.r.img?1.55:1))+"px";
 }
 
 /* ---- the room, painted once per size ---- */
@@ -10563,7 +10584,11 @@ function crStageFit(cv){
  // logical pixels than it can show 1:2, so the room keeps its furniture
  let S=cw>=900?4:cw>=600?3:2;const W=Math.max(176,Math.floor(cw/S)),H=Math.round(W*(cw>=600?.46:.74));
  S=Math.min(S,cw/W);
- cv.width=W;cv.height=H;cv.style.width=Math.round(W*S)+"px";cv.style.height=Math.round(H*S)+"px";
+ // Arcade draws the room at screen resolution (the room itself is still
+ // painted at W x H and scaled up square-edged), so the detailed cats are sharp
+ const K=crArc()?Math.max(1,Math.min(6,Math.ceil(S*(window.devicePixelRatio||1)))):1;
+ cv.width=W*K;cv.height=H*K;cv.style.width=Math.round(W*S)+"px";cv.style.height=Math.round(H*S)+"px";
+ cv.getContext("2d").setTransform(K,0,0,K,0,0);
  return {W,H,S};
 }
 const crZoom=W=>W<220?1.4:W<300?1.2:1;   // a phone room is only ~176px across
@@ -10601,13 +10626,31 @@ function crStage(cvId,mode){
  }
  /* where a cat can be: the floor (in his own lane), the sill or rail,
     the cat tree, the cushion */
+ /* V8.05: two cats never pick the same place. Every other cat's spot --
+    where it is, or where it is hopping to -- is kept clear by the width of
+    both cats plus a little air, and the first candidate that is clear wins
+    (failing that, the one furthest from everybody). */
+ const lvl=k=>k==="sill"||k==="tree"?k:"floor";   // the bed is on the floor
+ function taken2(A,k="floor"){
+  const out=[];
+  for(const o of actors()){if(o.id===A.id)continue;const b=AS[o.id];if(!b||b.x==null)continue;
+   if(lvl(b.hop?b.hop.k:b.spot||"floor")!==lvl(k))continue;
+   out.push({x:b.hop?b.hop.x1:b.x,hw:b.hw||9})}
+  return out;
+ }
+ function clearX(A,pick){
+  const occ=taken2(A,pick().k),me=st(A.id).hw||9;let best=null,bd=-1;
+  for(let i=0;i<10;i++){const c=pick();const d=occ.length?Math.min(...occ.map(o=>Math.abs(o.x-c.x)-o.hw-me)):1e9;
+   if(d>=4)return c;if(d>bd){bd=d;best=c}}
+  return best;
+ }
  function spot(kind,A){
-  if(kind==="sill"){const w=room.win;return room.balcony?{x:W*(.2+Math.random()*.6),y:room.rail+1,k:"sill"}:{x:w[0]+10+Math.random()*(w[2]-w[0]-20),y:w[3]+2,k:"sill"}}
+  if(kind==="sill"){const w=room.win;return clearX(A,()=>room.balcony?{x:W*(.2+Math.random()*.6),y:room.rail+1,k:"sill"}:{x:w[0]+10+Math.random()*(w[2]-w[0]-20),y:w[3]+2,k:"sill"})}
   // the middle platform: the top one would put a grown cat through the ceiling
   if(kind==="tree"&&room.tree)return {x:room.tree.x,y:room.tree.mid+1,k:"tree"};
   if(kind==="bed"&&!room.balcony)return {x:W*.13,y:H*.9,k:"bed"};
   const lo=room.balcony?.14:.2,hi=room.balcony?.86:.76;
-  return {x:W*(lo+Math.random()*(hi-lo)),y:fy(A.id),k:"floor"};
+  return clearX(A,()=>({x:W*(lo+Math.random()*(hi-lo)),y:fy(A.id),k:"floor"}));
  }
  function hop(A,to,now){
   const a=st(A.id),x0=a.x,y0=a.y,d=Math.hypot(to.x-x0,to.y-y0);
@@ -10646,7 +10689,8 @@ function crStage(cvId,mode){
   else if(r<.83&&room.tree&&!taken("tree"))hop(A,spot("tree",A),now);
   else if(others.length){ // go and sit with someone, and groom them
    const o=others[Math.floor(Math.random()*others.length)],oa=st(o.id),side=a.x<oa.x?-1:1;
-   hop(A,{x:oa.x+side*Math.max(12,(oa.hw||10)+6),y:oa.y,k:oa.spot||"floor"},now);a.social={id:o.id,at:now};
+   const tx=oa.x+side*((oa.hw||10)+(a.hw||10)+3),free=tx>8&&tx<W-8&&taken2(A,oa.spot||"floor").every(q=>Math.abs(q.x-tx)>=q.hw+(a.hw||10)+2||Math.abs(q.x-oa.x)<1);
+   if(free){hop(A,{x:tx,y:oa.y,k:oa.spot||"floor"},now);a.social={id:o.id,at:now}}else hop(A,spot("floor",A),now);
   }
  }
  function batYarn(A,now){
@@ -10678,7 +10722,7 @@ function crStage(cvId,mode){
  }
  function drawCat(c,p,x,y,flip,now,dt,marked,id,guest){
   // chewing and breathing: alternate with the second frame when there is one
-  const p2=p==="eat"&&((now/320)|0)%2?"eat2":p==="sleep"&&((now/1300)|0)%2?"sleep2":null;
+  const p2=p==="eat"&&((now/320)|0)%2?"eat2":p==="sleep"&&((now/1300)|0)%2?"sleep2":p==="walk"&&((now/210)|0)%2?"walk2":null;
   const f0=crFrame(c,p2&&crFrame(c,p2).r!==crFrame(c,p).r&&crFrame(c,p2).own?p2:p==="sitB"&&!crFrame(c,"sitB").own?"sit":p);
   const f={...f0,s:f0.s*crZoom(W)};
   let yy=y;
@@ -10688,7 +10732,7 @@ function crStage(cvId,mode){
   }else if(p==="walk")yy-=((now/160)|0)%2;
   const hw=f.r[2]*f.s/2+2;x=Math.max(hw,Math.min(W-hw,x));
   const onFloor=!AS[id]||!AS[id].hop||AS[id].hop.walk;
-  if(onFloor){g.fillStyle="rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1)}
+  if(onFloor){g.fillStyle=f.r.img?"rgba(30,20,60,.22)":"rgba(90,63,28,.32)";const sw=Math.round(f.r[2]*f.s*.4);g.fillRect(Math.round(x-sw),Math.round(y-1),sw*2,1);g.fillRect(Math.round(x-sw+2),Math.round(y),sw*2-4,1)}
   if(p==="eat"&&!f.own)drawBowl(x+(flip?-1:1)*f.r[2]*f.s*.25,y+1,true);
   const d=crDraw(g,f.r,f.s,x,yy,flip);
   // an unbrushed coat shows: stray tufts around the outline
@@ -11345,8 +11389,9 @@ function crNeeds(c,v){
 let spT=null,spRoom=null,spKey="",spLast={};
 function sidePetDraw(){
  const cv=$("sidePetCv");if(!cv||!cr)return;
- const g=cv.getContext("2d"),W=cv.width,H=cv.height,now=performance.now();
- g.imageSmoothingEnabled=false;
+ const K=crArc()?4:1;if(cv.width!==112*K){cv.width=112*K;cv.height=84*K}
+ const g=cv.getContext("2d"),W=112,H=84,now=performance.now();
+ g.setTransform(K,0,0,K,0,0);g.imageSmoothingEnabled=false;
  crTick();
  const c=crCat(),v=crVals(c),key=W+"x"+H+crDecKey();
  if(!spRoom||spKey!==key){spKey=key;spRoom=crScene(W,H,cr)}
@@ -11820,7 +11865,7 @@ function crLaserEnd(score,hits){
 let crMatchS=null,crMatchT=null;
 function crMatchStart(){
  if(!crStartPlay("match"))return;
- const faces=[{r:CR_ATLAS.stages.adult.sit,s:1},...CR_BREEDS.slice(1).map(b=>({r:CR_ATLAS.breeds[b.k],s:1})),{r:CR_ATLAS.props.mackerel,s:1},{r:CR_ATLAS.props.box,s:.6}]
+ const faces=[crArc()?{r:CR_NEW.mix.sit,s:CR_NEW_S*1.55}:{r:CR_ATLAS.stages.adult.sit,s:1},...CR_BREEDS.slice(1).map(b=>({r:CR_ATLAS.breeds[b.k],s:1})),{r:CR_ATLAS.props.mackerel,s:1},{r:CR_ATLAS.props.box,s:.6}]
   .sort(()=>Math.random()-.5).slice(0,6);
  const deck=[...faces.keys(),...faces.keys()].sort(()=>Math.random()-.5);
  crMatchS={run:true,t0:Date.now(),deck,faces,open:[],done:new Set(),miss:0,lock:false};
@@ -12110,7 +12155,7 @@ function crNextEvent(){
    +`<div class="col"><span class="lbl">${b.th}</span><canvas id="cmB" class="cm-pop"></canvas></div></div>`
    +`<div class="cm-box">${esc(c.name)} ${b.desc}<br>มาดูแลน้องกันต่อไปนะ!</div>`
    +`<div class="cm-acts"><button class="cr-btn pri" id="cmOk">เย้! เข้าใจแล้ว</button></div>`,next);
-  const pic=(id,si)=>{const cv=$(id);const f=c.breed==="mix"?{r:CR_ATLAS.stages[CR_STAGES[si].k].sit,s:1}:{r:CR_ATLAS.breeds[c.breed],s:crBScale(si)};crPaint(cv,f.r,f.s);cv.style.width=Math.round(f.r[2]*f.s*2.4)+"px"};
+  const pic=(id,si)=>{const cv=$(id);const na=crNewArt(c),f=na?{r:na.sit,s:CR_NEW_S*CR_NEW_STAGE[Math.min(si,2)]}:c.breed==="mix"?{r:CR_ATLAS.stages[CR_STAGES[si].k].sit,s:1}:{r:CR_ATLAS.breeds[c.breed],s:crBScale(si)};crPaint(cv,f.r,f.s);cv.style.width=Math.round(f.r[2]*f.s*2.4*(f.r.img?1.55:1))+"px"};
   pic("cmA",e.from);pic("cmB",e.to);crSnd("level");
   $("cmOk").onclick=()=>$("cmX").click();
   // a new body gets its own photo in the album
@@ -12263,8 +12308,17 @@ function crCareScene(kind,c){
  let W,H,S,bg=null,raf=0,dead=false,last=0,dirtyUI=true;
  const Z={step:0,tool:D.steps[0].tool||D.tools[0],down:false,px:-99,py:-99,lx:0,ly:0,over:false,finished:false,shake:0};
  const P=[];
- const f=crFrame(c,"sit"),[sx,sy,sw,sh]=f.r;
- const A=crAtlasData(),N=sw*sh,op=new Uint8Array(N);
+ const f=crFrame(c,"sit"),R=f.r;
+ let sx,sy,sw,sh,A;
+ if(R.img){
+  // the detailed sheet is far finer than the brushing grid wants: work on a
+  // copy the size of the old sprite, and draw the detailed one over the top
+  const q=46/R[2];sx=0;sy=0;sw=Math.round(R[2]*q);sh=Math.round(R[3]*q);
+  const t=document.createElement("canvas");t.width=sw;t.height=sh;const tg=t.getContext("2d",{willReadFrequently:true});
+  tg.imageSmoothingQuality="high";if(R.img.complete)tg.drawImage(R.img,R[0],R[1],R[2],R[3],0,0,sw,sh);
+  try{A={w:sw,d:tg.getImageData(0,0,sw,sh).data}}catch(_){A=null}
+ }else{[sx,sy,sw,sh]=R;A=crAtlasData()}
+ const N=sw*sh,op=new Uint8Array(N);
  if(A)for(let j=0;j<sh;j++)for(let i=0;i<sw;i++)op[j*sw+i]=A.d[((sy+j)*A.w+sx+i)*4+3]>128?1:0;
  const br=new Uint8Array(N),mat=new Uint8Array(N),wet=new Uint8Array(N),foam=new Uint8Array(N),hitT=new Float64Array(N);
  const cells=[];for(let k=0;k<N;k++)if(op[k])cells.push(k);
@@ -12411,7 +12465,8 @@ function crCareScene(kind,c){
   // the cat
   let jx=0;if(Z.finished&&now-Z.shake<900)jx=Math.round(Math.sin(now/30)*2);
   const L=left()+jx,T=top();
-  if(crImg.complete)g.drawImage(crImg,sx,sy,sw,sh,L,T,Math.round(sw*z),Math.round(sh*z));
+  if(R.img){if(R.img.complete){g.imageSmoothingEnabled=true;g.imageSmoothingQuality="high";g.drawImage(R.img,R[0],R[1],R[2],R[3],L,T,Math.round(sw*z),Math.round(sh*z));g.imageSmoothingEnabled=false}}
+  else if(crImg.complete)g.drawImage(crImg,sx,sy,sw,sh,L,T,Math.round(sw*z),Math.round(sh*z));
   // per-pixel state drawn over him
   const zz=Math.ceil(z);
   if(kind==="brush"){
