@@ -3372,7 +3372,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.05</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.06</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🎨</span>Appearance</strong><span>สลับ Light / Dark mode</span><button id="darkModeBtn" class="btn secondary" style="margin-top:9px">Toggle Dark Mode</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🕹️</span>หน้าตาแอป</strong><span>ใช้ธีม Arcade เป็นหลัก · อยากกลับไปหน้าตาเดิม (Classic) กดปุ่มนี้ กดอีกครั้งเพื่อกลับมา Arcade</span><button id="arcadeBtn" class="btn secondary" style="margin-top:9px">ใช้หน้าตาแบบเดิม (Classic)</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -5240,6 +5240,17 @@ const STAGE_IC={"สูตร":"🧪","ตั้งชื่อ":"✏️","โ�
 const NPD_PHASES=[{key:"formula_fda",name:"Formular & FDA Process",short:"สูตร & อย.",hue:"#c9761a",ic:"🧪"},{key:"label",name:"ฉลาก (Label)",short:"ฉลาก",hue:"#7b5cc4",ic:"🏷️"},{key:"carton",name:"ลัง (Carton)",short:"ลัง",hue:"#4f86b8",ic:"📦"},{key:"seven",name:"เข้า 7-11",short:"7-11",hue:"#2f8a58",ic:"🏪"},{key:"retail",name:"ห้างอื่น",short:"ห้างอื่น",hue:"#b0506e",ic:"🏬"}];
 const NPD_PHASE=Object.fromEntries(NPD_PHASES.map(p=>[p.key,p]));
 const NPD_STATUS_LABEL={done:"Done",working:"Working",wait:"Wait",next:"Next Step",skipped:"Skipped",failed:"ไม่ผ่าน"};
+/* V8.06: the colour of the carton comes from the label. After the label is
+   approved inside, the main Pantone is chosen (before the artwork goes to the
+   supplier); the carton then waits for that colour, and the carton supplier
+   paints it onto a carton so it can be looked at before anything is printed.
+   Days sit in the name, as everywhere else in the template. */
+const NPD_PANTONE={
+ label:[["เลือกสี Pantone — สีหลักของฉลาก (2 วัน)","next","MKT & Creative"]],
+ carton:[["รอสี Pantone ของฉลาก (เอามาใช้เป็นสีลัง)","next","MKT & Creative"],["Supplier ปาดสีลงลังให้ดู (3 วัน)","next","Supplier"],["ดูสีบนลัง + อนุมัติสี (1 วัน)","next","MKT & Creative"]]
+};
+const NPD_PAN_LABEL=/pantone|แพนโทน/i,NPD_PAN_WAIT=/รอ.*pantone/i,NPD_PAN_SWATCH=/ปาดสี/;
+const npdStepDays=name=>{const m=String(name||"").match(/\((\d+)\s*วัน\)/);return m?Number(m[1]):0};
 const NPD_TEMPLATE=[
  {phase:"formula_fda",tmpl:"formula_cf",title:"Final Formulation",duration_days:12,steps:[["Test_Step 1","done","MKT & RD"],["Feedback Step 1","done","MKT & RD"],["Test_Step 2","done","MKT & RD"],["Feedback Step 2","done","MKT & RD"],["Test_Step 3","done","MKT & RD"],["CF : สูตร","done","MKT & RD"]]},
  {phase:"formula_fda",title:"Final Product Name",duration_days:2,steps:[["Product Name","next","MKT & BI"]]},
@@ -5247,8 +5258,8 @@ const NPD_TEMPLATE=[
  {phase:"formula_fda",title:"FDA Registration",duration_days:45,steps:[["FDA","next","RD"]]},
  {phase:"formula_fda",title:"Halal Document (If Any)",duration_days:3,steps:[["HALAL","next","RD"]]},
  {phase:"label",title:"AW Label Design",duration_days:10,steps:[["Brief _ Label","next","MKT & Creative"],["1st Draft Design","next","Creative"],["2nd Draft Design","next","Creative"],["3rd Draft Design","next","Creative"],["AW with Real Nutrition Info.","next","MKT & Creative"]]},
- {phase:"label",title:"Label Production",duration_days:33,steps:[["Internal Approval by mail (5 วัน)","next","เลขา/RD/QC/Inter/Creative/MKT"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Black & White Film Shrink (8 วัน)","next","Supplier"],["Master Print (Digital Proof) (3 วัน)","next","เลขา/RD/QC/Inter/MKT"],["Proof Print 1-4 (3 วัน)","next","Supplier"],["Mold Production (5 วัน)","next","Supplier"],["On-Site Proof 3-4 (7 วัน)","next","Supplier"]]},
- {phase:"carton",title:"Carton Production",duration_days:19,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]},
+ {phase:"label",title:"Label Production",duration_days:35,steps:[["Internal Approval by mail (5 วัน)","next","เลขา/RD/QC/Inter/Creative/MKT"],...NPD_PANTONE.label,["Sent AW to Supplier (2 วัน)","next","Creative"],["Black & White Film Shrink (8 วัน)","next","Supplier"],["Master Print (Digital Proof) (3 วัน)","next","เลขา/RD/QC/Inter/MKT"],["Proof Print 1-4 (3 วัน)","next","Supplier"],["Mold Production (5 วัน)","next","Supplier"],["On-Site Proof 3-4 (7 วัน)","next","Supplier"]]},
+ {phase:"carton",title:"Carton Production",duration_days:23,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],...NPD_PANTONE.carton,["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]},
  ...NPD_711_TEMPLATE(),
  ...NPD_RETAIL_TEMPLATE()
 ];
@@ -5748,13 +5759,16 @@ function npdRootModel(){
  const M=npdMapModel(),prod=npdProducts.find(p=>p.id===npdCurrentProductId);
  const B=M.branches.map(b=>({id:b.ph.key,label:`${b.ph.ic} ${b.ph.short}`,hue:b.ph.hue,soft:b.ph.key==="carton"||b.ph.key==="retail",
   sub:b.ph.key==="seven"?"แตกจาก CF สูตร":b.ph.key==="retail"?"ต่อจาก 7-11":"",
-  nodes:b.nodes.map(n=>({id:String(n.m.id),title:n.m.title,ic:icFor(n.m.title)||b.ph.ic,note:npdNodeNote(n)+(n.tmpl==="711_qa"&&n.st!=="done"?" · รอฉลาก":""),
+  nodes:b.nodes.map(n=>({id:String(n.m.id),title:n.m.title,ic:icFor(n.m.title)||b.ph.ic,note:npdNodeNote(n)+(n.tmpl==="711_qa"&&n.st!=="done"?" · รอฉลาก":"")+(n.x&&n.x.waits?" · รอสี Pantone":""),
    st:n.st,bad:n.late,fail:n.failed,tip:n.x?npdBarTip(n.x):n.m.title,steps:npdStepsOf(n.m.id).map(s=>({id:s.id,name:s.name,status:s.status}))}))}));
  const fm=B.find(b=>b.id==="formula_fda"),cf=fm?M.branches.find(b=>b.ph.key==="formula_fda").nodes.findIndex(n=>n.tmpl==="formula_cf"):-1;
  const sv=B.find(b=>b.id==="seven");
  B.forEach(b=>{if(b.id==="seven"&&cf>=0)b.from={b:"formula_fda",n:cf};if(b.id==="retail"&&sv)b.from={b:"seven",n:sv.nodes.length-1}});
  const lb=B.find(b=>b.id==="label"),qa=M.branches.flatMap(b=>b.nodes).find(n=>n.tmpl==="711_qa");
- return {root:prod?prod.name:"สินค้า",branches:B,deps:lb&&qa?[[lb.nodes[lb.nodes.length-1].id,String(qa.m.id)]]:[],
+ // the carton colour hangs off the label's Pantone until that is chosen
+ const deps=lb&&qa?[[lb.nodes[lb.nodes.length-1].id,String(qa.m.id)]]:[];
+ {const P=npdPantoneSteps();if(P.label&&P.wait&&P.label.m.id!==P.wait.m.id&&P.wait.s.status!=="done"&&P.wait.s.status!=="skipped")deps.push([String(P.label.m.id),String(P.wait.m.id)])}
+ return {root:prod?prod.name:"สินค้า",branches:B,deps,
   end:{label:M.endLabel,sub:M.end?"~"+npdFmt(M.end):"เสร็จแล้ว",done:M.allDone},empty:"ยังไม่มีขั้นตอน",
   go:id=>npdMapGo(Number(id)),card:(id,sid)=>npdRootCard(Number(id),sid==null?null:Number(sid))};
 }
@@ -5947,6 +5961,16 @@ const npdParse=s=>new Date(s+"T00:00:00");
 const npdMaxD=(a,b)=>a>b?a:b;
 function npdBizOnOrAfter(d){const n=new Date(d);while(!npdIsBizDay(n))n.setDate(n.getDate()+1);return n}
 function npdTuesdayOnOrAfter(d){const n=new Date(d);while(n.getDay()!==2)n.setDate(n.getDate()+1);return n}
+const npdBackBizDays=(d,n)=>{const r=new Date(d);while(n>0){r.setDate(r.getDate()-1);if(npdIsBizDay(r))n--}return r};
+// the label's Pantone step and the carton step that waits for it, found by wording (steps have no key of their own)
+function npdPantoneSteps(){
+ const by=ph=>npdMilestones.filter(m=>m.phase===ph).sort((a,b)=>a.seq-b.seq);
+ const stepsOf=m=>npdSteps.filter(x=>x.milestone_id===m.id).sort((a,b)=>a.seq-b.seq);
+ let label=null,wait=null,swatch=null;
+ for(const m of by("label")){const st=stepsOf(m).find(x=>NPD_PAN_LABEL.test(x.name)&&!NPD_PAN_WAIT.test(x.name));if(st){label={m,s:st};break}}
+ for(const m of by("carton")){const st=stepsOf(m);const w=st.find(x=>NPD_PAN_WAIT.test(x.name));if(w){wait={m,s:w};swatch={m,s:st.find(x=>NPD_PAN_SWATCH.test(x.name))||null};break}}
+ return {label,wait,swatch};
+}
 function npdPlanPhase(key,from,opts={}){
  const today=npdD0();
  const ms=npdMilestones.filter(m=>m.phase===key).sort((a,b)=>a.seq-b.seq);
@@ -5954,12 +5978,21 @@ function npdPlanPhase(key,from,opts={}){
  for(const m of ms){
   const steps=npdSteps.filter(s=>s.milestone_id===m.id),done=npdMilestoneDone(steps),t=msTmpl(m);
   if(done&&!m.start_on)continue;
-  let start=m.start_on?npdParse(m.start_on):cursor;
+  let start=m.start_on?npdParse(m.start_on):cursor,waits=null;
   if(!m.start_on&&t==="711_qa"&&opts.labelEnd)start=npdMaxD(start,npdNextBizDay(opts.labelEnd));
+  // the carton colour step cannot start before the label's Pantone is chosen
+  if(key==="carton"&&opts.pantoneEnd&&!done){
+   const ordered=[...steps].sort((a,b)=>a.seq-b.seq),w=ordered.find(x=>NPD_PAN_WAIT.test(x.name));
+   if(w&&w.status!=="done"&&w.status!=="skipped"){
+    const pre=ordered.filter(x=>x.seq<w.seq&&x.status!=="done"&&x.status!=="skipped").reduce((n,x)=>n+npdStepDays(x.name),0);
+    if(!m.start_on)start=npdMaxD(start,pre>0?npdBackBizDays(opts.pantoneEnd,pre-1):npdNextBizDay(opts.pantoneEnd));
+    waits={what:"สี Pantone ของฉลาก",until:opts.pantoneEnd};
+   }
+  }
   start=npdBizOnOrAfter(start);
   let end=npdAddBizDays(start,m.duration_days||1);
   if(t==="711_select")end=npdTuesdayOnOrAfter(end);
-  out.push({m,phase:key,start,end,done,pinned:!!m.start_on,late:!done&&end<today,tmpl:t,
+  out.push({m,phase:key,start,end,done,pinned:!!m.start_on,late:!done&&end<today,tmpl:t,waits,
    failed:steps.some(s=>s.status==="failed"),working:steps.some(s=>s.status==="working"||s.status==="done"),steps});
   if(!done)cursor=npdMaxD(today,npdNextBizDay(end));
  }
@@ -5967,7 +6000,16 @@ function npdPlanPhase(key,from,opts={}){
 }
 function npdPlan(){
  const open=a=>a.filter(x=>!x.done),lastEnd=a=>open(a).reduce((m,x)=>!m||x.end>m?x.end:m,null);
- const formula_fda=npdPlanPhase("formula_fda"),label=npdPlanPhase("label"),carton=npdPlanPhase("carton");
+ const formula_fda=npdPlanPhase("formula_fda"),label=npdPlanPhase("label");
+ // when the label's Pantone should be chosen: its milestone's start plus the days up to and including that step
+ let pantoneEnd=null;
+ {const pan=npdPantoneSteps().label;
+  if(pan&&pan.s.status!=="done"&&pan.s.status!=="skipped"){
+   const lx=label.find(x=>x.m.id===pan.m.id);
+   if(lx){const days=npdSteps.filter(x=>x.milestone_id===pan.m.id&&x.seq<=pan.s.seq).reduce((n,x)=>n+npdStepDays(x.name),0);
+    pantoneEnd=npdMaxD(npdD0(),npdAddBizDays(lx.start,Math.max(1,days)))}
+  }}
+ const carton=npdPlanPhase("carton",null,{pantoneEnd});
  const cf=formula_fda.find(x=>x.tmpl==="formula_cf"&&!x.done);
  const seven=npdPlanPhase("seven",cf?npdNextBizDay(cf.end):null,{labelEnd:lastEnd(label)});
  const after=lastEnd(seven)||[lastEnd(formula_fda),lastEnd(label)].filter(Boolean).sort((a,b)=>b-a)[0];
@@ -5997,7 +6039,7 @@ function renderNpdPlan(){
 }
 function npdBarTip(x){
  const st=x.done?"เสร็จแล้ว":x.failed?"ไม่ผ่าน":x.late?"เลยกำหนด":"";
- return `${x.m.title} · ${NPD_PHASE[x.phase]?.short||""} · ${npdFmt(x.start)} – ${npdFmt(x.end)} · ${x.m.duration_days||1} วันทำการ${x.pinned?" · ปักวันเริ่มไว้":""}${st?" · "+st:""}`;
+ return `${x.m.title} · ${NPD_PHASE[x.phase]?.short||""} · ${npdFmt(x.start)} – ${npdFmt(x.end)} · ${x.m.duration_days||1} วันทำการ${x.pinned?" · ปักวันเริ่มไว้":""}${x.waits?` · รอ${x.waits.what} ~${npdFmt(x.waits.until)}`:""}${st?" · "+st:""}`;
 }
 function renderNpdPlanCal(P){
  const y=npdCalCursor.getFullYear(),mo=npdCalCursor.getMonth();
@@ -6047,7 +6089,7 @@ function renderNpdPlanTable(P){
      const x=byId[m.id],steps=npdSteps.filter(s=>s.milestone_id===m.id),dn=steps.filter(s=>s.status==="done").length,tot=steps.filter(s=>s.status!=="skipped").length;
      return `<div class="npt-row${x?(x.done?" is-done":x.late||x.failed?" is-late":""):" is-done"}" style="--c:${ph.hue}">
       <span class="npt-dot"></span>
-      <button class="npt-name" onclick="npdTaskEdit(${m.id})">${esc(m.title)}<small>${dn}/${tot}</small></button>
+      <button class="npt-name" onclick="npdTaskEdit(${m.id})">${esc(m.title)}<small>${dn}/${tot}${x&&x.waits?` · รอสี Pantone ฉลาก ~${npdFmt(x.waits.until)}`:""}</small></button>
       <span class="npt-start${x&&x.pinned?" npt-pinned":""}">${x?`<input type="date" value="${iso(x.start)}" onchange="npdSetStart(${m.id},this.value)" aria-label="วันเริ่ม">${x.pinned?`<button class="npt-unpin" onclick="npdSetStart(${m.id},'')" title="ไม่ปักวัน — ให้ต่อจากงานก่อนหน้า">↺</button>`:'<i>ต่อคิว</i>'}`:"—"}</span>
       <span class="npt-days"><button onclick="npdBumpDays(${m.id},-1)" aria-label="ลดวัน">−</button><input type="number" min="1" value="${m.duration_days||1}" onchange="npdSetDuration(${m.id},this.value)" aria-label="จำนวนวัน"><button onclick="npdBumpDays(${m.id},1)" aria-label="เพิ่มวัน">+</button></span>
       <span class="npt-end">${x?npdFmt(x.end)+(x.tmpl==="711_select"?" <i>อังคาร</i>":""):"—"}</span>
@@ -6278,7 +6320,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.05";
+const APP_VERSION="V8.06";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6377,9 +6419,29 @@ window.sysCopyReport=async()=>{
 };
 $("sysRunBtn").onclick=sysRun;
 window.npdGoDocs=()=>document.querySelector('#npdSubtabs [data-plview="checklist"]')?.click();
+function npdPantoneNote(m,steps){
+ if(m.phase!=="label"&&m.phase!=="carton")return "";
+ const names=steps.map(x=>x.name),P=npdPantoneSteps();
+ const isLabelMs=m.phase==="label"&&names.some(n=>/sent aw|internal approval/i.test(n)),isCartonMs=m.phase==="carton"&&names.some(n=>/internal approval|sent aw/i.test(n));
+ if(!isLabelMs&&!isCartonMs)return "";
+ const hasHere=isLabelMs?!!(P.label&&P.label.m.id===m.id):!!(P.wait&&P.wait.m.id===m.id);
+ const btn=`<button class="btn secondary small" onclick="npdAddPantoneSteps()">+ ใส่ขั้นตอน Pantone (ฉลาก + ลัง)</button>`;
+ if(!hasHere){
+  // only offer it where the product really has the milestone it belongs in
+  const other=isLabelMs?npdMilestones.some(x=>x.phase==="carton"):npdMilestones.some(x=>x.phase==="label");
+  return `<div class="npd-sel"><span>ยังไม่มีขั้นตอน <b>สี Pantone</b> — ฉลากเลือกสีหลักหลัง Internal Approval ก่อนส่ง AW แล้วลังรอสีนั้นไปให้ Supplier ปาดสี${other?"":" (ใส่ได้เมื่อสินค้ามีทั้งฉลากและลัง)"}</span><span class="npd-sel-acts">${other?btn:""}</span></div>`;
+ }
+ const chosen=P.label&&(P.label.s.status==="done"||P.label.s.status==="skipped");
+ if(isLabelMs)return `<div class="npd-sel${chosen?" pass":""}"><span>${chosen?"✓ เลือกสี Pantone ของฉลากแล้ว — ลังเอาไปใช้ทำสีได้":"สี Pantone ของฉลากเป็นสีหลัก — ลังรอสีนี้ก่อนให้ Supplier ปาดสี · ติ๊กเสร็จที่ขั้น Pantone ลังจะรู้เอง"}</span></div>`;
+ const w=P.wait,sw=P.swatch,until=npdPlan().carton.find(x=>x.m.id===m.id&&x.waits);
+ const got=w.s.status==="done"||w.s.status==="skipped";
+ return `<div class="npd-sel${got?" pass":""}"><span>${got?"✓ ได้สี Pantone จากฉลากแล้ว — ให้ Supplier ปาดสีลงลังให้ดู ก่อนส่ง AW":`⏳ ลังรอสี Pantone ของฉลาก${until?` · คาดว่าเลือกเสร็จ <b>~${npdFmt(until.waits.until)}</b>`:""} — ยังปาดสีลงลังไม่ได้`}</span>${got?"":`<span class="npd-sel-acts"><button class="btn secondary small" onclick="npdGoPantone()">ไปที่ขั้น Pantone ในฉลาก ›</button></span>`}</div>`;
+}
+window.npdGoPantone=()=>{const P=npdPantoneSteps();if(P.label)npdMapGo(P.label.m.id)};
 function npdMilestoneExtra(m){
  const t=msTmpl(m),steps=npdSteps.filter(s=>s.milestone_id===m.id);
  if(t==="formula_cf")return npdTastePanel();
+ {const pn=npdPantoneNote(m,steps);if(pn)return pn}
  if(t==="711_select"){
   const x=npdPlan().seven.find(p=>p.m.id===m.id),done=npdMilestoneDone(steps),failed=steps.some(s=>s.status==="failed");
   const r=npdSelResult([...steps].sort((a,b)=>a.seq-b.seq));
@@ -6461,6 +6523,60 @@ window.npdSetDuration=async(id,val)=>{const n=val?Number(val):null;const {error}
 window.npdRenameMilestone=async id=>{const m=npdMilestones.find(x=>x.id===id);if(!m)return;const name=prompt("ชื่อ Milestone:",m.title);if(!name)return;const {error}=await sb.from("product_milestones").update({title:name.trim()}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdDeleteMilestone=async id=>{if(!confirm("ลบ Milestone นี้ทั้งหมด (รวมขั้นตอนย่อยทุกอัน)?"))return;const {error}=await sb.from("product_milestones").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdAddMilestone=async phase=>{const title=prompt("ชื่อ Milestone ใหม่:");if(!title)return;const dur=prompt("ระยะเวลา (วันทำการ):","3");const seq=npdNextSeq(phase);const {error}=await sb.from("product_milestones").insert({product_id:npdCurrentProductId,phase,seq,title:title.trim(),duration_days:dur?Number(dur):null});if(error)return toast(error.message,"bad");toast("เพิ่ม Milestone แล้ว");await loadNpdProductData();renderNpdTimelinePane()};
+/* A product made before V8.06 has no Pantone steps. This puts them where they
+   belong -- right after Internal Approval -- on both the label and the carton,
+   moves the steps after them down, and adds their days to the milestone. It
+   never reopens finished work: if what comes next is already done, the new
+   steps go in as done (or skipped), not as something left to do. Safe to
+   press twice: it only adds what is not there. */
+window.npdAddPantoneSteps=async()=>{
+ if(!npdCurrentProductId)return;
+ const by=ph=>npdMilestones.filter(m=>m.phase===ph).sort((a,b)=>a.seq-b.seq);
+ const stepsOf=m=>npdSteps.filter(x=>x.milestone_id===m.id).sort((a,b)=>a.seq-b.seq);
+ const pick=ph=>{const ms=by(ph);return ms.find(m=>stepsOf(m).some(x=>/internal approval/i.test(x.name)))||ms.find(m=>stepsOf(m).some(x=>/sent aw/i.test(x.name)))||null};
+ const jobs=[["label",pick("label"),NPD_PANTONE.label,st=>st.some(x=>NPD_PAN_LABEL.test(x.name)&&!NPD_PAN_WAIT.test(x.name))],
+             ["carton",pick("carton"),NPD_PANTONE.carton,st=>st.some(x=>NPD_PAN_WAIT.test(x.name)||NPD_PAN_SWATCH.test(x.name))]];
+ const labelDone=(()=>{const m=jobs[0][1];if(!m)return false;const sa=stepsOf(m).find(x=>/sent aw/i.test(x.name));return !!sa&&(sa.status==="done"||sa.status==="skipped")})();
+ let added={label:0,carton:0},failed=false;
+ for(const [kind,m,rows,has] of jobs){
+  if(!m||has(stepsOf(m)))continue;
+  const st=stepsOf(m);
+  let at=st.findIndex(x=>/internal approval/i.test(x.name));
+  at=at>=0?at+1:(()=>{const i=st.findIndex(x=>/sent aw/i.test(x.name));return i>=0?i:st.length})();
+  const prevSeq=at>0?st[at-1].seq:-1,after=st.slice(at),next=after[0];
+  const nextDone=!!next&&(next.status==="done"||next.status==="skipped");
+  // what the new steps should start as, so finished work stays finished
+  const status=(i)=>kind==="label"?(nextDone?"done":"next"):(nextDone?(i===0?"done":"skipped"):"next");
+  const n=rows.length;
+  if(after.length){
+   const res=await Promise.all(after.map(x=>sb.from("product_steps").update({seq:x.seq+n}).eq("id",x.id)));
+   if(res.some(r=>r.error)){toast(res.find(r=>r.error).error.message,"bad");failed=true;continue}
+  }
+  const {error}=await sb.from("product_steps").insert(rows.map((r,i)=>({milestone_id:m.id,seq:prevSeq+1+i,name:r[0],status:status(i),owners:r[2]})));
+  if(error){toast(error.message,"bad");failed=true;continue}
+  added[kind]=n;
+  const days=rows.reduce((a,r)=>a+npdStepDays(r[0]),0);
+  if(days&&!nextDone)await sb.from("product_milestones").update({duration_days:(m.duration_days||0)+days}).eq("id",m.id);
+ }
+ await loadNpdProductData();renderNpdTimelinePane();
+ if(failed)return;
+ if(added.label+added.carton)toast(`ใส่ขั้นตอน Pantone แล้ว — ฉลาก ${added.label} ขั้น · ลัง ${added.carton} ขั้น`);
+ else toast("สินค้านี้มีขั้นตอน Pantone ครบอยู่แล้ว");
+ // the label may already be past the choice; then the carton's wait is already satisfied
+ if(labelDone)await npdSyncPantoneWait();
+};
+// when the label's Pantone is chosen (or taken back), the carton's wait step follows, and says so
+async function npdSyncPantoneWait(quiet){
+ const P=npdPantoneSteps();if(!P.label||!P.wait)return;
+ const chosen=P.label.s.status==="done",w=P.wait.s;
+ if(chosen&&w.status!=="done"&&w.status!=="skipped"){
+  const {error}=await sb.from("product_steps").update({status:"done"}).eq("id",w.id);
+  if(!error){if(!quiet)toast("เลือกสี Pantone ฉลากแล้ว — ลังรู้สีแล้ว ให้ Supplier ปาดสีลงลังได้");await loadNpdProductData();renderNpdTimelinePane()}
+ }else if(!chosen&&w.status==="done"){
+  const {error}=await sb.from("product_steps").update({status:"next"}).eq("id",w.id);
+  if(!error){if(!quiet)toast("สี Pantone ฉลากถูกถอนกลับ — ลังกลับไปรอสีอีกครั้ง");await loadNpdProductData();renderNpdTimelinePane()}
+ }
+}
 window.npdAddStep=async milestoneId=>{const name=prompt("ชื่อขั้นตอนใหม่:");if(!name)return;const owners=prompt("ผู้รับผิดชอบ (เช่น MKT & RD):","")||null;const seq=npdSteps.filter(s=>s.milestone_id===milestoneId).length;const {error}=await sb.from("product_steps").insert({milestone_id:milestoneId,seq,name:name.trim(),owners,status:"next"});if(error)return toast(error.message,"bad");toast("เพิ่มขั้นตอนแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
 // The first step to get going pins the milestone's start, so its dates stop
 // sliding forward with today.
@@ -6474,6 +6590,8 @@ window.npdSetStepStatus=async(id,status)=>{
   if(!rest.length||rest.some(x=>x.status!=="done"&&x.status!=="skipped"))await npdPatchMilestone(m.id,{start_on:todayISO()});
  }
  await loadNpdProductData();renderNpdTimelinePane();
+ // the label's Pantone drives the carton's wait step
+ if(s&&NPD_PAN_LABEL.test(s.name)&&!NPD_PAN_WAIT.test(s.name)&&m&&m.phase==="label")await npdSyncPantoneWait();
 };
 window.npdEditStep=async id=>{const s=npdSteps.find(x=>x.id===id);if(!s)return;const name=prompt("ชื่อขั้นตอน:",s.name);if(name===null||!name.trim())return;const owners=prompt("ผู้รับผิดชอบ:",s.owners||"");const deadline=prompt("Deadline note (เว้นว่างได้):",s.deadline_note||"");const {error}=await sb.from("product_steps").update({name:name.trim(),owners:owners||null,deadline_note:deadline||null}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdDeleteStep=async id=>{if(!confirm("ลบขั้นตอนนี้?"))return;const {error}=await sb.from("product_steps").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};

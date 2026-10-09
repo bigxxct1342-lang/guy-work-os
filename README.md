@@ -443,6 +443,22 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.06 Product Launch: Pantone steps for the label and the carton
+- **Label → Label Production:** a new step, **เลือกสี Pantone — สีหลักของฉลาก (2 วัน)**, sits right after Internal Approval and before Sent AW to Supplier. The milestone grows from 33 to 35 days.
+- **Carton → Carton Production:** three new steps after Internal Approval and before Sent AW to Supplier:
+  - **รอสี Pantone ของฉลาก** (the carton takes its colour from the label);
+  - **Supplier ปาดสีลงลังให้ดู (3 วัน)**;
+  - **ดูสีบนลัง + อนุมัติสี (1 วัน)**.
+  The milestone grows from 19 to 23 days.
+- **The wait is real in the plan.** Until the label's Pantone step is done, the carton is not planned to start earlier than it needs to for its first steps to finish when the Pantone is ready. The plan table says so on the carton row ("รอสี Pantone ฉลาก ~27 Oct"), and so does the root map (a dotted root from Label Production to Carton Production, and a note on the carton knot).
+- **Ticking the label's Pantone step done ticks the carton's "รอสี Pantone" step for you**, and un-ticking it puts the carton back to waiting. The page says so when it happens.
+- **New products** get all of this from the template.
+- **Products made before V8.06** show a note on their Label Production and Carton Production cards with a button, **+ ใส่ขั้นตอน Pantone (ฉลาก + ลัง)**. It puts the steps in the right place and moves the later ones down.
+  - It never reopens finished work: if the step that follows is already done, the new steps go in as done (or skipped).
+  - Pressing it twice adds nothing the second time.
+- The days in the names are my guesses (2, 3 and 1). Change a milestone's days in the plan table, or rename a step with the pencil.
+- No SQL.
+
 ## V8.05 New PORKCHOP, and cats keep their own spot
 - **PORKCHOP redrawn** from the user's ChatGPT pose sheet: a chubby orange tabby with folded ears, in full colour, with eleven poses (sit, look up, happy, eat ×2, sleep ×2, crouch, leap, walk ×2).
   - Walking now has two real steps, and eating and sleeping use their own second frame.
