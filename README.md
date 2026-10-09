@@ -443,6 +443,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.07 Arcade is the only look
+- **Classic and dark mode are gone.** The app has one look, Arcade, set on `<body class="arcade">`. Nothing is switched on at load any more.
+- **Settings:** the Appearance (dark mode) and หน้าตาแอป (Arcade/Classic) rows are removed.
+- **Saved choices are forgotten.** On load the app clears `guy_theme`, `porkchop_look` and `porkchop_arcade` from the device, so an old dark or Classic choice cannot linger.
+- **Code removed:** the look switch, every Classic branch in the Cat Room painters (`crArc`, `crHex`, the sepia ramp), the 33 `body.dark` rules and the Classic-only base rules. Dark mode went too because on top of Arcade it was a broken hybrid (black calendar cells, way-in screens turning brown-black).
+- **What stays:** the base CSS Arcade is layered on still gives layout, so it is not deleted; only what nothing can reach any more is.
+- **Arcade did not move.** 64 screenshots (desktop + phone) match the previous version apart from Settings, which is shorter by the two rows; all 116 Cat Room canvas fingerprints are identical with the clock frozen. A leftover `guy_theme=dark` on a device changes nothing.
+- No SQL to run.
+
 ## V8.06 Product Launch: Pantone steps for the label and the carton
 - **Label → Label Production:** a new step, **เลือกสี Pantone — สีหลักของฉลาก (2 วัน)**, sits right after Internal Approval and before Sent AW to Supplier. The milestone grows from 33 to 35 days.
 - **Carton → Carton Production:** three new steps after Internal Approval and before Sent AW to Supplier:

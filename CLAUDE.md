@@ -56,9 +56,10 @@ is there before trusting a clean sweep.
 
 Run `parse.sh` after every edit to `index.html`.
 
-Arcade (`body.arcade`) is the default look since V8.01; Classic is only what
-someone picks in Settings (`porkchop_look=classic`). Screenshot changes in
-Arcade first, and check Classic did not move.
+Arcade is the only look since V8.07: `<body class="arcade">` is static and
+there is no Classic and no dark mode, so there is nothing else to check.
+Rules scoped to `body.arcade` are the app's real styling; the unscoped base
+rules under them still carry layout, so do not delete them wholesale.
 
 ## Bumping the version
 
