@@ -445,8 +445,8 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 
 ## V8.09 Market Watch → PowerPoint
 - **"📊 PowerPoint" on the Market Watch summary** builds a .pptx of what is on screen (the month and filters you picked), named `Market-Watch-YYYY-MM.pptx`.
-- **The deck:** cover → snapshot (count, channels, the ten trends with how many products fell in each) → "so what" (threat / watch / idea with the next step) → price per gram per category as an editable bar chart with low / average / high → one slide per product (photo left; name, brand, maker, size, price, ฿/g, channels and sale period, three selling points, shelf life, trends, next step right) → every photo on one page.
-- **Same structure as the monthly NPD scan, plus** price-per-gram charts, verdicts, and next steps, which the hand-made deck does not have.
+- **The deck is built like a consulting deck:** every title is the sentence the slide proves, written from the data; the body is a numbered exhibit (chart or table, with its unit); a source line and page number sit at the bottom. White page, red as the only accent, no emoji.
+- **Order:** title → executive summary (four numbered findings) → market overview (by channel, by category) → the ten trends with counts and examples → price per gram per category (editable chart + observations) → implications (threat / idea / watch, what we noticed, what to do next) → appendix: one fact sheet per product (photo, fact table, selling points, verdict) and a photo wall.
 - Font is Leelawadee UI (Windows' Thai UI font); PowerPoint on a Mac swaps in its own Thai font.
 - The PowerPoint library (PptxGenJS 4.0.1, MIT) is kept in `vendor/` and only downloaded the first time someone exports.
 - Tested by building a deck from six products in the app, opening it in LibreOffice and looking at every slide. Not opened in Microsoft PowerPoint itself. No SQL.

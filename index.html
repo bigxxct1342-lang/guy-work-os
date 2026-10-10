@@ -7687,16 +7687,16 @@ function mwInit(){
 }
 mwInit();
 /* ---- Market Watch → PowerPoint ----------------------------------------
-   The same deck a monthly NPD scan ends up as, built from the rows instead
-   of by hand: a snapshot and a "so what" up front, price per gram laid out
-   as editable charts, then one slide per product (photo left, facts right),
-   then every photo on one page. The library is vendored and only fetched on
-   the first export, so it costs nothing until it is used. */
-const MW_TREND_DESC={snack:"ขนมไม่ใช่แค่ขนม — เป็นมื้อคั่นระหว่างวัน",bold:"รสจัดแบบเอเชีย เกาหลี ญี่ปุ่น จีน และรสไทยจัดจ้าน",better:"โปรตีนสูง ไขมัน/โซเดียมต่ำ อบไม่ทอด มีตัวเลขบนแพ็ก",
- seafood:"โปรตีนจากทะเลกลายเป็นของกินเล่นและพร้อมทาน",cook:"ทางลัดทำอาหารเอง: ซอสหมัก ผงปรุง หม้อทอดไร้น้ำมัน",collab:"จับคู่แบรนด์ ร้านดัง หรือวัตถุดิบท้องถิ่น ให้มีเหตุผลลอง",
- rte:"อาหารพร้อมทานระดับร้านดัง ราคา 59–79 บาท",single:"ซองเล็ก ราคาเข้าถึงง่าย ซื้อลองได้ทันที",pack:"แพ็กต้องขายรสชาติใน 1 วินาที: สีสด ภาพอาหารชัด",claim:"เคลมเด่นหน้าแพ็กเป็นป้ายหรือไอคอนที่อ่านเร็ว"};
-const MW_DECK={red:"C8102E",redL:"FBE3E6",ink:"1B1B1F",paper:"F6F2EE",card:"FFFFFF",mute:"6B6670",line:"E2DCD6",
- v:{threat:["C8102E","FBE3E6"],watch:["B7791F","FDF1D8"],idea:["2D7A4B","DFF1E5"]},font:"Leelawadee UI"};
+   Built the way a consulting deck is: every slide's title is the sentence it
+   proves, the body is the evidence (a chart or a table, numbered, with its
+   unit), and a source line says where the numbers came from. Summary and
+   implications first; the product-by-product detail goes to the appendix.
+   White page, red as the only accent, no emoji. The titles are written from
+   the rows, so they change with the data. The library is vendored and only
+   fetched on the first export. */
+const MW_DECK={red:"C8102E",ink:"1A1A1A",grey:"595959",soft:"8C8C8C",rule:"BFBFBF",hair:"E3E3E3",tint:"F7F2F2",
+ v:{threat:"C8102E",watch:"B7791F",idea:"2D7A4B"},font:"Leelawadee UI"};
+const MW_VNAME={threat:"ภัยต่อเรา",watch:"จับตา",idea:"ยืมไอเดียได้"};
 function mwLoadPptx(){
  if(window.PptxGenJS)return Promise.resolve();
  return new Promise((ok,no)=>{const s=document.createElement("script");s.src="./vendor/pptxgen.bundle.js?v=401";
@@ -7706,123 +7706,160 @@ const mwImgSize=src=>new Promise(ok=>{const i=new Image();i.onload=()=>ok([i.nat
 // a picture fitted inside a box without stretching it
 const mwFit=(x,y,w,h,iw,ih)=>{const k=Math.min(w/iw,h/ih),fw=iw*k,fh=ih*k;return {x:x+(w-fw)/2,y:y+(h-fh)/2,w:fw,h:fh}};
 const mwPoints=sp=>String(sp||"").split(/\n|•|·|\s\|\s/).map(s=>s.trim()).filter(Boolean).slice(0,4);
+const mwShort=(s,n)=>{s=String(s||"");return s.length>n?s.slice(0,n-1)+"…":s};
 async function mwBuildDeck(list,label){
  await mwLoadPptx();
  const D=MW_DECK,F=D.font,pptx=new window.PptxGenJS();
  pptx.layout="LAYOUT_WIDE";pptx.title=`Market Watch — ${label}`;pptx.author=profile?.full_name||"PORKCHOP G";
  pptx.theme={headFontFace:F,bodyFontFace:F};
- const W=13.333,H=7.5,SH=pptx.ShapeType;
- const T=(s,text,o)=>s.addText(text,{fontFace:F,color:D.ink,margin:0,valign:"middle",...o});
- const box=(s,x,y,w,h,fill,o={})=>s.addShape(SH.roundRect,{x,y,w,h,fill:{color:fill},line:{color:o.line||fill,width:o.lw||0.75},rectRadius:o.r??0.12});
- const foot=(s,n)=>T(s,`MARKET WATCH · ${label}${n?` · ${n}`:""}`,{x:0.5,y:H-0.42,w:8,h:0.3,fontSize:9,color:D.mute});
+ const W=13.333,H=7.5,L=0.55,R=W-0.55,CW=R-L,shape=pptx.ShapeType;
+ const T=(s,text,o)=>s.addText(text,{fontFace:F,color:D.ink,margin:0,valign:"top",...o});
+ const rule=(s,x,y,w,c=D.rule,pt=0.75)=>s.addShape(shape.line,{x,y,w,h:0,line:{color:c,width:pt}});
+ const rect=(s,x,y,w,h,fill,line)=>s.addShape(shape.rect,{x,y,w,h,fill:{color:fill},line:{color:line||fill,width:0.75}});
  const chName=c=>(MW_CH.find(x=>x[0]===c)||[c,c])[1];
- const sizes={};
- for(const it of list)if(it.photo)sizes[it.id]=await mwImgSize(it.photo);
+ const tName=k=>(MW_TRENDS.find(t=>t[0]===k)||[k,k])[1];
+ const n=list.length,d=mwSummaryData(list),pg=it=>mwPerG(it);
+ const days=list.map(i=>i.seen_on).filter(Boolean).sort();
+ const span=days.length?(days[0]===days[days.length-1]?mwDay(days[0]):`${mwDay(days[0])} – ${mwDay(days[days.length-1])}`):"";
+ const SOURCE=`ที่มา: Market Watch (PORKCHOP G) · สินค้าที่พบ${span?` ${span}`:""} · ราคาปลีกปกติ ณ วันที่พบ ไม่รวมโปรโมชั่น`;
+ let page=0;
+ // every content slide: tracker, action title, rule, source, page number
+ const slide=(tracker,title,source=SOURCE)=>{const s=pptx.addSlide();s.background={color:"FFFFFF"};page++;
+  T(s,tracker,{x:L,y:0.32,w:9,h:0.25,fontSize:10.5,bold:true,color:D.red});
+  T(s,title,{x:L,y:0.6,w:CW,h:0.95,fontSize:22,bold:true,valign:"middle",fit:"shrink"});
+  rule(s,L,1.62,CW,D.ink,1);
+  if(source)T(s,source,{x:L,y:H-0.45,w:CW-1,h:0.25,fontSize:8.5,color:D.soft});
+  T(s,String(page),{x:R-0.5,y:H-0.45,w:0.5,h:0.25,fontSize:9,color:D.soft,align:"right"});
+  return s};
+ const exhibit=(s,no,text,x,y,w)=>T(s,[{text:`ภาพที่ ${no}  `,options:{bold:true,color:D.ink}},{text,options:{color:D.grey}}],{x,y,w,h:0.3,fontSize:11});
+ let ex=0;
+ const sizes={};for(const it of list)if(it.photo)sizes[it.id]=await mwImgSize(it.photo);
  const pic=(s,it,x,y,w,h)=>{const sz=sizes[it.id];
-  if(!it.photo||!sz){T(s,mwCat(it.category)[2],{x,y,w,h,fontSize:Math.round(Math.min(w,h)*28),align:"center"});return}
+  if(!it.photo||!sz){rect(s,x,y,w,h,"F2F2F2");T(s,"ไม่มีรูป",{x,y,w,h,fontSize:11,color:D.soft,align:"center",valign:"middle"});return}
   s.addImage({data:it.photo.replace(/^data:/,""),...mwFit(x,y,w,h,sz[0],sz[1])})};
- const d=mwSummaryData(list),chans=MW_CH.map(c=>({c,n:list.filter(i=>(i.channels||[]).includes(c[0])).length}));
+ const vmark=(s,k,x,y)=>{if(k)rect(s,x,y,0.14,0.14,D.v[k])};
+ const fmtPct=x=>`${x>0?"+":""}${Math.round(x*100)}%`;
+ const catAvg=c=>{const r=d.byCat.find(b=>b.c[0]===c);return r&&r.n>1?r.avg:null};
+ const vsAvg=it=>{const a=catAvg(it.category),p=pg(it);return a!=null&&p!=null?(p-a)/a:null};
 
- // 1. cover
- let s=pptx.addSlide();s.background={color:D.ink};
- s.addShape(SH.rect,{x:0,y:0,w:0.28,h:H,fill:{color:D.red},line:{color:D.red}});
- T(s,"NPD MARKET WATCH",{x:0.9,y:1.6,w:11,h:0.5,fontSize:16,bold:true,color:"FF8DA1",charSpacing:4});
- T(s,"สินค้าใหม่ในตลาด",{x:0.9,y:2.15,w:11,h:1.1,fontSize:48,bold:true,color:"FFFFFF"});
- T(s,label,{x:0.9,y:3.25,w:11,h:0.7,fontSize:28,color:"FFFFFF"});
- T(s,"วางขายใน 7-Eleven · ห้าง / MT · โชห่วย / TT  ·  ออนไลน์เฉพาะอาหารทะเลกระป๋อง",{x:0.9,y:4.1,w:11.5,h:0.45,fontSize:14,color:"B9B3C2"});
- box(s,0.9,5.0,2.6,1.4,D.red,{r:0.15});
- T(s,String(list.length),{x:0.9,y:5.0,w:2.6,h:0.95,fontSize:48,bold:true,color:"FFFFFF",align:"center"});
- T(s,"NEW ITEMS",{x:0.9,y:5.9,w:2.6,h:0.4,fontSize:12,bold:true,color:"FFFFFF",align:"center",charSpacing:3});
- T(s,`${profile?.full_name||""}${profile?.full_name?" · ":""}${new Date().toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`,{x:3.9,y:5.5,w:8,h:0.5,fontSize:14,color:"B9B3C2"});
+ // facts the titles are written from
+ const chans=MW_CH.map(c=>({c,n:list.filter(i=>(i.channels||[]).includes(c[0])).length})).sort((a,b)=>b.n-a.n);
+ const topCh=chans[0];
+ const cats=MW_CATS.map(c=>({c,n:list.filter(i=>i.category===c[0]).length})).filter(r=>r.n).sort((a,b)=>b.n-a.n);
+ const trTop=d.trends.filter(r=>r.n===(d.trends[0]||{}).n);
+ const canned=list.filter(i=>MW_CANNED.includes(i.category)),cpg=canned.map(pg).filter(x=>x!=null);
+ const act=[...d.threat,...d.idea,...d.watch];
 
- // 2. snapshot: the count, where it sells, and the ten trends with how many fell in each
- s=pptx.addSlide();s.background={color:D.paper};
- T(s,`NPD MARKET SNAPSHOT | ${label}`,{x:0.5,y:0.35,w:9,h:0.35,fontSize:13,bold:true,color:D.red,charSpacing:2});
- T(s,"ภาพรวมสินค้าใหม่",{x:0.5,y:0.7,w:9,h:0.7,fontSize:30,bold:true});
- box(s,0.5,1.55,3.0,1.45,D.red,{r:0.15});
- T(s,String(list.length),{x:0.5,y:1.55,w:3.0,h:1.0,fontSize:54,bold:true,color:"FFFFFF",align:"center"});
- T(s,"NPD ITEMS",{x:0.5,y:2.5,w:3.0,h:0.4,fontSize:12,bold:true,color:"FFFFFF",align:"center",charSpacing:3});
- chans.forEach((r,i)=>{const x=3.75+i*2.3;box(s,x,1.55,2.1,1.45,D.card,{line:D.line});
-  T(s,String(r.n),{x,y:1.62,w:2.1,h:0.85,fontSize:34,bold:true,color:r.n?D.ink:D.line,align:"center"});
-  T(s,r.c[1],{x,y:2.45,w:2.1,h:0.4,fontSize:13,color:D.mute,align:"center"})});
- MW_TRENDS.forEach(([k,name],i)=>{const n=(d.trends.find(r=>r.t[0]===k)||{n:0}).n,col=i%2,row=i>>1,x=0.5+col*6.25,y=3.25+row*0.77;
-  box(s,x,y,6.0,0.66,n?D.card:"EFEAE5",{line:n?D.red:D.line,lw:n?1.25:0.75});
-  s.addShape(SH.ellipse,{x:x+0.13,y:y+0.13,w:0.4,h:0.4,fill:{color:n?D.red:"C9C2BB"},line:{color:n?D.red:"C9C2BB"}});
-  T(s,String(n),{x:x+0.13,y:y+0.13,w:0.4,h:0.4,fontSize:12,bold:true,color:"FFFFFF",align:"center"});
-  T(s,[{text:name,options:{bold:true,color:n?D.red:D.mute,fontSize:13,breakLine:true}},{text:MW_TREND_DESC[k]||"",options:{fontSize:10,color:D.mute}}],{x:x+0.68,y:y+0.04,w:5.2,h:0.58,valign:"middle"})});
- foot(s);
+ // 1. title
+ let s=pptx.addSlide();s.background={color:"FFFFFF"};
+ rect(s,0,0,0.22,H,D.red);
+ T(s,"MARKET WATCH · NPD",{x:1.0,y:1.7,w:10,h:0.35,fontSize:13,bold:true,color:D.red,charSpacing:2});
+ T(s,`สินค้าใหม่ในตลาด ${label}`,{x:1.0,y:2.15,w:11.3,h:1.0,fontSize:36,bold:true});
+ T(s,`${n} รายการที่วางขายใน 7-Eleven, ห้าง / MT และโชห่วย / TT — สิ่งที่เห็น และสิ่งที่ควรทำต่อ`,{x:1.0,y:3.2,w:11.3,h:0.8,fontSize:18,color:D.grey});
+ rule(s,1.0,4.35,4,D.red,2);
+ T(s,`${profile?.full_name||"PORKCHOP G"}\n${new Date().toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`,{x:1.0,y:4.55,w:8,h:0.8,fontSize:13,color:D.grey});
 
- // 3. so what: the verdicts and the next step, which is the part a list of products leaves out
- if(d.threat.length||d.watch.length||d.idea.length){
-  s=pptx.addSlide();s.background={color:D.paper};
-  T(s,"SO WHAT",{x:0.5,y:0.35,w:9,h:0.35,fontSize:13,bold:true,color:D.red,charSpacing:2});
-  T(s,"ผลต่อเรา และสิ่งที่ควรทำต่อ",{x:0.5,y:0.7,w:11,h:0.7,fontSize:30,bold:true});
-  [["threat","🔴 ภัย"],["watch","🟡 จับตา"],["idea","🟢 ยืมไอเดียได้"]].forEach(([k,h],i)=>{const x=0.5+i*4.15,[c,bg]=D.v[k],items=d[k].slice(0,6);
-   box(s,x,1.6,3.95,5.3,D.card,{line:D.line});
-   s.addShape(SH.rect,{x,y:1.6,w:3.95,h:0.62,fill:{color:bg},line:{color:bg}});
-   T(s,`${h}  ${d[k].length}`,{x:x+0.2,y:1.6,w:3.6,h:0.62,fontSize:16,bold:true,color:c});
-   T(s,items.length?items.flatMap((it,j)=>[{text:it.name+(it.brand?` (${it.brand})`:""),options:{bold:true,fontSize:13,color:D.ink,breakLine:true}},{text:it.action?`→ ${it.action}`:"→ ยังไม่ได้ใส่สิ่งที่ต้องทำ",options:{fontSize:11.5,color:it.action?D.ink:D.mute,breakLine:j<items.length-1,paraSpaceAfter:8}}]):[{text:"—",options:{color:D.mute}}],
-    {x:x+0.2,y:2.35,w:3.55,h:4.4,valign:"top",fit:"shrink"})});
-  foot(s);
- }
+ // 2. executive summary: the whole deck in four sentences
+ const bullets=[];
+ bullets.push([`พบสินค้าใหม่ ${n} รายการ`,` ส่วนใหญ่อยู่ใน ${topCh.c[1]} (${topCh.n} จาก ${n}) · ${chans.filter(r=>r.n).map(r=>`${r.c[1]} ${r.n}`).join(" · ")}`]);
+ if(trTop.length&&trTop[0].n)bullets.push([`เทรนด์ที่เห็นบ่อยที่สุดคือ ${trTop.slice(0,2).map(r=>r.t[1]).join(" และ ")}`,` (${trTop[0].n} รายการ${trTop.length>1?"เท่ากัน":""})${d.trends[trTop.length]?` ตามด้วย ${d.trends.slice(trTop.length,trTop.length+2).map(r=>`${r.t[1]} (${r.n})`).join(", ")}`:""}`]);
+ if(cpg.length)bullets.push([`อาหารทะเลกระป๋อง ราคาต่อกรัม ${mwG(Math.min(...cpg))}–${mwG(Math.max(...cpg))} บาท`,` เฉลี่ย ${mwG(cpg.reduce((a,b)=>a+b,0)/cpg.length)} บาท/กรัม จาก ${cpg.length} รายการ`]);
+ else if(d.byCat[0]&&d.byCat[0].avg!=null)bullets.push([`${d.byCat[0].c[1]} ราคาต่อกรัม ${mwG(d.byCat[0].min)}–${mwG(d.byCat[0].max)} บาท`,` เฉลี่ย ${mwG(d.byCat[0].avg)} บาท/กรัม`]);
+ if(act.length)bullets.push([`${d.threat.length} รายการเป็นภัยต่อเรา และ ${d.idea.length} รายการมีไอเดียที่ยืมได้`,act.find(i=>i.action)?` — สิ่งแรกที่ควรทำ: ${act.find(i=>i.action).action}`:""]);
+ s=slide("สรุปสำหรับผู้บริหาร",bullets.length?`${n} สินค้าใหม่เดือนนี้ ชี้ว่า${trTop.length&&trTop[0].n?`ตลาดเดินไปทาง ${trTop.slice(0,2).map(r=>r.t[1]).join(" และ ")}`:"ตลาดยังกระจายตัว"}${d.threat.length?` และมี ${d.threat.length} รายการที่ต้องตอบสนอง`:""}`:"ยังไม่มีข้อมูลเดือนนี้");
+ bullets.forEach(([b,t],i)=>{const y=1.95+i*1.18;
+  T(s,String(i+1),{x:L,y,w:0.5,h:0.5,fontSize:20,bold:true,color:D.red});
+  T(s,[{text:b,options:{bold:true}},{text:t,options:{color:D.grey}}],{x:L+0.6,y:y+0.03,w:CW-0.6,h:0.95,fontSize:15,fit:"shrink"});
+  if(i<bullets.length-1)rule(s,L+0.6,y+1.05,CW-0.6,D.hair)});
 
- // 4. price per gram, one editable chart per category that has something to compare
+ // 3. where the launches are: channel and category, side by side
+ s=slide("ภาพรวมตลาด",`${topCh.n} จาก ${n} รายการวางขายผ่าน ${topCh.c[1]} — ${!cats.length?"":cats.length>1&&cats[1].n===cats[0].n?`สินค้ากระจายอยู่ใน ${cats.length} หมวดใกล้เคียงกัน`:`${cats[0].c[1]}มีสินค้าใหม่มากที่สุด (${cats[0].n})`}`);
+ const bar=(s,no,cap,rows,x,w)=>{exhibit(s,no,cap,x,1.85,w);
+  s.addChart(pptx.ChartType.bar,[{name:"รายการ",labels:rows.map(r=>r[0]),values:rows.map(r=>r[1])}],
+   {x,y:2.2,w,h:4.3,barDir:"bar",chartColors:[D.red],catAxisOrientation:"maxMin",catAxisLabelFontFace:F,catAxisLabelFontSize:12,catAxisLabelColor:D.ink,catAxisLineShow:false,
+    valAxisHidden:true,valGridLine:{style:"none"},showValue:true,dataLabelFontFace:F,dataLabelFontSize:12,dataLabelColor:D.ink,dataLabelPosition:"outEnd",dataLabelFormatCode:"0",barGapWidthPct:70})};
+ bar(s,++ex,"จำนวนสินค้าใหม่ แยกตามช่องทาง (รายการ; 1 สินค้าอยู่ได้หลายช่องทาง)",chans.map(r=>[r.c[1],r.n]),L,5.9);
+ bar(s,++ex,"จำนวนสินค้าใหม่ แยกตามหมวด (รายการ)",cats.map(r=>[r.c[1],r.n]),L+6.35,5.88);
+
+ // 4. trends: all ten, counted, with what was seen
+ s=slide("เทรนด์",trTop.length&&trTop[0].n?`${trTop.slice(0,2).map(r=>r.t[1]).join(" และ ")} เป็นเทรนด์ที่เห็นบ่อยที่สุด (${trTop[0].n} จาก ${n} รายการ)`:"ยังไม่ได้ติดแท็กเทรนด์ให้สินค้าเดือนนี้");
+ exhibit(s,++ex,"เทรนด์สินค้าใหม่ 10 ด้าน: จำนวนรายการที่เข้าข่าย และตัวอย่าง",L,1.85,CW);
+ const allTr=MW_TRENDS.map(t=>({t,items:list.filter(i=>(i.trends||[]).includes(t[0]))})).sort((a,b)=>b.items.length-a.items.length);
+ const maxT=Math.max(1,...allTr.map(r=>r.items.length)),ty=2.3,rh=0.41;
+ [["เทรนด์",L,3.3],["รายการ",L+3.4,2.6],["ตัวอย่างที่พบ",L+6.2,CW-6.2]].forEach(([h,x,w])=>T(s,h,{x,y:ty-0.02,w,h:0.3,fontSize:10.5,bold:true,color:D.grey}));
+ rule(s,L,ty+0.3,CW,D.ink,0.75);
+ allTr.forEach((r,i)=>{const y=ty+0.38+i*rh,k=r.items.length,on=k>0,c=on?D.ink:D.soft;
+  T(s,r.t[1],{x:L,y,w:3.3,h:rh,fontSize:12,bold:on,color:c,valign:"middle"});
+  if(on)rect(s,L+3.4,y+0.11,2.2*k/maxT,rh-0.22,D.red);
+  T(s,String(k),{x:L+3.4+(on?2.2*k/maxT+0.08:0),y,w:0.5,h:rh,fontSize:12,bold:on,color:c,valign:"middle"});
+  T(s,on?r.items.slice(0,3).map(i=>i.brand||mwShort(i.name,22)).join(", "):"—",{x:L+6.2,y,w:CW-6.2,h:rh,fontSize:11.5,color:on?D.grey:D.soft,valign:"middle",fit:"shrink"});
+  rule(s,L,y+rh,CW,D.hair)});
+
+ // 5. price per gram: one chart per category that has something to compare
  for(const r of d.byCat){
-  const xs=list.filter(i=>i.category===r.c[0]&&mwPerG(i)!=null).sort((a,b)=>mwPerG(a)-mwPerG(b)).slice(0,12);
+  const xs=list.filter(i=>i.category===r.c[0]&&pg(i)!=null).sort((a,b)=>pg(a)-pg(b)).slice(0,12);
   if(xs.length<2)continue;
-  s=pptx.addSlide();s.background={color:D.paper};
-  T(s,"PRICE PER GRAM",{x:0.5,y:0.35,w:9,h:0.35,fontSize:13,bold:true,color:D.red,charSpacing:2});
-  T(s,`${r.c[1]} — ราคาต่อกรัม`,{x:0.5,y:0.7,w:9,h:0.7,fontSize:30,bold:true});
-  [["ต่ำสุด",r.min],["เฉลี่ย",r.avg],["สูงสุด",r.max]].forEach(([k,v],i)=>{const x=9.45+i*1.3;box(s,x,0.55,1.18,0.95,i===1?D.red:D.card,{line:i===1?D.red:D.line});
-   T(s,mwG(v),{x,y:0.6,w:1.18,h:0.55,fontSize:18,bold:true,align:"center",color:i===1?"FFFFFF":D.ink});
-   T(s,`${k} ฿/g`,{x,y:1.12,w:1.18,h:0.3,fontSize:9.5,align:"center",color:i===1?"FFFFFF":D.mute})});
-  s.addChart(pptx.ChartType.bar,[{name:"฿/กรัม",labels:xs.map(i=>`${i.brand?i.brand+" · ":""}${i.name}${i.size_g?` (${Number(i.size_g)} g)`:""}`),values:xs.map(i=>+mwPerG(i).toFixed(3))}],
-   {x:0.5,y:1.75,w:12.3,h:5.25,barDir:"bar",chartColors:[D.red],catAxisOrientation:"maxMin",catAxisLabelFontFace:F,catAxisLabelFontSize:12,catAxisLabelColor:D.ink,
-    valAxisHidden:true,valGridLine:{style:"none"},showValue:true,dataLabelFormatCode:"0.000",dataLabelFontFace:F,dataLabelFontSize:12,dataLabelColor:D.ink,dataLabelPosition:"outEnd",barGapWidthPct:60});
-  foot(s);
+  const lo=xs[0],hi=xs[xs.length-1];
+  s=slide("ราคา",`${r.c[1]}: ราคาต่อกรัมห่างกัน ${(pg(hi)/pg(lo)).toFixed(1)} เท่า — ${lo.brand||mwShort(lo.name,20)} ถูกสุด ${mwG(pg(lo))} บาท, ${hi.brand||mwShort(hi.name,20)} แพงสุด ${mwG(pg(hi))} บาท`);
+  exhibit(s,++ex,`ราคาต่อกรัม ${r.c[1]} (บาท/กรัม)`,L,1.85,8.4);
+  s.addChart(pptx.ChartType.bar,[{name:"บาท/กรัม",labels:xs.map(i=>`${i.brand?i.brand+" · ":""}${mwShort(i.name,28)}${i.size_g?` (${Number(i.size_g)} g)`:""}`),values:xs.map(i=>+pg(i).toFixed(3))}],
+   {x:L,y:2.2,w:8.4,h:4.4,barDir:"bar",chartColors:[D.red],catAxisOrientation:"maxMin",catAxisLabelFontFace:F,catAxisLabelFontSize:11,catAxisLabelColor:D.ink,catAxisLineShow:false,
+    valAxisHidden:true,valGridLine:{style:"none"},showValue:true,dataLabelFormatCode:"0.000",dataLabelFontFace:F,dataLabelFontSize:11,dataLabelColor:D.ink,dataLabelPosition:"outEnd",barGapWidthPct:60});
+  const bx=L+8.8,bw=CW-8.8;
+  rect(s,bx,1.85,bw,4.75,D.tint);rect(s,bx,1.85,0.06,4.75,D.red);
+  T(s,"ข้อสังเกต",{x:bx+0.3,y:2.0,w:bw-0.5,h:0.35,fontSize:13,bold:true,color:D.red});
+  T(s,[[`ต่ำสุด ${mwG(r.min)} · เฉลี่ย ${mwG(r.avg)} · สูงสุด ${mwG(r.max)} บาท/กรัม`],[`${xs.length} รายการที่มีทั้งราคาและขนาด`],
+   ...xs.filter(i=>i.verdict==="threat").map(i=>[`${i.brand||mwShort(i.name,20)} (ภัยต่อเรา) อยู่ที่ ${mwG(pg(i))} บาท/กรัม`])].map(([t],i,a)=>({text:t,options:{bullet:true,breakLine:i<a.length-1,paraSpaceAfter:8}})),
+   {x:bx+0.3,y:2.45,w:bw-0.5,h:3.9,fontSize:12.5,color:D.ink,fit:"shrink"});
  }
 
- // 5. one product per slide: the photo, then the facts in the order they get asked for
- const order=[...list].sort((a,b)=>MW_CATS.findIndex(c=>c[0]===a.category)-MW_CATS.findIndex(c=>c[0]===b.category)||String(b.seen_on).localeCompare(String(a.seen_on)));
- order.forEach((it,n)=>{
-  s=pptx.addSlide();s.background={color:D.paper};
-  const cat=mwCat(it.category),v=it.verdict&&D.v[it.verdict],vt=MW_VER.find(x=>x[0]===it.verdict),pg=mwPerG(it),X=6.75,WR=6.08;
-  s.addShape(SH.rect,{x:0,y:0,w:6.4,h:H,fill:{color:"ECE6E0"},line:{color:"ECE6E0"}});
-  pic(s,it,0.35,0.35,5.7,H-0.7);
-  box(s,X,0.4,2.9,0.42,D.card,{line:D.line,r:0.2});
-  T(s,`${cat[2]} ${cat[1]}`,{x:X,y:0.4,w:2.9,h:0.42,fontSize:11,bold:true,align:"center",color:D.mute});
-  if(v){box(s,X+WR-2.2,0.4,2.2,0.42,v[1],{line:v[0],r:0.2});T(s,`${vt[1]} ${vt[2]}`,{x:X+WR-2.2,y:0.4,w:2.2,h:0.42,fontSize:12,bold:true,align:"center",color:v[0]})}
-  box(s,X,1.0,WR,0.95,D.ink,{r:0.12});
-  T(s,it.name,{x:X+0.25,y:1.0,w:WR-0.5,h:0.95,fontSize:24,bold:true,color:"FFFFFF",fit:"shrink"});
-  T(s,[it.brand,it.maker&&`ผลิตโดย ${it.maker}`].filter(Boolean).join("  ·  ")||" ",{x:X,y:2.02,w:WR,h:0.38,fontSize:12,color:D.mute});
-  [["ขนาด",it.size_g?`${Number(it.size_g)} g`:"—"],["ราคา",it.price!=null&&it.price!==""?`${Number(it.price)} ฿`:"—"],["฿ / กรัม",mwG(pg)]].forEach(([k,val],i)=>{const x=X+i*2.06,hot=i===2;
-   box(s,x,2.5,1.96,1.05,hot?D.red:D.card,{line:hot?D.red:D.line});
-   T(s,val,{x,y:2.55,w:1.96,h:0.62,fontSize:22,bold:true,align:"center",color:hot?"FFFFFF":D.ink});
-   T(s,k,{x,y:3.13,w:1.96,h:0.34,fontSize:11,align:"center",color:hot?"FFFFFF":D.mute})});
-  const sale=it.sale_from||it.sale_to?`ช่วงขาย ${[mwDay(it.sale_from),mwDay(it.sale_to)].filter(Boolean).join(" – ")}`:"";
-  T(s,[{text:"วางขาย  ",options:{bold:true,color:D.red}},{text:[(it.channels||[]).map(chName).join(" · "),it.stores,sale].filter(Boolean).join("   |   ")||"—"}],{x:X,y:3.68,w:WR,h:0.42,fontSize:12.5,fit:"shrink"});
-  const pts=mwPoints(it.selling_points);
-  box(s,X,4.22,1.9,0.42,D.red,{r:0.2});T(s,"Selling Points",{x:X,y:4.22,w:1.9,h:0.42,fontSize:12,bold:true,color:"FFFFFF",align:"center"});
-  (pts.length?pts:["—"]).slice(0,3).forEach((p,i)=>{const y=4.75+i*0.5;
-   box(s,X,y,WR,0.42,D.card,{line:D.line,r:0.1});
-   if(pts.length){s.addShape(SH.ellipse,{x:X+0.1,y:y+0.06,w:0.3,h:0.3,fill:{color:D.red},line:{color:D.red}});T(s,"✓",{x:X+0.1,y:y+0.06,w:0.3,h:0.3,fontSize:11,bold:true,color:"FFFFFF",align:"center"})}
-   T(s,p,{x:X+0.52,y,w:WR-0.62,h:0.42,fontSize:12,fit:"shrink",color:pts.length?D.ink:D.mute})});
-  const tags=[it.shelf_life&&`⏱ Shelf life ${it.shelf_life}`,(it.trends||[]).map(k=>(MW_TRENDS.find(t=>t[0]===k)||[])[1]).filter(Boolean).join(" · ")].filter(Boolean).join("     ");
-  if(tags)T(s,tags,{x:X,y:6.25,w:WR,h:0.32,fontSize:10.5,color:D.mute,fit:"shrink"});
-  if(it.action){const [c,bg]=v||[D.ink,"E9E4DF"];box(s,X,6.62,WR,0.5,bg,{line:c,r:0.1});
-   T(s,[{text:"➜ ทำอะไรต่อ  ",options:{bold:true,color:c}},{text:it.action}],{x:X+0.15,y:6.62,w:WR-0.3,h:0.5,fontSize:12.5,fit:"shrink"})}
-  T(s,`${n+1}/${order.length}`,{x:W-1.3,y:H-0.38,w:0.9,h:0.28,fontSize:9,color:D.mute,align:"right"});
- });
+ // 6. implications: what each product means for us, and what to do
+ const imp=[...d.threat,...d.idea,...d.watch];
+ for(let k=0;k<Math.max(1,imp.length);k+=7){
+  const rows=imp.slice(k,k+7);
+  s=slide("ผลต่อเรา",imp.length?`${d.threat.length} รายการต้องตอบสนอง และ ${d.idea.length} รายการมีไอเดียที่ยืมได้${imp.length>7?` (${k/7+1}/${Math.ceil(imp.length/7)})`:""}`:"ยังไม่ได้ประเมินผลต่อเราของสินค้าเดือนนี้");
+  exhibit(s,++ex,"สินค้าที่มีผลต่อเรา และสิ่งที่ควรทำต่อ",L,1.85,CW);
+  const cols=[["ผลต่อเรา",L,1.75],["สินค้า",L+1.85,3.6],["ข้อสังเกต",L+5.55,3.3],["สิ่งที่ควรทำต่อ",L+8.95,CW-8.95]],y0=2.3,h=0.6;
+  cols.forEach(([t,x,w])=>T(s,t,{x,y:y0,w,h:0.3,fontSize:10.5,bold:true,color:D.grey}));rule(s,L,y0+0.3,CW,D.ink,0.75);
+  if(!rows.length)T(s,"ติดผลต่อเรา (ภัย / จับตา / ยืมไอเดีย) ที่สินค้าในแอป เพื่อให้หน้านี้มีข้อมูล",{x:L,y:y0+0.5,w:CW,h:0.4,fontSize:12,color:D.soft});
+  rows.forEach((it,i)=>{const y=y0+0.38+i*h,va=vsAvg(it),note=[pg(it)!=null?`${mwG(pg(it))} บาท/กรัม${va!=null?` (${fmtPct(va)} เทียบเฉลี่ยหมวด)`:""}`:"",mwPoints(it.selling_points)[0]].filter(Boolean).join(" · ");
+   vmark(s,it.verdict,L,y+0.14);
+   T(s,MW_VNAME[it.verdict],{x:L+0.24,y,w:1.5,h:0.42,fontSize:11.5,bold:true,color:D.v[it.verdict],valign:"middle"});
+   T(s,[{text:mwShort(it.name,40),options:{bold:true,breakLine:true}},{text:[it.brand,(it.channels||[]).map(chName).join(", ")].filter(Boolean).join(" · "),options:{color:D.grey,fontSize:10}}],{x:L+1.85,y,w:3.6,h:h-0.05,fontSize:11.5,fit:"shrink"});
+   T(s,note||"—",{x:L+5.55,y,w:3.3,h:h-0.05,fontSize:10.5,color:D.grey,fit:"shrink"});
+   T(s,it.action||"ยังไม่ได้ระบุ",{x:L+8.95,y,w:CW-8.95,h:h-0.05,fontSize:11.5,bold:!!it.action,color:it.action?D.ink:D.soft,fit:"shrink"});
+   rule(s,L,y+h-0.02,CW,D.hair)});
+ }
 
- // 6. every photo on one page, ten to a slide, for the wall-of-shelves view
+ // 7. appendix: one page per product, then every photo
+ s=pptx.addSlide();s.background={color:"FFFFFF"};page++;
+ rect(s,0,0,0.22,H,D.red);
+ T(s,"ภาคผนวก",{x:1.0,y:2.9,w:11,h:0.8,fontSize:32,bold:true});
+ T(s,`รายละเอียดสินค้า ${n} รายการ และภาพสินค้าทั้งหมด`,{x:1.0,y:3.7,w:11,h:0.5,fontSize:16,color:D.grey});
+ const order=[...list].sort((a,b)=>MW_CATS.findIndex(c=>c[0]===a.category)-MW_CATS.findIndex(c=>c[0]===b.category)||String(b.seen_on).localeCompare(String(a.seen_on)));
+ order.forEach((it,i)=>{
+  const va=vsAvg(it),p=pg(it);
+  s=slide(`ภาคผนวก · ${mwCat(it.category)[1]} · ${i+1}/${order.length}`,`${it.name}${p!=null?`: ${mwG(p)} บาท/กรัม${va!=null?` — ${va<0?"ถูกกว่า":"แพงกว่า"}ค่าเฉลี่ยหมวด ${Math.abs(Math.round(va*100))}%`:""}`:""}`);
+  rect(s,L,1.85,4.75,4.85,"FFFFFF",D.hair);pic(s,it,L+0.1,1.95,4.55,4.65);
+  const X=L+5.15,WR=CW-5.15,sale=it.sale_from||it.sale_to?[mwDay(it.sale_from),mwDay(it.sale_to)].filter(Boolean).join(" – "):"";
+  const facts=[["แบรนด์",it.brand],["ผู้ผลิต",it.maker],["ขนาด / ราคา",[it.size_g?`${Number(it.size_g)} g`:"",it.price!=null&&it.price!==""?`${Number(it.price)} บาท`:""].filter(Boolean).join(" · ")],
+   ["ราคาต่อกรัม",p!=null?`${mwG(p)} บาท${catAvg(it.category)!=null?` (เฉลี่ยหมวด ${mwG(catAvg(it.category))})`:""}`:""],["ช่องทาง",[(it.channels||[]).map(chName).join(", "),it.stores].filter(Boolean).join(" · ")],
+   ["ช่วงขาย",sale],["Shelf life",it.shelf_life],["เทรนด์",(it.trends||[]).map(tName).join(", ")]].filter(r=>r[1]);
+  exhibit(s,++ex,"ข้อมูลสินค้า",X,1.85,WR);rule(s,X,2.2,WR,D.ink,0.75);
+  facts.forEach(([k,v],j)=>{const y=2.25+j*0.36;T(s,k,{x:X,y,w:1.7,h:0.36,fontSize:11,color:D.grey,valign:"middle"});T(s,v,{x:X+1.75,y,w:WR-1.75,h:0.36,fontSize:11.5,valign:"middle",fit:"shrink"});rule(s,X,y+0.36,WR,D.hair)});
+  const pts=mwPoints(it.selling_points),py=2.35+facts.length*0.36;
+  if(pts.length){T(s,"จุดขายที่แบรนด์สื่อสาร",{x:X,y:py,w:WR,h:0.3,fontSize:11,bold:true,color:D.grey});
+   T(s,pts.slice(0,3).map((t,j,a)=>({text:t,options:{bullet:true,breakLine:j<a.length-1}})),{x:X,y:py+0.32,w:WR,h:Math.max(0.4,(it.verdict||it.action?5.95:6.65)-py-0.32),fontSize:11.5,fit:"shrink"})}
+  if(it.verdict||it.action){const c=it.verdict?D.v[it.verdict]:D.ink;
+   rect(s,X,6.05,WR,0.65,D.tint);rect(s,X,6.05,0.06,0.65,c);
+   T(s,[{text:`${it.verdict?MW_VNAME[it.verdict]:"สิ่งที่ควรทำ"}  `,options:{bold:true,color:c}},{text:it.action||""}],{x:X+0.22,y:6.05,w:WR-0.3,h:0.65,fontSize:12,valign:"middle",fit:"shrink"})}
+ });
  const withPic=order.filter(i=>i.photo&&sizes[i.id]);
  for(let k=0;k<withPic.length;k+=10){
-  s=pptx.addSlide();s.background={color:D.paper};
-  T(s,`ภาพรวมสินค้าทั้งหมด${withPic.length>10?` (${k/10+1}/${Math.ceil(withPic.length/10)})`:""}`,{x:0.5,y:0.3,w:10,h:0.6,fontSize:24,bold:true});
-  withPic.slice(k,k+10).forEach((it,i)=>{const col=i%5,x=0.5+col*2.5,y=1.0+Math.floor(i/5)*3.05;
-   box(s,x,y,2.3,2.9,D.card,{line:D.line});pic(s,it,x+0.1,y+0.1,2.1,2.0);
-   T(s,[{text:it.name,options:{bold:true,fontSize:10.5,breakLine:true}},{text:[it.price!=null&&it.price!==""?`${Number(it.price)} ฿`:"",mwPerG(it)!=null?`${mwG(mwPerG(it))} ฿/g`:""].filter(Boolean).join(" · ")||" ",options:{fontSize:9.5,color:D.mute}}],{x:x+0.1,y:y+2.15,w:2.1,h:0.75,valign:"top",fit:"shrink"})});
-  foot(s);
+  s=slide("ภาคผนวก",`ภาพสินค้าทั้งหมด${withPic.length>10?` (${k/10+1}/${Math.ceil(withPic.length/10)})`:""}`);
+  withPic.slice(k,k+10).forEach((it,i)=>{const x=L+(i%5)*2.47,y=1.85+Math.floor(i/5)*2.5;
+   pic(s,it,x,y,2.3,1.75);
+   T(s,[{text:mwShort(it.name,34),options:{bold:true,breakLine:true}},{text:[it.price!=null&&it.price!==""?`${Number(it.price)} บาท`:"",pg(it)!=null?`${mwG(pg(it))} บาท/กรัม`:""].filter(Boolean).join(" · ")||" ",options:{color:D.grey}}],{x,y:y+1.8,w:2.3,h:0.6,fontSize:9.5,fit:"shrink"})});
  }
  return pptx;
 }
