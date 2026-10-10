@@ -1393,6 +1393,7 @@ body.nmz-lock{overflow:hidden}
 .mw-sum{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px;margin-bottom:14px}
 .mw-sum-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .mw-sum-h b{font-size:14px}
+.mw-sum-btns{display:flex;gap:8px;flex-wrap:wrap}
 .mw-sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
 .mw-sum h4{margin:0 0 6px;font-size:11.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
 .mw-line{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:3px 0;border-bottom:1px dashed var(--line)}
@@ -3408,7 +3409,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.08</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.09</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -6373,7 +6374,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.08";
+const APP_VERSION="V8.09";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -7544,7 +7545,7 @@ function mwSummaryText(list,label){
 function mwSummaryHTML(list,label){
  const d=mwSummaryData(list);
  const todo=(k,h)=>d[k].length?`<h4>${h} (${d[k].length})</h4>${d[k].map(i=>`<div class="mw-todo"><b>${esc(i.name)}</b>${i.action?` → ${esc(i.action)}`:""}</div>`).join("")}`:"";
- return `<div class="mw-sum-h"><b>สรุป ${esc(label)} · ${list.length} ตัว</b><button class="btn secondary small" id="mwCopy">คัดลอกสรุป</button></div><div class="mw-sum-grid">
+ return `<div class="mw-sum-h"><b>สรุป ${esc(label)} · ${list.length} ตัว</b><span class="mw-sum-btns"><button class="btn secondary small" id="mwCopy">คัดลอกสรุป</button><button class="btn primary small" id="mwPptx">📊 PowerPoint</button></span></div><div class="mw-sum-grid">
  <div><h4>฿/กรัม แยกหมวด (ต่ำ · เฉลี่ย · สูง)</h4>${d.byCat.map(r=>`<div class="mw-line"><span>${r.c[2]} ${esc(r.c[1])} · ${r.n}</span><span>${r.avg==null?"—":`${mwG(r.min)} · ${mwG(r.avg)} · ${mwG(r.max)}`}</span></div>`).join("")}</div>
  <div><h4>เทรนด์ที่เจอ</h4>${d.trends.length?d.trends.map(r=>`<div class="mw-line"><span>${esc(r.t[1])}</span><span>${r.n}</span></div>`).join(""):'<div class="help">ยังไม่ได้ติดแท็กเทรนด์</div>'}</div>
  <div>${todo("threat","🔴 ภัย")}${todo("watch","🟡 จับตา")}${todo("idea","🟢 ยืมไอเดียได้")||""}${!d.threat.length&&!d.watch.length&&!d.idea.length?'<h4>ผลต่อเรา</h4><div class="help">ยังไม่ได้ตัดสินว่าตัวไหนเป็นภัย / ไอเดีย</div>':""}</div></div>`;
@@ -7563,7 +7564,7 @@ function renderMarket(){
  $("mwChips").innerHTML=chip(thisMonth.length,"เจอเดือนนี้","🔎")+chip(mwItems.filter(i=>i.verdict==="threat").length,"ภัย","🔴")+chip(mwItems.filter(i=>i.verdict==="idea").length,"ยืมไอเดียได้","🟢")+chip(mwItems.length,"ทั้งหมด","🗂️");
  const sum=$("mwSummary");
  sum.classList.toggle("hidden",!list.length);
- if(list.length){sum.innerHTML=mwSummaryHTML(list,label);$("mwCopy").onclick=()=>mwCopyText(mwSummaryText(list,label))}
+ if(list.length){sum.innerHTML=mwSummaryHTML(list,label);$("mwCopy").onclick=()=>mwCopyText(mwSummaryText(list,label));$("mwPptx").onclick=()=>mwExportPptx(list,label)}
  $("mwList").innerHTML=list.length?list.map(mwRowHTML).join(""):`<div class="empty">${mwItems.length?"ไม่มีสินค้าตามตัวกรองนี้":"ยังไม่มีสินค้า — เจอของใหม่บนชั้น กด “+ เก็บสินค้า” แล้วถ่ายรูป ใส่ราคา เสร็จใน 30 วินาที"}</div>`;
 }
 async function mwCopyText(t){
@@ -7685,6 +7686,190 @@ function mwInit(){
  };
 }
 mwInit();
+/* ---- Market Watch → PowerPoint ----------------------------------------
+   Built the way a consulting deck is: every slide's title is the sentence it
+   proves, the body is the evidence (a chart or a table, numbered, with its
+   unit), and a source line says where the numbers came from. Summary and
+   implications first; the product-by-product detail goes to the appendix.
+   White page, red as the only accent, no emoji. The titles are written from
+   the rows, so they change with the data. The library is vendored and only
+   fetched on the first export. */
+const MW_DECK={red:"C8102E",ink:"1A1A1A",grey:"595959",soft:"8C8C8C",rule:"BFBFBF",hair:"E3E3E3",tint:"F7F2F2",
+ v:{threat:"C8102E",watch:"B7791F",idea:"2D7A4B"},font:"Leelawadee UI"};
+const MW_VNAME={threat:"ภัยต่อเรา",watch:"จับตา",idea:"ยืมไอเดียได้"};
+function mwLoadPptx(){
+ if(window.PptxGenJS)return Promise.resolve();
+ return new Promise((ok,no)=>{const s=document.createElement("script");s.src="./vendor/pptxgen.bundle.js?v=401";
+  s.onload=()=>window.PptxGenJS?ok():no(new Error("ตัวสร้าง PowerPoint โหลดไม่ครบ"));s.onerror=()=>no(new Error("โหลดตัวสร้าง PowerPoint ไม่ได้ — ต่อเน็ตแล้วลองใหม่"));document.head.appendChild(s)});
+}
+const mwImgSize=src=>new Promise(ok=>{const i=new Image();i.onload=()=>ok([i.naturalWidth,i.naturalHeight]);i.onerror=()=>ok(null);i.src=src});
+// a picture fitted inside a box without stretching it
+const mwFit=(x,y,w,h,iw,ih)=>{const k=Math.min(w/iw,h/ih),fw=iw*k,fh=ih*k;return {x:x+(w-fw)/2,y:y+(h-fh)/2,w:fw,h:fh}};
+const mwPoints=sp=>String(sp||"").split(/\n|•|·|\s\|\s/).map(s=>s.trim()).filter(Boolean).slice(0,4);
+const mwShort=(s,n)=>{s=String(s||"");return s.length>n?s.slice(0,n-1)+"…":s};
+async function mwBuildDeck(list,label){
+ await mwLoadPptx();
+ const D=MW_DECK,F=D.font,pptx=new window.PptxGenJS();
+ pptx.layout="LAYOUT_WIDE";pptx.title=`Market Watch — ${label}`;pptx.author=profile?.full_name||"PORKCHOP G";
+ pptx.theme={headFontFace:F,bodyFontFace:F};
+ const W=13.333,H=7.5,L=0.55,R=W-0.55,CW=R-L,shape=pptx.ShapeType;
+ const T=(s,text,o)=>s.addText(text,{fontFace:F,color:D.ink,margin:0,valign:"top",...o});
+ const rule=(s,x,y,w,c=D.rule,pt=0.75)=>s.addShape(shape.line,{x,y,w,h:0,line:{color:c,width:pt}});
+ const rect=(s,x,y,w,h,fill,line)=>s.addShape(shape.rect,{x,y,w,h,fill:{color:fill},line:{color:line||fill,width:0.75}});
+ const chName=c=>(MW_CH.find(x=>x[0]===c)||[c,c])[1];
+ const tName=k=>(MW_TRENDS.find(t=>t[0]===k)||[k,k])[1];
+ const n=list.length,d=mwSummaryData(list),pg=it=>mwPerG(it);
+ const days=list.map(i=>i.seen_on).filter(Boolean).sort();
+ const span=days.length?(days[0]===days[days.length-1]?mwDay(days[0]):`${mwDay(days[0])} – ${mwDay(days[days.length-1])}`):"";
+ const SOURCE=`ที่มา: Market Watch (PORKCHOP G) · สินค้าที่พบ${span?` ${span}`:""} · ราคาปลีกปกติ ณ วันที่พบ ไม่รวมโปรโมชั่น`;
+ let page=0;
+ // every content slide: tracker, action title, rule, source, page number
+ const slide=(tracker,title,source=SOURCE)=>{const s=pptx.addSlide();s.background={color:"FFFFFF"};page++;
+  T(s,tracker,{x:L,y:0.32,w:9,h:0.25,fontSize:10.5,bold:true,color:D.red});
+  T(s,title,{x:L,y:0.6,w:CW,h:0.95,fontSize:22,bold:true,valign:"middle",fit:"shrink"});
+  rule(s,L,1.62,CW,D.ink,1);
+  if(source)T(s,source,{x:L,y:H-0.45,w:CW-1,h:0.25,fontSize:8.5,color:D.soft});
+  T(s,String(page),{x:R-0.5,y:H-0.45,w:0.5,h:0.25,fontSize:9,color:D.soft,align:"right"});
+  return s};
+ const exhibit=(s,no,text,x,y,w)=>T(s,[{text:`ภาพที่ ${no}  `,options:{bold:true,color:D.ink}},{text,options:{color:D.grey}}],{x,y,w,h:0.3,fontSize:11});
+ let ex=0;
+ const sizes={};for(const it of list)if(it.photo)sizes[it.id]=await mwImgSize(it.photo);
+ const pic=(s,it,x,y,w,h)=>{const sz=sizes[it.id];
+  if(!it.photo||!sz){rect(s,x,y,w,h,"F2F2F2");T(s,"ไม่มีรูป",{x,y,w,h,fontSize:11,color:D.soft,align:"center",valign:"middle"});return}
+  s.addImage({data:it.photo.replace(/^data:/,""),...mwFit(x,y,w,h,sz[0],sz[1])})};
+ const vmark=(s,k,x,y)=>{if(k)rect(s,x,y,0.14,0.14,D.v[k])};
+ const fmtPct=x=>`${x>0?"+":""}${Math.round(x*100)}%`;
+ const catAvg=c=>{const r=d.byCat.find(b=>b.c[0]===c);return r&&r.n>1?r.avg:null};
+ const vsAvg=it=>{const a=catAvg(it.category),p=pg(it);return a!=null&&p!=null?(p-a)/a:null};
+
+ // facts the titles are written from
+ const chans=MW_CH.map(c=>({c,n:list.filter(i=>(i.channels||[]).includes(c[0])).length})).sort((a,b)=>b.n-a.n);
+ const topCh=chans[0];
+ const cats=MW_CATS.map(c=>({c,n:list.filter(i=>i.category===c[0]).length})).filter(r=>r.n).sort((a,b)=>b.n-a.n);
+ const trTop=d.trends.filter(r=>r.n===(d.trends[0]||{}).n);
+ const canned=list.filter(i=>MW_CANNED.includes(i.category)),cpg=canned.map(pg).filter(x=>x!=null);
+ const act=[...d.threat,...d.idea,...d.watch];
+
+ // 1. title
+ let s=pptx.addSlide();s.background={color:"FFFFFF"};
+ rect(s,0,0,0.22,H,D.red);
+ T(s,"MARKET WATCH · NPD",{x:1.0,y:1.7,w:10,h:0.35,fontSize:13,bold:true,color:D.red,charSpacing:2});
+ T(s,`สินค้าใหม่ในตลาด ${label}`,{x:1.0,y:2.15,w:11.3,h:1.0,fontSize:36,bold:true});
+ T(s,`${n} รายการที่วางขายใน 7-Eleven, ห้าง / MT และโชห่วย / TT — สิ่งที่เห็น และสิ่งที่ควรทำต่อ`,{x:1.0,y:3.2,w:11.3,h:0.8,fontSize:18,color:D.grey});
+ rule(s,1.0,4.35,4,D.red,2);
+ T(s,`${profile?.full_name||"PORKCHOP G"}\n${new Date().toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"})}`,{x:1.0,y:4.55,w:8,h:0.8,fontSize:13,color:D.grey});
+
+ // 2. executive summary: the whole deck in four sentences
+ const bullets=[];
+ bullets.push([`พบสินค้าใหม่ ${n} รายการ`,` ส่วนใหญ่อยู่ใน ${topCh.c[1]} (${topCh.n} จาก ${n}) · ${chans.filter(r=>r.n).map(r=>`${r.c[1]} ${r.n}`).join(" · ")}`]);
+ if(trTop.length&&trTop[0].n)bullets.push([`เทรนด์ที่เห็นบ่อยที่สุดคือ ${trTop.slice(0,2).map(r=>r.t[1]).join(" และ ")}`,` (${trTop[0].n} รายการ${trTop.length>1?"เท่ากัน":""})${d.trends[trTop.length]?` ตามด้วย ${d.trends.slice(trTop.length,trTop.length+2).map(r=>`${r.t[1]} (${r.n})`).join(", ")}`:""}`]);
+ if(cpg.length)bullets.push([`อาหารทะเลกระป๋อง ราคาต่อกรัม ${mwG(Math.min(...cpg))}–${mwG(Math.max(...cpg))} บาท`,` เฉลี่ย ${mwG(cpg.reduce((a,b)=>a+b,0)/cpg.length)} บาท/กรัม จาก ${cpg.length} รายการ`]);
+ else if(d.byCat[0]&&d.byCat[0].avg!=null)bullets.push([`${d.byCat[0].c[1]} ราคาต่อกรัม ${mwG(d.byCat[0].min)}–${mwG(d.byCat[0].max)} บาท`,` เฉลี่ย ${mwG(d.byCat[0].avg)} บาท/กรัม`]);
+ if(act.length)bullets.push([`${d.threat.length} รายการเป็นภัยต่อเรา และ ${d.idea.length} รายการมีไอเดียที่ยืมได้`,act.find(i=>i.action)?` — สิ่งแรกที่ควรทำ: ${act.find(i=>i.action).action}`:""]);
+ s=slide("สรุปสำหรับผู้บริหาร",bullets.length?`${n} สินค้าใหม่เดือนนี้ ชี้ว่า${trTop.length&&trTop[0].n?`ตลาดเดินไปทาง ${trTop.slice(0,2).map(r=>r.t[1]).join(" และ ")}`:"ตลาดยังกระจายตัว"}${d.threat.length?` และมี ${d.threat.length} รายการที่ต้องตอบสนอง`:""}`:"ยังไม่มีข้อมูลเดือนนี้");
+ bullets.forEach(([b,t],i)=>{const y=1.95+i*1.18;
+  T(s,String(i+1),{x:L,y,w:0.5,h:0.5,fontSize:20,bold:true,color:D.red});
+  T(s,[{text:b,options:{bold:true}},{text:t,options:{color:D.grey}}],{x:L+0.6,y:y+0.03,w:CW-0.6,h:0.95,fontSize:15,fit:"shrink"});
+  if(i<bullets.length-1)rule(s,L+0.6,y+1.05,CW-0.6,D.hair)});
+
+ // 3. where the launches are: channel and category, side by side
+ s=slide("ภาพรวมตลาด",`${topCh.n} จาก ${n} รายการวางขายผ่าน ${topCh.c[1]} — ${!cats.length?"":cats.length>1&&cats[1].n===cats[0].n?`สินค้ากระจายอยู่ใน ${cats.length} หมวดใกล้เคียงกัน`:`${cats[0].c[1]}มีสินค้าใหม่มากที่สุด (${cats[0].n})`}`);
+ const bar=(s,no,cap,rows,x,w)=>{exhibit(s,no,cap,x,1.85,w);
+  s.addChart(pptx.ChartType.bar,[{name:"รายการ",labels:rows.map(r=>r[0]),values:rows.map(r=>r[1])}],
+   {x,y:2.2,w,h:4.3,barDir:"bar",chartColors:[D.red],catAxisOrientation:"maxMin",catAxisLabelFontFace:F,catAxisLabelFontSize:12,catAxisLabelColor:D.ink,catAxisLineShow:false,
+    valAxisHidden:true,valGridLine:{style:"none"},showValue:true,dataLabelFontFace:F,dataLabelFontSize:12,dataLabelColor:D.ink,dataLabelPosition:"outEnd",dataLabelFormatCode:"0",barGapWidthPct:70})};
+ bar(s,++ex,"จำนวนสินค้าใหม่ แยกตามช่องทาง (รายการ; 1 สินค้าอยู่ได้หลายช่องทาง)",chans.map(r=>[r.c[1],r.n]),L,5.9);
+ bar(s,++ex,"จำนวนสินค้าใหม่ แยกตามหมวด (รายการ)",cats.map(r=>[r.c[1],r.n]),L+6.35,5.88);
+
+ // 4. trends: all ten, counted, with what was seen
+ s=slide("เทรนด์",trTop.length&&trTop[0].n?`${trTop.slice(0,2).map(r=>r.t[1]).join(" และ ")} เป็นเทรนด์ที่เห็นบ่อยที่สุด (${trTop[0].n} จาก ${n} รายการ)`:"ยังไม่ได้ติดแท็กเทรนด์ให้สินค้าเดือนนี้");
+ exhibit(s,++ex,"เทรนด์สินค้าใหม่ 10 ด้าน: จำนวนรายการที่เข้าข่าย และตัวอย่าง",L,1.85,CW);
+ const allTr=MW_TRENDS.map(t=>({t,items:list.filter(i=>(i.trends||[]).includes(t[0]))})).sort((a,b)=>b.items.length-a.items.length);
+ const maxT=Math.max(1,...allTr.map(r=>r.items.length)),ty=2.3,rh=0.41;
+ [["เทรนด์",L,3.3],["รายการ",L+3.4,2.6],["ตัวอย่างที่พบ",L+6.2,CW-6.2]].forEach(([h,x,w])=>T(s,h,{x,y:ty-0.02,w,h:0.3,fontSize:10.5,bold:true,color:D.grey}));
+ rule(s,L,ty+0.3,CW,D.ink,0.75);
+ allTr.forEach((r,i)=>{const y=ty+0.38+i*rh,k=r.items.length,on=k>0,c=on?D.ink:D.soft;
+  T(s,r.t[1],{x:L,y,w:3.3,h:rh,fontSize:12,bold:on,color:c,valign:"middle"});
+  if(on)rect(s,L+3.4,y+0.11,2.2*k/maxT,rh-0.22,D.red);
+  T(s,String(k),{x:L+3.4+(on?2.2*k/maxT+0.08:0),y,w:0.5,h:rh,fontSize:12,bold:on,color:c,valign:"middle"});
+  T(s,on?r.items.slice(0,3).map(i=>i.brand||mwShort(i.name,22)).join(", "):"—",{x:L+6.2,y,w:CW-6.2,h:rh,fontSize:11.5,color:on?D.grey:D.soft,valign:"middle",fit:"shrink"});
+  rule(s,L,y+rh,CW,D.hair)});
+
+ // 5. price per gram: one chart per category that has something to compare
+ for(const r of d.byCat){
+  const xs=list.filter(i=>i.category===r.c[0]&&pg(i)!=null).sort((a,b)=>pg(a)-pg(b)).slice(0,12);
+  if(xs.length<2)continue;
+  const lo=xs[0],hi=xs[xs.length-1];
+  s=slide("ราคา",`${r.c[1]}: ราคาต่อกรัมห่างกัน ${(pg(hi)/pg(lo)).toFixed(1)} เท่า — ${lo.brand||mwShort(lo.name,20)} ถูกสุด ${mwG(pg(lo))} บาท, ${hi.brand||mwShort(hi.name,20)} แพงสุด ${mwG(pg(hi))} บาท`);
+  exhibit(s,++ex,`ราคาต่อกรัม ${r.c[1]} (บาท/กรัม)`,L,1.85,8.4);
+  s.addChart(pptx.ChartType.bar,[{name:"บาท/กรัม",labels:xs.map(i=>`${i.brand?i.brand+" · ":""}${mwShort(i.name,28)}${i.size_g?` (${Number(i.size_g)} g)`:""}`),values:xs.map(i=>+pg(i).toFixed(3))}],
+   {x:L,y:2.2,w:8.4,h:4.4,barDir:"bar",chartColors:[D.red],catAxisOrientation:"maxMin",catAxisLabelFontFace:F,catAxisLabelFontSize:11,catAxisLabelColor:D.ink,catAxisLineShow:false,
+    valAxisHidden:true,valGridLine:{style:"none"},showValue:true,dataLabelFormatCode:"0.000",dataLabelFontFace:F,dataLabelFontSize:11,dataLabelColor:D.ink,dataLabelPosition:"outEnd",barGapWidthPct:60});
+  const bx=L+8.8,bw=CW-8.8;
+  rect(s,bx,1.85,bw,4.75,D.tint);rect(s,bx,1.85,0.06,4.75,D.red);
+  T(s,"ข้อสังเกต",{x:bx+0.3,y:2.0,w:bw-0.5,h:0.35,fontSize:13,bold:true,color:D.red});
+  T(s,[[`ต่ำสุด ${mwG(r.min)} · เฉลี่ย ${mwG(r.avg)} · สูงสุด ${mwG(r.max)} บาท/กรัม`],[`${xs.length} รายการที่มีทั้งราคาและขนาด`],
+   ...xs.filter(i=>i.verdict==="threat").map(i=>[`${i.brand||mwShort(i.name,20)} (ภัยต่อเรา) อยู่ที่ ${mwG(pg(i))} บาท/กรัม`])].map(([t],i,a)=>({text:t,options:{bullet:true,breakLine:i<a.length-1,paraSpaceAfter:8}})),
+   {x:bx+0.3,y:2.45,w:bw-0.5,h:3.9,fontSize:12.5,color:D.ink,fit:"shrink"});
+ }
+
+ // 6. implications: what each product means for us, and what to do
+ const imp=[...d.threat,...d.idea,...d.watch];
+ for(let k=0;k<Math.max(1,imp.length);k+=7){
+  const rows=imp.slice(k,k+7);
+  s=slide("ผลต่อเรา",imp.length?`${d.threat.length} รายการต้องตอบสนอง และ ${d.idea.length} รายการมีไอเดียที่ยืมได้${imp.length>7?` (${k/7+1}/${Math.ceil(imp.length/7)})`:""}`:"ยังไม่ได้ประเมินผลต่อเราของสินค้าเดือนนี้");
+  exhibit(s,++ex,"สินค้าที่มีผลต่อเรา และสิ่งที่ควรทำต่อ",L,1.85,CW);
+  const cols=[["ผลต่อเรา",L,1.75],["สินค้า",L+1.85,3.6],["ข้อสังเกต",L+5.55,3.3],["สิ่งที่ควรทำต่อ",L+8.95,CW-8.95]],y0=2.3,h=0.6;
+  cols.forEach(([t,x,w])=>T(s,t,{x,y:y0,w,h:0.3,fontSize:10.5,bold:true,color:D.grey}));rule(s,L,y0+0.3,CW,D.ink,0.75);
+  if(!rows.length)T(s,"ติดผลต่อเรา (ภัย / จับตา / ยืมไอเดีย) ที่สินค้าในแอป เพื่อให้หน้านี้มีข้อมูล",{x:L,y:y0+0.5,w:CW,h:0.4,fontSize:12,color:D.soft});
+  rows.forEach((it,i)=>{const y=y0+0.38+i*h,va=vsAvg(it),note=[pg(it)!=null?`${mwG(pg(it))} บาท/กรัม${va!=null?` (${fmtPct(va)} เทียบเฉลี่ยหมวด)`:""}`:"",mwPoints(it.selling_points)[0]].filter(Boolean).join(" · ");
+   vmark(s,it.verdict,L,y+0.14);
+   T(s,MW_VNAME[it.verdict],{x:L+0.24,y,w:1.5,h:0.42,fontSize:11.5,bold:true,color:D.v[it.verdict],valign:"middle"});
+   T(s,[{text:mwShort(it.name,40),options:{bold:true,breakLine:true}},{text:[it.brand,(it.channels||[]).map(chName).join(", ")].filter(Boolean).join(" · "),options:{color:D.grey,fontSize:10}}],{x:L+1.85,y,w:3.6,h:h-0.05,fontSize:11.5,fit:"shrink"});
+   T(s,note||"—",{x:L+5.55,y,w:3.3,h:h-0.05,fontSize:10.5,color:D.grey,fit:"shrink"});
+   T(s,it.action||"ยังไม่ได้ระบุ",{x:L+8.95,y,w:CW-8.95,h:h-0.05,fontSize:11.5,bold:!!it.action,color:it.action?D.ink:D.soft,fit:"shrink"});
+   rule(s,L,y+h-0.02,CW,D.hair)});
+ }
+
+ // 7. appendix: one page per product, then every photo
+ s=pptx.addSlide();s.background={color:"FFFFFF"};page++;
+ rect(s,0,0,0.22,H,D.red);
+ T(s,"ภาคผนวก",{x:1.0,y:2.9,w:11,h:0.8,fontSize:32,bold:true});
+ T(s,`รายละเอียดสินค้า ${n} รายการ และภาพสินค้าทั้งหมด`,{x:1.0,y:3.7,w:11,h:0.5,fontSize:16,color:D.grey});
+ const order=[...list].sort((a,b)=>MW_CATS.findIndex(c=>c[0]===a.category)-MW_CATS.findIndex(c=>c[0]===b.category)||String(b.seen_on).localeCompare(String(a.seen_on)));
+ order.forEach((it,i)=>{
+  const va=vsAvg(it),p=pg(it);
+  s=slide(`ภาคผนวก · ${mwCat(it.category)[1]} · ${i+1}/${order.length}`,`${it.name}${p!=null?`: ${mwG(p)} บาท/กรัม${va!=null?` — ${va<0?"ถูกกว่า":"แพงกว่า"}ค่าเฉลี่ยหมวด ${Math.abs(Math.round(va*100))}%`:""}`:""}`);
+  rect(s,L,1.85,4.75,4.85,"FFFFFF",D.hair);pic(s,it,L+0.1,1.95,4.55,4.65);
+  const X=L+5.15,WR=CW-5.15,sale=it.sale_from||it.sale_to?[mwDay(it.sale_from),mwDay(it.sale_to)].filter(Boolean).join(" – "):"";
+  const facts=[["แบรนด์",it.brand],["ผู้ผลิต",it.maker],["ขนาด / ราคา",[it.size_g?`${Number(it.size_g)} g`:"",it.price!=null&&it.price!==""?`${Number(it.price)} บาท`:""].filter(Boolean).join(" · ")],
+   ["ราคาต่อกรัม",p!=null?`${mwG(p)} บาท${catAvg(it.category)!=null?` (เฉลี่ยหมวด ${mwG(catAvg(it.category))})`:""}`:""],["ช่องทาง",[(it.channels||[]).map(chName).join(", "),it.stores].filter(Boolean).join(" · ")],
+   ["ช่วงขาย",sale],["Shelf life",it.shelf_life],["เทรนด์",(it.trends||[]).map(tName).join(", ")]].filter(r=>r[1]);
+  exhibit(s,++ex,"ข้อมูลสินค้า",X,1.85,WR);rule(s,X,2.2,WR,D.ink,0.75);
+  facts.forEach(([k,v],j)=>{const y=2.25+j*0.36;T(s,k,{x:X,y,w:1.7,h:0.36,fontSize:11,color:D.grey,valign:"middle"});T(s,v,{x:X+1.75,y,w:WR-1.75,h:0.36,fontSize:11.5,valign:"middle",fit:"shrink"});rule(s,X,y+0.36,WR,D.hair)});
+  const pts=mwPoints(it.selling_points),py=2.35+facts.length*0.36;
+  if(pts.length){T(s,"จุดขายที่แบรนด์สื่อสาร",{x:X,y:py,w:WR,h:0.3,fontSize:11,bold:true,color:D.grey});
+   T(s,pts.slice(0,3).map((t,j,a)=>({text:t,options:{bullet:true,breakLine:j<a.length-1}})),{x:X,y:py+0.32,w:WR,h:Math.max(0.4,(it.verdict||it.action?5.95:6.65)-py-0.32),fontSize:11.5,fit:"shrink"})}
+  if(it.verdict||it.action){const c=it.verdict?D.v[it.verdict]:D.ink;
+   rect(s,X,6.05,WR,0.65,D.tint);rect(s,X,6.05,0.06,0.65,c);
+   T(s,[{text:`${it.verdict?MW_VNAME[it.verdict]:"สิ่งที่ควรทำ"}  `,options:{bold:true,color:c}},{text:it.action||""}],{x:X+0.22,y:6.05,w:WR-0.3,h:0.65,fontSize:12,valign:"middle",fit:"shrink"})}
+ });
+ const withPic=order.filter(i=>i.photo&&sizes[i.id]);
+ for(let k=0;k<withPic.length;k+=10){
+  s=slide("ภาคผนวก",`ภาพสินค้าทั้งหมด${withPic.length>10?` (${k/10+1}/${Math.ceil(withPic.length/10)})`:""}`);
+  withPic.slice(k,k+10).forEach((it,i)=>{const x=L+(i%5)*2.47,y=1.85+Math.floor(i/5)*2.5;
+   pic(s,it,x,y,2.3,1.75);
+   T(s,[{text:mwShort(it.name,34),options:{bold:true,breakLine:true}},{text:[it.price!=null&&it.price!==""?`${Number(it.price)} บาท`:"",pg(it)!=null?`${mwG(pg(it))} บาท/กรัม`:""].filter(Boolean).join(" · ")||" ",options:{color:D.grey}}],{x,y:y+1.8,w:2.3,h:0.6,fontSize:9.5,fit:"shrink"})});
+ }
+ return pptx;
+}
+async function mwExportPptx(list,label){
+ const btn=$("mwPptx");if(btn){btn.disabled=true;btn.textContent="กำลังสร้าง…"}
+ try{const pptx=await mwBuildDeck(list,label);
+  await pptx.writeFile({fileName:`Market-Watch-${mwF.month==="all"?"all":mwF.month}.pptx`});toast("สร้าง PowerPoint แล้ว")}
+ catch(e){toast(e.message||"สร้าง PowerPoint ไม่สำเร็จ","bad")}
+ finally{if(btn){btn.disabled=false;btn.textContent="📊 PowerPoint"}}
+}
 let prItems=[],prTableMissing=false,editingPrId=null;
 
 async function loadPr(){
