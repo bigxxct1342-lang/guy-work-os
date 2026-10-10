@@ -443,6 +443,15 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.08 Market Watch
+- **New page, under แผนงาน:** keep the new products you spot in the market. Each one has a photo, name, brand, category, channels, size, price and **price per gram (worked out for you)**, plus selling points, shelf life, maker, dates, a source link, trend tags, a verdict (🔴 threat / 🟡 watch / 🟢 idea to borrow) and a one-line "what next".
+- **One rule decides what belongs:** it must be sold in 7-Eleven or in modern / traditional trade. Online counts only for canned seafood (cockle, scallop, other canned seafood). Online-only snacks and ready meals are refused with the reason, live as you tick the channels.
+- **Monthly summary:** for the month on screen, count per channel, price per gram (low / average / high) per category, trend counts, and the threats / ideas with their next step. "คัดลอกสรุป" copies it as text to paste to the boss.
+- **Quick capture on a phone:** photo, name, channel, size, price; everything else sits under "รายละเอียดเพิ่ม".
+- **Private like KOL and PR:** rows belong to whoever saved them; nothing from the other person is read on this page. Included in the backup file and in the Settings system check.
+- **SQL to run:** `migration-v8-08-market-watch.sql` (one table, row level security, safe to run twice; tried against a real Postgres including rejecting bad channels, categories and photos, and one person not seeing the other's rows).
+- **Not built yet:** the daily bot that searches for new products. Web search finds press and news but not shelf-level launches, so it is waiting on a decision.
+
 ## V8.07 Arcade is the only look
 - **Classic and dark mode are gone.** The app has one look, Arcade, set on `<body class="arcade">`. Nothing is switched on at load any more.
 - **Settings:** the Appearance (dark mode) and หน้าตาแอป (Arcade/Classic) rows are removed.
