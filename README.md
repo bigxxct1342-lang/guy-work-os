@@ -443,6 +443,14 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.09 Market Watch → PowerPoint
+- **"📊 PowerPoint" on the Market Watch summary** builds a .pptx of what is on screen (the month and filters you picked), named `Market-Watch-YYYY-MM.pptx`.
+- **The deck:** cover → snapshot (count, channels, the ten trends with how many products fell in each) → "so what" (threat / watch / idea with the next step) → price per gram per category as an editable bar chart with low / average / high → one slide per product (photo left; name, brand, maker, size, price, ฿/g, channels and sale period, three selling points, shelf life, trends, next step right) → every photo on one page.
+- **Same structure as the monthly NPD scan, plus** price-per-gram charts, verdicts, and next steps, which the hand-made deck does not have.
+- Font is Leelawadee UI (Windows' Thai UI font); PowerPoint on a Mac swaps in its own Thai font.
+- The PowerPoint library (PptxGenJS 4.0.1, MIT) is kept in `vendor/` and only downloaded the first time someone exports.
+- Tested by building a deck from six products in the app, opening it in LibreOffice and looking at every slide. Not opened in Microsoft PowerPoint itself. No SQL.
+
 ## V8.08 Market Watch
 - **New page, under แผนงาน:** keep the new products you spot in the market. Each one has a photo, name, brand, category, channels, size, price and **price per gram (worked out for you)**, plus selling points, shelf life, maker, dates, a source link, trend tags, a verdict (🔴 threat / 🟡 watch / 🟢 idea to borrow) and a one-line "what next".
 - **One rule decides what belongs:** it must be sold in 7-Eleven or in modern / traditional trade. Online counts only for canned seafood (cockle, scallop, other canned seafood). Online-only snacks and ready meals are refused with the reason, live as you tick the channels.
