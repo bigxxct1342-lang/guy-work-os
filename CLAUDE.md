@@ -80,6 +80,8 @@ A new migration also needs a row in `SYS_MIG` so the check can see it.
   mean **the signed-in person's own**. What the other person owns lives in
   `teamTasks`, `teamProjects`, `teamKol`, `teamPr`, `teamProducts`, and is
   read in exactly one place on purpose: the Team page.
+  `mwItems` (Market Watch) is the same: own rows only; the other person's are
+  dropped in `loadMarket`.
 - Class names are shared across old and new code. Check a name is free before
   using it — `.dash-main` was already taken and the collision silently
   emptied every task row.

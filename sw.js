@@ -1,4 +1,4 @@
-const CACHE="porkchop-g-v8-07-arcade-only";
+const CACHE="porkchop-g-v8-08-market-watch";
 const ASSETS=["./","./index.html","./config.js","./manifest.json","./favicon.ico","./favicon-32.png","./icon-192.png","./icon-512.png","./icon-maskable-512.png","./apple-touch-icon.png","./porkchop-splash.webp","./porkchop-splash-mobile.webp","./cat-sprites.png?v=787","./art/cat-mix.webp?v=805","./login-hero.webp","./login-cat.webp","./pin-cat.webp"];
 // addAll rejects the whole install if a single asset 404s, which leaves the
 // new worker stuck and the deploy unable to land. Each asset is allowed to
