@@ -3409,7 +3409,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.09</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.10</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3569,8 +3569,6 @@ body.arcade .ticker{overflow:hidden}
 </div></div>
 <div id="prModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="prModal" aria-label="Close">×</button><h3 id="prModalTitle">เปิด PR ใหม่</h3><div class="formgrid">
  <div class="full field"><label>เรื่อง / งานที่ขอซื้อ</label><input id="prTitle" placeholder="เช่น ผลิตกล่องหอยเชลล์ 50 กรัม"></div>
- <div class="field"><label>เลขที่ PR (SAP)</label><input id="prNumber" placeholder="ใส่ทีหลังได้"></div>
- <div class="field"><label>เลขที่ PO</label><input id="prPoNumber" placeholder="ได้จากฝ่ายจัดซื้อ"></div>
  <div class="field"><label>ผู้ขาย / Vendor</label><input id="prVendor"></div>
  <div class="field"><label>มูลค่า (บาท)</label><input id="prAmount" type="number" step="0.01" min="0"></div>
  <div class="field"><label>ขั้นตอนตอนนี้</label><select id="prStage"></select></div>
@@ -3620,8 +3618,6 @@ body.arcade .ticker{overflow:hidden}
  <div class="field"><label>Waiting Since</label><input id="fWaitingSince" type="date"></div>
  <div class="full field"><label>Note / Next Action</label><textarea id="fNote" rows="3"></textarea></div>
  <div class="full field"><label>สถานะ PR / GRPO</label><select id="fPrStage"></select><div class="help" style="margin-top:6px">งานที่ต้องเปิด PR ก่อน — เลือกขั้นตอนแล้วงานนี้จะไปโผล่ในหน้า PR / GRPO และเตือนบน Dashboard ให้เอง</div></div>
- <div class="field pr-only hidden"><label>เลขที่ PR (SAP)</label><input id="fPrNumber"></div>
- <div class="field pr-only hidden"><label>เลขที่ PO</label><input id="fPoNumber"></div>
  </div><div class="actions"><button id="cancelTask" class="btn secondary">Cancel</button><button id="saveTask" class="btn primary">Save</button></div></div></div>
 
 <div id="categoryModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="categoryModal" aria-label="Close">×</button><h3 id="categoryModalTitle">Add Category</h3><div class="field"><label>Category Name</label><input id="cName"></div><div class="field"><label>Subcategories</label><input id="cSubs" placeholder="Separate with commas"></div><div class="actions"><button id="cancelCategory" class="btn secondary">Cancel</button><button id="saveCategory" class="btn primary">Save</button></div></div></div>
@@ -4732,8 +4728,6 @@ function prStageOptions(){return '<option value="">ไม่เกี่ยว�
 function setTaskPrFields(stage,pr,po){
  $("fPrStage").innerHTML=prStageOptions();
  $("fPrStage").value=stage||"";
- $("fPrNumber").value=pr||"";$("fPoNumber").value=po||"";
- document.querySelectorAll("#taskModal .pr-only").forEach(el=>el.classList.toggle("hidden",!$("fPrStage").value));
 }
 function openTaskModal(prefill={}){
  if(!categories.length){toast("Create a category first.","bad");return}
@@ -5964,8 +5958,6 @@ function cvRootModel(){
 const PR_SHORT={draft:"เปิด PR",wait_po:"รอ PO",working:"ทำงาน",wait_grpo:"ทำ GRPO",wait_docs:"ส่งบัญชี",done:"เสร็จ"};
 function prRootSteps(it,k){
  const out=[];
- if(k==="draft")out.push(it.pr_number?{name:`PR ${it.pr_number}`,status:"done"}:{name:"ยังไม่มีเลข PR",status:"next"});
- if(k==="wait_po")out.push(it.po_number?{name:`PO ${it.po_number}`,status:"done"}:{name:"ยังไม่มีเลข PO",status:"next"});
  if(k==="working"){if(it.vendor)out.push({name:it.vendor,status:"done"});if(it.amount!=null&&it.amount!=="")out.push({name:`${Number(it.amount).toLocaleString("en-US",{maximumFractionDigits:2})} บาท`,status:"done"})}
  if(k==="working"&&it.kind==="task"&&it.taskDone)out.push({name:"งานเสร็จแล้ว → ทำ GRPO ต่อ",status:"wait"});
  return out.map((x,i)=>({...x,id:i}));
@@ -6374,7 +6366,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.09";
+const APP_VERSION="V8.10";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6985,14 +6977,13 @@ $("prBoard").onclick=e=>{
  const n=e.target.closest("[data-pr-next]");if(n)return prNextRef(n.dataset.prNext);
  const ed=e.target.closest("[data-pr-edit]");if(ed)prEditRef(ed.dataset.prEdit);
 };
-$("fPrStage").onchange=()=>document.querySelectorAll("#taskModal .pr-only").forEach(el=>el.classList.toggle("hidden",!$("fPrStage").value));
 $("addPrBtn").onclick=()=>prFillModal(null);
 $("savePrBtn").onclick=async()=>{
  const title=$("prTitle").value.trim();
  if(!title)return $("prModalError").textContent="ใส่เรื่องที่ขอซื้อก่อน";
  if(!profile?.team_id)return $("prModalError").textContent="ต้องเข้าร่วมทีมก่อนถึงจะเปิด PR ได้";
  const amt=$("prAmount").value.trim();
- const payload={title,pr_number:$("prNumber").value.trim()||null,po_number:$("prPoNumber").value.trim()||null,
+ const payload={title,
   vendor:$("prVendor").value.trim()||null,amount:amt===""?null:Number(amt),note:$("prNote").value.trim()||null,
   stage:$("prStage").value,stage_since:$("prStageSince").value||todayISO()};
  const q=editingPrId
@@ -7464,8 +7455,8 @@ async function cleanDuplicateImports(){
    showing up rather than disappearing the moment it is ticked off -- which is
    exactly when it used to be forgotten. */
 const PR_STAGES=[
- {k:"draft",    name:"ยังไม่เปิด PR",        next:"เปิด PR แล้ว", warn:3,  needs:"pr_number", stamp:"pr_opened_on",  tone:"info"},
- {k:"wait_po",  name:"รอ PO จากจัดซื้อ",     next:"ได้ PO แล้ว",  warn:7,  needs:"po_number", stamp:"po_received_on",tone:"warn"},
+ {k:"draft",    name:"ยังไม่เปิด PR",        next:"เปิด PR แล้ว", warn:3,  needs:null,        stamp:"pr_opened_on",  tone:"info"},
+ {k:"wait_po",  name:"รอ PO จากจัดซื้อ",     next:"ได้ PO แล้ว",  warn:7,  needs:null,        stamp:"po_received_on",tone:"warn"},
  {k:"working",  name:"งานกำลังดำเนินการ",     next:"งานเสร็จแล้ว", warn:30, needs:null,        stamp:"work_done_on",  tone:"calm"},
  {k:"wait_grpo",name:"ต้องทำ GRPO",          next:"ทำ GRPO แล้ว", warn:3,  needs:null,        stamp:"grpo_on",       tone:"bad"},
  {k:"wait_docs",name:"ต้องส่งเอกสารให้บัญชี", next:"ส่งบัญชีแล้ว", warn:3,  needs:null,        stamp:"docs_sent_on",  tone:"bad"},
@@ -7934,7 +7925,7 @@ function prFillModal(p){
  editingPrId=p?.id??null;
  $("prModalTitle").textContent=p?"แก้ไข PR":"เปิด PR ใหม่";
  $("prStage").innerHTML=PR_STAGES.map(s=>`<option value="${s.k}">${esc(s.name)}</option>`).join("");
- $("prTitle").value=p?.title||"";$("prNumber").value=p?.pr_number||"";$("prPoNumber").value=p?.po_number||"";
+ $("prTitle").value=p?.title||"";
  $("prVendor").value=p?.vendor||"";$("prAmount").value=p?.amount??"";$("prNote").value=p?.note||"";
  $("prStage").value=p?.stage||"draft";$("prStageSince").value=p?.stage_since||todayISO();
  $("prModalError").textContent="";
@@ -7947,18 +7938,13 @@ window.prEditRef=ref=>{
  if(kind==="task")return editTask(Number(id));
  const p=prItems.find(x=>x.id===Number(id));if(p)prFillModal(p);
 };
-// One tap when the paperwork already carries its number; otherwise open the
-// form on the field that is missing so the number is captured as it arrives.
+// One tap moves a PR on. PR and PO numbers are not asked for (V8.10): the
+// stages are only there to remember how far each purchase has got.
 window.prNextRef=async ref=>{
  const [kind,rawId]=ref.split(":"),id=Number(rawId);
  const it=prAllItems().find(x=>x.kind===kind&&x.id===id);if(!it)return;
  const cur=prStage(it.stage),to=PR_STAGES[PR_STAGES.indexOf(cur)+1];
  if(!to)return;
- if(cur.needs&&!it[cur.needs]){
-  if(kind==="task"){editTask(id);setTimeout(()=>{$("fPrStage").value=to.k;$(cur.needs==="pr_number"?"fPrNumber":"fPoNumber").focus()},40);return}
-  prFillModal({...prItems.find(x=>x.id===id),stage:to.k,stage_since:todayISO()});
-  $(cur.needs==="pr_number"?"prNumber":"prPoNumber").focus();return;
- }
  if(kind==="task"){
   if(await saveTask({pr_stage:to.k,pr_stage_since:todayISO()},id))toast(`${it.title} → ${to.name}`);
   return;
@@ -10182,8 +10168,6 @@ $("saveTask").onclick=async()=>{
  };
  const prStageVal=$("fPrStage").value||null;
  payload.pr_stage=prStageVal;
- payload.pr_number=prStageVal?($("fPrNumber").value.trim()||null):null;
- payload.po_number=prStageVal?($("fPoNumber").value.trim()||null):null;
  payload.pr_stage_since=!prStageVal?null
    :(existing&&existing.pr_stage===prStageVal&&existing.pr_stage_since)?existing.pr_stage_since:todayISO();
  const wasEdit=Boolean(editingTaskId);

@@ -443,6 +443,11 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.10 PR without PR / PO numbers
+- **The PR and PO number boxes are gone** from the PR form and from the PR part of the task form. A field check showed none of the 8 PRs ever had one: the stages are used to remember how far a purchase has got, nothing more.
+- **"Next stage" no longer stops to ask for a number**: one tap moves draft → waiting for PO → working → GRPO → accounts → done, and still stamps the date of each step.
+- Numbers already saved on old rows are kept and still shown; nothing is deleted from the database. No SQL.
+
 ## V8.09 Market Watch → PowerPoint
 - **"📊 PowerPoint" on the Market Watch summary** builds a .pptx of what is on screen (the month and filters you picked), named `Market-Watch-YYYY-MM.pptx`.
 - **The deck is built like a consulting deck:** every title is the sentence the slide proves, written from the data; the body is a numbered exhibit (chart or table, with its unit); a source line and page number sit at the bottom. White page, red as the only accent, no emoji.
