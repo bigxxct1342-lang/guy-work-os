@@ -443,6 +443,12 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.11 Product Launch: check the carton size before the artwork goes out
+- **Carton → Carton Production** has a new step, **เช็คไซส์ลังก่อนส่ง AW**, between approving the colour painted on the carton and Sent AW to Supplier.
+- Under it, what to look at: measure width × length × height against the real product, the pack count per carton is right, it fits without being loose or tight.
+- No days of its own (done the same day the colour is approved), so the carton still plans as 23 days.
+- Existing products: the carton milestone shows **"+ ใส่ขั้นเช็คไซส์ลัง"**; it puts the step right before Sent AW (as done if the AW already went out), and pressing it again adds nothing. Products still missing the Pantone steps get both in one press. No SQL.
+
 ## V8.10 PR without PR / PO numbers
 - **The PR and PO number boxes are gone** from the PR form and from the PR part of the task form. A field check showed none of the 8 PRs ever had one: the stages are used to remember how far a purchase has got, nothing more.
 - **"Next stage" no longer stops to ask for a number**: one tap moves draft → waiting for PO → working → GRPO → accounts → done, and still stamps the date of each step.
