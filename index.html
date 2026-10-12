@@ -3409,7 +3409,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.10</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.11</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -5298,6 +5298,12 @@ const NPD_PANTONE={
  carton:[["รอสี Pantone ของฉลาก (เอามาใช้เป็นสีลัง)","next","MKT & Creative"],["Supplier ปาดสีลงลังให้ดู (3 วัน)","next","Supplier"],["ดูสีบนลัง + อนุมัติสี (1 วัน)","next","MKT & Creative"]]
 };
 const NPD_PAN_LABEL=/pantone|แพนโทน/i,NPD_PAN_WAIT=/รอ.*pantone/i,NPD_PAN_SWATCH=/ปาดสี/;
+/* V8.11: the carton's size is checked against the real product before its
+   artwork leaves -- a box that does not fit is found after it is printed
+   otherwise. No days of its own: it is done the day the colour is approved.
+   The fourth field is the note shown under the step. */
+const NPD_CARTON_SIZE=["เช็คไซส์ลังก่อนส่ง AW","next","MKT & RD","สังเกต: วัดกว้าง × ยาว × สูง เทียบกับสินค้าจริง · จำนวนบรรจุต่อลังถูกต้อง · ใส่แล้วไม่หลวม ไม่คับ"];
+const NPD_SIZE=/ไซส์ลัง|ขนาดลัง/;
 const npdStepDays=name=>{const m=String(name||"").match(/\((\d+)\s*วัน\)/);return m?Number(m[1]):0};
 const NPD_TEMPLATE=[
  {phase:"formula_fda",tmpl:"formula_cf",title:"Final Formulation",duration_days:12,steps:[["Test_Step 1","done","MKT & RD"],["Feedback Step 1","done","MKT & RD"],["Test_Step 2","done","MKT & RD"],["Feedback Step 2","done","MKT & RD"],["Test_Step 3","done","MKT & RD"],["CF : สูตร","done","MKT & RD"]]},
@@ -5307,7 +5313,7 @@ const NPD_TEMPLATE=[
  {phase:"formula_fda",title:"Halal Document (If Any)",duration_days:3,steps:[["HALAL","next","RD"]]},
  {phase:"label",title:"AW Label Design",duration_days:10,steps:[["Brief _ Label","next","MKT & Creative"],["1st Draft Design","next","Creative"],["2nd Draft Design","next","Creative"],["3rd Draft Design","next","Creative"],["AW with Real Nutrition Info.","next","MKT & Creative"]]},
  {phase:"label",title:"Label Production",duration_days:35,steps:[["Internal Approval by mail (5 วัน)","next","เลขา/RD/QC/Inter/Creative/MKT"],...NPD_PANTONE.label,["Sent AW to Supplier (2 วัน)","next","Creative"],["Black & White Film Shrink (8 วัน)","next","Supplier"],["Master Print (Digital Proof) (3 วัน)","next","เลขา/RD/QC/Inter/MKT"],["Proof Print 1-4 (3 วัน)","next","Supplier"],["Mold Production (5 วัน)","next","Supplier"],["On-Site Proof 3-4 (7 วัน)","next","Supplier"]]},
- {phase:"carton",title:"Carton Production",duration_days:23,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],...NPD_PANTONE.carton,["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]},
+ {phase:"carton",title:"Carton Production",duration_days:23,steps:[["Carton AW Design","next","Creative"],["Internal Approval (3 วัน)","next","MKT & RD"],...NPD_PANTONE.carton,NPD_CARTON_SIZE,["Sent AW to Supplier (2 วัน)","next","Creative"],["Digital Proof (4 วัน)","next","Supplier"],["Mass Production & Delivery (10 วัน)","next","Supplier"]]},
  ...NPD_711_TEMPLATE(),
  ...NPD_RETAIL_TEMPLATE()
 ];
@@ -5374,7 +5380,7 @@ async function seedNpdTemplate(productId){
   const m=NPD_TEMPLATE[i];
   const {data:ms,error}=await npdInsertMilestone({product_id:productId,phase:m.phase,seq:i,title:m.title,duration_days:m.duration_days,tmpl:m.tmpl||null});
   if(error){if(!NPD_OPTIONAL[m.phase])toast(error.message,"bad");continue}
-  await sb.from("product_steps").insert(m.steps.map((s,si)=>({milestone_id:ms.id,seq:si,name:s[0],status:s[1],owners:s[2]})));
+  await sb.from("product_steps").insert(m.steps.map((s,si)=>({milestone_id:ms.id,seq:si,name:s[0],status:s[1],owners:s[2],deadline_note:s[3]||null})));
  }
  const miss=Object.keys(NPD_OPTIONAL).filter(k=>npdPhaseBad[k]);
  if(miss.length)toast(`ขั้นตอน ${miss.map(k=>NPD_PHASE[k].short).join(" / ")} ยังใส่ไม่ได้ — รัน SQL ${NPD_OPTIONAL[miss[miss.length-1]].sql} แล้วกดปุ่ม "+ ใส่ขั้นตอน…" ในหมวดนั้น`,"bad");
@@ -6366,7 +6372,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.10";
+const APP_VERSION="V8.11";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6482,7 +6488,8 @@ function npdPantoneNote(m,steps){
  if(isLabelMs)return `<div class="npd-sel${chosen?" pass":""}"><span>${chosen?"✓ เลือกสี Pantone ของฉลากแล้ว — ลังเอาไปใช้ทำสีได้":"สี Pantone ของฉลากเป็นสีหลัก — ลังรอสีนี้ก่อนให้ Supplier ปาดสี · ติ๊กเสร็จที่ขั้น Pantone ลังจะรู้เอง"}</span></div>`;
  const w=P.wait,sw=P.swatch,until=npdPlan().carton.find(x=>x.m.id===m.id&&x.waits);
  const got=w.s.status==="done"||w.s.status==="skipped";
- return `<div class="npd-sel${got?" pass":""}"><span>${got?"✓ ได้สี Pantone จากฉลากแล้ว — ให้ Supplier ปาดสีลงลังให้ดู ก่อนส่ง AW":`⏳ ลังรอสี Pantone ของฉลาก${until?` · คาดว่าเลือกเสร็จ <b>~${npdFmt(until.waits.until)}</b>`:""} — ยังปาดสีลงลังไม่ได้`}</span>${got?"":`<span class="npd-sel-acts"><button class="btn secondary small" onclick="npdGoPantone()">ไปที่ขั้น Pantone ในฉลาก ›</button></span>`}</div>`;
+ const noSize=!names.some(n=>NPD_SIZE.test(n))?`<div class="npd-sel"><span>ยังไม่มีขั้น <b>เช็คไซส์ลังก่อนส่ง AW</b> — วัดลังเทียบกับสินค้าจริงก่อนส่งให้ Supplier</span><span class="npd-sel-acts"><button class="btn secondary small" onclick="npdAddPantoneSteps()">+ ใส่ขั้นเช็คไซส์ลัง</button></span></div>`:"";
+ return noSize+`<div class="npd-sel${got?" pass":""}"><span>${got?"✓ ได้สี Pantone จากฉลากแล้ว — ให้ Supplier ปาดสีลงลังให้ดู ก่อนส่ง AW":`⏳ ลังรอสี Pantone ของฉลาก${until?` · คาดว่าเลือกเสร็จ <b>~${npdFmt(until.waits.until)}</b>`:""} — ยังปาดสีลงลังไม่ได้`}</span>${got?"":`<span class="npd-sel-acts"><button class="btn secondary small" onclick="npdGoPantone()">ไปที่ขั้น Pantone ในฉลาก ›</button></span>`}</div>`;
 }
 window.npdGoPantone=()=>{const P=npdPantoneSteps();if(P.label)npdMapGo(P.label.m.id)};
 function npdMilestoneExtra(m){
@@ -6582,33 +6589,38 @@ window.npdAddPantoneSteps=async()=>{
  const stepsOf=m=>npdSteps.filter(x=>x.milestone_id===m.id).sort((a,b)=>a.seq-b.seq);
  const pick=ph=>{const ms=by(ph);return ms.find(m=>stepsOf(m).some(x=>/internal approval/i.test(x.name)))||ms.find(m=>stepsOf(m).some(x=>/sent aw/i.test(x.name)))||null};
  const jobs=[["label",pick("label"),NPD_PANTONE.label,st=>st.some(x=>NPD_PAN_LABEL.test(x.name)&&!NPD_PAN_WAIT.test(x.name))],
-             ["carton",pick("carton"),NPD_PANTONE.carton,st=>st.some(x=>NPD_PAN_WAIT.test(x.name)||NPD_PAN_SWATCH.test(x.name))]];
+             ["carton",pick("carton"),NPD_PANTONE.carton,st=>st.some(x=>NPD_PAN_WAIT.test(x.name)||NPD_PAN_SWATCH.test(x.name))],
+             ["size",pick("carton"),[NPD_CARTON_SIZE],st=>st.some(x=>NPD_SIZE.test(x.name))]];
  const labelDone=(()=>{const m=jobs[0][1];if(!m)return false;const sa=stepsOf(m).find(x=>/sent aw/i.test(x.name));return !!sa&&(sa.status==="done"||sa.status==="skipped")})();
- let added={label:0,carton:0},failed=false;
+ let added={label:0,carton:0,size:0},failed=false;
  for(const [kind,m,rows,has] of jobs){
   if(!m||has(stepsOf(m)))continue;
   const st=stepsOf(m);
-  let at=st.findIndex(x=>/internal approval/i.test(x.name));
-  at=at>=0?at+1:(()=>{const i=st.findIndex(x=>/sent aw/i.test(x.name));return i>=0?i:st.length})();
+  const aw=st.findIndex(x=>/sent aw/i.test(x.name));
+  let at=kind==="size"?-1:st.findIndex(x=>/internal approval/i.test(x.name));
+  at=at>=0?at+1:(aw>=0?aw:st.length);
   const prevSeq=at>0?st[at-1].seq:-1,after=st.slice(at),next=after[0];
   const nextDone=!!next&&(next.status==="done"||next.status==="skipped");
   // what the new steps should start as, so finished work stays finished
-  const status=(i)=>kind==="label"?(nextDone?"done":"next"):(nextDone?(i===0?"done":"skipped"):"next");
+  const status=(i)=>kind==="carton"?(nextDone?(i===0?"done":"skipped"):"next"):(nextDone?"done":"next");
   const n=rows.length;
   if(after.length){
    const res=await Promise.all(after.map(x=>sb.from("product_steps").update({seq:x.seq+n}).eq("id",x.id)));
    if(res.some(r=>r.error)){toast(res.find(r=>r.error).error.message,"bad");failed=true;continue}
   }
-  const {error}=await sb.from("product_steps").insert(rows.map((r,i)=>({milestone_id:m.id,seq:prevSeq+1+i,name:r[0],status:status(i),owners:r[2]})));
+  const {error}=await sb.from("product_steps").insert(rows.map((r,i)=>({milestone_id:m.id,seq:prevSeq+1+i,name:r[0],status:status(i),owners:r[2],deadline_note:r[3]||null})));
   if(error){toast(error.message,"bad");failed=true;continue}
   added[kind]=n;
   const days=rows.reduce((a,r)=>a+npdStepDays(r[0]),0);
   if(days&&!nextDone)await sb.from("product_milestones").update({duration_days:(m.duration_days||0)+days}).eq("id",m.id);
+  // the next job works out its place from the seqs this one just moved
+  await loadNpdProductData();
  }
  await loadNpdProductData();renderNpdTimelinePane();
  if(failed)return;
- if(added.label+added.carton)toast(`ใส่ขั้นตอน Pantone แล้ว — ฉลาก ${added.label} ขั้น · ลัง ${added.carton} ขั้น`);
- else toast("สินค้านี้มีขั้นตอน Pantone ครบอยู่แล้ว");
+ if(added.label+added.carton)toast(`ใส่ขั้นตอน Pantone แล้ว — ฉลาก ${added.label} ขั้น · ลัง ${added.carton+added.size} ขั้น`);
+ else if(added.size)toast("ใส่ขั้นเช็คไซส์ลังแล้ว — อยู่ก่อนส่ง AW ให้ Supplier");
+ else toast("สินค้านี้มีขั้นตอนครบอยู่แล้ว");
  // the label may already be past the choice; then the carton's wait is already satisfied
  if(labelDone)await npdSyncPantoneWait();
 };
