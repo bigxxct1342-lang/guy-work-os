@@ -443,6 +443,13 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.12 Product Launch: Packaging recheck and Supply Chain PR before the label artwork goes out
+- **Label → Label Production** gains two steps after choosing the Pantone and before Sent AW to Supplier:
+  - **Recheck ทีม Packaging — ยืนยันบรรจุภัณฑ์ที่เลือก (1 วัน)**, Packaging & MKT;
+  - **Supply Chain เปิด PR ขึ้น Black & White (3 วัน)**, Supply Chain — it can only be opened once the pack is known, and the supplier needs it before the black & white film.
+- Each carries a short note under it saying why. Label Production grows from 35 to 39 days; the carton's wait for the label Pantone date does not move.
+- Existing products: the label milestone shows **"+ ใส่ขั้น Packaging + PR"**; the steps go in right before Sent AW (as done if the AW already went out, without adding days), and pressing again adds nothing. Fixed on the way: when one press adds both the Pantone and these steps, the milestone's days now add up correctly. No SQL.
+
 ## V8.11 Product Launch: check the carton size before the artwork goes out
 - **Carton → Carton Production** has a new step, **เช็คไซส์ลังก่อนส่ง AW**, between approving the colour painted on the carton and Sent AW to Supplier.
 - Under it, what to look at: measure width × length × height against the real product, the pack count per carton is right, it fits without being loose or tight.
