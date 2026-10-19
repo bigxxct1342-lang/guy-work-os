@@ -1421,6 +1421,7 @@ body.nmz-lock{overflow:hidden}
 body.arcade .ng-scroll{border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#fffdf7}
 body.arcade .ng-ms,body.arcade .ng-st,body.arcade .ng-ph{background:#fffdf7}
 body.arcade .ng-bar{border:2px solid var(--ink);color:var(--ink)}
+.step-move{display:inline-flex;gap:2px}.step-move .icon-btn{font-weight:900;font-size:13px;line-height:1}.step-move .icon-btn:disabled{opacity:.3;cursor:default}
 .step-date{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:700}
 .step-date input{width:120px;padding:3px 5px;font-size:11.5px;border-radius:7px}
 .step-date.on span{color:#2d7a4b}
@@ -3453,7 +3454,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.15</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.16</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -5561,12 +5562,13 @@ function renderNpdMilestone(m){
    </div>
   </div>
   <div class="pl-steps">
-   ${steps.map(s=>`<div class="pl-step ${s.status==="skipped"?"is-skipped":""}">
+   ${steps.map((s,si)=>`<div class="pl-step ${s.status==="skipped"?"is-skipped":""}">
     <select class="status-select st-${s.status}" onchange="npdSetStepStatus(${s.id},this.value)">${Object.entries(NPD_STATUS_LABEL).map(([k,label])=>`<option value="${k}" ${s.status===k?"selected":""}>${label}</option>`).join("")}</select>
     <span class="step-name">${esc(s.name)}${s.deadline_note?`<span class="step-deadline">${esc(s.deadline_note)}</span>`:""}</span>
     <div class="step-right">
      ${s.status!=="skipped"&&npdStepDateOK()?`<label class="step-date${s.done_on?(s.status==="done"?" on":" plan"):""}" title="วันที่ของขั้นนี้ — วันที่นัดดู หรือวันที่ทำเสร็จ · ขั้นต่อไปจะขยับตาม · ไม่เปลี่ยนสถานะ"><span>${!s.done_on?"วันที่":s.status==="done"?"เสร็จ":"นัด"}</span><input type="date" value="${s.done_on||""}" onchange="npdSetStepDone(${s.id},this.value)"></label>`:""}
      ${s.owners?`<span class="owners-tag">${esc(s.owners)}</span>`:""}
+     <span class="step-move"><button class="icon-btn" onclick="npdMoveStep(${s.id},-1)" aria-label="เลื่อนขึ้น" title="เลื่อนขึ้น"${si===0?" disabled":""}>↑</button><button class="icon-btn" onclick="npdMoveStep(${s.id},1)" aria-label="เลื่อนลง" title="เลื่อนลง"${si===steps.length-1?" disabled":""}>↓</button></span>
      <button class="icon-btn" onclick="npdEditStep(${s.id})" aria-label="Edit"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l3 3-8 8H3v-3z"/></svg></button>
      <button class="icon-btn" onclick="npdDeleteStep(${s.id})" aria-label="Delete"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4 4l.6 9a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9L12 4"/></svg></button>
     </div>
@@ -6637,7 +6639,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.15";
+const APP_VERSION="V8.16";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6933,6 +6935,17 @@ window.npdSetStepDone=async(id,val)=>{
  if(error)return toast(error.message,"bad");
  await loadNpdProductData();renderNpdTimelinePane();
  toast(val?`${s.status==="done"?"วันที่เสร็จ":"วันที่นัด"} ${npdFmt(npdParse(val))} — ขั้นต่อไปขยับตามแล้ว`:"เอาวันที่ออกแล้ว");
+};
+// V8.16: steps can be put in the right order; the plan follows the new order
+window.npdMoveStep=async(id,dir)=>{
+ const s=npdSteps.find(x=>x.id===id);if(!s)return;
+ const st=npdSteps.filter(x=>x.milestone_id===s.milestone_id).sort((a,b)=>a.seq-b.seq||a.id-b.id);
+ const i=st.findIndex(x=>x.id===id),j=i+dir;if(j<0||j>=st.length)return;
+ [st[i],st[j]]=[st[j],st[i]];
+ // write a clean 0..n order, only for the rows whose place changed
+ const res=await Promise.all(st.map((x,k)=>x.seq===k?null:sb.from("product_steps").update({seq:k}).eq("id",x.id)).filter(Boolean));
+ const bad=res.find(r=>r&&r.error);if(bad)return toast(bad.error.message,"bad");
+ await loadNpdProductData();renderNpdTimelinePane();
 };
 window.npdEditStep=async id=>{const s=npdSteps.find(x=>x.id===id);if(!s)return;const name=prompt("ชื่อขั้นตอน:",s.name);if(name===null||!name.trim())return;const owners=prompt("ผู้รับผิดชอบ:",s.owners||"");const deadline=prompt("Deadline note (เว้นว่างได้):",s.deadline_note||"");const {error}=await sb.from("product_steps").update({name:name.trim(),owners:owners||null,deadline_note:deadline||null}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdDeleteStep=async id=>{if(!confirm("ลบขั้นตอนนี้?"))return;const {error}=await sb.from("product_steps").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
