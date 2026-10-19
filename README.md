@@ -443,6 +443,12 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.13 Product Launch: real dates per step, and a timeline view
+- **Every step can take the day it was actually done** ("วันที่เสร็จ" on each step row, and on each row of the new timeline). Setting it marks the step done; clearing it puts the step back to Next Step. Marking a step done from its status box stamps today, which can then be changed.
+- **The plan runs from those dates.** Inside a milestone the steps follow one another: a dated step ends on its date, the next starts the following working day (weekends and Thai holidays skipped), and a step still to do takes the days in its name. The milestone's end, the label's Pantone date the carton waits for, and every milestone after it move with it. A milestone with no dated steps plans exactly as before.
+- **New "ไทม์ไลน์" view** (now the default in ตารางงาน): one row per step against the days, grouped by phase and milestone, weekends and holidays shaded, today marked, finished steps faded, late ones outlined, sub-steps as diamonds. It opens scrolled to today. On a phone the date boxes are left to the step list below to keep the chart visible.
+- **SQL to run:** `migration-v8-13-step-dates.sql` (adds `product_steps.done_on`). Until then the date boxes are hidden and the timeline says why.
+
 ## V8.12 Product Launch: Packaging recheck and Supply Chain PR before the label artwork goes out
 - **Label → Label Production** gains two steps after choosing the Pantone and before Sent AW to Supplier:
   - **Recheck ทีม Packaging — ยืนยันบรรจุภัณฑ์ที่เลือก (1 วัน)**, Packaging & MKT;

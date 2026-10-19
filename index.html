@@ -1384,6 +1384,44 @@ body.nmz-lock{overflow:hidden}
 .pr-stage.is-empty{opacity:.5}
 .pr-stage.is-empty .pr-shead{padding:8px 14px}
 @media(max-width:820px){.pr-row{flex-wrap:wrap;gap:9px;padding:11px 12px}.pr-main{flex:1 1 100%}.pr-next{margin-left:auto}}
+/* ---- Product Launch: Gantt (V8.13) ---- */
+#npdPlanGantt{--ng-l:380px}
+.ng-help{font-size:12.5px;color:var(--muted);margin:4px 0 10px;line-height:1.5}
+.ng-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.ng{display:grid;grid-auto-rows:minmax(34px,auto);position:relative;min-width:max-content}
+.ng-wk{grid-row:1;font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding:4px 6px;white-space:nowrap}
+.ng-dn{grid-row:2;font:500 11px var(--mono,ui-monospace),monospace;text-align:center;color:var(--muted);padding:2px 0 6px;border-bottom:1px solid var(--line);min-width:18px}
+.ng-dn.off{opacity:.45}.ng-dn.hol{color:#c4252e;opacity:1}
+.ng-sh{background:rgba(11,11,20,.05)}.ng-sh.hol{background:repeating-linear-gradient(135deg,rgba(196,37,46,.14) 0 5px,transparent 5px 10px)}
+.ng-today{border-left:2px dashed #c4252e;position:relative;z-index:3;pointer-events:none}
+.ng-today em{position:absolute;top:0;left:4px;font-style:normal;font-size:10.5px;font-weight:800;color:#c4252e;white-space:nowrap}
+.ng-ph{grid-column:1;font-weight:850;font-size:13px;padding:12px 10px 4px;color:var(--text);border-top:1px solid var(--line);position:sticky;left:0;z-index:4;background:var(--panel);white-space:nowrap}
+.ng-ms,.ng-st{grid-column:1;position:sticky;left:0;z-index:4;background:var(--panel);border-top:1px solid var(--line);padding:4px 8px 4px 10px;display:flex;align-items:center;gap:8px;min-width:0}
+.ng-ms{flex-direction:column;align-items:flex-start;justify-content:center;gap:0}
+.ng-ms button{all:unset;cursor:pointer;font-weight:800;font-size:12.5px}
+.ng-ms small,.ng-nm small{display:block;font-size:10.5px;color:var(--muted);font-weight:500}
+.ng-st.sub{padding-left:24px}
+.ng-nm{flex:1;min-width:0;font-size:12px;font-weight:650;line-height:1.3}
+.ng-st.sub .ng-nm{font-weight:500}
+.ng-st input{width:118px;flex:none;padding:3px 5px;font-size:11.5px;border-radius:7px}
+.ng-msbar{align-self:center;height:8px;border-radius:99px;background:var(--c);opacity:.35;z-index:2}
+.ng-msbar.late{background:#c4252e}
+.ng-bar{align-self:center;height:22px;border-radius:6px;background:var(--c);z-index:2;display:flex;align-items:center;padding:0 6px;overflow:hidden;white-space:nowrap;font-size:11px;font-weight:800;color:#fff}
+.ng-bar.done{opacity:.45}.ng-bar.late{outline:2px solid #c4252e;outline-offset:1px}
+.ng-dot{align-self:center;justify-self:center;z-index:2}.ng-dot i{display:block;width:12px;height:12px;transform:rotate(45deg);border-radius:2px;background:var(--c)}
+.ng-dot.done i{opacity:.45}
+.ng-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:var(--muted);margin-top:8px}
+.ng-legend span{display:inline-flex;align-items:center;gap:6px}
+.ng-legend i{display:inline-block;width:16px;height:9px;border-radius:3px}
+.lg-bar{background:#5a7be0}.lg-done{background:#5a7be0;opacity:.45}.lg-late{background:transparent;outline:2px solid #c4252e}.lg-off{background:rgba(11,11,20,.08)}
+@media(max-width:700px){#npdPlanGantt{--ng-l:150px}.ng-st input{display:none}.ng-nm{font-size:11.5px}.ng-help .wide{display:none}}
+.ng-help .narrow{display:none}@media(max-width:700px){.ng-help .narrow{display:inline}}
+body.arcade .ng-scroll{border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#fffdf7}
+body.arcade .ng-ms,body.arcade .ng-st,body.arcade .ng-ph{background:#fffdf7}
+body.arcade .ng-bar{border:2px solid var(--ink);color:var(--ink)}
+.step-date{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:700}
+.step-date input{width:120px;padding:3px 5px;font-size:11.5px;border-radius:7px}
+.step-date.on span{color:#2d7a4b}
 /* ---- Market Watch ---- */
 .mw-rule{margin-top:5px}
 .mw-filters{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
@@ -3176,7 +3214,8 @@ body.arcade .ticker{overflow:hidden}
       <button id="npdAddTaskBtn" class="btn primary small">+ เพิ่มงาน</button>
      </div>
      <div class="cv-modes" id="npdPlanModes">
-      <button class="tab active" data-npdmode="cal">ปฏิทิน</button>
+      <button class="tab active" data-npdmode="gantt">ไทม์ไลน์</button>
+      <button class="tab" data-npdmode="cal">ปฏิทิน</button>
       <button class="tab" data-npdmode="table">ตาราง</button>
      </div>
      <div id="npdPlanCal" class="hw cv-hw calendar-shell">
@@ -3192,6 +3231,7 @@ body.arcade .ticker{overflow:hidden}
       </div>
      </div>
      <div id="npdPlanTable" class="hidden"></div>
+     <div id="npdPlanGantt" class="hidden"></div>
      <div id="npdFinishCallout" class="finish-callout"></div>
     </div>
 
@@ -3409,7 +3449,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.12</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.13</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -5516,6 +5556,7 @@ function renderNpdMilestone(m){
     <select class="status-select st-${s.status}" onchange="npdSetStepStatus(${s.id},this.value)">${Object.entries(NPD_STATUS_LABEL).map(([k,label])=>`<option value="${k}" ${s.status===k?"selected":""}>${label}</option>`).join("")}</select>
     <span class="step-name">${esc(s.name)}${s.deadline_note?`<span class="step-deadline">${esc(s.deadline_note)}</span>`:""}</span>
     <div class="step-right">
+     ${s.status!=="skipped"&&npdStepDateOK()?`<label class="step-date${s.done_on?" on":""}" title="วันที่ทำเสร็จจริง — ขั้นต่อไปจะขยับตาม"><span>${s.done_on?"เสร็จ":"วันที่เสร็จ"}</span><input type="date" value="${s.done_on||""}" onchange="npdSetStepDone(${s.id},this.value)"></label>`:""}
      ${s.owners?`<span class="owners-tag">${esc(s.owners)}</span>`:""}
      <button class="icon-btn" onclick="npdEditStep(${s.id})" aria-label="Edit"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l3 3-8 8H3v-3z"/></svg></button>
      <button class="icon-btn" onclick="npdDeleteStep(${s.id})" aria-label="Delete"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4 4l.6 9a1 1 0 0 0 1 .9h4.8a1 1 0 0 0 1-.9L12 4"/></svg></button>
@@ -6049,12 +6090,49 @@ function npdPlanPhase(key,from,opts={}){
   }
   start=npdBizOnOrAfter(start);
   let end=npdAddBizDays(start,m.duration_days||1);
+  const sched=npdStepSchedule(m,start);
+  if(sched.end){
+   // real dates can sit before the planned start; the milestone then began with them
+   const first=sched.steps.find(z=>z.dated);if(first&&first.a<start)start=first.a;
+   end=npdMaxD(sched.end,start);
+  }
   if(t==="711_select")end=npdTuesdayOnOrAfter(end);
-  out.push({m,phase:key,start,end,done,pinned:!!m.start_on,late:!done&&end<today,tmpl:t,waits,
+  out.push({m,phase:key,start,end,done,pinned:!!m.start_on,late:!done&&end<today,tmpl:t,waits,sched:sched.steps,
    failed:steps.some(s=>s.status==="failed"),working:steps.some(s=>s.status==="working"||s.status==="done"),steps});
   if(!done)cursor=npdMaxD(today,npdNextBizDay(end));
  }
  return out;
+}
+/* V8.13: a step can carry the day it was really done (done_on). Inside each
+   milestone the steps then run one after another from those real dates: a
+   step with a date ends on it, the next starts the following working day, and
+   a step still to do takes the days in its name. Until a milestone has a dated
+   step its dates stay exactly as before (start + duration). */
+const npdStepDateOK=()=>!npdSteps.length||("done_on" in npdSteps[0]);
+function npdStepSchedule(m,start){
+ const today=npdD0();
+ const st=npdSteps.filter(s=>s.milestone_id===m.id&&s.status!=="skipped").sort((a,b)=>a.seq-b.seq);
+ const daysSum=st.reduce((n,s)=>n+npdStepDays(s.name),0),dated=st.filter(s=>s.done_on);
+ let cur=npdBizOnOrAfter(start);const out=[];
+ for(const s of st){
+  const k=npdStepDays(s.name),done=s.status==="done";let a,b;
+  if(s.done_on){b=npdParse(s.done_on);a=k>0&&cur<b?cur:b;cur=k>0?npdNextBizDay(b):npdBizOnOrAfter(b)}
+  else if(k===0){a=b=cur}
+  else{a=cur;b=npdAddBizDays(cur,k);cur=done?npdNextBizDay(b):npdMaxD(today,npdNextBizDay(b))}
+  out.push({s,k,a,b,done,dated:!!s.done_on,late:!done&&k>0&&b<today});
+ }
+ let end=null;
+ if(dated.length){
+  if(daysSum>0){
+   // days the milestone carries beyond its steps' own stay at the end
+   const slack=Math.max(0,(m.duration_days||0)-daysSum),last=out.length?out[out.length-1].b:start;
+   end=slack&&!st.every(s=>s.status==="done")?npdAddBizDays(npdNextBizDay(last),slack):last;
+  }else{
+   const lastDated=out.filter(x=>x.dated).pop(),allDone=st.every(s=>s.status==="done");
+   end=allDone||out[out.length-1]?.dated?lastDated.b:npdMaxD(npdAddBizDays(npdBizOnOrAfter(start),m.duration_days||1),lastDated.b);
+  }
+ }
+ return {steps:out,end};
 }
 function npdPlan(){
  const open=a=>a.filter(x=>!x.done),lastEnd=a=>open(a).reduce((m,x)=>!m||x.end>m?x.end:m,null);
@@ -6065,7 +6143,8 @@ function npdPlan(){
   if(pan&&pan.s.status!=="done"&&pan.s.status!=="skipped"){
    const lx=label.find(x=>x.m.id===pan.m.id);
    if(lx){const days=npdSteps.filter(x=>x.milestone_id===pan.m.id&&x.seq<=pan.s.seq).reduce((n,x)=>n+npdStepDays(x.name),0);
-    pantoneEnd=npdMaxD(npdD0(),npdAddBizDays(lx.start,Math.max(1,days)))}
+    const sp=npdSteps.some(x=>x.milestone_id===pan.m.id&&x.done_on)&&lx.sched.find(z=>z.s.id===pan.s.id);
+    pantoneEnd=npdMaxD(npdD0(),sp?sp.b:npdAddBizDays(lx.start,Math.max(1,days)))}
   }}
  const carton=npdPlanPhase("carton",null,{pantoneEnd});
  const cf=formula_fda.find(x=>x.tmpl==="formula_cf"&&!x.done);
@@ -6077,13 +6156,14 @@ function npdPlan(){
 const npdFmt=d=>d.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
 const npdFmtTH=d=>d.toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"});
 // a month grid needs room; on a phone the table is the useful view
-let npdPlanMode=innerWidth<700?"table":"cal",npdCalCursor=new Date();
+let npdPlanMode="gantt",npdCalCursor=new Date();
 function renderNpdPlan(){
  const P=npdPlan();
  $("npdPlanModes").querySelectorAll("[data-npdmode]").forEach(b=>b.classList.toggle("active",b.dataset.npdmode===npdPlanMode));
  $("npdPlanCal").classList.toggle("hidden",npdPlanMode!=="cal");
  $("npdPlanTable").classList.toggle("hidden",npdPlanMode!=="table");
- if(npdPlanMode==="cal")renderNpdPlanCal(P);else renderNpdPlanTable(P);
+ $("npdPlanGantt").classList.toggle("hidden",npdPlanMode!=="gantt");
+ if(npdPlanMode==="cal")renderNpdPlanCal(P);else if(npdPlanMode==="gantt")renderNpdPlanGantt(P);else renderNpdPlanTable(P);
  const ready=[P.lastEnd(P.formula_fda),P.lastEnd(P.label)].filter(Boolean).sort((a,b)=>b-a)[0];
  const carton=P.lastEnd(P.carton),seven=P.lastEnd(P.seven),hasSeven=npdMilestones.some(m=>m.phase==="seven");
  const late=P.all.filter(x=>x.late);
@@ -6098,6 +6178,51 @@ function renderNpdPlan(){
 function npdBarTip(x){
  const st=x.done?"เสร็จแล้ว":x.failed?"ไม่ผ่าน":x.late?"เลยกำหนด":"";
  return `${x.m.title} · ${NPD_PHASE[x.phase]?.short||""} · ${npdFmt(x.start)} – ${npdFmt(x.end)} · ${x.m.duration_days||1} วันทำการ${x.pinned?" · ปักวันเริ่มไว้":""}${x.waits?` · รอ${x.waits.what} ~${npdFmt(x.waits.until)}`:""}${st?" · "+st:""}`;
+}
+/* The Gantt: every step on its own row against the days, weekends and holidays
+   shaded, today marked. The date box on each row is the day it was done; set
+   it and everything after it moves. */
+function renderNpdPlanGantt(P){
+ const box=$("npdPlanGantt");if(!box)return;
+ const today=npdD0(),items=P.all.filter(x=>!x.done||x.pinned);
+ if(!items.length){box.innerHTML='<div class="empty">ทุกขั้นตอนเสร็จแล้ว</div>';return}
+ let lo=null,hi=null;
+ items.forEach(x=>{(x.sched||[]).forEach(z=>{if(!lo||z.a<lo)lo=z.a;if(!hi||z.b>hi)hi=z.b});if(!lo||x.start<lo)lo=x.start;if(!hi||x.end>hi)hi=x.end});
+ if(today<lo)lo=today;
+ const D0=new Date(lo);D0.setDate(D0.getDate()-((D0.getDay()+6)%7));        // back to Monday
+ const D1=new Date(hi);D1.setDate(D1.getDate()+(7-D1.getDay())%7);          // on to Sunday
+ const n=Math.min(400,Math.round((D1-D0)/864e5)+1),col=d=>Math.round((d-D0)/864e5)+2;
+ const days=[...Array(n)].map((_,i)=>{const d=new Date(D0);d.setDate(D0.getDate()+i);return d});
+ const rows=[];let r=3;
+ const okDate=npdStepDateOK();
+ NPD_PHASES.forEach(ph=>{
+  const xs=items.filter(x=>x.phase===ph.key);if(!xs.length)return;
+  rows.push(`<div class="ng-ph" style="grid-row:${r};--c:${ph.hue}">${ic(ph.ic)}${esc(ph.name)}</div>`);r++;
+  xs.forEach(x=>{
+   rows.push(`<div class="ng-ms" style="grid-row:${r}"><button onclick="npdTaskEdit(${x.m.id})">${esc(x.m.title)}</button><small>${npdFmt(x.start)} – ${npdFmt(x.end)}${x.waits?` · รอสี Pantone ~${npdFmt(x.waits.until)}`:""}</small></div>`
+    +`<div class="ng-msbar${x.late?" late":""}" style="grid-row:${r};grid-column:${col(x.start)}/${col(x.end)+1};--c:${ph.hue}"></div>`);r++;
+   (x.sched||[]).forEach(z=>{
+    const s=z.s,cls=`${z.done?" done":""}${z.late?" late":""}`;
+    const date=okDate?`<input type="date" value="${s.done_on||""}" onchange="npdSetStepDone(${s.id},this.value)" title="วันที่ทำเสร็จจริง" aria-label="วันที่ทำเสร็จ ${esc(s.name)}">`:"";
+    const label=`<div class="ng-st${z.k?"":" sub"}" style="grid-row:${r}"><span class="ng-nm">${z.done?"✓ ":""}${esc(s.name.replace(/\s*\(\d+\s*วัน\)/,""))}<small>${esc(s.owners||"")}</small></span>${date}</div>`;
+    const mark=z.k===0
+     ?`<div class="ng-dot${cls}" style="grid-row:${r};grid-column:${col(z.a)};--c:${ph.hue}" title="${esc(s.name)} · ${npdFmt(z.a)}"><i></i></div>`
+     :`<div class="ng-bar${cls}" style="grid-row:${r};grid-column:${col(z.a)}/${col(z.b)+1};--c:${ph.hue}" title="${esc(s.name)} · ${npdFmt(z.a)} – ${npdFmt(z.b)}${z.dated?" · เสร็จจริง":""}"><span>${z.k} วัน</span></div>`;
+    rows.push(label+mark);r++;
+   });
+  });
+ });
+ const wk=[];for(let i=0;i<n;i+=7)wk.push(`<div class="ng-wk" style="grid-column:${i+2}/span 7">${days[i].toLocaleDateString("th-TH",{day:"numeric",month:"short"})}</div>`);
+ const dn=days.map((d,i)=>{const off=!npdIsBizDay(d),hol=npdIsHoliday(iso(d));return `<div class="ng-dn${off?" off":""}${hol?" hol":""}" style="grid-column:${i+2}">${d.getDate()}</div>`}).join("");
+ const sh=days.map((d,i)=>npdIsBizDay(d)?"":`<div class="ng-sh${npdIsHoliday(iso(d))?" hol":""}" style="grid-column:${i+2};grid-row:3/${r}"></div>`).join("");
+ const tl=today>=D0&&today<=D1?`<div class="ng-today" style="grid-column:${col(today)};grid-row:2/${r}"><em>วันนี้</em></div>`:"";
+ box.innerHTML=`${okDate?"":'<div class="pr-hint">ใส่วันที่ทำเสร็จได้หลังรัน <code>migration-v8-13-step-dates.sql</code> ใน Supabase</div>'}
+  <div class="ng-help"><span class="wide">ใส่ <b>วันที่ทำเสร็จจริง</b> ที่ช่องหลังชื่อแต่ละขั้น</span><span class="narrow">ใส่ <b>วันที่ทำเสร็จจริง</b> ได้ที่ช่อง "วันที่เสร็จ" ในรายการขั้นตอนด้านล่าง</span> ขั้นต่อไปจะขยับตามเอง · นับเฉพาะวันทำการ ข้ามเสาร์-อาทิตย์และวันหยุดราชการ</div>
+  <div class="ng-scroll"><div class="ng" style="grid-template-columns:var(--ng-l) repeat(${n},minmax(18px,1fr))">${wk.join("")}${dn}${sh}${tl}${rows.join("")}</div></div>
+  <div class="ng-legend"><span><i class="lg-bar"></i>ขั้นตอน</span><span><i class="lg-done"></i>ทำเสร็จแล้ว</span><span><i class="lg-late"></i>เลยกำหนด</span><span>◆ ขั้นย่อย (ไม่นับวัน)</span><span><i class="lg-off"></i>เสาร์-อาทิตย์ / วันหยุด</span></div>`;
+ // open the chart a few days before today rather than at its first day
+ const sc=box.querySelector(".ng-scroll"),tdy=box.querySelector(".ng-today"),lab=box.querySelector(".ng-st,.ng-ms");
+ if(sc&&tdy&&lab)sc.scrollLeft=Math.max(0,tdy.offsetLeft-lab.offsetWidth-4*tdy.offsetWidth-40);
 }
 function renderNpdPlanCal(P){
  const y=npdCalCursor.getFullYear(),mo=npdCalCursor.getMonth();
@@ -6378,7 +6503,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.12";
+const APP_VERSION="V8.13";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6406,7 +6531,8 @@ const SYS_MIG=[
  {v:"V7.86",f:"migration-v7-86-cat-together.sql",what:"Cat Room: เล่นด้วยกัน + แมวของบ้าน",p:[["cat_playdates","*"],["cat_coop","*"]]},
  {v:"V7.88",f:"migration-v7-88-launch-711.sql",what:"Product Launch: 7-11 + วันเริ่มจริง",p:[["product_milestones","start_on,tmpl"]]},
  {v:"V7.90",f:"migration-v7-90-tasting-retail.sql",what:"Product Launch: บันทึกการชิม + ห้างอื่น",p:[["product_tastings","*"]]},
- {v:"V8.08",f:"migration-v8-08-market-watch.sql",what:"Market Watch: สินค้าใหม่ในตลาด",p:[["market_items","*"]]}
+ {v:"V8.08",f:"migration-v8-08-market-watch.sql",what:"Market Watch: สินค้าใหม่ในตลาด",p:[["market_items","*"]]},
+ {v:"V8.13",f:"migration-v8-13-step-dates.sql",what:"Product Launch: วันที่ทำเสร็จจริงรายขั้น",p:[["product_steps","done_on"]]}
 ];
 async function sysProbe(t,c){
  const {error}=await sb.from(t).select(c).limit(1);
@@ -6648,9 +6774,12 @@ async function npdSyncPantoneWait(quiet){
 window.npdAddStep=async milestoneId=>{const name=prompt("ชื่อขั้นตอนใหม่:");if(!name)return;const owners=prompt("ผู้รับผิดชอบ (เช่น MKT & RD):","")||null;const seq=npdSteps.filter(s=>s.milestone_id===milestoneId).length;const {error}=await sb.from("product_steps").insert({milestone_id:milestoneId,seq,name:name.trim(),owners,status:"next"});if(error)return toast(error.message,"bad");toast("เพิ่มขั้นตอนแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
 // The first step to get going pins the milestone's start, so its dates stop
 // sliding forward with today.
-window.npdSetStepStatus=async(id,status)=>{
+window.npdSetStepStatus=async(id,status,doneOn)=>{
  const s=npdSteps.find(x=>x.id===id);
- const {error}=await sb.from("product_steps").update({status}).eq("id",id);
+ const patch={status};
+ // marking a step done stamps today unless a day is given; anything else clears it
+ if(npdStepDateOK())patch.done_on=status==="done"?(doneOn||s?.done_on||todayISO()):null;
+ const {error}=await sb.from("product_steps").update(patch).eq("id",id);
  if(error)return toast(status==="failed"&&/check|23514/i.test(npdErrTxt(error))?"ต้องรัน SQL V7.88 ก่อนถึงจะใช้ \"ไม่ผ่าน\" ได้":error.message,"bad");
  const m=s&&npdMilestones.find(x=>x.id===s.milestone_id);
  if(m&&!m.start_on&&msColsOK&&(status==="working"||status==="done")){
@@ -6660,6 +6789,12 @@ window.npdSetStepStatus=async(id,status)=>{
  await loadNpdProductData();renderNpdTimelinePane();
  // the label's Pantone drives the carton's wait step
  if(s&&NPD_PAN_LABEL.test(s.name)&&!NPD_PAN_WAIT.test(s.name)&&m&&m.phase==="label")await npdSyncPantoneWait();
+};
+window.npdSetStepDone=async(id,val)=>{
+ const s=npdSteps.find(x=>x.id===id);if(!s)return;
+ if(!npdStepDateOK())return toast("ต้องรัน SQL V8.13 ก่อนถึงจะใส่วันที่ทำเสร็จได้","bad");
+ if(val)return npdSetStepStatus(id,"done",val);
+ return npdSetStepStatus(id,s.status==="done"?"next":s.status);
 };
 window.npdEditStep=async id=>{const s=npdSteps.find(x=>x.id===id);if(!s)return;const name=prompt("ชื่อขั้นตอน:",s.name);if(name===null||!name.trim())return;const owners=prompt("ผู้รับผิดชอบ:",s.owners||"");const deadline=prompt("Deadline note (เว้นว่างได้):",s.deadline_note||"");const {error}=await sb.from("product_steps").update({name:name.trim(),owners:owners||null,deadline_note:deadline||null}).eq("id",id);if(error)return toast(error.message,"bad");await loadNpdProductData();renderNpdTimelinePane()};
 window.npdDeleteStep=async id=>{if(!confirm("ลบขั้นตอนนี้?"))return;const {error}=await sb.from("product_steps").delete().eq("id",id);if(error)return toast(error.message,"bad");toast("ลบแล้ว");await loadNpdProductData();renderNpdTimelinePane()};
