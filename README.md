@@ -443,6 +443,9 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.16 Product Launch: reorder steps
+- Each step row has **↑ / ↓** to move it up or down inside its milestone. The plan, the timeline and the picture follow the new order straight away. No SQL.
+
 ## V8.15 Product Launch: a step's date no longer means "done", and the picture shows every step
 - **The date on a step is that step's day**: the day it is due to be seen (นัด) or the day it was done (เสร็จ). Typing a date never changes the status. The step row shows "นัด" in amber while the step is still to do and "เสร็จ" in green once it is Done; the timeline draws a dated step still to do with stripes.
 - **The plan uses the date either way**: the next step starts the working day after it. If a planned date has passed and the step is not done, the steps after it start no earlier than today and the step is marked late.
