@@ -443,6 +443,10 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.17 Product Launch: days on every step
+- Each step row has a **days box** (working days). With no date, the plan uses it to estimate the step and shows **"คาด <date>"**; with a date, the step ends on that date and starts its days before it. 0 makes it a sub-step with no time of its own.
+- The days are kept in the step's name as "(N วัน)", as the template already does, so the plan, timeline and picture read them; the name on the row no longer repeats them. Changing a step's days moves its milestone's days by the same amount. No SQL.
+
 ## V8.16 Product Launch: reorder steps
 - Each step row has **↑ / ↓** to move it up or down inside its milestone. The plan, the timeline and the picture follow the new order straight away. No SQL.
 

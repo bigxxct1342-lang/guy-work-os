@@ -1421,8 +1421,10 @@ body.nmz-lock{overflow:hidden}
 body.arcade .ng-scroll{border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#fffdf7}
 body.arcade .ng-ms,body.arcade .ng-st,body.arcade .ng-ph{background:#fffdf7}
 body.arcade .ng-bar{border:2px solid var(--ink);color:var(--ink)}
+.step-days{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap}.step-days input{width:54px;padding:3px 5px;font-size:12px;border-radius:7px;text-align:right}
+.step-eta{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap}
 .step-move{display:inline-flex;gap:2px}.step-move .icon-btn{font-weight:900;font-size:13px;line-height:1}.step-move .icon-btn:disabled{opacity:.3;cursor:default}
-.step-date{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:700}
+.step-date{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap}
 .step-date input{width:120px;padding:3px 5px;font-size:11.5px;border-radius:7px}
 .step-date.on span{color:#2d7a4b}
 .step-date.plan span{color:#b7791f}
@@ -3454,7 +3456,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.16</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.17</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -5564,8 +5566,10 @@ function renderNpdMilestone(m){
   <div class="pl-steps">
    ${steps.map((s,si)=>`<div class="pl-step ${s.status==="skipped"?"is-skipped":""}">
     <select class="status-select st-${s.status}" onchange="npdSetStepStatus(${s.id},this.value)">${Object.entries(NPD_STATUS_LABEL).map(([k,label])=>`<option value="${k}" ${s.status===k?"selected":""}>${label}</option>`).join("")}</select>
-    <span class="step-name">${esc(s.name)}${s.deadline_note?`<span class="step-deadline">${esc(s.deadline_note)}</span>`:""}</span>
+    <span class="step-name">${esc(s.name.replace(/\s*\(\d+\s*วัน\)/,""))}${s.deadline_note?`<span class="step-deadline">${esc(s.deadline_note)}</span>`:""}</span>
     <div class="step-right">
+     ${s.status!=="skipped"?`<label class="step-days" title="ระยะเวลาของขั้นนี้ (วันทำการ) — ใช้ประมาณการเมื่อยังไม่มีวันที่ · 0 = ขั้นย่อย"><input type="number" min="0" max="365" inputmode="numeric" value="${npdStepDays(s.name)}" onchange="npdSetStepDays(${s.id},this.value)" aria-label="จำนวนวัน"><span>วัน</span></label>`:""}
+     ${s.status!=="skipped"&&!s.done_on&&npdSchedById[s.id]?`<span class="step-eta" title="วันที่คาดจากระยะเวลา">คาด ${npdFmt(npdSchedById[s.id].b)}</span>`:""}
      ${s.status!=="skipped"&&npdStepDateOK()?`<label class="step-date${s.done_on?(s.status==="done"?" on":" plan"):""}" title="วันที่ของขั้นนี้ — วันที่นัดดู หรือวันที่ทำเสร็จ · ขั้นต่อไปจะขยับตาม · ไม่เปลี่ยนสถานะ"><span>${!s.done_on?"วันที่":s.status==="done"?"เสร็จ":"นัด"}</span><input type="date" value="${s.done_on||""}" onchange="npdSetStepDone(${s.id},this.value)"></label>`:""}
      ${s.owners?`<span class="owners-tag">${esc(s.owners)}</span>`:""}
      <span class="step-move"><button class="icon-btn" onclick="npdMoveStep(${s.id},-1)" aria-label="เลื่อนขึ้น" title="เลื่อนขึ้น"${si===0?" disabled":""}>↑</button><button class="icon-btn" onclick="npdMoveStep(${s.id},1)" aria-label="เลื่อนลง" title="เลื่อนลง"${si===steps.length-1?" disabled":""}>↓</button></span>
@@ -5578,7 +5582,9 @@ function renderNpdMilestone(m){
   </div>
  </div>`;
 }
+let npdSchedById={};
 function renderNpdPhases(){
+ npdSchedById={};try{npdPlan().all.forEach(x=>(x.sched||[]).forEach(z=>{npdSchedById[z.s.id]=z}))}catch(_){}
  $("npdPhases").innerHTML=NPD_PHASES.map(ph=>{
   const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);
   const allSteps=ms.flatMap(m=>npdSteps.filter(s=>s.milestone_id===m.id));
@@ -6127,7 +6133,7 @@ function npdStepSchedule(m,start){
  let cur=npdBizOnOrAfter(start);const out=[];
  for(const s of st){
   const k=npdStepDays(s.name),done=s.status==="done";let a,b;
-  if(s.done_on){b=npdParse(s.done_on);a=k>0&&cur<b?cur:b;cur=k>0?npdNextBizDay(b):npdBizOnOrAfter(b);if(!done)cur=npdMaxD(today,cur)}
+  if(s.done_on){b=npdParse(s.done_on);a=k>1?npdBackBizDays(b,k-1):b;cur=k>0?npdNextBizDay(b):npdBizOnOrAfter(b);if(!done)cur=npdMaxD(today,cur)}
   else if(k===0){a=b=cur}
   else{a=cur;b=npdAddBizDays(cur,k);cur=done?npdNextBizDay(b):npdMaxD(today,npdNextBizDay(b))}
   out.push({s,k,a,b,done,dated:!!s.done_on,late:!done&&b<today});
@@ -6639,7 +6645,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.16";
+const APP_VERSION="V8.17";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
@@ -6935,6 +6941,20 @@ window.npdSetStepDone=async(id,val)=>{
  if(error)return toast(error.message,"bad");
  await loadNpdProductData();renderNpdTimelinePane();
  toast(val?`${s.status==="done"?"วันที่เสร็จ":"วันที่นัด"} ${npdFmt(npdParse(val))} — ขั้นต่อไปขยับตามแล้ว`:"เอาวันที่ออกแล้ว");
+};
+// V8.17: a step's own duration. It lives in the name as "(N วัน)", as in the
+// template, so every part of the plan already reads it; the milestone's days
+// move by the same amount so the estimate follows.
+window.npdSetStepDays=async(id,val)=>{
+ const s=npdSteps.find(x=>x.id===id);if(!s)return;
+ const n=Math.max(0,Math.min(365,Math.round(Number(val)||0))),old=npdStepDays(s.name);if(n===old)return;
+ const base=s.name.replace(/\s*\(\d+\s*วัน\)/,"").trim(),name=n>0?`${base} (${n} วัน)`:base;
+ const {error}=await sb.from("product_steps").update({name}).eq("id",id);
+ if(error)return toast(error.message,"bad");
+ const m=npdMilestones.find(x=>x.id===s.milestone_id);
+ if(m)await npdPatchMilestone(m.id,{duration_days:Math.max(1,(m.duration_days||0)+n-old)});
+ await loadNpdProductData();renderNpdTimelinePane();
+ toast(`${base} · ${n?n+" วัน":"ขั้นย่อย (ไม่นับวัน)"}`);
 };
 // V8.16: steps can be put in the right order; the plan follows the new order
 window.npdMoveStep=async(id,dir)=>{
