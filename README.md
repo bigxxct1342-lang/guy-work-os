@@ -443,6 +443,11 @@ The VAPID **public** key is already committed in `config.js`. You still need to:
 ### Set up Personal Life Tracker
 **Retired in V7.6 — the section no longer exists in the app.** Still run `migration-v7-3-personal-line.sql` if you want LINE notifications; it also creates the now-unused `personal_logs` table.
 
+## V8.14 Product Launch: the timeline as a picture
+- **"🖼 สรุปเป็นภาพ"** next to "+ เพิ่มงาน" in ตารางงาน draws the product's plan as one PNG for the boss: the product name and today's date, the key finish dates (everything done, formula + label ready, carton, 7-11 shelf, other retailers), then one bar per milestone against the weeks with its dates, today marked, finished milestones faded, late ones outlined in red.
+- **บันทึกรูป** saves the PNG; **แชร์** opens the phone's share sheet (LINE, mail) where the browser allows, and saves it otherwise.
+- The dates are the app's own plan, including the real done dates from V8.13. Drawn on a canvas in the page, so it needs no network. No SQL.
+
 ## V8.13 Product Launch: real dates per step, and a timeline view
 - **Every step can take the day it was actually done** ("วันที่เสร็จ" on each step row, and on each row of the new timeline). Setting it marks the step done; clearing it puts the step back to Next Step. Marking a step done from its status box stamps today, which can then be changed.
 - **The plan runs from those dates.** Inside a milestone the steps follow one another: a dated step ends on its date, the next starts the following working day (weekends and Thai holidays skipped), and a step still to do takes the days in its name. The milestone's end, the label's Pantone date the carton waits for, and every milestone after it move with it. A milestone with no dated steps plans exactly as before.

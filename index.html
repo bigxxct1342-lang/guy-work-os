@@ -1157,6 +1157,8 @@ body.nmz-lock{overflow:hidden}
 .npd-plan-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
 .npd-plan-top .help{margin-top:4px}
 .npd-plan-top .btn{white-space:nowrap;flex:none}
+.npd-plan-acts{display:flex;gap:8px;flex-wrap:wrap;flex:none}
+.npd-shot img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;display:block}
 #npdPlanCal{margin-bottom:14px}
 .scr .npd-day{cursor:pointer}
 .scr .npd-day.npd-off{cursor:default;background:rgba(74,52,16,.07)}
@@ -3211,7 +3213,7 @@ body.arcade .ticker{overflow:hidden}
      <div class="npd-plan-top">
       <div><h2><span class="ic" aria-hidden="true">📅</span>ตารางงาน &amp; วันที่คาดการณ์</h2>
        <div class="help">นับเป็นวันทำการ ข้ามเสาร์-อาทิตย์และวันหยุดราชการให้เอง · ใส่วันเริ่มจริงได้ ไม่ใส่ = ต่อจากงานก่อนหน้า · คลิกวันว่างในปฏิทินเพื่อเพิ่มงาน</div></div>
-      <button id="npdAddTaskBtn" class="btn primary small">+ เพิ่มงาน</button>
+      <span class="npd-plan-acts"><button id="npdShotBtn" class="btn secondary small" onclick="npdShotOpen()">🖼 สรุปเป็นภาพ</button><button id="npdAddTaskBtn" class="btn primary small">+ เพิ่มงาน</button></span>
      </div>
      <div class="cv-modes" id="npdPlanModes">
       <button class="tab active" data-npdmode="gantt">ไทม์ไลน์</button>
@@ -3449,7 +3451,7 @@ body.arcade .ticker{overflow:hidden}
    <div>
     <div class="card section">
      <h2><span class="ic" aria-hidden="true">⚙️</span>System</h2>
-     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.13</span></div>
+     <div class="row"><strong><span class="ic" aria-hidden="true">🏷️</span>App Version</strong><span id="appVersionText">PORKCHOP G · V8.14</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🗄️</span>Database Schema</strong><span>V7 Planning Stable</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">🕒</span>Last backup on this device</strong><span id="lastBackupText">Never</span></div>
      <div class="row"><strong><span class="ic" aria-hidden="true">☁️</span>Cloud storage</strong><span>Tasks / Categories / Profiles are stored in Supabase. GitHub and Vercel contain the app code, not your task database.</span></div><div class="row"><strong><span class="ic" aria-hidden="true">🔐</span>Personal PIN</strong><span>เปลี่ยน PIN 4 หลักสำหรับล็อก Dashboard หลัง Login</span><button id="changePinBtn" class="btn secondary" style="margin-top:9px">Change PIN</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🔑</span>รหัสผ่าน (Password)</strong><span>เปลี่ยนรหัสที่ใช้ Login ได้ตรงนี้เลย ไม่ต้องรอลิงก์ในเมล</span><button id="changePwBtn" class="btn secondary" style="margin-top:9px">เปลี่ยนรหัสผ่าน</button></div><div class="row"><strong><span class="ic" aria-hidden="true">⏰</span>Daily Task Reminder</strong><span id="pushStatusText">แจ้งเตือนบนมือถือทุกเช้าว่าวันนี้มีงานอะไรบ้าง (ต้องเพิ่มแอปนี้ลงหน้าจอ Home ก่อนบน iPhone)</span><button id="pushToggleBtn" class="btn secondary" style="margin-top:9px">Enable Reminders</button></div><div class="row"><strong><span class="ic" aria-hidden="true">✈️</span>Telegram</strong><span id="tgStatusText">รับสรุปงานประจำวันทุกเช้าทาง Telegram</span><div id="tgBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="tgActionBtn" class="btn secondary" style="margin-top:9px">เชื่อม Telegram</button></div><div class="row"><strong><span class="ic" aria-hidden="true">💬</span>LINE Notifications</strong><span id="lineStatusText">เชื่อม LINE เพื่อรับแจ้งเตือนงานประจำวันทาง LINE แทน Push (ถ้าเชื่อมแล้วจะไม่ส่ง Push ซ้ำ)</span><div id="lineCodeBox" class="hidden" style="margin-top:9px;padding:10px;background:var(--soft);border-radius:9px;font-size:12px;line-height:1.6"></div><button id="lineActionBtn" class="btn secondary" style="margin-top:9px">Generate Linking Code</button></div><div class="row"><strong><span class="ic" aria-hidden="true">🧹</span>Clean Duplicate Imports</strong><span>Remove exact duplicate Categories and Tasks created by importing the same backup more than once. One copy is kept. Completed tasks are preserved unless they are exact duplicates of another completed task.</span><button id="cleanupDuplicatesBtn" class="btn secondary" style="margin-top:9px">Scan & Clean Duplicates</button></div>
@@ -3617,6 +3619,11 @@ body.arcade .ticker{overflow:hidden}
 </div>
 <div id="prModalError" class="error"></div>
 <div class="actions"><button id="deletePrBtn" class="btn danger hidden">ลบ</button><button class="btn secondary" data-close-layer="prModal">ยกเลิก</button><button id="savePrBtn" class="btn primary">บันทึก</button></div>
+</div></div>
+<div id="npdShotModal" class="modalbg hidden"><div class="modal npd-shot" style="width:min(980px,100%)"><button class="modal-close" data-close-layer="npdShotModal" aria-label="Close">×</button><h3>สรุปไทม์ไลน์เป็นภาพ</h3>
+<div class="help" style="margin-bottom:10px">ภาพนี้ใช้วันที่ล่าสุดในแอป บันทึกแล้วส่งต่อทาง LINE หรืออีเมลได้เลย</div>
+<img id="npdShotImg" alt="ภาพสรุปไทม์ไลน์">
+<div class="actions"><button class="btn secondary" data-close-layer="npdShotModal">ปิด</button><button class="btn secondary" onclick="npdShotSave(false)">บันทึกรูป</button><button class="btn primary" onclick="npdShotSave(true)">แชร์</button></div>
 </div></div>
 <div id="mwModal" class="modalbg hidden"><div class="modal"><button class="modal-close" data-close-layer="mwModal" aria-label="Close">×</button><h3 id="mwModalTitle">เก็บสินค้าใหม่</h3><div class="formgrid">
  <div class="full field"><label>รูปบนชั้น / โปสเตอร์</label><div class="mw-photobox"><img id="mwfPhotoImg" class="hidden" alt=""><div class="mw-photobtns"><button type="button" id="mwfPhotoBtn" class="btn secondary small">📷 ถ่าย / เลือกรูป</button><button type="button" id="mwfPhotoDel" class="btn secondary small hidden">เอารูปออก</button></div><input id="mwfPhotoIn" type="file" accept="image/*" class="hidden"></div></div>
@@ -6224,6 +6231,114 @@ function renderNpdPlanGantt(P){
  const sc=box.querySelector(".ng-scroll"),tdy=box.querySelector(".ng-today"),lab=box.querySelector(".ng-st,.ng-ms");
  if(sc&&tdy&&lab)sc.scrollLeft=Math.max(0,tdy.offsetLeft-lab.offsetWidth-4*tdy.offsetWidth-40);
 }
+/* V8.14: the plan as one picture for the boss. Milestone level (the step
+   detail stays in the app): key finish dates on top, then one bar per
+   milestone against the weeks, today marked. Drawn on a canvas, so it works
+   offline and comes out as a PNG to save or share. */
+function npdShotData(){
+ const P=npdPlan(),prod=npdProducts.find(p=>p.id===npdCurrentProductId),today=npdD0();
+ const rows=[];
+ NPD_PHASES.forEach(ph=>{
+  const ms=npdMilestones.filter(m=>m.phase===ph.key).sort((a,b)=>a.seq-b.seq);if(!ms.length)return;
+  const items=ms.map(m=>{
+   const x=P.all.find(z=>z.m.id===m.id);
+   if(x)return {m,ph,start:x.start,end:x.end,done:x.done,late:x.late,waits:x.waits};
+   // finished milestones are left out of the plan; show them from their real dates when there are any
+   const ds=npdSteps.filter(s=>s.milestone_id===m.id&&s.done_on).map(s=>npdParse(s.done_on)).sort((a,b)=>a-b);
+   return {m,ph,start:ds[0]||null,end:ds[ds.length-1]||null,done:true};
+  });
+  rows.push({ph,items});
+ });
+ const ready=[P.lastEnd(P.formula_fda),P.lastEnd(P.label)].filter(Boolean).sort((a,b)=>b-a)[0];
+ const keys=[];
+ if(ready)keys.push(["สูตร + ฉลากพร้อม",ready,"#2f4bb3"]);
+ if(P.lastEnd(P.carton))keys.push(["ลังเสร็จ",P.lastEnd(P.carton),NPD_PHASE.carton.hue]);
+ if(npdMilestones.some(m=>m.phase==="seven")&&P.lastEnd(P.seven))keys.push(["พร้อมขึ้นชั้น 7-11",P.lastEnd(P.seven),NPD_PHASE.seven.hue]);
+ if(P.lastEnd(P.retail))keys.push(["เข้าห้างอื่นครบ",P.lastEnd(P.retail),NPD_PHASE.retail.hue]);
+ const all=P.all.filter(x=>!x.done).map(x=>x.end),finish=all.length?all.reduce((a,b)=>a>b?a:b):null;
+ return {name:prod?.name||"สินค้า",rows,keys,finish,today,late:P.all.filter(x=>x.late)};
+}
+async function npdShotDraw(){
+ const D=npdShotData(),FONT=getComputedStyle(document.body).fontFamily||"sans-serif";
+ try{await document.fonts.ready}catch(_){}
+ const W=1800,PAD=56,LBL=430,X0=PAD+LBL,X1=W-PAD-150,RH=46,PH=40;
+ const dated=D.rows.flatMap(r=>r.items).filter(i=>i.start&&i.end);
+ let lo=new Date(D.today),hi=new Date(D.today);
+ dated.forEach(i=>{if(i.start<lo)lo=new Date(i.start);if(i.end>hi)hi=new Date(i.end)});
+ lo.setDate(lo.getDate()-((lo.getDay()+6)%7));hi.setDate(hi.getDate()+7);
+ const span=Math.max(14,Math.round((hi-lo)/864e5)),px=(X1-X0)/span,xOf=d=>X0+Math.round((d-lo)/864e5)*px;
+ const nRows=D.rows.reduce((n,r)=>n+r.items.length,0);
+ const top=PAD+190,chartTop=top+70,H=chartTop+D.rows.length*PH+nRows*RH+120;
+ const c=document.createElement("canvas");c.width=W;c.height=H;const g=c.getContext("2d");
+ const INK="#1d2230",MUTE="#5f6573",LINE="#e3e1db",HOT="#c4252e";
+ const f=(w,s)=>`${w} ${s}px ${FONT}`;
+ const th=(d,o={day:"numeric",month:"short"})=>d.toLocaleDateString("th-TH",o);
+ g.fillStyle="#ffffff";g.fillRect(0,0,W,H);
+ g.fillStyle=HOT;g.fillRect(0,0,W,10);
+ g.fillStyle=MUTE;g.font=f(600,22);g.fillText("PRODUCT LAUNCH TIMELINE",PAD,PAD+18);
+ g.fillStyle=INK;g.font=f(800,46);g.fillText(D.name,PAD,PAD+74);
+ g.fillStyle=MUTE;g.font=f(400,22);
+ g.fillText(`ณ วันที่ ${th(D.today,{day:"numeric",month:"long",year:"numeric"})} · นับเฉพาะวันทำการ ไม่รวมเสาร์-อาทิตย์และวันหยุดราชการ`,PAD,PAD+112);
+ // key dates
+ const keys=D.finish?[["ทุกขั้นตอนเสร็จ",D.finish,HOT],...D.keys]:D.keys;
+ const kw=Math.min(380,(W-2*PAD-(keys.length-1)*16)/Math.max(1,keys.length));
+ keys.forEach(([k,d,col],i)=>{const x=PAD+i*(kw+16),y=PAD+130;
+  g.fillStyle=i===0&&D.finish?"#fbe1e2":"#f6f5f2";g.beginPath();g.roundRect(x,y,kw,74,12);g.fill();
+  g.fillStyle=col;g.fillRect(x,y+12,5,50);
+  g.fillStyle=MUTE;g.font=f(500,19);g.fillText(k,x+20,y+30);
+  g.fillStyle=i===0&&D.finish?HOT:INK;g.font=f(800,28);g.fillText(th(d,{weekday:"short",day:"numeric",month:"short",year:"2-digit"}),x+20,y+62)});
+ // weeks
+ g.font=f(500,17);
+ for(let d=new Date(lo);d<=hi;d.setDate(d.getDate()+7)){
+  const x=xOf(d);g.strokeStyle=LINE;g.lineWidth=1;g.beginPath();g.moveTo(x,chartTop-14);g.lineTo(x,H-90);g.stroke();
+  g.fillStyle=MUTE;g.fillText(th(d),x+4,chartTop-24);
+ }
+ // today
+ const tx=xOf(D.today);g.strokeStyle=HOT;g.lineWidth=2;g.setLineDash([7,6]);g.beginPath();g.moveTo(tx,chartTop-10);g.lineTo(tx,H-90);g.stroke();g.setLineDash([]);
+ g.fillStyle=HOT;g.font=f(700,17);g.fillText("วันนี้",tx+6,H-76);
+ // rows
+ let y=chartTop+8;
+ D.rows.forEach(r=>{
+  g.fillStyle=r.ph.hue;g.beginPath();g.arc(PAD+8,y+20,7,0,7);g.fill();
+  g.fillStyle=INK;g.font=f(800,22);g.fillText(r.ph.name,PAD+24,y+28);y+=PH;
+  r.items.forEach(it=>{
+   g.strokeStyle=LINE;g.lineWidth=1;g.beginPath();g.moveTo(PAD,y);g.lineTo(W-PAD,y);g.stroke();
+   g.fillStyle=it.done?MUTE:INK;g.font=f(it.done?500:650,20);
+   const nm=(it.done?"✓ ":"")+it.m.title;g.fillText(nm.length>34?nm.slice(0,33)+"…":nm,PAD+24,y+30);
+   if(it.start&&it.end){
+    const a=xOf(it.start),b=Math.max(a+6,xOf(it.end)+px);
+    g.globalAlpha=it.done?.35:1;g.fillStyle=it.ph.hue;g.beginPath();g.roundRect(a,y+11,b-a,24,6);g.fill();g.globalAlpha=1;
+    if(it.late){g.strokeStyle=HOT;g.lineWidth=3;g.beginPath();g.roundRect(a-2,y+9,b-a+4,28,7);g.stroke()}
+    g.fillStyle=it.late?HOT:it.done?MUTE:INK;g.font=f(600,17);
+    g.fillText(it.done?`เสร็จ ${th(it.end)}`:`${th(it.start)} – ${th(it.end)}`,b+10,y+29);
+   }else{g.fillStyle=MUTE;g.font=f(500,17);g.fillText("เสร็จแล้ว",X0,y+29)}
+   y+=RH;
+  });
+ });
+ // footer
+ g.fillStyle=MUTE;g.font=f(400,18);
+ const lateTxt=D.late.length?`เลยกำหนด ${D.late.length} งาน: ${D.late.map(x=>x.m.title).join(", ")}`:"ไม่มีงานเลยกำหนด";
+ g.fillText(`${lateTxt}  ·  แถบสีจาง = เสร็จแล้ว  ·  กรอบแดง = เลยกำหนด  ·  วันที่ทุกวันคำนวณจากวันที่ทำเสร็จจริงที่ใส่ไว้`,PAD,H-46);
+ g.fillText("PORKCHOP G",W-PAD-150,H-46);
+ return c;
+}
+window.npdShotOpen=async()=>{
+ if(!npdCurrentProductId)return;
+ const btn=$("npdShotBtn");if(btn)btn.disabled=true;
+ try{
+  const c=await npdShotDraw(),url=c.toDataURL("image/png");
+  $("npdShotImg").src=url;$("npdShotImg").dataset.name=`Timeline-${(npdProducts.find(p=>p.id===npdCurrentProductId)?.name||"product").replace(/[^\w฀-๿-]+/g,"-")}.png`;
+  openLayer("npdShotModal");
+ }catch(e){toast("สร้างภาพไม่สำเร็จ — "+(e.message||e),"bad")}
+ finally{if(btn)btn.disabled=false}
+};
+window.npdShotSave=async share=>{
+ const img=$("npdShotImg"),name=img.dataset.name||"Timeline.png";
+ const blob=await (await fetch(img.src)).blob(),file=new File([blob],name,{type:"image/png"});
+ if(share&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:name});return}catch(e){if(e.name==="AbortError")return}}
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+ toast("บันทึกรูปแล้ว");
+};
 function renderNpdPlanCal(P){
  const y=npdCalCursor.getFullYear(),mo=npdCalCursor.getMonth();
  $("npdMonthTitle").textContent=npdCalCursor.toLocaleDateString("en-GB",{month:"long",year:"numeric"});
@@ -6503,7 +6618,7 @@ $("tlDelete").onclick=async()=>{
    the table or columns that file adds -- and says what is missing, with the
    file itself one tap away. It also checks the things that fail silently:
    an old cached app, Telegram, push, and a holiday calendar running out. */
-const APP_VERSION="V8.13";
+const APP_VERSION="V8.14";
 const SQL_EDITOR="https://supabase.com/dashboard/project/yswlprfchgwbklltnuru/sql/new";
 const SYS_MIG=[
  {v:"V6.8",f:"migration-v6-8-team-pin-FIXED.sql",what:"ทีม + PIN",p:[["teams","id"]]},
